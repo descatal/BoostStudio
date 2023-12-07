@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="KaitaiStruct.Runtime.CSharp" />
     <PackageReference Include="MediatR" />
   </ItemGroup>
 

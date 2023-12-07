@@ -1,1 +1,0 @@
-﻿./flatc.exe -o .. ./Schema/Fhm.fbs --csharp
