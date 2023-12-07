@@ -50,7 +50,7 @@ jobs:
     - name: Publish website
       if: ${{ inputs.build-artifacts == true }}
       run: |
-        dotnet publish --configuration Release --runtime win-x86 --self-contained --output ./publish
+        dotnet publish --configuration Release --runtime win-x86 --self-contained -p:PublishSingleFile=true --output ./publish
         cd publish
         zip -r ./publish.zip .
       working-directory: ./src/Web/
@@ -59,7 +59,7 @@ jobs:
       if: ${{ inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
-        name: website
+        name: BoostStudio
         path: ./src/Web/publish/publish.zip
         if-no-files-found: error
     
