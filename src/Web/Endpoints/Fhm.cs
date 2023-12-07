@@ -1,4 +1,5 @@
-﻿using System.Net.Mime;
+﻿using System.Diagnostics;
+using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Formats.Fhm.Commands;
 using BoostStudio.Web.Contracts.Fhm;
@@ -17,15 +18,19 @@ public class Fhm : EndpointGroupBase
 
     public async Task<IResult> Unpack(ISender sender, IFormFile file, CancellationToken cancellationToken)
     {
-        var compressionFormat = CompressionFormats.Zip;
+        var compressionFormat = CompressionFormats.Tar;
         await using Stream stream = file.OpenReadStream();
         using BinaryReader binaryReader = new(stream);
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
 
         var unpackedFile = await sender.Send(new UnpackFhm(inputBytes, false, compressionFormat), cancellationToken);
 
-        string zipFileName = Path.ChangeExtension(Path.GetFileNameWithoutExtension(file.FileName), compressionFormat.ToString().ToLower());
-        return Results.File(unpackedFile, MediaTypeNames.Application.Zip, zipFileName);
+        string fileName = Path.ChangeExtension(Path.GetFileNameWithoutExtension(file.FileName), compressionFormat.ToString().ToLower());
+        return compressionFormat switch
+        {
+            CompressionFormats.Zip => Results.File(unpackedFile, MediaTypeNames.Application.Zip, fileName),
+            _ => Results.File(unpackedFile, MediaTypeNames.Application.Octet, fileName)
+        };
     }
     
     public async Task<IResult> Pack(ISender sender, IFormFile file, CancellationToken cancellationToken)
@@ -36,7 +41,7 @@ public class Fhm : EndpointGroupBase
         
         var packedFile = await sender.Send(new PackFhm(inputBytes), cancellationToken);
 
-        string zipFileName = Path.ChangeExtension(Path.GetFileNameWithoutExtension(file.FileName), "fhm");
-        return Results.File(packedFile, MediaTypeNames.Application.Zip, zipFileName);
+        string fhmFileName = Path.ChangeExtension(Path.GetFileNameWithoutExtension(file.FileName), "fhm");
+        return Results.File(packedFile, MediaTypeNames.Application.Octet, fhmFileName);
     }
 }

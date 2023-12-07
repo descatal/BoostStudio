@@ -9,4 +9,10 @@
     <PackageReference Include="MediatR" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Events\" />
+  </ItemGroup>
+
 </Project>

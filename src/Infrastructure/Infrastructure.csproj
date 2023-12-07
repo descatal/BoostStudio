@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Configurations\" />
     <Folder Include="Formats\" />
   </ItemGroup>
 

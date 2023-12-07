@@ -48,7 +48,7 @@ public class UnpackFhmCommandHandler(
         }
         
         // Create zip file, then delete the temp folder
-        var archive = await _compressor.CompressAsync(rootFhmFolder, CompressionFormats.Zip, cancellationToken);
+        var archive = await _compressor.CompressAsync(rootFhmFolder, request.CompressionFormat, cancellationToken);
         Directory.Delete(rootFhmFolder, true);
         
         return archive.ToArray();
