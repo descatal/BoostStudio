@@ -1,5 +1,8 @@
 ﻿# BoostStudio
 
+[![CICD](https://github.com/descatal/BoostStudio/actions/workflows/cicd.yml/badge.svg?branch=main)](https://github.com/descatal/BoostStudio/actions/workflows/cicd.yml)
+[![Chat Server](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/QAUYKmvxRN)
+
 A swiss army knife to facilitate modding for [Gundam Extreme Vs.](https://en.wikipedia.org/wiki/Mobile_Suit_Gundam:_Extreme_Vs.) series.
 
 Currently file formats from Gundam Extreme Vs. Full Boost is prioritized.
