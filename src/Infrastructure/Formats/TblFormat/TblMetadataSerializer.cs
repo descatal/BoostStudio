@@ -11,16 +11,12 @@ public class TblMetadataSerializer : ITblMetadataSerializer
     {
         var fileMetadata = new List<TblFileMetadata>();
         
-        var fileInfoPathIndices = new List<int>();
         for (var index = 0; index < data.CumulativeFileCount; index++)
         {
             var fileInfoBody = data.FileInfos[index];
             var fileInfo = fileInfoBody.FileInfo;
             if (fileInfoBody.FileInfo is null || fileInfo is null)
                 continue;
-            
-            if (fileInfo.PathBody is not null)
-                fileInfoPathIndices.Add(fileInfo.PathIndex);
             
             // Parse the file info entries normally. 
             var infoMetadata = new TblFileInfoMetadata(
@@ -33,7 +29,13 @@ public class TblMetadataSerializer : ITblMetadataSerializer
 
             fileMetadata.Add(new TblFileMetadata(FileInfoMetadata: infoMetadata, Path: fileInfo.PathBody?.Path));
         }
-
+        
+        var fileInfoPathIndices = data.FileInfos
+            .OrderBy(fileInfoBody => fileInfoBody.Offset)
+            .Select(fileInfoBody => fileInfoBody?.FileInfo?.PathIndex)
+            .Where(index => index is not null)
+            .ToList();
+        
         var filePathsWithoutInfo = data.FilePaths
             .Where(((_, i) => !fileInfoPathIndices.Contains(i)))
             .Select(filePathBody => new TblFileMetadata(Path: filePathBody?.Path))

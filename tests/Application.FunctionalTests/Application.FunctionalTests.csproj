@@ -37,4 +37,8 @@
     <ProjectReference Include="..\..\src\Web\Web.csproj"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Tbl\Binary\" />
+  </ItemGroup>
+
 </Project>

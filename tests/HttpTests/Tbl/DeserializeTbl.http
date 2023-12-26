@@ -5,7 +5,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="PATCH_01.TBL"
 
-< ./PATCH_01.TBL
+< ../../Application.FunctionalTests/Tbl/Binary/PATCH_01.TBL
 --WebAppBoundary--
 ###
 
@@ -16,7 +16,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="PATCH_02.TBL"
 
-< ./PATCH_02.TBL
+< ../../Application.FunctionalTests/Tbl/Binary/PATCH_02.TBL
 --WebAppBoundary--
 ###
 
@@ -27,7 +27,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="PATCH_03.TBL"
 
-< ./PATCH_03.TBL
+< ../../Application.FunctionalTests/Tbl/Binary/PATCH_03.TBL
 --WebAppBoundary--
 ###
 
@@ -38,7 +38,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="PATCH_04.TBL"
 
-< ./PATCH_04.TBL
+< ../../Application.FunctionalTests/Tbl/Binary/PATCH_04.TBL
 --WebAppBoundary--
 ###
 
@@ -49,7 +49,7 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="PATCH_05.TBL"
 
-< ./PATCH_05.TBL
+< ../../Application.FunctionalTests/Tbl/Binary/PATCH_05.TBL
 --WebAppBoundary--
 
 ###
@@ -61,6 +61,6 @@ Content-Type: multipart/form-data; boundary=WebAppBoundary
 --WebAppBoundary
 Content-Disposition: form-data; name="file"; filename="PATCH_06.TBL"
 
-< ./PATCH_06.TBL
+< ../../Application.FunctionalTests/Tbl/Binary/PATCH_06.TBL
 --WebAppBoundary--
 ###

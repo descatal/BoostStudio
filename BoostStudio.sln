@@ -39,12 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tbl", "Tbl", "{A723C27E-BB9
 	ProjectSection(SolutionItems) = preProject
 		tests\HttpTests\Tbl\DeserializeTbl.http = tests\HttpTests\Tbl\DeserializeTbl.http
 		tests\HttpTests\Tbl\SerializeTbl.http = tests\HttpTests\Tbl\SerializeTbl.http
-		tests\HttpTests\Tbl\PATCH_05.TBL = tests\HttpTests\Tbl\PATCH_05.TBL
-		tests\HttpTests\Tbl\PATCH_01.TBL = tests\HttpTests\Tbl\PATCH_01.TBL
-		tests\HttpTests\Tbl\PATCH_02.TBL = tests\HttpTests\Tbl\PATCH_02.TBL
-		tests\HttpTests\Tbl\PATCH_03.TBL = tests\HttpTests\Tbl\PATCH_03.TBL
-		tests\HttpTests\Tbl\PATCH_04.TBL = tests\HttpTests\Tbl\PATCH_04.TBL
-		tests\HttpTests\Tbl\PATCH_06.TBL = tests\HttpTests\Tbl\PATCH_06.TBL
 	EndProjectSection
 EndProject
 Global
