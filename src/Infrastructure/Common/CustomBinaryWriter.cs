@@ -13,44 +13,92 @@ public enum Endianness
 
 public class CustomBinaryWriter : BinaryWriter
 {
-    private readonly Dictionary<Type, Action<byte[], object>> _littleEndianMap = new ()
+    private readonly Dictionary<Type, Action<byte[], object>> _littleEndianMap = new()
     {
-        { typeof(ushort), (bytes, value) => BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)value) },
-        { typeof(short), (bytes, value) => BinaryPrimitives.WriteInt16LittleEndian(bytes, (short)value) },
-        { typeof(uint), (bytes, value) => BinaryPrimitives.WriteUInt32LittleEndian(bytes, (uint)value) },
-        { typeof(int), (bytes, value) => BinaryPrimitives.WriteInt32LittleEndian(bytes, (int)value) },
-        { typeof(ulong), (bytes, value) => BinaryPrimitives.WriteUInt64LittleEndian(bytes, (ulong)value) },
-        { typeof(long), (bytes, value) => BinaryPrimitives.WriteInt64LittleEndian(bytes, (long)value) },
-        { typeof(float), (bytes, value) => BinaryPrimitives.WriteSingleLittleEndian(bytes, (float)value) },
-        { typeof(double), (bytes, value) => BinaryPrimitives.WriteDoubleLittleEndian(bytes, (double)value) },
+        {
+            typeof(ushort), (bytes, value) => BinaryPrimitives.WriteUInt16LittleEndian(bytes, (ushort)value)
+        },
+        {
+            typeof(short), (bytes, value) => BinaryPrimitives.WriteInt16LittleEndian(bytes, (short)value)
+        },
+        {
+            typeof(uint), (bytes, value) => BinaryPrimitives.WriteUInt32LittleEndian(bytes, (uint)value)
+        },
+        {
+            typeof(int), (bytes, value) => BinaryPrimitives.WriteInt32LittleEndian(bytes, (int)value)
+        },
+        {
+            typeof(ulong), (bytes, value) => BinaryPrimitives.WriteUInt64LittleEndian(bytes, (ulong)value)
+        },
+        {
+            typeof(long), (bytes, value) => BinaryPrimitives.WriteInt64LittleEndian(bytes, (long)value)
+        },
+        {
+            typeof(float), (bytes, value) => BinaryPrimitives.WriteSingleLittleEndian(bytes, (float)value)
+        },
+        {
+            typeof(double), (bytes, value) => BinaryPrimitives.WriteDoubleLittleEndian(bytes, (double)value)
+        },
     };
 
-    private readonly Dictionary<Type, Action<byte[], object>> _bigEndianMap = new ()
+    private readonly Dictionary<Type, Action<byte[], object>> _bigEndianMap = new()
     {
-        { typeof(ushort), (bytes, value) => BinaryPrimitives.WriteUInt16BigEndian(bytes, (ushort)value) },
-        { typeof(short), (bytes, value) => BinaryPrimitives.WriteInt16BigEndian(bytes, (short)value) },
-        { typeof(uint), (bytes, value) => BinaryPrimitives.WriteUInt32BigEndian(bytes, (uint)value) },
-        { typeof(int), (bytes, value) => BinaryPrimitives.WriteInt32BigEndian(bytes, (int)value) },
-        { typeof(ulong), (bytes, value) => BinaryPrimitives.WriteUInt64BigEndian(bytes, (ulong)value) },
-        { typeof(long), (bytes, value) => BinaryPrimitives.WriteInt64BigEndian(bytes, (long)value) },
-        { typeof(float), (bytes, value) => BinaryPrimitives.WriteSingleBigEndian(bytes, (float)value) },
-        { typeof(double), (bytes, value) => BinaryPrimitives.WriteDoubleBigEndian(bytes, (double)value) },
+        {
+            typeof(ushort), (bytes, value) => BinaryPrimitives.WriteUInt16BigEndian(bytes, (ushort)value)
+        },
+        {
+            typeof(short), (bytes, value) => BinaryPrimitives.WriteInt16BigEndian(bytes, (short)value)
+        },
+        {
+            typeof(uint), (bytes, value) => BinaryPrimitives.WriteUInt32BigEndian(bytes, (uint)value)
+        },
+        {
+            typeof(int), (bytes, value) => BinaryPrimitives.WriteInt32BigEndian(bytes, (int)value)
+        },
+        {
+            typeof(ulong), (bytes, value) => BinaryPrimitives.WriteUInt64BigEndian(bytes, (ulong)value)
+        },
+        {
+            typeof(long), (bytes, value) => BinaryPrimitives.WriteInt64BigEndian(bytes, (long)value)
+        },
+        {
+            typeof(float), (bytes, value) => BinaryPrimitives.WriteSingleBigEndian(bytes, (float)value)
+        },
+        {
+            typeof(double), (bytes, value) => BinaryPrimitives.WriteDoubleBigEndian(bytes, (double)value)
+        },
     };
 
-    private readonly Dictionary<Type, int> _typeSize = new ()
+    private readonly Dictionary<Type, int> _typeSize = new()
     {
-        { typeof(ushort), sizeof(ushort) },
-        { typeof(short), sizeof(short) },
-        { typeof(uint), sizeof(uint) },
-        { typeof(int), sizeof(int) },
-        { typeof(ulong), sizeof(ulong) },
-        { typeof(long), sizeof(long) },
-        { typeof(float), sizeof(float) },
-        { typeof(double), sizeof(double) },
+        {
+            typeof(ushort), sizeof(ushort)
+        },
+        {
+            typeof(short), sizeof(short)
+        },
+        {
+            typeof(uint), sizeof(uint)
+        },
+        {
+            typeof(int), sizeof(int)
+        },
+        {
+            typeof(ulong), sizeof(ulong)
+        },
+        {
+            typeof(long), sizeof(long)
+        },
+        {
+            typeof(float), sizeof(float)
+        },
+        {
+            typeof(double), sizeof(double)
+        },
     };
 
     public Stream Stream { get; }
-    
+
     private readonly Endianness _endianness;
 
     public CustomBinaryWriter(Stream stream, Endianness defaultEndian = Endianness.LittleEndian) : base(stream)
@@ -63,7 +111,7 @@ public class CustomBinaryWriter : BinaryWriter
     {
         return OutStream.Position;
     }
-    
+
     public long GetLength()
     {
         return OutStream.Length;
@@ -72,7 +120,10 @@ public class CustomBinaryWriter : BinaryWriter
     // There is no endianess for byte and byte arrays, it writes what you passed in
     public void WriteByte(byte value, long? position = null)
     {
-        WriteByteArray(new byte[1] { value }, position);
+        WriteByteArray(new byte[1]
+        {
+            value
+        }, position);
     }
 
     public void WriteByteArray(byte[] value, long? position = null, uint? alignment = null)
@@ -126,7 +177,7 @@ public class CustomBinaryWriter : BinaryWriter
     /// <param name="value">The string value</param>
     /// <param name="encoding">Encoding type to encode the values, will use Encoding.Default if null is supplied</param>
     /// <param name="writeSize">Optional bool to prepend the binary with a uint string size info, default is true</param>
-    /// <param name="appendZeroChar">Optional bool to append a control char \0 at the end of the string, default is true</param>
+    /// <param name="appendDelimiter">Optional bool to append a control char \0 at the end of the string, default is true</param>
     /// <param name="sizeEndian">
     /// Optional endian param to write the size info, if writeSize is true, default is null (reuse the endian set on
     /// initialization)
@@ -137,7 +188,7 @@ public class CustomBinaryWriter : BinaryWriter
         string value,
         Encoding encoding,
         bool writeSize = true,
-        bool appendZeroChar = true,
+        bool appendDelimiter = true,
         Endianness? sizeEndian = null,
         long? position = null,
         uint? alignment = null)
@@ -150,18 +201,21 @@ public class CustomBinaryWriter : BinaryWriter
         if (writeSize)
             WriteUint((uint)encodedString.Length, sizeEndian);
 
-        if (appendZeroChar)
-            encodedString = encodedString.Concat(new byte[] { 0x00 }).ToArray();
+        if (appendDelimiter)
+            encodedString = encodedString.Concat(new byte[]
+            {
+                0x00
+            }).ToArray();
 
         WriteByteArray(encodedString, position: (position + 4), alignment: alignment);
     }
-    
+
     public void AlignStream(int alignment)
     {
         long padding = alignment - (OutStream.Position % alignment);
         if (padding == alignment)
             return;
-        
+
         var buffer = new byte[padding];
         OutStream.Write(buffer, 0, buffer.Length);
     }
@@ -172,7 +226,7 @@ public class CustomBinaryWriter : BinaryWriter
         Stream.Seek(0, SeekOrigin.End);
         await stream.CopyToAsync(Stream);
     }
-    
+
     public byte[] ToByteArray()
     {
         if (Stream is MemoryStream memoryStream)

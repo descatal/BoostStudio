@@ -11,7 +11,7 @@
         "tags": [
           "fhm"
         ],
-        "operationId": "Unpack",
+        "operationId": "UnpackFhm",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -40,7 +40,7 @@
         "tags": [
           "fhm"
         ],
-        "operationId": "Pack",
+        "operationId": "PackFhm",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -63,9 +63,148 @@
           }
         }
       }
+    },
+    "/api/tbl/deserialize": {
+      "post": {
+        "tags": [
+          "tbl"
+        ],
+        "operationId": "DeserializeTbl",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TblMetadata"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tbl/serialize": {
+      "post": {
+        "tags": [
+          "tbl"
+        ],
+        "operationId": "SerializeTbl",
+        "requestBody": {
+          "x-name": "command",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SerializeTbl"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
     }
   },
   "components": {
+    "schemas": {
+      "TblMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cumulativeFileInfoCount": {
+            "type": "integer"
+          },
+          "fileMetadata": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblFileMetadata"
+            }
+          },
+          "pathOrder": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "TblFileMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileInfoMetadata": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/TblFileInfoMetadata"
+              }
+            ]
+          }
+        }
+      },
+      "TblFileInfoMetadata": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "cumulativeIndex": {
+            "type": "integer"
+          },
+          "patchNumber": {
+            "type": "integer"
+          },
+          "size1": {
+            "type": "integer"
+          },
+          "size2": {
+            "type": "integer"
+          },
+          "size3": {
+            "type": "integer"
+          },
+          "hashName": {
+            "type": "integer"
+          }
+        }
+      },
+      "SerializeTbl": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tblMetadata"
+        ],
+        "properties": {
+          "tblMetadata": {
+            "$ref": "#/components/schemas/TblMetadata"
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "JWT": {
         "type": "apiKey",

@@ -6,14 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="KaitaiStruct.Runtime.CSharp" />
-    <PackageReference Include="MediatR" />
+    <PackageReference Include="KaitaiStruct.Runtime.CSharp"/>
+    <PackageReference Include="MediatR"/>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Events\" />
+    <Folder Include="Enums\"/>
+    <Folder Include="Events\"/>
   </ItemGroup>
 
 </Project>

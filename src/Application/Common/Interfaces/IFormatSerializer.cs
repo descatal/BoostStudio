@@ -2,9 +2,7 @@
 
 public interface IFormatSerializer<T>
 {
-    Task<byte[]> SerializeAsync(T format, CancellationToken cancellationToken);
+    Task<byte[]> SerializeAsync(T data, CancellationToken cancellationToken);
 
-    Task<T> DeserializeAsync(byte[] data, CancellationToken cancellationToken);
-    
     Task<T> DeserializeAsync(Stream data, CancellationToken cancellationToken);
 }

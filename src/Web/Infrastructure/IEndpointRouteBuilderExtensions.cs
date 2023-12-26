@@ -26,9 +26,9 @@ public static class IEndpointRouteBuilderExtensions
 
         if (disableAntiForgery)
             routeBuilder.DisableAntiforgery();
-        
+
         routeBuilder.WithName(handler.Method.Name);
-        
+
         return builder;
     }
 

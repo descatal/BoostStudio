@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using AutoMapper;
 using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Contracts;
+using BoostStudio.Formats;
 using NUnit.Framework;
 
 namespace BoostStudio.Application.UnitTests.Common.Mappings;

@@ -33,6 +33,20 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.FunctionalTests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.IntegrationTests", "tests\Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj", "{01FA6786-921D-4CE8-8C50-4FDA66C9477D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HttpTests", "HttpTests", "{91082087-7452-4268-A6E2-66010DC4A29F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tbl", "Tbl", "{A723C27E-BB91-4B75-8F23-807C11479643}"
+	ProjectSection(SolutionItems) = preProject
+		tests\HttpTests\Tbl\DeserializeTbl.http = tests\HttpTests\Tbl\DeserializeTbl.http
+		tests\HttpTests\Tbl\SerializeTbl.http = tests\HttpTests\Tbl\SerializeTbl.http
+		tests\HttpTests\Tbl\PATCH_05.TBL = tests\HttpTests\Tbl\PATCH_05.TBL
+		tests\HttpTests\Tbl\PATCH_01.TBL = tests\HttpTests\Tbl\PATCH_01.TBL
+		tests\HttpTests\Tbl\PATCH_02.TBL = tests\HttpTests\Tbl\PATCH_02.TBL
+		tests\HttpTests\Tbl\PATCH_03.TBL = tests\HttpTests\Tbl\PATCH_03.TBL
+		tests\HttpTests\Tbl\PATCH_04.TBL = tests\HttpTests\Tbl\PATCH_04.TBL
+		tests\HttpTests\Tbl\PATCH_06.TBL = tests\HttpTests\Tbl\PATCH_06.TBL
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +98,8 @@ Global
 		{4E4EE20C-F06A-4A1B-851F-C5577796941C} = {6ED356A7-8B47-4613-AD01-C85CF28491BD}
 		{EA6127A5-94C9-4C31-AD11-E6811B92B520} = {664D406C-2F83-48F0-BFC3-408D5CB53C65}
 		{01FA6786-921D-4CE8-8C50-4FDA66C9477D} = {664D406C-2F83-48F0-BFC3-408D5CB53C65}
+		{91082087-7452-4268-A6E2-66010DC4A29F} = {664D406C-2F83-48F0-BFC3-408D5CB53C65}
+		{A723C27E-BB91-4B75-8F23-807C11479643} = {91082087-7452-4268-A6E2-66010DC4A29F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}

@@ -1,10 +1,13 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Common.Interfaces.Formats.Fhm;
+using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
+using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
+using BoostStudio.Formats;
 using BoostStudio.Domain.Constants;
 using BoostStudio.Infrastructure.Compressor;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Infrastructure.Data.Interceptors;
-using BoostStudio.Infrastructure.Formats.Fhm;
+using BoostStudio.Infrastructure.Formats.FhmFormat;
+using BoostStudio.Infrastructure.Formats.TblFormat;
 using BoostStudio.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +54,9 @@ public static class DependencyInjection
 
         services.AddSingleton<ICompressor, Compressor>();
         services.AddSingleton<IFormatSerializer<Fhm>, FhmSerializer>();
+        services.AddSingleton<IFormatSerializer<Tbl>, TblSerializer>();
         services.AddSingleton<IFhmPacker, FhmPacker>();
+        services.AddSingleton<ITblMetadataSerializer, TblMetadataSerializer>();
 
         services.AddAuthorization(options =>
             options.AddPolicy(Policies.CanPurge, policy => policy.RequireRole(Roles.Administrator)));

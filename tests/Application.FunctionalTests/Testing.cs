@@ -56,7 +56,10 @@ public partial class Testing
 
     public static async Task<string> RunAsAdministratorAsync()
     {
-        return await RunAsUserAsync("administrator@local", "Administrator1234!", new[] { Roles.Administrator });
+        return await RunAsUserAsync("administrator@local", "Administrator1234!", new[]
+        {
+            Roles.Administrator
+        });
     }
 
     public static async Task<string> RunAsUserAsync(string userName, string password, string[] roles)
@@ -65,7 +68,10 @@ public partial class Testing
 
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-        var user = new ApplicationUser { UserName = userName, Email = userName };
+        var user = new ApplicationUser
+        {
+            UserName = userName, Email = userName
+        };
 
         var result = await userManager.CreateAsync(user, password);
 
@@ -99,7 +105,7 @@ public partial class Testing
         {
             await _database.ResetAsync();
         }
-        catch (Exception) 
+        catch (Exception)
         {
         }
 

@@ -12,6 +12,16 @@ public static class Binary
         return length + padding;
     }
     
+    public static long CalculateAlignment(long length, uint alignment)
+    {
+        var remainder = length % alignment;
+        if (remainder == 0)
+            return length;
+
+        var padding = alignment - remainder;
+        return length + padding;
+    }
+
     /// <summary>
     /// Pad byte array to specified alignment size
     /// </summary>
