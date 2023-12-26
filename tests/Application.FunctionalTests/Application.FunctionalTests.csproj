@@ -34,7 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Web\Web.csproj"/>
+    <ProjectReference Include="..\..\src\WebApi\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\WebApi\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\src\WebApi\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\WebApi\Web\Web.csproj"/>
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,4 @@
 ﻿using System.Data.Common;
-using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Identity.Client;
 
 namespace BoostStudio.Application.FunctionalTests;
 
@@ -26,9 +26,9 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder.ConfigureTestServices(services =>
         {
-            services
-                .RemoveAll<IUser>()
-                .AddTransient(provider => Mock.Of<IUser>(s => s.Id == GetUserId()));
+            // services
+            //     .RemoveAll<IUser>()
+            //     .AddTransient(provider => Mock.Of<IUser>(s => s.Id == GetUserId()));
 
             services
                 .RemoveAll<DbContextOptions<ApplicationDbContext>>()
