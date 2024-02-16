@@ -49,9 +49,7 @@ jobs:
     - name: Publish website (win-x64)
       if: ${{ inputs.build-artifacts == true }}
       run: |
-        dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
-        cd publish/win-x64
-        zip -r ./publish.zip .
+        dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
       working-directory: ./src/Core/Presentation/WebApi
 
     - name: Upload website artifacts (win-x64)
@@ -59,7 +57,20 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: BoostStudio-win-x64
-        path: ./src/Core/Presentation/WebApi/publish/win-x64/publish.zip
+        path: ./src/Core/Presentation/WebApi/publish/win-x64
         if-no-files-found: error
 
+    - name: Publish website (linux-x64)
+      if: ${{ inputs.build-artifacts == true }}
+      run: |
+        dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
+      working-directory: ./src/Core/Presentation/WebApi
+
+    - name: Upload website artifacts (linux-x64)
+      if: ${{ inputs.build-artifacts == true }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: BoostStudio-linux-x64
+        path: ./src/Core/Presentation/WebApi/publish/linux-x64
+        if-no-files-found: error
 
