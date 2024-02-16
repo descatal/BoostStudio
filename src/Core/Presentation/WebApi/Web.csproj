@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>BoostStudio.Web</RootNamespace>
+    <AssemblyName>BoostStudio.Web</AssemblyName>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
+    <PackageReference Include="NSwag.AspNetCore"/>
+    <PackageReference Include="NSwag.MSBuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentValidation.AspNetCore"/>
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="ZymLabs.NSwag.FluentValidation.AspNetCore"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Error.cshtml"/>
+    <_ContentIncludedByDefault Remove="Pages\Shared\_LoginPartial.cshtml"/>
+    <_ContentIncludedByDefault Remove="Pages\_ViewImports.cshtml"/>
+  </ItemGroup>
+
+
+  <!-- Auto-generated Open API specification and Angular TypeScript clients -->
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <Target Name="NSwag" AfterTargets="PostBuildEvent" Condition=" '$(Configuration)' == 'Debug' And '$(SkipNSwag)' != 'True' ">
+    <Exec ConsoleToMSBuild="true" ContinueOnError="true" WorkingDirectory="$(ProjectDir)" EnvironmentVariables="ASPNETCORE_ENVIRONMENT=Development" Command="$(NSwagExe_Net80) run config.nswag /variables:Configuration=$(Configuration)">
+      <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode"/>
+      <Output TaskParameter="ConsoleOutput" PropertyName="NSwagOutput"/>
+    </Exec>
+
+    <Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low"/>
+    <Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'"/>
+  </Target>
+
+</Project>

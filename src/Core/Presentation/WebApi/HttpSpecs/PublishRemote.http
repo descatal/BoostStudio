@@ -1,0 +1,10 @@
+POST https://localhost:5001/api/publisher/publish
+accept: */*
+Content-Type: application/json
+
+{
+  "path": "C:/Users/descatal/Desktop/Workstation/Psarc/patch_06_00"
+}
+
+###
+

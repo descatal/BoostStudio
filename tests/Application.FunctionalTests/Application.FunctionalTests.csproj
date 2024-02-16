@@ -34,14 +34,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\WebApi\Application\Application.csproj" />
-    <ProjectReference Include="..\..\src\WebApi\Domain\Domain.csproj" />
-    <ProjectReference Include="..\..\src\WebApi\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\WebApi\Web\Web.csproj"/>
+    <Folder Include="Tbl\Binary\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tbl\Binary\" />
+    <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\Core\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\src\Core\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Core\Presentation\WebApi\Web.csproj" />
   </ItemGroup>
 
 </Project>

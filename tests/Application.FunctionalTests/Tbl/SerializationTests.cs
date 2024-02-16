@@ -1,7 +1,8 @@
 using BoostStudio.Application.Formats.TblFormat.Commands;
-using static BoostStudio.Application.FunctionalTests.Testing;
 
 namespace BoostStudio.Application.FunctionalTests.Tbl;
+
+using static Testing;
 
 public class SerializationTests : BaseTestFixture
 {

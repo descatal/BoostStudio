@@ -19,9 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\WebApi\Application\Application.csproj"/>
-    <ProjectReference Include="..\..\src\WebApi\Infrastructure\Infrastructure.csproj"/>
-    <ProjectReference Include="..\..\src\WebApi\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
+    <ProjectReference Include="..\..\src\Core\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
