@@ -34,7 +34,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-nuget-
 
-
     - name: Install .NET
       uses: actions/setup-dotnet@v3
 
@@ -47,36 +46,20 @@ jobs:
     - name: Test solution
       run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName!~AcceptanceTests"
 
-    - name: Publish website
+    - name: Publish website (win-x64)
       if: ${{ inputs.build-artifacts == true }}
       run: |
-        dotnet publish --configuration Release --runtime win-x86 --self-contained -p:PublishSingleFile=true --output ./publish
-        cd publish
+        dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
+        cd publish/win-x64
         zip -r ./publish.zip .
-      working-directory: ./src/WebApi/Web/
+      working-directory: ./src/Core/Presentation/WebApi
 
-    - name: Upload website artifact (website)
+    - name: Upload website artifacts (win-x64)
       if: ${{ inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
-        name: BoostStudio
-        path: ./src/WebApi/Web/publish/publish.zip
+        name: BoostStudio-win-x64
+        path: ./src/Core/Presentation/WebApi/publish/win-x64/publish.zip
         if-no-files-found: error
-    
-    - name: Create EF Core migrations bundle
-      if: ${{ inputs.build-artifacts == true }}
-      run: |
-        dotnet new tool-manifest
-        dotnet tool install dotnet-ef
-        dotnet ef migrations bundle --configuration Release -p ./src/WebApi/Infrastructure/ -s ./src/WebApi/Web/ -o efbundle.exe
-        zip -r ./efbundle.zip efbundle.exe
-      env:
-        SkipNSwag: True
 
-    - name: Upload EF Core migrations bundle artifact (efbundle)
-      if: ${{ inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: efbundle
-        path: ./efbundle.zip
-        if-no-files-found: error
+

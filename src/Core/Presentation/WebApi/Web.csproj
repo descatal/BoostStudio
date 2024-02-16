@@ -4,6 +4,8 @@
     <RootNamespace>BoostStudio.Web</RootNamespace>
     <AssemblyName>BoostStudio.Web</AssemblyName>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <PublishSingleFile>true</PublishSingleFile>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>

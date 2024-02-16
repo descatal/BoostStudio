@@ -41,6 +41,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{BCB8DA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{52CE90B8-CD94-4373-8B37-D1E47EA20AC9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{D89B0A59-7E7E-42D7-A54F-6C66CE41F095}"
+	ProjectSection(SolutionItems) = preProject
+		.github\FUNDING.yml = .github\FUNDING.yml
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\cicd.yml = .github\workflows\cicd.yml
+		.github\workflows\tauri.yml = .github\workflows\tauri.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,6 +108,7 @@ Global
 		{52CE90B8-CD94-4373-8B37-D1E47EA20AC9} = {BFD1C9E4-0F66-44A0-8693-F2F4DDEFAAF2}
 		{B969E5FE-B0B7-471D-B28B-9770DF070F01} = {52CE90B8-CD94-4373-8B37-D1E47EA20AC9}
 		{10560397-C10C-46C0-B015-49267E6D6DA3} = {52CE90B8-CD94-4373-8B37-D1E47EA20AC9}
+		{D89B0A59-7E7E-42D7-A54F-6C66CE41F095} = {E2DA20AA-28D1-455C-BF50-C49A8F831633}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}
