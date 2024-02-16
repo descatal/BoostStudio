@@ -56,7 +56,7 @@ jobs:
       if: ${{ inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
-        name: BoostStudio-win-x64
+        name: BoostStudio.Web-win-x64
         path: ./src/Core/Presentation/WebApi/publish/win-x64
         if-no-files-found: error
 
@@ -70,7 +70,35 @@ jobs:
       if: ${{ inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
-        name: BoostStudio-linux-x64
+        name: BoostStudio.Web-linux-x64
         path: ./src/Core/Presentation/WebApi/publish/linux-x64
+        if-no-files-found: error
+        
+    - name: Publish console (win-x64)
+      if: ${{ inputs.build-artifacts == true }}
+      run: |
+        dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
+      working-directory: ./src/Core/Presentation/Console
+
+    - name: Upload console artifacts (win-x64)
+      if: ${{ inputs.build-artifacts == true }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: BoostStudio.Console-win-x64
+        path: ./src/Core/Presentation/Console/publish/win-x64
+        if-no-files-found: error
+        
+    - name: Publish console (linux-x64)
+      if: ${{ inputs.build-artifacts == true }}
+      run: |
+        dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
+      working-directory: ./src/Core/Presentation/Console
+
+    - name: Upload console artifacts (linux-x64)
+      if: ${{ inputs.build-artifacts == true }}
+      uses: actions/upload-artifact@v3
+      with:
+        name: BoostStudio.Console-linux-x64
+        path: ./src/Core/Presentation/Console/publish/linux-x64
         if-no-files-found: error
 
