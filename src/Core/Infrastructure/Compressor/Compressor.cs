@@ -19,14 +19,14 @@ public class Compressor : ICompressor
         };
     }
 
-    private Task<byte[]> CompressZipAsync(string sourceDirectory, CancellationToken cancellationToken)
+    private static Task<byte[]> CompressZipAsync(string sourceDirectory, CancellationToken cancellationToken)
     {
         using var archive = new MemoryStream();
         ZipFile.CreateFromDirectory(sourceDirectory, archive);
         return Task.FromResult(archive.ToArray());
     }
 
-    private Task<byte[]> CompressTarAsync(string sourceDirectory, CancellationToken cancellationToken)
+    private static Task<byte[]> CompressTarAsync(string sourceDirectory, CancellationToken cancellationToken)
     {
         using var archive = new MemoryStream();
         TarFile.CreateFromDirectory(sourceDirectory, archive, false);

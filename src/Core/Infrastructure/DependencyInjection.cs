@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
+using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Domain.Entities.PsarcFormat;
 using BoostStudio.Formats;
@@ -21,9 +22,9 @@ public static class DependencyInjection
         
         services.AddSingleton<IFormatSerializer<Fhm>, FhmSerializer>();
         services.AddSingleton<IFormatSerializer<Tbl>, TblSerializer>();
-        services.AddSingleton<IFormatSerializer<Psarc>, PsarcSerializer>();
         
         services.AddSingleton<IFhmPacker, FhmPacker>();
+        services.AddSingleton<IPsarcPacker, PsarcPacker>();
         services.AddSingleton<ITblMetadataSerializer, TblMetadataSerializer>();
 
         return services;

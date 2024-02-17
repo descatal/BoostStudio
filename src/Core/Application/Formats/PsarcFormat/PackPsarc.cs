@@ -1,4 +1,5 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Domain.Entities.PsarcFormat;
 
 namespace BoostStudio.Application.Formats.PsarcFormat;
@@ -12,17 +13,14 @@ public record PackPsarc : IRequest<byte[]>
     public int CompressionLevel { get; init; } = 9;
 }
 
-public class PackFhmCommandHandler(IFormatSerializer<Psarc> formatSerializer) : IRequestHandler<PackPsarc, byte[]>
+public class PackFhmCommandHandler(IPsarcPacker psarcPacker) : IRequestHandler<PackPsarc, byte[]>
 {
     public async Task<byte[]> Handle(PackPsarc request, CancellationToken cancellationToken)
     {
-        var psarc = new Psarc
-        {
-            SourcePath = request.SourcePath,
-            CompressionType = request.CompressionType,
-            CompressionLevel = request.CompressionLevel
-        };
-        return await formatSerializer.SerializeAsync(psarc, cancellationToken);
+        return await psarcPacker.PackAsync(
+            request.SourcePath, 
+            request.CompressionType, 
+            request.CompressionLevel, 
+            cancellationToken);
     }
 }
-

@@ -3,7 +3,7 @@ using System.CommandLine.Builder;
 using System.CommandLine.Hosting;
 using System.CommandLine.Invocation;
 using System.CommandLine.Parsing;
-using Console.Commands;
+using Console;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,18 +11,7 @@ using Serilog;
 
 var root = new RootCommand();
 
-root.AddCommand(
-    new Command("fhm", "Fhm operations")
-    {
-        new PackFhmCommand(),
-    });
-
-root.AddCommand(
-    new Command("psarc", "Psarc operations")
-    {
-        new PackPsarcCommand(),
-    });
-
+root.AddRootCommands();
 root.AddGlobalOption(new Option<bool>("--silent", "Disables diagnostics output"));
 root.Handler = CommandHandler.Create(() => root.Invoke("-h"));
 
@@ -39,7 +28,7 @@ var runner = commandLineBuilder.UseHost(_ => CreateHostBuilder(args), (builder) 
                 services.AddInfrastructureServices(configuration); // Register "Infrastructure" project.
             });
 
-        builder.UseCommandHandler<PackPsarcCommand, PackPsarcCommand.Handler>();
+        builder.AddConsoleCommands();
         builder.ConfigureLogging(loggingBuilder => loggingBuilder.ClearProviders());
         
         using var log = new LoggerConfiguration()

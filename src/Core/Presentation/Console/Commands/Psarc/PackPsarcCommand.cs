@@ -4,7 +4,7 @@ using BoostStudio.Application.Formats.PsarcFormat;
 using BoostStudio.Domain.Entities.PsarcFormat;
 using MediatR;
 
-namespace Console.Commands;
+namespace Console.Commands.Psarc;
 
 public class PackPsarcCommand : Command
 {
