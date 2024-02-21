@@ -12,42 +12,36 @@ public class UnpackPsarcCommand : Command
     // TODO add option to supply directory paths
     public UnpackPsarcCommand() : base(name: "unpack", "Unpack psarc file into directory.")
     {
-        AddOption(new Option<string>(["--input", "-i"], "Input file path.")
+        AddOption(new Option<string>(["--input", "-i"], "Input file path. Required.")
         {
             IsRequired = true
         });
-        AddOption(new Option<string>(["--output", "-o"], "Output directory path."));
+        AddOption(new Option<string>(["--output", "-o"], "Output directory path. Default: Input file directory."));
     }
 
-    public new class Handler(IMediator mediator) : ICommandHandler
+    public new class Handler(ISender mediator) : ICommandHandler
     {
-        public string Input { get; set; } = string.Empty;
+        public string Input { get; init; } = string.Empty;
 
-        public string Output { get; set; } = string.Empty;
-        
+        public string Output { get; init; } = string.Empty;
         
         public async Task<int> InvokeAsync(InvocationContext context)
         {
             if (!File.Exists(Input))
                 throw new FileNotFoundException();
 
-            var sourceFile = await File.ReadAllBytesAsync(Input);
+            var inputFileName = Path.GetFileNameWithoutExtension(Input);
+            var fallbackPath = Path.Combine(Path.GetDirectoryName(Input) ?? Directory.GetCurrentDirectory(), inputFileName);
             
-            if (string.IsNullOrWhiteSpace(Output))
-                Output = AppContext.BaseDirectory;
-            
-            var psarc = await mediator.Send(new UnpackPsarc(sourceFile));
-
             var outputDirectory = string.IsNullOrWhiteSpace(Output)
-                ? Directory.GetCurrentDirectory()
+                ? fallbackPath
                 : Output;
+            
+            await mediator.Send(new UnpackPsarc(Input, outputDirectory));
             
             if (!Directory.Exists(outputDirectory))
                 Directory.CreateDirectory(outputDirectory);
-
-            await using var psarcStream = new MemoryStream(psarc);
-            await TarFile.ExtractToDirectoryAsync(psarcStream, outputDirectory, true);
-
+            
             return 0;
         }
     }
