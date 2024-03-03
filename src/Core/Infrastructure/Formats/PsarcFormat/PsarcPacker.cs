@@ -121,7 +121,7 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         }
 
         create.Add(fileSystemsPath.Select(path =>
-        { 
+        {
             var repackPathUri = new Uri($"{sourcePath}/");
             var repackFilePathUri = new Uri(path);
             var repackFileRelativeUri = repackPathUri.MakeRelativeUri(repackFilePathUri);
@@ -129,7 +129,7 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
             
             var pathAttribute = new XAttribute("path", path);
             var archivePathAttribute = new XAttribute("archivepath", archivePath);
-
+            
             return new XElement("file", pathAttribute, archivePathAttribute);
         }));
 
@@ -144,6 +144,10 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         await metadataDoc.SaveAsync(writer, cancellationToken);
         writer.Close();
 
+        var tempString = await File.ReadAllTextAsync(tempMetadataPath, cancellationToken);
+        tempString = tempString.Replace("&amp;", "&");
+        await File.WriteAllTextAsync(tempMetadataPath, tempString, cancellationToken);
+        
         // Execute process
         using var psarcProcess = new Process();
         psarcProcess.StartInfo = new ProcessStartInfo

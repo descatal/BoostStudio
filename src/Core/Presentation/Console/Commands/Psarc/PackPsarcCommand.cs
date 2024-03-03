@@ -41,9 +41,16 @@ public class PackPsarcCommand : Command
             var outputFileName = string.IsNullOrWhiteSpace(Filename)
                 ? Path.GetFileNameWithoutExtension(Input)
                 : Filename;
+            
+            var currentDirectory = Path.GetDirectoryName(Input);
+            currentDirectory = string.IsNullOrWhiteSpace(currentDirectory) 
+                ? Directory.GetCurrentDirectory() 
+                : currentDirectory;
 
-            var outputDirectory = string.IsNullOrWhiteSpace(Output)
-                ? Path.GetDirectoryName(Input) ?? Directory.GetCurrentDirectory()
+            var sourceDirectory = Path.Combine(currentDirectory, Path.GetFileName(Input));
+
+            var outputDirectory = string.IsNullOrWhiteSpace(Path.GetDirectoryName(Output))
+                ? currentDirectory
                 : Output;
             
             if (!Directory.Exists(outputDirectory))
@@ -53,7 +60,7 @@ public class PackPsarcCommand : Command
             
             await _mediator.Send(new PackPsarc
             {
-                SourcePath = Input, 
+                SourcePath = sourceDirectory, 
                 DestinationPath = outputFilePath,
                 CompressionType = Compression, 
                 CompressionLevel = CompressionLevel,
