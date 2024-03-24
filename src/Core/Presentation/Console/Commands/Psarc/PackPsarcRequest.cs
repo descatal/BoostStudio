@@ -7,10 +7,10 @@ using MediatR;
 
 namespace Console.Commands.Psarc;
 
-public class PackPsarcCommand : Command
+public class PackPsarcRequest : Command
 {
     // TODO add option to supply directory paths
-    public PackPsarcCommand() : base(name: "pack", "Pack directory into psarc format.")
+    public PackPsarcRequest() : base(name: "pack", "Pack directory into psarc format.")
     {
         AddOption(new Option<string>(["--input", "-i"], "Input directory path. Required.")
         {
@@ -38,33 +38,16 @@ public class PackPsarcCommand : Command
 
         public async Task<int> InvokeAsync(InvocationContext context)
         {
-            var outputFileName = string.IsNullOrWhiteSpace(Filename)
-                ? Path.GetFileNameWithoutExtension(Input)
-                : Filename;
-            
-            var currentDirectory = Path.GetDirectoryName(Input);
-            currentDirectory = string.IsNullOrWhiteSpace(currentDirectory) 
-                ? Directory.GetCurrentDirectory() 
-                : currentDirectory;
-
-            var sourceDirectory = Path.Combine(currentDirectory, Path.GetFileName(Input));
-
-            var outputDirectory = string.IsNullOrWhiteSpace(Path.GetDirectoryName(Output))
-                ? currentDirectory
-                : Output;
-            
-            if (!Directory.Exists(outputDirectory))
-                Directory.CreateDirectory(outputDirectory);
-
-            var outputFilePath = Path.Combine(outputDirectory, Path.ChangeExtension(outputFileName, ".psarc"));
-            
-            await _mediator.Send(new PackPsarc
+            var packPsarcCommand = new PackPsarcCommand
             {
-                SourcePath = sourceDirectory, 
-                DestinationPath = outputFilePath,
-                CompressionType = Compression, 
+                SourcePath = Input,
+                DestinationPath = Output,
+                CompressionType = Compression,
                 CompressionLevel = CompressionLevel,
-            });
+                Filename = Filename
+            };
+
+            await _mediator.Send(packPsarcCommand);
             
             return 0;
         }

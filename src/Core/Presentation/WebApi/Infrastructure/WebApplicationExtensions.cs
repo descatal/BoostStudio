@@ -1,20 +1,43 @@
 ﻿using System.Reflection;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace BoostStudio.Web.Infrastructure;
 
 public static class WebApplicationExtensions
 {
-    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group)
+    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group) 
+        => MapSubgroup(app, group, "");
+    
+    private static RouteGroupBuilder MapSubgroup(this WebApplication app, EndpointGroupBase endpointGroup, string rootDir, params string[] additionalDirs)
     {
-        var groupName = JsonNamingPolicy.KebabCaseLower.ConvertName(group.GetType().Name);
+        var endpointGroupName = endpointGroup.GetType().Name;
+        
+        var tagName = string.IsNullOrWhiteSpace(rootDir) ? endpointGroupName : rootDir;
 
+        var filteredDirs = additionalDirs
+            // order is important, should be ApiRoot/rootDir/additionalDirs/endpointGroupName
+            .Prepend(rootDir)
+            .Prepend("/api")
+            .Append(endpointGroupName)
+            // Remove empty or null strings
+            .Where(dir => !string.IsNullOrWhiteSpace(dir))
+            .Select(dir => dir.Trim())
+            .Select(Slugify)
+            .ToList();
+        
         return app
-            .MapGroup($"/api/{groupName}")
-            .WithGroupName(groupName)
-            .WithTags(groupName)
+            .MapGroup(string.Join('/', filteredDirs))
+            // .WithGroupName(subgroupName) // Swashbuckle errs if group name is added
+            .WithTags(tagName)
             .WithOpenApi();
     }
+    
+    private static string Slugify(string input) => Regex.Replace(input,
+        "([a-z])([A-Z])",
+        "$1-$2",
+        RegexOptions.CultureInvariant,
+        TimeSpan.FromMilliseconds(100)).ToLowerInvariant();
 
     public static WebApplication MapEndpoints(this WebApplication app)
     {

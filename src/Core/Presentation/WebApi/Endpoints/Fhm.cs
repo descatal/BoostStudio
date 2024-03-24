@@ -10,14 +10,14 @@ public class Fhm : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .MapPost(UnpackFhm, "unpack", true)
-            .MapPost(PackFhm, "pack", true);
+            .MapPost(UnpackFhm, "unpack")
+            .MapPost(PackFhm, "pack");
     }
 
     public async Task<IResult> UnpackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)
     {
         var compressionFormat = CompressionFormats.Tar;
-        await using Stream stream = file.OpenReadStream();
+        await using var stream = file.OpenReadStream();
         using BinaryReader binaryReader = new(stream);
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
 
@@ -33,7 +33,7 @@ public class Fhm : EndpointGroupBase
 
     public async Task<IResult> PackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)
     {
-        await using Stream stream = file.OpenReadStream();
+        await using var stream = file.OpenReadStream();
         using BinaryReader binaryReader = new(stream);
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
 

@@ -16,18 +16,15 @@ public class SerializeTblHandler(
     IFormatSerializer<Tbl> tblSerializer,
     ITblMetadataSerializer tblMetadataSerializer) : IRequestHandler<SerializeTbl, byte[]>
 {
-    private readonly IFormatSerializer<Tbl> _tblSerializer = tblSerializer;
-    private readonly ITblMetadataSerializer _tblMetadataSerializer = tblMetadataSerializer;
-
     public async Task<byte[]> Handle(SerializeTbl request, CancellationToken cancellationToken)
     {
         await using var tblStream = new MemoryStream();
-        var tbl = await _tblMetadataSerializer.DeserializeAsync(
+        var tbl = await tblMetadataSerializer.DeserializeAsync(
             stream: tblStream,
             data: request.TblMetadata,
             cancellationToken: cancellationToken);
 
-        var packedTbl = await _tblSerializer.SerializeAsync(
+        var packedTbl = await tblSerializer.SerializeAsync(
             data: tbl,
             cancellationToken: cancellationToken);
 

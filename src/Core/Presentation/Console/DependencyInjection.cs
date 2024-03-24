@@ -15,8 +15,8 @@ public static class DependencyInjection
     
     public static IHostBuilder AddConsoleCommands(this IHostBuilder builder)
     {
-        builder.UseCommandHandler<PackPsarcCommand, PackPsarcCommand.Handler>();
-        builder.UseCommandHandler<UnpackPsarcCommand, UnpackPsarcCommand.Handler>();
+        builder.UseCommandHandler<PackPsarcRequest, PackPsarcRequest.Handler>();
+        builder.UseCommandHandler<UnpackPsarcRequest, UnpackPsarcRequest.Handler>();
         
         return builder;
     }

@@ -7,10 +7,10 @@ using MediatR;
 
 namespace Console.Commands.Psarc;
 
-public class UnpackPsarcCommand : Command
+public class UnpackPsarcRequest : Command
 {
     // TODO add option to supply directory paths
-    public UnpackPsarcCommand() : base(name: "unpack", "Unpack psarc file into directory.")
+    public UnpackPsarcRequest() : base(name: "unpack", "Unpack psarc file into directory.")
     {
         AddOption(new Option<string>(["--input", "-i"], "Input file path. Required.")
         {
@@ -27,20 +27,7 @@ public class UnpackPsarcCommand : Command
         
         public async Task<int> InvokeAsync(InvocationContext context)
         {
-            if (!File.Exists(Input))
-                throw new FileNotFoundException();
-
-            var inputFileName = Path.GetFileNameWithoutExtension(Input);
-            var fallbackPath = Path.Combine(Path.GetDirectoryName(Input) ?? Directory.GetCurrentDirectory(), inputFileName);
-            
-            var outputDirectory = string.IsNullOrWhiteSpace(Output)
-                ? fallbackPath
-                : Output;
-            
-            await mediator.Send(new UnpackPsarc(Input, outputDirectory));
-            
-            if (!Directory.Exists(outputDirectory))
-                Directory.CreateDirectory(outputDirectory);
+            await mediator.Send(new UnpackPsarcCommand(Input, Output));
             
             return 0;
         }

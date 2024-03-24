@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
+﻿using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+using DotSwashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Mvc;
-using NSwag;
-using NSwag.Generation.Processors.Security;
+using Microsoft.OpenApi.Models;
 using ZymLabs.NSwag.FluentValidation;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -36,34 +37,37 @@ public static class DependencyInjection
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
             options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
         });
 
         services.AddEndpointsApiExplorer();
-
-        services.AddOpenApiDocument(
-            (configure, sp) =>
+        
+        // If not explicitly bound, swashbuckle binds json path to swagger doc name
+        const string swaggerDocName = "v1";
+        services.AddSwaggerGen(opts =>
+        {
+            opts.DescribeAllParametersInCamelCase();
+            opts.SwaggerDoc(swaggerDocName, new OpenApiInfo
             {
-                configure.Title = "BoostStudio API";
-
-                // Add the fluent validations schema processor
-                var fluentValidationSchemaProcessor =
-                    sp.CreateScope().ServiceProvider.GetRequiredService<FluentValidationSchemaProcessor>();
-
-                configure.SchemaSettings.SchemaProcessors.Add(fluentValidationSchemaProcessor);
-
-                // Add JWT
-                configure.AddSecurity(
-                    "JWT",
-                    Enumerable.Empty<string>(),
-                    new OpenApiSecurityScheme
-                    {
-                        Type = OpenApiSecuritySchemeType.ApiKey, Name = "Authorization", In = OpenApiSecurityApiKeyLocation.Header, Description = "Type into the textbox: Bearer {your JWT token}."
-                    });
-
-                configure.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
+                Title = "BoostStudio API",
+                Description = "API documentation for BoostStudio Service",
+                Version = "1.0.0"
             });
+            opts.EnableAnnotations();
 
+            // https://github.com/domaindrivendev/Swashbuckle.AspNetCore#include-descriptions-from-xml-comments
+            var filePath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+            if (File.Exists(filePath))
+                opts.IncludeXmlComments(filePath);
+            
+            opts.ExampleFilters();
+        });
+
+        // Enable Swashbuckle.AspNetCore.Filters multiple example provider
+        // AddSwaggerExamples requires manual registration
+        // AddSwaggerExamplesFromAssemblies uses reflection to register all example providers
+        services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
+        
         return services;
     }
 }

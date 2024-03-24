@@ -40,6 +40,8 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
     {
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
+        
+        logger.LogInformation("Creating temporary working directory: {workingDirectory}", workingDirectory);
 
         try
         {
@@ -53,6 +55,8 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         }
         finally
         {
+            logger.LogInformation("Cleaning up temporary working directory...");
+            
             // Cleanup regardless
             Directory.Delete(workingDirectory, true);
         }
@@ -108,6 +112,8 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         // Construct metadata xml: adding all of the files to be packed.
         var fileSystemsPath = Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories);
 
+        logger.LogInformation("Number of files to be packed: {fileLength}", fileSystemsPath.Length);
+        
         var create = new XElement("create",
             new XAttribute("overwrite", "true"),
             new XAttribute("archive", $"{destinationPath}"));
@@ -144,15 +150,22 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         await metadataDoc.SaveAsync(writer, cancellationToken);
         writer.Close();
 
+        logger.LogInformation("Writing psarc xml metadata to: {tempMetadataPath}", tempMetadataPath);
+        
         var tempString = await File.ReadAllTextAsync(tempMetadataPath, cancellationToken);
         tempString = tempString.Replace("&amp;", "&");
         await File.WriteAllTextAsync(tempMetadataPath, tempString, cancellationToken);
+        
+        logger.LogInformation("Constructed psarc xml metadata: {@tempString}", tempString);
+
+        var arguments = $"create --xml {tempMetadataPath}";
+        logger.LogInformation("Executing psarc.exe with: {arguments}", arguments);
         
         // Execute process
         using var psarcProcess = new Process();
         psarcProcess.StartInfo = new ProcessStartInfo
         {
-            Arguments = $"create --xml {tempMetadataPath}",
+            Arguments = arguments,
             CreateNoWindow = true,
             FileName = tempPsarcExePath,
             RedirectStandardOutput = true,
@@ -162,17 +175,23 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
 
         // Synchronously read the standard output of the spawned process.
         var reader = psarcProcess.StandardOutput;
-        var output = await reader.ReadToEndAsync(cancellationToken);
 
-        logger.LogInformation("{}", output);
+        while (await reader.ReadLineAsync(cancellationToken) is {} outputLine)
+        {
+            logger.LogInformation("{outputLine}", outputLine);
+        }
         await psarcProcess.WaitForExitAsync(cancellationToken);
 
         if (!File.Exists(destinationPath))
-            throw new Exception($"{output}");
+            throw new Exception("Failed to create psarc archive.");
+        
+        logger.LogInformation("Successfully created psarc archive on: {destinationPath}", destinationPath);
     }
     
-    private static async Task<string> InitializeExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
+    private async Task<string> InitializeExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
     {
+        logger.LogInformation("Initializing psarc.exe in: {workingDirectory}", workingDirectory);
+        
         var workingPath = Path.Combine(workingDirectory, "psarc.exe");
 
         // Extracting executable from resource to a temp location.

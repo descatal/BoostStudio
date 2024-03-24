@@ -32,6 +32,7 @@ var runner = commandLineBuilder.UseHost(_ => CreateHostBuilder(args), (builder) 
         builder.ConfigureLogging(loggingBuilder => loggingBuilder.ClearProviders());
         
         using var log = new LoggerConfiguration()
+            .WriteTo.Console()
             .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
             .CreateLogger();
     })

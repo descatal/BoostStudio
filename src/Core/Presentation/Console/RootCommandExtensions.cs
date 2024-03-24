@@ -17,8 +17,8 @@ public static class RootCommandExtensions
         root.AddCommand(
             new Command("psarc", "Psarc operations")
             {
-                new PackPsarcCommand(),
-                new UnpackPsarcCommand(),
+                new PackPsarcRequest(),
+                new UnpackPsarcRequest(),
             });
         
         return root;
