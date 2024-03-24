@@ -104,7 +104,10 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         CancellationToken cancellationToken)
     {
         if (!Directory.Exists(sourcePath))
+        {
+            logger.LogInformation("{sourcePath} is not a valid directory, exiting pack operation", sourcePath);
             return;
+        }
 
         var tempMetadataPath = Path.Combine(workingDirectory, "metadata.xml");
         var tempPsarcExePath = await InitializeExecutableAsync(workingDirectory, cancellationToken);
@@ -158,7 +161,7 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         
         logger.LogInformation("Constructed psarc xml metadata: {@tempString}", tempString);
 
-        var arguments = $"create --xml {tempMetadataPath}";
+        var arguments = $"create --xml \"{tempMetadataPath}\"";
         logger.LogInformation("Executing psarc.exe with: {arguments}", arguments);
         
         // Execute process
