@@ -16,8 +16,9 @@ Currently file formats from Gundam Extreme Vs. Full Boost is prioritized.
 
 ### Running the application
 
-- [Download](https://nightly.link/descatal/BoostStudio/workflows/cicd/main/BoostStudio.zip) the latest build artifact
-  and run the executable.
+- Please download either one of the the latest build artifact and run the executable.
+  - [Console-win-x64](https://nightly.link/descatal/BoostStudio/workflows/cicd/main/BoostStudio.Console-win-x64.zip)
+  - [Web-win-x64](https://nightly.link/descatal/BoostStudio/workflows/cicd/main/BoostStudio.Web-win-x64.zip)
 
 ## Credits
 
