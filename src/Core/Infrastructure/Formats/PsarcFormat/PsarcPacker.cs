@@ -70,13 +70,19 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
 
+        if (!Directory.Exists(destinationPath))
+            Directory.CreateDirectory(destinationPath);
+
         var tempPsarcExePath = await InitializeExecutableAsync(workingDirectory, cancellationToken);
 
+        var arguments = $"extract --input=\"{sourceFilePath}\" --to=\"{destinationPath}\"";
+        logger.LogInformation("Executing psarc.exe with: {arguments}", arguments);
+        
         // Execute process
         using var psarcProcess = new Process();
         psarcProcess.StartInfo = new ProcessStartInfo
         {
-            Arguments = $"extract --input=\"{sourceFilePath}\" --to=\"{destinationPath}\"",
+            Arguments = arguments,
             CreateNoWindow = true,
             FileName = tempPsarcExePath,
             RedirectStandardOutput = true,
@@ -86,13 +92,16 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
 
         // Synchronously read the standard output of the spawned process.
         var reader = psarcProcess.StandardOutput;
-        var output = await reader.ReadToEndAsync(cancellationToken);
-
-        logger.LogInformation("{}", output);
+        while (await reader.ReadLineAsync(cancellationToken) is {} outputLine)
+        {
+            logger.LogInformation("{outputLine}", outputLine);
+        }
         await psarcProcess.WaitForExitAsync(cancellationToken);
 
         if (!Directory.Exists(destinationPath))
-            throw new Exception(output);
+            throw new Exception("Failed to unpack psarc archive.");
+        
+        logger.LogInformation("Successfully unpacked psarc archive on: {destinationPath}", destinationPath);
     }
     
     private async Task PackAsyncInternal(

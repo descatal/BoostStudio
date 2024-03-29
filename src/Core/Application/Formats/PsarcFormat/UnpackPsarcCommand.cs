@@ -11,14 +11,15 @@ public class UnpackPsarcCommandHandler(IPsarcPacker psarcPacker) : IRequestHandl
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();
 
-        var inputFileName = Path.GetFileNameWithoutExtension(request.SourceFilePath);
-        var fallbackPath = Path.Combine(Path.GetDirectoryName(request.SourceFilePath) ?? Directory.GetCurrentDirectory(), inputFileName);
+        var input = request.SourceFilePath;
+        var inputFileName = Path.GetFileNameWithoutExtension(input);
+        var fallbackPath = Path.Combine(Path.GetDirectoryName(input) ?? Directory.GetCurrentDirectory(), inputFileName);
             
-        var outputDirectory = string.IsNullOrWhiteSpace(request.SourceFilePath)
+        var outputDirectory = string.IsNullOrWhiteSpace(input)
             ? fallbackPath
-            : request.SourceFilePath;
+            : request.OutputDirectoryPath;
         
-        await psarcPacker.UnpackAsync(request.SourceFilePath, outputDirectory, cancellationToken);
+        await psarcPacker.UnpackAsync(input, outputDirectory, cancellationToken);
         
         if (!Directory.Exists(outputDirectory))
             Directory.CreateDirectory(outputDirectory);

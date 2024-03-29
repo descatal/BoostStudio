@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Entities\UnitData\UnitHitboxFormat\" />
+    <Folder Include="Entities\UnitData\UnitMobilityFormat\" />
+    <Folder Include="Entities\UnitData\UnitStatsFormat\" />
+    <Folder Include="Entities\UnitData\UnitVoiceMapFormat\" />
     <Folder Include="Enums\"/>
     <Folder Include="Events\"/>
   </ItemGroup>
