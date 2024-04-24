@@ -45,7 +45,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{D89B0A
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build.yml = .github\workflows\build.yml
 		.github\workflows\cicd.yml = .github\workflows\cicd.yml
-		.github\workflows\tauri.yml = .github\workflows\tauri.yml
 	EndProjectSection
 EndProject
 Global
