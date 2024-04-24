@@ -3,6 +3,10 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+app.db
+app.db-shm
+app.db-wal
+
 # User-specific files
 *.rsuser
 *.suo

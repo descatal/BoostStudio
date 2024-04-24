@@ -1,0 +1,11 @@
+# curl -X 'GET' 
+#  'https://localhost:5001/api/psarc/pack?SourcePath=I%3A%5CFull%20Boost%5CMBON%20Reimport%20Project%5CTotal%20MBON%20Small%20patches&DestinationPath=C%3A%5CUsers%5Cdescatal%5CDesktop%5CModdedBoost%5Crpcs3%5Cdev_hdd0%5Cgame%5CNPJB00512%5CUSRDIR&Filename=patch_06_00.psarc&CompressionLevel=9' 
+#  -H 'accept: */*'
+GET https://localhost:5001/api/psarc/pack?
+    SourcePath=I%3A%5CFull%20Boost%5CMBON%20Reimport%20Project%5CTotal%20MBON%20Small%20patches&
+    DestinationPath=C%3A%5CUsers%5Cdescatal%5CDesktop%5CModdedBoost%5Crpcs3%5Cdev_hdd0%5Cgame%5CNPJB00512%5CUSRDIR&
+    Filename=patch_06_00.psarc&CompressionLevel=9
+accept: */*
+
+###
+

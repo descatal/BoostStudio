@@ -1,3 +1,4 @@
+using System.Text.Json;
 using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Application.Formats.TblFormat.Commands;
 using Microsoft.AspNetCore.Mvc;
@@ -13,8 +14,9 @@ public class Tbl : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
-            .MapGet(DeserializeTblFilePath, "deserializePath")
+            .MapGet(DeserializeTblFilePath, "deserialize-path")
             .MapPost(DeserializeTblFileStream, "deserialize")
+            .MapGet(SerializeTblFilePath, "serialize-path")
             .MapPost(SerializeTbl, "serialize");
     }
 
@@ -31,6 +33,21 @@ public class Tbl : EndpointGroupBase
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
 
         return await sender.Send(new DeserializeTbl(inputBytes), cancellationToken);
+    }
+    
+    public async Task<IResult> SerializeTblFilePath(ISender sender, [FromQuery] string filePath, CancellationToken cancellationToken)
+    {
+        var jsonPayload = await File.ReadAllTextAsync(filePath, cancellationToken);
+        var command = JsonSerializer.Deserialize<SerializeTbl>(jsonPayload, new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
+        
+        if (command is null)
+            return Results.BadRequest();
+        
+        var serializedFile = await sender.Send(command, cancellationToken);
+        return Results.File(serializedFile, ContentType.Application.Octet, "PATCH.TBL");
     }
     
     /// <summary>

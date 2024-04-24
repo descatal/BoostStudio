@@ -1,5 +1,5 @@
+using BoostStudio.Infrastructure.Data;
 using Serilog;
-using Serilog.Formatting.Compact;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -20,7 +20,7 @@ try
 
     var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
     {
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -32,6 +32,8 @@ try
         context.Response.Redirect("/swagger");
         return Task.CompletedTask;
     });
+    
+    await app.InitialiseDatabaseAsync();
 
     app.UseHealthChecks("/health");
     app.UseHttpsRedirection();

@@ -12,9 +12,10 @@ public record PackFhm(byte[] File) : IRequest<byte[]>
 }
 
 public class PackFhmCommandHandler(
-    IFormatSerializer<Fhm> formatSerializer,
+    IFormatBinarySerializer<Fhm> formatBinarySerializer,
     IFhmPacker fhmPacker,
-    ICompressor compressor) : IRequestHandler<PackFhm, byte[]>
+    ICompressor compressor
+) : IRequestHandler<PackFhm, byte[]>
 {
     public async Task<byte[]> Handle(PackFhm request, CancellationToken cancellationToken)
     {
@@ -25,7 +26,7 @@ public class PackFhmCommandHandler(
         await compressor.DecompressAsync(request.File, extractFolder, cancellationToken);
         var packedFhm = await fhmPacker.PackAsync(stream, extractFolder, cancellationToken);
 
-        var serializedFhm = await formatSerializer.SerializeAsync(packedFhm, cancellationToken);
+        var serializedFhm = await formatBinarySerializer.SerializeAsync(packedFhm, cancellationToken);
 
         Directory.Delete(extractFolder, true);
         return serializedFhm.ToArray();

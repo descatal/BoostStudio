@@ -6,25 +6,23 @@ using BoostStudio.Application.Contracts.Metadata.Models;
 
 namespace BoostStudio.Application.Formats.TblFormat.Commands;
 
-public record SerializeTbl(TblMetadata TblMetadata) : IRequest<byte[]>
-{
-    [Required]
-    public TblMetadata TblMetadata { get; } = TblMetadata;
-}
+public record SerializeTbl(uint CumulativeFileInfoCount, List<TblFileMetadata> FileMetadata, List<string>? PathOrder = null) : IRequest<byte[]>;
 
 public class SerializeTblHandler(
-    IFormatSerializer<Tbl> tblSerializer,
-    ITblMetadataSerializer tblMetadataSerializer) : IRequestHandler<SerializeTbl, byte[]>
+    IFormatBinarySerializer<Tbl> tblBinarySerializer,
+    ITblMetadataSerializer tblMetadataSerializer
+) : IRequestHandler<SerializeTbl, byte[]>
 {
     public async Task<byte[]> Handle(SerializeTbl request, CancellationToken cancellationToken)
     {
         await using var tblStream = new MemoryStream();
+        var tblMetadata = new TblMetadata(request.CumulativeFileInfoCount, request.FileMetadata, request.PathOrder);
         var tbl = await tblMetadataSerializer.DeserializeAsync(
             stream: tblStream,
-            data: request.TblMetadata,
+            data: tblMetadata,
             cancellationToken: cancellationToken);
 
-        var packedTbl = await tblSerializer.SerializeAsync(
+        var packedTbl = await tblBinarySerializer.SerializeAsync(
             data: tbl,
             cancellationToken: cancellationToken);
 

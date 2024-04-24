@@ -2,6 +2,7 @@
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Application.Formats.TblFormat.Commands;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints;
 
@@ -10,8 +11,20 @@ public class Fhm : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this)
+            .MapGet(PackFhmPath, "pack-path")
+            .MapGet(UnpackFhmPath, "unpack-path")
             .MapPost(UnpackFhm, "unpack")
             .MapPost(PackFhm, "pack");
+    }
+    
+    public async Task PackFhmPath(ISender sender, [AsParameters] PackFhmPath request, CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
+    }
+    
+    public async Task UnpackFhmPath(ISender sender, [AsParameters] UnpackFhmPath request, CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
     }
 
     public async Task<IResult> UnpackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)

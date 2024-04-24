@@ -1,7 +1,4 @@
-using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Application.Formats.PsarcFormat;
-using BoostStudio.Application.Formats.TblFormat.Commands;
-using ContentType = System.Net.Mime.MediaTypeNames;
 
 namespace BoostStudio.Web.Endpoints;
 

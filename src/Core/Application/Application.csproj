@@ -10,7 +10,11 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="HttpClientToCurl" />
     <PackageReference Include="KaitaiStruct.Runtime.CSharp"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="Reloaded.Memory" />
+    <PackageReference Include="Riok.Mapperly" />
+    <PackageReference Include="System.IO.Hashing" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +31,10 @@
     <Reference Include="Microsoft.Extensions.Http">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.1\Microsoft.Extensions.Http.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Common\Utils\" />
   </ItemGroup>
 
 </Project>

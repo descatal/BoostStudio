@@ -3,7 +3,7 @@ $compilerPath = "$PSScriptRoot\bin\kaitai-struct-compiler.bat"
 
 # Path to the output directory
 # Get the parent directory
-$outputDir = Join-Path (Split-Path $PSScriptRoot) "Entities"
+$outputDir = Join-Path (Split-Path $PSScriptRoot) "BinaryFormats"
 
 # Recursively search for .ksy files in the KaitaiStruct folder
 $ksyFiles = Get-ChildItem -Path $outputDir -Filter "*.ksy" -Recurse
