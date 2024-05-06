@@ -6,6 +6,8 @@ using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Domain.Entities.PsarcFormat;
 using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Domain.Entities.Unit.Ammo;
+using BoostStudio.Domain.Entities.Unit.Stats;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Compressor;
 using BoostStudio.Infrastructure.Data;
@@ -13,6 +15,7 @@ using BoostStudio.Infrastructure.Data.Interceptors;
 using BoostStudio.Infrastructure.Formats.AmmoFormat;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
+using BoostStudio.Infrastructure.Formats.StatsFormat;
 using BoostStudio.Infrastructure.Formats.TblFormat;
 using BoostStudio.Infrastructure.Scex;
 using Microsoft.Data.Sqlite;
@@ -57,9 +60,10 @@ public static class DependencyInjection
 
         services.AddSingleton<ICompressor, Compressor>();
         
-        services.AddSingleton<IFormatBinarySerializer<Fhm>, FhmBinarySerializer>();
-        services.AddSingleton<IFormatBinarySerializer<Tbl>, TblBinarySerializer>();
-        services.AddSingleton<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
+        services.AddTransient<IFormatBinarySerializer<Fhm>, FhmBinarySerializer>();
+        services.AddTransient<IFormatBinarySerializer<Tbl>, TblBinarySerializer>();
+        services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
+        services.AddTransient<IFormatBinarySerializer<StatsBinaryFormat>, UnitStatBinarySerializer>();
         
         services.AddSingleton<IFhmPacker, FhmPacker>();
         services.AddSingleton<IPsarcPacker, PsarcPacker>();

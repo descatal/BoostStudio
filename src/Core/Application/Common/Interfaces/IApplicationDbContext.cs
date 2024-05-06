@@ -9,11 +9,13 @@ public interface IApplicationDbContext
 {
     public DbSet<Unit> Units { get; }
     
-    public DbSet<Ammo> Ammo { get; }
-
-    public DbSet<StatSet> StatSets { get; }
+    public DbSet<UnitStat> UnitStats { get; }
+    
+    public DbSet<UnitAmmoSlot> UnitAmmoSlots { get; }
     
     public DbSet<Stat> Stats { get; }
+    
+    public DbSet<Ammo> Ammo { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

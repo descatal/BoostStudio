@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Utils\" />
+    <Folder Include="Formats\StatsFormat\Commands\" />
   </ItemGroup>
 
 </Project>

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoostStudio.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240422135755_Initial")]
+    [Migration("20240506134849_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,11 +20,11 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
                 {
-                    b.Property<long>("Hash")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<uint>("AmmoType")
                         .HasColumnType("INTEGER");
@@ -51,6 +51,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<uint>("CooldownDurationFrame")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("Hash")
                         .HasColumnType("INTEGER");
 
                     b.Property<uint>("InactiveAssaultBurstReloadDurationFrame")
@@ -95,6 +98,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<uint>("TimedDurationFrame")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("UnitStatId")
+                        .HasColumnType("TEXT");
+
                     b.Property<uint>("Unk108")
                         .HasColumnType("INTEGER");
 
@@ -125,7 +131,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<uint>("Unk88")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Hash");
+                    b.HasKey("Id");
+
+                    b.HasIndex("UnitStatId");
 
                     b.ToTable("Ammo");
                 });
@@ -280,6 +288,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<int>("MaxHp")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
+
                     b.Property<float>("RedLockRange")
                         .HasColumnType("REAL");
 
@@ -288,9 +299,6 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.Property<float>("SizeMultiplier")
                         .HasColumnType("REAL");
-
-                    b.Property<Guid>("StatSetId")
-                        .HasColumnType("TEXT");
 
                     b.Property<float>("ThirdBurstBoostConsumptionMultiplier")
                         .HasColumnType("REAL");
@@ -324,6 +332,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.Property<int>("UnitCost2")
                         .HasColumnType("INTEGER");
+
+                    b.Property<Guid?>("UnitStatId")
+                        .HasColumnType("TEXT");
 
                     b.Property<float>("Unk100")
                         .HasColumnType("REAL");
@@ -508,8 +519,8 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<float>("Unk460")
                         .HasColumnType("REAL");
 
-                    b.Property<float>("Unk492")
-                        .HasColumnType("REAL");
+                    b.Property<int>("Unk492")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Unk496")
                         .HasColumnType("INTEGER");
@@ -588,34 +599,18 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatSetId");
+                    b.HasIndex("UnitStatId");
 
                     b.ToTable("Stats");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.StatSet", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("UnitId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UnitId");
-
-                    b.ToTable("StatSets");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
-                {
-                    b.Property<uint>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<uint>("GameUnitId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -635,29 +630,107 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.Stat", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitAmmoSlot", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Stats.StatSet", null)
-                        .WithMany("Stat")
-                        .HasForeignKey("StatSetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("AmmoHash")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SlotOrder")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("UnitStatId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AmmoHash");
+
+                    b.HasIndex("UnitStatId");
+
+                    b.ToTable("UnitAmmoSlots");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.StatSet", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint>("GameUnitId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameUnitId")
+                        .IsUnique();
+
+                    b.ToTable("UnitStats");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Unit.UnitStat", "UnitStat")
+                        .WithMany("Ammo")
+                        .HasForeignKey("UnitStatId");
+
+                    b.Navigation("UnitStat");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.Stat", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Unit.UnitStat", "UnitStat")
+                        .WithMany("Stats")
+                        .HasForeignKey("UnitStatId");
+
+                    b.Navigation("UnitStat");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitAmmoSlot", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", "Ammo")
                         .WithMany()
-                        .HasForeignKey("UnitId")
+                        .HasForeignKey("AmmoHash")
+                        .HasPrincipalKey("Hash")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BoostStudio.Domain.Entities.Unit.UnitStat", "UnitStat")
+                        .WithMany("AmmoSlots")
+                        .HasForeignKey("UnitStatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ammo");
+
+                    b.Navigation("UnitStat");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
+                        .WithOne("UnitStats")
+                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.UnitStat", "GameUnitId")
+                        .HasPrincipalKey("BoostStudio.Domain.Entities.Unit.Unit", "GameUnitId");
 
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.StatSet", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
                 {
-                    b.Navigation("Stat");
+                    b.Navigation("UnitStats");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
+                {
+                    b.Navigation("Ammo");
+
+                    b.Navigation("AmmoSlots");
+
+                    b.Navigation("Stats");
                 });
 #pragma warning restore 612, 618
         }

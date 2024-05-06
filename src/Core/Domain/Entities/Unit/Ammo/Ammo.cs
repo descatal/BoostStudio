@@ -1,8 +1,8 @@
-namespace BoostStudio.Domain.Entities.Unit;
+namespace BoostStudio.Domain.Entities.Unit.Ammo;
 
-public class Ammo : BaseEntity<int>
+public class Ammo : BaseEntity<Guid>
 {
-    public long Hash { get; set; }
+    public uint Hash { get; set; }
     public uint AmmoType { get; set; }
     public uint MaxAmmo { get; set; }
     public uint InitialAmmo { get; set; }
@@ -36,4 +36,9 @@ public class Ammo : BaseEntity<int>
     public uint MaxChargeLevel { get; set; }
     public uint Unk124 { get; set; }
     public uint Unk128 { get; set; }
+    
+    // Optional navigation, can be used to assign this ammo to a UnitStat entry
+    public Guid? UnitStatId { get; set; }
+
+    public UnitStat? UnitStat { get; set; }
 }

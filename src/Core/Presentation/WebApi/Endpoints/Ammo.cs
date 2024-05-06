@@ -14,6 +14,7 @@ public class Ammo : EndpointGroupBase
             .MapGet(GetAmmo)
             .MapPost(CreateAmmo)
             .MapPost(BulkCreateAmmo, "bulk")
+            .MapPost(ImportAmmo, "import")
             .MapGet(SerializeAmmo, "serialize-path")
             .MapGet(DeserializeAmmo, "deserialize-path");
     }
@@ -31,6 +32,12 @@ public class Ammo : EndpointGroupBase
     private static async Task BulkCreateAmmo(ISender sender, BulkCreateAmmoCommand request, CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
+    }
+    
+    private static async Task ImportAmmo(ISender sender, [FromForm] IFormFile formFile, CancellationToken cancellationToken)
+    {
+        await using var file = formFile.OpenReadStream();
+        await sender.Send(new ImportAmmoCommand(file), cancellationToken);
     }
     
     private static async Task SerializeAmmo(ISender sender, [AsParameters] SerializeAmmoCommand request, CancellationToken cancellationToken)

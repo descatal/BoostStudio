@@ -12,11 +12,44 @@ namespace BoostStudio.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Units",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    GameUnitId = table.Column<uint>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    NameJapanese = table.Column<string>(type: "TEXT", nullable: false),
+                    NameChinese = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Units", x => x.Id);
+                    table.UniqueConstraint("AK_Units_GameUnitId", x => x.GameUnitId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitStats",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    GameUnitId = table.Column<uint>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitStats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UnitStats_Units_GameUnitId",
+                        column: x => x.GameUnitId,
+                        principalTable: "Units",
+                        principalColumn: "GameUnitId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ammo",
                 columns: table => new
                 {
-                    Hash = table.Column<long>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Hash = table.Column<uint>(type: "INTEGER", nullable: false),
                     AmmoType = table.Column<uint>(type: "INTEGER", nullable: false),
                     MaxAmmo = table.Column<uint>(type: "INTEGER", nullable: false),
                     InitialAmmo = table.Column<uint>(type: "INTEGER", nullable: false),
@@ -49,45 +82,18 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     ReleaseChargeLingerDurationFrame = table.Column<uint>(type: "INTEGER", nullable: false),
                     MaxChargeLevel = table.Column<uint>(type: "INTEGER", nullable: false),
                     Unk124 = table.Column<uint>(type: "INTEGER", nullable: false),
-                    Unk128 = table.Column<uint>(type: "INTEGER", nullable: false)
+                    Unk128 = table.Column<uint>(type: "INTEGER", nullable: false),
+                    UnitStatId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ammo", x => x.Hash);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Units",
-                columns: table => new
-                {
-                    Id = table.Column<uint>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    NameJapanese = table.Column<string>(type: "TEXT", nullable: false),
-                    NameChinese = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Units", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StatSets",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Order = table.Column<int>(type: "INTEGER", nullable: false),
-                    UnitId = table.Column<uint>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StatSets", x => x.Id);
+                    table.PrimaryKey("PK_Ammo", x => x.Id);
+                    table.UniqueConstraint("AK_Ammo_Hash", x => x.Hash);
                     table.ForeignKey(
-                        name: "FK_StatSets_Units_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Units",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Ammo_UnitStats_UnitStatId",
+                        column: x => x.UnitStatId,
+                        principalTable: "UnitStats",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -218,7 +224,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     ThirdBurstMobilityMultiplier = table.Column<float>(type: "REAL", nullable: false),
                     ThirdBurstDownValueDealtMultiplier = table.Column<float>(type: "REAL", nullable: false),
                     ThirdBurstBoostConsumptionMultiplier = table.Column<float>(type: "REAL", nullable: false),
-                    Unk492 = table.Column<float>(type: "REAL", nullable: false),
+                    Unk492 = table.Column<int>(type: "INTEGER", nullable: false),
                     Unk496 = table.Column<int>(type: "INTEGER", nullable: false),
                     ThirdBurstDamageDealtBurstGaugeIncreaseMultiplier = table.Column<float>(type: "REAL", nullable: false),
                     ThirdBurstDamageTakenBurstGaugeIncreaseMultiplier = table.Column<float>(type: "REAL", nullable: false),
@@ -244,41 +250,86 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     Unk600 = table.Column<float>(type: "REAL", nullable: false),
                     Unk604 = table.Column<float>(type: "REAL", nullable: false),
                     Unk608 = table.Column<int>(type: "INTEGER", nullable: false),
-                    StatSetId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
+                    UnitStatId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stats_StatSets_StatSetId",
-                        column: x => x.StatSetId,
-                        principalTable: "StatSets",
+                        name: "FK_Stats_UnitStats_UnitStatId",
+                        column: x => x.UnitStatId,
+                        principalTable: "UnitStats",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UnitAmmoSlots",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    SlotOrder = table.Column<int>(type: "INTEGER", nullable: false),
+                    AmmoHash = table.Column<uint>(type: "INTEGER", nullable: false),
+                    UnitStatId = table.Column<Guid>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UnitAmmoSlots", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UnitAmmoSlots_Ammo_AmmoHash",
+                        column: x => x.AmmoHash,
+                        principalTable: "Ammo",
+                        principalColumn: "Hash",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UnitAmmoSlots_UnitStats_UnitStatId",
+                        column: x => x.UnitStatId,
+                        principalTable: "UnitStats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stats_StatSetId",
-                table: "Stats",
-                column: "StatSetId");
+                name: "IX_Ammo_UnitStatId",
+                table: "Ammo",
+                column: "UnitStatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StatSets_UnitId",
-                table: "StatSets",
-                column: "UnitId");
+                name: "IX_Stats_UnitStatId",
+                table: "Stats",
+                column: "UnitStatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitAmmoSlots_AmmoHash",
+                table: "UnitAmmoSlots",
+                column: "AmmoHash");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitAmmoSlots_UnitStatId",
+                table: "UnitAmmoSlots",
+                column: "UnitStatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UnitStats_GameUnitId",
+                table: "UnitStats",
+                column: "GameUnitId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Ammo");
-
-            migrationBuilder.DropTable(
                 name: "Stats");
 
             migrationBuilder.DropTable(
-                name: "StatSets");
+                name: "UnitAmmoSlots");
+
+            migrationBuilder.DropTable(
+                name: "Ammo");
+
+            migrationBuilder.DropTable(
+                name: "UnitStats");
 
             migrationBuilder.DropTable(
                 name: "Units");

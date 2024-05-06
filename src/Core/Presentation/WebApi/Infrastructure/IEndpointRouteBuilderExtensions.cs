@@ -24,7 +24,7 @@ public static class IEndpointRouteBuilderExtensions
     ) {
         Guard.Against.AnonymousMethod(handler);
 
-        var routeHandlerBuilder = builder.MapMethods(pattern, [httpVerb], handler);
+        var routeHandlerBuilder = builder.MapMethods(pattern, [httpVerb], handler).DisableAntiforgery();
         
         // Add operation id to endpoint metadata
         routeHandlerBuilder.Add(endpointBuilder =>

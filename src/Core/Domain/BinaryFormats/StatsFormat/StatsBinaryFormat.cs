@@ -513,7 +513,7 @@ namespace BoostStudio.Formats
                     if (f_propertyValue)
                         return _propertyValue;
                     long _pos = m_io.Pos;
-                    m_io.Seek(((ValueChunkPointer + (SetIndex * PropertyCount)) + (Index * 4)));
+                    m_io.Seek(((ValueChunkPointer + ((SetIndex * PropertyCount) * 4)) + (Index * 4)));
                     switch (PropertyType)
                     {
                         case StatsBinaryFormat.PropertyTypeEnum.Float:

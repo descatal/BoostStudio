@@ -9,6 +9,6 @@ public class StatConfiguration: IEntityTypeConfiguration<Stat>
 {
     public void Configure(EntityTypeBuilder<Stat> builder)
     {
-        builder.HasKey(x => x.Id);
+        
     }
 }

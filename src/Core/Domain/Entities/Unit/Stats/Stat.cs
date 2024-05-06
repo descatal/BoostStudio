@@ -125,7 +125,7 @@ public class Stat : BaseEntity<Guid>
     public float ThirdBurstMobilityMultiplier { get; set; }
     public float ThirdBurstDownValueDealtMultiplier { get; set; }
     public float ThirdBurstBoostConsumptionMultiplier { get; set; }
-    public float Unk492 { get; set; }
+    public int Unk492 { get; set; }
     public int Unk496 { get; set; }
     public float ThirdBurstDamageDealtBurstGaugeIncreaseMultiplier { get; set; }
     public float ThirdBurstDamageTakenBurstGaugeIncreaseMultiplier { get; set; }
@@ -151,4 +151,11 @@ public class Stat : BaseEntity<Guid>
     public float Unk600 { get; set; }
     public float Unk604 { get; set; }
     public int Unk608 { get; set; }
+    
+    // Optional navigation, can be used to assign this stat to a StatSet entry
+    public int Order { get; set; }
+    
+    public Guid? UnitStatId { get; set; }
+
+    public UnitStat? UnitStat { get; set; }
 }

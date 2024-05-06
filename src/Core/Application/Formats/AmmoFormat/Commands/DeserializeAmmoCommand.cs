@@ -7,7 +7,7 @@ namespace BoostStudio.Application.Formats.AmmoFormat.Commands;
 public record DeserializeAmmoCommand(string SourceFilePath) : IRequest<AmmoView>;
 
 public class DeserializeTblCommandHandler(
-    IFormatBinarySerializer<List<Domain.Entities.Unit.Ammo>> ammoBinarySerializer
+    IFormatBinarySerializer<List<Ammo>> ammoBinarySerializer
 ) : IRequestHandler<DeserializeAmmoCommand, AmmoView>
 {
     public async Task<AmmoView> Handle(DeserializeAmmoCommand request, CancellationToken cancellationToken)

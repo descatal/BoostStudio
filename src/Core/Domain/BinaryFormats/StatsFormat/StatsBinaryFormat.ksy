@@ -130,7 +130,7 @@ types:
         type: u4
         enum: properties_enum
       property_value:
-        pos: (value_chunk_pointer) + (set_index * property_count) + (index * 4)
+        pos: (value_chunk_pointer) + (set_index * property_count * 4) + (index * 4)
         type:
           switch-on: property_type
           cases:
@@ -160,10 +160,10 @@ enums:
     0xDBBEFF25: gravity_multiplier_land
     0x6B46FBE2: unk_56
     0xEF5DB298: unk_60
-    0xBC682CAB: 
+    0xBC682CAB:
       id: unk_64
-      doc: It was noted as curve beam speed, but not 100% sure what it is  
-    0xBB752069: 
+      doc: It was noted as curve beam speed, but not 100% sure what it is
+    0xBB752069:
       id: unk_68
       doc: Also related to curve beam speed above
     0x4EA45799:
@@ -182,7 +182,7 @@ enums:
     0x807BB9B7: unk_108
     0x25C84010: size_multiplier
     0x1EFF2B0E: unk_116
-    0x63C85750: 
+    0x63C85750:
       id: unk_120
       doc: Related to landing touch down, set it to 0 will never land
     0x548E6151: unk_124
@@ -203,10 +203,10 @@ enums:
     0x2F29B476: unk_184
     0xD94F31E8: red_lock_range_melee
     0x526F7318: red_lock_range
-    0x1837F91C: 
+    0x1837F91C:
       id: unk_196
       doc: Related to red lock range
-    0xC11B6424: 
+    0xC11B6424:
       id: unk_200
       doc: Related to red lock range
     0xA858CE56: unk_204
@@ -233,12 +233,12 @@ enums:
     0xD73777F8: boost_non_vernier_action_consumption
     0x3E18EEDE: boost_post_action_consumption
     0xA449D488: boost_rainbow_step_initial_consumption
-    0x15D48179: 
+    0x15D48179:
       id: unk_292
       doc: Related to boost consumption
     0xAEDA0E89:
       id: unk_296
-      doc: Related to boost consumption 
+      doc: Related to boost consumption
     0x2CB1FF0F:
       id: unk_300
       doc: Related to boost consumption
@@ -294,24 +294,24 @@ enums:
     0x7246A834:
       id: unk_428
       doc: Related to blast burst
-    0x96900F88: 
+    0x96900F88:
       id: unk_432
       doc: Related to blast burst
     0x93DF0931: blast_burst_damage_dealt_burst_gauge_increase_multiplier
     0xBD8C1DB2: blast_burst_damage_taken_burst_gauge_increase_multiplier
-    0xCB44FD01: 
+    0xCB44FD01:
       id: unk_444
       doc: Related to blast burst
-    0x30828866: 
+    0x30828866:
       id: unk_448
       doc: Related to blast burst
-    0xC4B9C065: 
+    0xC4B9C065:
       id: unk_452
       doc: Related to blast burst
-    0xE8F8ABF1: 
+    0xE8F8ABF1:
       id: unk_456
       doc: Related to blast burst
-    0x3D74D196: 
+    0x3D74D196:
       id: unk_460
       doc: Related to blast burst
     0xB196FF51: third_burst_red_lock_melee
@@ -321,27 +321,27 @@ enums:
     0x9C4F0A8A: third_burst_mobility_multiplier
     0x2FC716C9: third_burst_down_value_dealt_multiplier
     0x6B97DED5: third_burst_boost_consumption_multiplier
-    0x955B0EA3: 
+    0x955B0EA3:
       id: unk_492
       doc: Related to third burst
-    0x17B56AAF: 
+    0x17B56AAF:
       id: unk_496
       doc: Related to third burst
     0x06AFDDA4: third_burst_damage_dealt_burst_gauge_increase_multiplier
     0x1CB5995C: third_burst_damage_taken_burst_gauge_increase_multiplier
-    0xDC6C99C1: 
+    0xDC6C99C1:
       id: unk_508
       doc: Related to third burst
-    0x27AAECA6: 
+    0x27AAECA6:
       id: unk_512
       doc: Related to third burst
-    0xA1DEFB23: 
+    0xA1DEFB23:
       id: unk_516
       doc: Related to third burst
-    0xFFD0CF31: 
+    0xFFD0CF31:
       id: unk_520
       doc: Related to third burst
-    0x5813EAD0: 
+    0x5813EAD0:
       id: unk_524
       doc: Related to third burst
     0x9872A871: fourth_burst_red_lock_melee
@@ -351,27 +351,27 @@ enums:
     0x778726A3: fourth_burst_mobility_multiplier
     0xAEA5ADC9: fourth_burst_down_value_dealt_multiplier
     0x372435B3: fourth_burst_boost_consumption_multiplier
-    0x9124A5C1: 
+    0x9124A5C1:
       id: unk_572
       doc: Related to fourth burst
-    0x4B0681C9: 
+    0x4B0681C9:
       id: unk_576
       doc: Related to fourth burst
     0xAECA6071: fourth_burst_damage_dealt_burst_gauge_increase_multiplier
     0x6D82D38C: fourth_burst_damage_taken_burst_gauge_increase_multiplier
-    0xA540F511: 
+    0xA540F511:
       id: unk_588
       doc: Related to fourth burst
-    0x5E868076: 
+    0x5E868076:
       id: unk_592
       doc: Related to fourth burst
-    0x7A39B6B3: 
+    0x7A39B6B3:
       id: unk_596
       doc: Related to fourth burst
-    0x86FCA3E1: 
+    0x86FCA3E1:
       id: unk_600
       doc: Related to fourth burst
-    0x83F4A740: 
+    0x83F4A740:
       id: unk_604
       doc: Related to fourth burst
     0xC74FAFAE: unk_608

@@ -1,6 +1,6 @@
-﻿namespace BoostStudio.Application.Exvs.UnitStats.Commands.Models;
+﻿namespace BoostStudio.Application.Contracts.Stats;
 
-public class StatDto
+public record StatDto
 {
     public int UnitCost { get; set; }
     public int UnitCost2 { get; set; }
@@ -125,7 +125,7 @@ public class StatDto
     public float ThirdBurstMobilityMultiplier { get; set; }
     public float ThirdBurstDownValueDealtMultiplier { get; set; }
     public float ThirdBurstBoostConsumptionMultiplier { get; set; }
-    public float Unk492 { get; set; }
+    public int Unk492 { get; set; }
     public int Unk496 { get; set; }
     public float ThirdBurstDamageDealtBurstGaugeIncreaseMultiplier { get; set; }
     public float ThirdBurstDamageTakenBurstGaugeIncreaseMultiplier { get; set; }

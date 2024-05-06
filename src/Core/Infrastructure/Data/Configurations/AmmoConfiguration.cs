@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Unit;
+﻿using BoostStudio.Domain.Entities.Unit.Ammo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +8,6 @@ public class AmmoConfiguration : IEntityTypeConfiguration<Ammo>
 {
     public void Configure(EntityTypeBuilder<Ammo> builder)
     {
-        builder.Ignore(t => t.Id);
-        builder.HasKey(t => t.Hash);
+        builder.HasAlternateKey(ammo => ammo.Hash);
     }
 }
