@@ -1,5 +1,4 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Exvs.Ammo.Mappers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +22,6 @@ public class ImportAmmoCommandHandler(
             .Where(ammo => deserializedAmmoHashes.Contains(ammo.Hash))
             .ToDictionaryAsync(ammo => ammo.Hash, cancellationToken);
 
-        var ammoMapper = new AmmoMapper();
         foreach (var deserializedAmmo in deserializedAmmoList)
         {
             if (existingAmmo.TryGetValue(deserializedAmmo.Hash, out var queriedAmmo))

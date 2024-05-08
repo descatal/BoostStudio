@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Exvs.Ammo.Models;
-using AmmoMapper=BoostStudio.Application.Exvs.Ammo.Mappers.AmmoMapper;
+using BoostStudio.Application.Contracts.Ammo;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Formats.AmmoFormat.Commands;
 

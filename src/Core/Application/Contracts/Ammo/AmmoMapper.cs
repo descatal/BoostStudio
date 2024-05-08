@@ -1,18 +1,16 @@
-﻿using BoostStudio.Application.Exvs.Ammo.Commands;
-using BoostStudio.Application.Exvs.Ammo.Models;
-using BoostStudio.Formats;
+﻿using BoostStudio.Formats;
 using Riok.Mapperly.Abstractions;
 
-namespace BoostStudio.Application.Exvs.Ammo.Mappers;
+namespace BoostStudio.Application.Contracts.Ammo;
 
 [Mapper]
 public partial class AmmoMapper
 {
     public partial Domain.Entities.Unit.Ammo.Ammo AmmoToAmmo(Domain.Entities.Unit.Ammo.Ammo ammo);
     
-    public partial Domain.Entities.Unit.Ammo.Ammo CreateAmmoDtoToAmmo(CreateAmmoDto createAmmoCommand);
+    public partial Domain.Entities.Unit.Ammo.Ammo AmmoDtoToAmmo(AmmoDto createAmmoCommand);
  
-    public partial List<Domain.Entities.Unit.Ammo.Ammo> CreateAmmoDtoToAmmo(List<CreateAmmoDto> createAmmoCommand);
+    public partial List<Domain.Entities.Unit.Ammo.Ammo> AmmoDtoToAmmo(List<AmmoDto> createAmmoCommand);
     
     public partial AmmoDto AmmoToAmmoDto(Domain.Entities.Unit.Ammo.Ammo ammo);
     
@@ -25,7 +23,6 @@ public partial class AmmoMapper
             var ammo = AmmoPropertiesBodyToAmmo(ammoBody.AmmoProperties);
             ammo.Hash = ammoBody.Hash;
             return ammo;
-            return new Domain.Entities.Unit.Ammo.Ammo();
         }).ToList();
     }
 }

@@ -4,7 +4,7 @@ using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;
-using AmmoMapper=BoostStudio.Application.Exvs.Ammo.Mappers.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Infrastructure.Formats.AmmoFormat;
 
@@ -69,7 +69,7 @@ public class AmmoBinarySerializer : IFormatBinarySerializer<List<Ammo>>
 
         return fileStream.ToByteArray();
     }
-    
+
     public Task<List<Ammo>> DeserializeAsync(Stream data, CancellationToken cancellationToken)
     {
         var kaitaiStream = new KaitaiStream(data);

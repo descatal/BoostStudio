@@ -2,9 +2,9 @@
 using System.IO.Hashing;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Exvs.Ammo.Mappers;
-using BoostStudio.Application.Exvs.Ammo.Models;
+using BoostStudio.Application.Contracts.Ammo;
 using Microsoft.Extensions.Logging;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Commands;
 
@@ -23,8 +23,8 @@ public class BulkCreateAmmoCommandHandler(
         });
         
         var mapper = new AmmoMapper();
-        var ammo = mapper.CreateAmmoDtoToAmmo(request.Ammo);
-        await applicationDbContext.Ammo.AddRangeAsync(ammo, cancellationToken);
-        await applicationDbContext.SaveChangesAsync(cancellationToken);
+        // var ammo = mapper.AmmoDtoToAmmo(request.Ammo);
+        // await applicationDbContext.Ammo.AddRangeAsync(ammo, cancellationToken);
+        // await applicationDbContext.SaveChangesAsync(cancellationToken);
     }
 }

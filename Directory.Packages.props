@@ -30,6 +30,7 @@
     <PackageVersion Include="nunit" Version="3.14.0" />
     <PackageVersion Include="NUnit.Analyzers" Version="3.9.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageVersion Include="OneOf" Version="3.0.263" />
     <PackageVersion Include="Reloaded.Memory" Version="9.4.1" />
     <PackageVersion Include="Respawn" Version="6.1.0" />
     <PackageVersion Include="Riok.Mapperly" Version="3.5.0" />

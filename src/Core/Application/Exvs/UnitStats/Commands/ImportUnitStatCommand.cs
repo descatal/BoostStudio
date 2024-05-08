@@ -1,4 +1,5 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Common.Interfaces.Formats;
 using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace BoostStudio.Application.Exvs.UnitStats.Commands;
 public record ImportUnitStatCommand(Stream[] Files) : IRequest;
 
 public class ImportUnitStatCommandHandler(
-    IFormatBinarySerializer<StatsBinaryFormat> statBinarySerializer,
+    IUnitStatBinarySerializer statBinarySerializer,
     IApplicationDbContext applicationDbContext,
     ILogger<ImportUnitStatCommandHandler> logger
 ) : IRequestHandler<ImportUnitStatCommand>
@@ -19,6 +20,12 @@ public class ImportUnitStatCommandHandler(
         foreach (var fileStream in command.Files)
         {
             var statsBinaryFormat = await statBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
+
+            var unit = await applicationDbContext.Units
+                .FirstOrDefaultAsync(unitStat =>unitStat.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
+            
+            if (unit is null)
+                continue;
             
             var entity = await applicationDbContext.UnitStats
                 .Include(unitStat => unitStat.AmmoSlots)
@@ -51,6 +58,9 @@ public class ImportUnitStatCommandHandler(
         entity.Ammo = [];
         applicationDbContext.Stats.RemoveRange(entity.Stats);
         
+        // Optionally retain the file magic info
+        entity.FileSignature = statsBinaryFormat.Magic;
+        
         // Ammo
         var ammoHashes = statsBinaryFormat.AmmoHashes.Hashes;
         if (ammoHashes is not null)
@@ -60,8 +70,12 @@ public class ImportUnitStatCommandHandler(
                 .ToListAsync(cancellationToken);
 
             // Maintaining the order is important
-            var queriedAmmoIds = queriedAmmo.Select(ammo => ammo.Id).ToList();
-            entity.Ammo = queriedAmmo.OrderBy(ammo => queriedAmmoIds.IndexOf(ammo.Id)).ToList();
+            var ammoHashOrder = statsBinaryFormat.AmmoHashes.Hashes.ToList();
+            queriedAmmo.ForEach(ammo =>
+            {
+                ammo.Order = ammoHashOrder.IndexOf(ammo.Hash);
+            });
+            entity.Ammo = queriedAmmo;
         }
         
         // Ammo Slots

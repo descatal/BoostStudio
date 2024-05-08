@@ -32,7 +32,8 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    GameUnitId = table.Column<uint>(type: "INTEGER", nullable: false)
+                    GameUnitId = table.Column<uint>(type: "INTEGER", nullable: false),
+                    FileSignature = table.Column<uint>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,6 +84,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     MaxChargeLevel = table.Column<uint>(type: "INTEGER", nullable: false),
                     Unk124 = table.Column<uint>(type: "INTEGER", nullable: false),
                     Unk128 = table.Column<uint>(type: "INTEGER", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
                     UnitStatId = table.Column<Guid>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>

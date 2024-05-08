@@ -1,4 +1,4 @@
-﻿namespace BoostStudio.Application.Exvs.Ammo.Models;
+﻿namespace BoostStudio.Application.Contracts.Ammo;
 
 public record AmmoDto
 {

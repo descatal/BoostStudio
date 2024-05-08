@@ -12,6 +12,7 @@
     <PackageReference Include="KaitaiStruct.Runtime.CSharp"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="OneOf" />
     <PackageReference Include="Reloaded.Memory" />
     <PackageReference Include="Riok.Mapperly" />
     <PackageReference Include="System.IO.Hashing" />

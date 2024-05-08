@@ -1,8 +1,8 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Exvs.Ammo.Models;
+using BoostStudio.Application.Contracts.Ammo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using AmmoMapper=BoostStudio.Application.Exvs.Ammo.Mappers.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Queries;
 

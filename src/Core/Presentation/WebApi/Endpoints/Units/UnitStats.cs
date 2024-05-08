@@ -1,6 +1,5 @@
-﻿using BoostStudio.Application.Contracts.Stats;
+﻿using System.Net.Mime;
 using BoostStudio.Application.Exvs.UnitStats.Commands;
-using BoostStudio.Application.Exvs.UnitStats.Commands.Serializations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints.Units;
@@ -13,12 +12,12 @@ public class UnitStats : EndpointGroupBase
             .MapPost(CreateUnitStat)
             .MapPost(UpdateUnitStat, "{id}")
             .MapPost(ImportUnitStat, "import")
-            .MapGet(DeserializeUnitStat);
+            .MapPost(ExportUnitStat, "export");
     }
     
-    private static async Task CreateUnitStat(ISender sender, CreateUnitStatCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> CreateUnitStat(ISender sender, CreateUnitStatCommand command, CancellationToken cancellationToken)
     {
-        await sender.Send(command, cancellationToken);
+        return Results.Ok(await sender.Send(command, cancellationToken));
     }
     
     private static async Task<IResult> UpdateUnitStat(ISender sender, Guid id, UpdateUnitStatCommand command, CancellationToken cancellationToken)
@@ -28,14 +27,6 @@ public class UnitStats : EndpointGroupBase
         return Results.NoContent();
     }
     
-    private static async Task<StatsView> DeserializeUnitStat(
-        ISender sender, 
-        [AsParameters] DeserializeUnitStatCommand command, 
-        CancellationToken cancellationToken)
-    {
-        return await sender.Send(command, cancellationToken);
-    }
-    
     private static async Task ImportUnitStat(ISender sender, [FromForm] IFormFileCollection files, CancellationToken cancellationToken)
     {
         var fileStreams = files.Select(formFile => formFile.OpenReadStream()).ToArray();
@@ -43,6 +34,12 @@ public class UnitStats : EndpointGroupBase
 
         foreach (var fileStream in fileStreams)
             await fileStream.DisposeAsync();
+    }
+    
+    private static async Task<IResult> ExportUnitStat(ISender sender, ExportUnitStatCommand command, CancellationToken cancellationToken)
+    {
+        var fileInfo = await sender.Send(command, cancellationToken);
+        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
 }
 

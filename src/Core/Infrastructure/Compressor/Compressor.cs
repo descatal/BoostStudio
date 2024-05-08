@@ -4,11 +4,39 @@ using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Models;
 using SharpCompress.Common;
 using SharpCompress.Readers;
+using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Infrastructure.Compressor;
 
 public class Compressor : ICompressor
 {
+    public async Task<byte[]> CompressAsync(List<FileInfo> files, CompressionFormats compressionFormat, CancellationToken cancellationToken)
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(workingDirectory);
+
+        foreach (var fileInfo in files)
+        {
+            var filePath = Path.Combine(workingDirectory, fileInfo.FileName);
+            await File.WriteAllBytesAsync(filePath, fileInfo.Data, cancellationToken);
+        }
+        
+        try
+        {
+            return compressionFormat switch
+            {
+                CompressionFormats.Zip => await CompressZipAsync(workingDirectory, cancellationToken: cancellationToken),
+                CompressionFormats.Tar => await CompressTarAsync(workingDirectory, cancellationToken: cancellationToken),
+                _ => await CompressZipAsync(workingDirectory, cancellationToken: cancellationToken)
+            };
+        }
+        finally
+        {
+            // Will still throw exception, just want to make sure the directory is cleaned
+            Directory.Delete(workingDirectory, true);
+        }
+    }
+    
     public Task<byte[]> CompressAsync(string sourceDirectory, CompressionFormats compressionFormat, CancellationToken cancellationToken)
     {
         return compressionFormat switch

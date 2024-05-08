@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Common.Interfaces.Formats;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
@@ -63,7 +64,8 @@ public static class DependencyInjection
         services.AddTransient<IFormatBinarySerializer<Fhm>, FhmBinarySerializer>();
         services.AddTransient<IFormatBinarySerializer<Tbl>, TblBinarySerializer>();
         services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
-        services.AddTransient<IFormatBinarySerializer<StatsBinaryFormat>, UnitStatBinarySerializer>();
+        
+        services.AddTransient<IUnitStatBinarySerializer, UnitStatBinarySerializer>();
         
         services.AddSingleton<IFhmPacker, FhmPacker>();
         services.AddSingleton<IPsarcPacker, PsarcPacker>();

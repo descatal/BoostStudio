@@ -97,7 +97,7 @@ public record StatDto
     public int Unk368 { get; set; }
     public float AssaultBurstDamageDealtBurstGaugeIncreaseMultiplier { get; set; }
     public float AssaultBurstDamageTakenBurstGaugeIncreaseMultiplier { get; set; }
-    public int Unk380 { get; set; }
+    public float Unk380 { get; set; }
     public float Unk384 { get; set; }
     public float Unk388 { get; set; }
     public float Unk392 { get; set; }

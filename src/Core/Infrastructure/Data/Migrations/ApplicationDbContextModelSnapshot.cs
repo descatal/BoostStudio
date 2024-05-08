@@ -127,6 +127,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.Property<uint>("Unk88")
                         .HasColumnType("INTEGER");
+                    
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -608,6 +611,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<uint>("GameUnitId")
+                        .HasColumnType("INTEGER");
+                    
+                    b.Property<uint>("FileSignature")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")

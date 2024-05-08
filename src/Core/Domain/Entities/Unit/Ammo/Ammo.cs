@@ -38,6 +38,8 @@ public class Ammo : BaseEntity<Guid>
     public uint Unk128 { get; set; }
     
     // Optional navigation, can be used to assign this ammo to a UnitStat entry
+    public int Order { get; set; }
+    
     public Guid? UnitStatId { get; set; }
 
     public UnitStat? UnitStat { get; set; }

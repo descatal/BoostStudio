@@ -1,5 +1,5 @@
-﻿using BoostStudio.Application.Contracts.Stats;
-using BoostStudio.Application.Exvs.Ammo.Models;
+﻿using BoostStudio.Application.Contracts.Ammo;
+using BoostStudio.Application.Contracts.Stats;
 
 namespace BoostStudio.Application.Contracts.Units;
 

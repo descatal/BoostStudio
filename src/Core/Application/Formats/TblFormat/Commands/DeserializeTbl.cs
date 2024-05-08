@@ -15,16 +15,13 @@ public record DeserializeTbl(byte[] File) : IRequest<TblMetadata>
 
 public class DeserializeTblCommandHandler(
     IFormatBinarySerializer<Tbl> formatBinarySerializer,
-    ITblMetadataSerializer tblMetadataSerializer)
-    : IRequestHandler<DeserializeTbl, TblMetadata>
+    ITblMetadataSerializer tblMetadataSerializer
+) : IRequestHandler<DeserializeTbl, TblMetadata>
 {
-    private readonly IFormatBinarySerializer<Tbl> _formatBinarySerializer = formatBinarySerializer;
-    private readonly ITblMetadataSerializer _tblMetadataSerializer = tblMetadataSerializer;
-
     public async Task<TblMetadata> Handle(DeserializeTbl request, CancellationToken cancellationToken)
     {
         await using var fileStream = new MemoryStream(request.File);
-        var tbl = await _formatBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
-        return await _tblMetadataSerializer.SerializeAsync(tbl, cancellationToken);
+        var tbl = await formatBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
+        return await tblMetadataSerializer.SerializeAsync(tbl, cancellationToken);
     }
 }
