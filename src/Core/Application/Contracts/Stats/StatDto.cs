@@ -2,6 +2,7 @@
 
 public record StatDto
 {
+    public string Id { get; set; } = Guid.Empty.ToString();
     public int UnitCost { get; set; }
     public int UnitCost2 { get; set; }
     public int MaxHp { get; set; }
@@ -97,7 +98,7 @@ public record StatDto
     public int Unk368 { get; set; }
     public float AssaultBurstDamageDealtBurstGaugeIncreaseMultiplier { get; set; }
     public float AssaultBurstDamageTakenBurstGaugeIncreaseMultiplier { get; set; }
-    public float Unk380 { get; set; }
+    public int Unk380 { get; set; }
     public float Unk384 { get; set; }
     public float Unk388 { get; set; }
     public float Unk392 { get; set; }
@@ -151,4 +152,5 @@ public record StatDto
     public float Unk600 { get; set; }
     public float Unk604 { get; set; }
     public int Unk608 { get; set; }
+    public int Order { get; set; }
 }

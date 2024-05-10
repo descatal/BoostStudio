@@ -9,7 +9,7 @@ seq:
     type: s4
   - id: unk_8
     type: u4
-  - id: unk_c
+  - id: unk_12
     type: u4
   - id: ammo_count
     type: s4
@@ -48,7 +48,7 @@ types:
         type: u4
       - id: timed_duration_frame
         type: u4
-      - id: unk_10
+      - id: unk_16
         type: u4
       - id: reload_type
         type: u4
@@ -60,11 +60,11 @@ types:
         type: u4
       - id: blast_burst_reload_duration_frame
         type: u4
-      - id: unk_28
+      - id: unk_40
         type: u4
-      - id: unk_2c
+      - id: unk_44
         type: u4
-      - id: inactive_unk_30
+      - id: inactive_unk_48
         type: u4
       - id: inactive_cooldown_duration_frame
         type: u4
@@ -74,17 +74,17 @@ types:
         type: u4
       - id: inactive_blast_burst_reload_duration_frame
         type: u4
-      - id: inactive_unk_44
+      - id: inactive_unk_68
         type: u4
-      - id: inactive_unk_48
+      - id: inactive_unk_72
         type: u4
       - id: burst_replenish
         type: u4
-      - id: unk_50
+      - id: unk_80
         type: u4
-      - id: unk_54
+      - id: unk_84
         type: u4
-      - id: unk_58
+      - id: unk_88
         type: u4
       - id: charge_input
         type: u4
@@ -94,15 +94,15 @@ types:
         type: u4
       - id: blast_burst_charge_duration_frame
         type: u4
-      - id: unk_6c
+      - id: unk_108
         type: u4
-      - id: unk_70
+      - id: unk_112
         type: u4
       - id: release_charge_linger_duration_frame
         type: u4
       - id: max_charge_level
         type: u4
-      - id: unk_7c
+      - id: unk_124
         type: u4
-      - id: unk_80
+      - id: unk_128
         type: u4

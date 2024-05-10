@@ -32,7 +32,7 @@ public class ImportAmmoCommandHandler(
 
             applicationDbContext.Ammo.Add(deserializedAmmo);
         }
-
+        
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }
 }

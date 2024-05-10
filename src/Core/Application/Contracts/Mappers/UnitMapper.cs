@@ -1,7 +1,8 @@
-﻿using Riok.Mapperly.Abstractions;
+﻿using BoostStudio.Application.Contracts.Units;
+using Riok.Mapperly.Abstractions;
 using Unit = BoostStudio.Domain.Entities.Unit.Unit;
 
-namespace BoostStudio.Application.Contracts.Units;
+namespace BoostStudio.Application.Contracts.Mappers;
 
 [Mapper]
 public partial class UnitMapper

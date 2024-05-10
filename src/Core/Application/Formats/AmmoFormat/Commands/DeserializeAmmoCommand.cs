@@ -1,16 +1,16 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Ammo;
-using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
 
 namespace BoostStudio.Application.Formats.AmmoFormat.Commands;
 
-public record DeserializeAmmoCommand(string SourceFilePath) : IRequest<AmmoView>;
+public record DeserializeAmmoCommand(string SourceFilePath) : IRequest<List<AmmoDto>>;
 
 public class DeserializeTblCommandHandler(
     IFormatBinarySerializer<List<Ammo>> ammoBinarySerializer
-) : IRequestHandler<DeserializeAmmoCommand, AmmoView>
+) : IRequestHandler<DeserializeAmmoCommand, List<AmmoDto>>
 {
-    public async Task<AmmoView> Handle(DeserializeAmmoCommand request, CancellationToken cancellationToken)
+    public async Task<List<AmmoDto>> Handle(DeserializeAmmoCommand request, CancellationToken cancellationToken)
     {
         var fileContent = await File.ReadAllBytesAsync(request.SourceFilePath, cancellationToken);
         
@@ -19,6 +19,6 @@ public class DeserializeTblCommandHandler(
 
         var mapper = new AmmoMapper();
         var ammoDto = deserializedAmmo.Select(ammo => mapper.AmmoToAmmoDto(ammo)).ToList();
-        return new AmmoView(ammoDto);
+        return ammoDto;
     }
 }

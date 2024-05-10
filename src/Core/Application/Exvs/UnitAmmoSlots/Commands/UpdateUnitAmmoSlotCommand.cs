@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
 
-public record UpdateUnitAmmoSlotCommand(Guid Id, uint AmmoHash, Guid UnitStatId) : IRequest;
+public record UnitAmmoSlotDetails(int? SlotOrder = null, uint? AmmoHash = null, Guid? UnitStatId = null);
+
+public record UpdateUnitAmmoSlotCommand(Guid Id, UnitAmmoSlotDetails Details) : IRequest;
 
 public class UpdateUnitAmmoSlotCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -16,8 +18,15 @@ public class UpdateUnitAmmoSlotCommandHandler(
             .FirstOrDefaultAsync(statSet => statSet.Id == command.Id, cancellationToken: cancellationToken);
         Guard.Against.NotFound(command.Id, existingEntity);
         
-        existingEntity.AmmoHash = command.AmmoHash; 
-        existingEntity.UnitStatId = command.UnitStatId; 
+        if (command.Details.SlotOrder is not null)
+            existingEntity.SlotOrder = command.Details.SlotOrder.Value; 
+        
+        if (command.Details.AmmoHash is not null)
+            existingEntity.AmmoHash = command.Details.AmmoHash.Value; 
+        
+        if (command.Details.UnitStatId is not null)
+            existingEntity.UnitStatId = command.Details.UnitStatId.Value; 
+        
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }
 }

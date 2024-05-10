@@ -33,7 +33,7 @@ namespace BoostStudio.Formats
             }
             _propertyCount = m_io.ReadS4be();
             _unk8 = m_io.ReadU4be();
-            _unkC = m_io.ReadU4be();
+            _unk12 = m_io.ReadU4be();
             _ammoCount = m_io.ReadS4be();
         }
         public partial class AmmoBody : KaitaiStruct
@@ -174,69 +174,69 @@ namespace BoostStudio.Formats
                 _maxAmmo = m_io.ReadU4be();
                 _initialAmmo = m_io.ReadU4be();
                 _timedDurationFrame = m_io.ReadU4be();
-                _unk10 = m_io.ReadU4be();
+                _unk16 = m_io.ReadU4be();
                 _reloadType = m_io.ReadU4be();
                 _cooldownDurationFrame = m_io.ReadU4be();
                 _reloadDurationFrame = m_io.ReadU4be();
                 _assaultBurstReloadDurationFrame = m_io.ReadU4be();
                 _blastBurstReloadDurationFrame = m_io.ReadU4be();
-                _unk28 = m_io.ReadU4be();
-                _unk2c = m_io.ReadU4be();
-                _inactiveUnk30 = m_io.ReadU4be();
+                _unk40 = m_io.ReadU4be();
+                _unk44 = m_io.ReadU4be();
+                _inactiveUnk48 = m_io.ReadU4be();
                 _inactiveCooldownDurationFrame = m_io.ReadU4be();
                 _inactiveReloadDurationFrame = m_io.ReadU4be();
                 _inactiveAssaultBurstReloadDurationFrame = m_io.ReadU4be();
                 _inactiveBlastBurstReloadDurationFrame = m_io.ReadU4be();
-                _inactiveUnk44 = m_io.ReadU4be();
-                _inactiveUnk48 = m_io.ReadU4be();
+                _inactiveUnk68 = m_io.ReadU4be();
+                _inactiveUnk72 = m_io.ReadU4be();
                 _burstReplenish = m_io.ReadU4be();
-                _unk50 = m_io.ReadU4be();
-                _unk54 = m_io.ReadU4be();
-                _unk58 = m_io.ReadU4be();
+                _unk80 = m_io.ReadU4be();
+                _unk84 = m_io.ReadU4be();
+                _unk88 = m_io.ReadU4be();
                 _chargeInput = m_io.ReadU4be();
                 _chargeDurationFrame = m_io.ReadU4be();
                 _assaultBurstChargeDurationFrame = m_io.ReadU4be();
                 _blastBurstChargeDurationFrame = m_io.ReadU4be();
-                _unk6c = m_io.ReadU4be();
-                _unk70 = m_io.ReadU4be();
+                _unk108 = m_io.ReadU4be();
+                _unk112 = m_io.ReadU4be();
                 _releaseChargeLingerDurationFrame = m_io.ReadU4be();
                 _maxChargeLevel = m_io.ReadU4be();
-                _unk7c = m_io.ReadU4be();
-                _unk80 = m_io.ReadU4be();
+                _unk124 = m_io.ReadU4be();
+                _unk128 = m_io.ReadU4be();
             }
             private uint _ammoType;
             private uint _maxAmmo;
             private uint _initialAmmo;
             private uint _timedDurationFrame;
-            private uint _unk10;
+            private uint _unk16;
             private uint _reloadType;
             private uint _cooldownDurationFrame;
             private uint _reloadDurationFrame;
             private uint _assaultBurstReloadDurationFrame;
             private uint _blastBurstReloadDurationFrame;
-            private uint _unk28;
-            private uint _unk2c;
-            private uint _inactiveUnk30;
+            private uint _unk40;
+            private uint _unk44;
+            private uint _inactiveUnk48;
             private uint _inactiveCooldownDurationFrame;
             private uint _inactiveReloadDurationFrame;
             private uint _inactiveAssaultBurstReloadDurationFrame;
             private uint _inactiveBlastBurstReloadDurationFrame;
-            private uint _inactiveUnk44;
-            private uint _inactiveUnk48;
+            private uint _inactiveUnk68;
+            private uint _inactiveUnk72;
             private uint _burstReplenish;
-            private uint _unk50;
-            private uint _unk54;
-            private uint _unk58;
+            private uint _unk80;
+            private uint _unk84;
+            private uint _unk88;
             private uint _chargeInput;
             private uint _chargeDurationFrame;
             private uint _assaultBurstChargeDurationFrame;
             private uint _blastBurstChargeDurationFrame;
-            private uint _unk6c;
-            private uint _unk70;
+            private uint _unk108;
+            private uint _unk112;
             private uint _releaseChargeLingerDurationFrame;
             private uint _maxChargeLevel;
-            private uint _unk7c;
-            private uint _unk80;
+            private uint _unk124;
+            private uint _unk128;
             private AmmoBinaryFormat m_root;
             private AmmoBinaryFormat.AmmoBody m_parent;
             public uint AmmoType
@@ -275,13 +275,13 @@ namespace BoostStudio.Formats
                     _timedDurationFrame = value;
                 }
             }
-            public uint Unk10
+            public uint Unk16
             {
-                get { return _unk10; }
+                get { return _unk16; }
 
                 set
                 {
-                    _unk10 = value;
+                    _unk16 = value;
                 }
             }
             public uint ReloadType
@@ -329,31 +329,31 @@ namespace BoostStudio.Formats
                     _blastBurstReloadDurationFrame = value;
                 }
             }
-            public uint Unk28
+            public uint Unk40
             {
-                get { return _unk28; }
+                get { return _unk40; }
 
                 set
                 {
-                    _unk28 = value;
+                    _unk40 = value;
                 }
             }
-            public uint Unk2c
+            public uint Unk44
             {
-                get { return _unk2c; }
+                get { return _unk44; }
 
                 set
                 {
-                    _unk2c = value;
+                    _unk44 = value;
                 }
             }
-            public uint InactiveUnk30
+            public uint InactiveUnk48
             {
-                get { return _inactiveUnk30; }
+                get { return _inactiveUnk48; }
 
                 set
                 {
-                    _inactiveUnk30 = value;
+                    _inactiveUnk48 = value;
                 }
             }
             public uint InactiveCooldownDurationFrame
@@ -392,22 +392,22 @@ namespace BoostStudio.Formats
                     _inactiveBlastBurstReloadDurationFrame = value;
                 }
             }
-            public uint InactiveUnk44
+            public uint InactiveUnk68
             {
-                get { return _inactiveUnk44; }
+                get { return _inactiveUnk68; }
 
                 set
                 {
-                    _inactiveUnk44 = value;
+                    _inactiveUnk68 = value;
                 }
             }
-            public uint InactiveUnk48
+            public uint InactiveUnk72
             {
-                get { return _inactiveUnk48; }
+                get { return _inactiveUnk72; }
 
                 set
                 {
-                    _inactiveUnk48 = value;
+                    _inactiveUnk72 = value;
                 }
             }
             public uint BurstReplenish
@@ -419,31 +419,31 @@ namespace BoostStudio.Formats
                     _burstReplenish = value;
                 }
             }
-            public uint Unk50
+            public uint Unk80
             {
-                get { return _unk50; }
+                get { return _unk80; }
 
                 set
                 {
-                    _unk50 = value;
+                    _unk80 = value;
                 }
             }
-            public uint Unk54
+            public uint Unk84
             {
-                get { return _unk54; }
+                get { return _unk84; }
 
                 set
                 {
-                    _unk54 = value;
+                    _unk84 = value;
                 }
             }
-            public uint Unk58
+            public uint Unk88
             {
-                get { return _unk58; }
+                get { return _unk88; }
 
                 set
                 {
-                    _unk58 = value;
+                    _unk88 = value;
                 }
             }
             public uint ChargeInput
@@ -482,22 +482,22 @@ namespace BoostStudio.Formats
                     _blastBurstChargeDurationFrame = value;
                 }
             }
-            public uint Unk6c
+            public uint Unk108
             {
-                get { return _unk6c; }
+                get { return _unk108; }
 
                 set
                 {
-                    _unk6c = value;
+                    _unk108 = value;
                 }
             }
-            public uint Unk70
+            public uint Unk112
             {
-                get { return _unk70; }
+                get { return _unk112; }
 
                 set
                 {
-                    _unk70 = value;
+                    _unk112 = value;
                 }
             }
             public uint ReleaseChargeLingerDurationFrame
@@ -518,22 +518,22 @@ namespace BoostStudio.Formats
                     _maxChargeLevel = value;
                 }
             }
-            public uint Unk7c
+            public uint Unk124
             {
-                get { return _unk7c; }
+                get { return _unk124; }
 
                 set
                 {
-                    _unk7c = value;
+                    _unk124 = value;
                 }
             }
-            public uint Unk80
+            public uint Unk128
             {
-                get { return _unk80; }
+                get { return _unk128; }
 
                 set
                 {
-                    _unk80 = value;
+                    _unk128 = value;
                 }
             }
             public AmmoBinaryFormat M_Root
@@ -580,7 +580,7 @@ namespace BoostStudio.Formats
         private byte[] _fileMagic;
         private int _propertyCount;
         private uint _unk8;
-        private uint _unkC;
+        private uint _unk12;
         private int _ammoCount;
         private AmmoBinaryFormat m_root;
         private KaitaiStruct m_parent;
@@ -611,13 +611,13 @@ namespace BoostStudio.Formats
                 _unk8 = value;
             }
         }
-        public uint UnkC
+        public uint Unk12
         {
-            get { return _unkC; }
+            get { return _unk12; }
 
             set
             {
-                _unkC = value;
+                _unk12 = value;
             }
         }
         public int AmmoCount

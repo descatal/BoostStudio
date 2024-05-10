@@ -2,6 +2,7 @@
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Stats;
 using Microsoft.EntityFrameworkCore;
+using StatMapper=BoostStudio.Application.Contracts.Mappers.StatMapper;
 
 namespace BoostStudio.Application.Exvs.Stats.Commands;
 

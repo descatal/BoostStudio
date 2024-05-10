@@ -2,18 +2,18 @@
 using BoostStudio.Application.Contracts.Ammo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Queries;
 
-public record GetAmmoQuery(long[]? Hashes = null) : IRequest<AmmoView>;
+public record GetAmmoQuery(long[]? Hashes = null) : IRequest<List<AmmoDto>>;
 
 public class GetAmmoHandler(
     IApplicationDbContext applicationDbContext,
     ILogger<GetAmmoHandler> logger
-) : IRequestHandler<GetAmmoQuery, AmmoView>
+) : IRequestHandler<GetAmmoQuery, List<AmmoDto>>
 {
-    public async Task<AmmoView> Handle(GetAmmoQuery request, CancellationToken cancellationToken)
+    public async Task<List<AmmoDto>> Handle(GetAmmoQuery request, CancellationToken cancellationToken)
     {
         var mapper = new AmmoMapper();
         var ammoQueryable = applicationDbContext.Ammo.AsQueryable();
@@ -25,6 +25,6 @@ public class GetAmmoHandler(
             .Select(a => mapper.AmmoToAmmoDto(a))
             .ToListAsync(cancellationToken: cancellationToken);
         
-        return new AmmoView(ammo);
+        return ammo;
     }
 }

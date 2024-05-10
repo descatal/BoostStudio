@@ -4,7 +4,7 @@ using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;
-using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
 
 namespace BoostStudio.Infrastructure.Formats.AmmoFormat;
 
@@ -25,7 +25,7 @@ public class AmmoBinarySerializer : IFormatBinarySerializer<List<Ammo>>
 
         foreach (var ammo in data)
         {
-            ammoHashListStream.WriteUint((uint)ammo.Hash);
+            ammoHashListStream.WriteUint(ammo.Hash);
             ammoPropertiesStream.WriteUint(ammo.AmmoType);
             ammoPropertiesStream.WriteUint(ammo.MaxAmmo);
             ammoPropertiesStream.WriteUint(ammo.InitialAmmo);

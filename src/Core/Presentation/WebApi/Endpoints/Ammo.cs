@@ -1,4 +1,5 @@
-﻿using BoostStudio.Application.Contracts.Ammo;
+﻿using System.Net.Mime;
+using BoostStudio.Application.Contracts.Ammo;
 using BoostStudio.Application.Exvs.Ammo.Commands;
 using BoostStudio.Application.Exvs.Ammo.Queries;
 using BoostStudio.Application.Formats.AmmoFormat.Commands;
@@ -14,13 +15,14 @@ public class Ammo : EndpointGroupBase
             .MapGet(GetAmmo)
             .MapPost(CreateAmmo)
             .MapPost(UpdateAmmo, "{hash}")
-            .MapPost(ImportAmmo, "import");
+            .MapPost(ImportAmmo, "import")
+            .MapPost(ExportAmmo, "export");
             // .MapPost(BulkCreateAmmo, "bulk")
             // .MapGet(SerializeAmmo, "serialize-path")
             // .MapGet(DeserializeAmmo, "deserialize-path")
     }
     
-    private static async Task<AmmoView> GetAmmo(ISender sender, [AsParameters] GetAmmoQuery request, CancellationToken cancellationToken)
+    private static async Task<List<AmmoDto>> GetAmmo(ISender sender, [AsParameters] GetAmmoQuery request, CancellationToken cancellationToken)
     {
         return await sender.Send(request, cancellationToken);
     }
@@ -31,16 +33,10 @@ public class Ammo : EndpointGroupBase
         return Results.Created();
     }
     
-    private static async Task<IResult> UpdateAmmo(ISender sender, uint hash, UpdateAmmoCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> UpdateAmmo(ISender sender, uint hash, AmmoDetails details, CancellationToken cancellationToken)
     {
-        if (hash != command.AmmoHash) return Results.BadRequest();
-        await sender.Send(command, cancellationToken);
+        await sender.Send(new UpdateAmmoCommand(hash, details), cancellationToken);
         return Results.NoContent();
-    }
-    
-    private static async Task BulkCreateAmmo(ISender sender, BulkCreateAmmoCommand request, CancellationToken cancellationToken)
-    {
-        await sender.Send(request, cancellationToken);
     }
     
     private static async Task ImportAmmo(ISender sender, [FromForm] IFormFile formFile, CancellationToken cancellationToken)
@@ -49,13 +45,19 @@ public class Ammo : EndpointGroupBase
         await sender.Send(new ImportAmmoCommand(file), cancellationToken);
     }
     
-    private static async Task SerializeAmmo(ISender sender, [AsParameters] SerializeAmmoCommand request, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportAmmo(ISender sender, CancellationToken cancellationToken)
     {
-        await sender.Send(request, cancellationToken);
+        var fileInfo = await sender.Send(new ExportAmmoCommand(), cancellationToken);
+        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
     
-    private static async Task<AmmoView> DeserializeAmmo(ISender sender, [AsParameters] DeserializeAmmoCommand command, CancellationToken cancellationToken)
-    {
-        return await sender.Send(command, cancellationToken);
-    }
+    // private static async Task SerializeAmmo(ISender sender, [AsParameters] SerializeAmmoCommand request, CancellationToken cancellationToken)
+    // {
+    //     await sender.Send(request, cancellationToken);
+    // }
+    //
+    // private static async Task<AmmoView> DeserializeAmmo(ISender sender, [AsParameters] DeserializeAmmoCommand command, CancellationToken cancellationToken)
+    // {
+    //     return await sender.Send(command, cancellationToken);
+    // }
 }

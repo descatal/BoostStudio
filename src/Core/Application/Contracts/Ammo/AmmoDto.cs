@@ -1,8 +1,12 @@
 ﻿namespace BoostStudio.Application.Contracts.Ammo;
 
-public record AmmoDto
+public record AmmoDto : AmmoDetailsDto
 {
     public long Hash { get; set; }
+}
+
+public record AmmoDetailsDto
+{
     public uint AmmoType { get; set; }
     public uint MaxAmmo { get; set; }
     public uint InitialAmmo { get; set; }
@@ -36,4 +40,5 @@ public record AmmoDto
     public uint MaxChargeLevel { get; set; }
     public uint Unk124 { get; set; }
     public uint Unk128 { get; set; }
+    public int Order { get; set; }
 }
