@@ -1,14 +1,11 @@
-﻿using System.Net.Mime;
-using BoostStudio.Application.Common.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace BoostStudio.Application.Formats.FhmFormat.Commands;
 
 public record UnpackFhmPath(
     string SourceFilePath, 
     string OutputDirectoryPath,
-    bool MultipleFiles, 
-    CompressionFormats CompressionFormat
+    bool MultipleFiles = false
 ) : IRequest;
 
 public class UnpackFhmPathHandler(
@@ -30,7 +27,6 @@ public class UnpackFhmPathHandler(
             : request.OutputDirectoryPath;
 
         var inputBytes = await File.ReadAllBytesAsync(request.SourceFilePath, cancellationToken);
-        var result = await sender.Send(new UnpackFhm(inputBytes, request.MultipleFiles, request.CompressionFormat), cancellationToken);
-        await File.WriteAllBytesAsync(outputDirectory, result, cancellationToken);
+        await sender.Send(new UnpackFhmToDirectory(inputBytes, outputDirectory, request.MultipleFiles), cancellationToken);
     }
 }

@@ -64,7 +64,7 @@ public class FhmPacker : IFhmPacker
         fileBody.FileContent = fhmBody;
         fhm.Body = fileBody;
 
-        var fileSystemEntries = Directory.GetFileSystemEntries(directory, "*", SearchOption.AllDirectories);
+        var fileSystemEntries = Directory.GetFileSystemEntries(directory, "*", SearchOption.TopDirectoryOnly);
 
         fhmBody.Files = [];
         foreach (var fileSystemEntry in fileSystemEntries)

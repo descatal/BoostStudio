@@ -17,7 +17,7 @@ public class FhmBinarySerializer : IFormatBinarySerializer<Fhm>
     public async Task<byte[]> SerializeAsync(Fhm data, CancellationToken cancellationToken)
     {
         if (data.Body?.FileContent is not Fhm.FhmBody fhmBody)
-            return Array.Empty<byte>();
+            return [];
 
         return await SerializeFhmBodyAsync(fhmBody, cancellationToken);
     }
@@ -56,7 +56,6 @@ public class FhmBinarySerializer : IFormatBinarySerializer<Fhm>
                 case Fhm.FhmBody nestedFhmBody:
                     {
                         fileData = await SerializeFhmBodyAsync(nestedFhmBody, cancellationToken);
-                        fileBodyStream.WriteByteArray(fileData);
                         break;
                     }
                 case Fhm.GenericBody genericBody:
@@ -71,24 +70,34 @@ public class FhmBinarySerializer : IFormatBinarySerializer<Fhm>
             }
 
             var originalFileSize = (uint)fileData.Length;
-
-            // Align the file data to 0x10
-            fileData = Binary.AlignByteArray(fileData, 0x10);
-            var alignedFileSize = (uint)fileData.Length;
-
-            offsetStream.WriteUint(currentOffset);
             sizeStream.WriteUint(originalFileSize);
             loadTypeStream.WriteUint((uint)fileBody.AssetLoadType);
             unkTypeStream.WriteUint((uint)fileBody.UnkType);
-
+            
+            // Align the file data to 0x10
+            fileData = Binary.AlignByteArray(fileData, 0x10);
+            
             // Calculate the next offset, based on the aligned file size
             // Fhm files allows us to specify the same pointer for identical files, which can save space while packing
             var md5Hash = Convert.ToHexString(MD5.HashData(fileData));
-            if (!checksumOffsetMap.ContainsKey(md5Hash))
-                currentOffset += alignedFileSize;
-            checksumOffsetMap.Add(md5Hash, currentOffset);
 
+            // If there's already an offset for this md5hash, use it
+            if (checksumOffsetMap.TryGetValue(md5Hash, out long value))
+            {
+                // Early exit since the file is duplicate, we just need to write a pointer reference to it
+                offsetStream.WriteUint((uint)value);
+                continue;
+            }
+            
+            // Only increment the offset and write the file content if it is not a duplicate
+            offsetStream.WriteUint(currentOffset);
             fileBodyStream.WriteByteArray(fileData);
+            
+            // Add the offset and md5hash map since it did not exist before
+            checksumOffsetMap[md5Hash] = currentOffset;
+            
+            // Increment the offset with the aligned file size, the next entry will start with this offset
+            currentOffset += (uint)fileData.Length;
         }
 
         // Concatenate all file metadata streams, then align to 0x10

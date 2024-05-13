@@ -12,7 +12,7 @@ public class TblBinarySerializer : IFormatBinarySerializer<Tbl>
     public Task<Tbl> DeserializeAsync(Stream data, CancellationToken cancellationToken)
     {
         var kaitaiStream = new KaitaiStream(data);
-        var deserializedObject = new Tbl((ushort)data.Length, kaitaiStream);
+        var deserializedObject = new Tbl((uint)data.Length, kaitaiStream);
         return Task.FromResult(deserializedObject);
     }
 

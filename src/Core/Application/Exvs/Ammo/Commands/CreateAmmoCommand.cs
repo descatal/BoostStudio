@@ -8,7 +8,7 @@ using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Commands;
 
-public record CreateAmmoCommand : AmmoDto, IRequest;
+public record CreateAmmoCommand(Guid UnitStatId) : AmmoDto, IRequest;
 
 public class CreateAmmoCommandHandler(
     IApplicationDbContext applicationDbContext,
@@ -19,6 +19,7 @@ public class CreateAmmoCommandHandler(
     {
         var mapper = new AmmoMapper();
         var ammo = mapper.AmmoDtoToAmmo(request);
+        ammo.UnitStatId = request.UnitStatId;
         await applicationDbContext.Ammo.AddAsync(ammo, cancellationToken);
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }

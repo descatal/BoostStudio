@@ -4,7 +4,7 @@ meta:
   file-extension: tbl
 params:
   - id: total_file_size
-    type: u2
+    type: u4
 seq:
   - id: file_magic
     contents: [ 0x54, 0x42, 0x4C, 0x20 ]
@@ -39,10 +39,8 @@ instances:
 types:
   file_path_offset_body:
     seq:
-      - id: subfolder_flag
-        type: u2
       - id: path_pointer
-        type: u2
+        type: u4
         
   file_path_body:
     params:

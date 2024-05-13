@@ -18,7 +18,11 @@ public class SerializationTests : BaseTestFixture
             var deserialize = new DeserializeTbl(File: file);
             var deserializedMetadata = await SendAsync(deserialize);
 
-            var serialize = new SerializeTbl(TblMetadata: deserializedMetadata);
+            var serialize = new SerializeTbl(
+                deserializedMetadata.CumulativeFileInfoCount, 
+                deserializedMetadata.FileMetadata, 
+                deserializedMetadata.PathOrder
+            );
             var serializedFile = await SendAsync(serialize);
             serializedFile.Should().NotBeNullOrEmpty();
             serializedFile.Should().BeEquivalentTo(file);

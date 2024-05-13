@@ -11,7 +11,7 @@ namespace BoostStudio.Formats
 {
     public partial class Tbl : KaitaiStruct
     {
-        public Tbl(ushort p_totalFileSize, KaitaiStream p__io, KaitaiStruct p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
+        public Tbl(uint p_totalFileSize, KaitaiStream p__io, KaitaiStruct p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
         {
             m_parent = p__parent;
             m_root = p__root ?? this;
@@ -67,23 +67,12 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                _subfolderFlag = m_io.ReadU2be();
-                _pathPointer = m_io.ReadU2be();
+                _pathPointer = m_io.ReadU4be();
             }
-            private ushort _subfolderFlag;
-            private ushort _pathPointer;
+            private uint _pathPointer;
             private Tbl m_root;
             private Tbl m_parent;
-            public ushort SubfolderFlag
-            {
-                get { return _subfolderFlag; }
-
-                set
-                {
-                    _subfolderFlag = value;
-                }
-            }
-            public ushort PathPointer
+            public uint PathPointer
             {
                 get { return _pathPointer; }
 
@@ -128,14 +117,14 @@ namespace BoostStudio.Formats
             {
             }
             private bool f_pointer;
-            private ushort _pointer;
-            public ushort Pointer
+            private uint _pointer;
+            public uint Pointer
             {
                 get
                 {
                     if (f_pointer)
                         return _pointer;
-                    _pointer = (ushort)(M_Parent.FilePathOffsets[Index].PathPointer);
+                    _pointer = (uint)(M_Parent.FilePathOffsets[Index].PathPointer);
                     f_pointer = true;
                     return _pointer;
                 }
@@ -510,7 +499,7 @@ namespace BoostStudio.Formats
         private uint _cumulativeFileCount;
         private List<FilePathOffsetBody> _filePathOffsets;
         private List<uint> _fileInfoOffsets;
-        private ushort _totalFileSize;
+        private uint _totalFileSize;
         private Tbl m_root;
         private KaitaiStruct m_parent;
         public byte[] FileMagic
@@ -576,7 +565,7 @@ namespace BoostStudio.Formats
                 _fileInfoOffsets = value;
             }
         }
-        public ushort TotalFileSize
+        public uint TotalFileSize
         {
             get { return _totalFileSize; }
 

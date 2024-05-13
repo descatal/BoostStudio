@@ -10,14 +10,14 @@ public class TblMetadataSerializer : ITblMetadataSerializer
     public Task<TblMetadata> SerializeAsync(Tbl data, CancellationToken cancellationToken)
     {
         var fileMetadata = new List<TblFileMetadata>();
-        
+
         for (var index = 0; index < data.CumulativeFileCount; index++)
         {
             var fileInfoBody = data.FileInfos[index];
             var fileInfo = fileInfoBody.FileInfo;
             if (fileInfoBody.FileInfo is null || fileInfo is null)
                 continue;
-            
+
             // Parse the file info entries normally. 
             var infoMetadata = new TblFileInfoMetadata(
                 CumulativeIndex: (uint)fileInfoBody.Index,
@@ -29,31 +29,31 @@ public class TblMetadataSerializer : ITblMetadataSerializer
 
             fileMetadata.Add(new TblFileMetadata(FileInfoMetadata: infoMetadata, Path: fileInfo.PathBody?.Path));
         }
-        
+
         var fileInfoPathIndices = data.FileInfos
             .OrderBy(fileInfoBody => fileInfoBody.Offset)
             .Select(fileInfoBody => fileInfoBody?.FileInfo?.PathIndex)
             .Where(index => index is not null)
             .ToList();
-        
+
         var filePathsWithoutInfo = data.FilePaths
             .Where(((_, i) => !fileInfoPathIndices.Contains(i)))
             .Select(filePathBody => new TblFileMetadata(Path: filePathBody?.Path))
             .ToList();
 
         fileMetadata.AddRange(filePathsWithoutInfo);
-        
+
         // If there's any paths without infos, or if the order of the file info path index are not in ascending order.
         // Add a file path order list to the json file so it can be used to determine the order of the path list originally in binary.
         var filePathOrder = (filePathsWithoutInfo.Count > 0 || !fileInfoPathIndices.SequenceEqual(fileInfoPathIndices.OrderBy(index => index)))
-            ? data.FilePaths.Select(body => body.Path).ToList() 
+            ? data.FilePaths.Select(body => body.Path).ToList()
             : null;
-        
+
         var tblMetadata = new TblMetadata(
-            CumulativeFileInfoCount: data.CumulativeFileCount, 
+            CumulativeFileInfoCount: data.CumulativeFileCount,
             FileMetadata: fileMetadata,
             PathOrder: filePathOrder);
-        
+
         return Task.FromResult(tblMetadata);
     }
 
@@ -99,7 +99,7 @@ public class TblMetadataSerializer : ITblMetadataSerializer
 
             if (fileInfoMetadata is null)
                 continue;
-            
+
             var fileInfoBody = new Tbl.FileInfoBody(
                 p_index: (int)fileInfoMetadata.CumulativeIndex, p__io: new KaitaiStream(stream), p__parent: tbl, p__root: tbl, write: true);
 
