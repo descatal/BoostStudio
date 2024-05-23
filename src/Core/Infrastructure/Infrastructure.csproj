@@ -26,50 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\ffmpeg\avcodec-61.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\avcodec-61.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\avdevice-61.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\avdevice-61.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\avfilter-10.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\avfilter-10.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\avformat-61.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\avformat-61.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\avutil-59.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\avutil-59.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\ffmpeg.exe" />
-    <EmbeddedResource Include="Resources\ffmpeg\ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\ffplay.exe" />
-    <EmbeddedResource Include="Resources\ffmpeg\ffplay.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\ffprobe.exe" />
-    <EmbeddedResource Include="Resources\ffmpeg\ffprobe.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\postproc-58.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\postproc-58.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\swresample-5.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\swresample-5.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\swscale-8.dll" />
-    <EmbeddedResource Include="Resources\ffmpeg\swscale-8.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    
     <None Remove="Resources\g7221\decode.exe" />
     <EmbeddedResource Include="Resources\g7221\decode.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -148,6 +105,10 @@
     </EmbeddedResource>
     <None Remove="Resources\nus3audio\nus3audio.exe" />
     <EmbeddedResource Include="Resources\nus3audio\nus3audio.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\ffmpeg.exe" />
+    <EmbeddedResource Include="Resources\ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
