@@ -2,24 +2,26 @@
 using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats;
+using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
-using BoostStudio.Domain.Entities.PsarcFormat;
-using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Ammo;
-using BoostStudio.Domain.Entities.Unit.Stats;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Compressor;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Infrastructure.Data.Interceptors;
 using BoostStudio.Infrastructure.Formats.AmmoFormat;
+using BoostStudio.Infrastructure.Formats.AudioFormats;
+using BoostStudio.Infrastructure.Formats.AudioFormats.Bnsf;
+using BoostStudio.Infrastructure.Formats.AudioFormats.Nus3Audio;
+using BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
 using BoostStudio.Infrastructure.Formats.StatsFormat;
 using BoostStudio.Infrastructure.Formats.TblFormat;
 using BoostStudio.Infrastructure.Scex;
-using Microsoft.Data.Sqlite;
+using FFMpegCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -66,13 +68,23 @@ public static class DependencyInjection
         services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
         
         services.AddTransient<IUnitStatBinarySerializer, UnitStatBinarySerializer>();
+        services.AddTransient<IBnsf, Bnsf>();
+        services.AddTransient<IRiff, Riff>();
+        services.AddTransient<INus3Audio, Nus3Audio>();
+        services.AddTransient<IAudioConverter, AudioConverter>();
         
         services.AddSingleton<IFhmPacker, FhmPacker>();
         services.AddSingleton<IPsarcPacker, PsarcPacker>();
         services.AddSingleton<ITblMetadataSerializer, TblMetadataSerializer>();
         
         services.AddSingleton<IScexCompiler, ScexCompiler>();
-
+        
+        var ffmpegBinaryFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ffmpeg");
+        GlobalFFOptions.Configure(options =>
+        {
+            options.BinaryFolder = ffmpegBinaryFolder;
+        });
+        
         return services;
     }
 }

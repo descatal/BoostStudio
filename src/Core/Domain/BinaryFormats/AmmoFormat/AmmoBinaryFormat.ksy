@@ -32,7 +32,7 @@ types:
         type: u4
     instances:
       offset:
-        # For some reason property_count needs to - 1, the property usually is 
+        # For some reason property_count needs to - 1
         value: (ammo_count * 4) + (index * (property_count - 1) * 4) + 0x14
       ammo_properties:
         pos: offset

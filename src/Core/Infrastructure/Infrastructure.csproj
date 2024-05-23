@@ -22,6 +22,122 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ffmpeg\avcodec-61.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\avcodec-61.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\avdevice-61.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\avdevice-61.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\avfilter-10.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\avfilter-10.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\avformat-61.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\avformat-61.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\avutil-59.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\avutil-59.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\ffmpeg.exe" />
+    <EmbeddedResource Include="Resources\ffmpeg\ffmpeg.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\ffplay.exe" />
+    <EmbeddedResource Include="Resources\ffmpeg\ffplay.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\ffprobe.exe" />
+    <EmbeddedResource Include="Resources\ffmpeg\ffprobe.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\postproc-58.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\postproc-58.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\swresample-5.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\swresample-5.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\ffmpeg\swscale-8.dll" />
+    <EmbeddedResource Include="Resources\ffmpeg\swscale-8.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\g7221\decode.exe" />
+    <EmbeddedResource Include="Resources\g7221\decode.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\g7221\encode.exe" />
+    <EmbeddedResource Include="Resources\g7221\encode.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\avcodec-vgmstream-59.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\avcodec-vgmstream-59.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\avformat-vgmstream-59.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\avformat-vgmstream-59.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\avutil-vgmstream-57.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\avutil-vgmstream-57.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\COPYING" />
+    <EmbeddedResource Include="Resources\vgmstream\COPYING">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libatrac9.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libatrac9.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libcelt-0061.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libcelt-0061.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libcelt-0110.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libcelt-0110.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libg719_decode.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libg719_decode.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libmpg123-0.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libmpg123-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libspeex-1.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libspeex-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\libvorbis.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\libvorbis.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\README.md" />
+    <EmbeddedResource Include="Resources\vgmstream\README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\swresample-vgmstream-4.dll" />
+    <EmbeddedResource Include="Resources\vgmstream\swresample-vgmstream-4.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\USAGE.md" />
+    <EmbeddedResource Include="Resources\vgmstream\USAGE.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\vgmstream\vgmstream-cli.exe" />
+    <EmbeddedResource Include="Resources\vgmstream\vgmstream-cli.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Remove="Resources\psarc.exe" />
     <EmbeddedResource Include="Resources\psarc.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -30,10 +146,10 @@
     <EmbeddedResource Include="Resources\scex-compiler.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <None Remove="Resources\nus3audio\nus3audio.exe" />
+    <EmbeddedResource Include="Resources\nus3audio\nus3audio.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

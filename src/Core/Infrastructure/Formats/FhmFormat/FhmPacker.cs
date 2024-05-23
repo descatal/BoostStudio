@@ -1,4 +1,5 @@
 ﻿using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
+using BoostStudio.Domain.Constants;
 using Kaitai;
 
 namespace BoostStudio.Infrastructure.Formats.FhmFormat;
@@ -22,19 +23,28 @@ public class FhmPacker : IFhmPacker
         for (int i = 1; i <= fhmBody.Files.Count; i++)
         {
             var fileBody = fhmBody.Files[i - 1];
-
             switch (fileBody.Body.FileContent)
             {
                 // Recursively extract files for nested Fhm
                 case Fhm.FhmBody nestedFhmBody:
                     {
-                        var nestedFolder = Path.Combine(fhmFolder, $"{i:D3}");
+                        // For some reason the folder has an asset load type on model fhm, the folder that contains the model assets have this 03 asset load type enum
+                        var extension = fileBody.AssetLoadType == Fhm.AssetLoadEnum.Unknown ? $".{FhmAssetExtensions.Unknown}" : string.Empty;
+                        var nestedFolder = Path.Combine(fhmFolder, $"{i:D3}{extension}");
                         await UnpackFhm(nestedFhmBody, nestedFolder, cancellationToken);
                         break;
                     }
                 case Fhm.GenericBody genericBody:
                     {
-                        var filePath = Path.Combine(fhmFolder, $"{i:D3}.bin");
+                        var fileExtension = fileBody.AssetLoadType switch
+                        {
+                            Fhm.AssetLoadEnum.Image => FhmAssetExtensions.Image,
+                            Fhm.AssetLoadEnum.Model => FhmAssetExtensions.Model,
+                            Fhm.AssetLoadEnum.Unknown => FhmAssetExtensions.Unknown,
+                            _ => FhmAssetExtensions.Binary
+                        };
+                        
+                        var filePath = Path.Combine(fhmFolder, $"{i:D3}.{fileExtension}");
                         var fileMagic = BitConverter.GetBytes((uint)fileBody.Body.FileMagic);
                         Array.Reverse(fileMagic);
                         byte[] body = [..fileMagic, ..genericBody.Body];
@@ -69,6 +79,7 @@ public class FhmPacker : IFhmPacker
         fhmBody.Files = [];
         foreach (var fileSystemEntry in fileSystemEntries)
         {
+            Fhm.FhmFile newFhmFile;
             if (File.GetAttributes(fileSystemEntry).HasFlag(FileAttributes.Directory))
             {
                 // Create a new stream for this scope
@@ -76,8 +87,7 @@ public class FhmPacker : IFhmPacker
 
                 // Recursively pack, and copy the contents of FileBody to a new FhmFile
                 var newFhm = await PackFhmAsync(newStream, fileSystemEntry, cancellationToken);
-                var newFhmFile = CreateFhmBodyFhmFile(newFhm.Body.FileContent, fhmBody, fhm);
-                fhmBody.Files.Add(newFhmFile);
+                newFhmFile = CreateFhmBodyFhmFile(newFhm.Body.FileContent, fhmBody, fhm);
             }
             else
             {
@@ -85,9 +95,20 @@ public class FhmPacker : IFhmPacker
                     continue;
 
                 var fileData = await File.ReadAllBytesAsync(fileSystemEntry, cancellationToken);
-                var newFhmFile = CreateGenericBodyFhmFile(fileData, fhmBody, fhm);
-                fhmBody.Files.Add(newFhmFile);
+                newFhmFile = CreateGenericBodyFhmFile(fileData, fhmBody, fhm);
             }
+            
+            var fileExtension = Path.GetExtension(fileSystemEntry).Replace(".", "").ToLower();
+            var assetLoadType = fileExtension switch
+            {
+                FhmAssetExtensions.Model => Fhm.AssetLoadEnum.Model,
+                FhmAssetExtensions.Image => Fhm.AssetLoadEnum.Image,
+                FhmAssetExtensions.Unknown => Fhm.AssetLoadEnum.Unknown,
+                _ => Fhm.AssetLoadEnum.Normal,
+            };
+            
+            newFhmFile.AssetLoadType = assetLoadType;
+            fhmBody.Files.Add(newFhmFile);
         }
 
         return fhm;

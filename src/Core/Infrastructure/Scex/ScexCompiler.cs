@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Text;
 using BoostStudio.Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -64,15 +65,20 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
         psarcProcess.Start();
 
         // Synchronously read the standard output of the spawned process.
-        var reader = psarcProcess.StandardOutput;
+        var stdOut = psarcProcess.StandardOutput;
+        var stdErr = psarcProcess.StandardError;
 
-        while (await reader.ReadLineAsync(cancellationToken) is {} outputLine)
+        while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
             logger.LogInformation("{outputLine}", outputLine);
 
+        var errorOutput = new StringBuilder();
+        while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
+            errorOutput.Append(outputLine);
+        
         await psarcProcess.WaitForExitAsync(cancellationToken);
 
-        if (!File.Exists(destinationPath))
-            throw new Exception("Failed to compile scex.");
+        if (!File.Exists(destinationPath) || psarcProcess.ExitCode != 0)
+            throw new Exception($"Failed to compile scex. Error: {errorOutput}");
 
         // Weird patching
         BinaryPatch(sourcePath, destinationPath);

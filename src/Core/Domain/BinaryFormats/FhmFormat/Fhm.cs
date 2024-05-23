@@ -20,8 +20,8 @@ namespace BoostStudio.Formats
         public enum AssetLoadEnum
         {
             Normal = 0,
-            Model = 1,
-            Image = 2,
+            Image = 1,
+            Model = 2,
             Unknown = 3,
         }
 

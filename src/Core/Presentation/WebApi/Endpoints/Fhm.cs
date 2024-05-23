@@ -1,8 +1,6 @@
 ﻿using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Formats.FhmFormat.Commands;
-using BoostStudio.Application.Formats.TblFormat.Commands;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints;
 

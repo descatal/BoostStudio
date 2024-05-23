@@ -79,8 +79,8 @@ types:
 enums:
   asset_load_enum:
     0x0: normal
-    0x1: model
-    0x2: image
+    0x1: image
+    0x2: model
     0x3: unknown # occasionally found on nested Fhm, but not always
   unk_enum:
     0x0: unknown
