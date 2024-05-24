@@ -19,7 +19,7 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
         Directory.CreateDirectory(destinationPath);
         
         var nus3AudioCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3audio", "nus3audio.exe");
-        var arguments = $"--extract-name \"{destinationPath}\" -- \"{sourcePath}\"";
+        var arguments = $"--extract \"{destinationPath}\" -- \"{sourcePath}\"";
         
         // Execute process
         using var psarcProcess = new Process();
@@ -61,7 +61,7 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
             var nus3AudioFilePath = Path.Combine(workingDirectory, "output.nus3audio");
             
             var nus3AudioCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3audio", "nus3audio.exe");
-            var arguments = $"--new --rebuild-name \"{sourcePath}\" --write \"{nus3AudioFilePath}\"";
+            var arguments = $"--construct \"{sourcePath}\" --write \"{nus3AudioFilePath}\"";
         
             // Execute process
             using var psarcProcess = new Process();
