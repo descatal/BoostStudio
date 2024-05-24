@@ -13,7 +13,7 @@ public class Tbl : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS")
             .MapGet(DeserializeTblFilePath, "deserialize-path")
             .MapPost(DeserializeTblFileStream, "deserialize")
             .MapGet(SerializeTblFilePath, "serialize-path")

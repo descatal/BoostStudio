@@ -6,7 +6,7 @@ public class Audio : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS2")
             .MapGet(UnpackBnsfPath, "nus3audio/unpack-path")
             .MapGet(PackBnsfPath, "nus3audio/pack-path");
     }

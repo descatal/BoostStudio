@@ -8,7 +8,7 @@ public class Units : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS")
             .MapGet(GetUnit)
             .MapPost(CreateUnit)
             .MapPost(UpdateUnit, "{id}");

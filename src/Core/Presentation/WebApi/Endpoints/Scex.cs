@@ -6,7 +6,7 @@ public class Scex : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS")
             .MapGet(CompileScex, "compile")
             .MapPost(HotReloadScex, "hot-reload");
     }

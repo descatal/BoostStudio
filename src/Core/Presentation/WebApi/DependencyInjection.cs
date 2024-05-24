@@ -3,9 +3,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Web.Services;
-using DotSwashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -37,16 +37,26 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer();
         
         // If not explicitly bound, swashbuckle binds json path to swagger doc name
-        const string swaggerDocName = "v1";
+        const string swaggerDocName = "EXVS";
+        const string exvs2 = "EXVS2";
         services.AddSwaggerGen(opts =>
         {
             opts.DescribeAllParametersInCamelCase();
+            
             opts.SwaggerDoc(swaggerDocName, new OpenApiInfo
             {
                 Title = "BoostStudio API",
-                Description = "API documentation for BoostStudio Service",
+                Description = "API documentation EXVS Api",
                 Version = "1.0.0"
             });
+            
+            opts.SwaggerDoc(exvs2, new OpenApiInfo
+            {
+                Title = "BoostStudio API 2",
+                Description = "API documentation EXVS2 Api",
+                Version = "1.0.0"
+            });
+            
             opts.EnableAnnotations();
 
             // https://github.com/domaindrivendev/Swashbuckle.AspNetCore#include-descriptions-from-xml-comments
@@ -57,9 +67,6 @@ public static class DependencyInjection
             opts.ExampleFilters();
         });
 
-        // Enable Swashbuckle.AspNetCore.Filters multiple example provider
-        // AddSwaggerExamples requires manual registration
-        // AddSwaggerExamplesFromAssemblies uses reflection to register all example providers
         services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
         
         return services;

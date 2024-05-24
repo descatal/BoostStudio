@@ -43,16 +43,21 @@ try
     app.UseSwaggerUI(opts =>
     {
         opts.DisplayOperationId();
+        
+        opts.ShowCommonExtensions();
+
+        opts.SwaggerEndpoint("EXVS/swagger.json", "EXVS Api");
+        opts.SwaggerEndpoint("EXVS2/swagger.json","EXVS2 Api");
     });
 
-    app.UseRedoc(options =>
-    {
-        // defaults to /api-docs
-        // https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/738
-        options.RoutePrefix = "redoc";
-        options.DocumentTitle = "BoostStudio API";
-        options.SpecUrl = "/swagger/v1/swagger.json";
-    });
+    // app.UseReDoc(options =>
+    // {
+    //     // defaults to /api-docs
+    //     // https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/738
+    //     options.RoutePrefix = "redoc";
+    //     options.DocumentTitle = "BoostStudio API";
+    //     options.SpecUrl = "/swagger/v1/swagger.json";
+    // });
 
     app.UseExceptionHandler(_ => {});
 

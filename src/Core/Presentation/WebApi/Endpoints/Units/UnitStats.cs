@@ -13,7 +13,7 @@ public class UnitStats : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS")
             .MapGet(GetUnitStatsWithPagination)
             .MapPost(CreateUnitStat)
             .MapPost(UpdateUnitStat, "{id}")

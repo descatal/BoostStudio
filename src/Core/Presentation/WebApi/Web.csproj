@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotSwashbuckle.AspNetCore" />
-    <PackageReference Include="DotSwashbuckle.AspNetCore.Annotations" />
-    <PackageReference Include="DotSwashbuckle.AspNetCore.Filters" />
-    <PackageReference Include="DotSwashbuckle.AspNetCore.Redoc" />
-    <PackageReference Include="DotSwashbuckle.AspNetCore.SwaggerGen" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Redoc" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
     <PackageReference Include="FluentValidation.AspNetCore"/>

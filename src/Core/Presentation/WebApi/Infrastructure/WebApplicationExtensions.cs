@@ -6,10 +6,15 @@ namespace BoostStudio.Web.Infrastructure;
 
 public static class WebApplicationExtensions
 {
-    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group) 
-        => MapSubgroup(app, group, "");
+    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group, string? areaName = null) 
+        => MapSubgroup(app, group, "", areaName: areaName);
     
-    private static RouteGroupBuilder MapSubgroup(this WebApplication app, EndpointGroupBase endpointGroup, string rootDir, params string[] additionalDirs)
+    private static RouteGroupBuilder MapSubgroup(
+        this WebApplication app, 
+        EndpointGroupBase endpointGroup, 
+        string rootDir, 
+        string? areaName = null,
+        params string[] additionalDirs)
     {
         var endpointGroupName = endpointGroup.GetType().Name;
         
@@ -26,9 +31,13 @@ public static class WebApplicationExtensions
             .Select(Slugify)
             .ToList();
         
-        return app
-            .MapGroup(string.Join('/', filteredDirs))
-            // .WithGroupName(subgroupName) // Swashbuckle errs if group name is added
+        var routeGroup = app
+            .MapGroup(string.Join('/', filteredDirs));
+            
+        if (!string.IsNullOrWhiteSpace(areaName))
+            routeGroup.WithGroupName(areaName);
+            
+        return routeGroup
             .WithTags(tagName)
             .WithOpenApi();
     }

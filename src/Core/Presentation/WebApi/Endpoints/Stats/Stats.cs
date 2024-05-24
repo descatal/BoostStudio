@@ -6,7 +6,7 @@ public class Stats : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS")
             .MapPost(CreateStat)
             .MapPost(UpdateStat, "{id}");
     }

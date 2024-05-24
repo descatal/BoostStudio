@@ -8,7 +8,7 @@ public class Fhm : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this)
+        app.MapGroup(this, "EXVS")
             .MapGet(PackFhmPath, "pack-path")
             .MapGet(UnpackFhmPath, "unpack-path")
             .MapPost(UnpackFhm, "unpack")
