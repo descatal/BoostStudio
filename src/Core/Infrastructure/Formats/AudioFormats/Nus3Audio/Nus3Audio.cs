@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
+using Microsoft.Extensions.Logging;
 
 namespace BoostStudio.Infrastructure.Formats.AudioFormats.Nus3Audio;
 
-public class Nus3Audio : INus3Audio
+public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
 {
     public async Task UnpackNus3AudioAsync(
         string sourcePath, 
@@ -16,7 +18,7 @@ public class Nus3Audio : INus3Audio
         
         Directory.CreateDirectory(destinationPath);
         
-        var nus3AudioCliPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "nus3audio", "nus3audio.exe");
+        var nus3AudioCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3audio", "nus3audio.exe");
         var arguments = $"--extract-name \"{destinationPath}\" -- \"{sourcePath}\"";
         
         // Execute process
@@ -58,7 +60,7 @@ public class Nus3Audio : INus3Audio
         {
             var nus3AudioFilePath = Path.Combine(workingDirectory, "output.nus3audio");
             
-            var nus3AudioCliPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "nus3audio", "nus3audio.exe");
+            var nus3AudioCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3audio", "nus3audio.exe");
             var arguments = $"--new --rebuild-name \"{sourcePath}\" --write \"{nus3AudioFilePath}\"";
         
             // Execute process

@@ -48,9 +48,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Remove="Resources\vgmstream\COPYING" />
-    <EmbeddedResource Include="Resources\vgmstream\COPYING">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <None Remove="Resources\vgmstream\libatrac9.dll" />
     <EmbeddedResource Include="Resources\vgmstream\libatrac9.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

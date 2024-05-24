@@ -37,7 +37,7 @@ public partial class Riff : IRiff
             var riffFilePath = Path.Combine(workingDirectory, "input.wav");
             await File.WriteAllBytesAsync(riffFilePath, riffBinary, cancellationToken);
             
-            var vgmstreamCliPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "vgmstream", "vgmstream-cli.exe");
+            var vgmstreamCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "vgmstream", "vgmstream-cli.exe");
             var arguments = $"-m \"{riffFilePath}\"";
         
             // Execute process

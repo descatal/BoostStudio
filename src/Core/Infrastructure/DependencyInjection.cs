@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.Eventing.Reader;
+using System.Reflection;
 using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats;
@@ -79,12 +80,57 @@ public static class DependencyInjection
         
         services.AddSingleton<IScexCompiler, ScexCompiler>();
         
-        var ffmpegBinaryFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "ffmpeg");
+        var ffmpegBinaryFolder = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "ffmpeg");
         GlobalFFOptions.Configure(options =>
         {
             options.BinaryFolder = ffmpegBinaryFolder;
         });
+
+        InitializeResources();
         
         return services;
+    }
+    
+    /// <summary>
+    /// Copies the resources from the executing assembly to a temp location.
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="FileNotFoundException"></exception>
+    private static void InitializeResources()
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), "BoostStudio");
+        Directory.CreateDirectory(workingDirectory);
+            
+        // Extracting executable from resource to a temp location.
+        var resources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+
+        foreach (var resourceName in resources)
+        {
+            if (string.IsNullOrWhiteSpace(resourceName))
+                continue;
+            
+            using var resourceStream = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream(resourceName);
+            
+            if (resourceStream is null)
+                throw new FileNotFoundException($"{resourceName} resource not found!");
+            
+            // Get anything after Resources
+            // This assumes files in resources have an extension, or else this won't work
+            var resourcePathParts = resourceName.Split('.').ToList();
+            var resourceDirectoryIndex = resourcePathParts.FindIndex(p => p.Equals("Resources"));
+            var resourceDirectoryRelativePath = Path.Combine(resourcePathParts.GetRange(resourceDirectoryIndex, resourcePathParts.Count - resourceDirectoryIndex - 2).ToArray());
+            var resourceFileName = string.Join(".", resourcePathParts.TakeLast(2));
+            
+            var resourceDirectoryPath = Path.Combine(workingDirectory, resourceDirectoryRelativePath);
+            var resourcePath = Path.Combine(resourceDirectoryPath, resourceFileName);
+
+            Directory.CreateDirectory(resourceDirectoryPath);
+            
+            using var fileStream = File.Create(resourcePath);
+            resourceStream.CopyTo(fileStream);
+            fileStream.Close();
+        }
     }
 }

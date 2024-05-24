@@ -211,7 +211,7 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
 
         if (psarcResourceStream is null)
             throw new FileNotFoundException("Psarc resource not found.");
-
+        
         await using var fileStream = File.Create(workingPath);
         await psarcResourceStream.CopyToAsync(fileStream, cancellationToken);
         fileStream.Close();

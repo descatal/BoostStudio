@@ -30,7 +30,7 @@ public class Bnsf(IRiff riff) : IBnsf
 
             await File.WriteAllBytesAsync(pcmFilePath, pcmBinary, cancellationToken);
             
-            var g7221EncoderCliPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "g7221", "encode.exe");
+            var g7221EncoderCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources",  "g7221", "encode.exe");
             var arguments = $"0 \"{pcmFilePath}\" \"{is14FilePath}\" {sampleRate} {bandwidth}";
         
             // Execute process
