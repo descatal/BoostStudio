@@ -1,3 +1,7 @@
+param (
+    [string]$name = "*"
+)
+
 # Path to the KaitaiStruct compiler executable
 $compilerPath = "$PSScriptRoot\bin\kaitai-struct-compiler.bat"
 
@@ -6,9 +10,8 @@ $compilerPath = "$PSScriptRoot\bin\kaitai-struct-compiler.bat"
 $outputDir = Join-Path (Split-Path $PSScriptRoot) "BinaryFormats"
 
 # Recursively search for .ksy files in the KaitaiStruct folder
-$ksyFiles = Get-ChildItem -Path $outputDir -Filter "*.ksy" -Recurse
+$ksyFiles = Get-ChildItem -Path $outputDir -Filter "$name.ksy" -Recurse
 
-# Loop through each .ksy file found and compile it
 foreach ($ksyFile in $ksyFiles)
 {
     Write-Output "Generating code for: " $ksyFile.Name;
@@ -27,12 +30,11 @@ foreach ($ksyFile in $ksyFiles)
 $rewriterPath = "$PSScriptRoot\PropertySetterRewriter.exe"
 
 # Recursively search for .cs files in the KaitaiStruct folder
-$csFiles = Get-ChildItem -Path $outputDir -Filter "*.cs" -Recurse
+$csFiles = Get-ChildItem -Path $outputDir -Filter "$name.cs" -Recurse
 
-# Loop through each .cs file found and rewrite it
 foreach ($csFile in $csFiles)
 {
-    Write-Output "Parsing C: " $csFile;
+    Write-Output "Parsing C#: " $csFile;
     # Execute the PropertySetterRewriter with the input and output file paths
     & $rewriterPath $csFile.FullName $csFile.FullName
 }

@@ -2,12 +2,18 @@
   id: fhm
   endian: be
   file-extension: fhm
+params:
+  - id: binary_size
+    type: u4
 seq:
   - id: body
-    type: file_body
+    type: file_body(binary_size)
     size-eos: true
 types:
   file_body:
+    params:
+      - id: section_size
+        type: u4
     seq:
       - id: file_magic
         type: u4
@@ -16,10 +22,13 @@ types:
         type:
           switch-on: file_magic
           cases:
-            "file_magic_enums::fhm": fhm_body
+            "file_magic_enums::fhm": fhm_body(section_size)
             "_": generic_body
 
   fhm_body:
+    params:
+      - id: section_size
+        type: u4
     seq:
       - id: flag_1
         # not sure what these are, for now put validation first
@@ -32,38 +41,54 @@ types:
         type: u4
       - id: num_files
         type: u4
-      - id: files
-        type: fhm_file((0x14 + (_index * 4)), (num_files * 4))
+      - id: file_offsets
+        type: u4
         repeat: expr
         repeat-expr: num_files
-      - id: alignment
-        size: 0xC
+      - id: file_sizes
+        type: u4
+        repeat: expr
+        repeat-expr: num_files
+      - id: file_asset_load_types
+        type: u4
+        enum: asset_load_enum
+        repeat: expr
+        repeat-expr: num_files
+      - id: file_unk_types
+        type: u4
+        enum: unk_enum
+        repeat: expr
+        repeat-expr: num_files
+    instances:
+      files:
+        type: fhm_file(_index)
+        repeat: expr
+        repeat-expr: num_files
 
   fhm_file:
     params:
-      - id: index_ofs
+      - id: index
         type: s4
-      - id: region_size
-        type: u4
     instances:
       offset:
-        type: u4
-        pos: index_ofs
+        value: _parent.file_offsets[index]
+      # this is to cater for the case where the size of the file is not given
+      # the only way to know if the fhm section has ended is by calculating the size using the next offset
+      # if the next offset is the end of the section, use the passed in size as the offset
       size:
-        type: u4
-        pos: index_ofs + (region_size)
+        value: "_parent.file_sizes[index] == 0
+          ? _parent.num_files != (index + 1)
+            ? _parent.file_offsets[index + 1] - _parent.file_offsets[index]
+            : _parent.section_size - _parent.file_offsets[index]
+          : _parent.file_sizes[index]"
       asset_load_type:
-        type: u4
-        enum: asset_load_enum
-        pos: index_ofs + (region_size * 2)
+        value: _parent.file_asset_load_types[index]
       unk_type:
-        type: u4
-        enum: unk_enum
-        pos: index_ofs + (region_size * 3)
+        value: _parent.file_unk_types[index]
       body:
-        type: file_body
+        type: file_body(size.as<u4>)
         pos: offset
-        size: size
+        size: size.as<u4>
 
   generic_body:
     instances:

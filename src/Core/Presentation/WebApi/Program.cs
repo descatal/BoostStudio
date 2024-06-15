@@ -1,4 +1,5 @@
 using BoostStudio.Infrastructure.Data;
+using Scalar.AspNetCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -29,7 +30,7 @@ try
 
     app.MapFallback(context =>
     {
-        context.Response.Redirect("/swagger");
+        context.Response.Redirect("/openapi");
         return Task.CompletedTask;
     });
     
@@ -39,26 +40,32 @@ try
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 
-    app.UseSwagger();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
+    
+    app.UseSwagger(opts => opts.RouteTemplate = "openapi/{documentName}.{extension:regex(^(json|ya?ml)$)}");
     app.UseSwaggerUI(opts =>
     {
         opts.DisplayOperationId();
         
         opts.ShowCommonExtensions();
 
-        opts.SwaggerEndpoint("EXVS/swagger.json", "EXVS Api");
-        opts.SwaggerEndpoint("EXVS2/swagger.json","EXVS2 Api");
+        opts.RoutePrefix = "openapi";
+        opts.SwaggerEndpoint("EXVS.json", "EXVS Api");
+        opts.SwaggerEndpoint("EXVS2.json","EXVS2 Api");
     });
 
-    // app.UseReDoc(options =>
-    // {
-    //     // defaults to /api-docs
-    //     // https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/738
-    //     options.RoutePrefix = "redoc";
-    //     options.DocumentTitle = "BoostStudio API";
-    //     options.SpecUrl = "/swagger/v1/swagger.json";
-    // });
-
+    app.UseReDoc(options =>
+    {
+        options.RoutePrefix = "redoc";
+        options.SpecUrl = "/openapi/EXVS.json";
+    });
+    app.UseReDoc(options =>
+    {
+        options.RoutePrefix = "redoc";
+        options.SpecUrl = "/openapi/EXVS2.json";
+    });
+    
     app.UseExceptionHandler(_ => {});
 
     app.MapEndpoints();

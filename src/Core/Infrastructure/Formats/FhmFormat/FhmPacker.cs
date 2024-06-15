@@ -61,15 +61,15 @@ public class FhmPacker : IFhmPacker
 
     public async Task<Fhm> PackAsync(Stream stream, string inputDirectory, CancellationToken cancellationToken)
     {
-        return await PackFhmAsync(stream, inputDirectory, cancellationToken);
+        return await PackFhmAsync((uint)stream.Length, stream, inputDirectory, cancellationToken);
     }
 
-    private async Task<Fhm> PackFhmAsync(Stream stream, string directory, CancellationToken cancellationToken)
+    private async Task<Fhm> PackFhmAsync(uint fhmSize, Stream stream, string directory, CancellationToken cancellationToken)
     {
         // Use the passed in stream so that the stream and their child can be disposed later
-        var fhm = new Fhm(new KaitaiStream(stream), write: true);
-        var fileBody = new Fhm.FileBody(new KaitaiStream(new MemoryStream()), p__parent: fhm, p__root: fhm, write: true);
-        var fhmBody = new Fhm.FhmBody(new KaitaiStream(new MemoryStream()), p__parent: fileBody, p__root: fhm, write: true);
+        var fhm = new Fhm(fhmSize, new KaitaiStream(stream), write: true);
+        var fileBody = new Fhm.FileBody(fhmSize, new KaitaiStream(new MemoryStream()), p__parent: fhm, p__root: fhm, write: true);
+        var fhmBody = new Fhm.FhmBody(fhmSize, new KaitaiStream(new MemoryStream()), p__parent: fileBody, p__root: fhm, write: true);
 
         fileBody.FileContent = fhmBody;
         fhm.Body = fileBody;
@@ -86,7 +86,7 @@ public class FhmPacker : IFhmPacker
                 using var newStream = new MemoryStream();
 
                 // Recursively pack, and copy the contents of FileBody to a new FhmFile
-                var newFhm = await PackFhmAsync(newStream, fileSystemEntry, cancellationToken);
+                var newFhm = await PackFhmAsync((uint)newStream.Length, newStream, fileSystemEntry, cancellationToken);
                 newFhmFile = CreateFhmBodyFhmFile(newFhm.Body.FileContent, fhmBody, fhm);
             }
             else
@@ -128,13 +128,13 @@ public class FhmPacker : IFhmPacker
         var data = fileData.AsSpan()[4..].ToArray();
 
         // Creates an FhmFile object wrapper
-        var newFhmFile = new Fhm.FhmFile(0, 0, new KaitaiStream(new MemoryStream()), p__parent: parentFhmBody, p__root: parentFhm, write: true)
+        var newFhmFile = new Fhm.FhmFile(0,new KaitaiStream(new MemoryStream()), p__parent: parentFhmBody, p__root: parentFhm, write: true)
         {
             AssetLoadType = Fhm.AssetLoadEnum.Normal, UnkType = Fhm.UnkEnum.Unknown
         };
 
         // Creates a FileBody object wrapper, with magic specified
-        var newFileBody = new Fhm.FileBody(new KaitaiStream(new MemoryStream()), p__parent: newFhmFile, p__root: parentFhm, write: true)
+        var newFileBody = new Fhm.FileBody((uint)data.Length, new KaitaiStream(new MemoryStream()), p__parent: newFhmFile, p__root: parentFhm, write: true)
         {
             FileMagic = (Fhm.FileMagicEnums)magic
         };
@@ -157,13 +157,13 @@ public class FhmPacker : IFhmPacker
         Fhm parentFhm)
     {
         // Creates an FhmFile object wrapper
-        var newFhmFile = new Fhm.FhmFile(0, 0, new KaitaiStream(new MemoryStream()), p__parent: parentFhmBody, p__root: parentFhm, write: true)
+        var newFhmFile = new Fhm.FhmFile(0, new KaitaiStream(new MemoryStream()), p__parent: parentFhmBody, p__root: parentFhm, write: true)
         {
             AssetLoadType = Fhm.AssetLoadEnum.Normal, UnkType = Fhm.UnkEnum.Unknown
         };
 
         // Creates a FileBody object wrapper, with magic specified
-        var newFileBody = new Fhm.FileBody(new KaitaiStream(new MemoryStream()), p__parent: newFhmFile, p__root: parentFhm, write: true)
+        var newFileBody = new Fhm.FileBody(0,new KaitaiStream(new MemoryStream()), p__parent: newFhmFile, p__root: parentFhm, write: true)
         {
             FileMagic = Fhm.FileMagicEnums.Fhm, FileContent = newFhmBody
         };

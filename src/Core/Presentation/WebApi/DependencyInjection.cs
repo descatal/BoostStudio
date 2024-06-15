@@ -35,15 +35,18 @@ public static class DependencyInjection
         });
 
         services.AddEndpointsApiExplorer();
+
+        const string exvs = "EXVS";
+        const string exvs2 = "EXVS2";
+        services.AddOpenApi(exvs);
+        services.AddOpenApi(exvs2);
         
         // If not explicitly bound, swashbuckle binds json path to swagger doc name
-        const string swaggerDocName = "EXVS";
-        const string exvs2 = "EXVS2";
         services.AddSwaggerGen(opts =>
         {
             opts.DescribeAllParametersInCamelCase();
             
-            opts.SwaggerDoc(swaggerDocName, new OpenApiInfo
+            opts.SwaggerDoc(exvs, new OpenApiInfo
             {
                 Title = "BoostStudio API",
                 Description = "API documentation EXVS Api",

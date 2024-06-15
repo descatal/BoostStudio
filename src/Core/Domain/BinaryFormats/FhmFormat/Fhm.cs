@@ -11,11 +11,6 @@ namespace BoostStudio.Formats
 {
     public partial class Fhm : KaitaiStruct
     {
-        public static Fhm FromFile(string fileName)
-        {
-            return new Fhm(new KaitaiStream(fileName));
-        }
-
 
         public enum AssetLoadEnum
         {
@@ -34,10 +29,11 @@ namespace BoostStudio.Formats
         {
             Fhm = 1179143456,
         }
-        public Fhm(KaitaiStream p__io, KaitaiStruct p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
+        public Fhm(uint p_binarySize, KaitaiStream p__io, KaitaiStruct p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
         {
             m_parent = p__parent;
             m_root = p__root ?? this;
+            _binarySize = p_binarySize;
             if (!write)
                 _read();
         }
@@ -45,16 +41,15 @@ namespace BoostStudio.Formats
         {
             __raw_body = m_io.ReadBytesFull();
             var io___raw_body = new KaitaiStream(__raw_body);
-            _body = new FileBody(io___raw_body, this, m_root);
+            _body = new FileBody(BinarySize, io___raw_body, this, m_root);
         }
         public partial class FhmFile : KaitaiStruct
         {
-            public FhmFile(int p_indexOfs, uint p_regionSize, KaitaiStream p__io, Fhm.FhmBody p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
+            public FhmFile(int p_index, KaitaiStream p__io, Fhm.FhmBody p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
-                _indexOfs = p_indexOfs;
-                _regionSize = p_regionSize;
+                _index = p_index;
                 f_assetLoadType = write;
                 f_unkType = write;
                 f_size = write;
@@ -74,10 +69,7 @@ namespace BoostStudio.Formats
                 {
                     if (f_assetLoadType)
                         return _assetLoadType;
-                    long _pos = m_io.Pos;
-                    m_io.Seek((IndexOfs + (RegionSize * 2)));
-                    _assetLoadType = ((Fhm.AssetLoadEnum)m_io.ReadU4be());
-                    m_io.Seek(_pos);
+                    _assetLoadType = (AssetLoadEnum)(M_Parent.FileAssetLoadTypes[Index]);
                     f_assetLoadType = true;
                     return _assetLoadType;
                 }
@@ -95,10 +87,7 @@ namespace BoostStudio.Formats
                 {
                     if (f_unkType)
                         return _unkType;
-                    long _pos = m_io.Pos;
-                    m_io.Seek((IndexOfs + (RegionSize * 3)));
-                    _unkType = ((Fhm.UnkEnum)m_io.ReadU4be());
-                    m_io.Seek(_pos);
+                    _unkType = (UnkEnum)(M_Parent.FileUnkTypes[Index]);
                     f_unkType = true;
                     return _unkType;
                 }
@@ -109,17 +98,14 @@ namespace BoostStudio.Formats
                 }
             }
             private bool f_size;
-            private uint _size;
-            public uint Size
+            private int _size;
+            public int Size
             {
                 get
                 {
                     if (f_size)
                         return _size;
-                    long _pos = m_io.Pos;
-                    m_io.Seek((IndexOfs + RegionSize));
-                    _size = m_io.ReadU4be();
-                    m_io.Seek(_pos);
+                    _size = (int)((M_Parent.FileSizes[Index] == 0 ? (M_Parent.NumFiles != (Index + 1) ? (M_Parent.FileOffsets[(Index + 1)] - M_Parent.FileOffsets[Index]) : (M_Parent.SectionSize - M_Parent.FileOffsets[Index])) : M_Parent.FileSizes[Index]));
                     f_size = true;
                     return _size;
                 }
@@ -139,9 +125,9 @@ namespace BoostStudio.Formats
                         return _body;
                     long _pos = m_io.Pos;
                     m_io.Seek(Offset);
-                    __raw_body = m_io.ReadBytes(Size);
+                    __raw_body = m_io.ReadBytes(((uint)(Size)));
                     var io___raw_body = new KaitaiStream(__raw_body);
-                    _body = new FileBody(io___raw_body, this, m_root);
+                    _body = new FileBody(((uint)(Size)), io___raw_body, this, m_root);
                     m_io.Seek(_pos);
                     f_body = true;
                     return _body;
@@ -160,10 +146,7 @@ namespace BoostStudio.Formats
                 {
                     if (f_offset)
                         return _offset;
-                    long _pos = m_io.Pos;
-                    m_io.Seek(IndexOfs);
-                    _offset = m_io.ReadU4be();
-                    m_io.Seek(_pos);
+                    _offset = (uint)(M_Parent.FileOffsets[Index]);
                     f_offset = true;
                     return _offset;
                 }
@@ -173,27 +156,17 @@ namespace BoostStudio.Formats
                     _offset = value;
                 }
             }
-            private int _indexOfs;
-            private uint _regionSize;
+            private int _index;
             private Fhm m_root;
             private Fhm.FhmBody m_parent;
             private byte[] __raw_body;
-            public int IndexOfs
+            public int Index
             {
-                get { return _indexOfs; }
+                get { return _index; }
 
                 set
                 {
-                    _indexOfs = value;
-                }
-            }
-            public uint RegionSize
-            {
-                get { return _regionSize; }
-
-                set
-                {
-                    _regionSize = value;
+                    _index = value;
                 }
             }
             public Fhm M_Root
@@ -279,15 +252,12 @@ namespace BoostStudio.Formats
         }
         public partial class FhmBody : KaitaiStruct
         {
-            public static FhmBody FromFile(string fileName)
-            {
-                return new FhmBody(new KaitaiStream(fileName));
-            }
-
-            public FhmBody(KaitaiStream p__io, Fhm.FileBody p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
+            public FhmBody(uint p_sectionSize, KaitaiStream p__io, Fhm.FileBody p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
+                _sectionSize = p_sectionSize;
+                f_files = write;
                 if (!write)
                     _read();
             }
@@ -306,20 +276,59 @@ namespace BoostStudio.Formats
                 _unkC = new UintZero(m_io, this, m_root);
                 _totalFileSize = m_io.ReadU4be();
                 _numFiles = m_io.ReadU4be();
-                _files = new List<FhmFile>();
+                _fileOffsets = new List<uint>();
                 for (var i = 0; i < NumFiles; i++)
                 {
-                    _files.Add(new FhmFile((20 + (i * 4)), (NumFiles * 4), m_io, this, m_root));
+                    _fileOffsets.Add(m_io.ReadU4be());
                 }
-                _alignment = m_io.ReadBytes(12);
+                _fileSizes = new List<uint>();
+                for (var i = 0; i < NumFiles; i++)
+                {
+                    _fileSizes.Add(m_io.ReadU4be());
+                }
+                _fileAssetLoadTypes = new List<AssetLoadEnum>();
+                for (var i = 0; i < NumFiles; i++)
+                {
+                    _fileAssetLoadTypes.Add(((Fhm.AssetLoadEnum)m_io.ReadU4be()));
+                }
+                _fileUnkTypes = new List<UnkEnum>();
+                for (var i = 0; i < NumFiles; i++)
+                {
+                    _fileUnkTypes.Add(((Fhm.UnkEnum)m_io.ReadU4be()));
+                }
+            }
+            private bool f_files;
+            private List<FhmFile> _files;
+            public List<FhmFile> Files
+            {
+                get
+                {
+                    if (f_files)
+                        return _files;
+                    _files = new List<FhmFile>();
+                    for (var i = 0; i < NumFiles; i++)
+                    {
+                        _files.Add(new FhmFile(i, m_io, this, m_root));
+                    }
+                    f_files = true;
+                    return _files;
+                }
+
+                set
+                {
+                    _files = value;
+                }
             }
             private byte[] _flag1;
             private byte[] _flag2;
             private UintZero _unkC;
             private uint _totalFileSize;
             private uint _numFiles;
-            private List<FhmFile> _files;
-            private byte[] _alignment;
+            private List<uint> _fileOffsets;
+            private List<uint> _fileSizes;
+            private List<AssetLoadEnum> _fileAssetLoadTypes;
+            private List<UnkEnum> _fileUnkTypes;
+            private uint _sectionSize;
             private Fhm m_root;
             private Fhm.FileBody m_parent;
             public byte[] Flag1
@@ -367,22 +376,49 @@ namespace BoostStudio.Formats
                     _numFiles = value;
                 }
             }
-            public List<FhmFile> Files
+            public List<uint> FileOffsets
             {
-                get { return _files; }
+                get { return _fileOffsets; }
 
                 set
                 {
-                    _files = value;
+                    _fileOffsets = value;
                 }
             }
-            public byte[] Alignment
+            public List<uint> FileSizes
             {
-                get { return _alignment; }
+                get { return _fileSizes; }
 
                 set
                 {
-                    _alignment = value;
+                    _fileSizes = value;
+                }
+            }
+            public List<AssetLoadEnum> FileAssetLoadTypes
+            {
+                get { return _fileAssetLoadTypes; }
+
+                set
+                {
+                    _fileAssetLoadTypes = value;
+                }
+            }
+            public List<UnkEnum> FileUnkTypes
+            {
+                get { return _fileUnkTypes; }
+
+                set
+                {
+                    _fileUnkTypes = value;
+                }
+            }
+            public uint SectionSize
+            {
+                get { return _sectionSize; }
+
+                set
+                {
+                    _sectionSize = value;
                 }
             }
             public Fhm M_Root
@@ -463,15 +499,11 @@ namespace BoostStudio.Formats
         }
         public partial class FileBody : KaitaiStruct
         {
-            public static FileBody FromFile(string fileName)
-            {
-                return new FileBody(new KaitaiStream(fileName));
-            }
-
-            public FileBody(KaitaiStream p__io, KaitaiStruct p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
+            public FileBody(uint p_sectionSize, KaitaiStream p__io, KaitaiStruct p__parent = null, Fhm p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
+                _sectionSize = p_sectionSize;
                 if (!write)
                     _read();
             }
@@ -482,7 +514,7 @@ namespace BoostStudio.Formats
                 {
                     case Fhm.FileMagicEnums.Fhm:
                         {
-                            _fileContent = new FhmBody(m_io, this, m_root);
+                            _fileContent = new FhmBody(SectionSize, m_io, this, m_root);
                             break;
                         }
                     default:
@@ -494,6 +526,7 @@ namespace BoostStudio.Formats
             }
             private FileMagicEnums _fileMagic;
             private KaitaiStruct _fileContent;
+            private uint _sectionSize;
             private Fhm m_root;
             private KaitaiStruct m_parent;
             public FileMagicEnums FileMagic
@@ -512,6 +545,15 @@ namespace BoostStudio.Formats
                 set
                 {
                     _fileContent = value;
+                }
+            }
+            public uint SectionSize
+            {
+                get { return _sectionSize; }
+
+                set
+                {
+                    _sectionSize = value;
                 }
             }
             public Fhm M_Root
@@ -534,6 +576,7 @@ namespace BoostStudio.Formats
             }
         }
         private FileBody _body;
+        private uint _binarySize;
         private Fhm m_root;
         private KaitaiStruct m_parent;
         private byte[] __raw_body;
@@ -544,6 +587,15 @@ namespace BoostStudio.Formats
             set
             {
                 _body = value;
+            }
+        }
+        public uint BinarySize
+        {
+            get { return _binarySize; }
+
+            set
+            {
+                _binarySize = value;
             }
         }
         public Fhm M_Root

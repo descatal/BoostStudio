@@ -10,7 +10,7 @@ public class FhmBinarySerializer : IFormatBinarySerializer<Fhm>
     public Task<Fhm> DeserializeAsync(Stream data, CancellationToken cancellationToken)
     {
         var kaitaiStream = new KaitaiStream(data);
-        var deserializedObject = new Fhm(kaitaiStream);
+        var deserializedObject = new Fhm((uint)data.Length, kaitaiStream);
         return Task.FromResult(deserializedObject);
     }
 
