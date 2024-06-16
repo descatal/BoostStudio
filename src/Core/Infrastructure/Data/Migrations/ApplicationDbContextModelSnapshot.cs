@@ -612,9 +612,6 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.Property<uint>("GameUnitId")
                         .HasColumnType("INTEGER");
-                    
-                    b.Property<uint>("FileSignature")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -663,6 +660,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<uint?>("FileSignature")
+                        .HasColumnType("INTEGER");
+                    
                     b.Property<uint>("GameUnitId")
                         .HasColumnType("INTEGER");
 

@@ -33,7 +33,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     GameUnitId = table.Column<uint>(type: "INTEGER", nullable: false),
-                    FileSignature = table.Column<uint>(type: "INTEGER", nullable: false)
+                    FileSignature = table.Column<uint>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
