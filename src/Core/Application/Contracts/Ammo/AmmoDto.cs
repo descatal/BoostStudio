@@ -41,4 +41,6 @@ public record AmmoDetailsDto
     public uint Unk124 { get; set; }
     public uint Unk128 { get; set; }
     public int Order { get; set; }
+
+    public uint? UnitId { get; set; }
 }

@@ -2,13 +2,11 @@
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Ammo;
 using Microsoft.EntityFrameworkCore;
-using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Commands;
 
-public record AmmoDetails(Guid UnitStatId) : AmmoDetailsDto;
-
-public record UpdateAmmoCommand(uint AmmoHash, AmmoDetails Details) : IRequest;
+public record UpdateAmmoCommand(uint Hash) : AmmoDetailsDto, IRequest;
 
 public class UpdateAmmoCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -17,14 +15,19 @@ public class UpdateAmmoCommandHandler(
     public async Task Handle(UpdateAmmoCommand command, CancellationToken cancellationToken)
     {
         var existingEntity = await applicationDbContext.Ammo
-            .AsTracking()
-            .FirstOrDefaultAsync(ammo => ammo.Hash == command.AmmoHash, cancellationToken: cancellationToken);
-        Guard.Against.NotFound(command.AmmoHash, existingEntity);
+            .Include(ammo => ammo.UnitStat)
+            .FirstOrDefaultAsync(ammo => ammo.Hash == command.Hash, cancellationToken: cancellationToken);
+        
+        Guard.Against.NotFound(command.Hash, existingEntity);
+        AmmoMapper.MapToEntity(command.Hash, command, existingEntity);
 
-        var ammoMapper = new AmmoMapper();
-        var mappedEntity = ammoMapper.AmmoDetailsDtoToAmmo(command.Details);
-        ammoMapper.AmmoToAmmo(mappedEntity, existingEntity);
-        existingEntity.UnitStatId = command.Details.UnitStatId;
+        if (existingEntity.UnitStat?.GameUnitId != command.UnitId)
+        {
+            var unitStat = await applicationDbContext.UnitStats
+                .FirstOrDefaultAsync(unitStat => unitStat.GameUnitId == command.UnitId, cancellationToken);
+            
+            existingEntity.UnitStat = unitStat;
+        }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }

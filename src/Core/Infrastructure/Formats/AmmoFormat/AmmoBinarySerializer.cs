@@ -4,7 +4,7 @@ using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;
-using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Infrastructure.Formats.AmmoFormat;
 
@@ -76,8 +76,7 @@ public class AmmoBinarySerializer : IFormatBinarySerializer<List<Ammo>>
         var deserializedObject = new AmmoBinaryFormat(kaitaiStream);
         
         // Map deserializedAmmoBinaryObject into Ammo
-        var mapper = new AmmoMapper();
-        var ammo = mapper.AmmoBinaryFormatToAmmo(deserializedObject).ToList();
+        var ammo = AmmoMapper.AmmoBinaryFormatToAmmo(deserializedObject).ToList();
         
         return Task.FromResult(ammo);
     }

@@ -1,4 +1,7 @@
-﻿namespace BoostStudio.Domain.Entities.Unit;
+﻿using BoostStudio.Domain.Entities.Unit.Hitboxes;
+using BoostStudio.Domain.Entities.Unit.Projectiles;
+
+namespace BoostStudio.Domain.Entities.Unit;
 
 public class Unit : BaseEntity<Guid>
 {
@@ -12,4 +15,8 @@ public class Unit : BaseEntity<Guid>
     public string NameChinese { get; set; } = string.Empty;
     
     public UnitStat? UnitStats { get; set; }
+    
+    public UnitProjectile? UnitProjectiles { get; set; }
+    
+    public UnitHitbox? UnitHitboxes { get; set; }
 }

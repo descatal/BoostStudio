@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Web.Constants;
 using BoostStudio.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
@@ -35,42 +36,9 @@ public static class DependencyInjection
         });
 
         services.AddEndpointsApiExplorer();
-
-        const string exvs = "EXVS";
-        const string exvs2 = "EXVS2";
-        services.AddOpenApi(exvs);
-        services.AddOpenApi(exvs2);
         
-        // If not explicitly bound, swashbuckle binds json path to swagger doc name
-        services.AddSwaggerGen(opts =>
-        {
-            opts.DescribeAllParametersInCamelCase();
-            
-            opts.SwaggerDoc(exvs, new OpenApiInfo
-            {
-                Title = "BoostStudio API",
-                Description = "API documentation EXVS Api",
-                Version = "1.0.0"
-            });
-            
-            opts.SwaggerDoc(exvs2, new OpenApiInfo
-            {
-                Title = "BoostStudio API 2",
-                Description = "API documentation EXVS2 Api",
-                Version = "1.0.0"
-            });
-            
-            opts.EnableAnnotations();
-
-            // https://github.com/domaindrivendev/Swashbuckle.AspNetCore#include-descriptions-from-xml-comments
-            var filePath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
-            if (File.Exists(filePath))
-                opts.IncludeXmlComments(filePath);
-            
-            opts.ExampleFilters();
-        });
-
-        services.AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly());
+        services.AddOpenApi(DefinitionNames.Exvs);
+        services.AddOpenApi(DefinitionNames.Exvs2);
         
         return services;
     }

@@ -1,8 +1,12 @@
 ﻿namespace BoostStudio.Application.Contracts.Stats;
 
-public record StatDto
+public record StatDto : StatDetailsDto
 {
     public string Id { get; set; } = Guid.Empty.ToString();
+}
+
+public record StatDetailsDto
+{
     public int UnitCost { get; set; }
     public int UnitCost2 { get; set; }
     public int MaxHp { get; set; }
@@ -153,4 +157,6 @@ public record StatDto
     public float Unk604 { get; set; }
     public int Unk608 { get; set; }
     public int Order { get; set; }
+    
+    public uint? UnitId { get; set; }
 }

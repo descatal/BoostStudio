@@ -4,9 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
 
-public record UnitAmmoSlotDetails(int? SlotOrder = null, uint? AmmoHash = null, Guid? UnitStatId = null);
-
-public record UpdateUnitAmmoSlotCommand(Guid Id, UnitAmmoSlotDetails Details) : IRequest;
+public record UpdateUnitAmmoSlotCommand(Guid Id, uint UnitId, int? SlotOrder = null, uint? AmmoHash = null) : IRequest;
 
 public class UpdateUnitAmmoSlotCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -18,14 +16,16 @@ public class UpdateUnitAmmoSlotCommandHandler(
             .FirstOrDefaultAsync(statSet => statSet.Id == command.Id, cancellationToken: cancellationToken);
         Guard.Against.NotFound(command.Id, existingEntity);
         
-        if (command.Details.SlotOrder is not null)
-            existingEntity.SlotOrder = command.Details.SlotOrder.Value; 
+        existingEntity.SlotOrder = command.SlotOrder ?? 0; 
+        existingEntity.AmmoHash = command.AmmoHash ?? 0; 
         
-        if (command.Details.AmmoHash is not null)
-            existingEntity.AmmoHash = command.Details.AmmoHash.Value; 
-        
-        if (command.Details.UnitStatId is not null)
-            existingEntity.UnitStatId = command.Details.UnitStatId.Value; 
+        if (existingEntity.UnitStat?.GameUnitId != command.UnitId)
+        {
+            var unitStat = await applicationDbContext.UnitStats
+                .FirstOrDefaultAsync(unitStat => unitStat.GameUnitId == command.UnitId, cancellationToken);
+            
+            existingEntity.UnitStat = unitStat; 
+        }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }

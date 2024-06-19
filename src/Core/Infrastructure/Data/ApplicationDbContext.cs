@@ -2,6 +2,8 @@
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Ammo;
+using BoostStudio.Domain.Entities.Unit.Hitboxes;
+using BoostStudio.Domain.Entities.Unit.Projectiles;
 using BoostStudio.Domain.Entities.Unit.Stats;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +22,14 @@ public class ApplicationDbContext(
     public DbSet<Stat> Stats => Set<Stat>();
     
     public DbSet<Ammo> Ammo => Set<Ammo>();
+    
+    public DbSet<UnitProjectile> UnitProjectiles => Set<UnitProjectile>();
+    
+    public DbSet<Projectile> Projectiles => Set<Projectile>();
+    
+    public DbSet<Hitbox> Hitboxes => Set<Hitbox>();
+    
+    public DbSet<UnitHitbox> UnitHitboxes => Set<UnitHitbox>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

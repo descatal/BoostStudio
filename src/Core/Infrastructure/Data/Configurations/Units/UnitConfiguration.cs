@@ -8,10 +8,6 @@ public class UnitConfiguration: IEntityTypeConfiguration<Unit>
 {
     public void Configure(EntityTypeBuilder<Unit> builder)
     {
-        builder.HasOne(unit => unit.UnitStats)
-            .WithOne(unitStat => unitStat.Unit)
-            .HasForeignKey<UnitStat>(unitStat => unitStat.GameUnitId)
-            .HasPrincipalKey<Unit>(unit => unit.GameUnitId)
-            .IsRequired(false);
+
     }
 }

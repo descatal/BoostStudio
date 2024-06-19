@@ -1,9 +1,10 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Domain.Entities.Unit;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
 
-public record CreateUnitAmmoSlotCommand(uint AmmoHash, Guid UnitStatId, int SlotOrder) : IRequest<Guid>;
+public record CreateUnitAmmoSlotCommand(uint AmmoHash, uint UnitId, int SlotOrder) : IRequest<Guid>;
 
 public class CreateUnitAmmoSlotCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -11,12 +12,15 @@ public class CreateUnitAmmoSlotCommandHandler(
 {
     public async Task<Guid> Handle(CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
-        // Can turn this into an addrange and force users to give us an direct list of ids with orders
+        var unitStat = await applicationDbContext.UnitStats
+            .FirstOrDefaultAsync(unitStat => unitStat.GameUnitId == command.UnitId, cancellationToken);
+        
+        // can turn this into an addrange and force users to give us an direct list of ids with orders
         var entity = new UnitAmmoSlot
         {
             AmmoHash = command.AmmoHash,
-            UnitStatId = command.UnitStatId,
-            SlotOrder = command.SlotOrder
+            SlotOrder = command.SlotOrder,
+            UnitStat = unitStat,
         };
         
         applicationDbContext.UnitAmmoSlots.Add(entity);

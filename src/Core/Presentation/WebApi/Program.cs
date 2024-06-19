@@ -1,4 +1,5 @@
 using BoostStudio.Infrastructure.Data;
+using BoostStudio.Web.Constants;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -43,7 +44,7 @@ try
     app.MapOpenApi();
     app.MapScalarApiReference();
     
-    app.UseSwagger(opts => opts.RouteTemplate = "openapi/{documentName}.{extension:regex(^(json|ya?ml)$)}");
+    // app.UseSwagger(opts => opts.RouteTemplate = "openapi/{documentName}.{extension:regex(^(json|ya?ml)$)}");
     app.UseSwaggerUI(opts =>
     {
         opts.DisplayOperationId();
@@ -51,19 +52,19 @@ try
         opts.ShowCommonExtensions();
 
         opts.RoutePrefix = "openapi";
-        opts.SwaggerEndpoint("EXVS.json", "EXVS Api");
-        opts.SwaggerEndpoint("EXVS2.json","EXVS2 Api");
+        opts.SwaggerEndpoint($"{DefinitionNames.Exvs}.json", $"{DefinitionNames.Exvs} API");
+        opts.SwaggerEndpoint($"{DefinitionNames.Exvs2}.json",$"{DefinitionNames.Exvs2} API");
     });
 
     app.UseReDoc(options =>
     {
         options.RoutePrefix = "redoc";
-        options.SpecUrl = "/openapi/EXVS.json";
+        options.SpecUrl = $"/openapi/{DefinitionNames.Exvs}.json";
     });
     app.UseReDoc(options =>
     {
         options.RoutePrefix = "redoc";
-        options.SpecUrl = "/openapi/EXVS2.json";
+        options.SpecUrl = $"/openapi/{DefinitionNames.Exvs2}.json";
     });
     
     app.UseExceptionHandler(_ => {});

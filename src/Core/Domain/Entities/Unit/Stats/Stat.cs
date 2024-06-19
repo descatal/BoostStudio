@@ -152,9 +152,9 @@ public class Stat : BaseEntity<Guid>
     public float Unk604 { get; set; }
     public int Unk608 { get; set; }
     
-    // Optional navigation, can be used to assign this stat to a StatSet entry
     public int Order { get; set; }
-    
+
+    // Optional navigation, can be used to assign this stat to a StatSet entry
     public Guid? UnitStatId { get; set; }
 
     public UnitStat? UnitStat { get; set; }

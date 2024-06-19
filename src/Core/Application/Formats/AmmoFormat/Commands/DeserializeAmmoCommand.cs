@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Ammo;
-using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Formats.AmmoFormat.Commands;
 
@@ -17,8 +17,7 @@ public class DeserializeTblCommandHandler(
         await using var fileStream = new MemoryStream(fileContent);
         var deserializedAmmo = await ammoBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
 
-        var mapper = new AmmoMapper();
-        var ammoDto = deserializedAmmo.Select(ammo => mapper.AmmoToAmmoDto(ammo)).ToList();
+        var ammoDto = deserializedAmmo.Select(ammo => AmmoMapper.AmmoToAmmoDto(ammo)).ToList();
         return ammoDto;
     }
 }

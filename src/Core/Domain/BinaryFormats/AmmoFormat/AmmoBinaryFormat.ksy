@@ -1,7 +1,7 @@
 ﻿meta:
   id: ammo_binary_format
   endian: be
-  file-extension: reload
+  file-extension: ammo
 seq:
   - id: file_magic
     contents: [ 0x1D, 0x25, 0x8F, 0xF7 ]

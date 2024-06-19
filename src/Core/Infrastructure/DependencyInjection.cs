@@ -4,6 +4,7 @@ using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats;
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
+using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
@@ -18,6 +19,7 @@ using BoostStudio.Infrastructure.Formats.AudioFormats.Bnsf;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Nus3Audio;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
+using BoostStudio.Infrastructure.Formats.ProjectileFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
 using BoostStudio.Infrastructure.Formats.StatsFormat;
 using BoostStudio.Infrastructure.Formats.TblFormat;
@@ -69,6 +71,8 @@ public static class DependencyInjection
         services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
         
         services.AddTransient<IUnitStatBinarySerializer, UnitStatBinarySerializer>();
+        services.AddTransient<IUnitProjectileBinarySerializer, UnitProjectileBinarySerializer>();
+        
         services.AddTransient<IBnsf, Bnsf>();
         services.AddTransient<IRiff, Riff>();
         services.AddTransient<INus3Audio, Nus3Audio>();

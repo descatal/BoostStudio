@@ -3,12 +3,13 @@ using System.IO.Hashing;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Ammo;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using AmmoMapper=BoostStudio.Application.Contracts.Mappers.AmmoMapper;
+using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Commands;
 
-public record CreateAmmoCommand(Guid UnitStatId) : AmmoDto, IRequest;
+public record CreateAmmoCommand : AmmoDto, IRequest;
 
 public class CreateAmmoCommandHandler(
     IApplicationDbContext applicationDbContext,
@@ -17,9 +18,12 @@ public class CreateAmmoCommandHandler(
 {
     public async Task Handle(CreateAmmoCommand request, CancellationToken cancellationToken)
     {
-        var mapper = new AmmoMapper();
-        var ammo = mapper.AmmoDtoToAmmo(request);
-        ammo.UnitStatId = request.UnitStatId;
+        var ammo = AmmoMapper.AmmoDtoToAmmo(request);
+        var unitStat = await applicationDbContext.UnitStats
+            .FirstOrDefaultAsync(x => x.GameUnitId == request.UnitId, cancellationToken);
+
+        ammo.UnitStat = unitStat;
+        
         await applicationDbContext.Ammo.AddAsync(ammo, cancellationToken);
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }

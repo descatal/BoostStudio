@@ -1,6 +1,7 @@
 ﻿using System.Buffers.Binary;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces.Formats;
+using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
