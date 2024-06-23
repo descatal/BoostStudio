@@ -4,6 +4,8 @@ using BoostStudio.Application.Contracts.Projectiles;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using UnitProjectileEntity=BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile;
+using ProjectileEntity=BoostStudio.Domain.Entities.Unit.Projectiles.Projectile;
 
 namespace BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 
@@ -22,58 +24,58 @@ public class ImportUnitProjectileCommandHandler(
             var statsBinaryFormat = await binarySerializer.DeserializeAsync(fileStream, cancellationToken);
 
             var unit = await applicationDbContext.Units
-                .FirstOrDefaultAsync(unitProjectile =>unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
-            
+                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
+
             if (unit is null)
                 continue;
-            
-            var entity = await applicationDbContext.UnitProjectiles
-                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
-        
-            var isExist = entity is not null;
-            
-            entity ??= new Domain.Entities.Unit.Projectiles.UnitProjectile
-            {
-                GameUnitId = (uint)statsBinaryFormat.UnitId
-            };
 
-            await MapToEntity(entity, statsBinaryFormat, cancellationToken);
-            
-            if (!isExist)
+            var entity = await applicationDbContext.UnitProjectiles
+                .Include(unitProjectile => unitProjectile.Projectiles)
+                .ThenInclude(projectile => projectile.Hitbox)
+                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
+
+            if (entity is null)
+            {
+                entity = new UnitProjectileEntity
+                {
+                    GameUnitId = statsBinaryFormat.UnitId
+                };
                 await applicationDbContext.UnitProjectiles.AddAsync(entity, cancellationToken);
+            }
+
+            MapToEntity(entity, statsBinaryFormat);
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
     }
-    
-    private async Task MapToEntity(
-        Domain.Entities.Unit.Projectiles.UnitProjectile entity, 
-        ProjectileBinaryFormat binaryFormat, 
-        CancellationToken cancellationToken = default)
+
+    private static void MapToEntity(
+        UnitProjectileEntity unitProjectile,
+        ProjectileBinaryFormat binaryData)
     {
-        var initialProjectileIds = entity.Projectiles.Select(projectile => projectile.Id);
-        
+        var initialProjectileIds = unitProjectile.Projectiles.Select(projectile => projectile.Id);
+
         // update the file magic info
-        entity.FileSignature = binaryFormat.FileMagic;
-        
-        foreach (var projectileBody in binaryFormat.Projectile)
+        unitProjectile.FileSignature = binaryData.FileMagic;
+
+        foreach (var projectileBody in binaryData.Projectile)
         {
-            var existingProjectile = entity.Projectiles
+            var existingProjectile = unitProjectile.Projectiles
                 .FirstOrDefault(projectile => projectile.Hash == projectileBody.Hash);
 
             if (existingProjectile is null)
             {
-                existingProjectile ??= new Domain.Entities.Unit.Projectiles.Projectile();
-                entity.Projectiles.Add(existingProjectile);
+                existingProjectile ??= new ProjectileEntity();
+                unitProjectile.Projectiles.Add(existingProjectile);
             }
-            
+
             ProjectileMapper.MapToEntity(projectileBody.Hash, projectileBody.ProjectileProperties, existingProjectile);
         }
-        
+
         // remove items not found in the file
-        entity.Projectiles
+        unitProjectile.Projectiles
             .Where(projectile => !initialProjectileIds.Contains(projectile.Id))
             .ToList()
-            .ForEach(projectile => entity.Projectiles.Remove(projectile));
+            .ForEach(projectile => unitProjectile.Projectiles.Remove(projectile));
     }
 }
