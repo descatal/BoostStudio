@@ -85,7 +85,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.Property<int>("Order")
                         .HasColumnType("INTEGER");
-
+                    
                     b.Property<uint>("ReleaseChargeLingerDurationFrame")
                         .HasColumnType("INTEGER");
 
@@ -135,297 +135,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.HasIndex("UnitStatId");
 
-                    b.ToTable("Ammo");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint>("Hash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<Guid?>("UnitHitboxId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UnitHitboxId");
-
-                    b.ToTable("Hitboxes");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.UnitHitbox", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint?>("FileSignature")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("GameUnitId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameUnitId")
-                        .IsUnique();
-
-                    b.ToTable("UnitHitboxes");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.Projectile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<float>("Acceleration")
-                        .HasColumnType("REAL");
-
-                    b.Property<uint>("AccelerationStartFrame")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("AimType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("AmmoConsumption")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("ChainedProjectileHash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("CosmeticHash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("DurationFrame")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Hash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint?>("HitboxHash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("HorizontalGuidance")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("HorizontalGuidanceAngle")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("InitialSpeed")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("MaxSpeed")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("MaxTravelDistance")
-                        .HasColumnType("REAL");
-
-                    b.Property<uint>("ModelHash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Reserved100")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved104")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved108")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved112")
-                        .HasColumnType("REAL");
-
-                    b.Property<uint>("Reserved116")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved136")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved140")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Reserved144")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved148")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved152")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved156")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved160")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved164")
-                        .HasColumnType("REAL");
-
-                    b.Property<uint>("Reserved168")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Reserved172")
-                        .HasColumnType("REAL");
-
-                    b.Property<uint>("Reserved180")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved184")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved192")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved196")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved204")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved208")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved212")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Reserved216")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Reserved220")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved224")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved228")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved232")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved236")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved240")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved244")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved248")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved252")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved256")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved260")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved264")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved268")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved272")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved276")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved92")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Reserved96")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("RotateX")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("RotateZ")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("Size")
-                        .HasColumnType("REAL");
-
-                    b.Property<uint>("SkeletonIndex")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("SoundEffectHash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("TranslateX")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("TranslateY")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("TranslateZ")
-                        .HasColumnType("REAL");
-
-                    b.Property<Guid?>("UnitProjectileId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint>("Unk44")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Unk48")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Unk52")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("Unk56")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("Unk84")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("VerticalGuidance")
-                        .HasColumnType("REAL");
-
-                    b.Property<float>("VerticalGuidanceAngle")
-                        .HasColumnType("REAL");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Hash");
-
-                    b.HasIndex("HitboxHash")
-                        .IsUnique();
-
-                    b.HasIndex("UnitProjectileId");
-
-                    b.ToTable("Projectiles");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint?>("FileSignature")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("GameUnitId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameUnitId")
-                        .IsUnique();
-
-                    b.ToTable("UnitProjectiles");
+                    b.ToTable("Ammo", (string)null);
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.Stat", b =>
@@ -891,7 +601,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.HasIndex("UnitStatId");
 
-                    b.ToTable("Stats");
+                    b.ToTable("Stats", (string)null);
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
@@ -917,7 +627,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", (string)null);
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitAmmoSlot", b =>
@@ -941,7 +651,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.HasIndex("UnitStatId");
 
-                    b.ToTable("UnitAmmoSlots");
+                    b.ToTable("UnitAmmoSlots", (string)null);
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
@@ -952,7 +662,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                     b.Property<uint?>("FileSignature")
                         .HasColumnType("INTEGER");
-
+                    
                     b.Property<uint>("GameUnitId")
                         .HasColumnType("INTEGER");
 
@@ -961,7 +671,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.HasIndex("GameUnitId")
                         .IsUnique();
 
-                    b.ToTable("UnitStats");
+                    b.ToTable("UnitStats", (string)null);
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
@@ -971,49 +681,6 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .HasForeignKey("UnitStatId");
 
                     b.Navigation("UnitStat");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.UnitHitbox", null)
-                        .WithMany("Hitboxes")
-                        .HasForeignKey("UnitHitboxId");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.UnitHitbox", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
-                        .WithOne("UnitHitboxes")
-                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.Hitboxes.UnitHitbox", "GameUnitId")
-                        .HasPrincipalKey("BoostStudio.Domain.Entities.Unit.Unit", "GameUnitId");
-
-                    b.Navigation("Unit");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.Projectile", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", "Hitbox")
-                        .WithOne()
-                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.Projectiles.Projectile", "HitboxHash")
-                        .HasPrincipalKey("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", "Hash");
-
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", "UnitProjectile")
-                        .WithMany("Projectiles")
-                        .HasForeignKey("UnitProjectileId");
-
-                    b.Navigation("Hitbox");
-
-                    b.Navigation("UnitProjectile");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
-                        .WithOne("UnitProjectiles")
-                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", "GameUnitId")
-                        .HasPrincipalKey("BoostStudio.Domain.Entities.Unit.Unit", "GameUnitId");
-
-                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.Stat", b =>
@@ -1055,22 +722,8 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.UnitHitbox", b =>
-                {
-                    b.Navigation("Hitboxes");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
-                {
-                    b.Navigation("Projectiles");
-                });
-
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
                 {
-                    b.Navigation("UnitHitboxes");
-
-                    b.Navigation("UnitProjectiles");
-
                     b.Navigation("UnitStats");
                 });
 
