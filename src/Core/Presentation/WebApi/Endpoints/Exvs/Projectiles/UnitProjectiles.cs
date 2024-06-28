@@ -18,29 +18,29 @@ public class UnitProjectiles : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this, DefinitionNames.Exvs)
-            .MapGet(GetUnitProjectileWithPagination)
-            .MapGet(GetUnitProjectileById, "{unitId}")
-            .MapPost(ImportUnitProjectile, "import")
-            .MapPost(ExportUnitProjectile, "export")
-            .MapPost(ExportUnitProjectileById, "export/{unitId}");
+            .MapGet(GetUnitProjectilesWithPagination)
+            .MapGet(GetUnitProjectileByUnitId, "{unitId}")
+            .MapPost(ImportUnitProjectiles, "import")
+            .MapPost(ExportUnitProjectiles, "export")
+            .MapPost(ExportUnitProjectileByUnitId, "export/{unitId}");
     }
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(PaginatedList<UnitProjectileDto>), StatusCodes.Status200OK)]
-    private static Task<PaginatedList<UnitProjectileDto>> GetUnitProjectileWithPagination(ISender sender, [AsParameters] GetUnitProjectileWithPaginationQuery request)
+    private static Task<PaginatedList<UnitProjectileDto>> GetUnitProjectilesWithPagination(ISender sender, [AsParameters] GetUnitProjectileWithPaginationQuery request)
     {
         return sender.Send(request);
     }
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(UnitProjectileDto), StatusCodes.Status200OK)]
-    private static Task<UnitProjectileDto> GetUnitProjectileById(ISender sender, [FromRoute] uint unitId)
+    private static Task<UnitProjectileDto> GetUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return sender.Send(new GetUnitProjectileByUnitIdQuery(unitId));
     }
     
     [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportUnitProjectile(ISender sender, [FromForm] IFormFileCollection files, CancellationToken cancellationToken)
+    private static async Task<IResult> ImportUnitProjectiles(ISender sender, [FromForm] IFormFileCollection files, CancellationToken cancellationToken)
     {
         var fileStreams = files.Select(formFile => formFile.OpenReadStream()).ToArray();
         await sender.Send(new ImportUnitProjectileCommand(fileStreams), cancellationToken);
@@ -52,14 +52,14 @@ public class UnitProjectiles : EndpointGroupBase
     }
     
     [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportUnitProjectile(ISender sender, ExportUnitProjectileCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportUnitProjectiles(ISender sender, ExportUnitProjectileCommand command, CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(command, cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
     
     [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportUnitProjectileById(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(new ExportUnitProjectileByIdCommand(unitId), cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);

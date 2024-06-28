@@ -13,7 +13,6 @@ public record ExportUnitStatByIdCommand(uint UnitId) : IRequest<FileInfo>;
 public class ExportUnitStatByIdCommandHandler(
     IUnitStatBinarySerializer statBinarySerializer,
     IApplicationDbContext applicationDbContext,
-    ICompressor compressor,
     ILogger<ExportUnitStatByIdCommandHandler> logger
 ) : IRequestHandler<ExportUnitStatByIdCommand, FileInfo>
 {

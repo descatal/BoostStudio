@@ -29,7 +29,7 @@ public class ApplicationDbContext(
     
     public DbSet<Hitbox> Hitboxes => Set<Hitbox>();
     
-    public DbSet<UnitHitbox> UnitHitboxes => Set<UnitHitbox>();
+    public DbSet<HitboxGroup> HitboxGroups => Set<HitboxGroup>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

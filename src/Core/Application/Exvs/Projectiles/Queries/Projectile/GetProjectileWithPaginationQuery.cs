@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Models;
+using BoostStudio.Application.Contracts.Hitboxes;
 using BoostStudio.Application.Contracts.Projectiles;
 
 namespace BoostStudio.Application.Exvs.Projectiles.Queries.Projectile;

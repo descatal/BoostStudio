@@ -43,6 +43,10 @@ public static partial class ProjectileMapper
             entity = MapToEntity(source);
         
         entity.Hash = hash;
+
+        if (entity.HitboxHash == 0)
+            entity.HitboxHash = null;
+        
         return entity;
     }
 }

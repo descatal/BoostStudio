@@ -11,9 +11,8 @@ namespace BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 public record ExportUnitProjectileByIdCommand(uint UnitId) : IRequest<FileInfo>;
 
 public class ExportUnitProjectileByIdCommandHandler(
-    IUnitProjectileBinarySerializer statBinarySerializer,
+    IUnitProjectileBinarySerializer binarySerializer,
     IApplicationDbContext applicationDbContext,
-    ICompressor compressor,
     ILogger<ExportUnitProjectileByIdCommandHandler> logger
 ) : IRequestHandler<ExportUnitProjectileByIdCommand, FileInfo>
 {
@@ -21,14 +20,15 @@ public class ExportUnitProjectileByIdCommandHandler(
     {
         var unitProjectile = await applicationDbContext.UnitProjectiles
             .Include(projectile => projectile.Unit)
+            .Include(projectile => projectile.Projectiles)
             .Where(projectile => command.UnitId == projectile.GameUnitId)
             .FirstOrDefaultAsync(cancellationToken);
 
         Guard.Against.NotFound(command.UnitId, unitProjectile);
         
-        var serializedBytes = await statBinarySerializer.SerializeAsync(unitProjectile, cancellationToken);
+        var serializedBytes = await binarySerializer.SerializeAsync(unitProjectile, cancellationToken);
         var fileName = JsonNamingPolicy.SnakeCaseLower.ConvertName(unitProjectile.Unit?.Name ?? unitProjectile.GameUnitId.ToString());
-        fileName = Path.ChangeExtension(fileName, ".stats");
+        fileName = Path.ChangeExtension(fileName, ".projectile");
         return new FileInfo(serializedBytes, fileName);
     }
 }

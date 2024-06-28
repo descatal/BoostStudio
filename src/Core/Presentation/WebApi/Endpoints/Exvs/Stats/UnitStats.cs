@@ -72,16 +72,14 @@ public class UnitStats : EndpointGroupBase
         return sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
     }
 
-    [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> CreateUnitAmmoSlot(ISender sender, CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         await sender.Send(command, cancellationToken);
         return Results.Created();
     }
 
-    [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> UpdateUnitAmmoSlot(ISender sender, Guid id, UpdateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id) return Results.BadRequest();

@@ -1,0 +1,17 @@
+﻿name: boost_studio
+services:
+  boost_studio_backend:
+    # please run the following on the first time:
+    # dotnet publish --os linux --arch x64 /t:PublishContainer -c Release --self-contained true
+    image: booststudio-web:latest
+    build:
+      context: .
+      dockerfile: src/Core/Presentation/WebApi/Dockerfile
+    container_name: "boost_studio_backend"
+    user: "root"
+    ports:
+      - "9420:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=DataSource=/home/app/.local/share/db/app.db;Cache=Shared
+    volumes:
+      - ./src/Core/Presentation/WebApi/Db:/home/app/.local/share/db

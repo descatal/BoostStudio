@@ -32,6 +32,8 @@ public class UnitProjectileBinarySerializer : IUnitProjectileBinarySerializer
         await using var projectileHashStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
         await using var projectileDataStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
         
+        projectileHashStream.WriteUint((uint)data.Projectiles.Count);
+        
         foreach (var projectile in data.Projectiles)
         {
             projectileHashStream.WriteUint(projectile.Hash);
@@ -116,6 +118,7 @@ public class UnitProjectileBinarySerializer : IUnitProjectileBinarySerializer
         await using var fileStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
         await fileStream.ConcatenateStreamAsync(metadataStream.Stream);
         await fileStream.ConcatenateStreamAsync(projectileHashStream.Stream);
+        await fileStream.ConcatenateStreamAsync(projectileDataStream.Stream);
         
         return fileStream.ToByteArray();
     }

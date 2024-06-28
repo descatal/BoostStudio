@@ -6,7 +6,7 @@ public class Projectile : BaseEntity<Guid>
 {
     public uint Hash { get; set; }
 
-    public uint ProjectileType;
+    public uint ProjectileType { get; set; }
 
     // navigation to hitbox properties, optional
     // if supplied, the hitbox will attach to the projectile model

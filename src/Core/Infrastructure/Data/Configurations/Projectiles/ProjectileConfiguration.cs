@@ -13,9 +13,9 @@ public class ProjectileConfiguration: IEntityTypeConfiguration<Projectile>
         builder.HasAlternateKey(projectile => projectile.Hash);
 
         builder.HasOne(projectile => projectile.Hitbox)
-            .WithOne()
-            .HasForeignKey<Projectile>(projectile => projectile.HitboxHash)
-            .HasPrincipalKey<Hitbox>(hitbox => hitbox.Hash)
+            .WithMany()
+            .HasForeignKey(projectile => projectile.HitboxHash)
+            .HasPrincipalKey(hitbox => hitbox.Hash)
             .IsRequired(false);
         
         builder.HasOne(projectile => projectile.UnitProjectile)

@@ -25,7 +25,7 @@ public interface IApplicationDbContext
     
     public DbSet<Hitbox> Hitboxes { get; }
     
-    public DbSet<UnitHitbox> UnitHitboxes { get; }
+    public DbSet<HitboxGroup> HitboxGroups { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

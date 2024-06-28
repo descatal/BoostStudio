@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Contracts.Hitboxes;
 using BoostStudio.Application.Contracts.Projectiles;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Models;
+using BoostStudio.Application.Contracts.Hitboxes.HitboxGroups;
 using BoostStudio.Application.Contracts.Projectiles.UnitProjectiles;
 
 namespace BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
@@ -10,7 +11,7 @@ public record GetUnitProjectileWithPaginationQuery(
     uint[]? UnitIds = null
 ) : IRequest<PaginatedList<UnitProjectileDto>>;
 
-public class GetUnitProjectileWithPainationQueryHandler(
+public class GetUnitProjectileWithPaginationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitProjectileWithPaginationQuery, PaginatedList<UnitProjectileDto>>
 {

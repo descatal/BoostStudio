@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
+using BoostStudio.Application.Contracts.Hitboxes;
 using BoostStudio.Application.Contracts.Projectiles;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +32,6 @@ public class ImportUnitProjectileCommandHandler(
 
             var entity = await applicationDbContext.UnitProjectiles
                 .Include(unitProjectile => unitProjectile.Projectiles)
-                .ThenInclude(projectile => projectile.Hitbox)
                 .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
 
             if (entity is null)
@@ -44,6 +44,20 @@ public class ImportUnitProjectileCommandHandler(
             }
 
             MapToEntity(entity, statsBinaryFormat);
+            
+            
+            
+            var allHitboxes = applicationDbContext.Hitboxes.Select(x => x.Hash).ToList();
+            var allNewHitboxes = entity.Projectiles.Select(x => x.HitboxHash).ToList();
+
+            foreach (var asd in allNewHitboxes)
+            {
+                if (asd.HasValue && !allHitboxes.Contains(asd.Value))
+                {
+                    
+                }
+            }
+            
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
@@ -53,28 +67,28 @@ public class ImportUnitProjectileCommandHandler(
         UnitProjectileEntity unitProjectile,
         ProjectileBinaryFormat binaryData)
     {
-        var initialProjectileIds = unitProjectile.Projectiles.Select(projectile => projectile.Id);
-
         // update the file magic info
         unitProjectile.FileSignature = binaryData.FileMagic;
 
+        var newEntityHashes = new List<uint>();
         foreach (var projectileBody in binaryData.Projectile)
         {
-            var existingProjectile = unitProjectile.Projectiles
+            var projectileEntity = unitProjectile.Projectiles
                 .FirstOrDefault(projectile => projectile.Hash == projectileBody.Hash);
 
-            if (existingProjectile is null)
+            if (projectileEntity is null)
             {
-                existingProjectile ??= new ProjectileEntity();
-                unitProjectile.Projectiles.Add(existingProjectile);
+                projectileEntity ??= new ProjectileEntity();
+                unitProjectile.Projectiles.Add(projectileEntity);
             }
 
-            ProjectileMapper.MapToEntity(projectileBody.Hash, projectileBody.ProjectileProperties, existingProjectile);
+            ProjectileMapper.MapToEntity(projectileBody.Hash, projectileBody.ProjectileProperties, projectileEntity);
+            newEntityHashes.Add(projectileEntity.Hash);
         }
 
         // remove items not found in the file
         unitProjectile.Projectiles
-            .Where(projectile => !initialProjectileIds.Contains(projectile.Id))
+            .Where(projectile => !newEntityHashes.Contains(projectile.Hash))
             .ToList()
             .ForEach(projectile => unitProjectile.Projectiles.Remove(projectile));
     }

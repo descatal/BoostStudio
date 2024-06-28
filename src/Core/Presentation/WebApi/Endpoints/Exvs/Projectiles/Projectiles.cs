@@ -14,14 +14,14 @@ public class Projectiles : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this, DefinitionNames.Exvs)
-            .MapGet(GetStatByPagination)
-            .MapGet(GetStatById, "{hash}")
+            .MapGet(GetProjectileByPagination)
+            .MapGet(GetProjectileById, "{hash}")
             .MapPost(CreateProjectile)
             .MapPost(UpdateProjectile, "{hash}");
     }
 
     [ProducesResponseType(typeof(PaginatedList<ProjectileDto>), StatusCodes.Status200OK)]
-    private static async Task<PaginatedList<ProjectileDto>> GetStatByPagination(
+    private static async Task<PaginatedList<ProjectileDto>> GetProjectileByPagination(
         ISender sender,
         [AsParameters] GetProjectileWithPaginationQuery request,
         CancellationToken cancellationToken)
@@ -30,7 +30,7 @@ public class Projectiles : EndpointGroupBase
     }
 
     [ProducesResponseType(typeof(ProjectileDto), StatusCodes.Status200OK)]
-    private static async Task<ProjectileDto> GetStatById(ISender sender, uint hash, CancellationToken cancellationToken)
+    private static async Task<ProjectileDto> GetProjectileById(ISender sender, uint hash, CancellationToken cancellationToken)
     {
         return await sender.Send(new GetProjectileByHashQuery(hash), cancellationToken);
     }

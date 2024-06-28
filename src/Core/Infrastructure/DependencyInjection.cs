@@ -1,8 +1,6 @@
-﻿using System.Diagnostics.Eventing.Reader;
-using System.Reflection;
+﻿using System.Reflection;
 using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Common.Interfaces.Formats;
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
@@ -19,12 +17,14 @@ using BoostStudio.Infrastructure.Formats.AudioFormats.Bnsf;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Nus3Audio;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
+using BoostStudio.Infrastructure.Formats.HitboxFormat;
 using BoostStudio.Infrastructure.Formats.ProjectileFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
 using BoostStudio.Infrastructure.Formats.StatsFormat;
 using BoostStudio.Infrastructure.Formats.TblFormat;
 using BoostStudio.Infrastructure.Scex;
 using FFMpegCore;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
@@ -38,8 +38,25 @@ public static class DependencyInjection
         #region Database
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");
+        Guard.Against.Null(connectionString, message: "Connection string not found.");
 
-        Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
+        // Parse connection string to place db files in nested directory
+        var sqliteConnectionBuilder = new SqliteConnectionStringBuilder(connectionString);
+        var dataSource = sqliteConnectionBuilder.DataSource;
+        var directory = Path.GetDirectoryName(dataSource);
+        var fileName = Path.GetFileName(dataSource);
+
+        if (string.IsNullOrWhiteSpace(directory) || !Path.IsPathFullyQualified(directory))
+            directory = Path.Combine(AppContext.BaseDirectory, directory ?? string.Empty);
+
+        if (!Directory.Exists(directory))
+        {
+            Console.WriteLine($"Creating new directory at {directory}");
+            Directory.CreateDirectory(directory);
+        }
+
+        sqliteConnectionBuilder.DataSource = Path.Combine(directory, fileName);
+        Console.WriteLine($"Connecting to database using connection string: {sqliteConnectionBuilder}");
 
         // Parse connection string to place db files in nested directory
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
@@ -48,7 +65,7 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>((sp, options) =>
         {
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
-            options.UseSqlite(connectionString, builder =>
+            options.UseSqlite(sqliteConnectionBuilder.ToString(), builder =>
             {
                 builder.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
                 
@@ -72,6 +89,7 @@ public static class DependencyInjection
         
         services.AddTransient<IUnitStatBinarySerializer, UnitStatBinarySerializer>();
         services.AddTransient<IUnitProjectileBinarySerializer, UnitProjectileBinarySerializer>();
+        services.AddTransient<IHitboxGroupBinarySerializer, HitboxGroupGroupBinarySerializer>();
         
         services.AddTransient<IBnsf, Bnsf>();
         services.AddTransient<IRiff, Riff>();
