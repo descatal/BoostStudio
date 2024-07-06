@@ -2,7 +2,7 @@
 using BoostStudio.Domain.Entities.Unit;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
+namespace BoostStudio.Application.Exvs.Stats.Commands.AmmoSlot;
 
 public record CreateUnitAmmoSlotCommand(uint AmmoHash, uint UnitId, int SlotOrder) : IRequest<Guid>;
 

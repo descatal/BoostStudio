@@ -1,18 +1,19 @@
 ﻿using BoostStudio.Application.Common.Enums;
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
 
-namespace BoostStudio.Application.Exvs2.Audio.Commands;
+namespace BoostStudio.Application.Exvs2.Audio.Commands.Nus3Bank;
 
-public record UnpackNus3AudioPathCommand(
+public record UnpackNus3BankPathCommand(
     string SourceFilePath,
-    string OutputDirectoryPath) : IRequest;
+    string OutputDirectoryPath
+) : IRequest;
 
-public class UnpackBnsfPathCommandHandler(
+public class UnpackNus3BankPathCommandHandler(
     INus3Audio nus3Audio,
     IAudioConverter audioConverter
-) : IRequestHandler<UnpackNus3AudioPathCommand>
+) : IRequestHandler<UnpackNus3BankPathCommand>
 {
-    public async Task Handle(UnpackNus3AudioPathCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UnpackNus3BankPathCommand request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();

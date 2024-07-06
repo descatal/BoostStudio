@@ -49,15 +49,15 @@ types:
       - id: aim_type
         type: u4
       - id: translate_y
-        type: u4
+        type: f4
       - id: translate_z
-        type: u4
+        type: f4
       - id: translate_x
-        type: u4
+        type: f4
       - id: rotate_x
-        type: u4
+        type: f4
       - id: rotate_z
-        type: u4
+        type: f4
       - id: cosmetic_hash
         type: u4
       - id: unk_44
@@ -67,7 +67,7 @@ types:
       - id: unk_52
         type: u4
       - id: unk_56
-        type: u4
+        type: f4
       - id: ammo_consumption
         type: u4
       - id: duration_frame

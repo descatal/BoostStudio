@@ -15,7 +15,8 @@ public class GetProjectileByHashQueryHandler(
     public async Task<ProjectileDto> Handle(GetProjectileByHashQuery request, CancellationToken cancellationToken)
     {
         var projectiles = applicationDbContext.Projectiles
-            .Where(projectile => projectile.Hash == request.Hash);
+            .Include(entity => entity.UnitProjectile)
+            .Where(entity => entity.Hash == request.Hash);
         
         var queryableDto = ProjectileMapper.ProjectToDto(projectiles);
         var dto = await queryableDto.FirstOrDefaultAsync(cancellationToken);

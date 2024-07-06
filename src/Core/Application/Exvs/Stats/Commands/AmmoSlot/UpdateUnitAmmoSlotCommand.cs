@@ -2,7 +2,7 @@
 using BoostStudio.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
+namespace BoostStudio.Application.Exvs.Stats.Commands.AmmoSlot;
 
 public record UpdateUnitAmmoSlotCommand(Guid Id, uint UnitId, int? SlotOrder = null, uint? AmmoHash = null) : IRequest;
 

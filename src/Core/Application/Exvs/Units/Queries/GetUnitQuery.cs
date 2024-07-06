@@ -6,7 +6,8 @@ using UnitMapper=BoostStudio.Application.Contracts.Mappers.UnitMapper;
 namespace BoostStudio.Application.Exvs.Units.Queries;
 
 public record GetUnitQuery(
-    uint[]? GameUnitIds = null
+    string? Search = null,
+    uint[]? UnitIds = null
 ) : IRequest<List<UnitDto>>;
 
 public class GetUnitQueryHandler(
@@ -17,12 +18,18 @@ public class GetUnitQueryHandler(
     {
         var unitsQuery = applicationDbContext.Units.AsQueryable();
 
-        if (query.GameUnitIds is not null && query.GameUnitIds.Length != 0)
-            unitsQuery = unitsQuery.Where(unit => query.GameUnitIds.Contains(unit.GameUnitId));
+        if (query.UnitIds is not null && query.UnitIds.Length != 0)
+            unitsQuery = unitsQuery.Where(unit => query.UnitIds.Contains(unit.GameUnitId));
 
-        var unit = await unitsQuery.ToListAsync(cancellationToken);
-        var mapper = new UnitMapper();
+        if (!string.IsNullOrWhiteSpace(query.Search))
+        {
+            unitsQuery = unitsQuery.Where(unit =>
+                unit.Name.ToLower().Contains(query.Search) ||
+                unit.NameChinese.ToLower().Contains(query.Search) ||
+                unit.NameJapanese.ToLower().Contains(query.Search));
+        }
         
-        return mapper.UnitToUnitDto(unit);
+        var unit = await unitsQuery.ToListAsync(cancellationToken);
+        return UnitMapper.MapToDto(unit);
     }
 }

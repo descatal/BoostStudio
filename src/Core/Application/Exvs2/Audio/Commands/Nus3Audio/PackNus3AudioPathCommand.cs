@@ -2,12 +2,13 @@
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
 using Microsoft.Extensions.Logging;
 
-namespace BoostStudio.Application.Exvs2.Audio.Commands;
+namespace BoostStudio.Application.Exvs2.Audio.Commands.Nus3Audio;
 
 public record PackNus3AudioPathCommand(
     string SourcePath, 
     string DestinationPath,
-    string? FileName = null) : IRequest;
+    string? FileName = null
+) : IRequest;
 
 public class PackBnsfPathCommandHandler(
     IAudioConverter audioConverter,

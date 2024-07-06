@@ -3,7 +3,7 @@ using Unit=BoostStudio.Domain.Entities.Unit.Unit;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
 
-public record CreateUnitCommand(uint GameUnitId, string Name, string NameJapanese, string NameChinese) : IRequest<Guid>;
+public record CreateUnitCommand(uint UnitId, string Name, string NameJapanese, string NameChinese) : IRequest<Guid>;
 
 public class CreateUnitCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -13,7 +13,7 @@ public class CreateUnitCommandHandler(
     {
         var entity = new Unit
         {
-            GameUnitId = command.GameUnitId,
+            GameUnitId = command.UnitId,
             Name = command.Name,
             NameJapanese = command.NameJapanese,
             NameChinese = command.NameChinese

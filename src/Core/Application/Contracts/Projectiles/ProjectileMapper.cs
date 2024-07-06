@@ -10,6 +10,7 @@ public static partial class ProjectileMapper
 {
     public static partial IQueryable<ProjectileDto> ProjectToDto(IQueryable<Projectile> entity);
     
+    [MapProperty([nameof(Projectile.UnitProjectile), nameof(Projectile.UnitProjectile.GameUnitId)], [nameof(ProjectileDto.UnitId)])]
     public static partial ProjectileDto MapToDto(Projectile entity);
     
     public static partial List<ProjectileDto> MapToDto(List<Projectile> entity);

@@ -16,17 +16,17 @@ public class Fhm : EndpointGroupBase
             .MapPost(PackFhm, "pack");
     }
     
-    public async Task PackFhmPath(ISender sender, [AsParameters] PackFhmPath request, CancellationToken cancellationToken)
+    private async Task PackFhmPath(ISender sender, [AsParameters] PackFhmPath request, CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
     }
     
-    public async Task UnpackFhmPath(ISender sender, [AsParameters] UnpackFhmPath request, CancellationToken cancellationToken)
+    private async Task UnpackFhmPath(ISender sender, [AsParameters] UnpackFhmPath request, CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
     }
 
-    public async Task<IResult> UnpackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)
+    private async Task<IResult> UnpackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)
     {
         var compressionFormat = CompressionFormats.Tar;
         await using var stream = file.OpenReadStream();
@@ -43,7 +43,7 @@ public class Fhm : EndpointGroupBase
         };
     }
 
-    public async Task<IResult> PackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)
+    private async Task<IResult> PackFhm(ISender sender, IFormFile file, CancellationToken cancellationToken)
     {
         await using var stream = file.OpenReadStream();
         using BinaryReader binaryReader = new(stream);

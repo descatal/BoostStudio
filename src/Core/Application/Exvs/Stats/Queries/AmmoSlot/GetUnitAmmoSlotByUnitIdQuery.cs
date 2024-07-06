@@ -15,6 +15,7 @@ public class GetUnitAmmoSlotByUnitIdQueryHandler(
     {
         var unitAmmoSlot = await applicationDbContext.UnitAmmoSlots
             .Where(stat => stat.UnitStat != null && stat.UnitStat.GameUnitId == request.UnitId)
+            .OrderBy(entity => entity.SlotOrder)
             .ToListAsync(cancellationToken);
         
         return StatMapper.MapToDto(unitAmmoSlot);

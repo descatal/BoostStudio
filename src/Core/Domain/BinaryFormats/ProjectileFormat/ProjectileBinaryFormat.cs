@@ -150,16 +150,16 @@ namespace BoostStudio.Formats
                 _modelHash = m_io.ReadU4be();
                 _skeletonIndex = m_io.ReadU4be();
                 _aimType = m_io.ReadU4be();
-                _translateY = m_io.ReadU4be();
-                _translateZ = m_io.ReadU4be();
-                _translateX = m_io.ReadU4be();
-                _rotateX = m_io.ReadU4be();
-                _rotateZ = m_io.ReadU4be();
+                _translateY = m_io.ReadF4be();
+                _translateZ = m_io.ReadF4be();
+                _translateX = m_io.ReadF4be();
+                _rotateX = m_io.ReadF4be();
+                _rotateZ = m_io.ReadF4be();
                 _cosmeticHash = m_io.ReadU4be();
                 _unk44 = m_io.ReadU4be();
                 _unk48 = m_io.ReadU4be();
                 _unk52 = m_io.ReadU4be();
-                _unk56 = m_io.ReadU4be();
+                _unk56 = m_io.ReadF4be();
                 _ammoConsumption = m_io.ReadU4be();
                 _durationFrame = m_io.ReadU4be();
                 _maxTravelDistance = m_io.ReadF4be();
@@ -221,16 +221,16 @@ namespace BoostStudio.Formats
             private uint _modelHash;
             private uint _skeletonIndex;
             private uint _aimType;
-            private uint _translateY;
-            private uint _translateZ;
-            private uint _translateX;
-            private uint _rotateX;
-            private uint _rotateZ;
+            private float _translateY;
+            private float _translateZ;
+            private float _translateX;
+            private float _rotateX;
+            private float _rotateZ;
             private uint _cosmeticHash;
             private uint _unk44;
             private uint _unk48;
             private uint _unk52;
-            private uint _unk56;
+            private float _unk56;
             private uint _ammoConsumption;
             private uint _durationFrame;
             private float _maxTravelDistance;
@@ -333,7 +333,7 @@ namespace BoostStudio.Formats
                     _aimType = value;
                 }
             }
-            public uint TranslateY
+            public float TranslateY
             {
                 get { return _translateY; }
 
@@ -342,7 +342,7 @@ namespace BoostStudio.Formats
                     _translateY = value;
                 }
             }
-            public uint TranslateZ
+            public float TranslateZ
             {
                 get { return _translateZ; }
 
@@ -351,7 +351,7 @@ namespace BoostStudio.Formats
                     _translateZ = value;
                 }
             }
-            public uint TranslateX
+            public float TranslateX
             {
                 get { return _translateX; }
 
@@ -360,7 +360,7 @@ namespace BoostStudio.Formats
                     _translateX = value;
                 }
             }
-            public uint RotateX
+            public float RotateX
             {
                 get { return _rotateX; }
 
@@ -369,7 +369,7 @@ namespace BoostStudio.Formats
                     _rotateX = value;
                 }
             }
-            public uint RotateZ
+            public float RotateZ
             {
                 get { return _rotateZ; }
 
@@ -414,7 +414,7 @@ namespace BoostStudio.Formats
                     _unk52 = value;
                 }
             }
-            public uint Unk56
+            public float Unk56
             {
                 get { return _unk56; }
 

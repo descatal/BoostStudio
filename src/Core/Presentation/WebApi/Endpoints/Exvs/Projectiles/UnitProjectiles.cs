@@ -6,7 +6,6 @@ using BoostStudio.Application.Contracts.Units;
 using BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 using BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
 using BoostStudio.Application.Exvs.Stats.Queries.UnitStat;
-using BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
 using ContentType=System.Net.Mime.MediaTypeNames;

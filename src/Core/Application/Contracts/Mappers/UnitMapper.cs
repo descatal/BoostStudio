@@ -5,13 +5,17 @@ using Unit = BoostStudio.Domain.Entities.Unit.Unit;
 namespace BoostStudio.Application.Contracts.Mappers;
 
 [Mapper]
-public partial class UnitMapper
+public static partial class UnitMapper
 {
-    public partial List<Unit> UnitDtoToUnit(List<UnitDto> dto);
+    public static partial List<Unit> UnitDtoToUnit(List<UnitDto> dto);
     
-    public partial Unit UnitDtoToUnit(UnitDto dto);
+    [MapProperty(nameof(UnitDto.UnitId), nameof(Unit.GameUnitId))]
+    public static partial Unit MapToEntity(UnitDto dto);
     
-    public partial List<UnitDto> UnitToUnitDto(List<Unit> entity);
+    public static partial List<UnitDto> MapToDto(List<Unit> entity);
     
-    public partial UnitDto UnitToUnitDto(Unit entity);
+    [MapProperty(nameof(Unit.GameUnitId), nameof(UnitDto.UnitId))]
+    public static partial UnitDto MapToDto(Unit entity);
+
+    public static partial Unit Update(Unit entity);
 }

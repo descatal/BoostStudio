@@ -28,7 +28,7 @@ public class Units : EndpointGroupBase
     
     private static async Task<IResult> UpdateUnit(ISender sender, uint unitId, UpdateUnitCommand command, CancellationToken cancellationToken)
     {
-        if (unitId != command.GameUnitId) return Results.BadRequest();
+        if (unitId != command.UnitId) return Results.BadRequest();
         await sender.Send(command, cancellationToken);
         return Results.NoContent();
     }

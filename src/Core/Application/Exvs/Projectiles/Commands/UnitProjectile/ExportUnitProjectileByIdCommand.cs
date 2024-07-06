@@ -23,7 +23,7 @@ public class ExportUnitProjectileByIdCommandHandler(
             .Include(projectile => projectile.Projectiles)
             .Where(projectile => command.UnitId == projectile.GameUnitId)
             .FirstOrDefaultAsync(cancellationToken);
-
+        
         Guard.Against.NotFound(command.UnitId, unitProjectile);
         
         var serializedBytes = await binarySerializer.SerializeAsync(unitProjectile, cancellationToken);

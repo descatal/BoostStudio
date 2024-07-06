@@ -52,7 +52,7 @@ public class UnitProjectileBinarySerializer : IUnitProjectileBinarySerializer
             projectileDataStream.WriteUint(projectile.Unk44);
             projectileDataStream.WriteUint(projectile.Unk48);
             projectileDataStream.WriteUint(projectile.Unk52);
-            projectileDataStream.WriteUint(projectile.Unk56);
+            projectileDataStream.WriteFloat(projectile.Unk56);
             projectileDataStream.WriteUint(projectile.AmmoConsumption);
             projectileDataStream.WriteUint(projectile.DurationFrame);
             projectileDataStream.WriteFloat(projectile.MaxTravelDistance);

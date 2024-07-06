@@ -475,7 +475,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<uint>("Unk56")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("REAL");
 
                     b.Property<float>("Unk84")
                         .HasColumnType("REAL");

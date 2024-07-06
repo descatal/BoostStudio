@@ -116,7 +116,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     Unk44 = table.Column<uint>(type: "INTEGER", nullable: false),
                     Unk48 = table.Column<uint>(type: "INTEGER", nullable: false),
                     Unk52 = table.Column<uint>(type: "INTEGER", nullable: false),
-                    Unk56 = table.Column<uint>(type: "INTEGER", nullable: false),
+                    Unk56 = table.Column<float>(type: "REAL", nullable: false),
                     AmmoConsumption = table.Column<uint>(type: "INTEGER", nullable: false),
                     DurationFrame = table.Column<uint>(type: "INTEGER", nullable: false),
                     MaxTravelDistance = table.Column<float>(type: "REAL", nullable: false),

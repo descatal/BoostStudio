@@ -1,10 +1,10 @@
 ﻿using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Stats.UnitStats;
+using BoostStudio.Application.Exvs.Stats.Commands.AmmoSlot;
 using BoostStudio.Application.Exvs.Stats.Commands.UnitStat;
 using BoostStudio.Application.Exvs.Stats.Queries.AmmoSlot;
 using BoostStudio.Application.Exvs.Stats.Queries.UnitStat;
-using BoostStudio.Application.Exvs.UnitAmmoSlots.Commands;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
 using ContentType=System.Net.Mime.MediaTypeNames;
