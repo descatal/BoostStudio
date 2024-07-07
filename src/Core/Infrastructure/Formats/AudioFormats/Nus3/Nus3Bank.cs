@@ -1,14 +1,13 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
 using Microsoft.Extensions.Logging;
 
-namespace BoostStudio.Infrastructure.Formats.AudioFormats.Nus3Audio;
+namespace BoostStudio.Infrastructure.Formats.AudioFormats.Nus3;
 
-public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
+public class Nus3Bank(ILogger<Nus3Bank> logger) : INus3Bank
 {
-    public async Task UnpackNus3AudioAsync(
+    public async Task UnpackNus3BankAsync(
         string sourcePath, 
         string destinationPath, 
         CancellationToken cancellationToken = default)
@@ -18,7 +17,7 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
         
         Directory.CreateDirectory(destinationPath);
         
-        var nus3AudioCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3audio", "nus3audio.exe");
+        var nus3BankCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3bank", "nus3bank.exe");
         var arguments = $"--extract \"{destinationPath}\" -- \"{sourcePath}\"";
         
         // Execute process
@@ -27,7 +26,7 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
         {
             Arguments = arguments,
             CreateNoWindow = true,
-            FileName = nus3AudioCliPath,
+            FileName = nus3BankCliPath,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
         };
@@ -48,20 +47,20 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
         await psarcProcess.WaitForExitAsync(cancellationToken);
 
         if (psarcProcess.ExitCode != 0)
-            throw new Exception($"Failed to unpack nus3audio file, error output: {errorOutput}");
+            throw new Exception($"Failed to unpack nus3bank file, error output: {errorOutput}");
     }
     
-    public async Task<byte[]> PackDirectoryToNus3AudioAsync(string sourcePath, CancellationToken cancellationToken = default)
+    public async Task<byte[]> PackDirectoryToNus3BankAsync(string sourcePath, CancellationToken cancellationToken = default)
     {
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
 
         try
         {
-            var nus3AudioFilePath = Path.Combine(workingDirectory, "output.nus3audio");
+            var nus3BankFilePath = Path.Combine(workingDirectory, "output.nus3bank");
             
-            var nus3AudioCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3audio", "nus3audio.exe");
-            var arguments = $"--construct \"{sourcePath}\" --write \"{nus3AudioFilePath}\"";
+            var nus3BankCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "nus3bank", "nus3bank.exe");
+            var arguments = $"--construct \"{sourcePath}\" --write \"{nus3BankFilePath}\"";
         
             // Execute process
             using var psarcProcess = new Process();
@@ -69,7 +68,7 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
             {
                 Arguments = arguments,
                 CreateNoWindow = true,
-                FileName = nus3AudioCliPath,
+                FileName = nus3BankFilePath,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 WorkingDirectory = workingDirectory
@@ -90,10 +89,10 @@ public class Nus3Audio(ILogger<Nus3Audio> logger) : INus3Audio
         
             await psarcProcess.WaitForExitAsync(cancellationToken);
 
-            if (psarcProcess.ExitCode != 0 || !File.Exists(nus3AudioFilePath))
+            if (psarcProcess.ExitCode != 0 || !File.Exists(nus3BankCliPath))
                 return [];
         
-            return await File.ReadAllBytesAsync(nus3AudioFilePath, cancellationToken);
+            return await File.ReadAllBytesAsync(nus3BankCliPath, cancellationToken);
         }
         finally
         {

@@ -8,7 +8,7 @@ public record UnpackNus3AudioPathCommand(
     string OutputDirectoryPath
 ) : IRequest;
 
-public class UnpackBnsfPathCommandHandler(
+public class UnpackNus3AudioPathCommandHandler(
     INus3Audio nus3Audio,
     IAudioConverter audioConverter
 ) : IRequestHandler<UnpackNus3AudioPathCommand>

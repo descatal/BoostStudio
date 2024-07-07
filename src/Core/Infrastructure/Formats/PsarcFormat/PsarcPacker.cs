@@ -70,12 +70,18 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
 
+        var isLinux = OperatingSystem.IsLinux();
+        var tempPsarcExePath = await InitializeExecutableAsync(workingDirectory, cancellationToken);
+        var wine = isLinux ? "/usr/bin/wine" : tempPsarcExePath;
+        var wineArg = isLinux ? $"\"{tempPsarcExePath}\"" : string.Empty;
+        var unpackDirectory = isLinux 
+            ? Path.GetRandomFileName()
+            : destinationPath;
+        
         if (!Directory.Exists(destinationPath))
             Directory.CreateDirectory(destinationPath);
-
-        var tempPsarcExePath = await InitializeExecutableAsync(workingDirectory, cancellationToken);
-
-        var arguments = $"extract --input=\"{sourceFilePath}\" --to=\"{destinationPath}\"";
+        
+        var arguments = $"{wineArg} extract --input=\"{sourceFilePath}\" --to=\"{unpackDirectory}\"";
         logger.LogInformation("Executing psarc.exe with: {arguments}", arguments);
         
         // Execute process
@@ -84,20 +90,42 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         {
             Arguments = arguments,
             CreateNoWindow = true,
-            FileName = tempPsarcExePath,
+            FileName = wine,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
+            WorkingDirectory = workingDirectory
         };
         psarcProcess.Start();
 
         // Synchronously read the standard output of the spawned process.
-        var reader = psarcProcess.StandardOutput;
-        while (await reader.ReadLineAsync(cancellationToken) is {} outputLine)
-        {
+        var standardOutputReader = psarcProcess.StandardOutput;
+        while (await standardOutputReader.ReadLineAsync(cancellationToken) is {} outputLine)
             logger.LogInformation("{outputLine}", outputLine);
-        }
+        
+        var standardErrorReader = psarcProcess.StandardError;
+        while (await standardErrorReader.ReadLineAsync(cancellationToken) is {} outputLine)
+            logger.LogWarning("{outputLine}", outputLine);
+        
         await psarcProcess.WaitForExitAsync(cancellationToken);
 
+        if (isLinux)
+        {
+            var unpackWorkingDirectory = Path.Combine(workingDirectory, unpackDirectory);
+            var allDirectories = Directory.GetDirectories(unpackWorkingDirectory, "*", SearchOption.AllDirectories);
+            foreach (string dir in allDirectories) 
+            { 
+                string dirToCreate = dir.Replace(unpackWorkingDirectory, destinationPath); 
+                Directory.CreateDirectory(dirToCreate);
+            }
+            
+            var allFiles = Directory.GetFiles(unpackWorkingDirectory, "*.*", SearchOption.AllDirectories);
+            foreach (string fileName in allFiles)
+            {
+                var targetPath = fileName.Replace(unpackWorkingDirectory, destinationPath);
+                File.Copy(fileName, targetPath, true); 
+            } 
+        }
+        
         if (!Directory.Exists(destinationPath))
             throw new Exception("Failed to unpack psarc archive.");
         
@@ -169,8 +197,12 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         await File.WriteAllTextAsync(tempMetadataPath, tempString, cancellationToken);
         
         logger.LogInformation("Constructed psarc xml metadata: {@tempString}", tempString);
-
-        var arguments = $"create --xml \"{tempMetadataPath}\"";
+        
+        var isLinux = OperatingSystem.IsLinux();
+        var wine = isLinux ? "/usr/bin/wine" : tempPsarcExePath;
+        var wineArg = isLinux ? $"\"{tempPsarcExePath}\"" : string.Empty;
+        
+        var arguments = $"{wineArg} create --xml \"{tempMetadataPath}\"";
         logger.LogInformation("Executing psarc.exe with: {arguments}", arguments);
         
         // Execute process
@@ -179,19 +211,22 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         {
             Arguments = arguments,
             CreateNoWindow = true,
-            FileName = tempPsarcExePath,
+            FileName = wine,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
+            WorkingDirectory = workingDirectory
         };
         psarcProcess.Start();
 
         // Synchronously read the standard output of the spawned process.
-        var reader = psarcProcess.StandardOutput;
-
-        while (await reader.ReadLineAsync(cancellationToken) is {} outputLine)
-        {
+        var standardOutputReader = psarcProcess.StandardOutput;
+        while (await standardOutputReader.ReadLineAsync(cancellationToken) is {} outputLine)
             logger.LogInformation("{outputLine}", outputLine);
-        }
+        
+        var standardErrorReader = psarcProcess.StandardError;
+        while (await standardErrorReader.ReadLineAsync(cancellationToken) is {} outputLine)
+            logger.LogWarning("{outputLine}", outputLine);
+        
         await psarcProcess.WaitForExitAsync(cancellationToken);
 
         if (!File.Exists(destinationPath))

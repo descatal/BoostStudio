@@ -3,27 +3,27 @@ using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
 using BoostStudio.Application.Common.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace BoostStudio.Application.Exvs2.Audio.Commands.Nus3Audio;
+namespace BoostStudio.Application.Exvs2.Audio.Commands.Nus3Bank;
 
-public record PackNus3AudioPathCommand(
+public record PackNus3BankPathCommand(
     string SourcePath, 
     string DestinationPath,
     string? FileName = null
 ) : IRequest;
 
-public class PackNus3AudioPathCommandHandler(
+public class PackNus3BankPathCommandHandler(
     IAudioConverter audioConverter,
     INus3Audio nus3Audio,
-    ILogger<PackNus3AudioPathCommandHandler> logger
-) : IRequestHandler<PackNus3AudioPathCommand>
+    ILogger<PackNus3BankPathCommandHandler> logger
+) : IRequestHandler<PackNus3BankPathCommand>
 {
-    public async Task Handle(PackNus3AudioPathCommand request, CancellationToken cancellationToken)
+    public async Task Handle(PackNus3BankPathCommand request, CancellationToken cancellationToken)
     {
         (string? sourceDirectory, string? destinationPath) = PathUtils.ParseSourceDirectory(
             request.SourcePath, 
             request.DestinationPath, 
             request.FileName);
-
+        
         var temporaryWorkingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(temporaryWorkingDirectory);
         
@@ -34,7 +34,7 @@ public class PackNus3AudioPathCommandHandler(
             {
                 var subSongFileName = Path.GetFileNameWithoutExtension(filePath);
                 var subSongFilePath = Path.Combine(temporaryWorkingDirectory, subSongFileName);
-                subSongFilePath = Path.ChangeExtension(subSongFilePath, "bnsf");
+                subSongFilePath = Path.ChangeExtension(subSongFilePath, "wav");
                 
                 var audioBinary = await File.ReadAllBytesAsync(filePath, cancellationToken);
                 var bnsfBinary = await audioConverter.ConvertAsync(audioBinary, AudioFormat.Bnsf, cancellationToken);

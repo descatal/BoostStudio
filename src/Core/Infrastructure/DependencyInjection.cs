@@ -14,7 +14,7 @@ using BoostStudio.Infrastructure.Data.Interceptors;
 using BoostStudio.Infrastructure.Formats.AmmoFormat;
 using BoostStudio.Infrastructure.Formats.AudioFormats;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Bnsf;
-using BoostStudio.Infrastructure.Formats.AudioFormats.Nus3Audio;
+using BoostStudio.Infrastructure.Formats.AudioFormats.Nus3;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
 using BoostStudio.Infrastructure.Formats.HitboxFormat;

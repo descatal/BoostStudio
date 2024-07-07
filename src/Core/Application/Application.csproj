@@ -36,7 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Utils\" />
     <Folder Include="Exvs2\" />
     <Folder Include="Formats\StatsFormat\Commands\" />
   </ItemGroup>
