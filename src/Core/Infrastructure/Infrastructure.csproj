@@ -3,6 +3,8 @@
   <PropertyGroup>
     <RootNamespace>BoostStudio.Infrastructure</RootNamespace>
     <AssemblyName>BoostStudio.Infrastructure</AssemblyName>
+    <Configurations>Debug;Release;Console</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,9 +26,15 @@
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
-
+  
   <ItemGroup>
-    
+    <None Remove="Resources\psarc.exe" />
+    <EmbeddedResource Include="Resources\psarc.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'!='CONSOLE'">
     <None Remove="Resources\g7221\decode.exe" />
     <EmbeddedResource Include="Resources\g7221\decode.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -90,10 +98,6 @@
     </EmbeddedResource>
     <None Remove="Resources\vgmstream\vgmstream-cli.exe" />
     <EmbeddedResource Include="Resources\vgmstream\vgmstream-cli.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <None Remove="Resources\psarc.exe" />
-    <EmbeddedResource Include="Resources\psarc.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Remove="Resources\scex-compiler.exe" />

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <RootNamespace>BoostStudio.Domain.UnitTests</RootNamespace>
     <AssemblyName>BoostStudio.Domain.UnitTests</AssemblyName>
+    <Configurations>Debug;Release;Console</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

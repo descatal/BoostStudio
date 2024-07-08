@@ -79,7 +79,7 @@ jobs:
     - name: Publish console (win-x64)
       if: ${{ inputs.build-artifacts == true }}
       run: |
-        dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
+        dotnet publish --configuration Console --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
       working-directory: ./src/Core/Presentation/Console
 
     - name: Upload console artifacts (win-x64)
@@ -93,7 +93,7 @@ jobs:
     - name: Publish console (linux-x64)
       if: ${{ inputs.build-artifacts == true }}
       run: |
-        dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
+        dotnet publish --configuration Console --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
       working-directory: ./src/Core/Presentation/Console
 
     - name: Upload console artifacts (linux-x64)

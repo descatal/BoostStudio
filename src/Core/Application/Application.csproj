@@ -3,6 +3,8 @@
   <PropertyGroup>
     <RootNamespace>BoostStudio.Application</RootNamespace>
     <AssemblyName>BoostStudio.Application</AssemblyName>
+    <Configurations>Debug;Release;Console</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

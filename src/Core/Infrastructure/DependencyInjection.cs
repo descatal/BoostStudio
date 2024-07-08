@@ -37,6 +37,7 @@ public static class DependencyInjection
     {
         #region Database
 
+#if !CONSOLE
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         Guard.Against.Null(connectionString, message: "Connection string not found.");
 
@@ -76,7 +77,8 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<ApplicationDbContextInitializer>();
-
+#endif
+        
         #endregion
         
         services.AddSingleton(TimeProvider.System);

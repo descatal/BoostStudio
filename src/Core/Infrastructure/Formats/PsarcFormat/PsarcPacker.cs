@@ -150,9 +150,10 @@ public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
         var tempPsarcExePath = await InitializeExecutableAsync(workingDirectory, cancellationToken);
 
         // Construct metadata xml: adding all of the files to be packed.
-        var fileSystemsPath = Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories);
+        var fileSystemsPath = Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories).ToList();
+        fileSystemsPath = fileSystemsPath.OrderBy(s => s).ToList();
 
-        logger.LogInformation("Number of files to be packed: {fileLength}", fileSystemsPath.Length);
+        logger.LogInformation("Number of files to be packed: {fileLength}", fileSystemsPath.Count);
         
         var create = new XElement("create",
             new XAttribute("overwrite", "true"),
