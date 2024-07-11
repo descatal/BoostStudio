@@ -32,8 +32,8 @@ using var serviceProvider = services.BuildServiceProvider();
 ConsoleApp.ServiceProvider = serviceProvider;
 
 var app = ConsoleApp.Create();
-app.Add<PackPsarcRequest>();
-app.Add<UnpackPsarcRequest>();
+app.Add<PackPsarcRequest>("psarc");
+app.Add<UnpackPsarcRequest>("psarc");
 app.Run(args);
 
 // try
