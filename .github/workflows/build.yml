@@ -19,8 +19,10 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: 
+        os: [windows-latest, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v3
@@ -49,13 +51,13 @@ jobs:
       run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName!~AcceptanceTests"
 
     - name: Publish website (win-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
       run: |
         dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
       working-directory: ./src/Core/Presentation/WebApi
 
     - name: Upload website artifacts (win-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
         name: BoostStudio.Web-win-x64
@@ -63,13 +65,13 @@ jobs:
         if-no-files-found: error
 
     - name: Publish website (linux-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
       run: |
         dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
       working-directory: ./src/Core/Presentation/WebApi
 
     - name: Upload website artifacts (linux-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
         name: BoostStudio.Web-linux-x64
@@ -77,13 +79,13 @@ jobs:
         if-no-files-found: error
         
     - name: Publish console (win-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
       run: |
         dotnet publish --configuration Console --runtime win-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false --output ./publish/win-x64
       working-directory: ./src/Core/Presentation/Console
 
     - name: Upload console artifacts (win-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
         name: BoostStudio.Console-win-x64
@@ -91,13 +93,13 @@ jobs:
         if-no-files-found: error
         
     - name: Publish console (linux-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
       run: |
         dotnet publish --configuration Console --runtime linux-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false --output ./publish/linux-x64
       working-directory: ./src/Core/Presentation/Console
 
     - name: Upload console artifacts (linux-x64)
-      if: ${{ inputs.build-artifacts == true }}
+      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
       uses: actions/upload-artifact@v3
       with:
         name: BoostStudio.Console-linux-x64
