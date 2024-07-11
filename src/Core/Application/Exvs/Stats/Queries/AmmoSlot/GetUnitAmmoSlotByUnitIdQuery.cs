@@ -11,7 +11,7 @@ public class GetUnitAmmoSlotByUnitIdQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitAmmoSlotByUnitIdQuery, List<UnitAmmoSlotDto>>
 {
-    public async Task<List<UnitAmmoSlotDto>> Handle(GetUnitAmmoSlotByUnitIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<List<UnitAmmoSlotDto>> Handle(GetUnitAmmoSlotByUnitIdQuery request, CancellationToken cancellationToken)
     {
         var unitAmmoSlot = await applicationDbContext.UnitAmmoSlots
             .Where(stat => stat.UnitStat != null && stat.UnitStat.GameUnitId == request.UnitId)

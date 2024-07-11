@@ -15,7 +15,7 @@ public class GetUnitProjectileWithPaginationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitProjectileWithPaginationQuery, PaginatedList<UnitProjectileDto>>
 {
-    public async Task<PaginatedList<UnitProjectileDto>> Handle(GetUnitProjectileWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<UnitProjectileDto>> Handle(GetUnitProjectileWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var unitProjectilesQueryable = applicationDbContext.UnitProjectiles.AsQueryable();
 

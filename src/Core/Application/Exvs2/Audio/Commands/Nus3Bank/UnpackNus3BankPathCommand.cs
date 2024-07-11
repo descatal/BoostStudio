@@ -13,7 +13,7 @@ public class UnpackNus3BankPathCommandHandler(
     IAudioConverter audioConverter
 ) : IRequestHandler<UnpackNus3BankPathCommand>
 {
-    public async Task Handle(UnpackNus3BankPathCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UnpackNus3BankPathCommand request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();
@@ -46,5 +46,7 @@ public class UnpackNus3BankPathCommandHandler(
                     break;
             }
         }
+
+        return default;
     }
 }

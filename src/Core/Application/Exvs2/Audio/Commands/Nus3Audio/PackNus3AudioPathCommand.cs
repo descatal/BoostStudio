@@ -17,7 +17,7 @@ public class PackNus3AudioPathCommandHandler(
     ILogger<PackNus3AudioPathCommandHandler> logger
 ) : IRequestHandler<PackNus3AudioPathCommand>
 {
-    public async Task Handle(PackNus3AudioPathCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(PackNus3AudioPathCommand request, CancellationToken cancellationToken)
     {
         (string? sourceDirectory, string? destinationPath) = PathUtils.ParseSourceDirectory(
             request.SourcePath, 
@@ -49,5 +49,7 @@ public class PackNus3AudioPathCommandHandler(
             // Cleanup regardless
             Directory.Delete(temporaryWorkingDirectory, true);
         }
+
+        return default;
     }
 }

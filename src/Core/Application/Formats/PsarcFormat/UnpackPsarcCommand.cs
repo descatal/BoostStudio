@@ -6,7 +6,7 @@ public record UnpackPsarcCommand(string SourceFilePath, string OutputDirectoryPa
 
 public class UnpackPsarcCommandHandler(IPsarcPacker psarcPacker) : IRequestHandler<UnpackPsarcCommand>
 {
-    public async Task Handle(UnpackPsarcCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UnpackPsarcCommand request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();
@@ -23,5 +23,7 @@ public class UnpackPsarcCommandHandler(IPsarcPacker psarcPacker) : IRequestHandl
         
         if (!Directory.Exists(outputDirectory))
             Directory.CreateDirectory(outputDirectory);
+        
+        return default;
     }
 }

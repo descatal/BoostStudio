@@ -26,16 +26,16 @@ public class UnitProjectiles : EndpointGroupBase
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(PaginatedList<UnitProjectileDto>), StatusCodes.Status200OK)]
-    private static Task<PaginatedList<UnitProjectileDto>> GetUnitProjectilesWithPagination(ISender sender, [AsParameters] GetUnitProjectileWithPaginationQuery request)
+    private static async Task<PaginatedList<UnitProjectileDto>> GetUnitProjectilesWithPagination(ISender sender, [AsParameters] GetUnitProjectileWithPaginationQuery request)
     {
-        return sender.Send(request);
+        return await sender.Send(request);
     }
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(UnitProjectileDto), StatusCodes.Status200OK)]
-    private static Task<UnitProjectileDto> GetUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId)
+    private static async Task<UnitProjectileDto> GetUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId)
     {
-        return sender.Send(new GetUnitProjectileByUnitIdQuery(unitId));
+        return await sender.Send(new GetUnitProjectileByUnitIdQuery(unitId));
     }
     
     [ProducesResponseType(StatusCodes.Status201Created)]

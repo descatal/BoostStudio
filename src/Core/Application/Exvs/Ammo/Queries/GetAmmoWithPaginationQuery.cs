@@ -17,7 +17,7 @@ public class GetAmmoWithPaginationQueryhandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetAmmoWithPaginationQuery, PaginatedList<AmmoDto>>
 {
-    public async Task<PaginatedList<AmmoDto>> Handle(GetAmmoWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<AmmoDto>> Handle(GetAmmoWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var query = applicationDbContext.Ammo
             .Include(stat => stat.UnitStat)

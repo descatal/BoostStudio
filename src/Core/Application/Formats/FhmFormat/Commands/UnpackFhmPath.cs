@@ -13,7 +13,7 @@ public class UnpackFhmPathHandler(
     ILogger<UnpackFhmPathHandler> logger
 ) : IRequestHandler<UnpackFhmPath>
 {
-    public async Task Handle(UnpackFhmPath request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UnpackFhmPath request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();
@@ -28,5 +28,7 @@ public class UnpackFhmPathHandler(
 
         var inputBytes = await File.ReadAllBytesAsync(request.SourceFilePath, cancellationToken);
         await sender.Send(new UnpackFhmToDirectory(inputBytes, outputDirectory, request.MultipleFiles), cancellationToken);
+        
+        return default;
     }
 }

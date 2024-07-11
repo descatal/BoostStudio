@@ -9,7 +9,7 @@ public record CreateStatCommand() : StatDetailsDto, IRequest<Guid>;
 
 public class CreateStatCommandHandler(IApplicationDbContext applicationDbContext) : IRequestHandler<CreateStatCommand, Guid>
 {
-    public async Task<Guid> Handle(CreateStatCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Guid> Handle(CreateStatCommand command, CancellationToken cancellationToken)
     {
         var entity = StatMapper.MapToEntity(command);
         applicationDbContext.Stats.Add(entity);

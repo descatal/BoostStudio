@@ -9,7 +9,7 @@ public class CreateUnitCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<CreateUnitCommand, Guid>
 {
-    public async Task<Guid> Handle(CreateUnitCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Guid> Handle(CreateUnitCommand command, CancellationToken cancellationToken)
     {
         var entity = new Unit
         {

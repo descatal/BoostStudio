@@ -19,7 +19,7 @@ public class ExportHitboxGroupByIdCommandHandler(
     ILogger<ExportHitboxGroupByIdCommandHandler> logger
 ) : IRequestHandler<ExportHitboxGroupByHashCommand, FileInfo>, IRequestHandler<ExportHitboxGroupByUnitIdCommand, FileInfo>
 {
-    public async Task<FileInfo> Handle(ExportHitboxGroupByHashCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportHitboxGroupByHashCommand command, CancellationToken cancellationToken)
     {
         var group = await applicationDbContext.HitboxGroups
             .Include(group => group.Unit)
@@ -31,7 +31,7 @@ public class ExportHitboxGroupByIdCommandHandler(
         return await SerializeEntity(group, cancellationToken);
     }
 
-    public async Task<FileInfo> Handle(ExportHitboxGroupByUnitIdCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportHitboxGroupByUnitIdCommand command, CancellationToken cancellationToken)
     {
         var group = await applicationDbContext.HitboxGroups
             .Include(group => group.Unit)

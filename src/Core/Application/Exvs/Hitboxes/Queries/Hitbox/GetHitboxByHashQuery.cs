@@ -12,7 +12,7 @@ public class GetHitboxByHashQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetHitboxByHashQuery, HitboxDto>
 {
-    public async Task<HitboxDto> Handle(GetHitboxByHashQuery request, CancellationToken cancellationToken)
+    public async ValueTask<HitboxDto> Handle(GetHitboxByHashQuery request, CancellationToken cancellationToken)
     {
         var projectiles = applicationDbContext.Hitboxes
             .Where(projectile => projectile.Hash == request.Hash);

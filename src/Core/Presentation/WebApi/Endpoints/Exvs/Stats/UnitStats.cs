@@ -28,16 +28,16 @@ public class UnitStats : EndpointGroupBase
 
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(PaginatedList<UnitStatDto>), StatusCodes.Status200OK)]
-    private static Task<PaginatedList<UnitStatDto>> GetUnitStatWithPagination(ISender sender, [AsParameters] GetUnitStatWithPaginationQuery request)
+    private static async Task<PaginatedList<UnitStatDto>> GetUnitStatWithPagination(ISender sender, [AsParameters] GetUnitStatWithPaginationQuery request)
     {
-        return sender.Send(request);
+        return await sender.Send(request);
     }
 
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(UnitStatDto), StatusCodes.Status200OK)]
-    private static Task<UnitStatDto> GetUnitStatById(ISender sender, [FromRoute] uint unitId)
+    private static async Task<UnitStatDto> GetUnitStatById(ISender sender, [FromRoute] uint unitId)
     {
-        return sender.Send(new GetUnitStatByUnitIdQuery(unitId));
+        return await sender.Send(new GetUnitStatByUnitIdQuery(unitId));
     }
 
     private static async Task<IResult> ImportUnitStat(ISender sender, [FromForm] IFormFileCollection files, CancellationToken cancellationToken)
@@ -67,9 +67,9 @@ public class UnitStats : EndpointGroupBase
 
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(List<UnitAmmoSlotDto>), StatusCodes.Status200OK)]
-    private static Task<List<UnitAmmoSlotDto>> GetUnitAmmoSlotByUnitId(ISender sender, [FromRoute] uint unitId)
+    private static async Task<List<UnitAmmoSlotDto>> GetUnitAmmoSlotByUnitId(ISender sender, [FromRoute] uint unitId)
     {
-        return sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
+        return await sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
     }
 
     [ProducesResponseType(StatusCodes.Status201Created)]

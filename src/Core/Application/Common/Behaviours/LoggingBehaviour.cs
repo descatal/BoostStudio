@@ -1,25 +1,16 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using MediatR.Pipeline;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace BoostStudio.Application.Common.Behaviours;
 
-public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : notnull
+public class LoggingBehaviour<TMessage, TResponse>(ILogger<TMessage> logger) : MessagePreProcessor<TMessage, TResponse>
+    where TMessage : IMessage
 {
-    private readonly ILogger _logger;
-
-    public LoggingBehaviour(ILogger<TRequest> logger)
+    protected override ValueTask Handle(TMessage request, CancellationToken cancellationToken)
     {
-        _logger = logger;
-    }
-
-    public Task Process(TRequest request, CancellationToken cancellationToken)
-    {
-        var requestName = typeof(TRequest).Name;
-
-        _logger.LogInformation("BoostStudio Request: {Name} {@Request}",
-            requestName, request);
-
-        return Task.CompletedTask;
+        var requestName = typeof(TMessage).Name;
+        logger.LogInformation("BoostStudio Request: {Name} {@Request}", requestName, request);
+        return default;
     }
 }

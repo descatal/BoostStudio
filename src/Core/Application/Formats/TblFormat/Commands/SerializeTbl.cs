@@ -13,7 +13,7 @@ public class SerializeTblHandler(
     ITblMetadataSerializer tblMetadataSerializer
 ) : IRequestHandler<SerializeTbl, byte[]>
 {
-    public async Task<byte[]> Handle(SerializeTbl request, CancellationToken cancellationToken)
+    public async ValueTask<byte[]> Handle(SerializeTbl request, CancellationToken cancellationToken)
     {
         await using var tblStream = new MemoryStream();
         var tblMetadata = new TblMetadata(request.CumulativeFileInfoCount, request.FileMetadata, request.PathOrder);

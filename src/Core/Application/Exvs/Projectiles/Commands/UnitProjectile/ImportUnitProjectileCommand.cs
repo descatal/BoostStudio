@@ -18,7 +18,7 @@ public class ImportUnitProjectileCommandHandler(
     ILogger<ImportUnitProjectileCommandHandler> logger
 ) : IRequestHandler<ImportUnitProjectileCommand>
 {
-    public async Task Handle(ImportUnitProjectileCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(ImportUnitProjectileCommand command, CancellationToken cancellationToken)
     {
         foreach (var fileStream in command.Files)
         {
@@ -44,23 +44,11 @@ public class ImportUnitProjectileCommandHandler(
             }
 
             MapToEntity(entity, statsBinaryFormat);
-            
-            
-            
-            var allHitboxes = applicationDbContext.Hitboxes.Select(x => x.Hash).ToList();
-            var allNewHitboxes = entity.Projectiles.Select(x => x.HitboxHash).ToList();
-
-            foreach (var asd in allNewHitboxes)
-            {
-                if (asd.HasValue && !allHitboxes.Contains(asd.Value))
-                {
-                    
-                }
-            }
-            
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 
     private static void MapToEntity(

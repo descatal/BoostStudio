@@ -11,7 +11,7 @@ public class GetStatByIdQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetStatByIdQuery, StatDto>
 {
-    public async Task<StatDto> Handle(GetStatByIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<StatDto> Handle(GetStatByIdQuery request, CancellationToken cancellationToken)
     {
         var stats = applicationDbContext.Stats
             .Include(stat => stat.UnitStat)

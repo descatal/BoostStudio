@@ -12,7 +12,7 @@ public class UpdateStatCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<UpdateStatCommand>
 {
-    public async Task Handle(UpdateStatCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateStatCommand command, CancellationToken cancellationToken)
     {
         var existingEntity = await applicationDbContext.Stats
             .Include(stat => stat.UnitStat)
@@ -30,5 +30,7 @@ public class UpdateStatCommandHandler(
         }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 }

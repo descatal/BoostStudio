@@ -26,25 +26,25 @@ public class HitboxGroups : EndpointGroupBase
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(PaginatedList<HitboxGroupDto>), StatusCodes.Status200OK)]
-    private static Task<PaginatedList<HitboxGroupDto>> GetHitboxGroupsWithPagination(
+    private static async Task<PaginatedList<HitboxGroupDto>> GetHitboxGroupsWithPagination(
         ISender sender, 
         [AsParameters] GetHitboxGroupWithPaginationQuery request)
     {
-        return sender.Send(request);
+        return await sender.Send(request);
     }
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
-    private static Task<HitboxGroupDto> GetHitboxGroupByHash(ISender sender, [FromRoute] uint hash)
+    private static async Task<HitboxGroupDto> GetHitboxGroupByHash(ISender sender, [FromRoute] uint hash)
     {
-        return sender.Send(new GetHitboxGroupByHashQuery(hash));
+        return await sender.Send(new GetHitboxGroupByHashQuery(hash));
     }
     
     [Produces(ContentType.Application.Json)]
     [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
-    private static Task<HitboxGroupDto> GetHitboxGroupByUnitId(ISender sender, [FromRoute] uint unitId)
+    private static async Task<HitboxGroupDto> GetHitboxGroupByUnitId(ISender sender, [FromRoute] uint unitId)
     {
-        return sender.Send(new GetHitboxGroupByUnitIdQuery(unitId));
+        return await sender.Send(new GetHitboxGroupByUnitIdQuery(unitId));
     }
     
     [ProducesResponseType(StatusCodes.Status201Created)]

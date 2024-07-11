@@ -18,7 +18,7 @@ public class ImportHitboxGroupCommandHandler(
     ILogger<ImportHitboxGroupCommandHandler> logger
 ) : IRequestHandler<ImportHitboxGroupCommand>
 {
-    public async Task Handle(ImportHitboxGroupCommand groupCommand, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(ImportHitboxGroupCommand groupCommand, CancellationToken cancellationToken)
     {
         foreach ((Stream binaryStream, uint? unitId) in groupCommand.Data)
         {
@@ -42,6 +42,8 @@ public class ImportHitboxGroupCommandHandler(
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 
     private static void MapToEntity(

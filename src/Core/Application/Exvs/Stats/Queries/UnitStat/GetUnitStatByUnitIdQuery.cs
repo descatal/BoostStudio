@@ -11,7 +11,7 @@ public class GetUnitStatByUnitIdQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitStatByUnitIdQuery, UnitStatDto>
 {
-    public async Task<UnitStatDto> Handle(GetUnitStatByUnitIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<UnitStatDto> Handle(GetUnitStatByUnitIdQuery request, CancellationToken cancellationToken)
     {
         var unitStatsQueryable = applicationDbContext.UnitStats
             .Where(unitStat => request.UnitId == unitStat.GameUnitId);

@@ -11,7 +11,7 @@ public class GetUnitProjectileByUnitIdQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitProjectileByUnitIdQuery, UnitProjectileDto>
 {
-    public async Task<UnitProjectileDto> Handle(GetUnitProjectileByUnitIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<UnitProjectileDto> Handle(GetUnitProjectileByUnitIdQuery request, CancellationToken cancellationToken)
     {
         var unitProjectilesQueryable = applicationDbContext.UnitProjectiles
             .Where(unitProjectile => request.UnitId == unitProjectile.GameUnitId);

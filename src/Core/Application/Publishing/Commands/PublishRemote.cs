@@ -12,7 +12,7 @@ public class PublishRemoteHandler(IHttpClientFactory httpClientFactory) : IReque
 {
     private const string Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicHdkX3RzIjowLCJleHAiOjE3MDYzNjQ4ODksIm5iZiI6MTcwNjE5MjA4OSwiaWF0IjoxNzA2MTkyMDg5fQ.IKrQIpOZsqCuWEjqQTAomf0J_8eeYvPC0I5ajTydjMI";
 
-    public async Task Handle(PublishRemote command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(PublishRemote command, CancellationToken cancellationToken)
     {
         var client = httpClientFactory.CreateClient("IgnoreSsl");
         var fileSystemEntries = Directory.GetFileSystemEntries(command.Path, "*", SearchOption.AllDirectories);
@@ -53,5 +53,7 @@ public class PublishRemoteHandler(IHttpClientFactory httpClientFactory) : IReque
                 var responseMessage = await client.SendAsync(httpRequestMessage, cancellationToken);
             }
         }
+
+        return default;
     }
 }

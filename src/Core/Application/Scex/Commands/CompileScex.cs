@@ -13,7 +13,7 @@ public class CompileScexHandler(
     ILogger<CompileScexHandler> logger
 ) : IRequestHandler<CompileScex>
 {
-    public async Task Handle(CompileScex request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(CompileScex request, CancellationToken cancellationToken)
     {
         var outputFileName = request.FileName;
         
@@ -54,5 +54,7 @@ public class CompileScexHandler(
 
         if (request.HotReload)
             await sender.Send(new HotReloadScex(destinationPath), cancellationToken);
+
+        return default;
     }
 }

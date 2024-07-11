@@ -10,7 +10,7 @@ public class UpdateUnitAmmoSlotCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<UpdateUnitAmmoSlotCommand>
 {
-    public async Task Handle(UpdateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         var existingEntity = await applicationDbContext.UnitAmmoSlots
             .FirstOrDefaultAsync(statSet => statSet.Id == command.Id, cancellationToken: cancellationToken);
@@ -28,5 +28,7 @@ public class UpdateUnitAmmoSlotCommandHandler(
         }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 }

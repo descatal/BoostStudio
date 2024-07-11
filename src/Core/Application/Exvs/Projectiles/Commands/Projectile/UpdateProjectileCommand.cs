@@ -12,7 +12,7 @@ public class UpdateProjectileCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<UpdateProjectileCommand>
 {
-    public async Task Handle(UpdateProjectileCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateProjectileCommand command, CancellationToken cancellationToken)
     {
         var existingEntity = await applicationDbContext.Projectiles
             .Include(projectile => projectile.UnitProjectile)
@@ -30,5 +30,7 @@ public class UpdateProjectileCommandHandler(
         }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 }

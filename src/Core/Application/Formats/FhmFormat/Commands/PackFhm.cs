@@ -17,7 +17,7 @@ public class PackFhmCommandHandler(
     ICompressor compressor
 ) : IRequestHandler<PackFhm, byte[]>
 {
-    public async Task<byte[]> Handle(PackFhm request, CancellationToken cancellationToken)
+    public async ValueTask<byte[]> Handle(PackFhm request, CancellationToken cancellationToken)
     {
         // Temporary folder to hold the extracted files
         var extractFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

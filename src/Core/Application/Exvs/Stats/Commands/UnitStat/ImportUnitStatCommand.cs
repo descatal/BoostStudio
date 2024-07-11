@@ -4,6 +4,7 @@ using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Unit=Mediator.Unit;
 
 namespace BoostStudio.Application.Exvs.Stats.Commands.UnitStat;
 
@@ -15,7 +16,7 @@ public class ImportUnitStatCommandHandler(
     ILogger<ImportUnitStatCommandHandler> logger
 ) : IRequestHandler<ImportUnitStatCommand>
 {
-    public async Task Handle(ImportUnitStatCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(ImportUnitStatCommand command, CancellationToken cancellationToken)
     {
         foreach (var fileStream in command.Files)
         {
@@ -46,6 +47,8 @@ public class ImportUnitStatCommandHandler(
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 
     // Manually map the binary format into entity

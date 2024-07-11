@@ -18,7 +18,7 @@ public class ExportUnitProjectileCommandHandler(
     ILogger<ExportUnitProjectileCommandHandler> logger
 ) : IRequestHandler<ExportUnitProjectileCommand, FileInfo>
 {
-    public async Task<FileInfo> Handle(ExportUnitProjectileCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportUnitProjectileCommand command, CancellationToken cancellationToken)
     {
         var unitProjectiles = await applicationDbContext.UnitProjectiles
             .Include(unitProjectile => unitProjectile.Unit)

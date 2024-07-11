@@ -9,7 +9,7 @@ public record CreateProjectileCommand() : ProjectileDetailsDto, IRequest<Guid>;
 
 public class CreateProjectileCommandHandler(IApplicationDbContext applicationDbContext) : IRequestHandler<CreateProjectileCommand, Guid>
 {
-    public async Task<Guid> Handle(CreateProjectileCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Guid> Handle(CreateProjectileCommand command, CancellationToken cancellationToken)
     {
         var entity = ProjectileMapper.MapToEntity(command);
         applicationDbContext.Projectiles.Add(entity);

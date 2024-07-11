@@ -17,7 +17,7 @@ public class PackNus3BankPathCommandHandler(
     ILogger<PackNus3BankPathCommandHandler> logger
 ) : IRequestHandler<PackNus3BankPathCommand>
 {
-    public async Task Handle(PackNus3BankPathCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(PackNus3BankPathCommand request, CancellationToken cancellationToken)
     {
         (string? sourceDirectory, string? destinationPath) = PathUtils.ParseSourceDirectory(
             request.SourcePath, 
@@ -49,5 +49,7 @@ public class PackNus3BankPathCommandHandler(
             // Cleanup regardless
             Directory.Delete(temporaryWorkingDirectory, true);
         }
+
+        return default;
     }
 }

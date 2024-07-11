@@ -11,7 +11,7 @@ public class GetAmmoByHashQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetAmmoByHashQuery, AmmoDto>
 {
-    public async Task<AmmoDto> Handle(GetAmmoByHashQuery request, CancellationToken cancellationToken)
+    public async ValueTask<AmmoDto> Handle(GetAmmoByHashQuery request, CancellationToken cancellationToken)
     {
         var ammo = applicationDbContext.Ammo
             .Include(ammo => ammo.UnitStat)

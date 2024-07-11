@@ -16,7 +16,7 @@ public class PackFhmPathHandler(
     ILogger<PackFhmPathHandler> logger
 ) : IRequestHandler<PackFhmPath>
 {
-    public async Task Handle(PackFhmPath request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(PackFhmPath request, CancellationToken cancellationToken)
     {
         var outputFileName = request.FileName;
         
@@ -57,5 +57,7 @@ public class PackFhmPathHandler(
         var packedFhm = await fhmPacker.PackAsync(stream, sourceDirectory, cancellationToken);
         var serializedFhm = await formatBinarySerializer.SerializeAsync(packedFhm, cancellationToken);
         await File.WriteAllBytesAsync(destinationPath, serializedFhm, cancellationToken);
+        
+        return default;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Domain.Entities.Unit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -13,10 +12,12 @@ public class SerializeAmmoCommandHandler(
     ILogger<SerializeAmmoCommandHandler> logger
 ) : IRequestHandler<SerializeAmmoCommand>
 {
-    public async Task Handle(SerializeAmmoCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(SerializeAmmoCommand request, CancellationToken cancellationToken)
     {
         var ammo = await applicationDbContext.Ammo.ToListAsync(cancellationToken);
         var serializedBinary = await ammoBinarySerializer.SerializeAsync(ammo, cancellationToken);
         await File.WriteAllBytesAsync(request.DestinationPath, serializedBinary, cancellationToken: cancellationToken);
+
+        return default;
     }
 }

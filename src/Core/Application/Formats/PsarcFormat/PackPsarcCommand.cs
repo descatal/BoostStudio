@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
-using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Domain.Entities.PsarcFormat;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace BoostStudio.Application.Formats.PsarcFormat;
@@ -21,9 +21,12 @@ public record PackPsarcCommand : IRequest
     public int? CompressionLevel { get; init; }
 }
 
-public class PackFhmCommandHandler(IPsarcPacker psarcPacker, ILogger<PackFhmCommandHandler> logger) : IRequestHandler<PackPsarcCommand>
+public class PackFhmCommandHandler(
+    IPsarcPacker psarcPacker, 
+    ILogger<PackFhmCommandHandler> logger
+) : IRequestHandler<PackPsarcCommand>
 {
-    public async Task Handle(PackPsarcCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(PackPsarcCommand request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Received command to pack psarc {@Request}", request);
         
@@ -71,5 +74,7 @@ public class PackFhmCommandHandler(IPsarcPacker psarcPacker, ILogger<PackFhmComm
             compressionType, 
             compressionLevel, 
             cancellationToken);
+        
+        return default;
     }
 }

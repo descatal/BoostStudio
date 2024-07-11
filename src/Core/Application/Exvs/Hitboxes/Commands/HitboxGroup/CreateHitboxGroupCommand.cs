@@ -9,7 +9,7 @@ public class CreateHitboxGroupCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<CreateHitboxGroupCommand>
 {
-    public async Task Handle(CreateHitboxGroupCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(CreateHitboxGroupCommand command, CancellationToken cancellationToken)
     {
         var entity = new HitboxGroupEntity
         {
@@ -17,6 +17,8 @@ public class CreateHitboxGroupCommandHandler(
         };
         applicationDbContext.HitboxGroups.Add(entity);
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 }
 

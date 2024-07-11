@@ -18,7 +18,7 @@ public class ExportHitboxGroupCommandHandler(
     ILogger<ExportHitboxGroupCommandHandler> logger
 ) : IRequestHandler<ExportHitboxGroupCommand, FileInfo>
 {
-    public async Task<FileInfo> Handle(ExportHitboxGroupCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportHitboxGroupCommand command, CancellationToken cancellationToken)
     {
         var group = await applicationDbContext.HitboxGroups
             .Include(group => group.Unit)

@@ -18,7 +18,7 @@ public class DeserializeTblCommandHandler(
     ITblMetadataSerializer tblMetadataSerializer
 ) : IRequestHandler<DeserializeTbl, TblMetadata>
 {
-    public async Task<TblMetadata> Handle(DeserializeTbl request, CancellationToken cancellationToken)
+    public async ValueTask<TblMetadata> Handle(DeserializeTbl request, CancellationToken cancellationToken)
     {
         await using var fileStream = new MemoryStream(request.File);
         var tbl = await formatBinarySerializer.DeserializeAsync(fileStream, cancellationToken);

@@ -12,7 +12,7 @@ public class ImportAmmoCommandHandler(
     ILogger<ImportAmmoCommandHandler> logger
 ) : IRequestHandler<ImportAmmoCommand>
 {
-    public async Task Handle(ImportAmmoCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(ImportAmmoCommand command, CancellationToken cancellationToken)
     {
         var deserializedAmmoList = await ammoBinarySerializer.DeserializeAsync(command.File, cancellationToken);
         var deserializedAmmoHashes = deserializedAmmoList.Select(ammo => ammo.Hash).ToList();
@@ -34,5 +34,7 @@ public class ImportAmmoCommandHandler(
         }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+
+        return default;
     }
 }

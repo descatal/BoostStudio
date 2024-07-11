@@ -14,7 +14,7 @@ public class GetUnitStatWithPainationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitStatWithPaginationQuery, PaginatedList<UnitStatDto>>
 {
-    public async Task<PaginatedList<UnitStatDto>> Handle(GetUnitStatWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<UnitStatDto>> Handle(GetUnitStatWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var unitStatsQueryable = applicationDbContext.UnitStats
             .AsQueryable();

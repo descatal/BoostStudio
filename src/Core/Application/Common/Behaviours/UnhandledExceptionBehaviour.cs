@@ -2,26 +2,20 @@
 
 namespace BoostStudio.Application.Common.Behaviours;
 
-public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class UnhandledExceptionBehaviour<TMessage, TResponse>(ILogger<TMessage> logger) : IPipelineBehavior<TMessage, TResponse>
+    where TMessage : IMessage
 {
-    private readonly ILogger<TRequest> _logger;
-
-    public UnhandledExceptionBehaviour(ILogger<TRequest> logger)
-    {
-        _logger = logger;
-    }
-
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TMessage message, CancellationToken cancellationToken, MessageHandlerDelegate<TMessage, TResponse> next)
     {
         try
         {
-            return await next();
+            return await next(message, cancellationToken);
         }
         catch (Exception ex)
         {
-            var requestName = typeof(TRequest).Name;
+            var requestName = typeof(TMessage).Name;
 
-            _logger.LogError(ex, "BoostStudio Request: Unhandled Exception for Request {Name} {@Request}", requestName, request);
+            logger.LogError(ex, "BoostStudio Request: Unhandled Exception for Request {Name} {@Request}", requestName, message);
 
             throw;
         }

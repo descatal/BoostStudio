@@ -14,12 +14,13 @@ public class UnpackFhmCommandHandler(
     ICompressor compressor
 ) : IRequestHandler<UnpackFhmToDirectory>, IRequestHandler<UnpackFhm, byte[]>
 {
-    public async Task Handle(UnpackFhmToDirectory request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UnpackFhmToDirectory request, CancellationToken cancellationToken)
     {
         await UnpackFhmInternal(request.File, request.MultipleFiles, request.OutputDirectory, cancellationToken);
+        return default;
     }
     
-    public async Task<byte[]> Handle(UnpackFhm request, CancellationToken cancellationToken)
+    public async ValueTask<byte[]> Handle(UnpackFhm request, CancellationToken cancellationToken)
     {
         // Temporary folder to hold the unpacked files
         var rootFhmFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

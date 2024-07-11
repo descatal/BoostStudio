@@ -14,7 +14,7 @@ public class GetUnitQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetUnitQuery, List<UnitDto>>
 {
-    public async Task<List<UnitDto>> Handle(GetUnitQuery query, CancellationToken cancellationToken)
+    public async ValueTask<List<UnitDto>> Handle(GetUnitQuery query, CancellationToken cancellationToken)
     {
         var unitsQuery = applicationDbContext.Units.AsQueryable();
 

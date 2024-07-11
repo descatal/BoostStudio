@@ -10,7 +10,7 @@ public class DeserializeTblCommandHandler(
     IFormatBinarySerializer<List<Ammo>> ammoBinarySerializer
 ) : IRequestHandler<DeserializeAmmoCommand, List<AmmoDto>>
 {
-    public async Task<List<AmmoDto>> Handle(DeserializeAmmoCommand request, CancellationToken cancellationToken)
+    public async ValueTask<List<AmmoDto>> Handle(DeserializeAmmoCommand request, CancellationToken cancellationToken)
     {
         var fileContent = await File.ReadAllBytesAsync(request.SourceFilePath, cancellationToken);
         

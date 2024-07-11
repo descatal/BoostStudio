@@ -10,7 +10,7 @@ public class UpdateHitboxGroupCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<UpdateHitboxGroupCommand>
 {
-    public async Task Handle(UpdateHitboxGroupCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateHitboxGroupCommand command, CancellationToken cancellationToken)
     {
         var entity = applicationDbContext.HitboxGroups
             .FirstOrDefault(group => group.Hash == command.Hash);
@@ -19,6 +19,8 @@ public class UpdateHitboxGroupCommandHandler(
 
         entity.GameUnitId = command.UnitId;
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 }
 

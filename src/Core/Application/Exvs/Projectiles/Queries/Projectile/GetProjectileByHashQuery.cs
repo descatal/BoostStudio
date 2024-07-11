@@ -12,7 +12,7 @@ public class GetProjectileByHashQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetProjectileByHashQuery, ProjectileDto>
 {
-    public async Task<ProjectileDto> Handle(GetProjectileByHashQuery request, CancellationToken cancellationToken)
+    public async ValueTask<ProjectileDto> Handle(GetProjectileByHashQuery request, CancellationToken cancellationToken)
     {
         var projectiles = applicationDbContext.Projectiles
             .Include(entity => entity.UnitProjectile)

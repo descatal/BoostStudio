@@ -10,7 +10,7 @@ public class CreateUnitAmmoSlotCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<CreateUnitAmmoSlotCommand, Guid>
 {
-    public async Task<Guid> Handle(CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Guid> Handle(CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         var unitStat = await applicationDbContext.UnitStats
             .FirstOrDefaultAsync(unitStat => unitStat.GameUnitId == command.UnitId, cancellationToken);

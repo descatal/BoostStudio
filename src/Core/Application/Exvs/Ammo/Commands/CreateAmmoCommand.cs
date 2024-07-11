@@ -16,7 +16,7 @@ public class CreateAmmoCommandHandler(
     ILogger<CreateAmmoCommandHandler> logger
 ) : IRequestHandler<CreateAmmoCommand>
 {
-    public async Task Handle(CreateAmmoCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(CreateAmmoCommand request, CancellationToken cancellationToken)
     {
         var ammo = AmmoMapper.AmmoDtoToAmmo(request);
         var unitStat = await applicationDbContext.UnitStats
@@ -26,5 +26,7 @@ public class CreateAmmoCommandHandler(
         
         await applicationDbContext.Ammo.AddAsync(ammo, cancellationToken);
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+
+        return default;
     }
 }

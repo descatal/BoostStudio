@@ -15,7 +15,7 @@ public class GetHitboxGroupWithPaginationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetHitboxGroupWithPaginationQuery, PaginatedList<HitboxGroupDto>>
 {
-    public async Task<PaginatedList<HitboxGroupDto>> Handle(GetHitboxGroupWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<HitboxGroupDto>> Handle(GetHitboxGroupWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var query = applicationDbContext.HitboxGroups.AsQueryable();
 

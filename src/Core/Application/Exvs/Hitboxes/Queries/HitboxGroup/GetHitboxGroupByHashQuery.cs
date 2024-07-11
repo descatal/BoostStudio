@@ -13,7 +13,7 @@ public class GetHitboxGroupQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetHitboxGroupByHashQuery, HitboxGroupDto>, IRequestHandler<GetHitboxGroupByUnitIdQuery, HitboxGroupDto>
 {
-    public async Task<HitboxGroupDto> Handle(GetHitboxGroupByUnitIdQuery request, CancellationToken cancellationToken)
+    public async ValueTask<HitboxGroupDto> Handle(GetHitboxGroupByUnitIdQuery request, CancellationToken cancellationToken)
     {
         var query = applicationDbContext.HitboxGroups
             .Where(group => request.UnitId == group.GameUnitId);
@@ -25,7 +25,7 @@ public class GetHitboxGroupQueryHandler(
         return result;
     }
     
-    public async Task<HitboxGroupDto> Handle(GetHitboxGroupByHashQuery request, CancellationToken cancellationToken)
+    public async ValueTask<HitboxGroupDto> Handle(GetHitboxGroupByHashQuery request, CancellationToken cancellationToken)
     {
         var query = applicationDbContext.HitboxGroups
             .Where(group => request.Hash == group.Hash);

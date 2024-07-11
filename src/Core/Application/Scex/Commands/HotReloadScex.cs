@@ -15,12 +15,12 @@ public class HotReloadScexCommandHandler(
     ILogger<HotReloadScexCommandHandler> logger    
 ) : IRequestHandler<HotReloadScex>
 {
-    public async Task Handle(HotReloadScex request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(HotReloadScex request, CancellationToken cancellationToken)
     {
         const long mapRegionPointer = 0x300000000;
         
         if (!File.Exists(request.SourcePath))
-            return;
+            return default;
 
         var compiledByteCode = await File.ReadAllBytesAsync(request.SourcePath, cancellationToken);
         
@@ -36,6 +36,8 @@ public class HotReloadScexCommandHandler(
         scexPointer = BinaryPrimitives.ReverseEndianness(scexPointer);
         
         rpcs3Memory.WriteRaw((UIntPtr)(mapRegionPointer + scexPointer), compiledByteCode);
+
+        return default;
     }
 }
 #pragma warning restore CA1416

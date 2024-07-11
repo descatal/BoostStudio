@@ -8,7 +8,7 @@ public record CreateHitboxCommand() : HitboxDetailsDto, IRequest<Guid>;
 
 public class CreateProjectileCommandHandler(IApplicationDbContext applicationDbContext) : IRequestHandler<CreateHitboxCommand, Guid>
 {
-    public async Task<Guid> Handle(CreateHitboxCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Guid> Handle(CreateHitboxCommand command, CancellationToken cancellationToken)
     {
         var entity = HitboxMapper.MapToEntity(command);
         applicationDbContext.Hitboxes.Add(entity);

@@ -13,7 +13,7 @@ public class UpdateHitboxCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<UpdateHitboxCommand>
 {
-    public async Task Handle(UpdateHitboxCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateHitboxCommand command, CancellationToken cancellationToken)
     {
         var existingEntity = await applicationDbContext.Hitboxes
             .Include(hitbox => hitbox.HitboxGroup)
@@ -31,5 +31,7 @@ public class UpdateHitboxCommandHandler(
         }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
+        
+        return default;
     }
 }

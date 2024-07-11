@@ -18,7 +18,7 @@ public class ExportUnitStatCommandHandler(
     ILogger<ExportUnitStatCommandHandler> logger
 ) : IRequestHandler<ExportUnitStatCommand, FileInfo>
 {
-    public async Task<FileInfo> Handle(ExportUnitStatCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportUnitStatCommand command, CancellationToken cancellationToken)
     {
         var unitStats = await applicationDbContext.UnitStats
             .Include(stat => stat.AmmoSlots)

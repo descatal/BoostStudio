@@ -15,7 +15,7 @@ public class ExportAmmoCommandHandler(
     ILogger<ExportAmmoCommandHandler> logger
 ) : IRequestHandler<ExportAmmoCommand, FileInfo>
 {
-    public async Task<FileInfo> Handle(ExportAmmoCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportAmmoCommand command, CancellationToken cancellationToken)
     {
         var ammo = await applicationDbContext.Ammo.ToListAsync(cancellationToken);
         var serializedBinary = await ammoBinarySerializer.SerializeAsync(ammo, cancellationToken);

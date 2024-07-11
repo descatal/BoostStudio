@@ -16,7 +16,7 @@ public class GetStatWithPaginationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetStatWithPaginationQuery, PaginatedList<StatDto>>
 {
-    public async Task<PaginatedList<StatDto>> Handle(GetStatWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<StatDto>> Handle(GetStatWithPaginationQuery request, CancellationToken cancellationToken)
     {
         var query = applicationDbContext.Stats
             .Include(stat => stat.UnitStat)

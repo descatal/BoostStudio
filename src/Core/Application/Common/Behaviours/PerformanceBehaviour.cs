@@ -1,39 +1,30 @@
 ﻿using System.Diagnostics;
-using BoostStudio.Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BoostStudio.Application.Common.Behaviours;
 
-public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
+public class PerformanceBehaviour<TMessage, TResponse>(ILogger<TMessage> logger) : IPipelineBehavior<TMessage, TResponse>
+    where TMessage : IMessage
 {
-    private readonly Stopwatch _timer;
-    private readonly ILogger<TRequest> _logger;
+    private readonly Stopwatch _timer = new();
 
-    public PerformanceBehaviour(
-        ILogger<TRequest> logger)
-    {
-        _timer = new Stopwatch();
-
-        _logger = logger;
-    }
-
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async ValueTask<TResponse> Handle(TMessage message, CancellationToken cancellationToken, MessageHandlerDelegate<TMessage, TResponse> next)
     {
         _timer.Start();
 
-        var response = await next();
+        var response = await next(message, cancellationToken);
 
         _timer.Stop();
 
         var elapsedMilliseconds = _timer.ElapsedMilliseconds;
 
-        if (elapsedMilliseconds > 500)
-        {
-            var requestName = typeof(TRequest).Name;
+        if (elapsedMilliseconds <= 500)
+            return response;
+        
+        var requestName = typeof(TMessage).Name;
 
-            _logger.LogWarning("BoostStudio Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
-                requestName, elapsedMilliseconds, request);
-        }
+        logger.LogWarning("BoostStudio Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@Request}",
+            requestName, elapsedMilliseconds, message);
 
         return response;
     }
