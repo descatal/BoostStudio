@@ -28,7 +28,7 @@ public class AuditableEntityInterceptor(
     private void UpdateEntities(DbContext? context)
     {
         if (context == null) return;
-
+        
         foreach (var entry in context.ChangeTracker.Entries<IBaseAuditableEntity>())
         {
             if (entry.State is not (EntityState.Added or EntityState.Modified) && !entry.HasChangedOwnedEntities())

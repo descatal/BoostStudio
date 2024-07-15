@@ -2,7 +2,7 @@
 
 public class HitboxGroupDto
 {
-    public uint UnitId { get; set; }
+    public uint[] UnitIds { get; set; } = [];
     
     public uint Hash { get; set; }
 

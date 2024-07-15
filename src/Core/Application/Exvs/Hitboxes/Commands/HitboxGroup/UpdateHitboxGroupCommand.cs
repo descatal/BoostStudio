@@ -1,10 +1,10 @@
 ﻿using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
-using HitboxGroupEntity = BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Commands.HitboxGroup;
 
-public record UpdateHitboxGroupCommand(uint Hash, uint? UnitId = null) : IRequest;
+public record UpdateHitboxGroupCommand(uint Hash, uint[]? UnitIds = null) : IRequest;
 
 public class UpdateHitboxGroupCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -17,7 +17,14 @@ public class UpdateHitboxGroupCommandHandler(
 
         Guard.Against.NotFound(command.Hash, entity);
 
-        entity.GameUnitId = command.UnitId;
+        var unitIds = command.UnitIds ?? [];
+        
+        // reverse parental assignment
+        var existingUnits = await applicationDbContext.Units
+            .Where(x => unitIds.Contains(x.GameUnitId))
+            .ToListAsync(cancellationToken);
+        
+        entity.Units = existingUnits;
         await applicationDbContext.SaveChangesAsync(cancellationToken);
         
         return default;

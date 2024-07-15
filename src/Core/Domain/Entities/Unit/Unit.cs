@@ -18,5 +18,6 @@ public class Unit : BaseEntity<Guid>
     
     public UnitProjectile? UnitProjectiles { get; set; }
     
+    public uint? HitboxGroupHash { get; set; }
     public HitboxGroup? HitboxGroup { get; set; }
 }

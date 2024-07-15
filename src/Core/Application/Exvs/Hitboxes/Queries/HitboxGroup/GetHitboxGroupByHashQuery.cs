@@ -16,7 +16,8 @@ public class GetHitboxGroupQueryHandler(
     public async ValueTask<HitboxGroupDto> Handle(GetHitboxGroupByUnitIdQuery request, CancellationToken cancellationToken)
     {
         var query = applicationDbContext.HitboxGroups
-            .Where(group => request.UnitId == group.GameUnitId);
+            .Include(group => group.Units)
+            .Where(group => group.Units.Any(unit => unit.GameUnitId == request.UnitId));
         
         var mappedQueryable = HitboxGroupMapper.ProjectToDto(query);
         var result = await mappedQueryable.FirstOrDefaultAsync(cancellationToken);

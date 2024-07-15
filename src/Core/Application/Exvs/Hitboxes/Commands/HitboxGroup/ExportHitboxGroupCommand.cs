@@ -21,7 +21,7 @@ public class ExportHitboxGroupCommandHandler(
     public async ValueTask<FileInfo> Handle(ExportHitboxGroupCommand command, CancellationToken cancellationToken)
     {
         var group = await applicationDbContext.HitboxGroups
-            .Include(group => group.Unit)
+            .Include(group => group.Units)
             .Include(group => group.Hitboxes)
             .Where(group => command.Hashes.Contains(group.Hash))
             .ToListAsync(cancellationToken);
@@ -30,7 +30,10 @@ public class ExportHitboxGroupCommandHandler(
         foreach (var hitboxGroup in group)
         {
             var serializedBytes = await binarySerializer.SerializeAsync(hitboxGroup, cancellationToken);
-            var fileName = JsonNamingPolicy.SnakeCaseLower.ConvertName(hitboxGroup.Unit?.Name ?? hitboxGroup.Hash.ToString());
+            var name = hitboxGroup.Units.Count > 0 
+                ? string.Join("-", hitboxGroup.Units.Select(unit => unit.Name)) 
+                : hitboxGroup.Hash.ToString();
+            var fileName = JsonNamingPolicy.SnakeCaseLower.ConvertName(name);
             fileName = Path.ChangeExtension(fileName, ".hitbox");
             fileInfo.Add(new FileInfo(serializedBytes, fileName));
         }

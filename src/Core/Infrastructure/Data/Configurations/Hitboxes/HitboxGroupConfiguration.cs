@@ -11,10 +11,10 @@ public class HitboxGroupConfiguration : IEntityTypeConfiguration<HitboxGroup>
     {
         builder.HasAlternateKey(projectile => projectile.Hash);
         
-        builder.HasOne(group => group.Unit)
+        builder.HasMany(group => group.Units)
             .WithOne(unit => unit.HitboxGroup)
-            .HasForeignKey<HitboxGroup>(unitStat => unitStat.GameUnitId)
-            .HasPrincipalKey<Unit>(unit => unit.GameUnitId)
+            .HasForeignKey(unit => unit.HitboxGroupHash)
+            .HasPrincipalKey(group => group.Hash)
             .IsRequired(false);
     }
 }

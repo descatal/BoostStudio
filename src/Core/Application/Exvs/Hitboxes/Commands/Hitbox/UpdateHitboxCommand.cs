@@ -21,14 +21,6 @@ public class UpdateHitboxCommandHandler(
         
         Guard.Against.NotFound(command.Hash, existingEntity);
         HitboxMapper.MapToEntity(command.Hash, command, existingEntity);
-
-        if (existingEntity.HitboxGroup?.GameUnitId != command.UnitId)
-        {
-            var hitboxGroup = await applicationDbContext.HitboxGroups
-                .FirstOrDefaultAsync(unit => unit.GameUnitId == command.UnitId, cancellationToken);
-            
-            existingEntity.HitboxGroup = hitboxGroup;
-        }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
         

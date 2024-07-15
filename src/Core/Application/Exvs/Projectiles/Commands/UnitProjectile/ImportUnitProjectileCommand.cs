@@ -22,32 +22,31 @@ public class ImportUnitProjectileCommandHandler(
     {
         foreach (var fileStream in command.Files)
         {
-            var statsBinaryFormat = await binarySerializer.DeserializeAsync(fileStream, cancellationToken);
+            var binaryData = await binarySerializer.DeserializeAsync(fileStream, cancellationToken);
 
             var unit = await applicationDbContext.Units
-                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
+                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == binaryData.UnitId, cancellationToken);
 
             if (unit is null)
                 continue;
 
-            var entity = await applicationDbContext.UnitProjectiles
+            var unitProjectileEntity = await applicationDbContext.UnitProjectiles
                 .Include(unitProjectile => unitProjectile.Projectiles)
-                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == statsBinaryFormat.UnitId, cancellationToken);
+                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == binaryData.UnitId, cancellationToken);
 
-            if (entity is null)
+            if (unitProjectileEntity is null)
             {
-                entity = new UnitProjectileEntity
+                unitProjectileEntity = new UnitProjectileEntity
                 {
-                    GameUnitId = statsBinaryFormat.UnitId
+                    GameUnitId = binaryData.UnitId
                 };
-                await applicationDbContext.UnitProjectiles.AddAsync(entity, cancellationToken);
+                await applicationDbContext.UnitProjectiles.AddAsync(unitProjectileEntity, cancellationToken);
             }
-
-            MapToEntity(entity, statsBinaryFormat);
+            
+            MapToEntity(unitProjectileEntity, binaryData);
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);
-        
         return default;
     }
 

@@ -15,7 +15,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.4.24267.1");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.6.24327.4");
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
                 {
@@ -186,7 +186,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<float>("HitVisualEffectSizeMultiplier")
                         .HasColumnType("REAL");
 
-                    b.Property<uint?>("HitboxGroupHash")
+                    b.Property<uint>("HitboxGroupHash")
                         .HasColumnType("INTEGER");
 
                     b.Property<uint>("HitboxType")
@@ -250,16 +250,10 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<uint?>("GameUnitId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<uint>("Hash")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GameUnitId")
-                        .IsUnique();
 
                     b.ToTable("HitboxGroups");
                 });
@@ -474,7 +468,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<uint>("Unk52")
                         .HasColumnType("INTEGER");
 
-                    b.Property<uint>("Unk56")
+                    b.Property<float>("Unk56")
                         .HasColumnType("REAL");
 
                     b.Property<float>("Unk84")
@@ -992,6 +986,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<uint>("GameUnitId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<uint?>("HitboxGroupHash")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -1005,6 +1002,8 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("HitboxGroupHash");
 
                     b.ToTable("Units");
                 });
@@ -1067,19 +1066,11 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", "HitboxGroup")
                         .WithMany("Hitboxes")
                         .HasForeignKey("HitboxGroupHash")
-                        .HasPrincipalKey("Hash");
+                        .HasPrincipalKey("Hash")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("HitboxGroup");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
-                        .WithOne("HitboxGroup")
-                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", "GameUnitId")
-                        .HasPrincipalKey("BoostStudio.Domain.Entities.Unit.Unit", "GameUnitId");
-
-                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.Projectile", b =>
@@ -1117,6 +1108,16 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Navigation("UnitStat");
                 });
 
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", "HitboxGroup")
+                        .WithMany("Units")
+                        .HasForeignKey("HitboxGroupHash")
+                        .HasPrincipalKey("Hash");
+
+                    b.Navigation("HitboxGroup");
+                });
+
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitAmmoSlot", b =>
                 {
                     b.HasOne("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", "Ammo")
@@ -1150,6 +1151,8 @@ namespace BoostStudio.Infrastructure.Data.Migrations
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", b =>
                 {
                     b.Navigation("Hitboxes");
+
+                    b.Navigation("Units");
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
@@ -1159,8 +1162,6 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
                 {
-                    b.Navigation("HitboxGroup");
-
                     b.Navigation("UnitProjectiles");
 
                     b.Navigation("UnitStats");

@@ -15,6 +15,6 @@ public class HitboxConfiguration : IEntityTypeConfiguration<Hitbox>
             .WithMany(group => group.Hitboxes)
             .HasForeignKey(hitbox => hitbox.HitboxGroupHash)
             .HasPrincipalKey(group => group.Hash)
-            .IsRequired(false);
+            .IsRequired();
     }
 }

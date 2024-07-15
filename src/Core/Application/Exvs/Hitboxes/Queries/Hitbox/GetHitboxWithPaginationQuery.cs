@@ -2,6 +2,7 @@
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Hitboxes;
 using BoostStudio.Application.Contracts.Projectiles;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Queries.Hitbox;
 
@@ -18,10 +19,17 @@ public class GetHitboxWithPaginationQueryHandler(
 {
     public async ValueTask<PaginatedList<HitboxDto>> Handle(GetHitboxWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        var query = applicationDbContext.Hitboxes.AsQueryable();
+        var query = applicationDbContext.Hitboxes
+            .Include(entity => entity.HitboxGroup)
+            .ThenInclude(hitbox => hitbox!.Units)
+            .AsQueryable();
 
-        if (request.UnitIds is not null && request.UnitIds.Length > 0)
-            query = query.Where(hitbox => hitbox.HitboxGroup != null && hitbox.HitboxGroup.GameUnitId != null && request.UnitIds.Contains(hitbox.HitboxGroup.GameUnitId.Value));
+        if (request.UnitIds?.Length > 0)
+        {
+            query = query
+                .Where(hitbox => hitbox.HitboxGroup != null)
+                .Where(hitbox => hitbox.HitboxGroup!.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
+        }
 
         if (request.Hashes is not null && request.Hashes.Length > 0)
             query = query.Where(projectile => request.Hashes.Contains(projectile.Hash));

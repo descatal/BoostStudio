@@ -1,6 +1,7 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Hitboxes.HitboxGroups;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Queries.HitboxGroup;
 
@@ -17,10 +18,12 @@ public class GetHitboxGroupWithPaginationQueryHandler(
 {
     public async ValueTask<PaginatedList<HitboxGroupDto>> Handle(GetHitboxGroupWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        var query = applicationDbContext.HitboxGroups.AsQueryable();
+        var query = applicationDbContext.HitboxGroups
+            .Include(group => group.Units)
+            .AsQueryable();
 
-        if (request.UnitIds is not null && request.UnitIds.Length != 0)
-            query = query.Where(hitbox => hitbox.GameUnitId != null && request.UnitIds.Contains(hitbox.GameUnitId.Value));
+        if (request.UnitIds?.Length > 0)
+            query = query.Where(group => group.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
         
         var mappedQueryable = HitboxGroupMapper.ProjectToDto(query);
         var result = await PaginatedList<HitboxGroupDto>

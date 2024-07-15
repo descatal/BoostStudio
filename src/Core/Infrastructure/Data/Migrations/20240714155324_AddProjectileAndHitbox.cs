@@ -11,23 +11,23 @@ namespace BoostStudio.Infrastructure.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<uint>(
+                name: "HitboxGroupHash",
+                table: "Units",
+                type: "INTEGER",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "HitboxGroups",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    GameUnitId = table.Column<uint>(type: "INTEGER", nullable: true),
                     Hash = table.Column<uint>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HitboxGroups", x => x.Id);
                     table.UniqueConstraint("AK_HitboxGroups_Hash", x => x.Hash);
-                    table.ForeignKey(
-                        name: "FK_HitboxGroups_Units_GameUnitId",
-                        column: x => x.GameUnitId,
-                        principalTable: "Units",
-                        principalColumn: "GameUnitId");
                 });
 
             migrationBuilder.CreateTable(
@@ -83,7 +83,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     Unk100 = table.Column<uint>(type: "INTEGER", nullable: false),
                     FriendlyDamageFlag = table.Column<uint>(type: "INTEGER", nullable: false),
                     Unk108 = table.Column<uint>(type: "INTEGER", nullable: false),
-                    HitboxGroupHash = table.Column<uint>(type: "INTEGER", nullable: true)
+                    HitboxGroupHash = table.Column<uint>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,7 +93,8 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         name: "FK_Hitboxes_HitboxGroups_HitboxGroupHash",
                         column: x => x.HitboxGroupHash,
                         principalTable: "HitboxGroups",
-                        principalColumn: "Hash");
+                        principalColumn: "Hash",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -191,15 +192,14 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Hitboxes_HitboxGroupHash",
-                table: "Hitboxes",
+                name: "IX_Units_HitboxGroupHash",
+                table: "Units",
                 column: "HitboxGroupHash");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HitboxGroups_GameUnitId",
-                table: "HitboxGroups",
-                column: "GameUnitId",
-                unique: true);
+                name: "IX_Hitboxes_HitboxGroupHash",
+                table: "Hitboxes",
+                column: "HitboxGroupHash");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projectiles_HitboxHash",
@@ -216,11 +216,22 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                 table: "UnitProjectiles",
                 column: "GameUnitId",
                 unique: true);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Units_HitboxGroups_HitboxGroupHash",
+                table: "Units",
+                column: "HitboxGroupHash",
+                principalTable: "HitboxGroups",
+                principalColumn: "Hash");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Units_HitboxGroups_HitboxGroupHash",
+                table: "Units");
+
             migrationBuilder.DropTable(
                 name: "Projectiles");
 
@@ -232,6 +243,14 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "HitboxGroups");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Units_HitboxGroupHash",
+                table: "Units");
+
+            migrationBuilder.DropColumn(
+                name: "HitboxGroupHash",
+                table: "Units");
         }
     }
 }

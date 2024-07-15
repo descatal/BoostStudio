@@ -73,6 +73,8 @@ public static class DependencyInjection
                 // This is needed to prevent any db locking issue on frequent db write, not the best solution, but necessary.
                 builder.CommandTimeout((int)TimeSpan.FromDays(365).TotalSeconds);
             });
+
+            options.EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());

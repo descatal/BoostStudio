@@ -10,7 +10,7 @@ namespace BoostStudio.Application.Exvs.Hitboxes.Commands.HitboxGroup;
 
 public record ImportHitboxGroupCommand(ImportHitboxGroupDetails[] Data) : IRequest;
 
-public record ImportHitboxGroupDetails(Stream File, uint? UnitId = null);
+public record ImportHitboxGroupDetails(Stream File, uint[]? UnitIds = null);
 
 public class ImportHitboxGroupCommandHandler(
     IHitboxGroupBinarySerializer groupBinarySerializer,
@@ -20,10 +20,10 @@ public class ImportHitboxGroupCommandHandler(
 {
     public async ValueTask<Unit> Handle(ImportHitboxGroupCommand groupCommand, CancellationToken cancellationToken)
     {
-        foreach ((Stream binaryStream, uint? unitId) in groupCommand.Data)
+        foreach ((Stream binaryStream, uint[]? ids) in groupCommand.Data)
         {
             var binaryFormat = await groupBinarySerializer.DeserializeAsync(binaryStream, cancellationToken);
-
+            
             var entity = await applicationDbContext.HitboxGroups
                 .Include(group => group.Hitboxes)
                 .FirstOrDefaultAsync(group => group.Hash == binaryFormat.FileMagic, cancellationToken);
@@ -33,16 +33,21 @@ public class ImportHitboxGroupCommandHandler(
                 entity = new HitboxGroupEntity
                 {
                     Hash = binaryFormat.FileMagic,
-                    GameUnitId = unitId
                 };
                 await applicationDbContext.HitboxGroups.AddAsync(entity, cancellationToken);
             }
 
             MapToEntity(entity, binaryFormat);
+            
+            var unitIds = ids ?? [];
+            var units = await applicationDbContext.Units
+                .Where(unit => unitIds.Contains(unit.GameUnitId))
+                .ToListAsync(cancellationToken);
+            
+            entity.Units = units;
         }
-
-        await applicationDbContext.SaveChangesAsync(cancellationToken);
         
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
         return default;
     }
 

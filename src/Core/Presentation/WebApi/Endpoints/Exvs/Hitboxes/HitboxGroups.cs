@@ -19,6 +19,7 @@ public class HitboxGroups : EndpointGroupBase
             .MapPost(CreateHitboxGroup)
             .MapPost(UpdateHitboxGroup, "{hash}")
             .MapPost(ImportHitboxGroups, "import")
+            .MapPost(ImportHitboxGroupsFromDirectory, "import/directory")
             .MapPost(ExportHitboxGroups, "export")
             .MapPost(ExportHitboxGroupByHash, "export/hash/{hash}")
             .MapPost(ExportHitboxGroupByUnitId, "export/unitId/{unitId}");
@@ -68,11 +69,46 @@ public class HitboxGroups : EndpointGroupBase
         // var importHitboxGroupDetailsArray = data
         //     .Select(request => new ImportHitboxGroupDetails(request.File.OpenReadStream(), request.UnitId))
         //     .ToArray();
-        var import = new ImportHitboxGroupDetails(file.OpenReadStream(), unitId);
+
+        uint[] unitIds = unitId is not null ? [unitId.Value] : [];
+        var import = new ImportHitboxGroupDetails(file.OpenReadStream(), unitIds);
         
         await sender.Send(new ImportHitboxGroupCommand([import]), cancellationToken);
 
         foreach (var fileStream in new [] { import })
+            await fileStream.File.DisposeAsync();
+
+        return Results.Created();
+    }
+    
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    private static async Task<IResult> ImportHitboxGroupsFromDirectory(
+        ISender sender, 
+        string directoryPath,
+        CancellationToken cancellationToken)
+    {
+        List<ImportHitboxGroupDetails> import = [];
+        var files = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
+        foreach (var file in files)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(file);
+            var unitIds = fileName.Split('-')
+                .Where(name => !string.IsNullOrWhiteSpace(name))
+                .Select(name => {
+                    bool success = uint.TryParse(name.Trim(), out var value);
+                    return new { value, success };
+                })
+                .Where(pair => pair.success)
+                .Select(pair => pair.value)
+                .ToArray();
+            
+            var fileStream = File.OpenRead(file);
+            import.Add(new ImportHitboxGroupDetails(fileStream, unitIds));
+        }
+        
+        await sender.Send(new ImportHitboxGroupCommand(import.ToArray()), cancellationToken);
+
+        foreach (var fileStream in import)
             await fileStream.File.DisposeAsync();
 
         return Results.Created();

@@ -20,6 +20,7 @@ public class UnitProjectiles : EndpointGroupBase
             .MapGet(GetUnitProjectilesWithPagination)
             .MapGet(GetUnitProjectileByUnitId, "{unitId}")
             .MapPost(ImportUnitProjectiles, "import")
+            .MapPost(ImportUnitProjectilesFromDirectory, "import/directory")
             .MapPost(ExportUnitProjectiles, "export")
             .MapPost(ExportUnitProjectileByUnitId, "export/{unitId}");
     }
@@ -45,6 +46,24 @@ public class UnitProjectiles : EndpointGroupBase
         await sender.Send(new ImportUnitProjectileCommand(fileStreams), cancellationToken);
 
         foreach (var fileStream in fileStreams)
+            await fileStream.DisposeAsync();
+
+        return Results.Created();
+    }
+    
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    private static async Task<IResult> ImportUnitProjectilesFromDirectory(
+        ISender sender, 
+        string directoryPath,
+        CancellationToken cancellationToken)
+    {
+        List<Stream> import = [];
+        var files = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
+        import.AddRange(files.Select(File.OpenRead));
+
+        await sender.Send(new ImportUnitProjectileCommand(import.ToArray()), cancellationToken);
+
+        foreach (var fileStream in import)
             await fileStream.DisposeAsync();
 
         return Results.Created();

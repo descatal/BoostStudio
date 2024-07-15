@@ -1,9 +1,10 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Contracts.Units;
 using Unit=BoostStudio.Domain.Entities.Unit.Unit;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
 
-public record CreateUnitCommand(uint UnitId, string Name, string NameJapanese, string NameChinese) : IRequest<Guid>;
+public record CreateUnitCommand() : UnitDto, IRequest<Guid>;
 
 public class CreateUnitCommandHandler(
     IApplicationDbContext applicationDbContext

@@ -1,4 +1,5 @@
-﻿using BoostStudio.Application.Common.Interfaces;
+﻿using Ardalis.GuardClauses;
+using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Hitboxes;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,16 +11,13 @@ public class CreateProjectileCommandHandler(IApplicationDbContext applicationDbC
 {
     public async ValueTask<Guid> Handle(CreateHitboxCommand command, CancellationToken cancellationToken)
     {
+        var hitboxGroupHash = await applicationDbContext.HitboxGroups
+            .FirstOrDefaultAsync(group => group.Hash == command.HitboxGroupHash, cancellationToken);
+
+        Guard.Against.NotFound(command.HitboxGroupHash, hitboxGroupHash);
+        
         var entity = HitboxMapper.MapToEntity(command);
         applicationDbContext.Hitboxes.Add(entity);
-        
-        if (command.UnitId is not null)
-        {
-            var hitboxGroup = await applicationDbContext.HitboxGroups
-                .FirstOrDefaultAsync(unit => unit.GameUnitId == command.UnitId, cancellationToken);
-            
-            entity.HitboxGroup = hitboxGroup;
-        }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);
         return entity.Id;

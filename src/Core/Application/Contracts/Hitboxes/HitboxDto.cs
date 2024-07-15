@@ -65,5 +65,5 @@ public record HitboxDetailsDto
     
     public uint Unk108 { get; set; }
     
-    public uint? UnitId { get; set; }
+    public uint HitboxGroupHash { get; set; }
 }

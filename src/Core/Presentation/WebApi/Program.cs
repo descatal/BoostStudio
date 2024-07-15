@@ -19,6 +19,8 @@ try
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration);
     builder.Services.AddWebServices();
+    
+    builder.Services.AddCors();
 
     var app = builder.Build();
 
@@ -27,6 +29,10 @@ try
     {
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
+        app.UseCors(corsBuilder => corsBuilder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
     }
 
     app.MapFallback(context =>
