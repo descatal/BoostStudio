@@ -1,12 +1,16 @@
-import { useState } from "react"
-import { invoke } from "@tauri-apps/api/tauri"
+import React, {useState} from "react"
+import {invoke} from "@tauri-apps/api/tauri"
 
-import { Menu } from "@/components/menu"
+import {Menu} from "@/components/menu"
 
-import { TailwindIndicator } from "./components/tailwind-indicator"
-import { ThemeProvider } from "./components/theme-provider"
-import DashboardPage from "./dashboard/page"
-import { cn } from "./lib/utils"
+import {TailwindIndicator} from "./components/tailwind-indicator"
+import {ThemeProvider} from "./components/theme-provider"
+import DashboardPage from "./pages/dashboard"
+import {cn} from "./lib/utils"
+import { TooltipProvider } from "./components/ui/tooltip"
+import Sidebar from "./components/sidebar"
+import { RouterProvider } from "react-router-dom"
+import router from "@/router";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("")
@@ -14,24 +18,26 @@ function App() {
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }))
+    setGreetMsg(await invoke("greet", {name}))
   }
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <div className="h-screen overflow-clip">
-        <Menu />
-        <div
-          className={cn(
-            "h-screen overflow-auto border-t bg-background pb-8",
-            // "scrollbar-none"
-            "scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md"
-          )}
-        >
-          <DashboardPage />
+      <TooltipProvider>
+        <div className="h-screen overflow-clip">
+          <Menu/>
+          <div
+            className={cn(
+              "h-screen overflow-auto border-t bg-background pb-8",
+              // "scrollbar-none"
+              "scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md"
+            )}
+          >
+            <DashboardPage/>
+          </div>
         </div>
-      </div>
-      <TailwindIndicator />
+      </TooltipProvider>
+      <TailwindIndicator/>
     </ThemeProvider>
   )
 }
