@@ -1,8 +1,9 @@
-import { createBrowserRouter } from 'react-router-dom'
+import {Navigate, createBrowserRouter } from 'react-router-dom'
 import GeneralError from './pages/errors/general-error'
 import NotFoundError from './pages/errors/not-found-error'
 import MaintenanceError from './pages/errors/maintenance-error'
 import UnauthorisedError from './pages/errors/unauthorised-error'
+import App from './App'
 
 const router = createBrowserRouter([
   // Main routes
@@ -14,10 +15,39 @@ const router = createBrowserRouter([
     },
     errorElement: <GeneralError />,
     children: [
+      { 
+        index: true, 
+        element: <Navigate to="/units" replace /> 
+      },
       {
-        index: true,
+        path: 'units',
         lazy: async () => ({
-          Component: (await import('./pages/dashboard')).default,
+          Component: (await import('./pages/units')).default,
+        }),
+      },
+      {
+        path: 'units/:unitId',
+        lazy: async () => ({
+          Component: (await import('./pages/units/customize')).default,
+        }),
+        errorElement: <GeneralError />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="info/stats" replace />
+          },
+          {
+            path: 'info/:tab',
+            lazy: async () => ({
+              Component: (await import('./pages/units/customize/information')).default,
+            }),
+          }
+        ]
+      },
+      {
+        path: 'live',
+        lazy: async () => ({
+          Component: (await import('./pages/live')).default,
         }),
       },
       {

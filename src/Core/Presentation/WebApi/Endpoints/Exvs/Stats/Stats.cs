@@ -1,8 +1,6 @@
 ﻿using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Stats;
-using BoostStudio.Application.Exvs.Stats.Commands;
 using BoostStudio.Application.Exvs.Stats.Commands.Stat;
-using BoostStudio.Application.Exvs.Stats.Queries;
 using BoostStudio.Application.Exvs.Stats.Queries.Stat;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +15,8 @@ public class Stats : EndpointGroupBase
             .MapGet(GetStatByPagination)
             .MapGet(GetStatById, "{id}")
             .MapPost(CreateStat)
-            .MapPost(UpdateStat, "{id}");
+            .MapPost(UpdateStat, "{id}")
+            .MapDelete(DeleteStat, "{id}");
     }
 
     [ProducesResponseType(typeof(PaginatedList<StatDto>), StatusCodes.Status200OK)]
@@ -44,6 +43,13 @@ public class Stats : EndpointGroupBase
     {
         if (id != command.Id) return Results.BadRequest();
         await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+    
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> DeleteStat(ISender sender, [FromRoute]Guid id, CancellationToken cancellationToken)
+    {
+        await sender.Send(new DeleteStatCommand(id), cancellationToken);
         return Results.NoContent();
     }
 }

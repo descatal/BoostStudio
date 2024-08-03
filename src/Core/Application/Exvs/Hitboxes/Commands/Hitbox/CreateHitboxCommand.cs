@@ -17,6 +17,7 @@ public class CreateProjectileCommandHandler(IApplicationDbContext applicationDbC
         Guard.Against.NotFound(command.HitboxGroupHash, hitboxGroupHash);
         
         var entity = HitboxMapper.MapToEntity(command);
+        entity.Hash = (uint)(new Random().Next());
         applicationDbContext.Hitboxes.Add(entity);
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);

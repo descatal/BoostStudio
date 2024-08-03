@@ -19,7 +19,8 @@ public class CreateStatCommandHandler(IApplicationDbContext applicationDbContext
             var unitStat = await applicationDbContext.UnitStats
                 .FirstOrDefaultAsync(unitStat => unitStat.GameUnitId == command.UnitId, cancellationToken);
             
-            entity.UnitStat = unitStat;
+            if (unitStat is not null)
+                entity.UnitStatId = unitStat.Id;
         }
         
         await applicationDbContext.SaveChangesAsync(cancellationToken);

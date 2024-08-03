@@ -20,7 +20,6 @@ public class GetUnitStatByUnitIdQueryHandler(
         var result = await mappedQueryable.FirstOrDefaultAsync(cancellationToken);
         Guard.Against.NotFound(request.UnitId, result);
     
-        result.Ammo = result.Ammo.OrderBy(ammo => ammo.Order).ToList();
         result.AmmoSlots = result.AmmoSlots.OrderBy(ammo => ammo.SlotOrder).ToList();
         return result;
     }

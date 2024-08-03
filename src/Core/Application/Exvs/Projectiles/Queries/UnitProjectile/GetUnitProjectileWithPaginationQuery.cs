@@ -8,7 +8,8 @@ namespace BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
 public record GetUnitProjectileWithPaginationQuery(
     int Page = 1,
     int PerPage = 10,
-    uint[]? UnitIds = null
+    uint[]? UnitIds = null,
+    string? Search = null
 ) : IRequest<PaginatedList<UnitProjectileDto>>;
 
 public class GetUnitProjectileWithPaginationQueryHandler(

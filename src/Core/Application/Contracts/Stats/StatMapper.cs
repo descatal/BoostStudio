@@ -16,7 +16,6 @@ public static partial class StatMapper
     
     public static partial void MapToEntity(StatDetailsDto source, Stat destination);
     
-    [MapProperty([nameof(StatDto.UnitId)], [nameof(Stat.UnitStat), nameof(Stat.UnitStat.GameUnitId)])]
     public static partial Stat MapToEntity(StatDetailsDto dto);
     
     public static Stat MapToEntity(Guid id, StatDetailsDto sourceDto, Stat? destination = null)

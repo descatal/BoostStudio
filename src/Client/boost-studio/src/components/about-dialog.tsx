@@ -32,6 +32,10 @@ export function AboutDialog() {
   getTauriVersion().then((x) => setTauriVersion(x))
   arch().then((x) => setArc(x))
 
+  const website = "https://moddedboost.github.io/";
+  const github = "https://github.com/descatal/BoostStudio";
+  const releaseNote = `https://github.com/descatal/BoostStudio/releases/tag/${version}`;
+  
   return (
     <DialogContent className="overflow-clip pb-2">
       <DialogHeader className="flex items-center text-center">
@@ -40,7 +44,7 @@ export function AboutDialog() {
         </div>
 
         <DialogTitle className="flex flex-col items-center gap-2 pt-2">
-          Tauri UI ({name})
+          BoostStudio
           <span className="flex gap-1 font-mono text-xs font-medium">
             Version {version} ({arc})
             <span className="font-sans font-medium text-gray-400">
@@ -48,7 +52,7 @@ export function AboutDialog() {
               <span
                 className="cursor-pointer text-blue-500"
                 onClick={() =>
-                  open("https://github.com/agmmnn/tauri-ui/releases/tag/v0.2.0")
+                  open(releaseNote)
                 }
               >
                 release notes
@@ -59,7 +63,7 @@ export function AboutDialog() {
         </DialogTitle>
 
         <DialogDescription className=" text-foreground">
-          App description.
+          A swiss army knife for modding Gundam Extreme Vs.
         </DialogDescription>
 
         <span className="text-xs text-gray-400">{updateText}</span>
@@ -73,11 +77,11 @@ export function AboutDialog() {
         <div className="mr-auto flex flex-row gap-2">
           <HomeIcon
             className="h-5 w-5 cursor-pointer transition hover:text-slate-300"
-            onClick={() => open("https://github.com/agmmnn/tauri-ui")}
+            onClick={() => open(website)}
           />
           <GithubIcon
             className="h-5 w-5 cursor-pointer transition hover:text-slate-300 "
-            onClick={() => open("https://github.com/agmmnn/tauri-ui")}
+            onClick={() => open(github)}
           />
         </div>
 

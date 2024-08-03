@@ -12,6 +12,7 @@ public class CreateProjectileCommandHandler(IApplicationDbContext applicationDbC
     public async ValueTask<Guid> Handle(CreateProjectileCommand command, CancellationToken cancellationToken)
     {
         var entity = ProjectileMapper.MapToEntity(command);
+        entity.Hash = (uint)(new Random().Next());
         applicationDbContext.Projectiles.Add(entity);
         
         if (command.UnitId is not null)
@@ -21,7 +22,7 @@ public class CreateProjectileCommandHandler(IApplicationDbContext applicationDbC
             
             entity.UnitProjectile = unitProjectile;
         }
-        
+
         await applicationDbContext.SaveChangesAsync(cancellationToken);
         return entity.Id;
     }

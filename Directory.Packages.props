@@ -9,7 +9,7 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
     <PackageVersion Include="Mediator.Abstractions" Version="2.1.7" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="2.1.7" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="1.1.1" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="1.1.2" />
     <PackageVersion Include="ServiceScan.SourceGenerator" Version="1.1.2" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="6.6.2" />
@@ -32,7 +32,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0-preview.6.24328.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.6.24327.4" />
+    <PackageVersion Include=" Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.6.24327.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.6.24327.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

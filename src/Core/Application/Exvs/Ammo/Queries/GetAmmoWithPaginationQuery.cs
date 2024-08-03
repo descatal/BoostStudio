@@ -10,10 +10,11 @@ public record GetAmmoWithPaginationQuery(
     int Page = 1,
     int PerPage = 10,
     uint[]? Hash = null,
-    uint[]? UnitIds = null
+    uint[]? UnitIds = null,
+    string? Search = null
 ) : IRequest<PaginatedList<AmmoDto>>;
 
-public class GetAmmoWithPaginationQueryhandler(
+public class GetAmmoWithPaginationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetAmmoWithPaginationQuery, PaginatedList<AmmoDto>>
 {
@@ -23,12 +24,15 @@ public class GetAmmoWithPaginationQueryhandler(
             .Include(stat => stat.UnitStat)
             .OrderBy(ammo => ammo.Order)
             .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(entity => entity.Hash.ToString().ToLower().Contains(request.Search));
         
         if (request.Hash is not null && request.Hash.Length > 0)
-            query = query.Where(stat => request.Hash.Contains(stat.Hash));
+            query = query.Where(entity => request.Hash.Contains(entity.Hash));
         
         if (request.UnitIds is not null && request.UnitIds.Length > 0)
-            query = query.Where(stat => stat.UnitStat != null && request.UnitIds.Contains(stat.UnitStat.GameUnitId));
+            query = query.Where(entity => entity.UnitStat != null && request.UnitIds.Contains(entity.UnitStat.GameUnitId));
         
         var queryableDto = AmmoMapper.ProjectToDto(query);
         return await PaginatedList<AmmoDto>.CreateAsync(queryableDto, request.Page, request.PerPage);

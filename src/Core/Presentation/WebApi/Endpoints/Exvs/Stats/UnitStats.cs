@@ -17,25 +17,22 @@ public class UnitStats : EndpointGroupBase
     {
         app.MapGroup(this, DefinitionNames.Exvs)
             .MapGet(GetUnitStatWithPagination)
-            .MapGet(GetUnitStatById, "{unitId}")
+            .MapGet(GetUnitStatByUnitId, "{unitId}")
             .MapPost(ImportUnitStat, "import")
             .MapPost(ExportUnitStat, "export")
-            .MapPost(ExportUnitStatById, "export/{unitId}")
+            .MapPost(ExportUnitStatByUnitId, "export/{unitId}")
             .MapGet(GetUnitAmmoSlotByUnitId, "ammo-slot/{unitId}")
             .MapPost(CreateUnitAmmoSlot, "ammo-slot")
-            .MapPost(UpdateUnitAmmoSlot, "ammo-slot/{id}");
+            .MapPost(UpdateUnitAmmoSlotById, "ammo-slot/{id}")
+            .MapDelete(DeleteUnitAmmoSlotById, "ammo-slot/{id}");
     }
-
-    [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(PaginatedList<UnitStatDto>), StatusCodes.Status200OK)]
+    
     private static async Task<PaginatedList<UnitStatDto>> GetUnitStatWithPagination(ISender sender, [AsParameters] GetUnitStatWithPaginationQuery request)
     {
         return await sender.Send(request);
     }
-
-    [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(UnitStatDto), StatusCodes.Status200OK)]
-    private static async Task<UnitStatDto> GetUnitStatById(ISender sender, [FromRoute] uint unitId)
+    
+    private static async Task<UnitStatDto> GetUnitStatByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return await sender.Send(new GetUnitStatByUnitIdQuery(unitId));
     }
@@ -51,39 +48,41 @@ public class UnitStats : EndpointGroupBase
         return Results.Created();
     }
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
     private static async Task<IResult> ExportUnitStat(ISender sender, ExportUnitStatCommand command, CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(command, cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
 
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportUnitStatById(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportUnitStatByUnitId(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(new ExportUnitStatByIdCommand(unitId), cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
-
-    [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(List<UnitAmmoSlotDto>), StatusCodes.Status200OK)]
+    
     private static async Task<List<UnitAmmoSlotDto>> GetUnitAmmoSlotByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return await sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
     }
 
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> CreateUnitAmmoSlot(ISender sender, CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    private static async Task<Guid> CreateUnitAmmoSlot(ISender sender, CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
-        await sender.Send(command, cancellationToken);
-        return Results.Created();
+        return await sender.Send(command, cancellationToken);
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateUnitAmmoSlot(ISender sender, Guid id, UpdateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> UpdateUnitAmmoSlotById(ISender sender, Guid id, UpdateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id) return Results.BadRequest();
         await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+    
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> DeleteUnitAmmoSlotById(ISender sender, Guid id, CancellationToken cancellationToken)
+    {
+        await sender.Send(new DeleteUnitAmmoSlotCommand(id), cancellationToken);
         return Results.NoContent();
     }
 }

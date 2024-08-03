@@ -17,7 +17,8 @@ public class Projectiles : EndpointGroupBase
             .MapGet(GetProjectileByPagination)
             .MapGet(GetProjectileById, "{hash}")
             .MapPost(CreateProjectile)
-            .MapPost(UpdateProjectile, "{hash}");
+            .MapPost(UpdateProjectileByHash, "{hash}")
+            .MapDelete(DeleteProjectileById, "{hash}");
     }
 
     [ProducesResponseType(typeof(PaginatedList<ProjectileDto>), StatusCodes.Status200OK)]
@@ -43,10 +44,17 @@ public class Projectiles : EndpointGroupBase
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateProjectile(ISender sender, [FromRoute] uint hash, UpdateProjectileCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> UpdateProjectileByHash(ISender sender, [FromRoute] uint hash, UpdateProjectileByIdCommand byIdCommand, CancellationToken cancellationToken)
     {
-        if (hash != command.Hash) return Results.BadRequest();
-        await sender.Send(command, cancellationToken);
+        if (hash != byIdCommand.Hash) return Results.BadRequest();
+        await sender.Send(byIdCommand, cancellationToken);
+        return Results.NoContent();
+    }
+    
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> DeleteProjectileById(ISender sender, uint hash, CancellationToken cancellationToken)
+    {
+        await sender.Send(new DeleteProjectileByHashCommand(hash), cancellationToken);
         return Results.NoContent();
     }
 }

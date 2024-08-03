@@ -15,7 +15,8 @@ public class Hitboxes : EndpointGroupBase
             .MapGet(GetHitboxesByPagination)
             .MapGet(GetHitboxById, "{hash}")
             .MapPost(CreateHitbox)
-            .MapPost(UpdateHitbox, "{hash}");
+            .MapPost(UpdateHitboxByHash, "{hash}")
+            .MapDelete(DeleteHitboxByHash, "{hash}");
     }
 
     [ProducesResponseType(typeof(PaginatedList<HitboxDto>), StatusCodes.Status200OK)]
@@ -41,10 +42,17 @@ public class Hitboxes : EndpointGroupBase
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateHitbox(ISender sender, [FromRoute] uint hash, UpdateHitboxCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> UpdateHitboxByHash(ISender sender, [FromRoute] uint hash, UpdateHitboxCommand command, CancellationToken cancellationToken)
     {
         if (hash != command.Hash) return Results.BadRequest();
         await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+    
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> DeleteHitboxByHash(ISender sender, uint hash, CancellationToken cancellationToken)
+    {
+        await sender.Send(new DeleteHitboxByHashCommand(hash), cancellationToken);
         return Results.NoContent();
     }
 }

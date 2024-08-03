@@ -1,11 +1,8 @@
 ﻿using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Projectiles.UnitProjectiles;
-using BoostStudio.Application.Contracts.Stats.UnitStats;
-using BoostStudio.Application.Contracts.Units;
 using BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 using BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
-using BoostStudio.Application.Exvs.Stats.Queries.UnitStat;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
 using ContentType=System.Net.Mime.MediaTypeNames;

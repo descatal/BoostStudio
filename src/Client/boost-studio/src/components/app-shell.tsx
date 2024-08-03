@@ -11,7 +11,7 @@ export default function AppShell() {
       <main
         id='content'
         className={`
-          overflow-x-hidden pt-16 transition-[margin] md:overflow-y-hidden md:pt-0
+          overflow-x-hidden pt-16 transition-[margin] md:pt-0 pb-20
           ${isCollapsed ? 'md:ml-14' : 'md:ml-64'} h-full`}
       >
         <Outlet/>

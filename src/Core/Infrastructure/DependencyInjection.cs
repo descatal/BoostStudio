@@ -8,6 +8,7 @@ using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Formats;
+using BoostStudio.Infrastructure.BackgroundServices;
 using BoostStudio.Infrastructure.Compressor;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Infrastructure.Data.Interceptors;
@@ -82,6 +83,9 @@ public static class DependencyInjection
 #endif
         
         #endregion
+
+        services.AddHostedService<ApplicationLifetimeService>();
+        services.AddHostedService<Rpcs3ProcessBackgroundService>();
         
         services.AddSingleton(TimeProvider.System);
 

@@ -17,7 +17,7 @@ public class DeserializeTblCommandHandler(
         await using var fileStream = new MemoryStream(fileContent);
         var deserializedAmmo = await ammoBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
 
-        var ammoDto = deserializedAmmo.Select(ammo => AmmoMapper.AmmoToAmmoDto(ammo)).ToList();
+        var ammoDto = deserializedAmmo.Select(ammo => AmmoMapper.MapToDto(ammo)).ToList();
         return ammoDto;
     }
 }

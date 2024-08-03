@@ -11,6 +11,9 @@ import { TooltipProvider } from "./components/ui/tooltip"
 import Sidebar from "./components/sidebar"
 import { RouterProvider } from "react-router-dom"
 import router from "@/router";
+import Ammo from "./pages/dashboard/tabs/ammo"
+import {AlertDialog, AlertDialogTrigger} from "@/components/ui/alert-dialog";
+import {Button} from "@/components/ui/button";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("")
@@ -33,7 +36,11 @@ function App() {
               "scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md"
             )}
           >
-            <DashboardPage/>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant={"default"} onClick={() => {}}>Save</Button>
+              </AlertDialogTrigger>
+            </AlertDialog>
           </div>
         </div>
       </TooltipProvider>

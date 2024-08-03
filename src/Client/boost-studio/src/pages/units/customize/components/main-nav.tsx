@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils"
+import React from "react";
 
 export function MainNav({
   className,
@@ -10,28 +11,28 @@ export function MainNav({
       {...props}
     >
       <a
-        href="/examples/dashboard"
+        href="/units/{id}/info/{tab}"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
-        Overview
+        Information
       </a>
       <a
-        href="/examples/dashboard"
+        href="/units/{id}/scripts"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Customers
+        Script
       </a>
       <a
-        href="/examples/dashboard"
+        href="/units/{id}/models"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Products
+        Model & Animation
       </a>
       <a
-        href="/examples/dashboard"
+        href="/units/{id}/misc"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Settings
+        Misc
       </a>
     </nav>
   )

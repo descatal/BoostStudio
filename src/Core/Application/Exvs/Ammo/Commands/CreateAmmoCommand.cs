@@ -9,7 +9,7 @@ using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Application.Exvs.Ammo.Commands;
 
-public record CreateAmmoCommand : AmmoDto, IRequest;
+public record CreateAmmoCommand : AmmoDetailsDto, IRequest;
 
 public class CreateAmmoCommandHandler(
     IApplicationDbContext applicationDbContext,
@@ -19,9 +19,9 @@ public class CreateAmmoCommandHandler(
     public async ValueTask<Unit> Handle(CreateAmmoCommand request, CancellationToken cancellationToken)
     {
         var ammo = AmmoMapper.AmmoDtoToAmmo(request);
-        var unitStat = await applicationDbContext.UnitStats
-            .FirstOrDefaultAsync(x => x.GameUnitId == request.UnitId, cancellationToken);
-
+        ammo.Hash = (uint)(new Random().Next());
+        
+        var unitStat = await applicationDbContext.UnitStats.FirstOrDefaultAsync(x => x.GameUnitId == request.UnitId, cancellationToken);
         ammo.UnitStat = unitStat;
         
         await applicationDbContext.Ammo.AddAsync(ammo, cancellationToken);

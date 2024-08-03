@@ -9,6 +9,9 @@ public static partial class AmmoMapper
 {    
     public static partial IQueryable<AmmoDto> ProjectToDto(IQueryable<AmmoEntity> entity);
     
+    [MapProperty([nameof(AmmoEntity.UnitStat), nameof(AmmoEntity.UnitStat.GameUnitId)], [nameof(AmmoDto.UnitId)])]
+    public static partial AmmoDto MapToDto(AmmoEntity ammo);
+    
     public static partial AmmoEntity AmmoToAmmo(AmmoEntity ammo);
     
     public static partial AmmoEntity AmmoDetailsDtoToAmmo(AmmoDetailsDto ammo);
@@ -19,11 +22,10 @@ public static partial class AmmoMapper
     [MapperIgnoreTarget(nameof(AmmoEntity.Hash))]
     public static partial void AmmoToAmmo(AmmoEntity source, AmmoEntity destination);
  
-    public static partial AmmoEntity AmmoDtoToAmmo(AmmoDto ammo);
+    public static partial AmmoEntity AmmoDtoToAmmo(AmmoDetailsDto ammo);
 
     public static partial List<AmmoEntity> AmmoDtoToAmmo(List<AmmoDto> ammo);
     
-    public static partial AmmoDto AmmoToAmmoDto(AmmoEntity ammo);
     
     public static partial AmmoEntity AmmoPropertiesBodyToAmmo(AmmoBinaryFormat.AmmoPropertiesBody ammoPropertiesBody);
 

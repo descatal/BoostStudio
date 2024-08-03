@@ -9,7 +9,8 @@ public record GetProjectileWithPaginationQuery(
     int Page = 1,
     int PerPage = 10,
     uint[]? Hashes = null,
-    uint[]? UnitIds = null
+    uint[]? UnitIds = null,
+    string? Search = null
 ) : IRequest<PaginatedList<ProjectileDto>>;
 
 public class GetProjectileWithPaginationQueryHandler(
@@ -20,12 +21,15 @@ public class GetProjectileWithPaginationQueryHandler(
     {
         var query = applicationDbContext.Projectiles.AsQueryable();
         
+        if (!string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(entity => entity.Hash.ToString().ToLower().Contains(request.Search));
+        
         if (request.UnitIds is not null && request.UnitIds.Length > 0)
             query = query.Where(projectile => projectile.UnitProjectile != null && request.UnitIds.Contains(projectile.UnitProjectile.GameUnitId));
 
         if (request.Hashes is not null && request.Hashes.Length > 0)
             query = query.Where(projectile => request.Hashes.Contains(projectile.Hash));
-
+        
         var queryableDto = ProjectileMapper.ProjectToDto(query);
         return await PaginatedList<ProjectileDto>.CreateAsync(queryableDto, request.Page, request.PerPage);
     }

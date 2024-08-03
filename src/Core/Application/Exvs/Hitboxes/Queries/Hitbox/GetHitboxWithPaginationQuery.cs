@@ -10,7 +10,8 @@ public record GetHitboxWithPaginationQuery(
     int Page = 1,
     int PerPage = 10,
     uint[]? Hashes = null,
-    uint[]? UnitIds = null
+    uint[]? UnitIds = null,
+    string? Search = null
 ) : IRequest<PaginatedList<HitboxDto>>;
 
 public class GetHitboxWithPaginationQueryHandler(
@@ -31,6 +32,9 @@ public class GetHitboxWithPaginationQueryHandler(
                 .Where(hitbox => hitbox.HitboxGroup!.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
         }
 
+        if (!string.IsNullOrWhiteSpace(request.Search))
+            query = query.Where(entity => entity.Hash.ToString().ToLower().Contains(request.Search));
+        
         if (request.Hashes is not null && request.Hashes.Length > 0)
             query = query.Where(projectile => request.Hashes.Contains(projectile.Hash));
 
