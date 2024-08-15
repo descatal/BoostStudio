@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   GetApiAmmo200Response,
   PostApiAmmoByHashRequest,
+  PostApiAmmoExportPathRequest,
   PostApiAmmoRequest,
 } from '../models/index';
 import {
@@ -24,6 +25,8 @@ import {
     GetApiAmmo200ResponseToJSON,
     PostApiAmmoByHashRequestFromJSON,
     PostApiAmmoByHashRequestToJSON,
+    PostApiAmmoExportPathRequestFromJSON,
+    PostApiAmmoExportPathRequestToJSON,
     PostApiAmmoRequestFromJSON,
     PostApiAmmoRequestToJSON,
 } from '../models/index';
@@ -55,6 +58,10 @@ export interface PostApiAmmoOperationRequest {
 export interface PostApiAmmoByHashOperationRequest {
     hash: number;
     postApiAmmoByHashRequest: PostApiAmmoByHashRequest;
+}
+
+export interface PostApiAmmoExportPathOperationRequest {
+    postApiAmmoExportPathRequest: PostApiAmmoExportPathRequest;
 }
 
 export interface PostApiAmmoImportRequest {
@@ -292,6 +299,39 @@ export class AmmoApi extends runtime.BaseAPI {
      */
     async postApiAmmoExport(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiAmmoExportRaw(initOverrides);
+    }
+
+    /**
+     */
+    async postApiAmmoExportPathRaw(requestParameters: PostApiAmmoExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['postApiAmmoExportPathRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiAmmoExportPathRequest',
+                'Required parameter "postApiAmmoExportPathRequest" was null or undefined when calling postApiAmmoExportPath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/ammo/export/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiAmmoExportPathRequestToJSON(requestParameters['postApiAmmoExportPathRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiAmmoExportPath(requestParameters: PostApiAmmoExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiAmmoExportPathRaw(requestParameters, initOverrides);
     }
 
     /**

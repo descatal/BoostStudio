@@ -44,7 +44,7 @@
             "name": "Search",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           }
         ],
@@ -485,6 +485,162 @@
         }
       }
     },
+    "/api/ammo/export/path": {
+      "post": {
+        "tags": [
+          "Ammo"
+        ],
+        "operationId": "post-api-ammo-export-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "exportPath": {
+                    "$ref": "#/components/schemas/string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/configs": {
+      "get": {
+        "tags": [
+          "Configs"
+        ],
+        "operationId": "get-api-configs",
+        "parameters": [
+          {
+            "name": "Keys",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/string2"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "required": [
+                      "key",
+                      "value"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "$ref": "#/components/schemas/string2"
+                      },
+                      "value": {
+                        "$ref": "#/components/schemas/string2"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Configs"
+        ],
+        "operationId": "post-api-configs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "key",
+                  "value"
+                ],
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "$ref": "#/components/schemas/string2"
+                  },
+                  "value": {
+                    "$ref": "#/components/schemas/string2"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/configs/{key}": {
+      "get": {
+        "tags": [
+          "Configs"
+        ],
+        "operationId": "get-api-configs-by-key",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/string2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": { }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Configs"
+        ],
+        "operationId": "delete-api-configs-by-key",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/string2"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
     "/api/fhm/pack-path": {
       "get": {
         "tags": [
@@ -497,7 +653,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -505,14 +661,14 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
             "name": "FileName",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           }
         ],
@@ -535,7 +691,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -543,7 +699,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -642,7 +798,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -650,7 +806,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -703,7 +859,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -711,7 +867,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           }
         ],
@@ -734,7 +890,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
@@ -742,14 +898,14 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           },
           {
             "name": "FileName",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           },
           {
@@ -784,7 +940,7 @@
                 "type": "object",
                 "properties": {
                   "sourcePath": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   }
                 }
               }
@@ -811,7 +967,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           }
         ],
@@ -821,7 +977,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TblMetadata2"
+                  "$ref": "#/components/schemas/TblMetadata3"
                 }
               }
             }
@@ -877,7 +1033,7 @@
                         "type": "object",
                         "properties": {
                           "path": {
-                            "$ref": "#/components/schemas/string2"
+                            "$ref": "#/components/schemas/string"
                           },
                           "fileInfoMetadata": {
                             "required": [
@@ -938,7 +1094,7 @@
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           }
         ],
@@ -974,7 +1130,7 @@
                       "type": "object",
                       "properties": {
                         "path": {
-                          "$ref": "#/components/schemas/string2"
+                          "$ref": "#/components/schemas/string"
                         },
                         "fileInfoMetadata": {
                           "required": [
@@ -1039,7 +1195,7 @@
             "name": "Search",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           },
           {
@@ -1078,13 +1234,13 @@
                     "$ref": "#/components/schemas/uint"
                   },
                   "name": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   },
                   "nameJapanese": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   },
                   "nameChinese": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   }
                 }
               }
@@ -1153,13 +1309,13 @@
                     "$ref": "#/components/schemas/uint"
                   },
                   "name": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   },
                   "nameJapanese": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   },
                   "nameChinese": {
-                    "$ref": "#/components/schemas/string"
+                    "$ref": "#/components/schemas/string2"
                   }
                 }
               }
@@ -1265,7 +1421,7 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "$ref": "#/components/schemas/string"
+                            "$ref": "#/components/schemas/string2"
                           },
                           "unitCost": {
                             "$ref": "#/components/schemas/int"
@@ -2247,7 +2403,7 @@
                   "type": "object",
                   "properties": {
                     "id": {
-                      "$ref": "#/components/schemas/string"
+                      "$ref": "#/components/schemas/string2"
                     },
                     "unitCost": {
                       "$ref": "#/components/schemas/int"
@@ -3226,7 +3382,7 @@
     "/api/unit-stats": {
       "get": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "get-api-unit-stats",
         "parameters": [
@@ -3308,7 +3464,7 @@
     "/api/unit-stats/{unitId}": {
       "get": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "get-api-unit-stats-by-unitId",
         "parameters": [
@@ -3349,7 +3505,7 @@
     "/api/unit-stats/import": {
       "post": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "post-api-unit-stats-import",
         "requestBody": {
@@ -3383,20 +3539,17 @@
     "/api/unit-stats/export": {
       "post": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "post-api-unit-stats-export",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "required": [
-                  "unitIds"
-                ],
                 "type": "object",
                 "properties": {
                   "unitIds": {
-                    "$ref": "#/components/schemas/ArrayOfuint2"
+                    "$ref": "#/components/schemas/ArrayOfuint"
                   }
                 }
               }
@@ -3411,25 +3564,33 @@
         }
       }
     },
-    "/api/unit-stats/export/{unitId}": {
+    "/api/unit-stats/export/path": {
       "post": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
-        "operationId": "post-api-unit-stats-export-by-unitId",
-        "parameters": [
-          {
-            "name": "unitId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/uint"
+        "operationId": "post-api-unit-stats-export-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unitIds": {
+                    "$ref": "#/components/schemas/ArrayOfuint"
+                  },
+                  "exportPath": {
+                    "$ref": "#/components/schemas/string"
+                  }
+                }
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -3437,7 +3598,7 @@
     "/api/unit-stats/ammo-slot/{unitId}": {
       "get": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "get-api-unit-stats-ammo-slot-by-unitId",
         "parameters": [
@@ -3467,7 +3628,7 @@
     "/api/unit-stats/ammo-slot": {
       "post": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "post-api-unit-stats-ammo-slot",
         "requestBody": {
@@ -3513,7 +3674,7 @@
     "/api/unit-stats/ammo-slot/{id}": {
       "post": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "post-api-unit-stats-ammo-slot-by-id",
         "parameters": [
@@ -3568,7 +3729,7 @@
       },
       "delete": {
         "tags": [
-          "UnitStats"
+          "Stats"
         ],
         "operationId": "delete-api-unit-stats-ammo-slot-by-id",
         "parameters": [
@@ -3627,7 +3788,7 @@
             "name": "Search",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           }
         ],
@@ -4430,7 +4591,7 @@
     "/api/unit-projectiles": {
       "get": {
         "tags": [
-          "UnitProjectiles"
+          "Projectiles"
         ],
         "operationId": "get-api-unit-projectiles",
         "parameters": [
@@ -4459,7 +4620,7 @@
             "name": "Search",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           }
         ],
@@ -4476,7 +4637,7 @@
     "/api/unit-projectiles/{unitId}": {
       "get": {
         "tags": [
-          "UnitProjectiles"
+          "Projectiles"
         ],
         "operationId": "get-api-unit-projectiles-by-unitId",
         "parameters": [
@@ -4502,7 +4663,7 @@
     "/api/unit-projectiles/import": {
       "post": {
         "tags": [
-          "UnitProjectiles"
+          "Projectiles"
         ],
         "operationId": "post-api-unit-projectiles-import",
         "requestBody": {
@@ -4533,19 +4694,19 @@
         }
       }
     },
-    "/api/unit-projectiles/import/directory": {
+    "/api/unit-projectiles/import/path": {
       "post": {
         "tags": [
-          "UnitProjectiles"
+          "Projectiles"
         ],
-        "operationId": "post-api-unit-projectiles-import-directory",
+        "operationId": "post-api-unit-projectiles-import-path",
         "parameters": [
           {
             "name": "directoryPath",
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           }
         ],
@@ -4559,20 +4720,17 @@
     "/api/unit-projectiles/export": {
       "post": {
         "tags": [
-          "UnitProjectiles"
+          "Projectiles"
         ],
         "operationId": "post-api-unit-projectiles-export",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "required": [
-                  "unitIds"
-                ],
                 "type": "object",
                 "properties": {
                   "unitIds": {
-                    "$ref": "#/components/schemas/ArrayOfuint2"
+                    "$ref": "#/components/schemas/ArrayOfuint"
                   }
                 }
               }
@@ -4587,25 +4745,33 @@
         }
       }
     },
-    "/api/unit-projectiles/export/{unitId}": {
+    "/api/unit-projectiles/export/path": {
       "post": {
         "tags": [
-          "UnitProjectiles"
+          "Projectiles"
         ],
-        "operationId": "post-api-unit-projectiles-export-by-unitId",
-        "parameters": [
-          {
-            "name": "unitId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/uint"
+        "operationId": "post-api-unit-projectiles-export-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "unitIds": {
+                    "$ref": "#/components/schemas/ArrayOfuint"
+                  },
+                  "exportPath": {
+                    "$ref": "#/components/schemas/string"
+                  }
+                }
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -4649,7 +4815,7 @@
             "name": "Search",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             }
           }
         ],
@@ -5083,7 +5249,7 @@
     "/api/hitbox-groups": {
       "get": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "get-api-hitbox-groups",
         "parameters": [
@@ -5127,7 +5293,7 @@
       },
       "post": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "post-api-hitbox-groups",
         "requestBody": {
@@ -5161,7 +5327,7 @@
     "/api/hitbox-groups/hash/{hash}": {
       "get": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "get-api-hitbox-groups-hash-by-hash",
         "parameters": [
@@ -5187,7 +5353,7 @@
     "/api/hitbox-groups/unitId/{unitId}": {
       "get": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "get-api-hitbox-groups-unitId-by-unitId",
         "parameters": [
@@ -5213,7 +5379,7 @@
     "/api/hitbox-groups/{hash}": {
       "post": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "post-api-hitbox-groups-by-hash",
         "parameters": [
@@ -5257,7 +5423,7 @@
     "/api/hitbox-groups/import": {
       "post": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "post-api-hitbox-groups-import",
         "parameters": [
@@ -5297,19 +5463,19 @@
         }
       }
     },
-    "/api/hitbox-groups/import/directory": {
+    "/api/hitbox-groups/import/path": {
       "post": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
-        "operationId": "post-api-hitbox-groups-import-directory",
+        "operationId": "post-api-hitbox-groups-import-path",
         "parameters": [
           {
             "name": "directoryPath",
             "in": "query",
             "required": true,
             "schema": {
-              "$ref": "#/components/schemas/string"
+              "$ref": "#/components/schemas/string2"
             }
           }
         ],
@@ -5323,20 +5489,20 @@
     "/api/hitbox-groups/export": {
       "post": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
         "operationId": "post-api-hitbox-groups-export",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "required": [
-                  "hashes"
-                ],
                 "type": "object",
                 "properties": {
                   "hashes": {
-                    "$ref": "#/components/schemas/ArrayOfuint2"
+                    "$ref": "#/components/schemas/ArrayOfuint"
+                  },
+                  "unitIds": {
+                    "$ref": "#/components/schemas/ArrayOfuint"
                   }
                 }
               }
@@ -5351,48 +5517,36 @@
         }
       }
     },
-    "/api/hitbox-groups/export/hash/{hash}": {
+    "/api/hitbox-groups/export/path": {
       "post": {
         "tags": [
-          "HitboxGroups"
+          "Hitboxes"
         ],
-        "operationId": "post-api-hitbox-groups-export-hash-by-hash",
-        "parameters": [
-          {
-            "name": "hash",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/uint"
+        "operationId": "post-api-hitbox-groups-export-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "hashes": {
+                    "$ref": "#/components/schemas/ArrayOfuint"
+                  },
+                  "unitIds": {
+                    "$ref": "#/components/schemas/ArrayOfuint"
+                  },
+                  "outputPath": {
+                    "$ref": "#/components/schemas/string"
+                  }
+                }
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/hitbox-groups/export/unitId/{unitId}": {
-      "post": {
-        "tags": [
-          "HitboxGroups"
-        ],
-        "operationId": "post-api-hitbox-groups-export-unitId-by-unitId",
-        "parameters": [
-          {
-            "name": "unitId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/uint"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -5847,7 +6001,7 @@
       "ArrayOfstring": {
         "type": "array",
         "items": {
-          "$ref": "#/components/schemas/string"
+          "$ref": "#/components/schemas/string2"
         },
         "default": null,
         "nullable": true
@@ -5858,7 +6012,7 @@
           "type": "object",
           "properties": {
             "path": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
             },
             "fileInfoMetadata": {
               "required": [
@@ -5902,7 +6056,51 @@
           "type": "object",
           "properties": {
             "path": {
-              "$ref": "#/components/schemas/string2"
+              "$ref": "#/components/schemas/string"
+            },
+            "fileInfoMetadata": {
+              "required": [
+                "cumulativeIndex",
+                "patchNumber",
+                "size1",
+                "size2",
+                "size3",
+                "hashName"
+              ],
+              "type": "object",
+              "properties": {
+                "cumulativeIndex": {
+                  "$ref": "#/components/schemas/uint"
+                },
+                "patchNumber": {
+                  "$ref": "#/components/schemas/uint"
+                },
+                "size1": {
+                  "$ref": "#/components/schemas/uint"
+                },
+                "size2": {
+                  "$ref": "#/components/schemas/uint"
+                },
+                "size3": {
+                  "$ref": "#/components/schemas/uint"
+                },
+                "hashName": {
+                  "$ref": "#/components/schemas/uint"
+                }
+              },
+              "default": null,
+              "nullable": true
+            }
+          }
+        }
+      },
+      "ArrayOfTblFileMetadata3": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "$ref": "#/components/schemas/string"
             },
             "fileInfoMetadata": {
               "required": [
@@ -6082,12 +6280,12 @@
         }
       },
       "string": {
-        "type": "string"
-      },
-      "string2": {
         "type": "string",
         "default": null,
         "nullable": true
+      },
+      "string2": {
+        "type": "string"
       },
       "string3": {
         "type": "string",
@@ -6104,7 +6302,7 @@
             "$ref": "#/components/schemas/uint"
           },
           "fileMetadata": {
-            "$ref": "#/components/schemas/ArrayOfTblFileMetadata"
+            "$ref": "#/components/schemas/ArrayOfTblFileMetadata2"
           },
           "pathOrder": {
             "$ref": "#/components/schemas/ArrayOfstring"
@@ -6123,6 +6321,24 @@
           },
           "fileMetadata": {
             "$ref": "#/components/schemas/ArrayOfTblFileMetadata2"
+          },
+          "pathOrder": {
+            "$ref": "#/components/schemas/ArrayOfstring"
+          }
+        }
+      },
+      "TblMetadata3": {
+        "required": [
+          "cumulativeFileInfoCount",
+          "fileMetadata"
+        ],
+        "type": "object",
+        "properties": {
+          "cumulativeFileInfoCount": {
+            "$ref": "#/components/schemas/uint"
+          },
+          "fileMetadata": {
+            "$ref": "#/components/schemas/ArrayOfTblFileMetadata3"
           },
           "pathOrder": {
             "$ref": "#/components/schemas/ArrayOfstring"
@@ -6159,13 +6375,13 @@
             "$ref": "#/components/schemas/uint"
           },
           "name": {
-            "$ref": "#/components/schemas/string"
+            "$ref": "#/components/schemas/string2"
           },
           "nameJapanese": {
-            "$ref": "#/components/schemas/string"
+            "$ref": "#/components/schemas/string2"
           },
           "nameChinese": {
-            "$ref": "#/components/schemas/string"
+            "$ref": "#/components/schemas/string2"
           }
         }
       },
@@ -6187,6 +6403,9 @@
       "name": "Ammo"
     },
     {
+      "name": "Configs"
+    },
+    {
       "name": "Fhm"
     },
     {
@@ -6205,19 +6424,10 @@
       "name": "Stats"
     },
     {
-      "name": "UnitStats"
-    },
-    {
       "name": "Projectiles"
     },
     {
-      "name": "UnitProjectiles"
-    },
-    {
       "name": "Hitboxes"
-    },
-    {
-      "name": "HitboxGroups"
     }
   ]
 }

@@ -1,11 +1,9 @@
 "use client"
 
 import * as React from "react"
-import {useEffect, useState} from "react"
-import type {DataTableFilterField} from "@/types"
+import { useEffect, useState } from "react"
+import type { DataTableFilterField } from "@/types"
 import {
-  type ColumnDef,
-  type ColumnFiltersState,
   getCoreRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
@@ -13,17 +11,19 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   OnChangeFn,
+  useReactTable,
+  type ColumnDef,
+  type ColumnFiltersState,
   type PaginationState,
   type SortingState,
-  useReactTable,
   type VisibilityState,
 } from "@tanstack/react-table"
-import {z} from "zod"
-
-import {useDebounce} from "@/hooks/use-debounce"
-import {useSearchParams} from "react-router-dom"
-import {Input} from "@/components/ui/input";
 import _ from "lodash"
+import { useSearchParams } from "react-router-dom"
+import { z } from "zod"
+
+import { useDebounce } from "@/hooks/use-debounce"
+import { Input } from "@/components/ui/input"
 
 interface UseDataTableProps<TData, TValue> {
   /**
@@ -33,7 +33,7 @@ interface UseDataTableProps<TData, TValue> {
    */
   data: TData[]
 
-  setData: OnChangeFn<TData[]>,
+  setData: OnChangeFn<TData[]>
 
   /**
    * The columns of the table.
@@ -101,7 +101,7 @@ interface UseDataTableProps<TData, TValue> {
    * @default false
    * @type boolean
    */
-  enableAdvancedFilter?: boolean,
+  enableAdvancedFilter?: boolean
 
   fetchData: () => Promise<void>
   saveData: () => Promise<void>
@@ -114,26 +114,26 @@ const schema = z.object({
 })
 
 export function useDataTable<TData, TValue>({
-                                              data,
-                                              setData,
-                                              columns,
-                                              pageCount,
-                                              defaultPerPage = 5,
-                                              defaultSort,
-                                              filterFields = [],
-                                              enableAdvancedFilter = false,
-                                              fetchData,
-                                              saveData,
-                                            }: UseDataTableProps<TData, TValue>) {
+  data,
+  setData,
+  columns,
+  pageCount,
+  defaultPerPage = 5,
+  defaultSort,
+  filterFields = [],
+  enableAdvancedFilter = false,
+  fetchData,
+  saveData,
+}: UseDataTableProps<TData, TValue>) {
   let [searchParams, setSearchParams] = useSearchParams()
-  
+
   // Search params
   const search = schema.parse(Object.fromEntries(searchParams))
   const page = search.page
   const perPage = search.per_page ?? defaultPerPage
   const sort = search.sort ?? defaultSort
   const [column, order] = sort?.split(".") ?? []
-  
+
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns } = React.useMemo(() => {
     return {
@@ -196,7 +196,7 @@ export function useDataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] =
     React.useState<ColumnFiltersState>(initialColumnFilters)
   const [modifiedRows, setModifiedRows] = useState<number[]>([])
-  
+
   // Handle server-side pagination
   const [{ pageIndex, pageSize }, setPagination] =
     React.useState<PaginationState>({
@@ -216,8 +216,8 @@ export function useDataTable<TData, TValue>({
     if (mounted) {
       fetchData().catch()
     }
-  }, [searchParams]);
-  
+  }, [searchParams])
+
   // Handle server-side sorting
   const [sorting, setSorting] = React.useState<SortingState>([
     {
@@ -227,13 +227,16 @@ export function useDataTable<TData, TValue>({
   ])
 
   React.useEffect(() => {
-    setSearchParams(createQueryString({
-      page: pageIndex + 1,
-      per_page: pageSize,
-      sort: sorting[0]?.id
-        ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
-        : null,
-    }), {replace: true})
+    setSearchParams(
+      createQueryString({
+        page: pageIndex + 1,
+        per_page: pageSize,
+        sort: sorting[0]?.id
+          ? `${sorting[0]?.id}.${sorting[0]?.desc ? "desc" : "asc"}`
+          : null,
+      }),
+      { replace: true }
+    )
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex, pageSize, sorting])
@@ -316,7 +319,7 @@ export function useDataTable<TData, TValue>({
 
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<TData>> = {
-    cell: ({getValue, row: {index}, column: {id}, table}) => {
+    cell: ({ getValue, row: { index }, column: { id }, table }) => {
       const initialValue = getValue()
       // We need to keep and update the state of the cell normally
       const [value, setValue] = React.useState(initialValue)
@@ -333,9 +336,9 @@ export function useDataTable<TData, TValue>({
 
       return (
         <Input
-          className={`text-center border-hidden w-full`}
+          className={`w-full border-hidden text-center`}
           value={value as string}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
         />
       )
@@ -380,13 +383,16 @@ export function useDataTable<TData, TValue>({
         await saveData()
       },
       updateData: (rowIndex, columnId, value) => {
-        setData(old =>
+        setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {
-              const oldValue = {...old[rowIndex]}
-              const newValue = {...old[rowIndex], [columnId]: value}
+              const oldValue = { ...old[rowIndex] }
+              const newValue = { ...old[rowIndex], [columnId]: value }
 
-              if (!_.isEqual(oldValue, newValue) && modifiedRows.indexOf(index) === -1) {
+              if (
+                !_.isEqual(oldValue, newValue) &&
+                modifiedRows.indexOf(index) === -1
+              ) {
                 modifiedRows.push(rowIndex)
                 setModifiedRows(modifiedRows)
               }

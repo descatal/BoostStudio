@@ -6,12 +6,14 @@ using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
+using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.BackgroundServices;
 using BoostStudio.Infrastructure.Compressor;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Infrastructure.Data.Interceptors;
+using BoostStudio.Infrastructure.Data.Repositories;
 using BoostStudio.Infrastructure.Formats.AmmoFormat;
 using BoostStudio.Infrastructure.Formats.AudioFormats;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Bnsf;
@@ -84,6 +86,9 @@ public static class DependencyInjection
         
         #endregion
 
+        // Repositories
+        services.AddScoped<IConfigsRepository, ConfigsRepository>();
+        
         services.AddHostedService<ApplicationLifetimeService>();
         services.AddHostedService<Rpcs3ProcessBackgroundService>();
         

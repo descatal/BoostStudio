@@ -19,6 +19,8 @@ import type {
   GetApiProjectilesByHash200Response,
   PostApiProjectilesByHashRequest,
   PostApiProjectilesRequest,
+  PostApiUnitStatsExportPathRequest,
+  PostApiUnitStatsExportRequest,
 } from '../models/index';
 import {
     GetApiProjectiles200ResponseFromJSON,
@@ -29,6 +31,10 @@ import {
     PostApiProjectilesByHashRequestToJSON,
     PostApiProjectilesRequestFromJSON,
     PostApiProjectilesRequestToJSON,
+    PostApiUnitStatsExportPathRequestFromJSON,
+    PostApiUnitStatsExportPathRequestToJSON,
+    PostApiUnitStatsExportRequestFromJSON,
+    PostApiUnitStatsExportRequestToJSON,
 } from '../models/index';
 
 export interface DeleteApiProjectilesByHashRequest {
@@ -47,6 +53,17 @@ export interface GetApiProjectilesByHashRequest {
     hash: number;
 }
 
+export interface GetApiUnitProjectilesRequest {
+    page?: number;
+    perPage?: number;
+    unitIds?: Array<number> | null;
+    search?: string | null;
+}
+
+export interface GetApiUnitProjectilesByUnitIdRequest {
+    unitId: number;
+}
+
 export interface PostApiProjectilesOperationRequest {
     postApiProjectilesRequest: PostApiProjectilesRequest;
 }
@@ -54,6 +71,22 @@ export interface PostApiProjectilesOperationRequest {
 export interface PostApiProjectilesByHashOperationRequest {
     hash: number;
     postApiProjectilesByHashRequest: PostApiProjectilesByHashRequest;
+}
+
+export interface PostApiUnitProjectilesExportRequest {
+    postApiUnitStatsExportRequest: PostApiUnitStatsExportRequest;
+}
+
+export interface PostApiUnitProjectilesExportPathRequest {
+    postApiUnitStatsExportPathRequest: PostApiUnitStatsExportPathRequest;
+}
+
+export interface PostApiUnitProjectilesImportRequest {
+    files?: Array<Blob>;
+}
+
+export interface PostApiUnitProjectilesImportPathRequest {
+    directoryPath: string;
 }
 
 /**
@@ -168,6 +201,75 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
+    async getApiUnitProjectilesRaw(requestParameters: GetApiUnitProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['Page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['perPage'] != null) {
+            queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['unitIds'] != null) {
+            queryParameters['UnitIds'] = requestParameters['unitIds'];
+        }
+
+        if (requestParameters['search'] != null) {
+            queryParameters['Search'] = requestParameters['search'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-projectiles`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async getApiUnitProjectiles(requestParameters: GetApiUnitProjectilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getApiUnitProjectilesRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async getApiUnitProjectilesByUnitIdRaw(requestParameters: GetApiUnitProjectilesByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['unitId'] == null) {
+            throw new runtime.RequiredError(
+                'unitId',
+                'Required parameter "unitId" was null or undefined when calling getApiUnitProjectilesByUnitId().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-projectiles/{unitId}`.replace(`{${"unitId"}}`, encodeURIComponent(String(requestParameters['unitId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async getApiUnitProjectilesByUnitId(requestParameters: GetApiUnitProjectilesByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.getApiUnitProjectilesByUnitIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
     async postApiProjectilesRaw(requestParameters: PostApiProjectilesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['postApiProjectilesRequest'] == null) {
             throw new runtime.RequiredError(
@@ -237,6 +339,152 @@ export class ProjectilesApi extends runtime.BaseAPI {
      */
     async postApiProjectilesByHash(requestParameters: PostApiProjectilesByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiProjectilesByHashRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesExportRaw(requestParameters: PostApiUnitProjectilesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['postApiUnitStatsExportRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiUnitStatsExportRequest',
+                'Required parameter "postApiUnitStatsExportRequest" was null or undefined when calling postApiUnitProjectilesExport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/unit-projectiles/export`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiUnitStatsExportRequestToJSON(requestParameters['postApiUnitStatsExportRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesExport(requestParameters: PostApiUnitProjectilesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitProjectilesExportRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesExportPathRaw(requestParameters: PostApiUnitProjectilesExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['postApiUnitStatsExportPathRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiUnitStatsExportPathRequest',
+                'Required parameter "postApiUnitStatsExportPathRequest" was null or undefined when calling postApiUnitProjectilesExportPath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/unit-projectiles/export/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiUnitStatsExportPathRequestToJSON(requestParameters['postApiUnitStatsExportPathRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesExportPath(requestParameters: PostApiUnitProjectilesExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitProjectilesExportPathRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesImportRaw(requestParameters: PostApiUnitProjectilesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['files'] != null) {
+            requestParameters['files'].forEach((element) => {
+                formParams.append('files', element as any);
+            })
+        }
+
+        const response = await this.request({
+            path: `/api/unit-projectiles/import`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesImport(requestParameters: PostApiUnitProjectilesImportRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitProjectilesImportRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesImportPathRaw(requestParameters: PostApiUnitProjectilesImportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['directoryPath'] == null) {
+            throw new runtime.RequiredError(
+                'directoryPath',
+                'Required parameter "directoryPath" was null or undefined when calling postApiUnitProjectilesImportPath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['directoryPath'] != null) {
+            queryParameters['directoryPath'] = requestParameters['directoryPath'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-projectiles/import/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitProjectilesImportPath(requestParameters: PostApiUnitProjectilesImportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitProjectilesImportPathRaw(requestParameters, initOverrides);
     }
 
 }

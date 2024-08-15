@@ -16,13 +16,13 @@
 import * as runtime from '../runtime';
 import type {
   PostApiTblDeserialize200Response,
-  TblMetadata2,
+  TblMetadata3,
 } from '../models/index';
 import {
     PostApiTblDeserialize200ResponseFromJSON,
     PostApiTblDeserialize200ResponseToJSON,
-    TblMetadata2FromJSON,
-    TblMetadata2ToJSON,
+    TblMetadata3FromJSON,
+    TblMetadata3ToJSON,
 } from '../models/index';
 
 export interface GetApiTblDeserializePathRequest {
@@ -48,7 +48,7 @@ export class TblApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiTblDeserializePathRaw(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TblMetadata2>> {
+    async getApiTblDeserializePathRaw(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TblMetadata3>> {
         if (requestParameters['filePath'] == null) {
             throw new runtime.RequiredError(
                 'filePath',
@@ -71,12 +71,12 @@ export class TblApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TblMetadata2FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TblMetadata3FromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiTblDeserializePath(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TblMetadata2> {
+    async getApiTblDeserializePath(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TblMetadata3> {
         const response = await this.getApiTblDeserializePathRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -12,7 +12,8 @@ public class BulkCreateUnitCommandHandler(
 {
     public async ValueTask<Unit> Handle(BulkCreateUnitCommand command, CancellationToken cancellationToken)
     {
-        foreach (var unit in command.Units)
+        var units = command.Units.OrderBy(unitDto => unitDto.UnitId).ToList();
+        foreach (var unit in units)
         {
             var entity = new UnitEntity
             {

@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace BoostStudio.Web.Infrastructure;
@@ -9,21 +8,20 @@ public static class WebApplicationExtensions
     public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group, string? areaName = null) 
         => MapSubgroup(app, group, "", areaName: areaName);
     
-    private static RouteGroupBuilder MapSubgroup(
+    public static RouteGroupBuilder MapSubgroup(
         this WebApplication app, 
         EndpointGroupBase endpointGroup, 
-        string rootDir, 
+        string customTagName, 
         string? areaName = null,
         params string[] additionalDirs)
     {
         var endpointGroupName = endpointGroup.GetType().Name;
         
-        var tagName = string.IsNullOrWhiteSpace(rootDir) ? endpointGroupName : rootDir;
+        var tagName = string.IsNullOrWhiteSpace(customTagName) ? endpointGroupName : customTagName;
 
         var filteredDirs = additionalDirs
             // order is important, should be ApiRoot/rootDir/additionalDirs/endpointGroupName
-            .Prepend(rootDir)
-            .Prepend("/api")
+            .Prepend(Constants.Endpoints.ApiRoot)
             .Append(endpointGroupName)
             // Remove empty or null strings
             .Where(dir => !string.IsNullOrWhiteSpace(dir))

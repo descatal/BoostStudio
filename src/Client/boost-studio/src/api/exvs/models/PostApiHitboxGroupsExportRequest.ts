@@ -24,14 +24,19 @@ export interface PostApiHitboxGroupsExportRequest {
      * @type {Array<number>}
      * @memberof PostApiHitboxGroupsExportRequest
      */
-    hashes: Array<number>;
+    hashes?: Array<number> | null;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof PostApiHitboxGroupsExportRequest
+     */
+    unitIds?: Array<number> | null;
 }
 
 /**
  * Check if a given object implements the PostApiHitboxGroupsExportRequest interface.
  */
 export function instanceOfPostApiHitboxGroupsExportRequest(value: object): value is PostApiHitboxGroupsExportRequest {
-    if (!('hashes' in value) || value['hashes'] === undefined) return false;
     return true;
 }
 
@@ -45,7 +50,8 @@ export function PostApiHitboxGroupsExportRequestFromJSONTyped(json: any, ignoreD
     }
     return {
         
-        'hashes': json['hashes'],
+        'hashes': json['hashes'] == null ? undefined : json['hashes'],
+        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
     };
 }
 
@@ -56,6 +62,7 @@ export function PostApiHitboxGroupsExportRequestToJSON(value?: PostApiHitboxGrou
     return {
         
         'hashes': value['hashes'],
+        'unitIds': value['unitIds'],
     };
 }
 

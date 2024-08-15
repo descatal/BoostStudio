@@ -17,6 +17,21 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.6.24327.4");
 
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Config", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Key");
+
+                    b.ToTable("Configs");
+                });
+
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
                 {
                     b.Property<Guid>("Id")

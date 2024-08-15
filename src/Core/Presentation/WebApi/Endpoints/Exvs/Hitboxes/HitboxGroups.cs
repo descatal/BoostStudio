@@ -12,17 +12,16 @@ public class HitboxGroups : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this, DefinitionNames.Exvs)
+        app.MapSubgroup(this, customTagName: nameof(Hitboxes), areaName: DefinitionNames.Exvs)
             .MapGet(GetHitboxGroupsWithPagination)
             .MapGet(GetHitboxGroupByHash, "hash/{hash}")
             .MapGet(GetHitboxGroupByUnitId, "unitId/{unitId}")
             .MapPost(CreateHitboxGroup)
             .MapPost(UpdateHitboxGroup, "{hash}")
             .MapPost(ImportHitboxGroups, "import")
-            .MapPost(ImportHitboxGroupsFromDirectory, "import/directory")
+            .MapPost(ImportHitboxGroupsByPath, "import/path")
             .MapPost(ExportHitboxGroups, "export")
-            .MapPost(ExportHitboxGroupByHash, "export/hash/{hash}")
-            .MapPost(ExportHitboxGroupByUnitId, "export/unitId/{unitId}");
+            .MapPost(ExportHitboxGroupsByPath, "export/path");
     }
     
     [Produces(ContentType.Application.Json)]
@@ -82,7 +81,7 @@ public class HitboxGroups : EndpointGroupBase
     }
     
     [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportHitboxGroupsFromDirectory(
+    private static async Task<IResult> ImportHitboxGroupsByPath(
         ISender sender, 
         string directoryPath,
         CancellationToken cancellationToken)
@@ -115,23 +114,22 @@ public class HitboxGroups : EndpointGroupBase
     }
     
     [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportHitboxGroups(ISender sender, ExportHitboxGroupCommand groupCommand, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportHitboxGroups(
+        ISender sender, 
+        ExportHitboxGroupCommand groupCommand, 
+        CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(groupCommand, cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? ContentType.Application.Octet, fileInfo.FileName);
     }
     
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportHitboxGroupByHash(ISender sender, [FromRoute] uint hash, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> ExportHitboxGroupsByPath(
+        ISender sender, 
+        ExportHitboxGroupByPathCommand groupCommand, 
+        CancellationToken cancellationToken)
     {
-        var fileInfo = await sender.Send(new ExportHitboxGroupByHashCommand(hash), cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? ContentType.Application.Octet, fileInfo.FileName);
-    }
-    
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportHitboxGroupByUnitId(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
-    {
-        var fileInfo = await sender.Send(new ExportHitboxGroupByUnitIdCommand(unitId), cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? ContentType.Application.Octet, fileInfo.FileName);
+        await sender.Send(groupCommand, cancellationToken);
+        return Results.NoContent();
     }
 }

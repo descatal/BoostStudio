@@ -1,4 +1,5 @@
-﻿using BoostStudio.Domain.Entities.Unit.Hitboxes;
+﻿using System.Text.Json;
+using BoostStudio.Domain.Entities.Unit.Hitboxes;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
 
 namespace BoostStudio.Domain.Entities.Unit;
@@ -20,4 +21,6 @@ public class Unit : BaseEntity<Guid>
     
     public uint? HitboxGroupHash { get; set; }
     public HitboxGroup? HitboxGroup { get; set; }
+
+    public string SnakeCaseName => JsonNamingPolicy.SnakeCaseLower.ConvertName(Name);
 }

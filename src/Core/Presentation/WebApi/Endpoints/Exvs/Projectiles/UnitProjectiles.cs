@@ -13,13 +13,13 @@ public class UnitProjectiles : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this, DefinitionNames.Exvs)
+        app.MapSubgroup(this, customTagName: nameof(Projectiles), areaName: DefinitionNames.Exvs)
             .MapGet(GetUnitProjectilesWithPagination)
             .MapGet(GetUnitProjectileByUnitId, "{unitId}")
             .MapPost(ImportUnitProjectiles, "import")
-            .MapPost(ImportUnitProjectilesFromDirectory, "import/directory")
+            .MapPost(ImportUnitProjectilesByPath, "import/path")
             .MapPost(ExportUnitProjectiles, "export")
-            .MapPost(ExportUnitProjectileByUnitId, "export/{unitId}");
+            .MapPost(ExportUnitProjectilesByPath, "export/path");
     }
     
     [Produces(ContentType.Application.Json)]
@@ -49,7 +49,7 @@ public class UnitProjectiles : EndpointGroupBase
     }
     
     [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportUnitProjectilesFromDirectory(
+    private static async Task<IResult> ImportUnitProjectilesByPath(
         ISender sender, 
         string directoryPath,
         CancellationToken cancellationToken)
@@ -67,16 +67,22 @@ public class UnitProjectiles : EndpointGroupBase
     }
     
     [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportUnitProjectiles(ISender sender, ExportUnitProjectileCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportUnitProjectiles(
+        ISender sender, 
+        ExportUnitProjectileCommand command, 
+        CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(command, cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
     
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> ExportUnitProjectilesByPath(
+        ISender sender, 
+        ExportUnitProjectileByPathCommand command, 
+        CancellationToken cancellationToken)
     {
-        var fileInfo = await sender.Send(new ExportUnitProjectileByIdCommand(unitId), cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
     }
 }

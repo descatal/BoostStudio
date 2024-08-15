@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Domain.Entities;
 using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Domain.Entities.Unit.Hitboxes;
@@ -13,6 +14,8 @@ public class ApplicationDbContext(
     DbContextOptions<ApplicationDbContext> options
 ) : DbContext(options), IApplicationDbContext
 {
+    public DbSet<Config> Configs => Set<Config>();
+    
     public DbSet<Unit> Units => Set<Unit>();
     
     public DbSet<UnitStat> UnitStats => Set<UnitStat>();

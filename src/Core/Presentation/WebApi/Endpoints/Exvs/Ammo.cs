@@ -21,7 +21,8 @@ public class Ammo : EndpointGroupBase
             .MapPost(UpdateAmmoByHash, "{hash}")
             .MapDelete(DeleteAmmoByHash, "{hash}")
             .MapPost(ImportAmmo, "import")
-            .MapPost(ExportAmmo, "export");
+            .MapPost(ExportAmmo, "export")
+            .MapPost(ExportAmmoByPath, "export/path");
     }
     
     private static async Task<PaginatedList<AmmoDto>> GetAmmoWithPagination(ISender sender, [AsParameters] GetAmmoWithPaginationQuery request, CancellationToken cancellationToken)
@@ -77,5 +78,15 @@ public class Ammo : EndpointGroupBase
     {
         var fileInfo = await sender.Send(new ExportAmmoCommand(), cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
+    }
+    
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> ExportAmmoByPath(
+        ISender sender, 
+        ExportAmmoByPathCommand command,
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
     }
 }

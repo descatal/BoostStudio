@@ -27,7 +27,7 @@ public class ImportUnitProjectileCommandHandler(
             var unit = await applicationDbContext.Units
                 .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == binaryData.UnitId, cancellationToken);
 
-            if (unit is null)
+            if (unit?.HitboxGroupHash is null)
                 continue;
 
             var unitProjectileEntity = await applicationDbContext.UnitProjectiles
@@ -62,7 +62,7 @@ public class ImportUnitProjectileCommandHandler(
         {
             var projectileEntity = unitProjectile.Projectiles
                 .FirstOrDefault(projectile => projectile.Hash == projectileBody.Hash);
-
+            
             if (projectileEntity is null)
             {
                 projectileEntity ??= new ProjectileEntity();

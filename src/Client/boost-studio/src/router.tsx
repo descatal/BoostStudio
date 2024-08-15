@@ -1,81 +1,83 @@
-import {Navigate, createBrowserRouter } from 'react-router-dom'
-import GeneralError from './pages/errors/general-error'
-import NotFoundError from './pages/errors/not-found-error'
-import MaintenanceError from './pages/errors/maintenance-error'
-import UnauthorisedError from './pages/errors/unauthorised-error'
-import App from './App'
+import { createBrowserRouter, Navigate } from "react-router-dom"
+
+import App from "./App"
+import GeneralError from "./pages/errors/general-error"
+import MaintenanceError from "./pages/errors/maintenance-error"
+import NotFoundError from "./pages/errors/not-found-error"
+import UnauthorisedError from "./pages/errors/unauthorised-error"
 
 const router = createBrowserRouter([
   // Main routes
   {
-    path: '/',
+    path: "/",
     lazy: async () => {
-      const AppShell = await import('./components/app-shell')
+      const AppShell = await import("./components/app-shell")
       return { Component: AppShell.default }
     },
     errorElement: <GeneralError />,
     children: [
-      { 
-        index: true, 
-        element: <Navigate to="/units" replace /> 
+      {
+        index: true,
+        element: <Navigate to="/units" replace />,
       },
       {
-        path: 'units',
+        path: "units",
         lazy: async () => ({
-          Component: (await import('./pages/units')).default,
+          Component: (await import("./pages/units")).default,
         }),
       },
       {
-        path: 'units/:unitId',
+        path: "units/:unitId/customize",
         lazy: async () => ({
-          Component: (await import('./pages/units/customize')).default,
+          Component: (await import("./pages/units/customize")).default,
         }),
         errorElement: <GeneralError />,
         children: [
           {
             index: true,
-            element: <Navigate to="info/stats" replace />
+            element: <Navigate to="info/stats" replace />,
           },
           {
-            path: 'info/:tab',
+            path: "info/:tab",
             lazy: async () => ({
-              Component: (await import('./pages/units/customize/information')).default,
+              Component: (await import("./pages/units/customize/information"))
+                .default,
             }),
-          }
-        ]
+          },
+        ],
       },
       {
-        path: 'live',
+        path: "live",
         lazy: async () => ({
-          Component: (await import('./pages/live')).default,
+          Component: (await import("./pages/live")).default,
         }),
       },
       {
-        path: 'settings',
+        path: "settings",
         lazy: async () => ({
-          Component: (await import('./pages/settings')).default,
+          Component: (await import("./pages/settings")).default,
         }),
         errorElement: <GeneralError />,
         children: [
           {
             index: true,
             lazy: async () => ({
-              Component: (await import('./pages/settings/nested')).default,
+              Component: (await import("./pages/settings/nested")).default,
             }),
-          }
+          },
         ],
       },
     ],
   },
 
   // Error routes
-  { path: '/500', Component: GeneralError },
-  { path: '/404', Component: NotFoundError },
-  { path: '/503', Component: MaintenanceError },
-  { path: '/401', Component: UnauthorisedError },
+  { path: "/500", Component: GeneralError },
+  { path: "/404", Component: NotFoundError },
+  { path: "/503", Component: MaintenanceError },
+  { path: "/401", Component: UnauthorisedError },
 
   // Fallback 404 route
-  { path: '*', Component: NotFoundError },
+  { path: "*", Component: NotFoundError },
 ])
 
 export default router

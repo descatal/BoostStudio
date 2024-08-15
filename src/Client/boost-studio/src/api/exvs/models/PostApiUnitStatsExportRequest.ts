@@ -24,14 +24,13 @@ export interface PostApiUnitStatsExportRequest {
      * @type {Array<number>}
      * @memberof PostApiUnitStatsExportRequest
      */
-    unitIds: Array<number>;
+    unitIds?: Array<number> | null;
 }
 
 /**
  * Check if a given object implements the PostApiUnitStatsExportRequest interface.
  */
 export function instanceOfPostApiUnitStatsExportRequest(value: object): value is PostApiUnitStatsExportRequest {
-    if (!('unitIds' in value) || value['unitIds'] === undefined) return false;
     return true;
 }
 
@@ -45,7 +44,7 @@ export function PostApiUnitStatsExportRequestFromJSONTyped(json: any, ignoreDisc
     }
     return {
         
-        'unitIds': json['unitIds'],
+        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
     };
 }
 

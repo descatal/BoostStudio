@@ -13,7 +13,7 @@ public record ImportHitboxGroupCommand(ImportHitboxGroupDetails[] Data) : IReque
 public record ImportHitboxGroupDetails(Stream File, uint[]? UnitIds = null);
 
 public class ImportHitboxGroupCommandHandler(
-    IHitboxGroupBinarySerializer groupBinarySerializer,
+    IHitboxGroupBinarySerializer hitboxGroupBinarySerializer,
     IApplicationDbContext applicationDbContext,
     ILogger<ImportHitboxGroupCommandHandler> logger
 ) : IRequestHandler<ImportHitboxGroupCommand>
@@ -22,7 +22,7 @@ public class ImportHitboxGroupCommandHandler(
     {
         foreach ((Stream binaryStream, uint[]? ids) in groupCommand.Data)
         {
-            var binaryFormat = await groupBinarySerializer.DeserializeAsync(binaryStream, cancellationToken);
+            var binaryFormat = await hitboxGroupBinarySerializer.DeserializeAsync(binaryStream, cancellationToken);
             
             var entity = await applicationDbContext.HitboxGroups
                 .Include(group => group.Hitboxes)
@@ -72,7 +72,7 @@ public class ImportHitboxGroupCommandHandler(
             }
 
             // Use reflection to map the HitboxProperty enum to concrete Hitbox
-            hitboxBody.Properties.ForEach(hitboxProperty =>
+            foreach (var hitboxProperty in hitboxBody.Properties)
             {
                 var propertyName = hitboxProperty.Name;
                 var propertyInfo = typeof(HitboxEntity).GetProperty(propertyName.ToString());
@@ -81,8 +81,8 @@ public class ImportHitboxGroupCommandHandler(
 
                 var castedPropertyValue = Convert.ChangeType(hitboxProperty.Value, propertyInfo.PropertyType);
                 propertyInfo.SetValue(hitboxEntity, castedPropertyValue);
-            });
-            
+            }
+
             newEntityHashes.Add(hitboxEntity.Hash);
         }
 

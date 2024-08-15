@@ -1,12 +1,15 @@
 "use client"
 
 import * as React from "react"
-import {useCallback, useEffect, useState} from "react"
-import {CaretSortIcon, CheckIcon,} from "@radix-ui/react-icons"
+import { useCallback, useEffect, useState } from "react"
+import { fetchUnits } from "@/api/wrapper/units-api"
+import { useCustomizeInformationUnitStore } from "@/pages/units/customize/information/libs/store"
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
+import { Link } from "react-router-dom"
 
-import {cn} from "@/lib/utils"
-import {Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/avatar"
-import {Button} from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -16,10 +19,12 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import {Dialog,} from "@/components/ui/dialog"
-import {Popover, PopoverContent, PopoverTrigger,} from "@/components/ui/popover"
-import {fetchUnits} from "@/api/wrapper/units-api";
-import {Link} from "react-router-dom"
+import { Dialog } from "@/components/ui/dialog"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 
 type UnitGroup = {
   label: string
@@ -29,7 +34,7 @@ type UnitGroup = {
   }[]
 }
 
-type Unit = (UnitGroup[])[number]["units"][number]
+type Unit = UnitGroup[][number]["units"][number]
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -37,14 +42,17 @@ interface TeamSwitcherProps extends PopoverTriggerProps {
   unitId: number
 }
 
-export default function UnitSwitcher({className, unitId}: TeamSwitcherProps) {
-  const [unitGroups, setUnitGroups] = useState<UnitGroup[]>([]);
+export default function UnitSwitcher({ className, unitId }: TeamSwitcherProps) {
+  const selectedTab = useCustomizeInformationUnitStore(
+    (state) => state.selectedTab
+  )
+  const [unitGroups, setUnitGroups] = useState<UnitGroup[]>([])
 
   const [open, setOpen] = React.useState(false)
   const [showNewUnitDialog, setShowNewUnitDialog] = React.useState(false)
   const [selectedUnit, setSelectedUnit] = React.useState<Unit>({
     label: "",
-    value: 0
+    value: 0,
   })
 
   const getData = useCallback(async () => {
@@ -53,28 +61,35 @@ export default function UnitSwitcher({className, unitId}: TeamSwitcherProps) {
     const mappedUnits = units.map((item) => {
       return {
         label: item.name ?? "",
-        value: item.unitId ?? 0
+        value: item.unitId ?? 0,
       }
     })
-    const group: UnitGroup[] = [{
-      label: "All",
-      units: mappedUnits
-    }]
-    console.log("all")
+    const group: UnitGroup[] = [
+      {
+        label: "All",
+        units: mappedUnits,
+      },
+    ]
     setUnitGroups(group)
-  }, []);
+  }, [])
 
   useEffect(() => {
     getData().catch(console.error)
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (unitGroups.length <= 0) return
-    const selectedUnit = unitGroups[0]?.units?.find((unit) => unit.value === unitId)
-    setSelectedUnit(selectedUnit?.value ? selectedUnit : {
-      label: "",
-      value: 0
-    })
+    const selectedUnit = unitGroups[0]?.units?.find(
+      (unit) => unit.value === unitId
+    )
+    setSelectedUnit(
+      selectedUnit?.value
+        ? selectedUnit
+        : {
+            label: "",
+            value: 0,
+          }
+    )
   }, [unitGroups])
 
   return (
@@ -96,18 +111,21 @@ export default function UnitSwitcher({className, unitId}: TeamSwitcherProps) {
               <AvatarFallback>SC</AvatarFallback>
             </Avatar>
             {selectedUnit.label}
-            <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50"/>
+            <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[350px] p-0">
           <Command>
             <CommandList>
-              <CommandInput placeholder="Search unit..."/>
+              <CommandInput placeholder="Search unit..." />
               <CommandEmpty>No unit found.</CommandEmpty>
               {unitGroups.map((group) => (
                 <CommandGroup key={group.label} heading={group.label}>
                   {group.units.map((unit) => (
-                    <Link key={unit.value} to={`/units/${unit.value}`}>
+                    <Link
+                      key={unit.value}
+                      to={`/units/${unit.value}/customize/info/${selectedTab}`}
+                    >
                       <CommandItem
                         onSelect={() => {
                           setSelectedUnit(unit)
@@ -138,7 +156,7 @@ export default function UnitSwitcher({className, unitId}: TeamSwitcherProps) {
                 </CommandGroup>
               ))}
             </CommandList>
-            <CommandSeparator/>
+            <CommandSeparator />
             {/*<CommandList>*/}
             {/*  <CommandGroup>*/}
             {/*    <DialogTrigger asChild>*/}

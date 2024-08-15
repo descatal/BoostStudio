@@ -15,23 +15,25 @@ public class UnitStats : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapGroup(this, DefinitionNames.Exvs)
+        app.MapSubgroup(this, customTagName: nameof(Stats), areaName: DefinitionNames.Exvs)
             .MapGet(GetUnitStatWithPagination)
             .MapGet(GetUnitStatByUnitId, "{unitId}")
             .MapPost(ImportUnitStat, "import")
             .MapPost(ExportUnitStat, "export")
-            .MapPost(ExportUnitStatByUnitId, "export/{unitId}")
+            .MapPost(ExportUnitStatByPath, "export/path");
+        
+        app.MapSubgroup(this, customTagName: nameof(Stats), areaName: DefinitionNames.Exvs)
             .MapGet(GetUnitAmmoSlotByUnitId, "ammo-slot/{unitId}")
             .MapPost(CreateUnitAmmoSlot, "ammo-slot")
             .MapPost(UpdateUnitAmmoSlotById, "ammo-slot/{id}")
             .MapDelete(DeleteUnitAmmoSlotById, "ammo-slot/{id}");
     }
-    
+
     private static async Task<PaginatedList<UnitStatDto>> GetUnitStatWithPagination(ISender sender, [AsParameters] GetUnitStatWithPaginationQuery request)
     {
         return await sender.Send(request);
     }
-    
+
     private static async Task<UnitStatDto> GetUnitStatByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return await sender.Send(new GetUnitStatByUnitIdQuery(unitId));
@@ -48,18 +50,25 @@ public class UnitStats : EndpointGroupBase
         return Results.Created();
     }
 
-    private static async Task<IResult> ExportUnitStat(ISender sender, ExportUnitStatCommand command, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportUnitStat(
+        ISender sender, 
+        ExportUnitStatCommand command, 
+        CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(command, cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
 
-    private static async Task<IResult> ExportUnitStatByUnitId(ISender sender, [FromRoute] uint unitId, CancellationToken cancellationToken)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    private static async Task<IResult> ExportUnitStatByPath(
+        ISender sender, 
+        ExportUnitStatByPathCommand command, 
+        CancellationToken cancellationToken)
     {
-        var fileInfo = await sender.Send(new ExportUnitStatByIdCommand(unitId), cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
     }
-    
+
     private static async Task<List<UnitAmmoSlotDto>> GetUnitAmmoSlotByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return await sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
@@ -78,7 +87,7 @@ public class UnitStats : EndpointGroupBase
         await sender.Send(command, cancellationToken);
         return Results.NoContent();
     }
-    
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> DeleteUnitAmmoSlotById(ISender sender, Guid id, CancellationToken cancellationToken)
     {

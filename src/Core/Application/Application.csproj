@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" />
+    <PackageReference Include="ErrorOr" />
     <PackageReference Include="FFMpegCore" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="HttpClientToCurl" />

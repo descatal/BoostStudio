@@ -17,21 +17,46 @@ import * as runtime from '../runtime';
 import type {
   GetApiStats200Response,
   GetApiStats200ResponseItemsInner,
+  GetApiUnitStats200Response,
+  GetApiUnitStats200ResponseItemsInner,
   PostApiStatsByIdRequest,
   PostApiStatsRequest,
+  PostApiUnitStatsAmmoSlotByIdRequest,
+  PostApiUnitStatsAmmoSlotRequest,
+  PostApiUnitStatsExportPathRequest,
+  PostApiUnitStatsExportRequest,
+  UnitAmmoSlotDto,
 } from '../models/index';
 import {
     GetApiStats200ResponseFromJSON,
     GetApiStats200ResponseToJSON,
     GetApiStats200ResponseItemsInnerFromJSON,
     GetApiStats200ResponseItemsInnerToJSON,
+    GetApiUnitStats200ResponseFromJSON,
+    GetApiUnitStats200ResponseToJSON,
+    GetApiUnitStats200ResponseItemsInnerFromJSON,
+    GetApiUnitStats200ResponseItemsInnerToJSON,
     PostApiStatsByIdRequestFromJSON,
     PostApiStatsByIdRequestToJSON,
     PostApiStatsRequestFromJSON,
     PostApiStatsRequestToJSON,
+    PostApiUnitStatsAmmoSlotByIdRequestFromJSON,
+    PostApiUnitStatsAmmoSlotByIdRequestToJSON,
+    PostApiUnitStatsAmmoSlotRequestFromJSON,
+    PostApiUnitStatsAmmoSlotRequestToJSON,
+    PostApiUnitStatsExportPathRequestFromJSON,
+    PostApiUnitStatsExportPathRequestToJSON,
+    PostApiUnitStatsExportRequestFromJSON,
+    PostApiUnitStatsExportRequestToJSON,
+    UnitAmmoSlotDtoFromJSON,
+    UnitAmmoSlotDtoToJSON,
 } from '../models/index';
 
 export interface DeleteApiStatsByIdRequest {
+    id: string;
+}
+
+export interface DeleteApiUnitStatsAmmoSlotByIdRequest {
     id: string;
 }
 
@@ -46,6 +71,20 @@ export interface GetApiStatsByIdRequest {
     id: string;
 }
 
+export interface GetApiUnitStatsRequest {
+    page?: number;
+    perPage?: number;
+    unitIds?: Array<number> | null;
+}
+
+export interface GetApiUnitStatsAmmoSlotByUnitIdRequest {
+    unitId: number;
+}
+
+export interface GetApiUnitStatsByUnitIdRequest {
+    unitId: number;
+}
+
 export interface PostApiStatsOperationRequest {
     postApiStatsRequest: PostApiStatsRequest;
 }
@@ -53,6 +92,27 @@ export interface PostApiStatsOperationRequest {
 export interface PostApiStatsByIdOperationRequest {
     id: string;
     postApiStatsByIdRequest: PostApiStatsByIdRequest;
+}
+
+export interface PostApiUnitStatsAmmoSlotOperationRequest {
+    postApiUnitStatsAmmoSlotRequest: PostApiUnitStatsAmmoSlotRequest;
+}
+
+export interface PostApiUnitStatsAmmoSlotByIdOperationRequest {
+    id: string;
+    postApiUnitStatsAmmoSlotByIdRequest: PostApiUnitStatsAmmoSlotByIdRequest;
+}
+
+export interface PostApiUnitStatsExportOperationRequest {
+    postApiUnitStatsExportRequest: PostApiUnitStatsExportRequest;
+}
+
+export interface PostApiUnitStatsExportPathOperationRequest {
+    postApiUnitStatsExportPathRequest: PostApiUnitStatsExportPathRequest;
+}
+
+export interface PostApiUnitStatsImportRequest {
+    files?: Array<Blob>;
 }
 
 /**
@@ -88,6 +148,36 @@ export class StatsApi extends runtime.BaseAPI {
      */
     async deleteApiStatsById(requestParameters: DeleteApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.deleteApiStatsByIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async deleteApiUnitStatsAmmoSlotByIdRaw(requestParameters: DeleteApiUnitStatsAmmoSlotByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling deleteApiUnitStatsAmmoSlotById().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-stats/ammo-slot/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async deleteApiUnitStatsAmmoSlotById(requestParameters: DeleteApiUnitStatsAmmoSlotByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteApiUnitStatsAmmoSlotByIdRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -163,6 +253,104 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
+    async getApiUnitStatsRaw(requestParameters: GetApiUnitStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiUnitStats200Response>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['Page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['perPage'] != null) {
+            queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['unitIds'] != null) {
+            queryParameters['UnitIds'] = requestParameters['unitIds'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-stats`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiUnitStats200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiUnitStats(requestParameters: GetApiUnitStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiUnitStats200Response> {
+        const response = await this.getApiUnitStatsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiUnitStatsAmmoSlotByUnitIdRaw(requestParameters: GetApiUnitStatsAmmoSlotByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UnitAmmoSlotDto>>> {
+        if (requestParameters['unitId'] == null) {
+            throw new runtime.RequiredError(
+                'unitId',
+                'Required parameter "unitId" was null or undefined when calling getApiUnitStatsAmmoSlotByUnitId().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-stats/ammo-slot/{unitId}`.replace(`{${"unitId"}}`, encodeURIComponent(String(requestParameters['unitId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UnitAmmoSlotDtoFromJSON));
+    }
+
+    /**
+     */
+    async getApiUnitStatsAmmoSlotByUnitId(requestParameters: GetApiUnitStatsAmmoSlotByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UnitAmmoSlotDto>> {
+        const response = await this.getApiUnitStatsAmmoSlotByUnitIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiUnitStatsByUnitIdRaw(requestParameters: GetApiUnitStatsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiUnitStats200ResponseItemsInner>> {
+        if (requestParameters['unitId'] == null) {
+            throw new runtime.RequiredError(
+                'unitId',
+                'Required parameter "unitId" was null or undefined when calling getApiUnitStatsByUnitId().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/unit-stats/{unitId}`.replace(`{${"unitId"}}`, encodeURIComponent(String(requestParameters['unitId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiUnitStats200ResponseItemsInnerFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiUnitStatsByUnitId(requestParameters: GetApiUnitStatsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiUnitStats200ResponseItemsInner> {
+        const response = await this.getApiUnitStatsByUnitIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
     async postApiStatsRaw(requestParameters: PostApiStatsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['postApiStatsRequest'] == null) {
             throw new runtime.RequiredError(
@@ -232,6 +420,196 @@ export class StatsApi extends runtime.BaseAPI {
      */
     async postApiStatsById(requestParameters: PostApiStatsByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiStatsByIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitStatsAmmoSlotRaw(requestParameters: PostApiUnitStatsAmmoSlotOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['postApiUnitStatsAmmoSlotRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiUnitStatsAmmoSlotRequest',
+                'Required parameter "postApiUnitStatsAmmoSlotRequest" was null or undefined when calling postApiUnitStatsAmmoSlot().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/unit-stats/ammo-slot`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiUnitStatsAmmoSlotRequestToJSON(requestParameters['postApiUnitStatsAmmoSlotRequest']),
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async postApiUnitStatsAmmoSlot(requestParameters: PostApiUnitStatsAmmoSlotOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.postApiUnitStatsAmmoSlotRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async postApiUnitStatsAmmoSlotByIdRaw(requestParameters: PostApiUnitStatsAmmoSlotByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling postApiUnitStatsAmmoSlotById().'
+            );
+        }
+
+        if (requestParameters['postApiUnitStatsAmmoSlotByIdRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiUnitStatsAmmoSlotByIdRequest',
+                'Required parameter "postApiUnitStatsAmmoSlotByIdRequest" was null or undefined when calling postApiUnitStatsAmmoSlotById().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/unit-stats/ammo-slot/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiUnitStatsAmmoSlotByIdRequestToJSON(requestParameters['postApiUnitStatsAmmoSlotByIdRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitStatsAmmoSlotById(requestParameters: PostApiUnitStatsAmmoSlotByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitStatsAmmoSlotByIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitStatsExportRaw(requestParameters: PostApiUnitStatsExportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['postApiUnitStatsExportRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiUnitStatsExportRequest',
+                'Required parameter "postApiUnitStatsExportRequest" was null or undefined when calling postApiUnitStatsExport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/unit-stats/export`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiUnitStatsExportRequestToJSON(requestParameters['postApiUnitStatsExportRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitStatsExport(requestParameters: PostApiUnitStatsExportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitStatsExportRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitStatsExportPathRaw(requestParameters: PostApiUnitStatsExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['postApiUnitStatsExportPathRequest'] == null) {
+            throw new runtime.RequiredError(
+                'postApiUnitStatsExportPathRequest',
+                'Required parameter "postApiUnitStatsExportPathRequest" was null or undefined when calling postApiUnitStatsExportPath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/unit-stats/export/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PostApiUnitStatsExportPathRequestToJSON(requestParameters['postApiUnitStatsExportPathRequest']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitStatsExportPath(requestParameters: PostApiUnitStatsExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitStatsExportPathRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitStatsImportRaw(requestParameters: PostApiUnitStatsImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['files'] != null) {
+            requestParameters['files'].forEach((element) => {
+                formParams.append('files', element as any);
+            })
+        }
+
+        const response = await this.request({
+            path: `/api/unit-stats/import`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitStatsImport(requestParameters: PostApiUnitStatsImportRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitStatsImportRaw(requestParameters, initOverrides);
     }
 
 }

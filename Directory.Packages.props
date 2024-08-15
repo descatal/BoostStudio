@@ -7,6 +7,7 @@
     <PackageVersion Include="Ardalis.GuardClauses" Version="4.4.0" />
     <PackageVersion Include="ConsoleAppFramework" Version="5.2.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
+    <PackageVersion Include="ErrorOr" Version="2.0.1" />
     <PackageVersion Include="Mediator.Abstractions" Version="2.1.7" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="2.1.7" />
     <PackageVersion Include="Scalar.AspNetCore" Version="1.1.2" />

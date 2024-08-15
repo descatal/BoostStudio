@@ -1,7 +1,7 @@
-﻿using BoostStudio.Domain.Entities.Unit;
+﻿using BoostStudio.Domain.Entities;
+using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Hitboxes;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
-using BoostStudio.Domain.Entities.Unit.Stats;
 using Microsoft.EntityFrameworkCore;
 using Unit=BoostStudio.Domain.Entities.Unit.Unit;
 
@@ -9,6 +9,8 @@ namespace BoostStudio.Application.Common.Interfaces;
 
 public interface IApplicationDbContext
 {
+    public DbSet<Config> Configs { get; }
+    
     public DbSet<Unit> Units { get; }
     
     public DbSet<UnitStat> UnitStats { get; }
