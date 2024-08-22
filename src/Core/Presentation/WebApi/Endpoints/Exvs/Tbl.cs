@@ -1,5 +1,6 @@
 using System.Text.Json;
 using BoostStudio.Application.Contracts.Metadata.Models;
+using BoostStudio.Application.Exvs.PatchFiles.Commands;
 using BoostStudio.Application.Formats.TblFormat.Commands;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
@@ -18,22 +19,23 @@ public class Tbl : EndpointGroupBase
             .MapGet(DeserializeTblFilePath, "deserialize-path")
             .MapPost(DeserializeTblFileStream, "deserialize")
             .MapGet(SerializeTblFilePath, "serialize-path")
-            .MapPost(SerializeTbl, "serialize");
+            .MapPost(SerializeTbl, "serialize")
+            .MapPost(ImportPatchFiles, "import");
     }
 
-    public async Task<TblMetadata> DeserializeTblFilePath(ISender sender, string filePath, CancellationToken cancellationToken)
+    public async Task<TblDto> DeserializeTblFilePath(ISender sender, string filePath, bool useSubfolderFlag, CancellationToken cancellationToken)
     {
         var inputBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
-        return await sender.Send(new DeserializeTbl(inputBytes), cancellationToken);
+        return await sender.Send(new DeserializeTbl(inputBytes, useSubfolderFlag), cancellationToken);
     }
     
-    public async Task<TblMetadata> DeserializeTblFileStream(ISender sender, IFormFile file, CancellationToken cancellationToken)
+    public async Task<TblDto> DeserializeTblFileStream(ISender sender, IFormFile file, bool useSubfolderFlag, CancellationToken cancellationToken)
     {
         await using Stream stream = file.OpenReadStream();
         using BinaryReader binaryReader = new(stream);
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
 
-        return await sender.Send(new DeserializeTbl(inputBytes), cancellationToken);
+        return await sender.Send(new DeserializeTbl(inputBytes, useSubfolderFlag), cancellationToken);
     }
     
     public async Task<IResult> SerializeTblFilePath(ISender sender, [FromQuery] string filePath, CancellationToken cancellationToken)
@@ -63,5 +65,21 @@ public class Tbl : EndpointGroupBase
     {
         var serializedFile = await sender.Send(command, cancellationToken);
         return Results.File(serializedFile, ContentType.Application.Octet, "PATCH.TBL");
+    }
+    
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    private static async Task<IResult> ImportPatchFiles(
+        ISender sender, 
+        [FromForm] IFormFileCollection files, 
+        bool useSubfolderFlag,
+        CancellationToken cancellationToken)
+    {
+        var fileStreams = files.Select(formFile => formFile.OpenReadStream()).ToArray();
+        await sender.Send(new ImportPatchFileCommand(fileStreams, useSubfolderFlag), cancellationToken);
+    
+        foreach (var fileStream in fileStreams)
+            await fileStream.DisposeAsync();
+    
+        return Results.Created();
     }
 }

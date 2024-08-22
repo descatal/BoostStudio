@@ -13,6 +13,7 @@ public class GetAmmoByHashQueryHandler(
 {
     public async ValueTask<AmmoDto> Handle(GetAmmoByHashQuery request, CancellationToken cancellationToken)
     {
+        Guid.CreateVersion7();
         var ammo = applicationDbContext.Ammo
             .Include(ammo => ammo.UnitStat)
             .Where(ammo => ammo.Hash == request.Hash);

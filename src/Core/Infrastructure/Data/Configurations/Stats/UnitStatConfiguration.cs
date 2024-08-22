@@ -1,4 +1,5 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,5 +14,9 @@ public class UnitStatsConfiguration : IEntityTypeConfiguration<UnitStat>
             .HasForeignKey<UnitStat>(unitStat => unitStat.GameUnitId)
             .HasPrincipalKey<Unit>(unit => unit.GameUnitId)
             .IsRequired(false);
+        
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
     }
 }

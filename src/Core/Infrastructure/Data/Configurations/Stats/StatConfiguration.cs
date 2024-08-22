@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Stats;
+using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,5 +15,9 @@ public class StatConfiguration: IEntityTypeConfiguration<Stat>
             .WithMany(unitStat => unitStat.Stats)
             .HasForeignKey(statSet => statSet.UnitStatId)
             .IsRequired(false);
+        
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
     }
 }

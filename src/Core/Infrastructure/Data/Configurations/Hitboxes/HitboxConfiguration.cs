@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Domain.Entities.Unit.Hitboxes;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
+using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -16,5 +17,9 @@ public class HitboxConfiguration : IEntityTypeConfiguration<Hitbox>
             .HasForeignKey(hitbox => hitbox.HitboxGroupHash)
             .HasPrincipalKey(group => group.Hash)
             .IsRequired();
+        
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
     }
 }

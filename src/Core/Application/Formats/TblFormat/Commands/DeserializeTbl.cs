@@ -1,27 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
+﻿using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
-using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Metadata.Models;
 
 namespace BoostStudio.Application.Formats.TblFormat.Commands;
 
-public record DeserializeTbl(byte[] File) : IRequest<TblMetadata>
-{
-    [Required]
-    public byte[] File { get; } = File;
-}
+public record DeserializeTbl(byte[] File, bool UseSubfolderFlag) : IRequest<TblDto>;
 
 public class DeserializeTblCommandHandler(
-    IFormatBinarySerializer<Tbl> formatBinarySerializer,
+    ITblBinarySerializer binarySerializer,
     ITblMetadataSerializer tblMetadataSerializer
-) : IRequestHandler<DeserializeTbl, TblMetadata>
+) : IRequestHandler<DeserializeTbl, TblDto>
 {
-    public async ValueTask<TblMetadata> Handle(DeserializeTbl request, CancellationToken cancellationToken)
+    public async ValueTask<TblDto> Handle(DeserializeTbl request, CancellationToken cancellationToken)
     {
         await using var fileStream = new MemoryStream(request.File);
-        var tbl = await formatBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
-        return await tblMetadataSerializer.SerializeAsync(tbl, cancellationToken);
+        var tbl = await binarySerializer.DeserializeAsync(fileStream, request.UseSubfolderFlag, cancellationToken);
+        return await tblMetadataSerializer.SerializeDtoAsync(tbl, cancellationToken);
     }
 }

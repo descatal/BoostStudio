@@ -9,7 +9,7 @@ using Kaitai;
 
 namespace BoostStudio.Infrastructure.Formats.HitboxFormat;
 
-public class HitboxGroupGroupBinarySerializer : IHitboxGroupBinarySerializer
+public class HitboxGroupBinarySerializer : IHitboxGroupBinarySerializer
 {
     public async Task<byte[]> SerializeAsync(HitboxGroup data, CancellationToken cancellationToken)
     {

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Domain.Entities;
+using BoostStudio.Domain.Entities.Tbl;
 using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Ammo;
 using BoostStudio.Domain.Entities.Unit.Hitboxes;
@@ -33,6 +34,8 @@ public class ApplicationDbContext(
     public DbSet<Hitbox> Hitboxes => Set<Hitbox>();
     
     public DbSet<HitboxGroup> HitboxGroups => Set<HitboxGroup>();
+    
+    public DbSet<PatchFile> PatchFiles => Set<PatchFile>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,4 +1,5 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,5 +21,9 @@ public class UnitAmmoSlotConfiguration : IEntityTypeConfiguration<UnitAmmoSlot>
             .HasForeignKey(unitAmmoSlot => unitAmmoSlot.AmmoHash)
             .HasPrincipalKey(ammo => ammo.Hash)
             .IsRequired();
+        
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
     }
 }

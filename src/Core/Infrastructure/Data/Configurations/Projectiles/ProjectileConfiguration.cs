@@ -1,6 +1,7 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Hitboxes;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
+using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -22,6 +23,10 @@ public class ProjectileConfiguration: IEntityTypeConfiguration<Projectile>
             .WithMany(unitProjectile => unitProjectile.Projectiles)
             .HasForeignKey(projectile => projectile.UnitProjectileId)
             .IsRequired(false);
+        
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
     }
 }
 

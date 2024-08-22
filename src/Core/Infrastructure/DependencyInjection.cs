@@ -97,12 +97,12 @@ public static class DependencyInjection
         services.AddSingleton<ICompressor, Compressor>();
         
         services.AddTransient<IFormatBinarySerializer<Fhm>, FhmBinarySerializer>();
-        services.AddTransient<IFormatBinarySerializer<Tbl>, TblBinarySerializer>();
         services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
         
         services.AddTransient<IUnitStatBinarySerializer, UnitStatBinarySerializer>();
         services.AddTransient<IUnitProjectileBinarySerializer, UnitProjectileBinarySerializer>();
-        services.AddTransient<IHitboxGroupBinarySerializer, HitboxGroupGroupBinarySerializer>();
+        services.AddTransient<IHitboxGroupBinarySerializer, HitboxGroupBinarySerializer>();
+        services.AddTransient<ITblBinarySerializer, TblBinarySerializer>();
         
         services.AddTransient<IBnsf, Bnsf>();
         services.AddTransient<IRiff, Riff>();

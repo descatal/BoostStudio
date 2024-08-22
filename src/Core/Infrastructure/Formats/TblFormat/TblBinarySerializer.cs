@@ -1,22 +1,23 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;
 
 namespace BoostStudio.Infrastructure.Formats.TblFormat;
 
-public class TblBinarySerializer : IFormatBinarySerializer<Tbl>
+public class TblBinarySerializer : ITblBinarySerializer
 {
-    public Task<Tbl> DeserializeAsync(Stream data, CancellationToken cancellationToken)
+    public Task<TblBinaryFormat> DeserializeAsync(Stream data, bool useSubfolderFlag, CancellationToken cancellationToken)
     {
         var kaitaiStream = new KaitaiStream(data);
-        var deserializedObject = new Tbl((uint)data.Length, kaitaiStream);
+        var deserializedObject = new TblBinaryFormat((uint)data.Length, useSubfolderFlag, kaitaiStream);
         return Task.FromResult(deserializedObject);
     }
 
-    public async Task<byte[]> SerializeAsync(Tbl data, CancellationToken cancellationToken)
+    public async Task<byte[]> SerializeAsync(TblBinaryFormat data, CancellationToken cancellationToken)
     {
         await using var tblMetadataStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
 

@@ -9,13 +9,14 @@ using System.Collections.Generic;
 
 namespace BoostStudio.Formats
 {
-    public partial class Tbl : KaitaiStruct
+    public partial class TblBinaryFormat : KaitaiStruct
     {
-        public Tbl(uint p_totalFileSize, KaitaiStream p__io, KaitaiStruct p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
+        public TblBinaryFormat(uint p_totalFileSize, bool p_useSubfolderFlag, KaitaiStream p__io, KaitaiStruct p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
         {
             m_parent = p__parent;
             m_root = p__root ?? this;
             _totalFileSize = p_totalFileSize;
+            _useSubfolderFlag = p_useSubfolderFlag;
             f_filePaths = write;
             f_fileInfos = write;
             if (!write)
@@ -58,7 +59,7 @@ namespace BoostStudio.Formats
                 return new FilePathOffsetBody(new KaitaiStream(fileName));
             }
 
-            public FilePathOffsetBody(KaitaiStream p__io, Tbl p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
+            public FilePathOffsetBody(KaitaiStream p__io, TblBinaryFormat p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -67,11 +68,35 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                _pathPointer = m_io.ReadU4be();
+                if (M_Parent.UseSubfolderFlag == true)
+                {
+                    _subfolderFlag = m_io.ReadU2be();
+                }
+                {
+                    bool on = M_Parent.UseSubfolderFlag;
+                    if (on == true)
+                    {
+                        _pathPointer = m_io.ReadU2be();
+                    }
+                    else if (on == false)
+                    {
+                        _pathPointer = m_io.ReadU4be();
+                    }
+                }
             }
+            private ushort? _subfolderFlag;
             private uint _pathPointer;
-            private Tbl m_root;
-            private Tbl m_parent;
+            private TblBinaryFormat m_root;
+            private TblBinaryFormat m_parent;
+            public ushort? SubfolderFlag
+            {
+                get { return _subfolderFlag; }
+
+                set
+                {
+                    _subfolderFlag = value;
+                }
+            }
             public uint PathPointer
             {
                 get { return _pathPointer; }
@@ -81,7 +106,7 @@ namespace BoostStudio.Formats
                     _pathPointer = value;
                 }
             }
-            public Tbl M_Root
+            public TblBinaryFormat M_Root
             {
                 get { return m_root; }
 
@@ -90,7 +115,7 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public Tbl M_Parent
+            public TblBinaryFormat M_Parent
             {
                 get { return m_parent; }
 
@@ -102,7 +127,7 @@ namespace BoostStudio.Formats
         }
         public partial class FilePathBody : KaitaiStruct
         {
-            public FilePathBody(int p_index, KaitaiStream p__io, Tbl p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
+            public FilePathBody(int p_index, KaitaiStream p__io, TblBinaryFormat p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -174,8 +199,8 @@ namespace BoostStudio.Formats
                 }
             }
             private int _index;
-            private Tbl m_root;
-            private Tbl m_parent;
+            private TblBinaryFormat m_root;
+            private TblBinaryFormat m_parent;
             public int Index
             {
                 get { return _index; }
@@ -185,7 +210,7 @@ namespace BoostStudio.Formats
                     _index = value;
                 }
             }
-            public Tbl M_Root
+            public TblBinaryFormat M_Root
             {
                 get { return m_root; }
 
@@ -194,7 +219,7 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public Tbl M_Parent
+            public TblBinaryFormat M_Parent
             {
                 get { return m_parent; }
 
@@ -206,7 +231,7 @@ namespace BoostStudio.Formats
         }
         public partial class FileInfoBody : KaitaiStruct
         {
-            public FileInfoBody(int p_index, KaitaiStream p__io, Tbl p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
+            public FileInfoBody(int p_index, KaitaiStream p__io, TblBinaryFormat p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -262,8 +287,8 @@ namespace BoostStudio.Formats
                 }
             }
             private int _index;
-            private Tbl m_root;
-            private Tbl m_parent;
+            private TblBinaryFormat m_root;
+            private TblBinaryFormat m_parent;
             public int Index
             {
                 get { return _index; }
@@ -273,7 +298,7 @@ namespace BoostStudio.Formats
                     _index = value;
                 }
             }
-            public Tbl M_Root
+            public TblBinaryFormat M_Root
             {
                 get { return m_root; }
 
@@ -282,7 +307,7 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public Tbl M_Parent
+            public TblBinaryFormat M_Parent
             {
                 get { return m_parent; }
 
@@ -299,7 +324,7 @@ namespace BoostStudio.Formats
                 return new FileInfo(new KaitaiStream(fileName));
             }
 
-            public FileInfo(KaitaiStream p__io, Tbl.FileInfoBody p__parent = null, Tbl p__root = null, bool write = false) : base(p__io)
+            public FileInfo(KaitaiStream p__io, TblBinaryFormat.FileInfoBody p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -355,8 +380,8 @@ namespace BoostStudio.Formats
             private uint _size3;
             private byte[] _unk28;
             private uint _hashName;
-            private Tbl m_root;
-            private Tbl.FileInfoBody m_parent;
+            private TblBinaryFormat m_root;
+            private TblBinaryFormat.FileInfoBody m_parent;
             public uint PatchNumber
             {
                 get { return _patchNumber; }
@@ -429,7 +454,7 @@ namespace BoostStudio.Formats
                     _hashName = value;
                 }
             }
-            public Tbl M_Root
+            public TblBinaryFormat M_Root
             {
                 get { return m_root; }
 
@@ -438,7 +463,7 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public Tbl.FileInfoBody M_Parent
+            public TblBinaryFormat.FileInfoBody M_Parent
             {
                 get { return m_parent; }
 
@@ -500,7 +525,8 @@ namespace BoostStudio.Formats
         private List<FilePathOffsetBody> _filePathOffsets;
         private List<uint> _fileInfoOffsets;
         private uint _totalFileSize;
-        private Tbl m_root;
+        private bool _useSubfolderFlag;
+        private TblBinaryFormat m_root;
         private KaitaiStruct m_parent;
         public byte[] FileMagic
         {
@@ -574,7 +600,16 @@ namespace BoostStudio.Formats
                 _totalFileSize = value;
             }
         }
-        public Tbl M_Root
+        public bool UseSubfolderFlag
+        {
+            get { return _useSubfolderFlag; }
+
+            set
+            {
+                _useSubfolderFlag = value;
+            }
+        }
+        public TblBinaryFormat M_Root
         {
             get { return m_root; }
 

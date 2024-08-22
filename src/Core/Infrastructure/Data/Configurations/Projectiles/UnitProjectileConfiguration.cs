@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
+using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,6 +15,10 @@ public class UnitProjectileConfiguration: IEntityTypeConfiguration<UnitProjectil
             .HasForeignKey<UnitProjectile>(unitStat => unitStat.GameUnitId)
             .HasPrincipalKey<Unit>(unit => unit.GameUnitId)
             .IsRequired(false);
+        
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
     }
 }
 

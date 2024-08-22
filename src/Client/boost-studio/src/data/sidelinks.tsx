@@ -1,28 +1,15 @@
 import {
-  IconApps,
   IconBarrierBlock,
-  IconBoxSeam,
-  IconChartHistogram,
-  IconChecklist,
-  IconComponents,
   IconError404,
   IconExclamationCircle,
-  IconHexagonNumber1,
-  IconHexagonNumber2,
-  IconHexagonNumber3,
-  IconHexagonNumber4,
-  IconHexagonNumber5,
   IconLayoutDashboard,
-  IconMessages,
-  IconRouteAltLeft,
+  IconLock,
   IconServerOff,
   IconSettings,
-  IconTruck,
-  IconUserShield,
-  IconUsers,
-  IconLock,
-} from '@tabler/icons-react'
-import {HiOutlineStatusOnline} from "react-icons/hi";
+} from "@tabler/icons-react"
+import { CiFileOn } from "react-icons/ci"
+import { HiOutlineStatusOnline } from "react-icons/hi"
+import { HiOutlineWrench } from "react-icons/hi2"
 
 export interface NavLink {
   title: string
@@ -37,53 +24,65 @@ export interface SideLink extends NavLink {
 
 export const sidelinks: SideLink[] = [
   {
-    title: 'Units',
-    label: '',
-    href: '/units',
+    title: "Units",
+    label: "",
+    href: "/units",
     icon: <IconLayoutDashboard size={18} />,
   },
   {
-    title: 'Live',
-    label: '',
-    href: '/live',
+    title: "Live",
+    label: "",
+    href: "/live",
     icon: <HiOutlineStatusOnline size={18} />,
   },
   {
-    title: 'Error Pages',
-    label: '',
-    href: '',
+    title: "Patches",
+    label: "",
+    href: "/patches",
+    icon: <CiFileOn size={18} />,
+  },
+  {
+    title: "Tools",
+    label: "",
+    href: "/tools",
+    icon: <HiOutlineWrench size={18} />,
+  },
+  {
+    title: "Error Pages",
+    label: "",
+    href: "",
     icon: <IconExclamationCircle size={18} />,
     sub: [
       {
-        title: 'Not Found',
-        label: '',
-        href: '/404',
+        title: "Not Found",
+        label: "",
+        href: "/404",
         icon: <IconError404 size={18} />,
       },
       {
-        title: 'Internal Server Error',
-        label: '',
-        href: '/500',
+        title: "Internal Server Error",
+        label: "",
+        href: "/500",
         icon: <IconServerOff size={18} />,
       },
       {
-        title: 'Maintenance Error',
-        label: '',
-        href: '/503',
+        title: "Maintenance Error",
+        label: "",
+        href: "/503",
         icon: <IconBarrierBlock size={18} />,
       },
       {
-        title: 'Unauthorised Error',
-        label: '',
-        href: '/401',
+        title: "Unauthorised Error",
+        label: "",
+        href: "/401",
         icon: <IconLock size={18} />,
       },
     ],
   },
   {
-    title: 'Settings',
-    label: '',
-    href: '/settings',
+    title: "Settings",
+    label: "",
+    href: "/settings",
     icon: <IconSettings size={18} />,
   },
 ]

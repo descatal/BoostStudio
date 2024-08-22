@@ -1,10 +1,12 @@
 meta:
-  id: tbl
+  id: tbl_binary_format
   endian: be
   file-extension: tbl
 params:
   - id: total_file_size
     type: u4
+  - id: use_subfolder_flag
+    type: b1
 seq:
   - id: file_magic
     contents: [ 0x54, 0x42, 0x4C, 0x20 ]
@@ -16,7 +18,7 @@ seq:
     contents: [ 0x00, 0x00 ]
   - id: file_path_count
     type: s4
-   # The total number of files combined with previous tbl
+  # The total number of files combined with previous tbl
   - id: cumulative_file_count
     type: u4
   - id: file_path_offsets
@@ -39,9 +41,16 @@ instances:
 types:
   file_path_offset_body:
     seq:
+      - id: subfolder_flag
+        type: u2
+        if: _parent.use_subfolder_flag == true
       - id: path_pointer
-        type: u4
-        
+        type:
+          switch-on: _parent.use_subfolder_flag
+          cases:
+            true: u2
+            false: u4
+  
   file_path_body:
     params:
       - id: index
@@ -57,7 +66,7 @@ types:
         terminator: 0
         pos: pointer
         size: size
-        
+  
   file_info_body:
     params:
       - id: index
@@ -69,7 +78,7 @@ types:
         type: file_info
         pos: offset
         if: offset != 0
-        
+  
   file_info:
     seq:
       - id: patch_number
