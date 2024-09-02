@@ -14,6 +14,8 @@ public static partial class AmmoMapper
     
     public static partial AmmoEntity AmmoToAmmo(AmmoEntity ammo);
     
+    
+    
     public static partial AmmoEntity AmmoDetailsDtoToAmmo(AmmoDetailsDto ammo);
     
     [MapperIgnoreSource(nameof(AmmoEntity.Id))]

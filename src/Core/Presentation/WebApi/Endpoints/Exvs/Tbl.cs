@@ -2,6 +2,7 @@ using System.Text.Json;
 using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Application.Exvs.PatchFiles.Commands;
 using BoostStudio.Application.Formats.TblFormat.Commands;
+using BoostStudio.Domain.Enums;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
 using ContentType = System.Net.Mime.MediaTypeNames;
@@ -71,11 +72,12 @@ public class Tbl : EndpointGroupBase
     private static async Task<IResult> ImportPatchFiles(
         ISender sender, 
         [FromForm] IFormFileCollection files, 
+        PatchFileVersion version,
         bool useSubfolderFlag,
         CancellationToken cancellationToken)
     {
         var fileStreams = files.Select(formFile => formFile.OpenReadStream()).ToArray();
-        await sender.Send(new ImportPatchFileCommand(fileStreams, useSubfolderFlag), cancellationToken);
+        await sender.Send(new ImportPatchFileCommand(fileStreams, version, useSubfolderFlag), cancellationToken);
     
         foreach (var fileStream in fileStreams)
             await fileStream.DisposeAsync();

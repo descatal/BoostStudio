@@ -10,6 +10,10 @@ public class HitboxGroupConfiguration : IEntityTypeConfiguration<HitboxGroup>
 {
     public void Configure(EntityTypeBuilder<HitboxGroup> builder)
     {
+        builder.Property(entity => entity.Id)
+            .HasValueGenerator<UUIDv7Generator>()
+            .ValueGeneratedOnAdd();
+        
         builder.HasAlternateKey(projectile => projectile.Hash);
         
         builder.HasMany(group => group.Units)
@@ -17,9 +21,5 @@ public class HitboxGroupConfiguration : IEntityTypeConfiguration<HitboxGroup>
             .HasForeignKey(unit => unit.HitboxGroupHash)
             .HasPrincipalKey(group => group.Hash)
             .IsRequired(false);
-        
-        builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
-            .ValueGeneratedOnAdd();
     }
 }

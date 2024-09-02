@@ -1,11 +1,15 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
-using Microsoft.EntityFrameworkCore;
+using BoostStudio.Domain.Enums;
 
 namespace BoostStudio.Application.Exvs.PatchFiles.Commands;
 
-public record ImportPatchFileCommand(Stream[] Files, bool UseSubfolderFlag) : IRequest;
+public record ImportPatchFileCommand(
+    Stream[] Files, 
+    PatchFileVersion Version,
+    bool UseSubfolderFlag
+) : IRequest;
 
 public class ImportPatchFileCommandHandler(
     ITblBinarySerializer binarySerializer,
@@ -18,7 +22,10 @@ public class ImportPatchFileCommandHandler(
         foreach (var fileStream in command.Files)
         {
             var binaryData = await binarySerializer.DeserializeAsync(fileStream, command.UseSubfolderFlag, cancellationToken);
-            var patchFiles = await tblMetadataSerializer.SerializeAsync(binaryData, cancellationToken);
+            var patchFiles = await tblMetadataSerializer.SerializeAsync(
+                binaryData, 
+                command.Version, 
+                cancellationToken);
 
             applicationDbContext.PatchFiles.AddRange(patchFiles);
         }

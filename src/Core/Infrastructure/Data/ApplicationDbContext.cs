@@ -4,6 +4,7 @@ using BoostStudio.Domain.Entities;
 using BoostStudio.Domain.Entities.Tbl;
 using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Ammo;
+using BoostStudio.Domain.Entities.Unit.Assets;
 using BoostStudio.Domain.Entities.Unit.Hitboxes;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
 using BoostStudio.Domain.Entities.Unit.Stats;
@@ -35,7 +36,11 @@ public class ApplicationDbContext(
     
     public DbSet<HitboxGroup> HitboxGroups => Set<HitboxGroup>();
     
+    public DbSet<AssetFile> AssetFiles => Set<AssetFile>();
+    
     public DbSet<PatchFile> PatchFiles => Set<PatchFile>();
+
+    public DbSet<Tbl> Tbl => Set<Tbl>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -109,11 +109,11 @@ public static class DependencyInjection
         services.AddTransient<INus3Audio, Nus3Audio>();
         services.AddTransient<IAudioConverter, AudioConverter>();
         
-        services.AddSingleton<IFhmPacker, FhmPacker>();
-        services.AddSingleton<IPsarcPacker, PsarcPacker>();
-        services.AddSingleton<ITblMetadataSerializer, TblMetadataSerializer>();
+        services.AddTransient<IFhmPacker, FhmPacker>();
+        services.AddTransient<IPsarcPacker, PsarcPacker>();
+        services.AddTransient<ITblMetadataSerializer, TblMetadataSerializer>();
         
-        services.AddSingleton<IScexCompiler, ScexCompiler>();
+        services.AddTransient<IScexCompiler, ScexCompiler>();
         
         var ffmpegBinaryFolder = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "ffmpeg");
         GlobalFFOptions.Configure(options =>

@@ -32,40 +32,6 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Configs");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.PatchFile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint>("Hash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<ulong>("Size1")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<ulong>("Size2")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<ulong>("Size3")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PatchFiles");
-                });
-
             modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
                 {
                     b.Property<Guid>("Id")

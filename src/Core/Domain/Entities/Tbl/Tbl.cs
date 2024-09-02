@@ -1,6 +1,15 @@
-﻿namespace BoostStudio.Domain.Entities.Tbl;
+﻿using BoostStudio.Domain.Enums;
 
-public class Tbl : BaseEntity<Guid>
+namespace BoostStudio.Domain.Entities.Tbl;
+
+public class Tbl : BaseEntity<PatchFileVersion>
 {
-    public uint TblVersion { get; set; }
+    // the index of the last asset that's recorded in this TBL
+    // since Tbl is a collection of append only file metadata structure,
+    // the index count for each tbl should only increase or remain the same in size for each new patch
+    public uint CumulativeAssetIndex { get; set; }
+    
+    public ICollection<PatchFile> PatchFiles { get; set; } = [];
+
+    public string[] PathsOrder { get; set; } = [];
 }

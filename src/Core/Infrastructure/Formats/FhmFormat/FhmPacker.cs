@@ -6,7 +6,6 @@ namespace BoostStudio.Infrastructure.Formats.FhmFormat;
 
 public class FhmPacker : IFhmPacker
 {
-
     #region Unpack
 
     public async Task UnpackAsync(Fhm data, string outputDirectory, CancellationToken cancellationToken)
@@ -173,5 +172,4 @@ public class FhmPacker : IFhmPacker
     }
 
     #endregion
-
 }

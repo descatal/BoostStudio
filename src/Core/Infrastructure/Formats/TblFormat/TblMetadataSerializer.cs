@@ -1,35 +1,66 @@
-﻿using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
+﻿using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Domain.Entities;
 using BoostStudio.Domain.Entities.Tbl;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Kaitai;
+using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Infrastructure.Formats.TblFormat;
 
-public class TblMetadataSerializer : ITblMetadataSerializer
+public class TblMetadataSerializer(
+    IApplicationDbContext applicationDbContext
+) : ITblMetadataSerializer
 {
-    public Task<List<PatchFile>> SerializeAsync(TblBinaryFormat data, CancellationToken cancellationToken)
+    public Task<List<PatchFile>> SerializeAsync(
+        TblBinaryFormat data, 
+        PatchFileVersion patchFileVersion,
+        CancellationToken cancellationToken)
     {
         var patchFiles = new List<PatchFile>();
 
+        var existingTbl = applicationDbContext.Tbl
+            .Include(tbl => tbl.PatchFiles)
+            .ThenInclude(patchFile => patchFile.FileInfo)
+            .ThenInclude(fileInfo => fileInfo!.AssetFile)
+            .FirstOrDefault(tbl => tbl.Id == patchFileVersion);
+
+        existingTbl ??= new Tbl()
+        {
+            Id = patchFileVersion,
+            PatchFiles = [],
+            PathsOrder = []
+        };
+        
         for (var index = 0; index < data.CumulativeFileCount; index++)
         {
             var fileInfoBody = data.FileInfos[index];
             if (fileInfoBody?.FileInfo is null)
                 continue;
 
-            patchFiles.Add(new PatchFile
+            var patchFile = existingTbl.PatchFiles.FirstOrDefault(patchFile => 
+                patchFile.FileInfo is not null && 
+                patchFile.FileInfo.AssetFileHash == fileInfoBody.FileInfo.HashName
+            );
+            
+            if (patchFile is null)
             {
-                Hash = fileInfoBody.FileInfo.HashName,
-                Name = fileInfoBody.FileInfo.HashName.ToString(),
-                Path = fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty,
-                Version = (PatchFileVersion)fileInfoBody.FileInfo.PatchNumber,
-                Size1 = fileInfoBody.FileInfo.Size1,
-                Size2 = fileInfoBody.FileInfo.Size2,
-                Size3 = fileInfoBody.FileInfo.Size3,
-            });
+                patchFile = new PatchFile();
+                existingTbl.PatchFiles.Add(patchFile);
+            }
+
+            var patchFileInfo = patchFile.FileInfo ?? new PatchFileInfo();
+            
+            patchFileInfo.Version = (PatchFileVersion)fileInfoBody.FileInfo.PatchNumber;
+            patchFileInfo.Size1 = fileInfoBody.FileInfo.Size1;
+            patchFileInfo.Size2 = fileInfoBody.FileInfo.Size2;
+            patchFileInfo.Size3 = fileInfoBody.FileInfo.Size3;
+            patchFileInfo.AssetFileHash = fileInfoBody.FileInfo.HashName;
+
+            patchFile.Path = fileInfoBody.FileInfo.PathBody?.Path;
+            patchFile.FileInfo = patchFileInfo;
         }
 
         var fileInfoPathIndices = data.FileInfos

@@ -1,6 +1,7 @@
 ﻿using BoostStudio.Domain.Entities;
 using BoostStudio.Domain.Entities.Tbl;
 using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Domain.Entities.Unit.Assets;
 using BoostStudio.Domain.Entities.Unit.Hitboxes;
 using BoostStudio.Domain.Entities.Unit.Projectiles;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +31,11 @@ public interface IApplicationDbContext
     
     public DbSet<HitboxGroup> HitboxGroups { get; }
     
+    public DbSet<AssetFile> AssetFiles { get; }
+    
     public DbSet<PatchFile> PatchFiles { get; }
+    
+    public DbSet<Tbl> Tbl { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
