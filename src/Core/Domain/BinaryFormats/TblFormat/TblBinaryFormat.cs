@@ -11,12 +11,11 @@ namespace BoostStudio.Formats
 {
     public partial class TblBinaryFormat : KaitaiStruct
     {
-        public TblBinaryFormat(uint p_totalFileSize, bool p_useSubfolderFlag, KaitaiStream p__io, KaitaiStruct p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
+        public TblBinaryFormat(uint p_totalFileSize, KaitaiStream p__io, KaitaiStruct p__parent = null, TblBinaryFormat p__root = null, bool write = false) : base(p__io)
         {
             m_parent = p__parent;
             m_root = p__root ?? this;
             _totalFileSize = p_totalFileSize;
-            _useSubfolderFlag = p_useSubfolderFlag;
             f_filePaths = write;
             f_fileInfos = write;
             if (!write)
@@ -68,27 +67,14 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                if (M_Parent.UseSubfolderFlag == true)
-                {
-                    _subfolderFlag = m_io.ReadU2be();
-                }
-                {
-                    bool on = M_Parent.UseSubfolderFlag;
-                    if (on == true)
-                    {
-                        _pathPointer = m_io.ReadU2be();
-                    }
-                    else if (on == false)
-                    {
-                        _pathPointer = m_io.ReadU4be();
-                    }
-                }
+                _subfolderFlag = m_io.ReadU1();
+                _pathPointer = m_io.ReadBitsIntBe(24);
             }
-            private ushort? _subfolderFlag;
-            private uint _pathPointer;
+            private byte _subfolderFlag;
+            private ulong _pathPointer;
             private TblBinaryFormat m_root;
             private TblBinaryFormat m_parent;
-            public ushort? SubfolderFlag
+            public byte SubfolderFlag
             {
                 get { return _subfolderFlag; }
 
@@ -97,7 +83,7 @@ namespace BoostStudio.Formats
                     _subfolderFlag = value;
                 }
             }
-            public uint PathPointer
+            public ulong PathPointer
             {
                 get { return _pathPointer; }
 
@@ -142,14 +128,14 @@ namespace BoostStudio.Formats
             {
             }
             private bool f_pointer;
-            private uint _pointer;
-            public uint Pointer
+            private ulong _pointer;
+            public ulong Pointer
             {
                 get
                 {
                     if (f_pointer)
                         return _pointer;
-                    _pointer = (uint)(M_Parent.FilePathOffsets[Index].PathPointer);
+                    _pointer = (ulong)(M_Parent.FilePathOffsets[Index].PathPointer);
                     f_pointer = true;
                     return _pointer;
                 }
@@ -186,7 +172,7 @@ namespace BoostStudio.Formats
                     if (f_path)
                         return _path;
                     long _pos = m_io.Pos;
-                    m_io.Seek(Pointer);
+                    m_io.Seek((long)Pointer);
                     _path = System.Text.Encoding.GetEncoding("UTF-8").GetString(KaitaiStream.BytesTerminate(m_io.ReadBytes(Size), 0, false));
                     m_io.Seek(_pos);
                     f_path = true;
@@ -344,11 +330,7 @@ namespace BoostStudio.Formats
                 _size1 = m_io.ReadU4be();
                 _size2 = m_io.ReadU4be();
                 _size3 = m_io.ReadU4be();
-                _unk28 = m_io.ReadBytes(4);
-                if (!((KaitaiStream.ByteArrayCompare(Unk28, new byte[] { 0, 0, 0, 0 }) == 0)))
-                {
-                    throw new ValidationNotEqualError(new byte[] { 0, 0, 0, 0 }, Unk28, M_Io, "/types/file_info/seq/6");
-                }
+                _size4 = m_io.ReadU4be();
                 _hashName = m_io.ReadU4be();
             }
             private bool f_pathBody;
@@ -378,7 +360,7 @@ namespace BoostStudio.Formats
             private uint _size1;
             private uint _size2;
             private uint _size3;
-            private byte[] _unk28;
+            private uint _size4;
             private uint _hashName;
             private TblBinaryFormat m_root;
             private TblBinaryFormat.FileInfoBody m_parent;
@@ -436,13 +418,13 @@ namespace BoostStudio.Formats
                     _size3 = value;
                 }
             }
-            public byte[] Unk28
+            public uint Size4
             {
-                get { return _unk28; }
+                get { return _size4; }
 
                 set
                 {
-                    _unk28 = value;
+                    _size4 = value;
                 }
             }
             public uint HashName
@@ -525,7 +507,6 @@ namespace BoostStudio.Formats
         private List<FilePathOffsetBody> _filePathOffsets;
         private List<uint> _fileInfoOffsets;
         private uint _totalFileSize;
-        private bool _useSubfolderFlag;
         private TblBinaryFormat m_root;
         private KaitaiStruct m_parent;
         public byte[] FileMagic
@@ -598,15 +579,6 @@ namespace BoostStudio.Formats
             set
             {
                 _totalFileSize = value;
-            }
-        }
-        public bool UseSubfolderFlag
-        {
-            get { return _useSubfolderFlag; }
-
-            set
-            {
-                _useSubfolderFlag = value;
             }
         }
         public TblBinaryFormat M_Root

@@ -5,8 +5,6 @@ meta:
 params:
   - id: total_file_size
     type: u4
-  - id: use_subfolder_flag
-    type: b1
 seq:
   - id: file_magic
     contents: [ 0x54, 0x42, 0x4C, 0x20 ]
@@ -42,14 +40,9 @@ types:
   file_path_offset_body:
     seq:
       - id: subfolder_flag
-        type: u2
-        if: _parent.use_subfolder_flag == true
+        type: u1
       - id: path_pointer
-        type:
-          switch-on: _parent.use_subfolder_flag
-          cases:
-            true: u2
-            false: u4
+        type: b24
   
   file_path_body:
     params:
@@ -93,8 +86,8 @@ types:
         type: u4
       - id: size_3
         type: u4
-      - id: unk_28
-        contents: [ 0x00, 0x00, 0x00, 0x00 ]
+      - id: size_4
+        type: u4
       - id: hash_name
         type: u4
     instances:

@@ -4,7 +4,7 @@ using BoostStudio.Application.Contracts.Metadata.Models;
 
 namespace BoostStudio.Application.Formats.TblFormat.Commands;
 
-public record DeserializeTbl(byte[] File, bool UseSubfolderFlag) : IRequest<TblDto>;
+public record DeserializeTbl(byte[] File) : IRequest<TblDto>;
 
 public class DeserializeTblCommandHandler(
     ITblBinarySerializer binarySerializer,
@@ -14,7 +14,7 @@ public class DeserializeTblCommandHandler(
     public async ValueTask<TblDto> Handle(DeserializeTbl request, CancellationToken cancellationToken)
     {
         await using var fileStream = new MemoryStream(request.File);
-        var tbl = await binarySerializer.DeserializeAsync(fileStream, request.UseSubfolderFlag, cancellationToken);
+        var tbl = await binarySerializer.DeserializeAsync(fileStream, cancellationToken);
         return await tblMetadataSerializer.SerializeDtoAsync(tbl, cancellationToken);
     }
 }

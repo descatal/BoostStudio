@@ -8,12 +8,12 @@ namespace BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 
 public interface ITblMetadataSerializer
 {
-    Task<TblBinaryFormat> DeserializeAsync(Stream stream, TblDto data, CancellationToken cancellationToken);
+    Task<TblBinaryFormat> DeserializeDtoAsync(Stream stream, TblDto data, CancellationToken cancellationToken = default);
 
-    public Task<TblDto> SerializeDtoAsync(TblBinaryFormat data, CancellationToken cancellationToken);
-    
+    public Task<TblDto> SerializeDtoAsync(TblBinaryFormat data, CancellationToken cancellationToken = default);
+
     Task<List<PatchFile>> SerializeAsync(
-        TblBinaryFormat data, 
-        PatchFileVersion patchFileVersion, 
-        CancellationToken cancellationToken);
+        Tbl tbl,
+        TblBinaryFormat data,
+        CancellationToken cancellationToken = default);
 }

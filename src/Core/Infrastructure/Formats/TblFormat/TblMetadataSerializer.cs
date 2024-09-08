@@ -3,36 +3,22 @@ using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Domain.Entities;
 using BoostStudio.Domain.Entities.Tbl;
+using BoostStudio.Domain.Entities.Unit.Assets;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Kaitai;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Infrastructure.Formats.TblFormat;
 
-public class TblMetadataSerializer(
-    IApplicationDbContext applicationDbContext
-) : ITblMetadataSerializer
+public class TblMetadataSerializer : ITblMetadataSerializer
 {
     public Task<List<PatchFile>> SerializeAsync(
-        TblBinaryFormat data, 
-        PatchFileVersion patchFileVersion,
-        CancellationToken cancellationToken)
+        Tbl tbl,
+        TblBinaryFormat data,
+        CancellationToken cancellationToken = default)
     {
         var patchFiles = new List<PatchFile>();
-
-        var existingTbl = applicationDbContext.Tbl
-            .Include(tbl => tbl.PatchFiles)
-            .ThenInclude(patchFile => patchFile.FileInfo)
-            .ThenInclude(fileInfo => fileInfo!.AssetFile)
-            .FirstOrDefault(tbl => tbl.Id == patchFileVersion);
-
-        existingTbl ??= new Tbl()
-        {
-            Id = patchFileVersion,
-            PatchFiles = [],
-            PathsOrder = []
-        };
+        var existingPatchFiles = tbl.PatchFiles.ToList();
         
         for (var index = 0; index < data.CumulativeFileCount; index++)
         {
@@ -40,27 +26,43 @@ public class TblMetadataSerializer(
             if (fileInfoBody?.FileInfo is null)
                 continue;
 
-            var patchFile = existingTbl.PatchFiles.FirstOrDefault(patchFile => 
+            var patchFile = existingPatchFiles.FirstOrDefault(patchFile => 
                 patchFile.FileInfo is not null && 
-                patchFile.FileInfo.AssetFileHash == fileInfoBody.FileInfo.HashName
+                patchFile.AssetFileHash is not null &&
+                patchFile.AssetFileHash == fileInfoBody.FileInfo.HashName
             );
             
             if (patchFile is null)
             {
                 patchFile = new PatchFile();
-                existingTbl.PatchFiles.Add(patchFile);
+                patchFiles.Add(patchFile);
             }
 
+            // if the asset file is not in the database, add it
+            if (patchFile.AssetFileHash is null || patchFile.AssetFile is null)
+                patchFile.AssetFile = new AssetFile();
+            
+            patchFile.AssetFile.Hash = fileInfoBody.FileInfo.HashName;
+            patchFile.AssetFile.Order = (uint)index;
+            
             var patchFileInfo = patchFile.FileInfo ?? new PatchFileInfo();
             
             patchFileInfo.Version = (PatchFileVersion)fileInfoBody.FileInfo.PatchNumber;
             patchFileInfo.Size1 = fileInfoBody.FileInfo.Size1;
             patchFileInfo.Size2 = fileInfoBody.FileInfo.Size2;
             patchFileInfo.Size3 = fileInfoBody.FileInfo.Size3;
-            patchFileInfo.AssetFileHash = fileInfoBody.FileInfo.HashName;
 
-            patchFile.Path = fileInfoBody.FileInfo.PathBody?.Path;
+            PathInfo? pathInfo = null;
+            if (fileInfoBody.FileInfo.PathBody?.Path is not null)
+            {
+                pathInfo = patchFile.PathInfo ?? new PathInfo();
+                pathInfo.Path = fileInfoBody.FileInfo.PathBody.Path;
+                pathInfo.Order = (uint)fileInfoBody.FileInfo.PathBody.Index;
+            }
+
+            patchFile.PathInfo = pathInfo;
             patchFile.FileInfo = patchFileInfo;
+            patchFiles.Add(patchFile);
         }
 
         var fileInfoPathIndices = data.FileInfos
@@ -73,7 +75,11 @@ public class TblMetadataSerializer(
             .Where(((_, index) => !fileInfoPathIndices.Contains(index)))
             .Select(filePathBody => new PatchFile()
             {
-                Path = filePathBody.Path
+                PathInfo = new PathInfo
+                {
+                    Path = filePathBody.Path,
+                    Order = (uint)filePathBody.Index
+                }
             })
             .ToList();
 
@@ -100,6 +106,7 @@ public class TblMetadataSerializer(
                 Size1: fileInfo.Size1,
                 Size2: fileInfo.Size2,
                 Size3: fileInfo.Size3,
+                Size4: fileInfo.Size4,
                 HashName: fileInfo.HashName);
     
             fileMetadata.Add(new PatchFileDto(FileInfoMetadata: infoMetadata, Path: fileInfo.PathBody?.Path));
@@ -132,12 +139,11 @@ public class TblMetadataSerializer(
         return Task.FromResult(tblMetadata);
     }
 
-    public Task<TblBinaryFormat> DeserializeAsync(Stream stream, TblDto data, CancellationToken cancellationToken)
+    public Task<TblBinaryFormat> DeserializeDtoAsync(Stream stream, TblDto data, CancellationToken cancellationToken)
     {
         // Use the passed in stream so that the stream and their child can be disposed later by the caller
         var tbl = new TblBinaryFormat(
             p_totalFileSize: 0, // Not sure if setting to 0 will cause issue down the line or not...
-            p_useSubfolderFlag: false,
             p__io: new KaitaiStream(stream),
             write: true)
             {
@@ -191,10 +197,7 @@ public class TblMetadataSerializer(
                     Size1 = fileInfoMetadata.Size1,
                     Size2 = fileInfoMetadata.Size2,
                     Size3 = fileInfoMetadata.Size3,
-                    Unk28 = new byte[]
-                    {
-                        0x0, 0x0, 0x0, 0x0
-                    },
+                    Size4 = fileInfoMetadata.Size4,
                     HashName = fileInfoMetadata.HashName,
                     PathBody = filePathBody
                 };

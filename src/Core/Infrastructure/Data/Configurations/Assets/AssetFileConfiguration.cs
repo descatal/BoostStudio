@@ -1,6 +1,5 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
 using BoostStudio.Domain.Entities.Unit.Assets;
-using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,16 +9,16 @@ public class AssetFileConfiguration : IEntityTypeConfiguration<AssetFile>
 {
     public void Configure(EntityTypeBuilder<AssetFile> builder)
     {
-        builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
+        builder.Ignore(assetFile => assetFile.Id);
+        builder.HasKey(assetFile => assetFile.Hash);
+        
+        builder.Property(assetFile => assetFile.Order)
             .ValueGeneratedOnAdd();
         
-        builder.Property(file => file.Index).ValueGeneratedOnAdd();
-        
-        builder.HasOne<Unit>(asset => asset.Unit)
-            .WithOne()
-            .HasForeignKey<AssetFile>(asset => asset.GameUnitId)
-            .HasPrincipalKey<Unit>(unit => unit.GameUnitId)
-            .IsRequired();
+        builder.HasOne<Unit>(assetFile => assetFile.Unit)
+            .WithMany(unit => unit.AssetFiles)
+            .HasForeignKey(assetFile => assetFile.GameUnitId)
+            .HasPrincipalKey(unit => unit.GameUnitId)
+            .IsRequired(false);
     }
 }

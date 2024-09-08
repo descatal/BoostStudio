@@ -17,7 +17,7 @@ public class SerializeTblHandler(
     {
         await using var tblStream = new MemoryStream();
         var tblMetadata = new TblDto(request.CumulativeFileInfoCount, request.FileMetadata, request.PathOrder);
-        var tbl = await tblMetadataSerializer.DeserializeAsync(
+        var tbl = await tblMetadataSerializer.DeserializeDtoAsync(
             stream: tblStream,
             data: tblMetadata,
             cancellationToken: cancellationToken);

@@ -10,6 +10,4 @@ public class Tbl : BaseEntity<PatchFileVersion>
     public uint CumulativeAssetIndex { get; set; }
     
     public ICollection<PatchFile> PatchFiles { get; set; } = [];
-
-    public string[] PathsOrder { get; set; } = [];
 }

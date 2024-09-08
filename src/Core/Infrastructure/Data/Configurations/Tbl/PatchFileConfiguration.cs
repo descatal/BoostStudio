@@ -15,28 +15,21 @@ public class PatchFileConfiguration : IEntityTypeConfiguration<PatchFile>
             .HasValueGenerator<UUIDv7Generator>()
             .ValueGeneratedOnAdd();
 
-        builder.HasOne<TblEntity>()
+        builder.HasOne<TblEntity>(patchFile => patchFile.Tbl)
             .WithMany(tbl => tbl.PatchFiles)
             .HasForeignKey(patchFile => patchFile.TblId)
-            .IsRequired(false);
+            .IsRequired();
 
-        builder.OwnsOne<PatchFileInfo>(patchFile => patchFile.FileInfo, patchFileInfoBuilder =>
-        {
-            patchFileInfoBuilder.HasOne<AssetFile>(patchFileInfo => patchFileInfo.AssetFile)
-                .WithMany()
-                .HasForeignKey(patchFileInfo => patchFileInfo.AssetFileHash)
-                .IsRequired();
-        });
+        // this should not be here, but inside OwnsOne builder configuration
+        // ef does not support owned relationship yet, so this is the only way to do it
+        // will need to manually make sure this AssetFile is null when PatchFileInfo is null too
+        builder.HasOne<AssetFile>(patchFileInfo => patchFileInfo.AssetFile)
+            .WithMany(assetFile => assetFile.PatchFiles)
+            .HasForeignKey(patchFileInfo => patchFileInfo.AssetFileHash)
+            .HasPrincipalKey(assetFile => assetFile.Hash)
+            .IsRequired(false);
+        
+        builder.OwnsOne<PathInfo>(patchFile => patchFile.PathInfo);
+        builder.OwnsOne<PatchFileInfo>(patchFile => patchFile.FileInfo);
     }
 }
-
-// public class PatchFileInfoConfiguration : IEntityTypeConfiguration<PatchFileInfo>
-// {
-//     public void Configure(EntityTypeBuilder<PatchFileInfo> builder)
-//     {
-//         builder.HasOne<AssetFile>()
-//             .WithMany(file => file.PatchFiles)
-//             .HasForeignKey(file => file.AssetFileHash)
-//             .IsRequired(false);
-//     }
-// }

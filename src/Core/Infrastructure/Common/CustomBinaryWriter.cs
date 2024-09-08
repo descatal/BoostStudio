@@ -11,7 +11,10 @@ public enum Endianness
     BigEndian
 }
 
-public class CustomBinaryWriter : BinaryWriter
+public class CustomBinaryWriter(
+    Stream stream, 
+    Endianness defaultEndian = Endianness.LittleEndian
+) : BinaryWriter(stream)
 {
     private readonly Dictionary<Type, Action<byte[], object>> _littleEndianMap = new()
     {
@@ -97,15 +100,7 @@ public class CustomBinaryWriter : BinaryWriter
         },
     };
 
-    public Stream Stream { get; }
-
-    private readonly Endianness _endianness;
-
-    public CustomBinaryWriter(Stream stream, Endianness defaultEndian = Endianness.LittleEndian) : base(stream)
-    {
-        Stream = stream;
-        _endianness = defaultEndian;
-    }
+    public Stream Stream { get; } = stream;
 
     public long GetPosition()
     {
@@ -246,7 +241,7 @@ public class CustomBinaryWriter : BinaryWriter
         if (value == null)
             return;
 
-        var localEndian = endian ?? _endianness;
+        var localEndian = endian ?? defaultEndian;
         var valueType = value.GetType();
 
         byteCount ??= _typeSize[valueType];
