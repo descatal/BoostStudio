@@ -103,8 +103,17 @@ interface UseDataTableProps<TData, TValue> {
    */
   enableAdvancedFilter?: boolean
 
+  /**
+   * Enable editable cells.
+   * Modified rows will be highlighted in red, and the save button will be enabled.
+   * The save function can be passed in with the `saveData` prop.
+   * @default false
+   * @type boolean
+   */
+  enableEditingMode?: boolean
+
   fetchData: () => Promise<void>
-  saveData: () => Promise<void>
+  saveData?: () => Promise<void> | undefined
 }
 
 const schema = z.object({
@@ -122,6 +131,7 @@ export function useDataTable<TData, TValue>({
   defaultSort,
   filterFields = [],
   enableAdvancedFilter = false,
+  enableEditingMode = false,
   fetchData,
   saveData,
 }: UseDataTableProps<TData, TValue>) {
@@ -135,12 +145,20 @@ export function useDataTable<TData, TValue>({
   const [column, order] = sort?.split(".") ?? []
 
   // Memoize computation of searchableColumns and filterableColumns
-  const { searchableColumns, filterableColumns } = React.useMemo(() => {
-    return {
-      searchableColumns: filterFields.filter((field) => !field.options),
-      filterableColumns: filterFields.filter((field) => field.options),
-    }
-  }, [filterFields])
+  const { searchableColumns, filterableColumns, unitFilterColumns } =
+    React.useMemo(() => {
+      return {
+        searchableColumns: filterFields.filter(
+          (field) => field.type === "input"
+        ),
+        filterableColumns: filterFields.filter(
+          (field) => field.type === "select"
+        ),
+        unitFilterColumns: filterFields.filter(
+          (field) => field.type === "unit"
+        ),
+      }
+    }, [filterFields])
 
   // Create query string
   const createQueryString = React.useCallback(
@@ -170,6 +188,9 @@ export function useDataTable<TData, TValue>({
         const searchableColumn = searchableColumns.find(
           (column) => column.value === key
         )
+        const unitFilterColumn = unitFilterColumns.find(
+          (column) => column.value === key
+        )
 
         if (filterableColumn) {
           filters.push({
@@ -181,13 +202,18 @@ export function useDataTable<TData, TValue>({
             id: key,
             value: [value],
           })
+        } else if (unitFilterColumn) {
+          filters.push({
+            id: key,
+            value: [value],
+          })
         }
 
         return filters
       },
       []
     )
-  }, [filterableColumns, searchableColumns, searchParams])
+  }, [filterableColumns, searchableColumns, unitFilterColumns, searchParams])
 
   // Table states
   const [rowSelection, setRowSelection] = React.useState({})
@@ -257,6 +283,10 @@ export function useDataTable<TData, TValue>({
     return filterableColumns.find((column) => column.value === filter.id)
   })
 
+  const filterableUnitColumnFilters = columnFilters.filter((filter) => {
+    return unitFilterColumns.find((column) => column.value === filter.id)
+  })
+
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
@@ -290,6 +320,19 @@ export function useDataTable<TData, TValue>({
       }
     }
 
+    for (const column of filterableUnitColumnFilters) {
+      if (typeof column.value === "object" && Array.isArray(column.value)) {
+        // make sure every item in the array has unitId field
+        const unitIds = column.value
+          .filter((item) => item.unitId)
+          .map((item) => item.unitId) as number[]
+
+        Object.assign(newParamsObject, {
+          [column.id]: unitIds.join("."),
+        })
+      }
+    }
+
     // Remove deleted values
     for (const key of searchParams.keys()) {
       if (
@@ -298,7 +341,9 @@ export function useDataTable<TData, TValue>({
             (column) => column.id === key
           )) ||
         (filterableColumns.find((column) => column.value === key) &&
-          !filterableColumnFilters.find((column) => column.id === key))
+          !filterableColumnFilters.find((column) => column.id === key)) ||
+        (unitFilterColumns.find((column) => column.value === key) &&
+          !filterableUnitColumnFilters.find((column) => column.id === key))
       ) {
         Object.assign(newParamsObject, { [key]: null })
       }
@@ -315,10 +360,12 @@ export function useDataTable<TData, TValue>({
     JSON.stringify(debouncedSearchableColumnFilters),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     JSON.stringify(filterableColumnFilters),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    JSON.stringify(filterableUnitColumnFilters),
   ])
 
   // Give our default column cell renderer editing superpowers!
-  const defaultColumn: Partial<ColumnDef<TData>> = {
+  const editableColumn: Partial<ColumnDef<TData>> = {
     cell: ({ getValue, row: { index }, column: { id }, table }) => {
       const initialValue = getValue()
       // We need to keep and update the state of the cell normally
@@ -348,7 +395,7 @@ export function useDataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    defaultColumn: defaultColumn,
+    defaultColumn: enableEditingMode ? editableColumn : undefined,
     pageCount: pageCount ?? -1,
     state: {
       pagination,
@@ -379,6 +426,7 @@ export function useDataTable<TData, TValue>({
         await fetchData()
       },
       saveData: async () => {
+        if (saveData === undefined) return
         setModifiedRows([])
         await saveData()
       },

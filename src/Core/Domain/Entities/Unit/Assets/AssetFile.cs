@@ -13,9 +13,6 @@ public class AssetFile : BaseEntity<uint> // id is ignored, Hash is the key
     public ICollection<PatchFile> PatchFiles { get; set; } = [];
     
     public AssetFileType FileType { get; set; }
-    
-    // can be associated with a specific unit
-    public uint? GameUnitId { get; set; }
-    
-    public Unit? Unit { get; set; }
+
+    public ICollection<Unit> Units { get; set; } = [];
 }

@@ -23,20 +23,20 @@ public class UnitProjectiles : EndpointGroupBase
     }
     
     [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(PaginatedList<UnitProjectileDto>), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(PaginatedList<UnitProjectileDto>), StatusCodes.Status200OK)]
     private static async Task<PaginatedList<UnitProjectileDto>> GetUnitProjectilesWithPagination(ISender sender, [AsParameters] GetUnitProjectileWithPaginationQuery request)
     {
         return await sender.Send(request);
     }
     
     [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(UnitProjectileDto), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(UnitProjectileDto), StatusCodes.Status200OK)]
     private static async Task<UnitProjectileDto> GetUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return await sender.Send(new GetUnitProjectileByUnitIdQuery(unitId));
     }
     
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> ImportUnitProjectiles(ISender sender, [FromForm] IFormFileCollection files, CancellationToken cancellationToken)
     {
         var fileStreams = files.Select(formFile => formFile.OpenReadStream()).ToArray();
@@ -48,7 +48,7 @@ public class UnitProjectiles : EndpointGroupBase
         return Results.Created();
     }
     
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> ImportUnitProjectilesByPath(
         ISender sender, 
         string directoryPath,
@@ -66,7 +66,7 @@ public class UnitProjectiles : EndpointGroupBase
         return Results.Created();
     }
     
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
     private static async Task<IResult> ExportUnitProjectiles(
         ISender sender, 
         ExportUnitProjectileCommand command, 
@@ -76,7 +76,7 @@ public class UnitProjectiles : EndpointGroupBase
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> ExportUnitProjectilesByPath(
         ISender sender, 
         ExportUnitProjectileByPathCommand command, 

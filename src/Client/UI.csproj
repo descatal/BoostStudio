@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="boost-studio\src\api\exvs\" />
+      <Folder Include="boost-studio\src\pages\common\components\dialogs\" />
+    </ItemGroup>
+
 </Project>

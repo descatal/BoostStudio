@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { GetApiProjectilesByHash200Response } from './GetApiProjectilesByHash200Response';
+import type { ProjectileDto } from './ProjectileDto';
 import {
-    GetApiProjectilesByHash200ResponseFromJSON,
-    GetApiProjectilesByHash200ResponseFromJSONTyped,
-    GetApiProjectilesByHash200ResponseToJSON,
-} from './GetApiProjectilesByHash200Response';
+    ProjectileDtoFromJSON,
+    ProjectileDtoFromJSONTyped,
+    ProjectileDtoToJSON,
+} from './ProjectileDto';
 
 /**
  * 
@@ -34,10 +34,10 @@ export interface UnitProjectileDto {
     unitId?: number;
     /**
      * 
-     * @type {Array<GetApiProjectilesByHash200Response>}
+     * @type {Array<ProjectileDto>}
      * @memberof UnitProjectileDto
      */
-    projectiles?: Array<GetApiProjectilesByHash200Response>;
+    projectiles?: Array<ProjectileDto>;
 }
 
 /**
@@ -58,7 +58,7 @@ export function UnitProjectileDtoFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'unitId': json['unitId'] == null ? undefined : json['unitId'],
-        'projectiles': json['projectiles'] == null ? undefined : ((json['projectiles'] as Array<any>).map(GetApiProjectilesByHash200ResponseFromJSON)),
+        'projectiles': json['projectiles'] == null ? undefined : ((json['projectiles'] as Array<any>).map(ProjectileDtoFromJSON)),
     };
 }
 
@@ -69,7 +69,7 @@ export function UnitProjectileDtoToJSON(value?: UnitProjectileDto | null): any {
     return {
         
         'unitId': value['unitId'],
-        'projectiles': value['projectiles'] == null ? undefined : ((value['projectiles'] as Array<any>).map(GetApiProjectilesByHash200ResponseToJSON)),
+        'projectiles': value['projectiles'] == null ? undefined : ((value['projectiles'] as Array<any>).map(ProjectileDtoToJSON)),
     };
 }
 

@@ -15,11 +15,14 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetApiConfigs200ResponseInner,
+  ConfigDto,
+  UpsertConfigCommand,
 } from '../models/index';
 import {
-    GetApiConfigs200ResponseInnerFromJSON,
-    GetApiConfigs200ResponseInnerToJSON,
+    ConfigDtoFromJSON,
+    ConfigDtoToJSON,
+    UpsertConfigCommandFromJSON,
+    UpsertConfigCommandToJSON,
 } from '../models/index';
 
 export interface DeleteApiConfigsByKeyRequest {
@@ -35,7 +38,7 @@ export interface GetApiConfigsByKeyRequest {
 }
 
 export interface PostApiConfigsRequest {
-    getApiConfigs200ResponseInner: GetApiConfigs200ResponseInner;
+    upsertConfigCommand: UpsertConfigCommand;
 }
 
 /**
@@ -75,7 +78,7 @@ export class ConfigsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiConfigsRaw(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetApiConfigs200ResponseInner>>> {
+    async getApiConfigsRaw(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ConfigDto>>> {
         if (requestParameters['keys'] == null) {
             throw new runtime.RequiredError(
                 'keys',
@@ -98,19 +101,19 @@ export class ConfigsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetApiConfigs200ResponseInnerFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ConfigDtoFromJSON));
     }
 
     /**
      */
-    async getApiConfigs(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetApiConfigs200ResponseInner>> {
+    async getApiConfigs(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ConfigDto>> {
         const response = await this.getApiConfigsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getApiConfigsByKeyRaw(requestParameters: GetApiConfigsByKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiConfigsByKeyRaw(requestParameters: GetApiConfigsByKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
         if (requestParameters['key'] == null) {
             throw new runtime.RequiredError(
                 'key',
@@ -129,22 +132,27 @@ export class ConfigsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
     }
 
     /**
      */
-    async getApiConfigsByKey(requestParameters: GetApiConfigsByKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiConfigsByKeyRaw(requestParameters, initOverrides);
+    async getApiConfigsByKey(requestParameters: GetApiConfigsByKeyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.getApiConfigsByKeyRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      */
     async postApiConfigsRaw(requestParameters: PostApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['getApiConfigs200ResponseInner'] == null) {
+        if (requestParameters['upsertConfigCommand'] == null) {
             throw new runtime.RequiredError(
-                'getApiConfigs200ResponseInner',
-                'Required parameter "getApiConfigs200ResponseInner" was null or undefined when calling postApiConfigs().'
+                'upsertConfigCommand',
+                'Required parameter "upsertConfigCommand" was null or undefined when calling postApiConfigs().'
             );
         }
 
@@ -159,7 +167,7 @@ export class ConfigsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: GetApiConfigs200ResponseInnerToJSON(requestParameters['getApiConfigs200ResponseInner']),
+            body: UpsertConfigCommandToJSON(requestParameters['upsertConfigCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

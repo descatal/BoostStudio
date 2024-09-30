@@ -1,7 +1,10 @@
 "use client"
 
 import * as React from "react"
-import type { DataTableFilterField } from "@/types"
+import { useEffect } from "react"
+import { UnitDto } from "@/api/exvs"
+import UnitSwitcher from "@/pages/units/customize/components/unit-switcher"
+import { DataTableFilterField, DataTableInputFilterField } from "@/types"
 import { Cross2Icon } from "@radix-ui/react-icons"
 import type { Table } from "@tanstack/react-table"
 
@@ -18,21 +21,31 @@ interface DataTableToolbarProps<TData>
 }
 
 export function DataTableToolbar<TData>({
-                                          table,
-                                          filterFields = [],
-                                          children,
-                                          className,
-                                          ...props
-                                        }: DataTableToolbarProps<TData>) {
+  table,
+  filterFields = [],
+  children,
+  className,
+  ...props
+}: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
+  const [selectedUnits, setSelectedUnits] = React.useState<UnitDto[]>([])
+
   // Memoize computation of searchableColumns and filterableColumns
-  const { searchableColumns, filterableColumns } = React.useMemo(() => {
-    return {
-      searchableColumns: filterFields.filter((field) => !field.options),
-      filterableColumns: filterFields.filter((field) => field.options),
-    }
-  }, [filterFields])
+  const { searchableColumns, filterableColumns, unitFilterColumns } =
+    React.useMemo(() => {
+      return {
+        searchableColumns: filterFields.filter(
+          (field) => field.type === "input"
+        ),
+        filterableColumns: filterFields.filter(
+          (field) => field.type === "select"
+        ),
+        unitFilterColumns: filterFields.filter(
+          (field) => field.type === "unit"
+        ),
+      }
+    }, [filterFields])
 
   return (
     <div
@@ -43,9 +56,37 @@ export function DataTableToolbar<TData>({
       {...props}
     >
       <div className="flex flex-1 items-center space-x-2">
+        {unitFilterColumns.length > 0 &&
+          unitFilterColumns.map((column) => {
+            if (!(column.type === "unit")) return
+
+            return (
+              table.getColumn(column.value ? String(column.value) : "") && (
+                <UnitSwitcher
+                  multipleSelect={true}
+                  className={"w-fit"}
+                  key={String(column.value)}
+                  selectedUnits={
+                    (table.getColumn(String(column.value))?.getFilterValue() as
+                      | UnitDto[]
+                      | undefined) ?? []
+                  }
+                  setSelectedUnits={(unitDto) => {
+                    table
+                      .getColumn(String(column.value))
+                      ?.setFilterValue(
+                        !unitDto || unitDto.length <= 0 ? undefined : unitDto
+                      )
+                  }}
+                />
+              )
+            )
+          })}
         {searchableColumns.length > 0 &&
-          searchableColumns.map(
-            (column) =>
+          searchableColumns.map((column) => {
+            if (!(column.type === "input")) return
+
+            return (
               table.getColumn(column.value ? String(column.value) : "") && (
                 <Input
                   key={String(column.value)}
@@ -63,10 +104,13 @@ export function DataTableToolbar<TData>({
                   className="h-8 w-40 lg:w-64"
                 />
               )
-          )}
+            )
+          })}
         {filterableColumns.length > 0 &&
-          filterableColumns.map(
-            (column) =>
+          filterableColumns.map((column) => {
+            if (!(column.type === "select")) return
+
+            return (
               table.getColumn(column.value ? String(column.value) : "") && (
                 <DataTableFacetedFilter
                   key={String(column.value)}
@@ -77,7 +121,8 @@ export function DataTableToolbar<TData>({
                   options={column.options ?? []}
                 />
               )
-          )}
+            )
+          })}
         {isFiltered && (
           <Button
             aria-label="Reset filters"
@@ -86,7 +131,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
           >
             Reset
-            <Cross2Icon className="ml-2 size-4" aria-hidden="true" />
+            <Cross2Icon className="size-4 ml-2" aria-hidden="true" />
           </Button>
         )}
       </div>

@@ -31,7 +31,7 @@ export default function UnitInformation() {
   const { selectedTab, setSelectedTab } = useCustomizeInformationUnitStore(
     (state) => state
   )
-  const { selectedUnit } = useUnitsStore((state) => state)
+  const { selectedUnits } = useUnitsStore((state) => state)
 
   const { pathname } = useLocation()
   const params = useParams()
@@ -46,12 +46,12 @@ export default function UnitInformation() {
   return (
     <>
       <ExportDialog />
-      {selectedUnit && (
+      {selectedUnits && selectedUnits.length > 0 && (
         <div className="flex-col md:flex">
           <div className="flex-1 space-y-4 p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">
               <h2 className="text-3xl font-bold tracking-tight">
-                {selectedUnit.name}
+                {selectedUnits[0].name}
               </h2>
               <div className="flex items-center space-x-2">
                 <Button
@@ -68,7 +68,7 @@ export default function UnitInformation() {
               className="space-y-4"
               value={selectedTab}
               onValueChange={(value: string) => {
-                if (pathPattern === undefined) return
+                if (!pathPattern) return
                 const newPath = generatePath(pathPattern, {
                   ...params,
                   tab: value,
@@ -90,16 +90,16 @@ export default function UnitInformation() {
                 <TabsTrigger value="hitboxes">Hitboxes</TabsTrigger>
               </TabsList>
               <TabsContent value="stats" className="space-y-4">
-                <Stats unitId={selectedUnit.unitId!} />
+                <Stats unitId={selectedUnits[0].unitId!} />
               </TabsContent>
               <TabsContent value="ammo" className="space-y-4">
-                <Ammo unitId={selectedUnit.unitId!} />
+                <Ammo unitId={selectedUnits[0].unitId!} />
               </TabsContent>
               <TabsContent value="projectiles" className="space-y-4">
-                <Projectiles unitId={selectedUnit.unitId!} />
+                <Projectiles unitId={selectedUnits[0].unitId!} />
               </TabsContent>
               <TabsContent value="hitboxes" className="space-y-4">
-                <Hitboxes unitId={selectedUnit.unitId!} />
+                <Hitboxes unitId={selectedUnits[0].unitId!} />
               </TabsContent>
             </Tabs>
           </div>

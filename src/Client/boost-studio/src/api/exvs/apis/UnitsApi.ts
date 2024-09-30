@@ -15,39 +15,42 @@
 
 import * as runtime from '../runtime';
 import type {
-  PostApiUnitsBulkRequest,
-  PostApiUnitsRequest,
+  BulkCreateUnitCommand,
+  CreateUnitCommand,
   UnitDto,
+  UpdateUnitCommand,
 } from '../models/index';
 import {
-    PostApiUnitsBulkRequestFromJSON,
-    PostApiUnitsBulkRequestToJSON,
-    PostApiUnitsRequestFromJSON,
-    PostApiUnitsRequestToJSON,
+    BulkCreateUnitCommandFromJSON,
+    BulkCreateUnitCommandToJSON,
+    CreateUnitCommandFromJSON,
+    CreateUnitCommandToJSON,
     UnitDtoFromJSON,
     UnitDtoToJSON,
+    UpdateUnitCommandFromJSON,
+    UpdateUnitCommandToJSON,
 } from '../models/index';
 
 export interface GetApiUnitsRequest {
-    search?: string | null;
-    unitIds?: Array<number> | null;
+    search?: string;
+    unitIds?: Array<number>;
 }
 
 export interface GetApiUnitsByUnitIdRequest {
     unitId: number;
 }
 
-export interface PostApiUnitsOperationRequest {
-    postApiUnitsRequest: PostApiUnitsRequest;
+export interface PostApiUnitsRequest {
+    createUnitCommand: CreateUnitCommand;
 }
 
-export interface PostApiUnitsBulkOperationRequest {
-    postApiUnitsBulkRequest: PostApiUnitsBulkRequest;
+export interface PostApiUnitsBulkRequest {
+    bulkCreateUnitCommand: BulkCreateUnitCommand;
 }
 
 export interface PostApiUnitsByUnitIdRequest {
     unitId: number;
-    postApiUnitsRequest: PostApiUnitsRequest;
+    updateUnitCommand: UpdateUnitCommand;
 }
 
 /**
@@ -120,11 +123,11 @@ export class UnitsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitsRaw(requestParameters: PostApiUnitsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiUnitsRequest'] == null) {
+    async postApiUnitsRaw(requestParameters: PostApiUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createUnitCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitsRequest',
-                'Required parameter "postApiUnitsRequest" was null or undefined when calling postApiUnits().'
+                'createUnitCommand',
+                'Required parameter "createUnitCommand" was null or undefined when calling postApiUnits().'
             );
         }
 
@@ -139,7 +142,7 @@ export class UnitsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitsRequestToJSON(requestParameters['postApiUnitsRequest']),
+            body: CreateUnitCommandToJSON(requestParameters['createUnitCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -147,17 +150,17 @@ export class UnitsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnits(requestParameters: PostApiUnitsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnits(requestParameters: PostApiUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitsRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiUnitsBulkRaw(requestParameters: PostApiUnitsBulkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiUnitsBulkRequest'] == null) {
+    async postApiUnitsBulkRaw(requestParameters: PostApiUnitsBulkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['bulkCreateUnitCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitsBulkRequest',
-                'Required parameter "postApiUnitsBulkRequest" was null or undefined when calling postApiUnitsBulk().'
+                'bulkCreateUnitCommand',
+                'Required parameter "bulkCreateUnitCommand" was null or undefined when calling postApiUnitsBulk().'
             );
         }
 
@@ -172,7 +175,7 @@ export class UnitsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitsBulkRequestToJSON(requestParameters['postApiUnitsBulkRequest']),
+            body: BulkCreateUnitCommandToJSON(requestParameters['bulkCreateUnitCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -180,7 +183,7 @@ export class UnitsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitsBulk(requestParameters: PostApiUnitsBulkOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnitsBulk(requestParameters: PostApiUnitsBulkRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitsBulkRaw(requestParameters, initOverrides);
     }
 
@@ -194,10 +197,10 @@ export class UnitsApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiUnitsRequest'] == null) {
+        if (requestParameters['updateUnitCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitsRequest',
-                'Required parameter "postApiUnitsRequest" was null or undefined when calling postApiUnitsByUnitId().'
+                'updateUnitCommand',
+                'Required parameter "updateUnitCommand" was null or undefined when calling postApiUnitsByUnitId().'
             );
         }
 
@@ -212,7 +215,7 @@ export class UnitsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitsRequestToJSON(requestParameters['postApiUnitsRequest']),
+            body: UpdateUnitCommandToJSON(requestParameters['updateUnitCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

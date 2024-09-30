@@ -1,10 +1,8 @@
 ﻿import React, { useCallback, useEffect, useState } from "react"
-import {
-  GetApiStats200Response,
-  GetApiUnitStats200ResponseItemsInner,
-  UnitAmmoSlotDto,
-} from "@/api/exvs"
-import { GetApiStatsById200Response } from "@/api/exvs/models/GetApiStatsById200Response"
+import { UnitAmmoSlotDto } from "@/api/exvs"
+import { GetApiStats200Response } from "@/api/exvs/models/GetApiStats200Response"
+import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner"
+import { GetApiUnitStats200ResponseItemsInner } from "@/api/exvs/models/GetApiUnitStats200ResponseItemsInner"
 import { fetchAmmoOptions } from "@/api/wrapper/ammo-api"
 import {
   fetchStats,
@@ -30,7 +28,7 @@ import { StatGroupDataTableToolbar } from "./components/data-table/stat-group-da
 
 const Stats = ({ unitId }: { unitId: number }) => {
   const [statsResponse, setStatsResponse] = useState<GetApiStats200Response>()
-  const [stats, setStats] = useState<GetApiStatsById200Response[]>([])
+  const [stats, setStats] = useState<GetApiStats200ResponseItemsInner[]>([])
 
   const [unitStatsResponse, setUnitStatsResponse] =
     useState<GetApiUnitStats200ResponseItemsInner>()
@@ -67,8 +65,14 @@ const Stats = ({ unitId }: { unitId: number }) => {
     })
 
     for (const entity of modifiedEntities) {
-      if (entity.id == null) continue
-      await updateStats(entity.id, { ...entity, id: entity.id! })
+      if (!entity.id) continue
+      await updateStats({
+        id: entity.id!,
+        updateStatCommand: {
+          ...entity,
+          id: entity.id!,
+        },
+      })
     }
 
     toast({

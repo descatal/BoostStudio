@@ -15,41 +15,41 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetApiStats200Response,
-  GetApiStats200ResponseItemsInner,
-  GetApiUnitStats200Response,
-  GetApiUnitStats200ResponseItemsInner,
-  PostApiStatsByIdRequest,
-  PostApiStatsRequest,
-  PostApiUnitStatsAmmoSlotByIdRequest,
-  PostApiUnitStatsAmmoSlotRequest,
-  PostApiUnitStatsExportPathRequest,
-  PostApiUnitStatsExportRequest,
+  CreateStatCommand,
+  CreateUnitAmmoSlotCommand,
+  ExportUnitStatByPathCommand,
+  ExportUnitStatCommand,
+  PaginatedListOfStatDto,
+  PaginatedListOfUnitStatDto,
+  StatDto,
   UnitAmmoSlotDto,
+  UnitStatDto,
+  UpdateStatCommand,
+  UpdateUnitAmmoSlotCommand,
 } from '../models/index';
 import {
-    GetApiStats200ResponseFromJSON,
-    GetApiStats200ResponseToJSON,
-    GetApiStats200ResponseItemsInnerFromJSON,
-    GetApiStats200ResponseItemsInnerToJSON,
-    GetApiUnitStats200ResponseFromJSON,
-    GetApiUnitStats200ResponseToJSON,
-    GetApiUnitStats200ResponseItemsInnerFromJSON,
-    GetApiUnitStats200ResponseItemsInnerToJSON,
-    PostApiStatsByIdRequestFromJSON,
-    PostApiStatsByIdRequestToJSON,
-    PostApiStatsRequestFromJSON,
-    PostApiStatsRequestToJSON,
-    PostApiUnitStatsAmmoSlotByIdRequestFromJSON,
-    PostApiUnitStatsAmmoSlotByIdRequestToJSON,
-    PostApiUnitStatsAmmoSlotRequestFromJSON,
-    PostApiUnitStatsAmmoSlotRequestToJSON,
-    PostApiUnitStatsExportPathRequestFromJSON,
-    PostApiUnitStatsExportPathRequestToJSON,
-    PostApiUnitStatsExportRequestFromJSON,
-    PostApiUnitStatsExportRequestToJSON,
+    CreateStatCommandFromJSON,
+    CreateStatCommandToJSON,
+    CreateUnitAmmoSlotCommandFromJSON,
+    CreateUnitAmmoSlotCommandToJSON,
+    ExportUnitStatByPathCommandFromJSON,
+    ExportUnitStatByPathCommandToJSON,
+    ExportUnitStatCommandFromJSON,
+    ExportUnitStatCommandToJSON,
+    PaginatedListOfStatDtoFromJSON,
+    PaginatedListOfStatDtoToJSON,
+    PaginatedListOfUnitStatDtoFromJSON,
+    PaginatedListOfUnitStatDtoToJSON,
+    StatDtoFromJSON,
+    StatDtoToJSON,
     UnitAmmoSlotDtoFromJSON,
     UnitAmmoSlotDtoToJSON,
+    UnitStatDtoFromJSON,
+    UnitStatDtoToJSON,
+    UpdateStatCommandFromJSON,
+    UpdateStatCommandToJSON,
+    UpdateUnitAmmoSlotCommandFromJSON,
+    UpdateUnitAmmoSlotCommandToJSON,
 } from '../models/index';
 
 export interface DeleteApiStatsByIdRequest {
@@ -63,8 +63,8 @@ export interface DeleteApiUnitStatsAmmoSlotByIdRequest {
 export interface GetApiStatsRequest {
     page?: number;
     perPage?: number;
-    ids?: Array<string> | null;
-    unitIds?: Array<number> | null;
+    ids?: Array<string>;
+    unitIds?: Array<number>;
 }
 
 export interface GetApiStatsByIdRequest {
@@ -74,7 +74,7 @@ export interface GetApiStatsByIdRequest {
 export interface GetApiUnitStatsRequest {
     page?: number;
     perPage?: number;
-    unitIds?: Array<number> | null;
+    unitIds?: Array<number>;
 }
 
 export interface GetApiUnitStatsAmmoSlotByUnitIdRequest {
@@ -85,34 +85,34 @@ export interface GetApiUnitStatsByUnitIdRequest {
     unitId: number;
 }
 
-export interface PostApiStatsOperationRequest {
-    postApiStatsRequest: PostApiStatsRequest;
+export interface PostApiStatsRequest {
+    createStatCommand: CreateStatCommand;
 }
 
-export interface PostApiStatsByIdOperationRequest {
+export interface PostApiStatsByIdRequest {
     id: string;
-    postApiStatsByIdRequest: PostApiStatsByIdRequest;
+    updateStatCommand: UpdateStatCommand;
 }
 
-export interface PostApiUnitStatsAmmoSlotOperationRequest {
-    postApiUnitStatsAmmoSlotRequest: PostApiUnitStatsAmmoSlotRequest;
+export interface PostApiUnitStatsAmmoSlotRequest {
+    createUnitAmmoSlotCommand: CreateUnitAmmoSlotCommand;
 }
 
-export interface PostApiUnitStatsAmmoSlotByIdOperationRequest {
+export interface PostApiUnitStatsAmmoSlotByIdRequest {
     id: string;
-    postApiUnitStatsAmmoSlotByIdRequest: PostApiUnitStatsAmmoSlotByIdRequest;
+    updateUnitAmmoSlotCommand: UpdateUnitAmmoSlotCommand;
 }
 
-export interface PostApiUnitStatsExportOperationRequest {
-    postApiUnitStatsExportRequest: PostApiUnitStatsExportRequest;
+export interface PostApiUnitStatsExportRequest {
+    exportUnitStatCommand: ExportUnitStatCommand;
 }
 
-export interface PostApiUnitStatsExportPathOperationRequest {
-    postApiUnitStatsExportPathRequest: PostApiUnitStatsExportPathRequest;
+export interface PostApiUnitStatsExportPathRequest {
+    exportUnitStatByPathCommand: ExportUnitStatByPathCommand;
 }
 
 export interface PostApiUnitStatsImportRequest {
-    files?: Array<Blob>;
+    files: Array<Blob>;
 }
 
 /**
@@ -182,7 +182,7 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiStatsRaw(requestParameters: GetApiStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiStats200Response>> {
+    async getApiStatsRaw(requestParameters: GetApiStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfStatDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -210,19 +210,19 @@ export class StatsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiStats200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfStatDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiStats(requestParameters: GetApiStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiStats200Response> {
+    async getApiStats(requestParameters: GetApiStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfStatDto> {
         const response = await this.getApiStatsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getApiStatsByIdRaw(requestParameters: GetApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiStats200ResponseItemsInner>> {
+    async getApiStatsByIdRaw(requestParameters: GetApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<StatDto>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -241,19 +241,19 @@ export class StatsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiStats200ResponseItemsInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => StatDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiStatsById(requestParameters: GetApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiStats200ResponseItemsInner> {
+    async getApiStatsById(requestParameters: GetApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<StatDto> {
         const response = await this.getApiStatsByIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getApiUnitStatsRaw(requestParameters: GetApiUnitStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiUnitStats200Response>> {
+    async getApiUnitStatsRaw(requestParameters: GetApiUnitStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfUnitStatDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -277,12 +277,12 @@ export class StatsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiUnitStats200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfUnitStatDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiUnitStats(requestParameters: GetApiUnitStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiUnitStats200Response> {
+    async getApiUnitStats(requestParameters: GetApiUnitStatsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfUnitStatDto> {
         const response = await this.getApiUnitStatsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -320,7 +320,7 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiUnitStatsByUnitIdRaw(requestParameters: GetApiUnitStatsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiUnitStats200ResponseItemsInner>> {
+    async getApiUnitStatsByUnitIdRaw(requestParameters: GetApiUnitStatsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UnitStatDto>> {
         if (requestParameters['unitId'] == null) {
             throw new runtime.RequiredError(
                 'unitId',
@@ -339,23 +339,23 @@ export class StatsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiUnitStats200ResponseItemsInnerFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UnitStatDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiUnitStatsByUnitId(requestParameters: GetApiUnitStatsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiUnitStats200ResponseItemsInner> {
+    async getApiUnitStatsByUnitId(requestParameters: GetApiUnitStatsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UnitStatDto> {
         const response = await this.getApiUnitStatsByUnitIdRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async postApiStatsRaw(requestParameters: PostApiStatsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiStatsRequest'] == null) {
+    async postApiStatsRaw(requestParameters: PostApiStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createStatCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiStatsRequest',
-                'Required parameter "postApiStatsRequest" was null or undefined when calling postApiStats().'
+                'createStatCommand',
+                'Required parameter "createStatCommand" was null or undefined when calling postApiStats().'
             );
         }
 
@@ -370,7 +370,7 @@ export class StatsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiStatsRequestToJSON(requestParameters['postApiStatsRequest']),
+            body: CreateStatCommandToJSON(requestParameters['createStatCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -378,13 +378,13 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiStats(requestParameters: PostApiStatsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiStats(requestParameters: PostApiStatsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiStatsRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiStatsByIdRaw(requestParameters: PostApiStatsByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiStatsByIdRaw(requestParameters: PostApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -392,10 +392,10 @@ export class StatsApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiStatsByIdRequest'] == null) {
+        if (requestParameters['updateStatCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiStatsByIdRequest',
-                'Required parameter "postApiStatsByIdRequest" was null or undefined when calling postApiStatsById().'
+                'updateStatCommand',
+                'Required parameter "updateStatCommand" was null or undefined when calling postApiStatsById().'
             );
         }
 
@@ -410,7 +410,7 @@ export class StatsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiStatsByIdRequestToJSON(requestParameters['postApiStatsByIdRequest']),
+            body: UpdateStatCommandToJSON(requestParameters['updateStatCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -418,17 +418,17 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiStatsById(requestParameters: PostApiStatsByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiStatsById(requestParameters: PostApiStatsByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiStatsByIdRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiUnitStatsAmmoSlotRaw(requestParameters: PostApiUnitStatsAmmoSlotOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
-        if (requestParameters['postApiUnitStatsAmmoSlotRequest'] == null) {
+    async postApiUnitStatsAmmoSlotRaw(requestParameters: PostApiUnitStatsAmmoSlotRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['createUnitAmmoSlotCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitStatsAmmoSlotRequest',
-                'Required parameter "postApiUnitStatsAmmoSlotRequest" was null or undefined when calling postApiUnitStatsAmmoSlot().'
+                'createUnitAmmoSlotCommand',
+                'Required parameter "createUnitAmmoSlotCommand" was null or undefined when calling postApiUnitStatsAmmoSlot().'
             );
         }
 
@@ -443,7 +443,7 @@ export class StatsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitStatsAmmoSlotRequestToJSON(requestParameters['postApiUnitStatsAmmoSlotRequest']),
+            body: CreateUnitAmmoSlotCommandToJSON(requestParameters['createUnitAmmoSlotCommand']),
         }, initOverrides);
 
         if (this.isJsonMime(response.headers.get('content-type'))) {
@@ -455,14 +455,14 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitStatsAmmoSlot(requestParameters: PostApiUnitStatsAmmoSlotOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+    async postApiUnitStatsAmmoSlot(requestParameters: PostApiUnitStatsAmmoSlotRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
         const response = await this.postApiUnitStatsAmmoSlotRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async postApiUnitStatsAmmoSlotByIdRaw(requestParameters: PostApiUnitStatsAmmoSlotByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiUnitStatsAmmoSlotByIdRaw(requestParameters: PostApiUnitStatsAmmoSlotByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -470,10 +470,10 @@ export class StatsApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiUnitStatsAmmoSlotByIdRequest'] == null) {
+        if (requestParameters['updateUnitAmmoSlotCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitStatsAmmoSlotByIdRequest',
-                'Required parameter "postApiUnitStatsAmmoSlotByIdRequest" was null or undefined when calling postApiUnitStatsAmmoSlotById().'
+                'updateUnitAmmoSlotCommand',
+                'Required parameter "updateUnitAmmoSlotCommand" was null or undefined when calling postApiUnitStatsAmmoSlotById().'
             );
         }
 
@@ -488,7 +488,7 @@ export class StatsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitStatsAmmoSlotByIdRequestToJSON(requestParameters['postApiUnitStatsAmmoSlotByIdRequest']),
+            body: UpdateUnitAmmoSlotCommandToJSON(requestParameters['updateUnitAmmoSlotCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -496,17 +496,17 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitStatsAmmoSlotById(requestParameters: PostApiUnitStatsAmmoSlotByIdOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnitStatsAmmoSlotById(requestParameters: PostApiUnitStatsAmmoSlotByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitStatsAmmoSlotByIdRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiUnitStatsExportRaw(requestParameters: PostApiUnitStatsExportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiUnitStatsExportRequest'] == null) {
+    async postApiUnitStatsExportRaw(requestParameters: PostApiUnitStatsExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportUnitStatCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitStatsExportRequest',
-                'Required parameter "postApiUnitStatsExportRequest" was null or undefined when calling postApiUnitStatsExport().'
+                'exportUnitStatCommand',
+                'Required parameter "exportUnitStatCommand" was null or undefined when calling postApiUnitStatsExport().'
             );
         }
 
@@ -521,7 +521,7 @@ export class StatsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitStatsExportRequestToJSON(requestParameters['postApiUnitStatsExportRequest']),
+            body: ExportUnitStatCommandToJSON(requestParameters['exportUnitStatCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -529,17 +529,17 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitStatsExport(requestParameters: PostApiUnitStatsExportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnitStatsExport(requestParameters: PostApiUnitStatsExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitStatsExportRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiUnitStatsExportPathRaw(requestParameters: PostApiUnitStatsExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiUnitStatsExportPathRequest'] == null) {
+    async postApiUnitStatsExportPathRaw(requestParameters: PostApiUnitStatsExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportUnitStatByPathCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitStatsExportPathRequest',
-                'Required parameter "postApiUnitStatsExportPathRequest" was null or undefined when calling postApiUnitStatsExportPath().'
+                'exportUnitStatByPathCommand',
+                'Required parameter "exportUnitStatByPathCommand" was null or undefined when calling postApiUnitStatsExportPath().'
             );
         }
 
@@ -554,7 +554,7 @@ export class StatsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitStatsExportPathRequestToJSON(requestParameters['postApiUnitStatsExportPathRequest']),
+            body: ExportUnitStatByPathCommandToJSON(requestParameters['exportUnitStatByPathCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -562,13 +562,20 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitStatsExportPath(requestParameters: PostApiUnitStatsExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnitStatsExportPath(requestParameters: PostApiUnitStatsExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitStatsExportPathRaw(requestParameters, initOverrides);
     }
 
     /**
      */
     async postApiUnitStatsImportRaw(requestParameters: PostApiUnitStatsImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['files'] == null) {
+            throw new runtime.RequiredError(
+                'files',
+                'Required parameter "files" was null or undefined when calling postApiUnitStatsImport().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -608,7 +615,7 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitStatsImport(requestParameters: PostApiUnitStatsImportRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnitStatsImport(requestParameters: PostApiUnitStatsImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitStatsImportRaw(requestParameters, initOverrides);
     }
 

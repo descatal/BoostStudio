@@ -1,5 +1,4 @@
 ﻿using BoostStudio.Domain.Entities.Unit;
-using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,8 +8,7 @@ public class UnitConfiguration: IEntityTypeConfiguration<Unit>
 {
     public void Configure(EntityTypeBuilder<Unit> builder)
     {
-        builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
-            .ValueGeneratedOnAdd();
+        builder.Ignore(entity => entity.Id);
+        builder.HasKey(entity => entity.GameUnitId);
     }
 }

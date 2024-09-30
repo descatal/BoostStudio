@@ -15,20 +15,20 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetApiAmmo200Response,
-  PostApiAmmoByHashRequest,
-  PostApiAmmoExportPathRequest,
-  PostApiAmmoRequest,
+  CreateAmmoCommand,
+  ExportAmmoByPathCommand,
+  PaginatedListOfAmmoDto,
+  UpdateAmmoCommand,
 } from '../models/index';
 import {
-    GetApiAmmo200ResponseFromJSON,
-    GetApiAmmo200ResponseToJSON,
-    PostApiAmmoByHashRequestFromJSON,
-    PostApiAmmoByHashRequestToJSON,
-    PostApiAmmoExportPathRequestFromJSON,
-    PostApiAmmoExportPathRequestToJSON,
-    PostApiAmmoRequestFromJSON,
-    PostApiAmmoRequestToJSON,
+    CreateAmmoCommandFromJSON,
+    CreateAmmoCommandToJSON,
+    ExportAmmoByPathCommandFromJSON,
+    ExportAmmoByPathCommandToJSON,
+    PaginatedListOfAmmoDtoFromJSON,
+    PaginatedListOfAmmoDtoToJSON,
+    UpdateAmmoCommandFromJSON,
+    UpdateAmmoCommandToJSON,
 } from '../models/index';
 
 export interface DeleteApiAmmoByHashRequest {
@@ -38,9 +38,9 @@ export interface DeleteApiAmmoByHashRequest {
 export interface GetApiAmmoRequest {
     page?: number;
     perPage?: number;
-    hash?: Array<number> | null;
-    unitIds?: Array<number> | null;
-    search?: string | null;
+    hash?: Array<number>;
+    unitIds?: Array<number>;
+    search?: string;
 }
 
 export interface GetApiAmmoByHashRequest {
@@ -48,24 +48,24 @@ export interface GetApiAmmoByHashRequest {
 }
 
 export interface GetApiAmmoOptionsRequest {
-    unitIds?: Array<number> | null;
+    unitIds?: Array<number>;
 }
 
-export interface PostApiAmmoOperationRequest {
-    postApiAmmoRequest: PostApiAmmoRequest;
+export interface PostApiAmmoRequest {
+    createAmmoCommand: CreateAmmoCommand;
 }
 
-export interface PostApiAmmoByHashOperationRequest {
+export interface PostApiAmmoByHashRequest {
     hash: number;
-    postApiAmmoByHashRequest: PostApiAmmoByHashRequest;
+    updateAmmoCommand: UpdateAmmoCommand;
 }
 
-export interface PostApiAmmoExportPathOperationRequest {
-    postApiAmmoExportPathRequest: PostApiAmmoExportPathRequest;
+export interface PostApiAmmoExportPathRequest {
+    exportAmmoByPathCommand: ExportAmmoByPathCommand;
 }
 
 export interface PostApiAmmoImportRequest {
-    formFile?: Blob;
+    formFile: Blob;
 }
 
 /**
@@ -105,7 +105,7 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiAmmoRaw(requestParameters: GetApiAmmoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiAmmo200Response>> {
+    async getApiAmmoRaw(requestParameters: GetApiAmmoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfAmmoDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -137,12 +137,12 @@ export class AmmoApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiAmmo200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfAmmoDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiAmmo(requestParameters: GetApiAmmoRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiAmmo200Response> {
+    async getApiAmmo(requestParameters: GetApiAmmoRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfAmmoDto> {
         const response = await this.getApiAmmoRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -207,11 +207,11 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoRaw(requestParameters: PostApiAmmoOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiAmmoRequest'] == null) {
+    async postApiAmmoRaw(requestParameters: PostApiAmmoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createAmmoCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiAmmoRequest',
-                'Required parameter "postApiAmmoRequest" was null or undefined when calling postApiAmmo().'
+                'createAmmoCommand',
+                'Required parameter "createAmmoCommand" was null or undefined when calling postApiAmmo().'
             );
         }
 
@@ -226,7 +226,7 @@ export class AmmoApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiAmmoRequestToJSON(requestParameters['postApiAmmoRequest']),
+            body: CreateAmmoCommandToJSON(requestParameters['createAmmoCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -234,13 +234,13 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmo(requestParameters: PostApiAmmoOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiAmmo(requestParameters: PostApiAmmoRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiAmmoRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiAmmoByHashRaw(requestParameters: PostApiAmmoByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiAmmoByHashRaw(requestParameters: PostApiAmmoByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -248,10 +248,10 @@ export class AmmoApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiAmmoByHashRequest'] == null) {
+        if (requestParameters['updateAmmoCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiAmmoByHashRequest',
-                'Required parameter "postApiAmmoByHashRequest" was null or undefined when calling postApiAmmoByHash().'
+                'updateAmmoCommand',
+                'Required parameter "updateAmmoCommand" was null or undefined when calling postApiAmmoByHash().'
             );
         }
 
@@ -266,7 +266,7 @@ export class AmmoApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiAmmoByHashRequestToJSON(requestParameters['postApiAmmoByHashRequest']),
+            body: UpdateAmmoCommandToJSON(requestParameters['updateAmmoCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -274,7 +274,7 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoByHash(requestParameters: PostApiAmmoByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiAmmoByHash(requestParameters: PostApiAmmoByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiAmmoByHashRaw(requestParameters, initOverrides);
     }
 
@@ -303,11 +303,11 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoExportPathRaw(requestParameters: PostApiAmmoExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiAmmoExportPathRequest'] == null) {
+    async postApiAmmoExportPathRaw(requestParameters: PostApiAmmoExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportAmmoByPathCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiAmmoExportPathRequest',
-                'Required parameter "postApiAmmoExportPathRequest" was null or undefined when calling postApiAmmoExportPath().'
+                'exportAmmoByPathCommand',
+                'Required parameter "exportAmmoByPathCommand" was null or undefined when calling postApiAmmoExportPath().'
             );
         }
 
@@ -322,7 +322,7 @@ export class AmmoApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiAmmoExportPathRequestToJSON(requestParameters['postApiAmmoExportPathRequest']),
+            body: ExportAmmoByPathCommandToJSON(requestParameters['exportAmmoByPathCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -330,13 +330,20 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoExportPath(requestParameters: PostApiAmmoExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiAmmoExportPath(requestParameters: PostApiAmmoExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiAmmoExportPathRaw(requestParameters, initOverrides);
     }
 
     /**
      */
     async postApiAmmoImportRaw(requestParameters: PostApiAmmoImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['formFile'] == null) {
+            throw new runtime.RequiredError(
+                'formFile',
+                'Required parameter "formFile" was null or undefined when calling postApiAmmoImport().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -374,7 +381,7 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoImport(requestParameters: PostApiAmmoImportRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiAmmoImport(requestParameters: PostApiAmmoImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiAmmoImportRaw(requestParameters, initOverrides);
     }
 

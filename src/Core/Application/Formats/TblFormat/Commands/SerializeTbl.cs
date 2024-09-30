@@ -6,7 +6,7 @@ using BoostStudio.Formats;
 
 namespace BoostStudio.Application.Formats.TblFormat.Commands;
 
-public record SerializeTbl(uint CumulativeFileInfoCount, List<PatchFileDto> FileMetadata, List<string>? PathOrder = null) : IRequest<byte[]>;
+public record SerializeTbl(uint CumulativeFileInfoCount, List<PatchFileMetadataDto> FileMetadata, List<string>? PathOrder = null) : IRequest<byte[]>;
 
 public class SerializeTblHandler(
     ITblBinarySerializer binarySerializer,

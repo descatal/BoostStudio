@@ -47,13 +47,13 @@ const ExportDialog = ({ ...props }: ExportDialogProps) => {
     setHitboxesSelected,
     setProjectilesSelected,
   } = useExportDialogStore()
-  const unit = useUnitsStore((state) => state.selectedUnit)
+  const unit = useUnitsStore((state) => state.selectedUnits)
   const [isCreatePending, startCreateTransition] = React.useTransition()
 
   const form = useForm<ExportDialogSchema>({
     resolver: zodResolver(exportDialogSchema),
     defaultValues: {
-      unitId: unit?.unitId,
+      unitId: unit[0]?.unitId,
       stats: statsSelected,
       ammo: ammoSelected,
       projectile: projectilesSelected,

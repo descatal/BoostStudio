@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
-import {
-  GetApiHitboxes200Response,
-  GetApiHitboxesByHash200Response,
-} from "@/api/exvs"
+import { GetApiHitboxes200Response } from "@/api/exvs/models/GetApiHitboxes200Response"
+import { GetApiHitboxesByHash200Response } from "@/api/exvs/models/GetApiHitboxesByHash200Response"
 import { fetchHitboxes, updateHitbox } from "@/api/wrapper/hitbox-api"
 import { DataTableFilterField } from "@/types"
 
@@ -77,6 +75,7 @@ const Hitboxes = ({ unitId }: { unitId: number }) => {
   const filterFields: DataTableFilterField<GetApiHitboxesByHash200Response>[] =
     [
       {
+        type: "input",
         label: "Title",
         value: "hash",
         placeholder: "Search by hash",

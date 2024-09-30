@@ -14,11 +14,8 @@ public class AssetFileConfiguration : IEntityTypeConfiguration<AssetFile>
         
         builder.Property(assetFile => assetFile.Order)
             .ValueGeneratedOnAdd();
-        
-        builder.HasOne<Unit>(assetFile => assetFile.Unit)
-            .WithMany(unit => unit.AssetFiles)
-            .HasForeignKey(assetFile => assetFile.GameUnitId)
-            .HasPrincipalKey(unit => unit.GameUnitId)
-            .IsRequired(false);
+
+        builder.HasMany(assetFile => assetFile.Units)
+            .WithMany(unit => unit.AssetFiles);
     }
 }

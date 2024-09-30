@@ -26,7 +26,7 @@ public class Configs : EndpointGroupBase
         return await sender.Send(query, cancellationToken);
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> CreateOrUpdateConfig(
         ISender sender, 
         UpsertConfigCommand command, 
@@ -36,14 +36,14 @@ public class Configs : EndpointGroupBase
         return Results.NoContent();
     }
     
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    // [Produces(MediaTypeNames.Application.Json)]
+    // [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     private static async Task<string> GetConfigByKey(ISender sender, string key, CancellationToken cancellationToken)
     {
         return await sender.Send(new GetConfigByKeyQuery(key), cancellationToken);
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> DeleteConfigByKey(ISender sender, string key, CancellationToken cancellationToken)
     {
         await sender.Send(new DeleteConfigCommand(key), cancellationToken);

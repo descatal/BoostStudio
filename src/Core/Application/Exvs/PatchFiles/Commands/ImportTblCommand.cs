@@ -54,7 +54,7 @@ public class ImportTblCommandHandler(
             var tbl = existingTbl.FirstOrDefault(entity => entity.Id == version);
             if (tbl is null)
             {
-                tbl = new Tbl
+                tbl = new Domain.Entities.Tbl.Tbl
                 {
                     Id = version
                 };
@@ -101,6 +101,7 @@ public class ImportTblCommandHandler(
                 
                 assetFile.Order = (uint)(index + 1); // db can't store 0 because of ValueGeneratedOnAdd
                 assetFile.Hash = fileInfoBody.FileInfo.HashName;
+                
                 patchFile.AssetFile = assetFile;
 
                 var patchFileInfo = patchFile.FileInfo ?? new PatchFileInfo();

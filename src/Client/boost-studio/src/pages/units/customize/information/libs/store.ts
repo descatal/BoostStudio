@@ -3,7 +3,7 @@
 export type InformationTabModes = "stats" | "ammo" | "projectiles" | "hitboxes"
 
 type State = {
-  selectedTab: "stats" | "ammo" | "projectiles" | "hitboxes"
+  selectedTab: InformationTabModes
 }
 
 type Action = {

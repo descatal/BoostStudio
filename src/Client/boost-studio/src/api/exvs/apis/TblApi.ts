@@ -15,15 +15,70 @@
 
 import * as runtime from '../runtime';
 import type {
-  PostApiTblDeserialize200Response,
-  TblMetadata3,
+  AssetFileType,
+  CreatePatchFileCommand,
+  ExportTblCommand,
+  PaginatedListOfPatchFileSummaryVm,
+  PaginatedListOfPatchFileVm,
+  PatchFileVersion,
+  PatchFileVm,
+  SerializeTbl,
+  TblDto,
+  TblVm,
+  UpdatePatchFileByIdCommand,
 } from '../models/index';
 import {
-    PostApiTblDeserialize200ResponseFromJSON,
-    PostApiTblDeserialize200ResponseToJSON,
-    TblMetadata3FromJSON,
-    TblMetadata3ToJSON,
+    AssetFileTypeFromJSON,
+    AssetFileTypeToJSON,
+    CreatePatchFileCommandFromJSON,
+    CreatePatchFileCommandToJSON,
+    ExportTblCommandFromJSON,
+    ExportTblCommandToJSON,
+    PaginatedListOfPatchFileSummaryVmFromJSON,
+    PaginatedListOfPatchFileSummaryVmToJSON,
+    PaginatedListOfPatchFileVmFromJSON,
+    PaginatedListOfPatchFileVmToJSON,
+    PatchFileVersionFromJSON,
+    PatchFileVersionToJSON,
+    PatchFileVmFromJSON,
+    PatchFileVmToJSON,
+    SerializeTblFromJSON,
+    SerializeTblToJSON,
+    TblDtoFromJSON,
+    TblDtoToJSON,
+    TblVmFromJSON,
+    TblVmToJSON,
+    UpdatePatchFileByIdCommandFromJSON,
+    UpdatePatchFileByIdCommandToJSON,
 } from '../models/index';
+
+export interface DeleteApiPatchFilesByIdRequest {
+    id: string;
+}
+
+export interface GetApiPatchFilesRequest {
+    page?: number;
+    perPage?: number;
+    search?: string;
+    tblIds?: Array<PatchFileVersion>;
+    unitIds?: Array<number>;
+}
+
+export interface GetApiPatchFilesByIdRequest {
+    id: string;
+}
+
+export interface GetApiPatchFilesSummaryRequest {
+    page?: number;
+    perPage?: number;
+    tblIds?: Array<PatchFileVersion>;
+    unitIds?: Array<number>;
+    assetFileTypes?: Array<AssetFileType>;
+}
+
+export interface GetApiTblByIdRequest {
+    id: PatchFileVersion;
+}
 
 export interface GetApiTblDeserializePathRequest {
     filePath: string;
@@ -33,12 +88,29 @@ export interface GetApiTblSerializePathRequest {
     filePath: string;
 }
 
+export interface PostApiPatchFilesRequest {
+    createPatchFileCommand: CreatePatchFileCommand;
+}
+
+export interface PostApiPatchFilesByIdRequest {
+    id: string;
+    updatePatchFileByIdCommand: UpdatePatchFileByIdCommand;
+}
+
 export interface PostApiTblDeserializeRequest {
-    file?: Blob;
+    file: Blob;
+}
+
+export interface PostApiTblExportRequest {
+    exportTblCommand: ExportTblCommand;
+}
+
+export interface PostApiTblImportRequest {
+    files: Array<Blob>;
 }
 
 export interface PostApiTblSerializeRequest {
-    postApiTblDeserialize200Response: PostApiTblDeserialize200Response;
+    serializeTbl: SerializeTbl;
 }
 
 /**
@@ -48,7 +120,187 @@ export class TblApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiTblDeserializePathRaw(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TblMetadata3>> {
+    async deleteApiPatchFilesByIdRaw(requestParameters: DeleteApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling deleteApiPatchFilesById().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/patch-files/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async deleteApiPatchFilesById(requestParameters: DeleteApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.deleteApiPatchFilesByIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async getApiPatchFilesRaw(requestParameters: GetApiPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfPatchFileVm>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['Page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['perPage'] != null) {
+            queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['search'] != null) {
+            queryParameters['Search'] = requestParameters['search'];
+        }
+
+        if (requestParameters['tblIds'] != null) {
+            queryParameters['TblIds'] = requestParameters['tblIds'];
+        }
+
+        if (requestParameters['unitIds'] != null) {
+            queryParameters['UnitIds'] = requestParameters['unitIds'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/patch-files`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfPatchFileVmFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiPatchFiles(requestParameters: GetApiPatchFilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfPatchFileVm> {
+        const response = await this.getApiPatchFilesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiPatchFilesByIdRaw(requestParameters: GetApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PatchFileVm>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getApiPatchFilesById().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/patch-files/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PatchFileVmFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiPatchFilesById(requestParameters: GetApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PatchFileVm> {
+        const response = await this.getApiPatchFilesByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiPatchFilesSummaryRaw(requestParameters: GetApiPatchFilesSummaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfPatchFileSummaryVm>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['Page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['perPage'] != null) {
+            queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['tblIds'] != null) {
+            queryParameters['TblIds'] = requestParameters['tblIds'];
+        }
+
+        if (requestParameters['unitIds'] != null) {
+            queryParameters['UnitIds'] = requestParameters['unitIds'];
+        }
+
+        if (requestParameters['assetFileTypes'] != null) {
+            queryParameters['AssetFileTypes'] = requestParameters['assetFileTypes'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/patch-files/summary`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfPatchFileSummaryVmFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiPatchFilesSummary(requestParameters: GetApiPatchFilesSummaryRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfPatchFileSummaryVm> {
+        const response = await this.getApiPatchFilesSummaryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiTblByIdRaw(requestParameters: GetApiTblByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TblVm>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getApiTblById().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/tbl/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TblVmFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiTblById(requestParameters: GetApiTblByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TblVm> {
+        const response = await this.getApiTblByIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiTblDeserializePathRaw(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TblDto>> {
         if (requestParameters['filePath'] == null) {
             throw new runtime.RequiredError(
                 'filePath',
@@ -71,12 +323,12 @@ export class TblApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TblMetadata3FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TblDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiTblDeserializePath(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TblMetadata3> {
+    async getApiTblDeserializePath(requestParameters: GetApiTblDeserializePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TblDto> {
         const response = await this.getApiTblDeserializePathRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -117,7 +369,87 @@ export class TblApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiTblDeserializeRaw(requestParameters: PostApiTblDeserializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PostApiTblDeserialize200Response>> {
+    async postApiPatchFilesRaw(requestParameters: PostApiPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createPatchFileCommand'] == null) {
+            throw new runtime.RequiredError(
+                'createPatchFileCommand',
+                'Required parameter "createPatchFileCommand" was null or undefined when calling postApiPatchFiles().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/patch-files`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CreatePatchFileCommandToJSON(requestParameters['createPatchFileCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiPatchFiles(requestParameters: PostApiPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPatchFilesRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiPatchFilesByIdRaw(requestParameters: PostApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling postApiPatchFilesById().'
+            );
+        }
+
+        if (requestParameters['updatePatchFileByIdCommand'] == null) {
+            throw new runtime.RequiredError(
+                'updatePatchFileByIdCommand',
+                'Required parameter "updatePatchFileByIdCommand" was null or undefined when calling postApiPatchFilesById().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/patch-files/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdatePatchFileByIdCommandToJSON(requestParameters['updatePatchFileByIdCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiPatchFilesById(requestParameters: PostApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPatchFilesByIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiTblDeserializeRaw(requestParameters: PostApiTblDeserializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<TblDto>> {
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling postApiTblDeserialize().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -150,23 +482,109 @@ export class TblApi extends runtime.BaseAPI {
             body: formParams,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PostApiTblDeserialize200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TblDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async postApiTblDeserialize(requestParameters: PostApiTblDeserializeRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PostApiTblDeserialize200Response> {
+    async postApiTblDeserialize(requestParameters: PostApiTblDeserializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<TblDto> {
         const response = await this.postApiTblDeserializeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async postApiTblSerializeRaw(requestParameters: PostApiTblSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiTblDeserialize200Response'] == null) {
+    async postApiTblExportRaw(requestParameters: PostApiTblExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportTblCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiTblDeserialize200Response',
-                'Required parameter "postApiTblDeserialize200Response" was null or undefined when calling postApiTblSerialize().'
+                'exportTblCommand',
+                'Required parameter "exportTblCommand" was null or undefined when calling postApiTblExport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/tbl/export`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ExportTblCommandToJSON(requestParameters['exportTblCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiTblExport(requestParameters: PostApiTblExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiTblExportRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiTblImportRaw(requestParameters: PostApiTblImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['files'] == null) {
+            throw new runtime.RequiredError(
+                'files',
+                'Required parameter "files" was null or undefined when calling postApiTblImport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['files'] != null) {
+            requestParameters['files'].forEach((element) => {
+                formParams.append('files', element as any);
+            })
+        }
+
+        const response = await this.request({
+            path: `/api/tbl/import`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiTblImport(requestParameters: PostApiTblImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiTblImportRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiTblSerializeRaw(requestParameters: PostApiTblSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['serializeTbl'] == null) {
+            throw new runtime.RequiredError(
+                'serializeTbl',
+                'Required parameter "serializeTbl" was null or undefined when calling postApiTblSerialize().'
             );
         }
 
@@ -181,7 +599,7 @@ export class TblApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiTblDeserialize200ResponseToJSON(requestParameters['postApiTblDeserialize200Response']),
+            body: SerializeTblToJSON(requestParameters['serializeTbl']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

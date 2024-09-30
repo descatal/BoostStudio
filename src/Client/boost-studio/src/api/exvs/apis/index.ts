@@ -1,6 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from './AmmoApi';
+export * from './AssetsApi';
 export * from './ConfigsApi';
 export * from './FhmApi';
 export * from './HitboxesApi';

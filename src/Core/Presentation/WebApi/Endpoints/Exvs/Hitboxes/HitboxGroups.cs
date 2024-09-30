@@ -25,7 +25,7 @@ public class HitboxGroups : EndpointGroupBase
     }
     
     [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(PaginatedList<HitboxGroupDto>), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(PaginatedList<HitboxGroupDto>), StatusCodes.Status200OK)]
     private static async Task<PaginatedList<HitboxGroupDto>> GetHitboxGroupsWithPagination(
         ISender sender, 
         [AsParameters] GetHitboxGroupWithPaginationQuery request)
@@ -34,27 +34,27 @@ public class HitboxGroups : EndpointGroupBase
     }
     
     [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
     private static async Task<HitboxGroupDto> GetHitboxGroupByHash(ISender sender, [FromRoute] uint hash)
     {
         return await sender.Send(new GetHitboxGroupByHashQuery(hash));
     }
     
     [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
     private static async Task<HitboxGroupDto> GetHitboxGroupByUnitId(ISender sender, [FromRoute] uint unitId)
     {
         return await sender.Send(new GetHitboxGroupByUnitIdQuery(unitId));
     }
     
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> CreateHitboxGroup(ISender sender, CreateHitboxGroupCommand command, CancellationToken cancellationToken)
     {
         await sender.Send(command, cancellationToken);
         return Results.Created();
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> UpdateHitboxGroup(ISender sender, uint hash, UpdateHitboxGroupCommand command, CancellationToken cancellationToken)
     {
         if (hash != command.Hash) return Results.BadRequest();
@@ -62,7 +62,7 @@ public class HitboxGroups : EndpointGroupBase
         return Results.NoContent();
     }
     
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> ImportHitboxGroups(ISender sender, [FromForm] IFormFile file, uint? unitId, CancellationToken cancellationToken)
     {
         // var importHitboxGroupDetailsArray = data
@@ -80,7 +80,7 @@ public class HitboxGroups : EndpointGroupBase
         return Results.Created();
     }
     
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> ImportHitboxGroupsByPath(
         ISender sender, 
         string directoryPath,
@@ -113,7 +113,7 @@ public class HitboxGroups : EndpointGroupBase
         return Results.Created();
     }
     
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
     private static async Task<IResult> ExportHitboxGroups(
         ISender sender, 
         ExportHitboxGroupCommand groupCommand, 
@@ -123,7 +123,7 @@ public class HitboxGroups : EndpointGroupBase
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? ContentType.Application.Octet, fileInfo.FileName);
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> ExportHitboxGroupsByPath(
         ISender sender, 
         ExportHitboxGroupByPathCommand groupCommand, 

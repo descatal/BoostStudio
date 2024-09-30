@@ -1,6 +1,7 @@
 ﻿"use client"
 
-import { GetApiStatsById200Response } from "@/api/exvs/models/GetApiStatsById200Response"
+import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner"
+import { GetApiUnitStats200ResponseItemsInner } from "@/api/exvs/models/GetApiUnitStats200ResponseItemsInner"
 import { createStats, deleteStats } from "@/api/wrapper/stats-api"
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
@@ -25,7 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export const statGroupColumns: ColumnDef<GetApiStatsById200Response>[] = [
+export const statGroupColumns: ColumnDef<GetApiStats200ResponseItemsInner>[] = [
   {
     accessorKey: "order",
     header: "Group",
@@ -643,7 +644,7 @@ export const statGroupColumns: ColumnDef<GetApiStatsById200Response>[] = [
                       ...data,
                       id: undefined,
                     })
-                    await createStats({ ...data })
+                    // await createStats(data)
                     await table.options.meta?.fetchData()
                   }}
                 >

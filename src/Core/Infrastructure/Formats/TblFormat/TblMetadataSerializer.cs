@@ -90,7 +90,7 @@ public class TblMetadataSerializer : ITblMetadataSerializer
     
     public Task<TblDto> SerializeDtoAsync(TblBinaryFormat data, CancellationToken cancellationToken)
     {
-        var fileMetadata = new List<PatchFileDto>();
+        var fileMetadata = new List<PatchFileMetadataDto>();
     
         for (var index = 0; index < data.CumulativeFileCount; index++)
         {
@@ -109,7 +109,7 @@ public class TblMetadataSerializer : ITblMetadataSerializer
                 Size4: fileInfo.Size4,
                 HashName: fileInfo.HashName);
     
-            fileMetadata.Add(new PatchFileDto(FileInfoMetadata: infoMetadata, Path: fileInfo.PathBody?.Path));
+            fileMetadata.Add(new PatchFileMetadataDto(FileInfoMetadata: infoMetadata, Path: fileInfo.PathBody?.Path));
         }
     
         var fileInfoPathIndices = data.FileInfos
@@ -120,7 +120,7 @@ public class TblMetadataSerializer : ITblMetadataSerializer
     
         var filePathsWithoutInfo = data.FilePaths
             .Where(((_, i) => !fileInfoPathIndices.Contains(i)))
-            .Select(filePathBody => new PatchFileDto(Path: filePathBody?.Path))
+            .Select(filePathBody => new PatchFileMetadataDto(Path: filePathBody?.Path))
             .ToList();
     
         fileMetadata.AddRange(filePathsWithoutInfo);

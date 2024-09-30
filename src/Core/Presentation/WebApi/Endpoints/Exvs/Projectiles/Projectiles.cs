@@ -21,7 +21,7 @@ public class Projectiles : EndpointGroupBase
             .MapDelete(DeleteProjectileById, "{hash}");
     }
 
-    [ProducesResponseType(typeof(PaginatedList<ProjectileDto>), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(PaginatedList<ProjectileDto>), StatusCodes.Status200OK)]
     private static async Task<PaginatedList<ProjectileDto>> GetProjectileByPagination(
         ISender sender,
         [AsParameters] GetProjectileWithPaginationQuery request,
@@ -30,20 +30,20 @@ public class Projectiles : EndpointGroupBase
         return await sender.Send(request, cancellationToken);
     }
 
-    [ProducesResponseType(typeof(ProjectileDto), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(ProjectileDto), StatusCodes.Status200OK)]
     private static async Task<ProjectileDto> GetProjectileById(ISender sender, uint hash, CancellationToken cancellationToken)
     {
         return await sender.Send(new GetProjectileByHashQuery(hash), cancellationToken);
     }
 
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> CreateProjectile(ISender sender, CreateProjectileCommand request, CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
         return Results.Created();
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> UpdateProjectileByHash(ISender sender, [FromRoute] uint hash, UpdateProjectileByIdCommand byIdCommand, CancellationToken cancellationToken)
     {
         if (hash != byIdCommand.Hash) return Results.BadRequest();
@@ -51,7 +51,7 @@ public class Projectiles : EndpointGroupBase
         return Results.NoContent();
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> DeleteProjectileById(ISender sender, uint hash, CancellationToken cancellationToken)
     {
         await sender.Send(new DeleteProjectileByHashCommand(hash), cancellationToken);

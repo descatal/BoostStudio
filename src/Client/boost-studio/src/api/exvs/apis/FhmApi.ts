@@ -18,7 +18,7 @@ import * as runtime from '../runtime';
 export interface GetApiFhmPackPathRequest {
     sourcePath: string;
     destinationPath: string;
-    fileName?: string | null;
+    fileName?: string;
 }
 
 export interface GetApiFhmUnpackPathRequest {
@@ -28,11 +28,11 @@ export interface GetApiFhmUnpackPathRequest {
 }
 
 export interface PostApiFhmPackRequest {
-    file?: Blob;
+    file: Blob;
 }
 
 export interface PostApiFhmUnpackRequest {
-    file?: Blob;
+    file: Blob;
 }
 
 /**
@@ -141,6 +141,13 @@ export class FhmApi extends runtime.BaseAPI {
     /**
      */
     async postApiFhmPackRaw(requestParameters: PostApiFhmPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling postApiFhmPack().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -178,13 +185,20 @@ export class FhmApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiFhmPack(requestParameters: PostApiFhmPackRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiFhmPack(requestParameters: PostApiFhmPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiFhmPackRaw(requestParameters, initOverrides);
     }
 
     /**
      */
     async postApiFhmUnpackRaw(requestParameters: PostApiFhmUnpackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling postApiFhmUnpack().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -222,7 +236,7 @@ export class FhmApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiFhmUnpack(requestParameters: PostApiFhmUnpackRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiFhmUnpack(requestParameters: PostApiFhmUnpackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiFhmUnpackRaw(requestParameters, initOverrides);
     }
 

@@ -2,17 +2,17 @@
 import { create } from "zustand"
 
 type State = {
-  selectedUnit: UnitDto | undefined
+  selectedUnits: UnitDto[] | undefined
 }
 
 type Action = {
-  setSelectedUnit: (selectedUnit: State["selectedUnit"]) => void
+  setSelectedUnits: (selectedUnits: State["selectedUnits"]) => void
 }
 
 export const useUnitsStore = create<State & Action>((set) => ({
-  selectedUnit: undefined,
-  setSelectedUnit: (selectedUnit) =>
+  selectedUnits: undefined,
+  setSelectedUnits: (selectedUnits) =>
     set(() => ({
-      selectedUnit: selectedUnit,
+      selectedUnits: selectedUnits,
     })),
 }))

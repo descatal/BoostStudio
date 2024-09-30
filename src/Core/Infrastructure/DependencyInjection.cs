@@ -15,6 +15,7 @@ using BoostStudio.Infrastructure.Data;
 using BoostStudio.Infrastructure.Data.Interceptors;
 using BoostStudio.Infrastructure.Data.Repositories;
 using BoostStudio.Infrastructure.Formats.AmmoFormat;
+using BoostStudio.Infrastructure.Formats.AssetFileFormat;
 using BoostStudio.Infrastructure.Formats.AudioFormats;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Bnsf;
 using BoostStudio.Infrastructure.Formats.AudioFormats.Nus3;
@@ -99,6 +100,7 @@ public static class DependencyInjection
         services.AddTransient<IFormatBinarySerializer<Fhm>, FhmBinarySerializer>();
         services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
         
+        services.AddTransient<IAssetFilesBinarySerializer, AssetFilesBinarySerializerSerializer>();
         services.AddTransient<IUnitStatBinarySerializer, UnitStatBinarySerializer>();
         services.AddTransient<IUnitProjectileBinarySerializer, UnitProjectileBinarySerializer>();
         services.AddTransient<IHitboxGroupBinarySerializer, HitboxGroupBinarySerializer>();

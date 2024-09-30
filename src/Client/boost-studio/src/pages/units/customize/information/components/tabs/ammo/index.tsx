@@ -1,5 +1,6 @@
 ﻿import React, { useCallback, useEffect, useState } from "react"
-import { AmmoDto, GetApiAmmo200Response } from "@/api/exvs"
+import { AmmoDto } from "@/api/exvs"
+import { GetApiAmmo200Response } from "@/api/exvs/models/GetApiAmmo200Response"
 import { fetchAmmo, updateAmmo } from "@/api/wrapper/ammo-api"
 import { DataTableFilterField } from "@/types"
 

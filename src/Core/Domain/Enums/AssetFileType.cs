@@ -3,6 +3,9 @@
 public enum AssetFileType
 {
     Unknown,
+ 
+    // Unit specific types
+    Dummy,
     Animations,
     Models,
     Data,
@@ -13,5 +16,23 @@ public enum AssetFileType
     InGameCutInSprites,
     SpriteFrames,
     VoiceLinesMetadata,
-    PilotVoiceLines
+    PilotVoiceLines,
+    
+    // Common types
+    Hitbox,
+    Projectiles,
+    Ammo,
+    RosterInfo,
+    UnitCostInfo,
+    FigurineSprites,
+    MapSelectSprites,
+    ArcadeSelectSmallSprites,
+    ArcadeSelectUnitNameSprites,
+    CameraConfigs,
+    CommonEffects,
+    CommonEffectParticles,
+    CosmeticInfo,
+    TextStrings,
+    SeriesLogoSprites,
+    SeriesLogoSprites2,
 }

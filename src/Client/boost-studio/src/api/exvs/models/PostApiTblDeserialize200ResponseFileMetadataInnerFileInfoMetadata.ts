@@ -54,6 +54,12 @@ export interface PostApiTblDeserialize200ResponseFileMetadataInnerFileInfoMetada
      * @type {number}
      * @memberof PostApiTblDeserialize200ResponseFileMetadataInnerFileInfoMetadata
      */
+    size4: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PostApiTblDeserialize200ResponseFileMetadataInnerFileInfoMetadata
+     */
     hashName: number;
 }
 
@@ -66,6 +72,7 @@ export function instanceOfPostApiTblDeserialize200ResponseFileMetadataInnerFileI
     if (!('size1' in value) || value['size1'] === undefined) return false;
     if (!('size2' in value) || value['size2'] === undefined) return false;
     if (!('size3' in value) || value['size3'] === undefined) return false;
+    if (!('size4' in value) || value['size4'] === undefined) return false;
     if (!('hashName' in value) || value['hashName'] === undefined) return false;
     return true;
 }
@@ -85,6 +92,7 @@ export function PostApiTblDeserialize200ResponseFileMetadataInnerFileInfoMetadat
         'size1': json['size1'],
         'size2': json['size2'],
         'size3': json['size3'],
+        'size4': json['size4'],
         'hashName': json['hashName'],
     };
 }
@@ -100,6 +108,7 @@ export function PostApiTblDeserialize200ResponseFileMetadataInnerFileInfoMetadat
         'size1': value['size1'],
         'size2': value['size2'],
         'size3': value['size3'],
+        'size4': value['size4'],
         'hashName': value['hashName'],
     };
 }

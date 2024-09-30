@@ -15,29 +15,32 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetApiHitboxes200Response,
-  GetApiHitboxesByHash200Response,
-  PostApiHitboxGroupsExportPathRequest,
-  PostApiHitboxGroupsExportRequest,
-  PostApiHitboxGroupsRequest,
-  PostApiHitboxesByHashRequest,
-  PostApiHitboxesRequest,
+  CreateHitboxCommand,
+  CreateHitboxGroupCommand,
+  ExportHitboxGroupByPathCommand,
+  ExportHitboxGroupCommand,
+  HitboxDto,
+  PaginatedListOfHitboxDto,
+  UpdateHitboxCommand,
+  UpdateHitboxGroupCommand,
 } from '../models/index';
 import {
-    GetApiHitboxes200ResponseFromJSON,
-    GetApiHitboxes200ResponseToJSON,
-    GetApiHitboxesByHash200ResponseFromJSON,
-    GetApiHitboxesByHash200ResponseToJSON,
-    PostApiHitboxGroupsExportPathRequestFromJSON,
-    PostApiHitboxGroupsExportPathRequestToJSON,
-    PostApiHitboxGroupsExportRequestFromJSON,
-    PostApiHitboxGroupsExportRequestToJSON,
-    PostApiHitboxGroupsRequestFromJSON,
-    PostApiHitboxGroupsRequestToJSON,
-    PostApiHitboxesByHashRequestFromJSON,
-    PostApiHitboxesByHashRequestToJSON,
-    PostApiHitboxesRequestFromJSON,
-    PostApiHitboxesRequestToJSON,
+    CreateHitboxCommandFromJSON,
+    CreateHitboxCommandToJSON,
+    CreateHitboxGroupCommandFromJSON,
+    CreateHitboxGroupCommandToJSON,
+    ExportHitboxGroupByPathCommandFromJSON,
+    ExportHitboxGroupByPathCommandToJSON,
+    ExportHitboxGroupCommandFromJSON,
+    ExportHitboxGroupCommandToJSON,
+    HitboxDtoFromJSON,
+    HitboxDtoToJSON,
+    PaginatedListOfHitboxDtoFromJSON,
+    PaginatedListOfHitboxDtoToJSON,
+    UpdateHitboxCommandFromJSON,
+    UpdateHitboxCommandToJSON,
+    UpdateHitboxGroupCommandFromJSON,
+    UpdateHitboxGroupCommandToJSON,
 } from '../models/index';
 
 export interface DeleteApiHitboxesByHashRequest {
@@ -47,8 +50,8 @@ export interface DeleteApiHitboxesByHashRequest {
 export interface GetApiHitboxGroupsRequest {
     page?: number;
     perPage?: number;
-    hashes?: Array<number> | null;
-    unitIds?: Array<number> | null;
+    hashes?: Array<number>;
+    unitIds?: Array<number>;
 }
 
 export interface GetApiHitboxGroupsHashByHashRequest {
@@ -62,48 +65,48 @@ export interface GetApiHitboxGroupsUnitIdByUnitIdRequest {
 export interface GetApiHitboxesRequest {
     page?: number;
     perPage?: number;
-    hashes?: Array<number> | null;
-    unitIds?: Array<number> | null;
-    search?: string | null;
+    hashes?: Array<number>;
+    unitIds?: Array<number>;
+    search?: string;
 }
 
 export interface GetApiHitboxesByHashRequest {
     hash: number;
 }
 
-export interface PostApiHitboxGroupsOperationRequest {
-    postApiHitboxGroupsRequest: PostApiHitboxGroupsRequest;
+export interface PostApiHitboxGroupsRequest {
+    createHitboxGroupCommand: CreateHitboxGroupCommand;
 }
 
 export interface PostApiHitboxGroupsByHashRequest {
     hash: number;
-    postApiHitboxGroupsRequest: PostApiHitboxGroupsRequest;
+    updateHitboxGroupCommand: UpdateHitboxGroupCommand;
 }
 
-export interface PostApiHitboxGroupsExportOperationRequest {
-    postApiHitboxGroupsExportRequest: PostApiHitboxGroupsExportRequest;
+export interface PostApiHitboxGroupsExportRequest {
+    exportHitboxGroupCommand: ExportHitboxGroupCommand;
 }
 
-export interface PostApiHitboxGroupsExportPathOperationRequest {
-    postApiHitboxGroupsExportPathRequest: PostApiHitboxGroupsExportPathRequest;
+export interface PostApiHitboxGroupsExportPathRequest {
+    exportHitboxGroupByPathCommand: ExportHitboxGroupByPathCommand;
 }
 
 export interface PostApiHitboxGroupsImportRequest {
-    unitId?: number | null;
-    file?: Blob;
+    file: Blob;
+    unitId?: number;
 }
 
 export interface PostApiHitboxGroupsImportPathRequest {
     directoryPath: string;
 }
 
-export interface PostApiHitboxesOperationRequest {
-    postApiHitboxesRequest: PostApiHitboxesRequest;
+export interface PostApiHitboxesRequest {
+    createHitboxCommand: CreateHitboxCommand;
 }
 
-export interface PostApiHitboxesByHashOperationRequest {
+export interface PostApiHitboxesByHashRequest {
     hash: number;
-    postApiHitboxesByHashRequest: PostApiHitboxesByHashRequest;
+    updateHitboxCommand: UpdateHitboxCommand;
 }
 
 /**
@@ -242,7 +245,7 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiHitboxesRaw(requestParameters: GetApiHitboxesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiHitboxes200Response>> {
+    async getApiHitboxesRaw(requestParameters: GetApiHitboxesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfHitboxDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -274,19 +277,19 @@ export class HitboxesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiHitboxes200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfHitboxDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiHitboxes(requestParameters: GetApiHitboxesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiHitboxes200Response> {
+    async getApiHitboxes(requestParameters: GetApiHitboxesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfHitboxDto> {
         const response = await this.getApiHitboxesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getApiHitboxesByHashRaw(requestParameters: GetApiHitboxesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiHitboxesByHash200Response>> {
+    async getApiHitboxesByHashRaw(requestParameters: GetApiHitboxesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HitboxDto>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -305,23 +308,23 @@ export class HitboxesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiHitboxesByHash200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => HitboxDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiHitboxesByHash(requestParameters: GetApiHitboxesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiHitboxesByHash200Response> {
+    async getApiHitboxesByHash(requestParameters: GetApiHitboxesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HitboxDto> {
         const response = await this.getApiHitboxesByHashRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async postApiHitboxGroupsRaw(requestParameters: PostApiHitboxGroupsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiHitboxGroupsRequest'] == null) {
+    async postApiHitboxGroupsRaw(requestParameters: PostApiHitboxGroupsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createHitboxGroupCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiHitboxGroupsRequest',
-                'Required parameter "postApiHitboxGroupsRequest" was null or undefined when calling postApiHitboxGroups().'
+                'createHitboxGroupCommand',
+                'Required parameter "createHitboxGroupCommand" was null or undefined when calling postApiHitboxGroups().'
             );
         }
 
@@ -336,7 +339,7 @@ export class HitboxesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiHitboxGroupsRequestToJSON(requestParameters['postApiHitboxGroupsRequest']),
+            body: CreateHitboxGroupCommandToJSON(requestParameters['createHitboxGroupCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -344,7 +347,7 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxGroups(requestParameters: PostApiHitboxGroupsOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiHitboxGroups(requestParameters: PostApiHitboxGroupsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiHitboxGroupsRaw(requestParameters, initOverrides);
     }
 
@@ -358,10 +361,10 @@ export class HitboxesApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiHitboxGroupsRequest'] == null) {
+        if (requestParameters['updateHitboxGroupCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiHitboxGroupsRequest',
-                'Required parameter "postApiHitboxGroupsRequest" was null or undefined when calling postApiHitboxGroupsByHash().'
+                'updateHitboxGroupCommand',
+                'Required parameter "updateHitboxGroupCommand" was null or undefined when calling postApiHitboxGroupsByHash().'
             );
         }
 
@@ -376,7 +379,7 @@ export class HitboxesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiHitboxGroupsRequestToJSON(requestParameters['postApiHitboxGroupsRequest']),
+            body: UpdateHitboxGroupCommandToJSON(requestParameters['updateHitboxGroupCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -390,11 +393,11 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxGroupsExportRaw(requestParameters: PostApiHitboxGroupsExportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiHitboxGroupsExportRequest'] == null) {
+    async postApiHitboxGroupsExportRaw(requestParameters: PostApiHitboxGroupsExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportHitboxGroupCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiHitboxGroupsExportRequest',
-                'Required parameter "postApiHitboxGroupsExportRequest" was null or undefined when calling postApiHitboxGroupsExport().'
+                'exportHitboxGroupCommand',
+                'Required parameter "exportHitboxGroupCommand" was null or undefined when calling postApiHitboxGroupsExport().'
             );
         }
 
@@ -409,7 +412,7 @@ export class HitboxesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiHitboxGroupsExportRequestToJSON(requestParameters['postApiHitboxGroupsExportRequest']),
+            body: ExportHitboxGroupCommandToJSON(requestParameters['exportHitboxGroupCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -417,17 +420,17 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxGroupsExport(requestParameters: PostApiHitboxGroupsExportOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiHitboxGroupsExport(requestParameters: PostApiHitboxGroupsExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiHitboxGroupsExportRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiHitboxGroupsExportPathRaw(requestParameters: PostApiHitboxGroupsExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiHitboxGroupsExportPathRequest'] == null) {
+    async postApiHitboxGroupsExportPathRaw(requestParameters: PostApiHitboxGroupsExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportHitboxGroupByPathCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiHitboxGroupsExportPathRequest',
-                'Required parameter "postApiHitboxGroupsExportPathRequest" was null or undefined when calling postApiHitboxGroupsExportPath().'
+                'exportHitboxGroupByPathCommand',
+                'Required parameter "exportHitboxGroupByPathCommand" was null or undefined when calling postApiHitboxGroupsExportPath().'
             );
         }
 
@@ -442,7 +445,7 @@ export class HitboxesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiHitboxGroupsExportPathRequestToJSON(requestParameters['postApiHitboxGroupsExportPathRequest']),
+            body: ExportHitboxGroupByPathCommandToJSON(requestParameters['exportHitboxGroupByPathCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -450,13 +453,20 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxGroupsExportPath(requestParameters: PostApiHitboxGroupsExportPathOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiHitboxGroupsExportPath(requestParameters: PostApiHitboxGroupsExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiHitboxGroupsExportPathRaw(requestParameters, initOverrides);
     }
 
     /**
      */
     async postApiHitboxGroupsImportRaw(requestParameters: PostApiHitboxGroupsImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling postApiHitboxGroupsImport().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['unitId'] != null) {
@@ -498,7 +508,7 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxGroupsImport(requestParameters: PostApiHitboxGroupsImportRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiHitboxGroupsImport(requestParameters: PostApiHitboxGroupsImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiHitboxGroupsImportRaw(requestParameters, initOverrides);
     }
 
@@ -538,11 +548,11 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxesRaw(requestParameters: PostApiHitboxesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiHitboxesRequest'] == null) {
+    async postApiHitboxesRaw(requestParameters: PostApiHitboxesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createHitboxCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiHitboxesRequest',
-                'Required parameter "postApiHitboxesRequest" was null or undefined when calling postApiHitboxes().'
+                'createHitboxCommand',
+                'Required parameter "createHitboxCommand" was null or undefined when calling postApiHitboxes().'
             );
         }
 
@@ -557,7 +567,7 @@ export class HitboxesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiHitboxesRequestToJSON(requestParameters['postApiHitboxesRequest']),
+            body: CreateHitboxCommandToJSON(requestParameters['createHitboxCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -565,13 +575,13 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxes(requestParameters: PostApiHitboxesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiHitboxes(requestParameters: PostApiHitboxesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiHitboxesRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiHitboxesByHashRaw(requestParameters: PostApiHitboxesByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiHitboxesByHashRaw(requestParameters: PostApiHitboxesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -579,10 +589,10 @@ export class HitboxesApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiHitboxesByHashRequest'] == null) {
+        if (requestParameters['updateHitboxCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiHitboxesByHashRequest',
-                'Required parameter "postApiHitboxesByHashRequest" was null or undefined when calling postApiHitboxesByHash().'
+                'updateHitboxCommand',
+                'Required parameter "updateHitboxCommand" was null or undefined when calling postApiHitboxesByHash().'
             );
         }
 
@@ -597,7 +607,7 @@ export class HitboxesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiHitboxesByHashRequestToJSON(requestParameters['postApiHitboxesByHashRequest']),
+            body: UpdateHitboxCommandToJSON(requestParameters['updateHitboxCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -605,7 +615,7 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiHitboxesByHash(requestParameters: PostApiHitboxesByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiHitboxesByHash(requestParameters: PostApiHitboxesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiHitboxesByHashRaw(requestParameters, initOverrides);
     }
 

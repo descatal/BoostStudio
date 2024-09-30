@@ -15,26 +15,26 @@
 
 import * as runtime from '../runtime';
 import type {
-  GetApiProjectiles200Response,
-  GetApiProjectilesByHash200Response,
-  PostApiProjectilesByHashRequest,
-  PostApiProjectilesRequest,
-  PostApiUnitStatsExportPathRequest,
-  PostApiUnitStatsExportRequest,
+  CreateProjectileCommand,
+  ExportUnitProjectileByPathCommand,
+  ExportUnitProjectileCommand,
+  PaginatedListOfProjectileDto,
+  ProjectileDto,
+  UpdateProjectileByIdCommand,
 } from '../models/index';
 import {
-    GetApiProjectiles200ResponseFromJSON,
-    GetApiProjectiles200ResponseToJSON,
-    GetApiProjectilesByHash200ResponseFromJSON,
-    GetApiProjectilesByHash200ResponseToJSON,
-    PostApiProjectilesByHashRequestFromJSON,
-    PostApiProjectilesByHashRequestToJSON,
-    PostApiProjectilesRequestFromJSON,
-    PostApiProjectilesRequestToJSON,
-    PostApiUnitStatsExportPathRequestFromJSON,
-    PostApiUnitStatsExportPathRequestToJSON,
-    PostApiUnitStatsExportRequestFromJSON,
-    PostApiUnitStatsExportRequestToJSON,
+    CreateProjectileCommandFromJSON,
+    CreateProjectileCommandToJSON,
+    ExportUnitProjectileByPathCommandFromJSON,
+    ExportUnitProjectileByPathCommandToJSON,
+    ExportUnitProjectileCommandFromJSON,
+    ExportUnitProjectileCommandToJSON,
+    PaginatedListOfProjectileDtoFromJSON,
+    PaginatedListOfProjectileDtoToJSON,
+    ProjectileDtoFromJSON,
+    ProjectileDtoToJSON,
+    UpdateProjectileByIdCommandFromJSON,
+    UpdateProjectileByIdCommandToJSON,
 } from '../models/index';
 
 export interface DeleteApiProjectilesByHashRequest {
@@ -44,9 +44,9 @@ export interface DeleteApiProjectilesByHashRequest {
 export interface GetApiProjectilesRequest {
     page?: number;
     perPage?: number;
-    hashes?: Array<number> | null;
-    unitIds?: Array<number> | null;
-    search?: string | null;
+    hashes?: Array<number>;
+    unitIds?: Array<number>;
+    search?: string;
 }
 
 export interface GetApiProjectilesByHashRequest {
@@ -56,33 +56,33 @@ export interface GetApiProjectilesByHashRequest {
 export interface GetApiUnitProjectilesRequest {
     page?: number;
     perPage?: number;
-    unitIds?: Array<number> | null;
-    search?: string | null;
+    unitIds?: Array<number>;
+    search?: string;
 }
 
 export interface GetApiUnitProjectilesByUnitIdRequest {
     unitId: number;
 }
 
-export interface PostApiProjectilesOperationRequest {
-    postApiProjectilesRequest: PostApiProjectilesRequest;
+export interface PostApiProjectilesRequest {
+    createProjectileCommand: CreateProjectileCommand;
 }
 
-export interface PostApiProjectilesByHashOperationRequest {
+export interface PostApiProjectilesByHashRequest {
     hash: number;
-    postApiProjectilesByHashRequest: PostApiProjectilesByHashRequest;
+    updateProjectileByIdCommand: UpdateProjectileByIdCommand;
 }
 
 export interface PostApiUnitProjectilesExportRequest {
-    postApiUnitStatsExportRequest: PostApiUnitStatsExportRequest;
+    exportUnitProjectileCommand: ExportUnitProjectileCommand;
 }
 
 export interface PostApiUnitProjectilesExportPathRequest {
-    postApiUnitStatsExportPathRequest: PostApiUnitStatsExportPathRequest;
+    exportUnitProjectileByPathCommand: ExportUnitProjectileByPathCommand;
 }
 
 export interface PostApiUnitProjectilesImportRequest {
-    files?: Array<Blob>;
+    files: Array<Blob>;
 }
 
 export interface PostApiUnitProjectilesImportPathRequest {
@@ -126,7 +126,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiProjectilesRaw(requestParameters: GetApiProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiProjectiles200Response>> {
+    async getApiProjectilesRaw(requestParameters: GetApiProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfProjectileDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -158,19 +158,19 @@ export class ProjectilesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiProjectiles200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfProjectileDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiProjectiles(requestParameters: GetApiProjectilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiProjectiles200Response> {
+    async getApiProjectiles(requestParameters: GetApiProjectilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfProjectileDto> {
         const response = await this.getApiProjectilesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getApiProjectilesByHashRaw(requestParameters: GetApiProjectilesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetApiProjectilesByHash200Response>> {
+    async getApiProjectilesByHashRaw(requestParameters: GetApiProjectilesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ProjectileDto>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -189,12 +189,12 @@ export class ProjectilesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GetApiProjectilesByHash200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ProjectileDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiProjectilesByHash(requestParameters: GetApiProjectilesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<GetApiProjectilesByHash200Response> {
+    async getApiProjectilesByHash(requestParameters: GetApiProjectilesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ProjectileDto> {
         const response = await this.getApiProjectilesByHashRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -270,11 +270,11 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiProjectilesRaw(requestParameters: PostApiProjectilesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiProjectilesRequest'] == null) {
+    async postApiProjectilesRaw(requestParameters: PostApiProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['createProjectileCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiProjectilesRequest',
-                'Required parameter "postApiProjectilesRequest" was null or undefined when calling postApiProjectiles().'
+                'createProjectileCommand',
+                'Required parameter "createProjectileCommand" was null or undefined when calling postApiProjectiles().'
             );
         }
 
@@ -289,7 +289,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiProjectilesRequestToJSON(requestParameters['postApiProjectilesRequest']),
+            body: CreateProjectileCommandToJSON(requestParameters['createProjectileCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -297,13 +297,13 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiProjectiles(requestParameters: PostApiProjectilesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiProjectiles(requestParameters: PostApiProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiProjectilesRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiProjectilesByHashRaw(requestParameters: PostApiProjectilesByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiProjectilesByHashRaw(requestParameters: PostApiProjectilesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -311,10 +311,10 @@ export class ProjectilesApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['postApiProjectilesByHashRequest'] == null) {
+        if (requestParameters['updateProjectileByIdCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiProjectilesByHashRequest',
-                'Required parameter "postApiProjectilesByHashRequest" was null or undefined when calling postApiProjectilesByHash().'
+                'updateProjectileByIdCommand',
+                'Required parameter "updateProjectileByIdCommand" was null or undefined when calling postApiProjectilesByHash().'
             );
         }
 
@@ -329,7 +329,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiProjectilesByHashRequestToJSON(requestParameters['postApiProjectilesByHashRequest']),
+            body: UpdateProjectileByIdCommandToJSON(requestParameters['updateProjectileByIdCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -337,17 +337,17 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiProjectilesByHash(requestParameters: PostApiProjectilesByHashOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiProjectilesByHash(requestParameters: PostApiProjectilesByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiProjectilesByHashRaw(requestParameters, initOverrides);
     }
 
     /**
      */
     async postApiUnitProjectilesExportRaw(requestParameters: PostApiUnitProjectilesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiUnitStatsExportRequest'] == null) {
+        if (requestParameters['exportUnitProjectileCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitStatsExportRequest',
-                'Required parameter "postApiUnitStatsExportRequest" was null or undefined when calling postApiUnitProjectilesExport().'
+                'exportUnitProjectileCommand',
+                'Required parameter "exportUnitProjectileCommand" was null or undefined when calling postApiUnitProjectilesExport().'
             );
         }
 
@@ -362,7 +362,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitStatsExportRequestToJSON(requestParameters['postApiUnitStatsExportRequest']),
+            body: ExportUnitProjectileCommandToJSON(requestParameters['exportUnitProjectileCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -377,10 +377,10 @@ export class ProjectilesApi extends runtime.BaseAPI {
     /**
      */
     async postApiUnitProjectilesExportPathRaw(requestParameters: PostApiUnitProjectilesExportPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiUnitStatsExportPathRequest'] == null) {
+        if (requestParameters['exportUnitProjectileByPathCommand'] == null) {
             throw new runtime.RequiredError(
-                'postApiUnitStatsExportPathRequest',
-                'Required parameter "postApiUnitStatsExportPathRequest" was null or undefined when calling postApiUnitProjectilesExportPath().'
+                'exportUnitProjectileByPathCommand',
+                'Required parameter "exportUnitProjectileByPathCommand" was null or undefined when calling postApiUnitProjectilesExportPath().'
             );
         }
 
@@ -395,7 +395,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiUnitStatsExportPathRequestToJSON(requestParameters['postApiUnitStatsExportPathRequest']),
+            body: ExportUnitProjectileByPathCommandToJSON(requestParameters['exportUnitProjectileByPathCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -410,6 +410,13 @@ export class ProjectilesApi extends runtime.BaseAPI {
     /**
      */
     async postApiUnitProjectilesImportRaw(requestParameters: PostApiUnitProjectilesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['files'] == null) {
+            throw new runtime.RequiredError(
+                'files',
+                'Required parameter "files" was null or undefined when calling postApiUnitProjectilesImport().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -449,7 +456,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiUnitProjectilesImport(requestParameters: PostApiUnitProjectilesImportRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiUnitProjectilesImport(requestParameters: PostApiUnitProjectilesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitProjectilesImportRaw(requestParameters, initOverrides);
     }
 

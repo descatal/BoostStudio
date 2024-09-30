@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { GetApiHitboxesByHash200Response } from './GetApiHitboxesByHash200Response';
+import type { HitboxDto } from './HitboxDto';
 import {
-    GetApiHitboxesByHash200ResponseFromJSON,
-    GetApiHitboxesByHash200ResponseFromJSONTyped,
-    GetApiHitboxesByHash200ResponseToJSON,
-} from './GetApiHitboxesByHash200Response';
+    HitboxDtoFromJSON,
+    HitboxDtoFromJSONTyped,
+    HitboxDtoToJSON,
+} from './HitboxDto';
 
 /**
  * 
@@ -40,10 +40,10 @@ export interface HitboxGroupDto {
     hash?: number;
     /**
      * 
-     * @type {Array<GetApiHitboxesByHash200Response>}
+     * @type {Array<HitboxDto>}
      * @memberof HitboxGroupDto
      */
-    hitboxes?: Array<GetApiHitboxesByHash200Response>;
+    hitboxes?: Array<HitboxDto>;
 }
 
 /**
@@ -65,7 +65,7 @@ export function HitboxGroupDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
         'hash': json['hash'] == null ? undefined : json['hash'],
-        'hitboxes': json['hitboxes'] == null ? undefined : ((json['hitboxes'] as Array<any>).map(GetApiHitboxesByHash200ResponseFromJSON)),
+        'hitboxes': json['hitboxes'] == null ? undefined : ((json['hitboxes'] as Array<any>).map(HitboxDtoFromJSON)),
     };
 }
 
@@ -77,7 +77,7 @@ export function HitboxGroupDtoToJSON(value?: HitboxGroupDto | null): any {
         
         'unitIds': value['unitIds'],
         'hash': value['hash'],
-        'hitboxes': value['hitboxes'] == null ? undefined : ((value['hitboxes'] as Array<any>).map(GetApiHitboxesByHash200ResponseToJSON)),
+        'hitboxes': value['hitboxes'] == null ? undefined : ((value['hitboxes'] as Array<any>).map(HitboxDtoToJSON)),
     };
 }
 

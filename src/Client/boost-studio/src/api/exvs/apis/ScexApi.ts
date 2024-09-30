@@ -15,22 +15,22 @@
 
 import * as runtime from '../runtime';
 import type {
-  PostApiScexHotReloadRequest,
+  HotReloadScex,
 } from '../models/index';
 import {
-    PostApiScexHotReloadRequestFromJSON,
-    PostApiScexHotReloadRequestToJSON,
+    HotReloadScexFromJSON,
+    HotReloadScexToJSON,
 } from '../models/index';
 
 export interface GetApiScexCompileRequest {
     sourcePath: string;
     destinationPath: string;
-    fileName?: string | null;
+    fileName?: string;
     hotReload?: boolean;
 }
 
-export interface PostApiScexHotReloadOperationRequest {
-    postApiScexHotReloadRequest: PostApiScexHotReloadRequest;
+export interface PostApiScexHotReloadRequest {
+    hotReloadScex: HotReloadScex;
 }
 
 /**
@@ -93,11 +93,11 @@ export class ScexApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiScexHotReloadRaw(requestParameters: PostApiScexHotReloadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['postApiScexHotReloadRequest'] == null) {
+    async postApiScexHotReloadRaw(requestParameters: PostApiScexHotReloadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['hotReloadScex'] == null) {
             throw new runtime.RequiredError(
-                'postApiScexHotReloadRequest',
-                'Required parameter "postApiScexHotReloadRequest" was null or undefined when calling postApiScexHotReload().'
+                'hotReloadScex',
+                'Required parameter "hotReloadScex" was null or undefined when calling postApiScexHotReload().'
             );
         }
 
@@ -112,7 +112,7 @@ export class ScexApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PostApiScexHotReloadRequestToJSON(requestParameters['postApiScexHotReloadRequest']),
+            body: HotReloadScexToJSON(requestParameters['hotReloadScex']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -120,7 +120,7 @@ export class ScexApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiScexHotReload(requestParameters: PostApiScexHotReloadOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+    async postApiScexHotReload(requestParameters: PostApiScexHotReloadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiScexHotReloadRaw(requestParameters, initOverrides);
     }
 

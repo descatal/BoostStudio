@@ -59,7 +59,7 @@ public class UnitStats : EndpointGroupBase
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> ExportUnitStatByPath(
         ISender sender, 
         ExportUnitStatByPathCommand command, 
@@ -74,13 +74,13 @@ public class UnitStats : EndpointGroupBase
         return await sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
     }
 
-    [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
     private static async Task<Guid> CreateUnitAmmoSlot(ISender sender, CreateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         return await sender.Send(command, cancellationToken);
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> UpdateUnitAmmoSlotById(ISender sender, Guid id, UpdateUnitAmmoSlotCommand command, CancellationToken cancellationToken)
     {
         if (id != command.Id) return Results.BadRequest();
@@ -88,7 +88,7 @@ public class UnitStats : EndpointGroupBase
         return Results.NoContent();
     }
 
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> DeleteUnitAmmoSlotById(ISender sender, Guid id, CancellationToken cancellationToken)
     {
         await sender.Send(new DeleteUnitAmmoSlotCommand(id), cancellationToken);

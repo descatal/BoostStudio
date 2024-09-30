@@ -1,23 +1,31 @@
 ﻿"use client"
 
 import * as React from "react"
-import {flexRender, Table as TableType,} from "@tanstack/react-table"
+import { flexRender, Table as TableType } from "@tanstack/react-table"
 
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
-import {cn} from "@/lib/utils"
+import { getCommonPinningStyles } from "@/lib/data-table"
+import { cn } from "@/lib/utils"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 import { DataTablePagination } from "./data-table-pagination"
-
 
 interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
   table: TableType<TData>
 }
 
 export function DataTable<TData>({
-                                   table,
-                                   children,
-                                   className,
-                                   ...props
-                                 }: DataTableProps<TData>) {
+  table,
+  children,
+  className,
+  ...props
+}: DataTableProps<TData>) {
   const modifiedRows = table.options.meta?.modifiedRows ?? []
 
   return (
@@ -34,20 +42,22 @@ export function DataTable<TData>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      className={`
-                        text-center
-                        ${header.column.columnDef.meta?.isKey ? "sticky left-0 bg-background" : ""}
-                        ${header.column.columnDef.meta?.isAction ? "sticky right-0 bg-background" : ""}`
-                      }
+                      // className={`
+                      //   text-center
+                      //   ${header.column.columnDef.meta?.isKey ? "sticky left-0 bg-background" : ""}
+                      //   ${header.column.columnDef.meta?.isAction ? "sticky right-0 bg-background" : ""}`}
+                      style={{
+                        ...getCommonPinningStyles({ column: header.column }),
+                      }}
                       key={header.id}
                       colSpan={header.colSpan}
                     >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   )
                 })}
@@ -63,23 +73,27 @@ export function DataTable<TData>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      className={`
-                        text-center
-                        min-w-[200px]
-                        bg-background
-                        ${!(modifiedRows.indexOf(row.index) === -1)
-                        ? cell.column.columnDef.meta?.isKey || cell.column.columnDef.meta?.isAction
-                          ? cell.column.columnDef.meta?.isAction
-                            ? "border-r-2 border-y-2 border-red-500"
-                            : cell.column.columnDef.meta?.isKey
-                              ? "border-l-2 border-y-2 border-red-500"
-                              : "border-y-2 border-red-500"
-                          : "border-y-2 border-red-500"
-                        : ""}
-                        ${cell.column.columnDef.meta?.isKey ? "sticky left-0" : ""}
-                        ${cell.column.columnDef.meta?.isAction ? "sticky right-0" : ""}`
-                      }
+                      // className={`
+                      //   bg-background
+                      //   text-center
+                      //   ${
+                      //     !(modifiedRows.indexOf(row.index) === -1)
+                      //       ? cell.column.columnDef.meta?.isKey ||
+                      //         cell.column.columnDef.meta?.isAction
+                      //         ? cell.column.columnDef.meta?.isAction
+                      //           ? "border-y-2 border-r-2 border-red-500"
+                      //           : cell.column.columnDef.meta?.isKey
+                      //             ? "border-y-2 border-l-2 border-red-500"
+                      //             : "border-y-2 border-red-500"
+                      //         : "border-y-2 border-red-500"
+                      //       : ""
+                      //   }
+                      //   ${cell.column.columnDef.meta?.isKey ? "sticky left-0" : ""}
+                      //   ${cell.column.columnDef.meta?.isAction ? "sticky right-0" : ""}`}
                       key={cell.id}
+                      style={{
+                        ...getCommonPinningStyles({ column: cell.column }),
+                      }}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -103,7 +117,7 @@ export function DataTable<TData>({
         </Table>
       </div>
       <div className="flex flex-col gap-2.5">
-        <DataTablePagination table={table}/>
+        <DataTablePagination table={table} />
         {table.getFilteredSelectedRowModel().rows.length > 0}
       </div>
     </div>

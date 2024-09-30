@@ -14,13 +14,20 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  NullableOfCompressionType,
+} from '../models/index';
+import {
+    NullableOfCompressionTypeFromJSON,
+    NullableOfCompressionTypeToJSON,
+} from '../models/index';
 
 export interface GetApiPsarcPackRequest {
     sourcePath: string;
     destinationPath: string;
-    filename?: string | null;
-    compressionType?: GetApiPsarcPackCompressionTypeEnum;
-    compressionLevel?: number | null;
+    filename?: string;
+    compressionType?: NullableOfCompressionType;
+    compressionLevel?: number;
 }
 
 export interface GetApiPsarcUnpackRequest {
@@ -136,14 +143,3 @@ export class PsarcApi extends runtime.BaseAPI {
     }
 
 }
-
-/**
- * @export
- */
-export const GetApiPsarcPackCompressionTypeEnum = {
-    None: 'None',
-    Zlib: 'Zlib',
-    Lzma: 'Lzma',
-    Null: 'null'
-} as const;
-export type GetApiPsarcPackCompressionTypeEnum = typeof GetApiPsarcPackCompressionTypeEnum[keyof typeof GetApiPsarcPackCompressionTypeEnum];

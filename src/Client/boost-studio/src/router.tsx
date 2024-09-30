@@ -54,9 +54,18 @@ const router = createBrowserRouter([
       },
       {
         path: "patches",
-        lazy: async () => ({
-          Component: (await import("./pages/patches")).default,
-        }),
+        children: [
+          {
+            index: true,
+            element: <Navigate to="base" replace />,
+          },
+          {
+            path: ":patchId",
+            lazy: async () => ({
+              Component: (await import("./pages/patches")).default,
+            }),
+          },
+        ],
       },
       {
         path: "tools",

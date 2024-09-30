@@ -49,9 +49,6 @@
 
   <ItemGroup>
     <Folder Include="Exvs2\" />
-    <Folder Include="Exvs\PatchFiles\Queries\" />
-    <Folder Include="Exvs\Tbl\Commands\" />
-    <Folder Include="Exvs\Tbl\Queries\" />
     <Folder Include="Formats\StatsFormat\Commands\" />
   </ItemGroup>
 

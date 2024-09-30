@@ -31,7 +31,7 @@ public class Ammo : EndpointGroupBase
     }
     
     [Produces(ContentType.Application.Json)]
-    [ProducesResponseType(typeof(AmmoDto), StatusCodes.Status200OK)]
+    // [ProducesResponseType(typeof(AmmoDto), StatusCodes.Status200OK)]
     private static async Task<AmmoDto> GetAmmoByHash(ISender sender, uint hash, CancellationToken cancellationToken)
     {
         return await sender.Send(new GetAmmoByHashQuery(hash), cancellationToken);
@@ -45,14 +45,14 @@ public class Ammo : EndpointGroupBase
         return await sender.Send(request, cancellationToken);
     }
 
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
     private static async Task<IResult> CreateAmmo(ISender sender, CreateAmmoCommand command, CancellationToken cancellationToken)
     {
         await sender.Send(command, cancellationToken);
         return Results.Created();
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> UpdateAmmoByHash(ISender sender, [FromRoute] uint hash, UpdateAmmoCommand command, CancellationToken cancellationToken)
     {
         if (hash != command.Hash) return Results.BadRequest();
@@ -60,7 +60,7 @@ public class Ammo : EndpointGroupBase
         return Results.NoContent();
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> DeleteAmmoByHash(ISender sender, [FromRoute] uint hash, CancellationToken cancellationToken)
     {
         await sender.Send(new DeleteAmmoCommand(hash), cancellationToken);
@@ -73,14 +73,14 @@ public class Ammo : EndpointGroupBase
         await sender.Send(new ImportAmmoCommand(file), cancellationToken);
     }
     
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
     private static async Task<IResult> ExportAmmo(ISender sender, CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(new ExportAmmoCommand(), cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
     
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> ExportAmmoByPath(
         ISender sender, 
         ExportAmmoByPathCommand command,
