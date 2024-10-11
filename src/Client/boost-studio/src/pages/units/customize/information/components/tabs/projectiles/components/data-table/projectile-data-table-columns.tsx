@@ -1,16 +1,14 @@
 "use client"
 
-import {ColumnDef, RowData} from "@tanstack/react-table"
-import {type GetApiProjectilesByHash200Response} from "@/api/exvs";
+import type { CreateProjectileCommand } from "@/api/exvs"
+import { GetApiProjectilesByHash200Response } from "@/api/exvs/models/GetApiProjectilesByHash200Response"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import {Button} from "@/components/ui/button";
-import {MoreHorizontal} from "lucide-react";
+  createProjectile,
+  deleteProjectile,
+} from "@/api/wrapper/projectile-api"
+import { ColumnDef, RowData } from "@tanstack/react-table"
+import { MoreHorizontal } from "lucide-react"
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,19 +18,23 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/ui/alert-dialog";
-import {createProjectile, deleteProjectile } from "@/api/wrapper/projectile-api";
-import {toast} from "@/components/ui/use-toast";
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { toast } from "@/components/ui/use-toast"
 
 export const projectileColumns: ColumnDef<GetApiProjectilesByHash200Response>[] =
   [
     {
       accessorKey: "hash",
       header: "Hash",
-      meta: {
-        isKey: true,
-      }
     },
     {
       accessorKey: "projectileType",
@@ -316,10 +318,7 @@ export const projectileColumns: ColumnDef<GetApiProjectilesByHash200Response>[] 
     },
     {
       id: "actions",
-      meta: {
-        isAction: true,
-      },
-      cell: ({row, table}) => {
+      cell: ({ row, table }) => {
         const data = row.original
 
         return (
@@ -329,7 +328,7 @@ export const projectileColumns: ColumnDef<GetApiProjectilesByHash200Response>[] 
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-8 w-8 p-0">
                     <span className="sr-only">Open menu</span>
-                    <MoreHorizontal className="h-4 w-4"/>
+                    <MoreHorizontal className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -337,31 +336,33 @@ export const projectileColumns: ColumnDef<GetApiProjectilesByHash200Response>[] 
                   <DropdownMenuItem
                     onClick={async () => {
                       await createProjectile({
-                        postApiProjectilesRequest: {
+                        createProjectileCommand: {
                           ...data,
-                        }, 
+                        },
                       })
                       await table.options.meta?.fetchData()
                       toast({
-                        title: "Projectile Duplicated!"
+                        title: "Projectile Duplicated!",
                       })
                     }}
                   >
                     Duplicate
                   </DropdownMenuItem>
-                  {data.hash ?
+                  {data.hash ? (
                     <AlertDialogTrigger asChild>
-                      <DropdownMenuItem>
-                        Delete
-                      </DropdownMenuItem>
-                    </AlertDialogTrigger> : <></>}
+                      <DropdownMenuItem>Delete</DropdownMenuItem>
+                    </AlertDialogTrigger>
+                  ) : (
+                    <></>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete this entry from the database.
+                    This action cannot be undone. This will permanently delete
+                    this entry from the database.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -373,9 +374,10 @@ export const projectileColumns: ColumnDef<GetApiProjectilesByHash200Response>[] 
                       })
                       await table.options.meta?.fetchData()
                       toast({
-                        title: "Projectile Deleted!"
+                        title: "Projectile Deleted!",
                       })
-                    }}>
+                    }}
+                  >
                     Confirm
                   </AlertDialogAction>
                 </AlertDialogFooter>

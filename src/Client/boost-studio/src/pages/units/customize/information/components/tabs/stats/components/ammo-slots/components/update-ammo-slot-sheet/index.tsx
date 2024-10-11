@@ -79,8 +79,8 @@ const UpdateAmmoSlotSheet = ({
   function onSubmit(input: UpdateAmmoSlotSchema) {
     startUpdateTransition(async () => {
       await updateUnitAmmoSlot({
-        ...input,
-        ammoHash: Number(input.ammoHash),
+        id: input.id,
+        updateUnitAmmoSlotCommand: input,
       })
 
       ammoSlots[index] = {

@@ -70,7 +70,9 @@ export function SearchAssetFilePopover({
   const [selectedTab, setSelectedTab] = React.useState<"unit" | "common">(
     "unit"
   )
-  const [selectedUnit, setSelectedUnit] = React.useState<UnitDto | undefined>()
+  const [selectedUnits, setSelectedUnits] = React.useState<
+    UnitDto[] | undefined
+  >()
   const [selectedUnitAssetFileType, setSelectedUnitAssetFileType] =
     React.useState<UnitAssetFileType>()
   const [selectedCommonAssetFileType, setSelectedCommonAssetFileType] =
@@ -95,7 +97,7 @@ export function SearchAssetFilePopover({
     },
     [
       selectedTab,
-      selectedUnit,
+      selectedUnits,
       selectedUnitAssetFileType,
       selectedCommonAssetFileType,
     ]
@@ -103,10 +105,15 @@ export function SearchAssetFilePopover({
 
   React.useEffect(() => {
     const search = async () => {
-      if (selectedTab === "unit" && selectedUnitAssetFileType && selectedUnit) {
-        const unitIds = !selectedUnit.unitId
+      if (
+        selectedTab === "unit" &&
+        selectedUnitAssetFileType &&
+        selectedUnits &&
+        selectedUnits.length > 0
+      ) {
+        const unitIds = !selectedUnits[0].unitId
           ? undefined
-          : [selectedUnit.unitId!]
+          : [selectedUnits[0].unitId!]
         await getData(unitIds, [selectedUnitAssetFileType])
       } else if (selectedTab === "common" && selectedCommonAssetFileType) {
         await getData(undefined, [selectedCommonAssetFileType])
@@ -116,7 +123,7 @@ export function SearchAssetFilePopover({
     search().catch((error) => console.error(error))
   }, [
     selectedTab,
-    selectedUnit,
+    selectedUnits,
     selectedUnitAssetFileType,
     selectedCommonAssetFileType,
   ])
@@ -141,8 +148,8 @@ export function SearchAssetFilePopover({
               <div className={"space-y-2"}>
                 <Label>Search by unit asset files</Label>
                 <UnitSwitcher
-                  setSelectedUnits={setSelectedUnit}
-                  selectedUnits={selectedUnit}
+                  setSelectedUnits={setSelectedUnits}
+                  selectedUnits={selectedUnits}
                 />
               </div>
               <div className={"space-y-2"}>

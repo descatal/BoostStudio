@@ -32,6 +32,12 @@ export interface ExportTblCommand {
      * @memberof ExportTblCommand
      */
     versions?: Array<PatchFileVersion> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ExportTblCommand
+     */
+    replaceStaging?: boolean;
 }
 
 /**
@@ -52,6 +58,7 @@ export function ExportTblCommandFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'versions': json['versions'] == null ? undefined : ((json['versions'] as Array<any>).map(PatchFileVersionFromJSON)),
+        'replaceStaging': json['replaceStaging'] == null ? undefined : json['replaceStaging'],
     };
 }
 
@@ -62,6 +69,7 @@ export function ExportTblCommandToJSON(value?: ExportTblCommand | null): any {
     return {
         
         'versions': value['versions'] == null ? undefined : ((value['versions'] as Array<any>).map(PatchFileVersionToJSON)),
+        'replaceStaging': value['replaceStaging'],
     };
 }
 

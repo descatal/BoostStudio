@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
-import {
-  GetApiProjectiles200Response,
-  type GetApiProjectilesByHash200Response,
-} from "@/api/exvs"
+import { GetApiProjectiles200Response } from "@/api/exvs/models/GetApiProjectiles200Response"
+import { GetApiProjectilesByHash200Response } from "@/api/exvs/models/GetApiProjectilesByHash200Response"
 import {
   fetchProjectiles,
   updateProjectile,
@@ -61,7 +59,7 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
       if (entity.hash === undefined) continue
       await updateProjectile({
         hash: entity.hash!,
-        postApiProjectilesByHashRequest: {
+        updateProjectileByIdCommand: {
           ...entity,
           hash: entity.hash!,
         },
@@ -86,11 +84,13 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
   const filterFields: DataTableFilterField<GetApiProjectilesByHash200Response>[] =
     [
       {
+        type: "input",
         label: "Hash",
         value: "hash",
         placeholder: "Search by hash",
       },
       {
+        type: "input",
         label: "Hitbox Hash",
         value: "hitboxHash",
         placeholder: "Search by hitbox hash",
@@ -105,6 +105,7 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
     filterFields: filterFields,
     fetchData: getData,
     saveData: saveData,
+    enableEditingMode: true,
   })
 
   return (

@@ -1,17 +1,20 @@
 import { create } from "zustand"
 
 type State = {
-  moddedBoostDirectory: string
+  stagingDirectory: string | undefined
+  workingDirectory: string | undefined
 }
 
 type Action = {
-  updateModdedBoostDirectory: (
-    moddedBoostDirectory: State["moddedBoostDirectory"]
-  ) => void
+  updateStagingDirectory: (stagingDirectory: State["stagingDirectory"]) => void
+  updateWorkingDirectory: (workingDirectory: State["workingDirectory"]) => void
 }
 
-const useSettingsStore = create<State & Action>((set) => ({
-  moddedBoostDirectory: "",
-  updateModdedBoostDirectory: (moddedBoostDirectory) =>
-    set(() => ({ moddedBoostDirectory: moddedBoostDirectory })),
+export const useSettingsStore = create<State & Action>((set) => ({
+  stagingDirectory: undefined,
+  workingDirectory: undefined,
+  updateStagingDirectory: (stagingDirectory) =>
+    set(() => ({ stagingDirectory: stagingDirectory })),
+  updateWorkingDirectory: (workingDirectory) =>
+    set(() => ({ workingDirectory: workingDirectory })),
 }))

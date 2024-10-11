@@ -30,7 +30,7 @@ export interface PathInfoDto {
      * @type {number}
      * @memberof PathInfoDto
      */
-    order: number;
+    order?: number | null;
 }
 
 /**
@@ -38,7 +38,6 @@ export interface PathInfoDto {
  */
 export function instanceOfPathInfoDto(value: object): value is PathInfoDto {
     if (!('path' in value) || value['path'] === undefined) return false;
-    if (!('order' in value) || value['order'] === undefined) return false;
     return true;
 }
 
@@ -53,7 +52,7 @@ export function PathInfoDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'path': json['path'],
-        'order': json['order'],
+        'order': json['order'] == null ? undefined : json['order'],
     };
 }
 

@@ -63,6 +63,9 @@ export default function UnitInformation() {
                 </Button>
               </div>
             </div>
+            <label className="text-sm text-muted-foreground">
+              UnitId: {selectedUnits[0].unitId}
+            </label>
             <Tabs
               defaultValue="stats"
               className="space-y-4"

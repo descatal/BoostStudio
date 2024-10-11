@@ -1,7 +1,10 @@
 import {
+  DeleteApiPatchFilesByIdRequest,
   GetApiPatchFilesRequest,
   GetApiPatchFilesSummaryRequest,
   GetApiTblByIdRequest,
+  PostApiPatchFilesRequest,
+  PostApiTblExportRequest,
   TblApi,
 } from "../exvs"
 import { createOpenApiConfiguration } from "./api-common"
@@ -11,19 +14,32 @@ function createTblOpenApiConfiguration() {
   return new TblApi(configuration)
 }
 
-export async function fetchTbl(request: GetApiTblByIdRequest) {
-  const openapi = createTblOpenApiConfiguration()
+const openapi = createTblOpenApiConfiguration()
+
+export async function fetchTblById(request: GetApiTblByIdRequest) {
   return await openapi.getApiTblById(request)
 }
 
 export async function fetchPatchFileSummaries(
   request: GetApiPatchFilesSummaryRequest
 ) {
-  const openapi = createTblOpenApiConfiguration()
   return await openapi.getApiPatchFilesSummary(request)
 }
 
 export async function fetchPatchFiles(request: GetApiPatchFilesRequest) {
-  const openapi = createTblOpenApiConfiguration()
   return await openapi.getApiPatchFiles(request)
+}
+
+export async function createPatchFiles(request: PostApiPatchFilesRequest) {
+  return await openapi.postApiPatchFiles(request)
+}
+
+export async function deletePatchFiles(
+  request: DeleteApiPatchFilesByIdRequest
+) {
+  return await openapi.deleteApiPatchFilesById(request)
+}
+
+export async function exportTbl(request: PostApiTblExportRequest) {
+  return await openapi.postApiTblExport(request)
 }

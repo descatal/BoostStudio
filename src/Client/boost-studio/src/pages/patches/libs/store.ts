@@ -1,6 +1,7 @@
 import { create } from "zustand"
 
 export const PatchIdNameMap = {
+  All: "",
   Base: "Base Game",
   Patch1: "patch_01_00",
   Patch2: "patch_02_00",
@@ -10,7 +11,8 @@ export const PatchIdNameMap = {
   Patch6: "patch_06_00",
 }
 
-export type PatchFileVersions =
+export type PatchFileTabs =
+  | "All"
   | "Base"
   | "Patch1"
   | "Patch2"
@@ -19,7 +21,7 @@ export type PatchFileVersions =
   | "Patch5"
   | "Patch6"
 
-type Patches = { selectedPatchFileVersion: PatchFileVersions }
+type Patches = { selectedPatchFileVersion: PatchFileTabs }
 
 type Action = {
   setSelectedPatchFileVersion: (
@@ -29,7 +31,7 @@ type Action = {
 
 export const useCustomizePatchInformationStore = create<Patches & Action>(
   (set) => ({
-    selectedPatchFileVersion: "Base",
+    selectedPatchFileVersion: "All",
     setSelectedPatchFileVersion: (selectedPatchFileVersion) =>
       set(() => ({
         selectedPatchFileVersion: selectedPatchFileVersion,

@@ -13,13 +13,13 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     builder.Logging.ClearProviders();
-    
+
     builder.Host.UseSerilog();
 
     builder.Services.AddApplicationServices();
     builder.Services.AddInfrastructureServices(builder.Configuration);
     builder.Services.AddWebServices();
-    
+
     builder.Services.AddCors();
 
     var app = builder.Build();
@@ -43,26 +43,41 @@ try
         context.Response.Redirect("/openapi");
         return Task.CompletedTask;
     });
-    
+
     await app.InitialiseDatabaseAsync();
 
     app.UseHealthChecks("/health");
     app.UseHttpsRedirection();
-    app.UseStaticFiles();
-
-    app.MapOpenApi();
-    app.MapScalarApiReference();
     
+    app.UseWhen(
+        context =>
+        {
+            var path = context.Request.Path.Value?.ToLower().Trim();
+            return
+                string.IsNullOrWhiteSpace(path) ||
+                path.StartsWith("/assets");
+        },
+        config => config.UseStaticFiles(new StaticFileOptions
+        {
+            ServeUnknownFileTypes = true
+        }));
+    
+    app.MapOpenApi();
+    app.MapScalarApiReference(opt =>
+    {
+        opt.Theme = ScalarTheme.Mars;
+    });
+
     // app.UseSwagger(opts => opts.RouteTemplate = "openapi/{documentName}.{extension:regex(^(json|ya?ml)$)}");
     app.UseSwaggerUI(opts =>
     {
         opts.DisplayOperationId();
-        
+
         opts.ShowCommonExtensions();
 
         opts.RoutePrefix = "openapi";
         opts.SwaggerEndpoint($"{DefinitionNames.Exvs}.json", $"{DefinitionNames.Exvs} API");
-        opts.SwaggerEndpoint($"{DefinitionNames.Exvs2}.json",$"{DefinitionNames.Exvs2} API");
+        opts.SwaggerEndpoint($"{DefinitionNames.Exvs2}.json", $"{DefinitionNames.Exvs2} API");
     });
 
     app.UseReDoc(options =>
@@ -75,7 +90,7 @@ try
         options.RoutePrefix = "redoc";
         options.SpecUrl = $"/openapi/{DefinitionNames.Exvs2}.json";
     });
-    
+
     app.UseExceptionHandler(_ => {});
 
     app.MapEndpoints();

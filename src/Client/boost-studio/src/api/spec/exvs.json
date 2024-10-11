@@ -4346,6 +4346,10 @@
             },
             "default": null,
             "nullable": true
+          },
+          "replaceStaging": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -5061,8 +5065,7 @@
       },
       "PathInfoDto": {
         "required": [
-          "path",
-          "order"
+          "path"
         ],
         "type": "object",
         "properties": {
@@ -5071,7 +5074,9 @@
           },
           "order": {
             "type": "integer",
-            "format": "uint32"
+            "format": "uint32",
+            "default": null,
+            "nullable": true
           }
         },
         "nullable": true

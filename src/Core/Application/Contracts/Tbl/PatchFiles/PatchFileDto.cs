@@ -23,7 +23,7 @@ public record PatchFileDto
 
 public record PathInfoDto(
     string Path, 
-    uint Order
+    uint? Order = null
 );
 
 public record FileInfoDto(

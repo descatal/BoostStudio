@@ -4,27 +4,18 @@ import * as React from "react"
 import { useCallback, useEffect, useState } from "react"
 import { UnitDto } from "@/api/exvs"
 import { fetchUnits } from "@/api/wrapper/units-api"
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons"
-import { FaPlus } from "react-icons/fa"
+import { CaretSortIcon } from "@radix-ui/react-icons"
 import { GoPlus } from "react-icons/go"
 
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command"
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import VirtualizedCommand from "@/components/virtualized-command"
 
 type UnitGroup = {
   label: string
@@ -92,10 +83,16 @@ export default function UnitSwitcher({
         >
           <Avatar className="mr-2 h-5 w-5">
             <AvatarImage
-              src={`/avatars/01.png`}
+              src={
+                selectedUnits
+                  ? `https://localhost:5001/assets/${selectedUnits[0]?.unitId ?? "default"}.png`
+                  : ""
+              }
               alt={selectedUnits ? (selectedUnits[0]?.name ?? "") : ""}
             />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>
+              {selectedUnits ? (selectedUnits[0]?.name?.charAt(0) ?? "G") : "G"}
+            </AvatarFallback>
           </Avatar>
           {selectedUnits ? (
             selectedUnits.length <= 1 ? (
@@ -105,20 +102,28 @@ export default function UnitSwitcher({
                 {selectedUnits.length >= 2 && (
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={`/avatars/01.png`}
+                      src={`https://localhost:5001/assets/${selectedUnits[1]?.unitId}.png`}
                       alt={selectedUnits[1]?.name ?? ""}
                     />
-                    <AvatarFallback>SC</AvatarFallback>
+                    <AvatarFallback>
+                      {selectedUnits
+                        ? (selectedUnits[1]?.name?.charAt(0) ?? "G")
+                        : "G"}
+                    </AvatarFallback>
                   </Avatar>
                 )}
                 {selectedUnits.length >= 3 && (
                   <>
                     <Avatar className="mr-2 h-5 w-5 bg-red-400">
                       <AvatarImage
-                        src={`/avatars/01.png`}
+                        src={`https://localhost:5001/assets/${selectedUnits[2]?.unitId}.png`}
                         alt={selectedUnits[2]?.name ?? ""}
                       />
-                      <AvatarFallback>SC</AvatarFallback>
+                      <AvatarFallback>
+                        {selectedUnits
+                          ? (selectedUnits[2]?.name?.charAt(0) ?? "G")
+                          : "G"}
+                      </AvatarFallback>
                     </Avatar>
                     {selectedUnits.length > 3 && <GoPlus />}
                   </>
@@ -131,69 +136,130 @@ export default function UnitSwitcher({
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[350px] p-0">
-        <Command>
-          <CommandList>
-            <CommandInput placeholder="Search unit..." />
-            <CommandEmpty>No unit found.</CommandEmpty>
-            {unitGroups.map((group) => (
-              <CommandGroup key={group.label} heading={group.label}>
-                {group.units.map((unit) => (
-                  <CommandItem
-                    key={unit.unitId}
-                    onSelect={() => {
-                      if (!selectedUnits) selectedUnits = []
+      <PopoverContent className="p-0">
+        <VirtualizedCommand
+          height={"450px"}
+          options={
+            unitGroups[0]?.units?.map((option) => ({
+              value: option.unitId!.toString(),
+              label: option.name ?? "",
+              imageSrc: `https://localhost:5001/assets/${option.unitId ?? "default"}.png`,
+            })) ?? []
+          }
+          placeholder={"Search units..."}
+          selectedOptions={
+            selectedUnits
+              ?.filter((option) => option.unitId)
+              .map((option) => option.unitId!.toString()) ?? []
+          }
+          onSelectOptions={(options) => {
+            const units = unitGroups[0]?.units.filter((unitDto) =>
+              options.some((option) => option === unitDto.unitId?.toString())
+            )
+            setSelectedUnits(units)
 
-                      if (multipleSelect) {
-                        // add the newly selected unit to the list
-                        // if it is previously selected, remove it
-                        const ifExist = selectedUnits.some(
-                          (selectedUnit) => selectedUnit.unitId === unit.unitId
-                        )
+            if (!multipleSelect) setOpen(false)
+          }}
+          multipleSelect={multipleSelect}
+        />
+        {/*<Command*/}
+        {/*  shouldFilter={false}*/}
+        {/*  onKeyDown={(event) => {*/}
+        {/*    if (event.key === "ArrowDown" || event.key === "ArrowUp") {*/}
+        {/*      event.preventDefault()*/}
+        {/*    }*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <CommandList>*/}
+        {/*    <CommandInput placeholder="Search unit..." />*/}
+        {/*    <CommandEmpty>No unit found.</CommandEmpty>*/}
+        {/*    {unitGroups.map((group) => (*/}
+        {/*      <CommandGroup*/}
+        {/*        ref={parentRef}*/}
+        {/*        key={group.label}*/}
+        {/*        heading={group.label}*/}
+        {/*        style={{*/}
+        {/*          height: "400px",*/}
+        {/*          width: "100%",*/}
+        {/*          overflow: "auto",*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        <div*/}
+        {/*          style={{*/}
+        {/*            height: `${virtualizer.getTotalSize()}px`,*/}
+        {/*            width: "100%",*/}
+        {/*            position: "relative",*/}
+        {/*          }}*/}
+        {/*        >*/}
+        {/*          {virtualOptions.map((virtualOption) => (*/}
+        {/*            <CommandItem*/}
+        {/*              style={{*/}
+        {/*                position: "absolute",*/}
+        {/*                top: 0,*/}
+        {/*                left: 0,*/}
+        {/*                width: "100%",*/}
+        {/*                height: `${virtualOption.size}px`,*/}
+        {/*                transform: `translateY(${virtualOption.start}px)`,*/}
+        {/*              }}*/}
+        {/*              key={group.units[virtualOption.index].unitId}*/}
+        {/*              onSelect={() => {*/}
+        {/*                const unit = group.units[virtualOption.index]*/}
 
-                        if (ifExist) {
-                          // deselect the unit
-                          const filteredUnits = selectedUnits.filter(
-                            (selectedUnit) =>
-                              selectedUnit.unitId !== unit.unitId
-                          )
-                          setSelectedUnits(filteredUnits)
-                        } else {
-                          setSelectedUnits([...selectedUnits, unit])
-                        }
-                      } else {
-                        setSelectedUnits([unit])
-                        setOpen(false)
-                      }
-                    }}
-                    className="text-sm"
-                  >
-                    <Avatar className="mr-2 h-5 w-5">
-                      <AvatarImage
-                        src={`/avatars/01.png`}
-                        alt={unit.name}
-                        className="grayscale"
-                      />
-                      <AvatarFallback>SC</AvatarFallback>
-                    </Avatar>
-                    {unit.name}
-                    <CheckIcon
-                      className={cn(
-                        "ml-auto h-4 w-4",
-                        selectedUnits?.some(
-                          (selectedUnit) => selectedUnit.unitId === unit.unitId
-                        )
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            ))}
-          </CommandList>
-          <CommandSeparator />
-        </Command>
+        {/*                if (!selectedUnits) selectedUnits = []*/}
+
+        {/*                if (multipleSelect) {*/}
+        {/*                  // add the newly selected unit to the list*/}
+        {/*                  // if it is previously selected, remove it*/}
+        {/*                  const ifExist = selectedUnits.some(*/}
+        {/*                    (selectedUnit) =>*/}
+        {/*                      selectedUnit.unitId === unit.unitId*/}
+        {/*                  )*/}
+
+        {/*                  if (ifExist) {*/}
+        {/*                    // deselect the unit*/}
+        {/*                    const filteredUnits = selectedUnits.filter(*/}
+        {/*                      (selectedUnit) =>*/}
+        {/*                        selectedUnit.unitId !== unit.unitId*/}
+        {/*                    )*/}
+        {/*                    setSelectedUnits(filteredUnits)*/}
+        {/*                  } else {*/}
+        {/*                    setSelectedUnits([...selectedUnits, unit])*/}
+        {/*                  }*/}
+        {/*                } else {*/}
+        {/*                  setSelectedUnits([unit])*/}
+        {/*                  setOpen(false)*/}
+        {/*                }*/}
+        {/*              }}*/}
+        {/*            >*/}
+        {/*              <Avatar className="mr-2 h-5 w-5">*/}
+        {/*                <AvatarImage*/}
+        {/*                  src={`https://localhost:5001/assets/${group.units[virtualOption.index].unitId}.png`}*/}
+        {/*                  alt={group.units[virtualOption.index].name}*/}
+        {/*                  className="grayscale"*/}
+        {/*                />*/}
+        {/*                <AvatarFallback>G</AvatarFallback>*/}
+        {/*              </Avatar>*/}
+        {/*              {group.units[virtualOption.index].name}*/}
+        {/*              <CheckIcon*/}
+        {/*                className={cn(*/}
+        {/*                  "ml-auto h-4 w-4",*/}
+        {/*                  selectedUnits?.some(*/}
+        {/*                    (selectedUnit) =>*/}
+        {/*                      selectedUnit.unitId ===*/}
+        {/*                      group.units[virtualOption.index].unitId*/}
+        {/*                  )*/}
+        {/*                    ? "opacity-100"*/}
+        {/*                    : "opacity-0"*/}
+        {/*                )}*/}
+        {/*              />*/}
+        {/*            </CommandItem>*/}
+        {/*          ))}*/}
+        {/*        </div>*/}
+        {/*      </CommandGroup>*/}
+        {/*    ))}*/}
+        {/*  </CommandList>*/}
+        {/*  <CommandSeparator />*/}
+        {/*</Command>*/}
       </PopoverContent>
     </Popover>
   )

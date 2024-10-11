@@ -6,12 +6,29 @@ import {
   type PaginatedListOfPatchFileSummaryVmItemsInner,
 } from "@/api/exvs"
 import { GetApiTblById200Response } from "@/api/exvs/models/GetApiTblById200Response"
-import { fetchPatchFileSummaries, fetchTbl } from "@/api/wrapper/tbl-api"
+import {
+  exportTbl,
+  fetchPatchFileSummaries,
+  fetchTblById,
+} from "@/api/wrapper/tbl-api"
 import { PatchFilesTableToolbarActions } from "@/pages/patches/components/tabs/components/data-table/patch-files-table-toolbar-actions"
-import { PatchFileVersions, PatchIdNameMap } from "@/pages/patches/libs/store"
+import { PatchFileTabs, PatchIdNameMap } from "@/pages/patches/libs/store"
+import { useSettingsStore } from "@/pages/settings/libs/store"
 import { DataTableFilterField } from "@/types"
 
 import { useDataTable } from "@/hooks/use-react-table-2"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -19,29 +36,41 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { toast } from "@/components/ui/use-toast"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
 
 import { patchFileColumns } from "./components/data-table/patch-file-data-table-columns"
 
-const PatchInformation = ({ patchId }: { patchId: PatchFileVersions }) => {
+const PatchInformation = ({
+  patchId,
+}: {
+  patchId?: PatchFileTabs | undefined
+}) => {
   const [hideNoAssetEntries, setHideNoAssetEntries] = useState(false)
   const [hideNoPathEntries, setHideNoPathEntries] = useState(false)
 
-  const [tblResponse, setTblTblResponse] = useState<GetApiTblById200Response>()
+  const [tblResponse, setTblResponse] = useState<
+    GetApiTblById200Response | undefined
+  >()
   const [patchFilesResponse, setPatchFilesResponse] =
     useState<PaginatedListOfPatchFileSummaryVm>()
   const [patchFiles, setPatchFiles] = useState<
     PaginatedListOfPatchFileSummaryVmItemsInner[]
   >([])
 
+  const stagingDirectory = useSettingsStore((state) => state.stagingDirectory)
+
   const getData = useCallback(async () => {
     const pagination = table.getState().pagination
 
-    const getApiHitboxes200Response = await fetchTbl({
-      id: patchId,
-    })
-    setTblTblResponse(getApiHitboxes200Response)
+    setTblResponse(
+      patchId && patchId != "All"
+        ? await fetchTblById({
+            id: patchId,
+          })
+        : undefined
+    )
 
     const search = table
       .getState()
@@ -62,7 +91,7 @@ const PatchInformation = ({ patchId }: { patchId: PatchFileVersions }) => {
       units && units.length > 0 ? units.map((u) => u.unitId!) : undefined
 
     const patchFilesResponse = await fetchPatchFileSummaries({
-      tblIds: [patchId],
+      tblIds: patchId && patchId != "All" ? [patchId] : undefined,
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
       unitIds: unitIds,
@@ -117,12 +146,20 @@ const PatchInformation = ({ patchId }: { patchId: PatchFileVersions }) => {
   })
 
   return (
-    <div>
-      {tblResponse ? (
+    <>
+      <AlertDialog>
         <Card>
-          <CardHeader className="px-7">
-            <CardTitle>{PatchIdNameMap[patchId]}</CardTitle>
-            <CardDescription>File metadata (Tbl)</CardDescription>
+          <CardHeader className="flex-row justify-between px-7">
+            <div>
+              <CardTitle>{patchId ? PatchIdNameMap[patchId] : "All"}</CardTitle>
+              <CardDescription className={"pt-2"}>
+                Cumulative asset index:
+                {tblResponse?.cumulativeAssetIndex ?? "-"}
+              </CardDescription>
+            </div>
+            <AlertDialogTrigger asChild>
+              <Button>Export</Button>
+            </AlertDialogTrigger>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -134,10 +171,38 @@ const PatchInformation = ({ patchId }: { patchId: PatchFileVersions }) => {
             </div>
           </CardContent>
         </Card>
-      ) : (
-        <></>
-      )}
-    </div>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will replace the tbl information at{" "}
+              {patchId && PatchIdNameMap[patchId]}/PATCH.TBL
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={async () => {
+                if (!patchId || patchId === "All") return
+
+                await exportTbl({
+                  exportTblCommand: {
+                    versions: [patchId],
+                    replaceStaging: true,
+                  },
+                })
+
+                toast({
+                  title: "Export success!",
+                })
+              }}
+            >
+              Confirm
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }
 

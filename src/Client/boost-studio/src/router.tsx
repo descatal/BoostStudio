@@ -57,7 +57,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to="base" replace />,
+            element: <Navigate to="All" replace />,
           },
           {
             path: ":patchId",
@@ -82,8 +82,18 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
+            element: <Navigate to="/settings/general" replace />,
+          },
+          {
+            path: "general",
             lazy: async () => ({
-              Component: (await import("./pages/settings/nested")).default,
+              Component: (await import("./pages/settings/general")).default,
+            }),
+          },
+          {
+            path: "appearance",
+            lazy: async () => ({
+              Component: (await import("./pages/settings/appearance")).default,
             }),
           },
         ],

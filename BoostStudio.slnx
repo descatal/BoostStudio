@@ -1,0 +1,59 @@
+﻿<Solution>
+  <Configurations>
+    <BuildType Name="Console" />
+    <BuildType Name="Debug" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/docker/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/github/">
+    <File Path=".github\workflows\build.yml" />
+    <File Path=".github\workflows\cicd.yml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Client/">
+    <Project Path="src\Client\UI.csproj" Type="Classic C#">
+      <Configuration Solution="Console|Any CPU" Project="Debug|Any CPU" />
+    </Project>
+  </Folder>
+  <Folder Name="/src/Core/">
+    <Project Path="src\Core\Application\Application.csproj" Type="Classic C#" />
+    <Project Path="src\Core\Domain\Domain.csproj" Type="Classic C#" />
+    <Project Path="src\Core\Infrastructure\Infrastructure.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/src/Core/Presentation/">
+    <Project Path="src\Core\Presentation\Console\Console.csproj" Type="Classic C#" />
+    <Project Path="src\Core\Presentation\WebApi\Web.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests\Application.FunctionalTests\Application.FunctionalTests.csproj">
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
+      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
+      <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+    </Project>
+    <Project Path="tests\Application.UnitTests\Application.UnitTests.csproj">
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
+      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
+      <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+    </Project>
+    <Project Path="tests\Domain.UnitTests\Domain.UnitTests.csproj">
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
+      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
+      <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+    </Project>
+    <Project Path="tests\Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj">
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
+      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
+      <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+    </Project>
+  </Folder>
+</Solution>

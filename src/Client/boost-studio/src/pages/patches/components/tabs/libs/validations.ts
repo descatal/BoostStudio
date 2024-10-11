@@ -1,43 +1,41 @@
 ﻿import {
   CreatePatchFileCommand,
   FileInfoDto,
-  type PatchFileVersion,
+  PatchFileVersion,
   type PathInfoDto,
   type UpdatePatchFileByIdCommand,
 } from "@/api/exvs"
 import { z } from "zod"
 
-export const updatePatchFileSchema = z.object({
-  id: z.string(),
-  tblId: z.custom<PatchFileVersion>(),
-  pathInfo: z.custom<PathInfoDto>(),
-  fileInfo: z.custom<FileInfoDto>(),
-  assetFileHash: z.number().optional(),
-}) satisfies z.ZodType<UpdatePatchFileByIdCommand>
+const patchFileVersionEnum = z.nativeEnum(PatchFileVersion)
 
-export type UpdatePatchFileSchema = z.infer<typeof updatePatchFileSchema>
-
-export const createPatchFileSchema = z.object({
-  tblId: z.custom<PatchFileVersion>(),
-  pathInfo: z.custom<PathInfoDto>().optional(),
-  fileInfo: z.custom<FileInfoDto>().optional(),
-  assetFileHash: z.number().optional(),
-}) satisfies z.ZodType<CreatePatchFileCommand>
-
-export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>
-
-export const pathInfo = z.object({
+const pathInfoSchema = z.object({
   path: z.string(),
-  order: z.number(),
+  order: z.coerce.number().optional(),
 }) satisfies z.ZodType<PathInfoDto>
 
-export const fileInfoDto = z.object({
-  version: z.custom<PatchFileVersion>(),
-  size1: z.number(),
-  size2: z.number(),
-  size3: z.number(),
-  size4: z.number(),
+const fileInfoSchema = z.object({
+  version: patchFileVersionEnum,
+  size1: z.coerce.number(),
+  size2: z.coerce.number(),
+  size3: z.coerce.number(),
+  size4: z.coerce.number(),
 }) satisfies z.ZodType<FileInfoDto>
+
+export const createPatchFileSchema = z
+  .object({
+    tblId: patchFileVersionEnum,
+    pathInfo: pathInfoSchema.optional(),
+    fileInfo: fileInfoSchema.optional(),
+    assetFileHash: z.coerce.number().optional(),
+  })
+  .superRefine((object) => {
+    if (!object.fileInfo) {
+      object.assetFileHash = undefined
+    }
+  }) satisfies z.ZodType<CreatePatchFileCommand>
+
+export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>
 
 export interface AssetFileSearch {
   assetFileHash: number

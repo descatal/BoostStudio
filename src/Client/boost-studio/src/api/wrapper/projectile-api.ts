@@ -1,11 +1,10 @@
 import {
   DeleteApiProjectilesByHashRequest,
   GetApiProjectilesRequest,
-  PostApiProjectilesByHashOperationRequest,
-  PostApiProjectilesOperationRequest,
+  PostApiProjectilesByHashRequest,
+  PostApiProjectilesRequest,
   PostApiUnitProjectilesExportPathRequest,
   ProjectilesApi,
-  type PostApiUnitStatsExportPathRequest,
 } from "../exvs"
 import { createOpenApiConfiguration } from "./api-common"
 
@@ -19,15 +18,13 @@ export async function fetchProjectiles(request: GetApiProjectilesRequest) {
   return await openapi.getApiProjectiles(request)
 }
 
-export async function createProjectile(
-  request: PostApiProjectilesOperationRequest
-) {
+export async function createProjectile(request: PostApiProjectilesRequest) {
   const openapi = createProjectilesOpenApiConfiguration()
   return await openapi.postApiProjectiles(request)
 }
 
 export async function updateProjectile(
-  request: PostApiProjectilesByHashOperationRequest
+  request: PostApiProjectilesByHashRequest
 ) {
   const openapi = createProjectilesOpenApiConfiguration()
   return await openapi.postApiProjectilesByHash(request)
@@ -41,10 +38,8 @@ export async function deleteProjectile(
 }
 
 export async function exportProjectilesByPath(
-  request: PostApiUnitStatsExportPathRequest
+  request: PostApiUnitProjectilesExportPathRequest
 ) {
   const openapi = createProjectilesOpenApiConfiguration()
-  return await openapi.postApiUnitProjectilesExportPath({
-    postApiUnitStatsExportPathRequest: request,
-  })
+  return await openapi.postApiUnitProjectilesExportPath(request)
 }

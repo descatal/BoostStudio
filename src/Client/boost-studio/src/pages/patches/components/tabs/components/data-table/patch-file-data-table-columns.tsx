@@ -4,6 +4,8 @@ import {
   PatchFileVm,
   type PaginatedListOfPatchFileSummaryVmItemsInner,
 } from "@/api/exvs"
+import { deletePatchFiles } from "@/api/wrapper/tbl-api"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { ColumnDef, RowData } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
 
@@ -38,7 +40,11 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
       cell: ({ row, table }) => (
         <HashInput
           className={"border-none"}
-          initialValue={row.original.assetFile?.hash}
+          initialValue={
+            row.original.assetFile?.hash ??
+            row.original.assetFileHash ??
+            undefined
+          }
           readonly={true}
           initialMode={"hex"}
         />
@@ -49,7 +55,7 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
       header: "File Type",
       cell: ({ row, table }) => (
         <Badge variant="outline" className={"justify-center"}>
-          {row.original.assetFile?.fileType}
+          {row.original.assetFile?.fileType ?? "Not Valid"}
         </Badge>
       ),
     },
@@ -60,19 +66,23 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
         const data = row.original
 
         return (
-          <>
-            {data.assetFile?.units.map((unit) => (
-              <div key={unit.unitId}>{unit.name}</div>
-            )) ?? <div>-</div>}
-          </>
+          <ul>
+            {data.assetFile?.units.map((unit, i) => (
+              <li key={`${unit.unitId}-${i}`}>{unit.name}</li>
+            )) ?? <li>-</li>}
+          </ul>
         )
       },
     },
     {
+      accessorKey: "filePath",
+      header: "File Path",
+      cell: ({ row, table }) => (
+        <div className="text-wrap">{row.original.pathInfo?.path}</div>
+      ),
+    },
+    {
       id: "actions",
-      meta: {
-        isAction: true,
-      },
       size: 40,
       cell: ({ row, table }) => {
         const data = row.original
@@ -82,23 +92,16 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
             <AlertDialog>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
-                    <MoreHorizontal className="h-4 w-4" />
+                  <Button
+                    aria-label="Open menu"
+                    variant="ghost"
+                    className="size-8 flex p-0 data-[state=open]:bg-muted"
+                  >
+                    <DotsHorizontalIcon className="size-4" aria-hidden="true" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" className="w-40">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onClick={async () => {
-                      await table.options.meta?.fetchData()
-                      toast({
-                        title: "Duplication successful!",
-                      })
-                    }}
-                  >
-                    Duplicate
-                  </DropdownMenuItem>
                   {data.id ? (
                     <AlertDialogTrigger asChild>
                       <DropdownMenuItem>Delete</DropdownMenuItem>
@@ -112,17 +115,20 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
                 <AlertDialogHeader>
                   <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    this entry from the database.
+                    This will permanently delete this entry from the database.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <AlertDialogAction
                     onClick={async () => {
+                      if (!data.id) return
+
+                      await deletePatchFiles({ id: data.id })
                       await table.options.meta?.fetchData()
+
                       toast({
-                        title: "Hitbox Deleted!",
+                        title: "Entry Deleted!",
                       })
                     }}
                   >

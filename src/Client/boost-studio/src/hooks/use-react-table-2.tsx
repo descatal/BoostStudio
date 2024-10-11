@@ -383,7 +383,7 @@ export function useDataTable<TData, TValue>({
 
       return (
         <Input
-          className={`w-full border-hidden text-center`}
+          className={`w-[250px] border-hidden text-center`}
           value={value as string}
           onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
@@ -419,6 +419,12 @@ export function useDataTable<TData, TValue>({
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
+    initialState: {
+      columnPinning: {
+        left: ["id"],
+        right: ["actions"],
+      },
+    },
     meta: {
       modifiedRows: modifiedRows,
       fetchData: async () => {

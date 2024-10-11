@@ -20,7 +20,7 @@ export async function fetchAmmo(request: GetApiAmmoRequest) {
 export async function createAmmo(ammoDto: AmmoDto) {
   const openapi = createAmmoOpenApiConfiguration()
   return await openapi.postApiAmmo({
-    postApiAmmoRequest: {
+    createAmmoCommand: {
       ...ammoDto,
     },
   })
@@ -54,6 +54,6 @@ export async function fetchAmmoOptions(unitIds: number[]) {
 export async function exportAmmoByPath(request: PostApiAmmoExportPathRequest) {
   const openapi = createAmmoOpenApiConfiguration()
   return await openapi.postApiAmmoExportPath({
-    postApiAmmoExportPathRequest: request,
+    exportAmmoByPathCommand: request,
   })
 }

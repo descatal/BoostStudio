@@ -38,7 +38,7 @@ public class ConfigsRepository(
         var existingConfig = await applicationDbContext.Configs
             .FirstOrDefaultAsync(c => c.Key.ToLower() == key.ToLower(), cancellationToken);
         
-        var serializedValue = value is string valueString ? valueString : JsonSerializer.Serialize(value);
+        var serializedValue = value as string ?? JsonSerializer.Serialize(value);
         var newConfig = new Config
         {
             Key = key,
@@ -64,6 +64,7 @@ public class ConfigsRepository(
     {
         var config = await applicationDbContext.Configs
             .FirstOrDefaultAsync(c => c.Key.ToLower() == key.ToLower(), cancellationToken);        
+        
         if (config is null)
             return Error.NotFound($"{key} config not found!");
 
