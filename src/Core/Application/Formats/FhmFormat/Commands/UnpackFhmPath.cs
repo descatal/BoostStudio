@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Formats.FhmFormat.Commands;
 
@@ -6,14 +7,14 @@ public record UnpackFhmPath(
     string SourceFilePath, 
     string OutputDirectoryPath,
     bool MultipleFiles = false
-) : IRequest;
+) : IRequest<FileInfo>;
 
 public class UnpackFhmPathHandler(
     ISender sender,
     ILogger<UnpackFhmPathHandler> logger
-) : IRequestHandler<UnpackFhmPath>
+) : IRequestHandler<UnpackFhmPath, FileInfo>
 {
-    public async ValueTask<Unit> Handle(UnpackFhmPath request, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(UnpackFhmPath request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();
@@ -29,6 +30,6 @@ public class UnpackFhmPathHandler(
         var inputBytes = await File.ReadAllBytesAsync(request.SourceFilePath, cancellationToken);
         await sender.Send(new UnpackFhmToDirectory(inputBytes, outputDirectory, request.MultipleFiles), cancellationToken);
         
-        return default;
+        return new FileInfo(inputBytes, inputFileName);
     }
 }

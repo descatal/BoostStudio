@@ -20,10 +20,22 @@ export interface InputProps
   initialMode?: "hex" | "dec"
   initialValue?: number | undefined
   readonly?: boolean
+  onHashChanged?: (value: number | undefined) => void
 }
 
 const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, initialValue, initialMode, readonly, ...props }, ref) => {
+  (
+    {
+      className,
+      type,
+      initialValue,
+      initialMode,
+      readonly,
+      onHashChanged,
+      ...props
+    },
+    ref
+  ) => {
     const [mode, setMode] = React.useState<"hex" | "dec">("hex")
     const [parsedValue, setParsedValue] = React.useState<number | undefined>()
 
@@ -42,6 +54,10 @@ const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
       // passed in props value must be parsed as decimal number first
       handleInputChange(initialValue?.toString(mode === "hex" ? 16 : 10))
     }, [initialValue])
+
+    useEffect(() => {
+      if (onHashChanged) onHashChanged(parsedValue)
+    }, [parsedValue])
 
     useEffect(() => {
       setMode(initialMode ?? "hex")

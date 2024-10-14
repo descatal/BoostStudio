@@ -3,6 +3,7 @@ import {
   GetApiPatchFilesRequest,
   GetApiPatchFilesSummaryRequest,
   GetApiTblByIdRequest,
+  PostApiPatchFilesByIdRequest,
   PostApiPatchFilesRequest,
   PostApiTblExportRequest,
   TblApi,
@@ -32,6 +33,10 @@ export async function fetchPatchFiles(request: GetApiPatchFilesRequest) {
 
 export async function createPatchFiles(request: PostApiPatchFilesRequest) {
   return await openapi.postApiPatchFiles(request)
+}
+
+export async function updatePatchFiles(request: PostApiPatchFilesByIdRequest) {
+  return await openapi.postApiPatchFilesById(request)
 }
 
 export async function deletePatchFiles(

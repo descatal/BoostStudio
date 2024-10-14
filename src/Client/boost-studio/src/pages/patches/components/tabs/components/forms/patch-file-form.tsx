@@ -1,7 +1,7 @@
 ﻿"use client"
 
 import * as React from "react"
-import { FileInfoDto, PatchFileVersion, PathInfoDto } from "@/api/exvs"
+import { PatchFileVersion } from "@/api/exvs"
 import { SearchAssetFilePopover } from "@/pages/patches/components/tabs/components/dialog/search-asset-file-popover"
 import { PatchIdNameMap } from "@/pages/patches/libs/store"
 import AutoHeight from "embla-carousel-auto-height"
@@ -16,12 +16,7 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel"
+import { CarouselApi } from "@/components/ui/carousel"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Form,
@@ -43,24 +38,26 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { HashInput } from "@/components/custom/hash-input"
 
-import { CreatePatchFileSchema } from "../../libs/validations"
+import {
+  CreatePatchFileSchema,
+  UpdatePatchFileSchema,
+} from "../../libs/validations"
 
-interface CreatePatchFileFormProps
+interface PatchFileFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
   children: React.ReactNode
-  form: UseFormReturn<CreatePatchFileSchema>
+  form: UseFormReturn<CreatePatchFileSchema | UpdatePatchFileSchema>
   onSubmit: (data: CreatePatchFileSchema) => void
 }
 
-export function CreatePatchFileForm({
+export function PatchFileForm({
   form,
   onSubmit,
   children,
   className,
-}: CreatePatchFileFormProps) {
+}: PatchFileFormProps) {
   const plugin = React.useRef(AutoHeight())
   const [api, setApi] = React.useState<CarouselApi>()
 
@@ -228,6 +225,9 @@ export function CreatePatchFileForm({
                                   initialValue={field.value}
                                   placeholder="Enter Hash"
                                   {...field}
+                                  onHashChanged={(value) => {
+                                    form.setValue("assetFileHash", value)
+                                  }}
                                 />
                                 <SearchAssetFilePopover
                                   setAssetFile={(asset) => {

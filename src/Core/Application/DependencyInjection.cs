@@ -1,5 +1,4 @@
-﻿using BoostStudio.Application.Common.Behaviours;
-using ServiceScan.SourceGenerator;
+﻿using ServiceScan.SourceGenerator;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +12,7 @@ public static class DependencyInjection
         {
             options.ServiceLifetime = ServiceLifetime.Transient;
         });
+        
         // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
         // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         // services.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));

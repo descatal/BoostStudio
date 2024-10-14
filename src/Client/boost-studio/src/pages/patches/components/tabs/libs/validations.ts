@@ -29,13 +29,37 @@ export const createPatchFileSchema = z
     fileInfo: fileInfoSchema.optional(),
     assetFileHash: z.coerce.number().optional(),
   })
-  .superRefine((object) => {
+  .superRefine((object, ctx) => {
+    if (object.fileInfo && !object.assetFileHash) {
+      ctx.addIssue({
+        path: ["assetFileHash"],
+        code: z.ZodIssueCode.custom,
+        message: "Asset file hash is required",
+      })
+    }
+
     if (!object.fileInfo) {
       object.assetFileHash = undefined
     }
   }) satisfies z.ZodType<CreatePatchFileCommand>
 
 export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>
+
+export const updatePatchFileSchema = z
+  .object({
+    id: z.string(),
+    tblId: patchFileVersionEnum,
+    pathInfo: pathInfoSchema.optional(),
+    fileInfo: fileInfoSchema.optional(),
+    assetFileHash: z.coerce.number().optional(),
+  })
+  .superRefine((object) => {
+    if (!object.fileInfo) {
+      object.assetFileHash = undefined
+    }
+  }) satisfies z.ZodType<UpdatePatchFileByIdCommand>
+
+export type UpdatePatchFileSchema = z.infer<typeof updatePatchFileSchema>
 
 export interface AssetFileSearch {
   assetFileHash: number

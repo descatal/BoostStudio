@@ -25,4 +25,9 @@
     <None Remove="BinaryFormats\PsarcFormat\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
 </Project>

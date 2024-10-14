@@ -1,10 +1,12 @@
 "use client"
 
+import React from "react"
 import {
   PatchFileVm,
   type PaginatedListOfPatchFileSummaryVmItemsInner,
 } from "@/api/exvs"
 import { deletePatchFiles } from "@/api/wrapper/tbl-api"
+import PatchFileDialog from "@/pages/patches/components/tabs/components/dialog/patch-file-dialog"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { ColumnDef, RowData } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
@@ -86,9 +88,19 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
       size: 40,
       cell: ({ row, table }) => {
         const data = row.original
+        const [showEditPatchFileDialog, setShowEditPatchFileDialog] =
+          React.useState(false)
 
         return (
           <>
+            <PatchFileDialog
+              open={showEditPatchFileDialog}
+              onOpenChange={setShowEditPatchFileDialog}
+              existingPatchFile={data}
+              onSuccess={async () => {
+                await table.options.meta?.fetchData()
+              }}
+            />
             <AlertDialog>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -102,6 +114,11 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-40">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                  <DropdownMenuItem
+                    onSelect={() => setShowEditPatchFileDialog(true)}
+                  >
+                    Edit
+                  </DropdownMenuItem>
                   {data.id ? (
                     <AlertDialogTrigger asChild>
                       <DropdownMenuItem>Delete</DropdownMenuItem>

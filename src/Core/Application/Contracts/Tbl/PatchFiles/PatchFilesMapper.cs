@@ -12,7 +12,6 @@ public static partial class PatchFilesMapper
     
     public static partial PatchFileVm ToVm(PatchFile entity);
     
-    [MapperIgnoreTarget(nameof(PatchFileSummaryVm.AssetFileHash))]
     public static partial PatchFileSummaryVm ToSummaryVm(PatchFile entity);
     
     public static partial PatchFile ToEntity(PatchFileDto dto);

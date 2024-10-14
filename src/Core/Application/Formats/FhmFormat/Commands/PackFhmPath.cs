@@ -8,15 +8,15 @@ public record PackFhmPath(
     string SourcePath, 
     string DestinationPath,
     string? FileName = null
-) : IRequest;
+) : IRequest<Common.Models.FileInfo>;
 
 public class PackFhmPathHandler(
     IFormatBinarySerializer<Fhm> formatBinarySerializer,
     IFhmPacker fhmPacker,
     ILogger<PackFhmPathHandler> logger
-) : IRequestHandler<PackFhmPath>
+) : IRequestHandler<PackFhmPath, Common.Models.FileInfo>
 {
-    public async ValueTask<Unit> Handle(PackFhmPath request, CancellationToken cancellationToken)
+    public async ValueTask<Common.Models.FileInfo> Handle(PackFhmPath request, CancellationToken cancellationToken)
     {
         var outputFileName = request.FileName;
         
@@ -58,6 +58,6 @@ public class PackFhmPathHandler(
         var serializedFhm = await formatBinarySerializer.SerializeAsync(packedFhm, cancellationToken);
         await File.WriteAllBytesAsync(destinationPath, serializedFhm, cancellationToken);
         
-        return default;
+        return new Common.Models.FileInfo(serializedFhm, outputFileName);
     }
 }

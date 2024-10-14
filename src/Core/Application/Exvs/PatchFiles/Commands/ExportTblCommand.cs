@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Constants;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
@@ -22,18 +23,12 @@ public class ExportTblCommandHandler(
     ICompressor compressor
 ) : IRequestHandler<ExportTblCommand, FileInfo>
 {
-    private static readonly Dictionary<PatchFileVersion, string> _patchNameMappings = new()
-    {
-        [PatchFileVersion.Patch1] = "patch_01_00",
-        [PatchFileVersion.Patch2] = "patch_02_00",
-        [PatchFileVersion.Patch3] = "patch_03_00",
-        [PatchFileVersion.Patch4] = "patch_04_00",
-        [PatchFileVersion.Patch5] = "patch_05_00",
-        [PatchFileVersion.Patch6] = "patch_06_00",
-    };
-    
     public async ValueTask<FileInfo> Handle(ExportTblCommand request, CancellationToken cancellationToken)
     {
+        var stagingDirectory = await configsRepository.GetConfig(ConfigKeys.StagingDirectory, cancellationToken);
+        if (request.ReplaceStaging && (stagingDirectory.IsError || string.IsNullOrWhiteSpace(stagingDirectory.Value.Value)))
+            throw new NotFoundException(ConfigKeys.StagingDirectory, stagingDirectory.FirstError.Description);
+        
         var tblQuery = applicationDbContext.Tbl
             .Include(tbl => tbl.PatchFiles)
             .ThenInclude(patchFile => patchFile.FileInfo)
@@ -54,11 +49,8 @@ public class ExportTblCommandHandler(
 
             if (!request.ReplaceStaging)
                 continue;
-            
-            var stagingDirectory = await configsRepository.GetConfig(ConfigKeys.StagingDirectory, cancellationToken);
-            if (stagingDirectory.IsError || !_patchNameMappings.TryGetValue(tblEntry.Id, out var tblName))
-                continue;
 
+            var tblName = tblEntry.Id.GetPatchName();
             var stagingFilePath = Path.Combine(stagingDirectory.Value.Value, "psarc", tblName, "PATCH.TBL");
             await File.WriteAllBytesAsync(stagingFilePath, tblBinary, cancellationToken);
         }

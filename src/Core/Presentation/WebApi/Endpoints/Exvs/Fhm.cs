@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
+using BoostStudio.Application.Exvs.Fhm.Commands;
 using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Web.Constants;
 
@@ -12,8 +13,10 @@ public class Fhm : EndpointGroupBase
         app.MapGroup(this, DefinitionNames.Exvs)
             .MapGet(PackFhmPath, "pack-path")
             .MapGet(UnpackFhmPath, "unpack-path")
+            .MapPost(PackFhm, "pack")
             .MapPost(UnpackFhm, "unpack")
-            .MapPost(PackFhm, "pack");
+            .MapPost(PackFhmAsset, "pack/asset")
+            .MapPost(UnpackFhmAsset, "unpack/asset");
     }
     
     private async Task PackFhmPath(ISender sender, [AsParameters] PackFhmPath request, CancellationToken cancellationToken)
@@ -53,5 +56,21 @@ public class Fhm : EndpointGroupBase
 
         string fhmFileName = Path.ChangeExtension(Path.GetFileNameWithoutExtension(file.FileName), "fhm");
         return Results.File(packedFile, MediaTypeNames.Application.Octet, fhmFileName);
+    }
+    
+    private async Task PackFhmAsset(
+        ISender sender, 
+        PackFhmAssetCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
+    }
+    
+    private async Task UnpackFhmAsset(
+        ISender sender, 
+        UnpackFhmAssetCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
     }
 }
