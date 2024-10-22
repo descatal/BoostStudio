@@ -5,6 +5,7 @@ using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Formats.FhmFormat.Commands;
+using BoostStudio.Domain.Entities.Tbl;
 using BoostStudio.Domain.Enums;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +15,10 @@ using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 namespace BoostStudio.Application.Exvs.Fhm.Commands;
 
 public record PackFhmAssetCommand(
-    AssetFileType Type,
+    uint[]? AssetFileHashes = null,
+    AssetFileType[]? AssetFileTypes = null,
     uint[]? UnitIds = null,
-    PatchFileVersion? Version = null,
+    PatchFileVersion[]? PatchFileVersions = null,
     bool ReplaceStaging = false
 ) : IRequest<FileInfo>;
 
@@ -30,11 +32,6 @@ public class PackFhmAssetCommandHandler(
 {
     public async ValueTask<FileInfo> Handle(PackFhmAssetCommand request, CancellationToken cancellationToken)
     {
-        var isUnitSpecific = request.Type.IsUnitSpecific();
-        
-        if (isUnitSpecific && (request.UnitIds is null || request.UnitIds.Length <= 0))
-            throw new Common.Exceptions.ValidationException([new ValidationFailure("Type", $"Type {request.Type} must have an associated unit id!")]);
-        
         var workingDirectoryConfig = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
         if (workingDirectoryConfig.IsError)
             throw new NotFoundException(ConfigKeys.WorkingDirectory, workingDirectoryConfig.FirstError.Description);
@@ -48,66 +45,118 @@ public class PackFhmAssetCommandHandler(
             .Include(assetFile => assetFile.Units)
             .AsQueryable();
 
-        assetFilesQuery = assetFilesQuery.Where(assetFile => assetFile.FileType == request.Type);
+        if (request.AssetFileHashes?.Length > 0)
+            assetFilesQuery = assetFilesQuery.Where(assetFile => request.AssetFileHashes.Contains(assetFile.Hash));
 
-        if (isUnitSpecific && request.UnitIds?.Length > 0)
-        {
-            assetFilesQuery = assetFilesQuery
-                .Where(assetFile => assetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
-        }
+        if (request.AssetFileTypes?.Length > 0)
+            assetFilesQuery = assetFilesQuery.Where(assetFile => request.AssetFileTypes.Contains(assetFile.FileType));
+
+        if (request.UnitIds?.Length > 0)
+            assetFilesQuery = assetFilesQuery.Where(assetFile => assetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
 
         var assetFiles = await assetFilesQuery
             .ToListAsync(cancellationToken);
-        
+
         var packedFiles = new List<FileInfo>();
         foreach (var assetFile in assetFiles)
         {
-            if (request.UnitIds is not null && assetFile.FileType.IsUnitSpecific())
+            if (assetFile.FileType.IsUnitSpecific())
             {
                 foreach (var unit in assetFile.Units)
                 {
-                    if (!request.UnitIds.Contains(unit.GameUnitId))
-                        continue;
-
-                    var patchFileInfo = request.Version is not null
-                        ? assetFile.PatchFiles.FirstOrDefault(file => file.TblId == request.Version)
-                        : assetFile.PatchFiles
-                            .OrderBy(file => file.TblId)
-                            .LastOrDefault();
-
-                    if (patchFileInfo?.AssetFile is null)
-                        continue;
-
-                    var tblName = patchFileInfo.TblId.GetPatchName();
-                    var fileTypeName = assetFile.FileType.GetSnakeCaseName();
-
-                    var sourceDirectory = Path.Combine(workingDirectoryConfig.Value.Value, "units", unit.SnakeCaseName, fileTypeName);
-                    if (!Directory.Exists(sourceDirectory))
-                        throw new NotFoundException(nameof(sourceDirectory), sourceDirectory);
-
-                    // todo: these are needed for current psarc directory structure
-                    string destinationDirectory = string.Empty;
-                    if (request.ReplaceStaging)
+                    List<PatchFile> patchFiles = [];
+                    if (request.PatchFileVersions?.Length > 0)
                     {
-                        var destinationBaseDirectory = Path.Combine(stagingDirectoryConfig.Value.Value, "psarc", tblName, "units");
-                        string[] alternateDirectories = ["fb_units", "mbon_units", ""];
-                        foreach (var alternateDirectory in alternateDirectories)
-                        {
-                            destinationDirectory = Path.Combine(destinationBaseDirectory, alternateDirectory, unit.SnakeCaseName, fileTypeName);
-                            if (Directory.Exists(destinationDirectory))
-                                break;
-                        }
+                        patchFiles = assetFile.PatchFiles.Where(file => request.PatchFileVersions.Contains(file.TblId)).ToList();
                     }
                     else
                     {
-                        destinationDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                        var latestPatchFile = assetFile.PatchFiles.OrderBy(file => file.TblId).LastOrDefault();
+                        if (latestPatchFile is not null)
+                            patchFiles = [latestPatchFile];
                     }
-                    
+
+                    foreach (var patchFile in patchFiles)
+                    {
+                        if (patchFile.AssetFile is null)
+                            continue;
+
+                        var tblName = patchFile.TblId.GetPatchName();
+                        var fileTypeName = assetFile.FileType.GetSnakeCaseName();
+
+                        var sourceDirectory = Path.Combine(workingDirectoryConfig.Value.Value, "units", unit.SnakeCaseName, fileTypeName);
+                        if (!Directory.Exists(sourceDirectory))
+                            throw new NotFoundException(nameof(sourceDirectory), sourceDirectory);
+
+                        // todo: these are needed for current psarc directory structure
+                        string destinationDirectory = string.Empty;
+                        if (request.ReplaceStaging)
+                        {
+                            var destinationBaseDirectory = Path.Combine(stagingDirectoryConfig.Value.Value, "psarc", tblName, "units");
+                            string[] alternateDirectories = ["fb_units", "mbon_units", ""];
+                            foreach (var alternateDirectory in alternateDirectories)
+                            {
+                                destinationDirectory = Path.Combine(destinationBaseDirectory, alternateDirectory, unit.SnakeCaseName, fileTypeName);
+                                if (Directory.Exists(destinationDirectory))
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            destinationDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                        }
+
+                        try
+                        {
+                            if (!Directory.Exists(destinationDirectory))
+                                Directory.CreateDirectory(destinationDirectory);
+
+                            var packedFile = await mediator.Send(new PackFhmPath(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
+                            packedFiles.Add(packedFile);
+                        }
+                        finally
+                        {
+                            if (!request.ReplaceStaging)
+                                Directory.Delete(destinationDirectory, true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                List<PatchFile> patchFiles = [];
+                if (request.PatchFileVersions?.Length > 0)
+                {
+                    patchFiles = assetFile.PatchFiles.Where(file => request.PatchFileVersions.Contains(file.TblId)).ToList();
+                }
+                else
+                {
+                    var latestPatchFile = assetFile.PatchFiles.OrderBy(file => file.TblId).LastOrDefault();
+                    if (latestPatchFile is not null)
+                        patchFiles = [latestPatchFile];
+                }
+
+                foreach (var patchFile in patchFiles)
+                {
+                    if (patchFile?.AssetFile is null)
+                        continue;
+
+                    var tblName = patchFile.TblId.GetPatchName();
+                    var fileTypeName = assetFile.FileType.GetSnakeCaseName();
+
+                    var sourceDirectory = Path.Combine(workingDirectoryConfig.Value.Value, "common", fileTypeName);
+                    if (!Directory.Exists(sourceDirectory))
+                        throw new NotFoundException(nameof(sourceDirectory), sourceDirectory);
+
+                    var destinationDirectory = request.ReplaceStaging
+                        ? Path.Combine(stagingDirectoryConfig.Value.Value, "psarc", tblName, "common", fileTypeName)
+                        : Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
                     try
                     {
                         if (!Directory.Exists(destinationDirectory))
                             Directory.CreateDirectory(destinationDirectory);
-                        
+
                         var packedFile = await mediator.Send(new PackFhmPath(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
                         packedFiles.Add(packedFile);
                     }
@@ -118,45 +167,9 @@ public class PackFhmAssetCommandHandler(
                     }
                 }
             }
-            else
-            {
-                var patchFileInfo = request.Version is not null
-                    ? assetFile.PatchFiles.FirstOrDefault(file => file.TblId == request.Version)
-                    : assetFile.PatchFiles
-                        .OrderBy(file => file.TblId)
-                        .FirstOrDefault();
-
-                if (patchFileInfo?.AssetFile is null)
-                    continue;
-
-                var tblName = patchFileInfo.TblId.GetPatchName();
-                var fileTypeName = assetFile.FileType.GetSnakeCaseName();
-
-                var sourceDirectory = Path.Combine(workingDirectoryConfig.Value.Value, "common", fileTypeName);
-                if (!Directory.Exists(sourceDirectory))
-                    throw new NotFoundException(nameof(sourceDirectory), sourceDirectory);
-
-                var destinationDirectory = request.ReplaceStaging 
-                    ? Path.Combine(stagingDirectoryConfig.Value.Value, "psarc", tblName, "common", fileTypeName)
-                    : Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-                
-                try
-                {
-                    if (!Directory.Exists(destinationDirectory))
-                        Directory.CreateDirectory(destinationDirectory);
-                    
-                    var packedFile = await mediator.Send(new PackFhmPath(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
-                    packedFiles.Add(packedFile);
-                }
-                finally
-                {
-                    if (!request.ReplaceStaging)
-                        Directory.Delete(destinationDirectory, true);
-                }
-            }
         }
-        
+
         var tarFileBytes = await compressor.CompressAsync(packedFiles, CompressionFormats.Tar, cancellationToken);
-        return new FileInfo(tarFileBytes, $"{request.Type.GetSnakeCaseName()}.tar", MediaTypeNames.Application.Octet);
+        return new FileInfo(tarFileBytes, "packed-fhm.tar", MediaTypeNames.Application.Octet);
     }
 }

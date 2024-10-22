@@ -72,6 +72,24 @@ const router = createBrowserRouter([
         lazy: async () => ({
           Component: (await import("./pages/tools")).default,
         }),
+        children: [
+          {
+            index: true,
+            element: <Navigate to="/tools/assets" replace />,
+          },
+          {
+            path: "assets",
+            lazy: async () => ({
+              Component: (await import("./pages/tools/assets")).default,
+            }),
+          },
+          {
+            path: "psarc",
+            lazy: async () => ({
+              Component: (await import("./pages/tools/psarc")).default,
+            }),
+          },
+        ],
       },
       {
         path: "settings",

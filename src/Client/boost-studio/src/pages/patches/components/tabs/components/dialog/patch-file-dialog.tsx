@@ -7,8 +7,7 @@ import {
 } from "@/pages/patches/libs/store"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ReloadIcon } from "@radix-ui/react-icons"
-import { PlusIcon } from "lucide-react"
-import { useForm, type UseFormReturn } from "react-hook-form"
+import { useForm } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -83,7 +82,6 @@ const PatchFileDialog = ({
 
   function onSubmit(input: CreatePatchFileSchema | UpdatePatchFileSchema) {
     startCreateTransition(async () => {
-      console.log(input)
       if (updatePatchFileSchema.safeParse(input).success) {
         const casted = input as UpdatePatchFileSchema
         await updatePatchFiles({

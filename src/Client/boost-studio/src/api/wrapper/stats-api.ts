@@ -33,9 +33,7 @@ export async function createUnitAmmoSlot(
   data: PostApiUnitStatsAmmoSlotRequest
 ) {
   const openapi = createStatsOpenApiConfiguration()
-  return await openapi.postApiUnitStatsAmmoSlot({
-    createUnitAmmoSlotCommand: data,
-  })
+  return await openapi.postApiUnitStatsAmmoSlot(data)
 }
 
 export async function deleteUnitAmmoSlot(id: string) {

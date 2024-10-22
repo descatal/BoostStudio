@@ -38,6 +38,7 @@ models/HitboxDto.ts
 models/HitboxGroupDto.ts
 models/HotReloadScex.ts
 models/NullableOfCompressionType.ts
+models/PackFhmAssetCommand.ts
 models/PaginatedListOfAmmoDto.ts
 models/PaginatedListOfAssetFileVm.ts
 models/PaginatedListOfHitboxDto.ts
@@ -64,6 +65,7 @@ models/UnitAmmoSlotDto.ts
 models/UnitDto.ts
 models/UnitProjectileDto.ts
 models/UnitStatDto.ts
+models/UnpackFhmAssetCommand.ts
 models/UpdateAmmoCommand.ts
 models/UpdateAssetFileByHashCommand.ts
 models/UpdateHitboxCommand.ts

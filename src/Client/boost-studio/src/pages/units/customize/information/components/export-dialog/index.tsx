@@ -47,13 +47,14 @@ const ExportDialog = ({ ...props }: ExportDialogProps) => {
     setHitboxesSelected,
     setProjectilesSelected,
   } = useExportDialogStore()
+
   const unit = useUnitsStore((state) => state.selectedUnits)
   const [isCreatePending, startCreateTransition] = React.useTransition()
 
   const form = useForm<ExportDialogSchema>({
     resolver: zodResolver(exportDialogSchema),
     defaultValues: {
-      unitId: unit[0]?.unitId,
+      unitId: unit ? (unit[0]?.unitId ?? 1011) : 1011,
       stats: statsSelected,
       ammo: ammoSelected,
       projectile: projectilesSelected,
@@ -71,24 +72,32 @@ const ExportDialog = ({ ...props }: ExportDialogProps) => {
       if (!input.unitId) return
 
       if (input.ammo) {
-        await exportAmmoByPath({})
+        await exportAmmoByPath({
+          exportAmmoByPathCommand: {},
+        })
       }
 
       if (input.stats) {
         await exportStatsByPath({
-          unitIds: [input.unitId],
+          exportUnitStatByPathCommand: {
+            unitIds: [input.unitId],
+          },
         })
       }
 
       if (input.projectile) {
         await exportProjectilesByPath({
-          unitIds: [input.unitId],
+          exportUnitProjectileByPathCommand: {
+            unitIds: [input.unitId],
+          },
         })
       }
 
       if (input.hitbox) {
         await exportHitboxesByPath({
-          unitIds: [input.unitId],
+          exportHitboxGroupByPathCommand: {
+            unitIds: [input.unitId],
+          },
         })
       }
 

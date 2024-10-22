@@ -478,6 +478,37 @@
         }
       }
     },
+    "/api/fhm/pack": {
+      "post": {
+        "tags": [
+          "Fhm"
+        ],
+        "operationId": "post-api-fhm-pack",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "$ref": "#/components/schemas/IFormFile"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/fhm/unpack": {
       "post": {
         "tags": [
@@ -509,25 +540,40 @@
         }
       }
     },
-    "/api/fhm/pack": {
+    "/api/fhm/pack/asset": {
       "post": {
         "tags": [
           "Fhm"
         ],
-        "operationId": "post-api-fhm-pack",
+        "operationId": "post-api-fhm-pack-asset",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "required": [
-                  "file"
-                ],
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "$ref": "#/components/schemas/IFormFile"
-                  }
-                }
+                "$ref": "#/components/schemas/PackFhmAssetCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/fhm/unpack/asset": {
+      "post": {
+        "tags": [
+          "Fhm"
+        ],
+        "operationId": "post-api-fhm-unpack-asset",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnpackFhmAssetCommand"
               }
             }
           },
@@ -4632,6 +4678,49 @@
         ],
         "default": "Zlib"
       },
+      "PackFhmAssetCommand": {
+        "type": "object",
+        "properties": {
+          "assetFileHashes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "assetFileTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "patchFileVersions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchFileVersion"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "replaceStaging": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
       "PaginatedListOfAmmoDto": {
         "required": [
           "items",
@@ -6225,6 +6314,49 @@
             "items": {
               "$ref": "#/components/schemas/UnitAmmoSlotDto"
             }
+          }
+        }
+      },
+      "UnpackFhmAssetCommand": {
+        "type": "object",
+        "properties": {
+          "assetFileHashes": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "assetFileTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "patchFileVersions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchFileVersion"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
           }
         }
       },

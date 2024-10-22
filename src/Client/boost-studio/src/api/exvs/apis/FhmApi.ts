@@ -14,6 +14,16 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  PackFhmAssetCommand,
+  UnpackFhmAssetCommand,
+} from '../models/index';
+import {
+    PackFhmAssetCommandFromJSON,
+    PackFhmAssetCommandToJSON,
+    UnpackFhmAssetCommandFromJSON,
+    UnpackFhmAssetCommandToJSON,
+} from '../models/index';
 
 export interface GetApiFhmPackPathRequest {
     sourcePath: string;
@@ -31,8 +41,16 @@ export interface PostApiFhmPackRequest {
     file: Blob;
 }
 
+export interface PostApiFhmPackAssetRequest {
+    packFhmAssetCommand: PackFhmAssetCommand;
+}
+
 export interface PostApiFhmUnpackRequest {
     file: Blob;
+}
+
+export interface PostApiFhmUnpackAssetRequest {
+    unpackFhmAssetCommand: UnpackFhmAssetCommand;
 }
 
 /**
@@ -191,6 +209,39 @@ export class FhmApi extends runtime.BaseAPI {
 
     /**
      */
+    async postApiFhmPackAssetRaw(requestParameters: PostApiFhmPackAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['packFhmAssetCommand'] == null) {
+            throw new runtime.RequiredError(
+                'packFhmAssetCommand',
+                'Required parameter "packFhmAssetCommand" was null or undefined when calling postApiFhmPackAsset().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/fhm/pack/asset`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PackFhmAssetCommandToJSON(requestParameters['packFhmAssetCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiFhmPackAsset(requestParameters: PostApiFhmPackAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiFhmPackAssetRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
     async postApiFhmUnpackRaw(requestParameters: PostApiFhmUnpackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['file'] == null) {
             throw new runtime.RequiredError(
@@ -238,6 +289,39 @@ export class FhmApi extends runtime.BaseAPI {
      */
     async postApiFhmUnpack(requestParameters: PostApiFhmUnpackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiFhmUnpackRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiFhmUnpackAssetRaw(requestParameters: PostApiFhmUnpackAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['unpackFhmAssetCommand'] == null) {
+            throw new runtime.RequiredError(
+                'unpackFhmAssetCommand',
+                'Required parameter "unpackFhmAssetCommand" was null or undefined when calling postApiFhmUnpackAsset().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/fhm/unpack/asset`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UnpackFhmAssetCommandToJSON(requestParameters['unpackFhmAssetCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiFhmUnpackAsset(requestParameters: PostApiFhmUnpackAssetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiFhmUnpackAssetRaw(requestParameters, initOverrides);
     }
 
 }

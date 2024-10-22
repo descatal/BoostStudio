@@ -14,6 +14,8 @@ import {
   useParams,
 } from "react-router-dom"
 
+import { Button } from "@/components/ui/button"
+
 const routes = ["/units/:unitId/customize/info/:tab"]
 
 const CustomizeUnitPage = () => {
@@ -66,7 +68,17 @@ const CustomizeUnitPage = () => {
                 setSelectedUnits={setSelectedUnits}
                 className={"w-[350px]"}
               />
-              <MainNav className="mx-6" />
+              <div className={"mr-4 flex w-full flex-row justify-between"}>
+                <MainNav className="mx-6" />
+                <div className={"flex gap-3"}>
+                  <Button className={"w-24"} variant={"outline"}>
+                    Unpack
+                  </Button>
+                  <Button className={"w-24"} variant={"outline"}>
+                    Pack
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
           <Outlet />
