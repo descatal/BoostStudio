@@ -15,24 +15,36 @@
 
 import * as runtime from '../runtime';
 import type {
-  NullableOfCompressionType,
+  PackPsarcByPatchFilesCommand,
+  PackPsarcByPathCommand,
+  UnpackPsarcByPatchFilesCommand,
+  UnpackPsarcByPathCommand,
 } from '../models/index';
 import {
-    NullableOfCompressionTypeFromJSON,
-    NullableOfCompressionTypeToJSON,
+    PackPsarcByPatchFilesCommandFromJSON,
+    PackPsarcByPatchFilesCommandToJSON,
+    PackPsarcByPathCommandFromJSON,
+    PackPsarcByPathCommandToJSON,
+    UnpackPsarcByPatchFilesCommandFromJSON,
+    UnpackPsarcByPatchFilesCommandToJSON,
+    UnpackPsarcByPathCommandFromJSON,
+    UnpackPsarcByPathCommandToJSON,
 } from '../models/index';
 
-export interface GetApiPsarcPackRequest {
-    sourcePath: string;
-    destinationPath: string;
-    filename?: string;
-    compressionType?: NullableOfCompressionType;
-    compressionLevel?: number;
+export interface PostApiPsarcPackPatchFilesRequest {
+    packPsarcByPatchFilesCommand: PackPsarcByPatchFilesCommand;
 }
 
-export interface GetApiPsarcUnpackRequest {
-    sourceFilePath: string;
-    outputDirectoryPath: string;
+export interface PostApiPsarcPackPathRequest {
+    packPsarcByPathCommand: PackPsarcByPathCommand;
+}
+
+export interface PostApiPsarcUnpackPatchFilesRequest {
+    unpackPsarcByPatchFilesCommand: UnpackPsarcByPatchFilesCommand;
+}
+
+export interface PostApiPsarcUnpackPathRequest {
+    unpackPsarcByPathCommand: UnpackPsarcByPathCommand;
 }
 
 /**
@@ -42,50 +54,26 @@ export class PsarcApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiPsarcPackRaw(requestParameters: GetApiPsarcPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['sourcePath'] == null) {
+    async postApiPsarcPackPatchFilesRaw(requestParameters: PostApiPsarcPackPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['packPsarcByPatchFilesCommand'] == null) {
             throw new runtime.RequiredError(
-                'sourcePath',
-                'Required parameter "sourcePath" was null or undefined when calling getApiPsarcPack().'
-            );
-        }
-
-        if (requestParameters['destinationPath'] == null) {
-            throw new runtime.RequiredError(
-                'destinationPath',
-                'Required parameter "destinationPath" was null or undefined when calling getApiPsarcPack().'
+                'packPsarcByPatchFilesCommand',
+                'Required parameter "packPsarcByPatchFilesCommand" was null or undefined when calling postApiPsarcPackPatchFiles().'
             );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters['sourcePath'] != null) {
-            queryParameters['SourcePath'] = requestParameters['sourcePath'];
-        }
-
-        if (requestParameters['destinationPath'] != null) {
-            queryParameters['DestinationPath'] = requestParameters['destinationPath'];
-        }
-
-        if (requestParameters['filename'] != null) {
-            queryParameters['Filename'] = requestParameters['filename'];
-        }
-
-        if (requestParameters['compressionType'] != null) {
-            queryParameters['CompressionType'] = requestParameters['compressionType'];
-        }
-
-        if (requestParameters['compressionLevel'] != null) {
-            queryParameters['CompressionLevel'] = requestParameters['compressionLevel'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
-            path: `/api/psarc/pack`,
-            method: 'GET',
+            path: `/api/psarc/pack/patch-files`,
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: PackPsarcByPatchFilesCommandToJSON(requestParameters['packPsarcByPatchFilesCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -93,44 +81,32 @@ export class PsarcApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiPsarcPack(requestParameters: GetApiPsarcPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiPsarcPackRaw(requestParameters, initOverrides);
+    async postApiPsarcPackPatchFiles(requestParameters: PostApiPsarcPackPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPsarcPackPatchFilesRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async getApiPsarcUnpackRaw(requestParameters: GetApiPsarcUnpackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['sourceFilePath'] == null) {
+    async postApiPsarcPackPathRaw(requestParameters: PostApiPsarcPackPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['packPsarcByPathCommand'] == null) {
             throw new runtime.RequiredError(
-                'sourceFilePath',
-                'Required parameter "sourceFilePath" was null or undefined when calling getApiPsarcUnpack().'
-            );
-        }
-
-        if (requestParameters['outputDirectoryPath'] == null) {
-            throw new runtime.RequiredError(
-                'outputDirectoryPath',
-                'Required parameter "outputDirectoryPath" was null or undefined when calling getApiPsarcUnpack().'
+                'packPsarcByPathCommand',
+                'Required parameter "packPsarcByPathCommand" was null or undefined when calling postApiPsarcPackPath().'
             );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters['sourceFilePath'] != null) {
-            queryParameters['SourceFilePath'] = requestParameters['sourceFilePath'];
-        }
-
-        if (requestParameters['outputDirectoryPath'] != null) {
-            queryParameters['OutputDirectoryPath'] = requestParameters['outputDirectoryPath'];
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
-            path: `/api/psarc/unpack`,
-            method: 'GET',
+            path: `/api/psarc/pack/path`,
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: PackPsarcByPathCommandToJSON(requestParameters['packPsarcByPathCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -138,8 +114,74 @@ export class PsarcApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiPsarcUnpack(requestParameters: GetApiPsarcUnpackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiPsarcUnpackRaw(requestParameters, initOverrides);
+    async postApiPsarcPackPath(requestParameters: PostApiPsarcPackPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPsarcPackPathRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiPsarcUnpackPatchFilesRaw(requestParameters: PostApiPsarcUnpackPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['unpackPsarcByPatchFilesCommand'] == null) {
+            throw new runtime.RequiredError(
+                'unpackPsarcByPatchFilesCommand',
+                'Required parameter "unpackPsarcByPatchFilesCommand" was null or undefined when calling postApiPsarcUnpackPatchFiles().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/psarc/unpack/patch-files`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UnpackPsarcByPatchFilesCommandToJSON(requestParameters['unpackPsarcByPatchFilesCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiPsarcUnpackPatchFiles(requestParameters: PostApiPsarcUnpackPatchFilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPsarcUnpackPatchFilesRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiPsarcUnpackPathRaw(requestParameters: PostApiPsarcUnpackPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['unpackPsarcByPathCommand'] == null) {
+            throw new runtime.RequiredError(
+                'unpackPsarcByPathCommand',
+                'Required parameter "unpackPsarcByPathCommand" was null or undefined when calling postApiPsarcUnpackPath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/psarc/unpack/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UnpackPsarcByPathCommandToJSON(requestParameters['unpackPsarcByPathCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiPsarcUnpackPath(requestParameters: PostApiPsarcUnpackPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPsarcUnpackPathRaw(requestParameters, initOverrides);
     }
 
 }

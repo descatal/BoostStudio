@@ -15,10 +15,11 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
+import { Icons } from "@/components/icons"
 
 const AssetTools = () => {
-  const [isPackPending, startPackTransition] = React.useTransition()
-  const [isUnpackPending, startUnpackTransition] = React.useTransition()
+  const [isPackPending, setIsPackPending] = React.useState(false)
+  const [isUnpackPending, setIsUnpackPending] = React.useState(false)
 
   const [selectedUnpackAssetFile, setSelectedUnpackAssetFile] = React.useState<
     AssetFileVm[] | undefined
@@ -28,53 +29,49 @@ const AssetTools = () => {
     AssetFileVm[] | undefined
   >()
 
-  function packFhmAsset() {
-    startPackTransition(async () => {
-      if (!selectedPackAssetFile) {
-        toast({
-          title: `Error`,
-          description: `Please select at least one asset!`,
-          variant: "destructive",
-        })
-        return
-      }
-
-      await packFhmAssets({
-        packFhmAssetCommand: {
-          assetFileHashes: selectedPackAssetFile.map((x) => x.hash),
-          replaceStaging: true,
-        },
-      })
-
+  const packFhmAsset = async () => {
+    if (!selectedPackAssetFile) {
       toast({
-        title: "Success",
-        description: `Successfully packed assets to staging directory!`,
+        title: `Error`,
+        description: `Please select at least one asset!`,
+        variant: "destructive",
       })
+      return
+    }
+
+    await packFhmAssets({
+      packFhmAssetCommand: {
+        assetFileHashes: selectedPackAssetFile.map((x) => x.hash),
+        replaceStaging: true,
+      },
+    })
+
+    toast({
+      title: "Success",
+      description: `Successfully packed assets to staging directory!`,
     })
   }
 
-  function unpackFhmAsset() {
-    startUnpackTransition(async () => {
-      if (!selectedUnpackAssetFile) {
-        toast({
-          title: `Error`,
-          description: `Please select at least one asset!`,
-          variant: "destructive",
-        })
-        return
-      }
-
-      await unpackFhmAssets({
-        unpackFhmAssetCommand: {
-          assetFileHashes: selectedUnpackAssetFile.map((x) => x.hash),
-          replaceWorking: true,
-        },
-      })
-
+  const unpackFhmAsset = async () => {
+    if (!selectedUnpackAssetFile) {
       toast({
-        title: "Success",
-        description: `Successfully unpacked assets to working directory!`,
+        title: `Error`,
+        description: `Please select at least one asset!`,
+        variant: "destructive",
       })
+      return
+    }
+
+    await unpackFhmAssets({
+      unpackFhmAssetCommand: {
+        assetFileHashes: selectedUnpackAssetFile.map((x) => x.hash),
+        replaceWorking: true,
+      },
+    })
+
+    toast({
+      title: "Success",
+      description: `Successfully unpacked assets to working directory!`,
     })
   }
 
@@ -99,9 +96,16 @@ const AssetTools = () => {
                 setResultAssetFiles={setSelectedPackAssetFile}
               />
               <Separator />
-              <Button disabled={isPackPending} onClick={packFhmAsset}>
+              <Button
+                disabled={isPackPending}
+                onClick={async () => {
+                  setIsPackPending(true)
+                  await packFhmAsset()
+                  setIsPackPending(false)
+                }}
+              >
                 {isPackPending && (
-                  <ReloadIcon
+                  <Icons.spinner
                     className="size-4 mr-2 animate-spin"
                     aria-hidden="true"
                   />
@@ -127,9 +131,16 @@ const AssetTools = () => {
                 setResultAssetFiles={setSelectedUnpackAssetFile}
               />
               <Separator />
-              <Button disabled={isUnpackPending} onClick={unpackFhmAsset}>
+              <Button
+                disabled={isUnpackPending}
+                onClick={async () => {
+                  setIsUnpackPending(true)
+                  await unpackFhmAsset()
+                  setIsUnpackPending(false)
+                }}
+              >
                 {isUnpackPending && (
-                  <ReloadIcon
+                  <Icons.spinner
                     className="size-4 mr-2 animate-spin"
                     aria-hidden="true"
                   />

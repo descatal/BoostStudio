@@ -586,53 +586,22 @@
         }
       }
     },
-    "/api/psarc/pack": {
-      "get": {
+    "/api/psarc/pack/path": {
+      "post": {
         "tags": [
           "Psarc"
         ],
-        "operationId": "get-api-psarc-pack",
-        "parameters": [
-          {
-            "name": "SourcePath",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "operationId": "post-api-psarc-pack-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PackPsarcByPathCommand"
+              }
             }
           },
-          {
-            "name": "DestinationPath",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Filename",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "CompressionType",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/NullableOfCompressionType"
-            }
-          },
-          {
-            "name": "CompressionLevel",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 9
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -640,30 +609,68 @@
         }
       }
     },
-    "/api/psarc/unpack": {
-      "get": {
+    "/api/psarc/unpack/path": {
+      "post": {
         "tags": [
           "Psarc"
         ],
-        "operationId": "get-api-psarc-unpack",
-        "parameters": [
-          {
-            "name": "SourceFilePath",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "operationId": "post-api-psarc-unpack-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnpackPsarcByPathCommand"
+              }
             }
           },
-          {
-            "name": "OutputDirectoryPath",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
+        }
+      }
+    },
+    "/api/psarc/pack/patch-files": {
+      "post": {
+        "tags": [
+          "Psarc"
         ],
+        "operationId": "post-api-psarc-pack-patch-files",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PackPsarcByPatchFilesCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/psarc/unpack/patch-files": {
+      "post": {
+        "tags": [
+          "Psarc"
+        ],
+        "operationId": "post-api-psarc-unpack-patch-files",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnpackPsarcByPatchFilesCommand"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -4676,7 +4683,8 @@
           "Lzma",
           null
         ],
-        "default": "Zlib"
+        "default": "Zlib",
+        "nullable": true
       },
       "PackFhmAssetCommand": {
         "type": "object",
@@ -4718,6 +4726,47 @@
           "replaceStaging": {
             "type": "boolean",
             "default": false
+          }
+        }
+      },
+      "PackPsarcByPatchFilesCommand": {
+        "type": "object",
+        "properties": {
+          "patchFileVersions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchFileVersion"
+            },
+            "default": null,
+            "nullable": true
+          }
+        }
+      },
+      "PackPsarcByPathCommand": {
+        "required": [
+          "sourcePath",
+          "destinationPath"
+        ],
+        "type": "object",
+        "properties": {
+          "sourcePath": {
+            "type": "string"
+          },
+          "destinationPath": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string",
+            "nullable": true
+          },
+          "compressionType": {
+            "$ref": "#/components/schemas/NullableOfCompressionType"
+          },
+          "compressionLevel": {
+            "type": "integer",
+            "format": "int32",
+            "default": 9,
+            "nullable": true
           }
         }
       },
@@ -6357,6 +6406,34 @@
           "replaceWorking": {
             "type": "boolean",
             "default": false
+          }
+        }
+      },
+      "UnpackPsarcByPatchFilesCommand": {
+        "type": "object",
+        "properties": {
+          "patchFileVersions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchFileVersion"
+            },
+            "default": null,
+            "nullable": true
+          }
+        }
+      },
+      "UnpackPsarcByPathCommand": {
+        "required": [
+          "sourceFilePath",
+          "outputDirectoryPath"
+        ],
+        "type": "object",
+        "properties": {
+          "sourceFilePath": {
+            "type": "string"
+          },
+          "outputDirectoryPath": {
+            "type": "string"
           }
         }
       },

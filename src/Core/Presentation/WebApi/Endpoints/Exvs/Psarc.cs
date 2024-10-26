@@ -12,15 +12,15 @@ public class Psarc : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this, DefinitionNames.Exvs)
-            .MapGet(PackPsarcByPath, "pack/path")
-            .MapGet(UnpackPsarcByPath, "unpack/path")
-            .MapGet(PackPsarcByPatchFiles, "pack/patch-files")
-            .MapGet(UnpackPsarcByPatchFiles, "unpack/patch-files");
+            .MapPost(PackPsarcByPath, "pack/path")
+            .MapPost(UnpackPsarcByPath, "unpack/path")
+            .MapPost(PackPsarcByPatchFiles, "pack/patch-files")
+            .MapPost(UnpackPsarcByPatchFiles, "unpack/patch-files");
     }
 
     private async Task PackPsarcByPath(
         ISender sender, 
-        [AsParameters] PackPsarcByPathCommand request, 
+        PackPsarcByPathCommand request, 
         CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
@@ -28,7 +28,7 @@ public class Psarc : EndpointGroupBase
 
     private async Task UnpackPsarcByPath(
         ISender sender, 
-        [AsParameters] UnpackPsarcByPathCommand request, 
+        UnpackPsarcByPathCommand request, 
         CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
@@ -36,7 +36,7 @@ public class Psarc : EndpointGroupBase
     
     private async Task PackPsarcByPatchFiles(
         ISender sender, 
-        [AsParameters] PackPsarcByPatchFilesCommand request, 
+        PackPsarcByPatchFilesCommand request, 
         CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
@@ -44,7 +44,7 @@ public class Psarc : EndpointGroupBase
     
     private async Task UnpackPsarcByPatchFiles(
         ISender sender, 
-        [AsParameters] UnpackPsarcByPatchFilesCommand request, 
+        UnpackPsarcByPatchFilesCommand request, 
         CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
