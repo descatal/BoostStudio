@@ -28,6 +28,7 @@ import { useSettingsStore } from "../libs/store"
 
 const STAGING_DIRECTORY = "STAGING_DIRECTORY"
 const WORKING_DIRECTORY = "WORKING_DIRECTORY"
+const PRODUCTION_DIRECTORY = "PRODUCTION_DIRECTORY"
 
 const upsertConfigSchema = z.object({
   key: z.string(),
@@ -39,7 +40,7 @@ const General = () => {
 
   const getConfigs = useCallback(async () => {
     const configs = await fetchConfigs({
-      keys: [STAGING_DIRECTORY, WORKING_DIRECTORY],
+      keys: [STAGING_DIRECTORY, WORKING_DIRECTORY, PRODUCTION_DIRECTORY],
     })
 
     const stagingDirectory = configs.find(
@@ -48,14 +49,20 @@ const General = () => {
     const workingDirectory = configs.find(
       (config) => config.key === WORKING_DIRECTORY
     )?.value
+    const productionDirectory = configs.find(
+      (config) => config.key === PRODUCTION_DIRECTORY
+    )?.value
 
     store.updateWorkingDirectory(workingDirectory)
     store.updateStagingDirectory(stagingDirectory)
+    store.updateStagingDirectory(productionDirectory)
 
     if (stagingDirectory)
       stagingDirectoryForm.setValue("value", stagingDirectory)
     if (workingDirectory)
       workingDirectoryForm.setValue("value", workingDirectory)
+    if (productionDirectory)
+      productionDirectoryForm.setValue("value", productionDirectory)
   }, [])
 
   const saveConfig = useCallback(async (Key: string, Value: string) => {
@@ -67,7 +74,7 @@ const General = () => {
     })
 
     toast({
-      title: "Saved config successfully!",
+      title: "Config saved successfully!",
     })
   }, [])
 
@@ -91,6 +98,14 @@ const General = () => {
     },
   })
 
+  const productionDirectoryForm = useForm<z.infer<typeof upsertConfigSchema>>({
+    resolver: zodResolver(upsertConfigSchema),
+    defaultValues: {
+      key: PRODUCTION_DIRECTORY,
+      value: "",
+    },
+  })
+
   const onConfigFormSubmit = async (
     values: z.infer<typeof upsertConfigSchema>
   ) => {
@@ -100,6 +115,8 @@ const General = () => {
       store.updateStagingDirectory(values.value)
     } else if (values.key === WORKING_DIRECTORY) {
       store.updateWorkingDirectory(values.value)
+    } else if (values.key === PRODUCTION_DIRECTORY) {
+      store.updateProductionDirectory(values.value)
     }
   }
 
@@ -159,6 +176,41 @@ const General = () => {
                   <FormItem>
                     <FormControl>
                       <Input placeholder="/workstation" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter className="border-t px-6 py-4">
+              <Button type={"submit"}>Save</Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+      <Form {...productionDirectoryForm}>
+        <form
+          onSubmit={productionDirectoryForm.handleSubmit(onConfigFormSubmit)}
+          className={"space-y-8"}
+        >
+          <Card x-chunk="dashboard-04-chunk-2">
+            <CardHeader>
+              <CardTitle>Production Directory</CardTitle>
+              <CardDescription>
+                The production directory that stores packed psarc files.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <FormField
+                control={productionDirectoryForm.control}
+                name={"value"}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="/rpcs3/dev_hdd0/game/NPJB00512/USRDIR"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

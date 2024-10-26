@@ -19,12 +19,12 @@ public class Fhm : EndpointGroupBase
             .MapPost(UnpackFhmAsset, "unpack/asset");
     }
     
-    private async Task PackFhmPath(ISender sender, [AsParameters] PackFhmPath request, CancellationToken cancellationToken)
+    private async Task PackFhmPath(ISender sender, [AsParameters] PackFhmByPathCommand request, CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
     }
     
-    private async Task UnpackFhmPath(ISender sender, [AsParameters] UnpackFhmPath request, CancellationToken cancellationToken)
+    private async Task UnpackFhmPath(ISender sender, [AsParameters] UnpackFhmByPathCommand request, CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
     }

@@ -14,7 +14,7 @@ public class UnpackPsarcRequest(IMediator mediator)
         string input, 
         string? output = null)
     {
-        await mediator.Send(new UnpackPsarcCommand(input, output ?? string.Empty));
+        await mediator.Send(new UnpackPsarcByPathCommand(input, output ?? string.Empty));
         return 0;
     }
 }

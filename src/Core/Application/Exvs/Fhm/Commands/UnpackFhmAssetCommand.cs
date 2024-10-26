@@ -107,7 +107,7 @@ public class UnpackFhmAssetCommandHandler(
 
                             var sourceFilePath = Path.Combine(sourceDirectory, $"PATCH{assetFile.Hash:X8}.PAC");
 
-                            var packedFile = await mediator.Send(new UnpackFhmPath(sourceFilePath, destinationDirectory), cancellationToken);
+                            var packedFile = await mediator.Send(new UnpackFhmByPathCommand(sourceFilePath, destinationDirectory), cancellationToken);
                             packedFiles.Add(packedFile);
                         }
                         finally
@@ -156,7 +156,7 @@ public class UnpackFhmAssetCommandHandler(
 
                         var sourceFilePath = Path.Combine(sourceDirectory, $"PATCH{assetFile.Hash:X8}.PAC");
 
-                        var packedFile = await mediator.Send(new UnpackFhmPath(sourceFilePath, destinationDirectory), cancellationToken);
+                        var packedFile = await mediator.Send(new UnpackFhmByPathCommand(sourceFilePath, destinationDirectory), cancellationToken);
                         packedFiles.Add(packedFile);
                     }
                     finally

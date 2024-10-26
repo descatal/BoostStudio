@@ -1,3 +1,4 @@
+using BoostStudio.Application.Exvs.Psarc.Commands;
 using BoostStudio.Application.Formats.PsarcFormat;
 using BoostStudio.Web.Constants;
 
@@ -11,16 +12,40 @@ public class Psarc : EndpointGroupBase
     public override void Map(WebApplication app)
     {
         app.MapGroup(this, DefinitionNames.Exvs)
-            .MapGet(PackPsarc, "pack")
-            .MapGet(UnpackPsarc, "unpack");
+            .MapGet(PackPsarcByPath, "pack/path")
+            .MapGet(UnpackPsarcByPath, "unpack/path")
+            .MapGet(PackPsarcByPatchFiles, "pack/patch-files")
+            .MapGet(UnpackPsarcByPatchFiles, "unpack/patch-files");
     }
 
-    public async Task PackPsarc(ISender sender, [AsParameters] PackPsarcCommand request, CancellationToken cancellationToken)
+    private async Task PackPsarcByPath(
+        ISender sender, 
+        [AsParameters] PackPsarcByPathCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
+    }
+
+    private async Task UnpackPsarcByPath(
+        ISender sender, 
+        [AsParameters] UnpackPsarcByPathCommand request, 
+        CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
     }
     
-    public async Task UnpackPsarc(ISender sender, [AsParameters] UnpackPsarcCommand request, CancellationToken cancellationToken)
+    private async Task PackPsarcByPatchFiles(
+        ISender sender, 
+        [AsParameters] PackPsarcByPatchFilesCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
+    }
+    
+    private async Task UnpackPsarcByPatchFiles(
+        ISender sender, 
+        [AsParameters] UnpackPsarcByPatchFilesCommand request, 
+        CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);
     }

@@ -3,18 +3,18 @@ using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Formats.FhmFormat.Commands;
 
-public record UnpackFhmPath(
+public record UnpackFhmByPathCommand(
     string SourceFilePath, 
     string OutputDirectoryPath,
     bool MultipleFiles = false
 ) : IRequest<FileInfo>;
 
-public class UnpackFhmPathHandler(
+public class UnpackFhmByPathCommandHandler(
     ISender sender,
-    ILogger<UnpackFhmPathHandler> logger
-) : IRequestHandler<UnpackFhmPath, FileInfo>
+    ILogger<UnpackFhmByPathCommandHandler> logger
+) : IRequestHandler<UnpackFhmByPathCommand, FileInfo>
 {
-    public async ValueTask<FileInfo> Handle(UnpackFhmPath request, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(UnpackFhmByPathCommand request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();

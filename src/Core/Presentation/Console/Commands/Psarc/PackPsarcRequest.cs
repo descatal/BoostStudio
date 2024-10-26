@@ -22,7 +22,7 @@ public class PackPsarcRequest(IMediator mediator)
         string? output = null, 
         string? fileName = null)
     {
-        var packPsarcCommand = new PackPsarcCommand
+        var packPsarcCommand = new PackPsarcByPathCommand
          {
              SourcePath = input,
              DestinationPath = output ?? string.Empty,

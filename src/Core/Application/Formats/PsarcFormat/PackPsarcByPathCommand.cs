@@ -3,10 +3,11 @@ using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Domain.Entities.PsarcFormat;
 using Mediator;
 using Microsoft.Extensions.Logging;
+using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Formats.PsarcFormat;
 
-public record PackPsarcCommand : IRequest
+public record PackPsarcByPathCommand : IRequest<FileInfo>
 {
     public required string SourcePath { get; init; }
 
@@ -24,9 +25,9 @@ public record PackPsarcCommand : IRequest
 public class PackFhmCommandHandler(
     IPsarcPacker psarcPacker, 
     ILogger<PackFhmCommandHandler> logger
-) : IRequestHandler<PackPsarcCommand>
+) : IRequestHandler<PackPsarcByPathCommand, FileInfo>
 {
-    public async ValueTask<Unit> Handle(PackPsarcCommand request, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(PackPsarcByPathCommand request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Received command to pack psarc {@Request}", request);
         
@@ -74,7 +75,11 @@ public class PackFhmCommandHandler(
             compressionType, 
             compressionLevel, 
             cancellationToken);
+
+        if (!File.Exists(destinationPath))
+            throw new Exception("Failed to create psarc archive.");
         
-        return default;
+        var packedBytes = await File.ReadAllBytesAsync(destinationPath, cancellationToken);
+        return new FileInfo(packedBytes, outputFileName);
     }
 }

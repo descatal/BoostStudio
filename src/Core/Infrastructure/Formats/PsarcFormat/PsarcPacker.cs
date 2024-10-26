@@ -12,7 +12,10 @@ namespace BoostStudio.Infrastructure.Formats.PsarcFormat;
 // TODO rework to Kaitai struct implementation
 public class PsarcPacker(ILogger<PsarcPacker> logger) : IPsarcPacker
 {
-    public async Task UnpackAsync(string sourceFilePath, string destinationPath, CancellationToken cancellationToken)
+    public async Task UnpackAsync(
+        string sourceFilePath, 
+        string destinationPath, 
+        CancellationToken cancellationToken)
     {
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);

@@ -1,12 +1,19 @@
-﻿using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
+﻿using BoostStudio.Application.Common.Interfaces;
+using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
+using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Formats.PsarcFormat;
 
-public record UnpackPsarcCommand(string SourceFilePath, string OutputDirectoryPath) : IRequest;
+public record UnpackPsarcByPathCommand(
+    string SourceFilePath, 
+    string OutputDirectoryPath
+) : IRequest;
 
-public class UnpackPsarcCommandHandler(IPsarcPacker psarcPacker) : IRequestHandler<UnpackPsarcCommand>
+public class UnpackPsarcCommandHandler(
+    IPsarcPacker psarcPacker
+) : IRequestHandler<UnpackPsarcByPathCommand>
 {
-    public async ValueTask<Unit> Handle(UnpackPsarcCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UnpackPsarcByPathCommand request, CancellationToken cancellationToken)
     {
         if (!File.Exists(request.SourceFilePath))
             throw new FileNotFoundException();
@@ -18,11 +25,11 @@ public class UnpackPsarcCommandHandler(IPsarcPacker psarcPacker) : IRequestHandl
         var outputDirectory = string.IsNullOrWhiteSpace(input)
             ? fallbackPath
             : request.OutputDirectoryPath;
-        
-        await psarcPacker.UnpackAsync(input, outputDirectory, cancellationToken);
-        
+
         if (!Directory.Exists(outputDirectory))
             Directory.CreateDirectory(outputDirectory);
+        
+        await psarcPacker.UnpackAsync(input, outputDirectory, cancellationToken);
         
         return default;
     }

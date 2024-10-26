@@ -111,7 +111,7 @@ public class PackFhmAssetCommandHandler(
                             if (!Directory.Exists(destinationDirectory))
                                 Directory.CreateDirectory(destinationDirectory);
 
-                            var packedFile = await mediator.Send(new PackFhmPath(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
+                            var packedFile = await mediator.Send(new PackFhmByPathCommand(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
                             packedFiles.Add(packedFile);
                         }
                         finally
@@ -157,7 +157,7 @@ public class PackFhmAssetCommandHandler(
                         if (!Directory.Exists(destinationDirectory))
                             Directory.CreateDirectory(destinationDirectory);
 
-                        var packedFile = await mediator.Send(new PackFhmPath(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
+                        var packedFile = await mediator.Send(new PackFhmByPathCommand(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
                         packedFiles.Add(packedFile);
                     }
                     finally

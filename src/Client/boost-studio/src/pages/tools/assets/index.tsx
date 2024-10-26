@@ -1,13 +1,7 @@
 ﻿import React from "react"
 import { AssetFileVm } from "@/api/exvs"
 import { packFhmAssets, unpackFhmAssets } from "@/api/wrapper/fhm-api"
-import { createPatchFiles, updatePatchFiles } from "@/api/wrapper/tbl-api"
 import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
-import {
-  createPatchFileSchema,
-  UpdatePatchFileSchema,
-  updatePatchFileSchema,
-} from "@/pages/patches/components/tabs/libs/validations"
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
@@ -19,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 
 const AssetTools = () => {
@@ -34,108 +28,119 @@ const AssetTools = () => {
     AssetFileVm[] | undefined
   >()
 
+  function packFhmAsset() {
+    startPackTransition(async () => {
+      if (!selectedPackAssetFile) {
+        toast({
+          title: `Error`,
+          description: `Please select at least one asset!`,
+          variant: "destructive",
+        })
+        return
+      }
+
+      await packFhmAssets({
+        packFhmAssetCommand: {
+          assetFileHashes: selectedPackAssetFile.map((x) => x.hash),
+          replaceStaging: true,
+        },
+      })
+
+      toast({
+        title: "Success",
+        description: `Successfully packed assets to staging directory!`,
+      })
+    })
+  }
+
+  function unpackFhmAsset() {
+    startUnpackTransition(async () => {
+      if (!selectedUnpackAssetFile) {
+        toast({
+          title: `Error`,
+          description: `Please select at least one asset!`,
+          variant: "destructive",
+        })
+        return
+      }
+
+      await unpackFhmAssets({
+        unpackFhmAssetCommand: {
+          assetFileHashes: selectedUnpackAssetFile.map((x) => x.hash),
+          replaceWorking: true,
+        },
+      })
+
+      toast({
+        title: "Success",
+        description: `Successfully unpacked assets to working directory!`,
+      })
+    })
+  }
+
   return (
-    <div className="grid gap-4 md:grid-cols-[1fr_250px] lg:grid-cols-3 lg:gap-8">
-      <Tabs>
-        <TabsList></TabsList>
-        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-          <TabsContent value={"pack"}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Pack Assets</CardTitle>
-                <CardDescription>
-                  Pack asset files to .fhm container format from working
-                  directory to staging directory.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-6">
-                  <AssetFilesSearcher
-                    setResultAssetFiles={setSelectedPackAssetFile}
+    <Tabs defaultValue={"pack"}>
+      <TabsList>
+        <TabsTrigger value="pack">Pack</TabsTrigger>
+        <TabsTrigger value="unpack">Unpack</TabsTrigger>
+      </TabsList>
+      <TabsContent className={"w-full"} value={"pack"}>
+        <Card className={"md:max-w-[40vw]"}>
+          <CardHeader>
+            <CardTitle>Pack Assets</CardTitle>
+            <CardDescription>
+              Pack asset files to .fhm container format from working directory
+              to staging directory.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6">
+              <AssetFilesSearcher
+                setResultAssetFiles={setSelectedPackAssetFile}
+              />
+              <Separator />
+              <Button disabled={isPackPending} onClick={packFhmAsset}>
+                {isPackPending && (
+                  <ReloadIcon
+                    className="size-4 mr-2 animate-spin"
+                    aria-hidden="true"
                   />
-                  <Separator />
-                  <Button
-                    disabled={isPackPending}
-                    onClick={() => {
-                      startPackTransition(async () => {
-                        if (!selectedPackAssetFile) return
-
-                        await packFhmAssets({
-                          packFhmAssetCommand: {
-                            assetFileHashes: selectedPackAssetFile.map(
-                              (x) => x.hash
-                            ),
-                            replaceStaging: true,
-                          },
-                        })
-                      })
-                    }}
-                  >
-                    {isPackPending && (
-                      <ReloadIcon
-                        className="size-4 mr-2 animate-spin"
-                        aria-hidden="true"
-                      />
-                    )}
-                    Pack
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </div>
-        <div className="grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8">
-          <TabsContent value={"unpack"}>
-            <Card>
-              <CardHeader>
-                <CardTitle>Unpack Assets</CardTitle>
-                <CardDescription>
-                  Unpack asset files from .fhm container format to working
-                  directory.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-6">
-                  <AssetFilesSearcher
-                    setResultAssetFiles={setSelectedUnpackAssetFile}
+                )}
+                Pack
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </TabsContent>
+      <TabsContent className={"w-full"} value={"unpack"}>
+        <Card className={"md:max-w-[40vw]"}>
+          <CardHeader>
+            <CardTitle>Unpack Assets</CardTitle>
+            <CardDescription>
+              Unpack asset files from .fhm container format to working
+              directory.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-6">
+              <AssetFilesSearcher
+                setResultAssetFiles={setSelectedUnpackAssetFile}
+              />
+              <Separator />
+              <Button disabled={isUnpackPending} onClick={unpackFhmAsset}>
+                {isUnpackPending && (
+                  <ReloadIcon
+                    className="size-4 mr-2 animate-spin"
+                    aria-hidden="true"
                   />
-                  {selectedUnpackAssetFile && (
-                    <>
-                      <Separator />
-                      <Button
-                        disabled={isUnpackPending}
-                        onClick={() => {
-                          startUnpackTransition(async () => {
-                            if (!selectedUnpackAssetFile) return
-
-                            await unpackFhmAssets({
-                              unpackFhmAssetCommand: {
-                                assetFileHashes: selectedUnpackAssetFile.map(
-                                  (x) => x.hash
-                                ),
-                                replaceWorking: true,
-                              },
-                            })
-                          })
-                        }}
-                      >
-                        {isUnpackPending && (
-                          <ReloadIcon
-                            className="size-4 mr-2 animate-spin"
-                            aria-hidden="true"
-                          />
-                        )}
-                        Unpack
-                      </Button>
-                    </>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </div>
-      </Tabs>
-    </div>
+                )}
+                Unpack
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </TabsContent>
+    </Tabs>
   )
 }
 

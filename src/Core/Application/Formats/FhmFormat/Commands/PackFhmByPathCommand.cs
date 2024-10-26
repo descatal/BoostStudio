@@ -1,22 +1,23 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using Microsoft.Extensions.Logging;
+using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Formats.FhmFormat.Commands;
 
-public record PackFhmPath(
+public record PackFhmByPathCommand(
     string SourcePath, 
     string DestinationPath,
     string? FileName = null
-) : IRequest<Common.Models.FileInfo>;
+) : IRequest<FileInfo>;
 
-public class PackFhmPathHandler(
+public class PackFhmByPathCommandHandler(
     IFormatBinarySerializer<Fhm> formatBinarySerializer,
     IFhmPacker fhmPacker,
-    ILogger<PackFhmPathHandler> logger
-) : IRequestHandler<PackFhmPath, Common.Models.FileInfo>
+    ILogger<PackFhmByPathCommandHandler> logger
+) : IRequestHandler<PackFhmByPathCommand, FileInfo>
 {
-    public async ValueTask<Common.Models.FileInfo> Handle(PackFhmPath request, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(PackFhmByPathCommand request, CancellationToken cancellationToken)
     {
         var outputFileName = request.FileName;
         
@@ -58,6 +59,6 @@ public class PackFhmPathHandler(
         var serializedFhm = await formatBinarySerializer.SerializeAsync(packedFhm, cancellationToken);
         await File.WriteAllBytesAsync(destinationPath, serializedFhm, cancellationToken);
         
-        return new Common.Models.FileInfo(serializedFhm, outputFileName);
+        return new FileInfo(serializedFhm, outputFileName);
     }
 }
