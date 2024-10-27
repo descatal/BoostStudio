@@ -1,46 +1,25 @@
 import React, { useCallback, useEffect } from "react"
-import { UpsertConfigCommand } from "@/api/exvs"
-import { fetchConfigs, upsertConfig } from "@/api/wrapper/config-api"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
+import { fetchConfigs } from "@/api/wrapper/config-api"
 
 import { useSettingsStore } from "../libs/store"
+import ConfigForm from "./forms/config-form"
 
 const STAGING_DIRECTORY = "STAGING_DIRECTORY"
 const WORKING_DIRECTORY = "WORKING_DIRECTORY"
 const PRODUCTION_DIRECTORY = "PRODUCTION_DIRECTORY"
-
-const upsertConfigSchema = z.object({
-  key: z.string(),
-  value: z.string(),
-}) satisfies z.ZodType<UpsertConfigCommand>
+const SCRIPT_DIRECTORY = "SCRIPT_DIRECTORY"
 
 const General = () => {
   const store = useSettingsStore()
 
   const getConfigs = useCallback(async () => {
     const configs = await fetchConfigs({
-      keys: [STAGING_DIRECTORY, WORKING_DIRECTORY, PRODUCTION_DIRECTORY],
+      keys: [
+        STAGING_DIRECTORY,
+        WORKING_DIRECTORY,
+        PRODUCTION_DIRECTORY,
+        SCRIPT_DIRECTORY,
+      ],
     })
 
     const stagingDirectory = configs.find(
@@ -52,177 +31,66 @@ const General = () => {
     const productionDirectory = configs.find(
       (config) => config.key === PRODUCTION_DIRECTORY
     )?.value
+    const scriptDirectory = configs.find(
+      (config) => config.key === SCRIPT_DIRECTORY
+    )?.value
 
     store.updateWorkingDirectory(workingDirectory)
     store.updateStagingDirectory(stagingDirectory)
-    store.updateStagingDirectory(productionDirectory)
-
-    if (stagingDirectory)
-      stagingDirectoryForm.setValue("value", stagingDirectory)
-    if (workingDirectory)
-      workingDirectoryForm.setValue("value", workingDirectory)
-    if (productionDirectory)
-      productionDirectoryForm.setValue("value", productionDirectory)
-  }, [])
-
-  const saveConfig = useCallback(async (Key: string, Value: string) => {
-    await upsertConfig({
-      upsertConfigCommand: {
-        key: Key,
-        value: Value,
-      },
-    })
-
-    toast({
-      title: "Config saved successfully!",
-    })
+    store.updateProductionDirectory(productionDirectory)
+    store.updateScriptDirectory(scriptDirectory)
   }, [])
 
   useEffect(() => {
     getConfigs().catch((err) => console.log(err))
   }, [])
 
-  const stagingDirectoryForm = useForm<z.infer<typeof upsertConfigSchema>>({
-    resolver: zodResolver(upsertConfigSchema),
-    defaultValues: {
-      key: STAGING_DIRECTORY,
-      value: "",
-    },
-  })
-
-  const workingDirectoryForm = useForm<z.infer<typeof upsertConfigSchema>>({
-    resolver: zodResolver(upsertConfigSchema),
-    defaultValues: {
-      key: WORKING_DIRECTORY,
-      value: "",
-    },
-  })
-
-  const productionDirectoryForm = useForm<z.infer<typeof upsertConfigSchema>>({
-    resolver: zodResolver(upsertConfigSchema),
-    defaultValues: {
-      key: PRODUCTION_DIRECTORY,
-      value: "",
-    },
-  })
-
-  const onConfigFormSubmit = async (
-    values: z.infer<typeof upsertConfigSchema>
-  ) => {
-    await saveConfig(values.key, values.value)
-
-    if (values.key === STAGING_DIRECTORY) {
-      store.updateStagingDirectory(values.value)
-    } else if (values.key === WORKING_DIRECTORY) {
-      store.updateWorkingDirectory(values.value)
-    } else if (values.key === PRODUCTION_DIRECTORY) {
-      store.updateProductionDirectory(values.value)
+  const onConfigFormSubmit = async (key: string, value: string) => {
+    if (key === STAGING_DIRECTORY) {
+      store.updateStagingDirectory(value)
+    } else if (key === WORKING_DIRECTORY) {
+      store.updateWorkingDirectory(value)
+    } else if (key === PRODUCTION_DIRECTORY) {
+      store.updateProductionDirectory(value)
+    } else if (key === SCRIPT_DIRECTORY) {
+      store.updateScriptDirectory(value)
     }
   }
 
   return (
     <div className="grid gap-6">
-      <Form {...stagingDirectoryForm}>
-        <form
-          onSubmit={stagingDirectoryForm.handleSubmit(onConfigFormSubmit)}
-          className={"space-y-8"}
-        >
-          <Card x-chunk="dashboard-04-chunk-1">
-            <CardHeader>
-              <CardTitle>Staging Directory</CardTitle>
-              <CardDescription>
-                The `.moddedboost` folder inside your RPCS3 directory
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
-                control={stagingDirectoryForm.control}
-                name={"value"}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="/rpcs3/.moddedboost" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter className="border-t px-6 py-4">
-              <Button type={"submit"} variant={"default"}>
-                Save
-              </Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
-      <Form {...workingDirectoryForm}>
-        <form
-          onSubmit={workingDirectoryForm.handleSubmit(onConfigFormSubmit)}
-          className={"space-y-8"}
-        >
-          <Card x-chunk="dashboard-04-chunk-2">
-            <CardHeader>
-              <CardTitle>Working Directory</CardTitle>
-              <CardDescription>
-                The working directory to store intermediate files.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
-                control={workingDirectoryForm.control}
-                name={"value"}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="/workstation" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter className="border-t px-6 py-4">
-              <Button type={"submit"}>Save</Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
-      <Form {...productionDirectoryForm}>
-        <form
-          onSubmit={productionDirectoryForm.handleSubmit(onConfigFormSubmit)}
-          className={"space-y-8"}
-        >
-          <Card x-chunk="dashboard-04-chunk-2">
-            <CardHeader>
-              <CardTitle>Production Directory</CardTitle>
-              <CardDescription>
-                The production directory that stores packed psarc files.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
-                control={productionDirectoryForm.control}
-                name={"value"}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="/rpcs3/dev_hdd0/game/NPJB00512/USRDIR"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter className="border-t px-6 py-4">
-              <Button type={"submit"}>Save</Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
+      <ConfigForm
+        title={"Staging Directory"}
+        description={"The `.moddedboost` folder inside your RPCS3 directory"}
+        placeholder={"/rpcs3/.moddedboost"}
+        configKey={STAGING_DIRECTORY}
+        configValue={store.stagingDirectory}
+        onSubmit={onConfigFormSubmit}
+      />
+      <ConfigForm
+        title={"Working Directory"}
+        description={"The working directory to store intermediate asset files."}
+        placeholder={"/workstation"}
+        configKey={WORKING_DIRECTORY}
+        configValue={store.workingDirectory}
+        onSubmit={onConfigFormSubmit}
+      />
+      <ConfigForm
+        title={"Production Directory"}
+        description={"The directory that stores packed psarc files."}
+        placeholder={"/rpcs3/dev_hdd0/game/NPJB00512/USRDIR"}
+        configKey={PRODUCTION_DIRECTORY}
+        configValue={store.productionDirectory}
+        onSubmit={onConfigFormSubmit}
+      />
+      <ConfigForm
+        title={"Script Directory"}
+        description={"The directory that stores units' scex script files."}
+        placeholder={"/scripts"}
+        configKey={SCRIPT_DIRECTORY}
+        configValue={store.scriptDirectory}
+        onSubmit={onConfigFormSubmit}
+      />
     </div>
   )
 }

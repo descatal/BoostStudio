@@ -26,7 +26,6 @@ public class PackPsarcPatchFilesCommandHandler(
         if (productionDirectoryConfig.IsError)
             throw new NotFoundException(ConfigKeys.ProductionDirectory, productionDirectoryConfig.FirstError.Description);
 
-        var packedFiles = new List<FileInfo>();
         foreach (var patchFileVersion in request.PatchFileVersions ?? [])
         {
             var patchFileName = patchFileVersion.GetPatchName();

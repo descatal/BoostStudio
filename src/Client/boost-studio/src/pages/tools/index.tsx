@@ -30,6 +30,11 @@ const sidebarNavItems = [
     icon: <IconBrowserCheck size={18} />,
     href: "/tools/psarc",
   },
+  {
+    title: "Scripts",
+    icon: <IconBrowserCheck size={18} />,
+    href: "/tools/scripts",
+  },
 ]
 
 export default function Tools() {

@@ -15,21 +15,35 @@
 
 import * as runtime from '../runtime';
 import type {
+  CompileScexByPathCommand,
+  CompileScexByUnitsCommand,
+  DecompileScexByUnitsCommand,
   HotReloadScex,
 } from '../models/index';
 import {
+    CompileScexByPathCommandFromJSON,
+    CompileScexByPathCommandToJSON,
+    CompileScexByUnitsCommandFromJSON,
+    CompileScexByUnitsCommandToJSON,
+    DecompileScexByUnitsCommandFromJSON,
+    DecompileScexByUnitsCommandToJSON,
     HotReloadScexFromJSON,
     HotReloadScexToJSON,
 } from '../models/index';
 
-export interface GetApiScexCompileRequest {
-    sourcePath: string;
-    destinationPath: string;
-    fileName?: string;
-    hotReload?: boolean;
+export interface PostApiScexCompilePathRequest {
+    compileScexByPathCommand: CompileScexByPathCommand;
 }
 
-export interface PostApiScexHotReloadRequest {
+export interface PostApiScexCompileUnitsRequest {
+    compileScexByUnitsCommand: CompileScexByUnitsCommand;
+}
+
+export interface PostApiScexDecompileUnitsRequest {
+    decompileScexByUnitsCommand: DecompileScexByUnitsCommand;
+}
+
+export interface PostApiScexHotReloadPathRequest {
     hotReloadScex: HotReloadScex;
 }
 
@@ -40,64 +54,11 @@ export class ScexApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiScexCompileRaw(requestParameters: GetApiScexCompileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['sourcePath'] == null) {
+    async postApiScexCompilePathRaw(requestParameters: PostApiScexCompilePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['compileScexByPathCommand'] == null) {
             throw new runtime.RequiredError(
-                'sourcePath',
-                'Required parameter "sourcePath" was null or undefined when calling getApiScexCompile().'
-            );
-        }
-
-        if (requestParameters['destinationPath'] == null) {
-            throw new runtime.RequiredError(
-                'destinationPath',
-                'Required parameter "destinationPath" was null or undefined when calling getApiScexCompile().'
-            );
-        }
-
-        const queryParameters: any = {};
-
-        if (requestParameters['sourcePath'] != null) {
-            queryParameters['SourcePath'] = requestParameters['sourcePath'];
-        }
-
-        if (requestParameters['destinationPath'] != null) {
-            queryParameters['DestinationPath'] = requestParameters['destinationPath'];
-        }
-
-        if (requestParameters['fileName'] != null) {
-            queryParameters['FileName'] = requestParameters['fileName'];
-        }
-
-        if (requestParameters['hotReload'] != null) {
-            queryParameters['HotReload'] = requestParameters['hotReload'];
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/api/scex/compile`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.VoidApiResponse(response);
-    }
-
-    /**
-     */
-    async getApiScexCompile(requestParameters: GetApiScexCompileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiScexCompileRaw(requestParameters, initOverrides);
-    }
-
-    /**
-     */
-    async postApiScexHotReloadRaw(requestParameters: PostApiScexHotReloadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters['hotReloadScex'] == null) {
-            throw new runtime.RequiredError(
-                'hotReloadScex',
-                'Required parameter "hotReloadScex" was null or undefined when calling postApiScexHotReload().'
+                'compileScexByPathCommand',
+                'Required parameter "compileScexByPathCommand" was null or undefined when calling postApiScexCompilePath().'
             );
         }
 
@@ -108,7 +69,106 @@ export class ScexApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/scex/hot-reload`,
+            path: `/api/scex/compile/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CompileScexByPathCommandToJSON(requestParameters['compileScexByPathCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiScexCompilePath(requestParameters: PostApiScexCompilePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiScexCompilePathRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiScexCompileUnitsRaw(requestParameters: PostApiScexCompileUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['compileScexByUnitsCommand'] == null) {
+            throw new runtime.RequiredError(
+                'compileScexByUnitsCommand',
+                'Required parameter "compileScexByUnitsCommand" was null or undefined when calling postApiScexCompileUnits().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/scex/compile/units`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: CompileScexByUnitsCommandToJSON(requestParameters['compileScexByUnitsCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiScexCompileUnits(requestParameters: PostApiScexCompileUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiScexCompileUnitsRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiScexDecompileUnitsRaw(requestParameters: PostApiScexDecompileUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['decompileScexByUnitsCommand'] == null) {
+            throw new runtime.RequiredError(
+                'decompileScexByUnitsCommand',
+                'Required parameter "decompileScexByUnitsCommand" was null or undefined when calling postApiScexDecompileUnits().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/scex/decompile/units`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DecompileScexByUnitsCommandToJSON(requestParameters['decompileScexByUnitsCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiScexDecompileUnits(requestParameters: PostApiScexDecompileUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiScexDecompileUnitsRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiScexHotReloadPathRaw(requestParameters: PostApiScexHotReloadPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['hotReloadScex'] == null) {
+            throw new runtime.RequiredError(
+                'hotReloadScex',
+                'Required parameter "hotReloadScex" was null or undefined when calling postApiScexHotReloadPath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/scex/hot-reload/path`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -120,8 +180,8 @@ export class ScexApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiScexHotReload(requestParameters: PostApiScexHotReloadRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postApiScexHotReloadRaw(requestParameters, initOverrides);
+    async postApiScexHotReloadPath(requestParameters: PostApiScexHotReloadPathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiScexHotReloadPathRaw(requestParameters, initOverrides);
     }
 
 }

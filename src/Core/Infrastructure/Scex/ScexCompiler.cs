@@ -8,6 +8,68 @@ namespace BoostStudio.Infrastructure.Scex;
 
 public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
 {
+    public async Task DecompileAsync(
+        string sourcePath,
+        string destinationPath,
+        CancellationToken cancellationToken = default)
+    {
+        var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(workingDirectory);
+
+        logger.LogInformation("Creating temporary working directory: {workingDirectory}", workingDirectory);
+
+        try
+        {
+            if (!File.Exists(sourcePath))
+            {
+                logger.LogInformation("{sourcePath} is not a valid file, exiting decompiling operation", sourcePath);
+                return;
+            }
+
+            var tempExecutablePath = await InitializeDecompilerExecutableAsync(workingDirectory, cancellationToken);
+
+            var arguments = $"\"{sourcePath}\" -o \"{destinationPath}\"";
+            logger.LogInformation("Executing scex-decompiler.exe with: {arguments}", arguments);
+
+            // Execute process
+            using var process = new Process();
+            process.StartInfo = new ProcessStartInfo
+            {
+                Arguments = arguments,
+                CreateNoWindow = true,
+                FileName = tempExecutablePath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            };
+            process.Start();
+
+            // Synchronously read the standard output of the spawned process.
+            var stdOut = process.StandardOutput;
+            var stdErr = process.StandardError;
+
+            while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
+                logger.LogInformation("{outputLine}", outputLine);
+
+            var errorOutput = new StringBuilder();
+            while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
+                errorOutput.Append(outputLine);
+        
+            await process.WaitForExitAsync(cancellationToken);
+
+            if (!File.Exists(destinationPath) || process.ExitCode != 0)
+                throw new Exception($"Failed to decompile scex. Error: {errorOutput}");
+
+            logger.LogInformation("Successfully decompiled scex script on: {destinationPath}", destinationPath);
+        }
+        finally
+        {
+            logger.LogInformation("Cleaning up temporary working directory...");
+
+            // Cleanup regardless
+            Directory.Delete(workingDirectory, true);
+        }
+    }
+    
     public async Task CompileAsync(
         string sourcePath,
         string destinationPath,
@@ -20,11 +82,49 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
 
         try
         {
-            await CompileInternal(
-                sourcePath,
-                destinationPath,
-                workingDirectory,
-                cancellationToken);
+            if (!File.Exists(sourcePath))
+            {
+                logger.LogInformation("{sourcePath} is not a valid file, exiting compiling operation", sourcePath);
+                return;
+            }
+
+            var tempExecutablePath = await InitializeCompilerExecutableAsync(workingDirectory, cancellationToken);
+
+            var arguments = $"\"{sourcePath}\" -o \"{destinationPath}\" -i";
+            logger.LogInformation("Executing scex-compiler.exe with: {arguments}", arguments);
+
+            // Execute process
+            using var process = new Process();
+            process.StartInfo = new ProcessStartInfo
+            {
+                Arguments = arguments,
+                CreateNoWindow = true,
+                FileName = tempExecutablePath,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            };
+            process.Start();
+
+            // Synchronously read the standard output of the spawned process.
+            var stdOut = process.StandardOutput;
+            var stdErr = process.StandardError;
+
+            while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
+                logger.LogInformation("{outputLine}", outputLine);
+
+            var errorOutput = new StringBuilder();
+            while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
+                errorOutput.Append(outputLine);
+        
+            await process.WaitForExitAsync(cancellationToken);
+
+            if (!File.Exists(destinationPath) || process.ExitCode != 0)
+                throw new Exception($"Failed to compile scex. Error: {errorOutput}");
+
+            // Weird patching
+            BinaryPatch(sourcePath, destinationPath);
+
+            logger.LogInformation("Successfully compiled scex script on: {destinationPath}", destinationPath);
         }
         finally
         {
@@ -35,71 +135,39 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
         }
     }
 
-    private async Task CompileInternal(
-        string sourcePath,
-        string destinationPath,
-        string workingDirectory,
-        CancellationToken cancellationToken)
-    {
-        if (!File.Exists(sourcePath))
-        {
-            logger.LogInformation("{sourcePath} is not a valid file, exiting compiling operation", sourcePath);
-            return;
-        }
-
-        var tempExecutablePath = await InitializeExecutableAsync(workingDirectory, cancellationToken);
-
-        var arguments = $"\"{sourcePath}\" -o \"{destinationPath}\" -i";
-        logger.LogInformation("Executing scex-compiler.exe with: {arguments}", arguments);
-
-        // Execute process
-        using var psarcProcess = new Process();
-        psarcProcess.StartInfo = new ProcessStartInfo
-        {
-            Arguments = arguments,
-            CreateNoWindow = true,
-            FileName = tempExecutablePath,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-        };
-        psarcProcess.Start();
-
-        // Synchronously read the standard output of the spawned process.
-        var stdOut = psarcProcess.StandardOutput;
-        var stdErr = psarcProcess.StandardError;
-
-        while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
-            logger.LogInformation("{outputLine}", outputLine);
-
-        var errorOutput = new StringBuilder();
-        while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
-            errorOutput.Append(outputLine);
-        
-        await psarcProcess.WaitForExitAsync(cancellationToken);
-
-        if (!File.Exists(destinationPath) || psarcProcess.ExitCode != 0)
-            throw new Exception($"Failed to compile scex. Error: {errorOutput}");
-
-        // Weird patching
-        BinaryPatch(sourcePath, destinationPath);
-
-        logger.LogInformation("Successfully compiled scex script on: {destinationPath}", destinationPath);
-    }
-
-    private async Task<string> InitializeExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
+    private async Task<string> InitializeCompilerExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
     {
         logger.LogInformation("Initializing scex-compiler.exe in: {workingDirectory}", workingDirectory);
 
         var workingPath = Path.Combine(workingDirectory, "scex-compiler.exe");
 
         // Extracting executable from resource to a temp location.
-        await using var psarcResourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BoostStudio.Infrastructure.Resources.scex-compiler.exe");
+        await using var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BoostStudio.Infrastructure.Resources.scex-compiler.exe");
 
-        if (psarcResourceStream is null)
-            throw new FileNotFoundException("Scex-compiler resource not found.");
+        if (resourceStream is null)
+            throw new FileNotFoundException("scex-compiler resource not found.");
 
         await using var fileStream = File.Create(workingPath);
-        await psarcResourceStream.CopyToAsync(fileStream, cancellationToken);
+        await resourceStream.CopyToAsync(fileStream, cancellationToken);
+        fileStream.Close();
+
+        return workingPath;
+    }
+    
+    private async Task<string> InitializeDecompilerExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
+    {
+        logger.LogInformation("Initializing scex-decompiler.exe in: {workingDirectory}", workingDirectory);
+
+        var workingPath = Path.Combine(workingDirectory, "scex-decompiler.exe");
+
+        // Extracting executable from resource to a temp location.
+        await using var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BoostStudio.Infrastructure.Resources.scex-decompiler.exe");
+
+        if (resourceStream is null)
+            throw new FileNotFoundException("scex-decompiler resource not found.");
+
+        await using var fileStream = File.Create(workingPath);
+        await resourceStream.CopyToAsync(fileStream, cancellationToken);
         fileStream.Close();
 
         return workingPath;

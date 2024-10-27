@@ -89,6 +89,12 @@ const router = createBrowserRouter([
               Component: (await import("./pages/tools/psarc")).default,
             }),
           },
+          {
+            path: "scripts",
+            lazy: async () => ({
+              Component: (await import("./pages/tools/scripts")).default,
+            }),
+          },
         ],
       },
       {

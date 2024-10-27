@@ -31,6 +31,10 @@
     <EmbeddedResource Include="Resources\psarc.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Remove="Resources\scex-decompiler.exe" />
+    <EmbeddedResource Include="Resources\scex-decompiler.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'!='CONSOLE'">

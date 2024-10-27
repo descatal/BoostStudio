@@ -678,46 +678,22 @@
         }
       }
     },
-    "/api/scex/compile": {
-      "get": {
+    "/api/scex/compile/path": {
+      "post": {
         "tags": [
           "Scex"
         ],
-        "operationId": "get-api-scex-compile",
-        "parameters": [
-          {
-            "name": "SourcePath",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "operationId": "post-api-scex-compile-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompileScexByPathCommand"
+              }
             }
           },
-          {
-            "name": "DestinationPath",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "FileName",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "default": null
-            }
-          },
-          {
-            "name": "HotReload",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            }
-          }
-        ],
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -725,17 +701,63 @@
         }
       }
     },
-    "/api/scex/hot-reload": {
+    "/api/scex/hot-reload/path": {
       "post": {
         "tags": [
           "Scex"
         ],
-        "operationId": "post-api-scex-hot-reload",
+        "operationId": "post-api-scex-hot-reload-path",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/HotReloadScex"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/scex/compile/units": {
+      "post": {
+        "tags": [
+          "Scex"
+        ],
+        "operationId": "post-api-scex-compile-units",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompileScexByUnitsCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/scex/decompile/units": {
+      "post": {
+        "tags": [
+          "Scex"
+        ],
+        "operationId": "post-api-scex-decompile-units",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecompileScexByUnitsCommand"
               }
             }
           },
@@ -3042,6 +3064,53 @@
           }
         }
       },
+      "CompileScexByPathCommand": {
+        "required": [
+          "sourcePath",
+          "destinationPath"
+        ],
+        "type": "object",
+        "properties": {
+          "sourcePath": {
+            "type": "string"
+          },
+          "destinationPath": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "hotReload": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "CompileScexByUnitsCommand": {
+        "required": [
+          "unitIds"
+        ],
+        "type": "object",
+        "properties": {
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            }
+          },
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
+          },
+          "hotReload": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
       "ConfigDto": {
         "required": [
           "key",
@@ -4325,6 +4394,25 @@
           },
           "nameChinese": {
             "type": "string"
+          }
+        }
+      },
+      "DecompileScexByUnitsCommand": {
+        "required": [
+          "unitIds"
+        ],
+        "type": "object",
+        "properties": {
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            }
+          },
+          "replaceScript": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
