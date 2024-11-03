@@ -9,7 +9,7 @@ namespace BoostStudio.Application.Exvs.PatchFiles.Queries;
 public record GetPatchFilesSummaryWithPaginationQuery(
     int Page = 1,
     int PerPage = 10,
-    PatchFileVersion[]? TblIds = null,
+    PatchFileVersion[]? Versions = null,
     uint[]? UnitIds = null,
     AssetFileType[]? AssetFileTypes = null
 ) : IRequest<PaginatedList<PatchFileSummaryVm>>;
@@ -41,8 +41,8 @@ public class GetPatchFilesSummaryWithPaginationQueryHandler(
                 );
         }
 
-        if (request.TblIds?.Length > 0)
-            query = query.Where(entity => request.TblIds.Contains(entity.TblId));
+        if (request.Versions?.Length > 0)
+            query = query.Where(entity => request.Versions.Contains(entity.TblId));
         
         var mappedQuery = PatchFilesMapper.ProjectToSummaryVm(query);
         return await PaginatedList<PatchFileSummaryVm>.CreateAsync(mappedQuery, request.Page, request.PerPage);

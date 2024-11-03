@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { UnitAmmoSlotDto } from './UnitAmmoSlotDto';
+import type { GetApiUnitStatsAmmoSlotByUnitId200ResponseInner } from './GetApiUnitStatsAmmoSlotByUnitId200ResponseInner';
 import {
-    UnitAmmoSlotDtoFromJSON,
-    UnitAmmoSlotDtoFromJSONTyped,
-    UnitAmmoSlotDtoToJSON,
-} from './UnitAmmoSlotDto';
+    GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerFromJSON,
+    GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerFromJSONTyped,
+    GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerToJSON,
+} from './GetApiUnitStatsAmmoSlotByUnitId200ResponseInner';
 
 /**
  * 
@@ -40,10 +40,10 @@ export interface UnitStatDto {
     unitId?: number;
     /**
      * 
-     * @type {Array<UnitAmmoSlotDto>}
+     * @type {Array<GetApiUnitStatsAmmoSlotByUnitId200ResponseInner>}
      * @memberof UnitStatDto
      */
-    ammoSlots?: Array<UnitAmmoSlotDto>;
+    ammoSlots?: Array<GetApiUnitStatsAmmoSlotByUnitId200ResponseInner>;
 }
 
 /**
@@ -65,7 +65,7 @@ export function UnitStatDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'id': json['id'] == null ? undefined : json['id'],
         'unitId': json['unitId'] == null ? undefined : json['unitId'],
-        'ammoSlots': json['ammoSlots'] == null ? undefined : ((json['ammoSlots'] as Array<any>).map(UnitAmmoSlotDtoFromJSON)),
+        'ammoSlots': json['ammoSlots'] == null ? undefined : ((json['ammoSlots'] as Array<any>).map(GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerFromJSON)),
     };
 }
 
@@ -77,7 +77,7 @@ export function UnitStatDtoToJSON(value?: UnitStatDto | null): any {
         
         'id': value['id'],
         'unitId': value['unitId'],
-        'ammoSlots': value['ammoSlots'] == null ? undefined : ((value['ammoSlots'] as Array<any>).map(UnitAmmoSlotDtoToJSON)),
+        'ammoSlots': value['ammoSlots'] == null ? undefined : ((value['ammoSlots'] as Array<any>).map(GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerToJSON)),
     };
 }
 

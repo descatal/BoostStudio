@@ -1,7 +1,7 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Tbl.PatchFiles;
 
-namespace BoostStudio.Application.Exvs.Tbl.Commands;
+namespace BoostStudio.Application.Exvs.PatchFiles.Commands;
 
 public record CreatePatchFileCommand() : PatchFileDto, IRequest;
 

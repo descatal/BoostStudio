@@ -4,6 +4,7 @@ import {
   packPsarcByPatchFiles,
   unpackPsarcByPatchFiles,
 } from "@/api/wrapper/psarc-api"
+import UnitSwitcher from "@/pages/units/customize/components/unit-switcher"
 import { ReloadIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
@@ -14,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -49,16 +51,24 @@ const PsarcTools = () => {
       return
     }
 
-    await packPsarcByPatchFiles({
-      packPsarcByPatchFilesCommand: {
-        patchFileVersions: [selectedPackPsarcPatchFileVersion],
-      },
-    })
+    try {
+      await packPsarcByPatchFiles({
+        packPsarcByPatchFilesCommand: {
+          patchFileVersions: [selectedPackPsarcPatchFileVersion],
+        },
+      })
 
-    toast({
-      title: "Success",
-      description: `Successfully packed ${selectedPackPsarcPatchFileVersion} psarc to production directory!`,
-    })
+      toast({
+        title: "Success",
+        description: `Successfully packed ${selectedPackPsarcPatchFileVersion} psarc to production directory!`,
+      })
+    } catch (e) {
+      toast({
+        title: `Error`,
+        description: `Packing failed! ${e}`,
+        variant: "destructive",
+      })
+    }
   }
 
   const handlePackPsarcSubmit = async () => {
@@ -77,16 +87,24 @@ const PsarcTools = () => {
       return
     }
 
-    await unpackPsarcByPatchFiles({
-      unpackPsarcByPatchFilesCommand: {
-        patchFileVersions: [selectedUnpackPsarcPatchFileVersion],
-      },
-    })
+    try {
+      await unpackPsarcByPatchFiles({
+        unpackPsarcByPatchFilesCommand: {
+          patchFileVersions: [selectedUnpackPsarcPatchFileVersion],
+        },
+      })
 
-    toast({
-      title: "Success",
-      description: `Successfully unpacked ${selectedUnpackPsarcPatchFileVersion} psarc to staging directory!`,
-    })
+      toast({
+        title: "Success",
+        description: `Successfully unpacked ${selectedUnpackPsarcPatchFileVersion} psarc to staging directory!`,
+      })
+    } catch (e) {
+      toast({
+        title: `Error`,
+        description: `Unpacking failed! ${e}`,
+        variant: "destructive",
+      })
+    }
   }
 
   const handleUnpackPsarcSubmit = async () => {
@@ -102,7 +120,7 @@ const PsarcTools = () => {
         <TabsTrigger value="unpack">Unpack</TabsTrigger>
       </TabsList>
       <TabsContent className={"w-full"} value={"pack"}>
-        <Card className={"md:max-w-[40vw]"}>
+        <Card>
           <CardHeader>
             <CardTitle>Pack Psarc</CardTitle>
             <CardDescription>
@@ -112,29 +130,32 @@ const PsarcTools = () => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              <Select
-                onValueChange={(e) => {
-                  setSelectedPackPatchFileVersion(e as PatchFileVersion)
-                }}
-                defaultValue={selectedPackPsarcPatchFileVersion}
-              >
-                <SelectTrigger className="capitalize">
-                  <SelectValue placeholder="Select Patch File Version" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {Object.values(PatchFileVersion).map((version) => (
-                      <SelectItem
-                        key={version}
-                        value={version}
-                        className="capitalize"
-                      >
-                        {version}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <div className={"space-y-2"}>
+                <Label>Version</Label>
+                <Select
+                  onValueChange={(e) => {
+                    setSelectedPackPatchFileVersion(e as PatchFileVersion)
+                  }}
+                  defaultValue={selectedPackPsarcPatchFileVersion}
+                >
+                  <SelectTrigger className="capitalize">
+                    <SelectValue placeholder="Select Patch File Version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {Object.values(PatchFileVersion).map((version) => (
+                        <SelectItem
+                          key={version}
+                          value={version}
+                          className="capitalize"
+                        >
+                          {version}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
               <Separator />
               <Button disabled={isPackPending} onClick={handlePackPsarcSubmit}>
                 {isPackPending && (
@@ -150,7 +171,7 @@ const PsarcTools = () => {
         </Card>
       </TabsContent>
       <TabsContent className={"w-full"} value={"unpack"}>
-        <Card className={"md:max-w-[40vw]"}>
+        <Card>
           <CardHeader>
             <CardTitle>Unpack Psarc</CardTitle>
             <CardDescription>
@@ -160,29 +181,32 @@ const PsarcTools = () => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              <Select
-                onValueChange={(e) => {
-                  setSelectedUnpackPatchFileVersion(e as PatchFileVersion)
-                }}
-                defaultValue={selectedUnpackPsarcPatchFileVersion}
-              >
-                <SelectTrigger className="capitalize">
-                  <SelectValue placeholder="Select Patch File Version" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {Object.values(PatchFileVersion).map((version) => (
-                      <SelectItem
-                        key={version}
-                        value={version}
-                        className="capitalize"
-                      >
-                        {version}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <div className={"space-y-2"}>
+                <Label>Version</Label>
+                <Select
+                  onValueChange={(e) => {
+                    setSelectedUnpackPatchFileVersion(e as PatchFileVersion)
+                  }}
+                  defaultValue={selectedUnpackPsarcPatchFileVersion}
+                >
+                  <SelectTrigger className="capitalize">
+                    <SelectValue placeholder="Select Patch File Version" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {Object.values(PatchFileVersion).map((version) => (
+                        <SelectItem
+                          key={version}
+                          value={version}
+                          className="capitalize"
+                        >
+                          {version}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
               <Separator />
               <Button
                 disabled={isUnpackPending}

@@ -26,15 +26,16 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 interface UnitSwitcherProps extends PopoverTriggerProps {
   selectedUnits: UnitDto[] | undefined
-  setSelectedUnits: (selectedUnit: UnitDto[] | undefined) => void
-  multipleSelect?: false
+  setSelectedUnits: (selectedUnits: UnitDto[] | undefined) => void
+  multipleSelect?: boolean | undefined
 }
 
 export default function UnitSwitcher({
   className,
   selectedUnits,
   setSelectedUnits,
-  multipleSelect,
+  multipleSelect = false,
+  ...props
 }: UnitSwitcherProps) {
   const [unitGroups, setUnitGroups] = useState<UnitGroup[]>([])
 
@@ -67,12 +68,13 @@ export default function UnitSwitcher({
     const units = unitGroups[0]?.units?.filter((unit) =>
       selectedUnits?.some((x) => x.unitId === unit.unitId)
     )
+
     setSelectedUnits(units)
   }, [unitGroups])
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger {...props} asChild>
         <Button
           variant="outline"
           role="combobox"

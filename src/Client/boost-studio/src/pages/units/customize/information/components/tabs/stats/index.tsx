@@ -1,8 +1,8 @@
 ﻿import React, { useCallback, useEffect, useState } from "react"
-import { UnitAmmoSlotDto } from "@/api/exvs"
 import { GetApiStats200Response } from "@/api/exvs/models/GetApiStats200Response"
 import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner"
 import { GetApiUnitStats200ResponseItemsInner } from "@/api/exvs/models/GetApiUnitStats200ResponseItemsInner"
+import { UnitAmmoSlotDto } from "@/api/exvs/models/UnitAmmoSlotDto"
 import { fetchAmmoOptions } from "@/api/wrapper/ammo-api"
 import {
   fetchStats,

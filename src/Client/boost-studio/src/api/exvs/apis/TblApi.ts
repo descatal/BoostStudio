@@ -22,6 +22,7 @@ import type {
   PaginatedListOfPatchFileVm,
   PatchFileVersion,
   PatchFileVm,
+  ResizePatchFileCommand,
   SerializeTbl,
   TblDto,
   TblVm,
@@ -42,6 +43,8 @@ import {
     PatchFileVersionToJSON,
     PatchFileVmFromJSON,
     PatchFileVmToJSON,
+    ResizePatchFileCommandFromJSON,
+    ResizePatchFileCommandToJSON,
     SerializeTblFromJSON,
     SerializeTblToJSON,
     TblDtoFromJSON,
@@ -60,7 +63,7 @@ export interface GetApiPatchFilesRequest {
     page?: number;
     perPage?: number;
     search?: string;
-    tblIds?: Array<PatchFileVersion>;
+    versions?: Array<PatchFileVersion>;
     unitIds?: Array<number>;
 }
 
@@ -71,7 +74,7 @@ export interface GetApiPatchFilesByIdRequest {
 export interface GetApiPatchFilesSummaryRequest {
     page?: number;
     perPage?: number;
-    tblIds?: Array<PatchFileVersion>;
+    versions?: Array<PatchFileVersion>;
     unitIds?: Array<number>;
     assetFileTypes?: Array<AssetFileType>;
 }
@@ -95,6 +98,10 @@ export interface PostApiPatchFilesRequest {
 export interface PostApiPatchFilesByIdRequest {
     id: string;
     updatePatchFileByIdCommand: UpdatePatchFileByIdCommand;
+}
+
+export interface PostApiPatchFilesResizeRequest {
+    resizePatchFileCommand: ResizePatchFileCommand;
 }
 
 export interface PostApiTblDeserializeRequest {
@@ -165,8 +172,8 @@ export class TblApi extends runtime.BaseAPI {
             queryParameters['Search'] = requestParameters['search'];
         }
 
-        if (requestParameters['tblIds'] != null) {
-            queryParameters['TblIds'] = requestParameters['tblIds'];
+        if (requestParameters['versions'] != null) {
+            queryParameters['Versions'] = requestParameters['versions'];
         }
 
         if (requestParameters['unitIds'] != null) {
@@ -236,8 +243,8 @@ export class TblApi extends runtime.BaseAPI {
             queryParameters['PerPage'] = requestParameters['perPage'];
         }
 
-        if (requestParameters['tblIds'] != null) {
-            queryParameters['TblIds'] = requestParameters['tblIds'];
+        if (requestParameters['versions'] != null) {
+            queryParameters['Versions'] = requestParameters['versions'];
         }
 
         if (requestParameters['unitIds'] != null) {
@@ -438,6 +445,39 @@ export class TblApi extends runtime.BaseAPI {
      */
     async postApiPatchFilesById(requestParameters: PostApiPatchFilesByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiPatchFilesByIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiPatchFilesResizeRaw(requestParameters: PostApiPatchFilesResizeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['resizePatchFileCommand'] == null) {
+            throw new runtime.RequiredError(
+                'resizePatchFileCommand',
+                'Required parameter "resizePatchFileCommand" was null or undefined when calling postApiPatchFilesResize().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/patch-files/resize`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ResizePatchFileCommandToJSON(requestParameters['resizePatchFileCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiPatchFilesResize(requestParameters: PostApiPatchFilesResizeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiPatchFilesResizeRaw(requestParameters, initOverrides);
     }
 
     /**

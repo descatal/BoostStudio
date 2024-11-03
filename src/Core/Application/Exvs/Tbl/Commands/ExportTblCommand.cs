@@ -9,7 +9,7 @@ using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
-namespace BoostStudio.Application.Exvs.PatchFiles.Commands;
+namespace BoostStudio.Application.Exvs.Tbl.Commands;
 
 public record ExportTblCommand(
     PatchFileVersion[]? Versions = null,

@@ -6,16 +6,19 @@ import {
   CommonAssetFileOptionsType,
   UnitAssetFileOptionsType,
 } from "@/pages/common/libs/constants"
-import UnitSwitcher from "@/pages/units/customize/components/unit-switcher"
 
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+import UnitSwitcher from "./unit-switcher"
+
 interface AssetFilesSearcherProps {
+  units?: UnitDto[] | undefined
   setResultAssetFiles: (resultAssetFiles: AssetFileVm[] | undefined) => void
 }
 
 const AssetFilesSearcher = ({
+  units,
   setResultAssetFiles,
 }: AssetFilesSearcherProps) => {
   const [selectedTab, setSelectedTab] = React.useState<"unit" | "common">(
@@ -28,6 +31,10 @@ const AssetFilesSearcher = ({
     React.useState<UnitAssetFileOptionsType>()
   const [selectedCommonAssetFileType, setSelectedCommonAssetFileType] =
     React.useState<CommonAssetFileOptionsType>()
+
+  React.useEffect(() => {
+    if (units) setSelectedUnits(units)
+  }, [])
 
   const getData = React.useCallback(
     async (unitIds: number[] | undefined, assetFileTypes: AssetFileType[]) => {
@@ -93,6 +100,7 @@ const AssetFilesSearcher = ({
           <div className={"space-y-2"}>
             <Label>Search by unit asset files</Label>
             <UnitSwitcher
+              disabled={!!units}
               setSelectedUnits={setSelectedUnits}
               selectedUnits={selectedUnits}
             />

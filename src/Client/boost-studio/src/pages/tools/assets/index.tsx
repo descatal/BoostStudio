@@ -1,8 +1,7 @@
 ﻿import React from "react"
-import { AssetFileVm } from "@/api/exvs"
+import { AssetFileVm, UnitDto } from "@/api/exvs"
 import { packFhmAssets, unpackFhmAssets } from "@/api/wrapper/fhm-api"
 import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
-import { ReloadIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -17,7 +16,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-const AssetTools = () => {
+interface AssetToolsProps {
+  units?: UnitDto[] | undefined
+}
+
+const AssetTools = ({ units }: AssetToolsProps) => {
   const [isPackPending, setIsPackPending] = React.useState(false)
   const [isUnpackPending, setIsUnpackPending] = React.useState(false)
 
@@ -39,17 +42,25 @@ const AssetTools = () => {
       return
     }
 
-    await packFhmAssets({
-      packFhmAssetCommand: {
-        assetFileHashes: selectedPackAssetFile.map((x) => x.hash),
-        replaceStaging: true,
-      },
-    })
+    try {
+      await packFhmAssets({
+        packFhmAssetCommand: {
+          assetFileHashes: selectedPackAssetFile.map((x) => x.hash),
+          replaceStaging: true,
+        },
+      })
 
-    toast({
-      title: "Success",
-      description: `Successfully packed assets to staging directory!`,
-    })
+      toast({
+        title: "Success",
+        description: `Successfully packed assets to staging directory!`,
+      })
+    } catch (e) {
+      toast({
+        title: `Error`,
+        description: `Packing failed! ${e}`,
+        variant: "destructive",
+      })
+    }
   }
 
   const unpackFhmAsset = async () => {
@@ -62,17 +73,25 @@ const AssetTools = () => {
       return
     }
 
-    await unpackFhmAssets({
-      unpackFhmAssetCommand: {
-        assetFileHashes: selectedUnpackAssetFile.map((x) => x.hash),
-        replaceWorking: true,
-      },
-    })
+    try {
+      await unpackFhmAssets({
+        unpackFhmAssetCommand: {
+          assetFileHashes: selectedUnpackAssetFile.map((x) => x.hash),
+          replaceWorking: true,
+        },
+      })
 
-    toast({
-      title: "Success",
-      description: `Successfully unpacked assets to working directory!`,
-    })
+      toast({
+        title: "Success",
+        description: `Successfully unpacked assets to working directory!`,
+      })
+    } catch (e) {
+      toast({
+        title: `Error`,
+        description: `Unpacking failed! ${e}`,
+        variant: "destructive",
+      })
+    }
   }
 
   return (
@@ -82,7 +101,7 @@ const AssetTools = () => {
         <TabsTrigger value="unpack">Unpack</TabsTrigger>
       </TabsList>
       <TabsContent className={"w-full"} value={"pack"}>
-        <Card className={"md:max-w-[40vw]"}>
+        <Card>
           <CardHeader>
             <CardTitle>Pack Assets</CardTitle>
             <CardDescription>
@@ -93,6 +112,7 @@ const AssetTools = () => {
           <CardContent>
             <div className="grid gap-6">
               <AssetFilesSearcher
+                units={units}
                 setResultAssetFiles={setSelectedPackAssetFile}
               />
               <Separator />
@@ -117,7 +137,7 @@ const AssetTools = () => {
         </Card>
       </TabsContent>
       <TabsContent className={"w-full"} value={"unpack"}>
-        <Card className={"md:max-w-[40vw]"}>
+        <Card>
           <CardHeader>
             <CardTitle>Unpack Assets</CardTitle>
             <CardDescription>
@@ -128,6 +148,7 @@ const AssetTools = () => {
           <CardContent>
             <div className="grid gap-6">
               <AssetFilesSearcher
+                units={units}
                 setResultAssetFiles={setSelectedUnpackAssetFile}
               />
               <Separator />

@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         }),
       },
       {
-        path: "units/:unitId/customize",
+        path: "units/:unitId/customize/",
         lazy: async () => ({
           Component: (await import("./pages/units/customize")).default,
         }),
@@ -35,12 +35,30 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to="info/stats" replace />,
+            element: <Navigate to="info" replace />,
           },
           {
-            path: "info/:tab",
+            path: "info",
+            element: <Navigate to="stats" replace />,
+          },
+          {
+            path: "info/:infoTab",
             lazy: async () => ({
               Component: (await import("./pages/units/customize/information"))
+                .default,
+            }),
+          },
+          {
+            path: "script",
+            lazy: async () => ({
+              Component: (await import("./pages/units/customize/scripts"))
+                .default,
+            }),
+          },
+          {
+            path: "assets",
+            lazy: async () => ({
+              Component: (await import("./pages/units/customize/assets"))
                 .default,
             }),
           },

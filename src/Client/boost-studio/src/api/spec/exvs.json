@@ -319,7 +319,19 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ConfigDto"
+                    "required": [
+                      "key",
+                      "value"
+                    ],
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    }
                   }
                 }
               }
@@ -977,7 +989,7 @@
             }
           },
           {
-            "name": "TblIds",
+            "name": "Versions",
             "in": "query",
             "schema": {
               "type": "array",
@@ -1040,7 +1052,7 @@
             }
           },
           {
-            "name": "TblIds",
+            "name": "Versions",
             "in": "query",
             "schema": {
               "type": "array",
@@ -1166,6 +1178,29 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/patch-files/resize": {
+      "post": {
+        "tags": [
+          "Tbl"
+        ],
+        "operationId": "post-api-patch-files-resize",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResizePatchFileCommand"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1726,7 +1761,21 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UnitAmmoSlotDto"
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "slotOrder": {
+                        "type": "integer",
+                        "format": "int32"
+                      },
+                      "ammoHash": {
+                        "type": "integer",
+                        "format": "uint32"
+                      }
+                    }
                   }
                 }
               }
@@ -3108,21 +3157,6 @@
           "hotReload": {
             "type": "boolean",
             "default": false
-          }
-        }
-      },
-      "ConfigDto": {
-        "required": [
-          "key",
-          "value"
-        ],
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
           }
         }
       },
@@ -4764,16 +4798,6 @@
           "$ref": "#/components/schemas/IFormFile"
         }
       },
-      "NullableOfCompressionType": {
-        "enum": [
-          "None",
-          "Zlib",
-          "Lzma",
-          null
-        ],
-        "default": "Zlib",
-        "nullable": true
-      },
       "PackFhmAssetCommand": {
         "type": "object",
         "properties": {
@@ -4848,7 +4872,14 @@
             "nullable": true
           },
           "compressionType": {
-            "$ref": "#/components/schemas/NullableOfCompressionType"
+            "enum": [
+              "None",
+              "Zlib",
+              "Lzma",
+              null
+            ],
+            "default": "Zlib",
+            "nullable": true
           },
           "compressionLevel": {
             "type": "integer",
@@ -5597,6 +5628,45 @@
           "unitId": {
             "type": "integer",
             "format": "uint32",
+            "nullable": true
+          }
+        }
+      },
+      "ResizePatchFileCommand": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatchFileVersion"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            },
+            "default": null,
+            "nullable": true
+          },
+          "assetFileTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            },
+            "default": null,
             "nullable": true
           }
         }
@@ -6385,23 +6455,6 @@
           }
         }
       },
-      "UnitAmmoSlotDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "slotOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "ammoHash": {
-            "type": "integer",
-            "format": "uint32"
-          }
-        }
-      },
       "UnitDto": {
         "type": "object",
         "properties": {
@@ -6449,7 +6502,21 @@
           "ammoSlots": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UnitAmmoSlotDto"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "slotOrder": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "ammoHash": {
+                  "type": "integer",
+                  "format": "uint32"
+                }
+              }
             }
           }
         }

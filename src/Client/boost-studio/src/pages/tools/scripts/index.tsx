@@ -1,8 +1,8 @@
 ﻿import React from "react"
 import { UnitDto } from "@/api/exvs"
 import { compileScexUnits, decompileScexUnits } from "@/api/wrapper/scex-api"
-import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
-import UnitSwitcher from "@/pages/units/customize/components/unit-switcher"
+import UnitSwitcher from "@/pages/common/components/custom/unit-switcher"
+import { ArrowBigDownDash } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -12,20 +12,35 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-const ScriptTools = () => {
+interface ScriptToolsProps {
+  units?: UnitDto[] | undefined
+}
+
+const ScriptTools = ({ units }: ScriptToolsProps) => {
   const [isCompilePending, setIsCompilePending] = React.useState(false)
   const [isDecompilePending, setIsDecompilePending] = React.useState(false)
+
+  const [hotReload, setHotReload] = React.useState(false)
 
   const [selectedCompileUnits, setSelectedCompileUnits] =
     React.useState<UnitDto[]>()
 
   const [selectedDecompileUnits, setSelectedDecompileUnits] =
     React.useState<UnitDto[]>()
+
+  React.useEffect(() => {
+    if (units) {
+      setSelectedCompileUnits(units)
+      setSelectedDecompileUnits(units)
+    }
+  }, [])
 
   const compileUnitScripts = async () => {
     if (!selectedCompileUnits) {
@@ -37,17 +52,26 @@ const ScriptTools = () => {
       return
     }
 
-    await compileScexUnits({
-      compileScexByUnitsCommand: {
-        unitIds: selectedCompileUnits.map((x) => x.unitId ?? 0),
-        replaceWorking: true,
-      },
-    })
+    try {
+      await compileScexUnits({
+        compileScexByUnitsCommand: {
+          unitIds: selectedCompileUnits.map((x) => x.unitId ?? 0),
+          replaceWorking: true,
+          hotReload: hotReload ?? false,
+        },
+      })
 
-    toast({
-      title: "Success",
-      description: `Successfully compiled scripts to working directory!`,
-    })
+      toast({
+        title: "Success",
+        description: `Successfully compiled scripts to working directory!`,
+      })
+    } catch (e) {
+      toast({
+        title: `Error`,
+        description: `Compilation failed! ${e}`,
+        variant: "destructive",
+      })
+    }
   }
 
   const decompileUnitScripts = async () => {
@@ -60,27 +84,35 @@ const ScriptTools = () => {
       return
     }
 
-    await decompileScexUnits({
-      decompileScexByUnitsCommand: {
-        unitIds: selectedDecompileUnits.map((x) => x.unitId ?? 0),
-        replaceScript: true,
-      },
-    })
+    try {
+      await decompileScexUnits({
+        decompileScexByUnitsCommand: {
+          unitIds: selectedDecompileUnits.map((x) => x.unitId ?? 0),
+          replaceScript: true,
+        },
+      })
 
-    toast({
-      title: "Success",
-      description: `Successfully decompiled scripts to script directory!`,
-    })
+      toast({
+        title: "Success",
+        description: `Successfully decompiled scripts to script directory!`,
+      })
+    } catch (e) {
+      toast({
+        title: `Error`,
+        description: `Decompilation failed! ${e}`,
+        variant: "destructive",
+      })
+    }
   }
 
   return (
-    <Tabs defaultValue={"pack"}>
+    <Tabs defaultValue={"compile"}>
       <TabsList>
-        <TabsTrigger value="pack">Pack</TabsTrigger>
-        <TabsTrigger value="unpack">Unpack</TabsTrigger>
+        <TabsTrigger value="compile">Compile</TabsTrigger>
+        <TabsTrigger value="decompile">Decompile</TabsTrigger>
       </TabsList>
-      <TabsContent className={"w-full"} value={"pack"}>
-        <Card className={"md:max-w-[40vw]"}>
+      <TabsContent className={"w-full"} value={"compile"}>
+        <Card>
           <CardHeader>
             <CardTitle>Compile Scripts</CardTitle>
             <CardDescription>
@@ -89,11 +121,26 @@ const ScriptTools = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-6">
-              <UnitSwitcher
-                selectedUnits={selectedCompileUnits}
-                setSelectedUnits={setSelectedCompileUnits}
-              />
+            <div className="grid gap-4">
+              <div className={"space-y-2"}>
+                <Label>Units</Label>
+                <UnitSwitcher
+                  disabled={!!units}
+                  multipleSelect={true}
+                  selectedUnits={selectedCompileUnits}
+                  setSelectedUnits={setSelectedCompileUnits}
+                />
+              </div>
+              <div className="flex items-center space-x-4 rounded-md border p-4">
+                <ArrowBigDownDash />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium leading-none">Hot Reload</p>
+                  <p className="text-sm text-muted-foreground">
+                    Patch the compiled script binary to running RPCS3.
+                  </p>
+                </div>
+                <Switch checked={hotReload} onCheckedChange={setHotReload} />
+              </div>
               <Separator />
               <Button
                 disabled={isCompilePending}
@@ -109,14 +156,14 @@ const ScriptTools = () => {
                     aria-hidden="true"
                   />
                 )}
-                Pack
+                Compile
               </Button>
             </div>
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent className={"w-full"} value={"unpack"}>
-        <Card className={"md:max-w-[40vw]"}>
+      <TabsContent className={"w-full"} value={"decompile"}>
+        <Card>
           <CardHeader>
             <CardTitle>Decompile Scripts</CardTitle>
             <CardDescription>
@@ -126,10 +173,14 @@ const ScriptTools = () => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
-              <UnitSwitcher
-                selectedUnits={selectedDecompileUnits}
-                setSelectedUnits={setSelectedDecompileUnits}
-              />
+              <div className={"space-y-2"}>
+                <Label>Units</Label>
+                <UnitSwitcher
+                  multipleSelect={true}
+                  selectedUnits={selectedDecompileUnits}
+                  setSelectedUnits={setSelectedDecompileUnits}
+                />
+              </div>
               <Separator />
               <Button
                 disabled={isDecompilePending}
@@ -145,7 +196,7 @@ const ScriptTools = () => {
                     aria-hidden="true"
                   />
                 )}
-                Unpack
+                Decompile
               </Button>
             </div>
           </CardContent>

@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import type {
-  ConfigDto,
+  GetApiConfigs200ResponseInner,
   UpsertConfigCommand,
 } from '../models/index';
 import {
-    ConfigDtoFromJSON,
-    ConfigDtoToJSON,
+    GetApiConfigs200ResponseInnerFromJSON,
+    GetApiConfigs200ResponseInnerToJSON,
     UpsertConfigCommandFromJSON,
     UpsertConfigCommandToJSON,
 } from '../models/index';
@@ -78,7 +78,7 @@ export class ConfigsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiConfigsRaw(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ConfigDto>>> {
+    async getApiConfigsRaw(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetApiConfigs200ResponseInner>>> {
         if (requestParameters['keys'] == null) {
             throw new runtime.RequiredError(
                 'keys',
@@ -101,12 +101,12 @@ export class ConfigsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ConfigDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetApiConfigs200ResponseInnerFromJSON));
     }
 
     /**
      */
-    async getApiConfigs(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ConfigDto>> {
+    async getApiConfigs(requestParameters: GetApiConfigsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetApiConfigs200ResponseInner>> {
         const response = await this.getApiConfigsRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -9,7 +9,7 @@ public record GetPatchFilesWithPagination(
     int Page = 1,
     int PerPage = 10,
     string? Search = null,
-    PatchFileVersion[]? TblIds = null,
+    PatchFileVersion[]? Versions = null,
     uint[]? UnitIds = null
 ) : IRequest<PaginatedList<PatchFileVm>>;
 
@@ -41,8 +41,8 @@ public class GetPatchFilesWithPaginationHandler(
                 );
         }
 
-        if (request.TblIds?.Length > 0)
-            query = query.Where(entity => request.TblIds.Contains(entity.TblId));
+        if (request.Versions?.Length > 0)
+            query = query.Where(entity => request.Versions.Contains(entity.TblId));
 
         var mappedQuery = PatchFilesMapper.ProjectToVm(query);
         return await PaginatedList<PatchFileVm>.CreateAsync(mappedQuery, request.Page, request.PerPage);

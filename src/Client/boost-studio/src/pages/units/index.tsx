@@ -53,7 +53,7 @@ const UnitsPage = () => {
           className={"m-2 h-8 w-[300px]"}
         />
         {selectedUnit && (
-          <Link to={`/units/${selectedUnit.unitId}/customize/info/stats`}>
+          <Link to={`/units/${selectedUnit.unitId}/customize/`}>
             <Button>Edit</Button>
           </Link>
         )}

@@ -1,6 +1,7 @@
 ﻿using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Tbl.PatchFiles;
+using BoostStudio.Application.Exvs.PatchFiles.Commands;
 using BoostStudio.Application.Exvs.PatchFiles.Queries;
 using BoostStudio.Application.Exvs.Tbl.Commands;
 using BoostStudio.Application.Exvs.Tbl.Queries;
@@ -19,7 +20,8 @@ public class PatchFiles : EndpointGroupBase
             .MapGet(GetPatchFilesWithPagination)
             .MapGet(GetPatchFileById, "{id}")
             .MapPost(UpdatePatchFileById, "{id}")
-            .MapDelete(DeletePatchFileById, "{id}");
+            .MapDelete(DeletePatchFileById, "{id}")
+            .MapPost(ResizePatchFile, "resize");
     }
     
     private static async Task<PaginatedList<PatchFileSummaryVm>> GetPatchFilesSummaryWithPagination(
@@ -78,5 +80,13 @@ public class PatchFiles : EndpointGroupBase
     {
         await sender.Send(new DeletePatchFileByIdCommand(id), cancellationToken);
         return Results.NoContent();
+    }
+    
+    private static async Task ResizePatchFile(
+        ISender sender, 
+        ResizePatchFileCommand command, 
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(command, cancellationToken);
     }
 }

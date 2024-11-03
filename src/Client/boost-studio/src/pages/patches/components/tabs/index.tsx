@@ -10,6 +10,7 @@ import {
   exportTbl,
   fetchPatchFileSummaries,
   fetchTblById,
+  resizePatchFiles,
 } from "@/api/wrapper/tbl-api"
 import { PatchFilesTableToolbarActions } from "@/pages/patches/components/tabs/components/data-table/patch-files-table-toolbar-actions"
 import { PatchFileTabs, PatchIdNameMap } from "@/pages/patches/libs/store"
@@ -91,7 +92,7 @@ const PatchInformation = ({
       units && units.length > 0 ? units.map((u) => u.unitId!) : undefined
 
     const patchFilesResponse = await fetchPatchFileSummaries({
-      tblIds: patchId && patchId != "All" ? [patchId] : undefined,
+      versions: patchId && patchId != "All" ? [patchId] : undefined,
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
       unitIds: unitIds,
@@ -147,61 +148,99 @@ const PatchInformation = ({
 
   return (
     <>
-      <AlertDialog>
-        <Card>
-          <CardHeader className="flex-row justify-between px-7">
-            <div>
-              <CardTitle>{patchId ? PatchIdNameMap[patchId] : "All"}</CardTitle>
-              <CardDescription className={"pt-2"}>
-                Cumulative asset index:
-                {tblResponse?.cumulativeAssetIndex ?? "-"}
-              </CardDescription>
-            </div>
-            <AlertDialogTrigger asChild>
-              <Button>Export</Button>
-            </AlertDialogTrigger>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <DataTable table={table}>
-                <DataTableToolbar table={table} filterFields={filterFields}>
-                  <PatchFilesTableToolbarActions table={table} />
-                </DataTableToolbar>
-              </DataTable>
-            </div>
-          </CardContent>
-        </Card>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will replace the tbl information at{" "}
-              {patchId && PatchIdNameMap[patchId]}/PATCH.TBL
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={async () => {
-                if (!patchId || patchId === "All") return
+      <Card>
+        <CardHeader className="flex-row justify-between px-7">
+          <div>
+            <CardTitle>{patchId ? PatchIdNameMap[patchId] : "All"}</CardTitle>
+            <CardDescription className={"pt-2"}>
+              Cumulative asset index:
+              {tblResponse?.cumulativeAssetIndex ?? "-"}
+            </CardDescription>
+          </div>
+          <div className={"space-x-2"}>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>Resize</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will update the size info for all the patch file
+                    entries
+                    {patchId && ` in ${PatchIdNameMap[patchId]}`}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={async () => {
+                      await resizePatchFiles({
+                        resizePatchFileCommand: {
+                          versions:
+                            !patchId || patchId === "All"
+                              ? undefined
+                              : [patchId],
+                        },
+                      })
 
-                await exportTbl({
-                  exportTblCommand: {
-                    versions: [patchId],
-                    replaceStaging: true,
-                  },
-                })
+                      toast({
+                        title: "Resize success!",
+                      })
+                    }}
+                  >
+                    Confirm
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>Export</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will replace the tbl information at{" "}
+                    {patchId && PatchIdNameMap[patchId]}/PATCH.TBL
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={async () => {
+                      if (!patchId || patchId === "All") return
 
-                toast({
-                  title: "Export success!",
-                })
-              }}
-            >
-              Confirm
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+                      await exportTbl({
+                        exportTblCommand: {
+                          versions: [patchId],
+                          replaceStaging: true,
+                        },
+                      })
+
+                      toast({
+                        title: "Export success!",
+                      })
+                    }}
+                  >
+                    Confirm
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <DataTable table={table}>
+              <DataTableToolbar table={table} filterFields={filterFields}>
+                <PatchFilesTableToolbarActions table={table} />
+              </DataTableToolbar>
+            </DataTable>
+          </div>
+        </CardContent>
+      </Card>
     </>
   )
 }

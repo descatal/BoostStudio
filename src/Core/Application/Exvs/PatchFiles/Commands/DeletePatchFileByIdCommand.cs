@@ -2,7 +2,7 @@
 using BoostStudio.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoostStudio.Application.Exvs.Tbl.Commands;
+namespace BoostStudio.Application.Exvs.PatchFiles.Commands;
 
 public record DeletePatchFileByIdCommand(Guid Id) : IRequest;
 

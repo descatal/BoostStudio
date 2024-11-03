@@ -3,19 +3,21 @@
 export type InformationTabModes = "stats" | "ammo" | "projectiles" | "hitboxes"
 
 type State = {
-  selectedTab: InformationTabModes
+  selectedInformationTab: InformationTabModes
 }
 
 type Action = {
-  setSelectedTab: (selectedTab: State["selectedTab"]) => void
+  setSelectedInformationTab: (
+    selectedTab: State["selectedInformationTab"]
+  ) => void
 }
 
 export const useCustomizeInformationUnitStore = create<State & Action>(
   (set) => ({
-    selectedTab: "stats",
-    setSelectedTab: (selectedTab) =>
+    selectedInformationTab: "stats",
+    setSelectedInformationTab: (selectedInformationTab) =>
       set(() => ({
-        selectedTab: selectedTab,
+        selectedInformationTab: selectedInformationTab,
       })),
   })
 )

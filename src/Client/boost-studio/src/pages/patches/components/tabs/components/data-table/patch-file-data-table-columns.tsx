@@ -88,6 +88,8 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
       size: 40,
       cell: ({ row, table }) => {
         const data = row.original
+        if (!data.id) return
+
         const [showEditPatchFileDialog, setShowEditPatchFileDialog] =
           React.useState(false)
 
@@ -96,6 +98,7 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
             <PatchFileDialog
               open={showEditPatchFileDialog}
               onOpenChange={setShowEditPatchFileDialog}
+              // @ts-ignore
               existingPatchFile={data}
               onSuccess={async () => {
                 await table.options.meta?.fetchData()
@@ -114,15 +117,17 @@ export const patchFileColumns: ColumnDef<PaginatedListOfPatchFileSummaryVmItemsI
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-40">
                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                  <DropdownMenuItem
-                    onSelect={() => setShowEditPatchFileDialog(true)}
-                  >
-                    Edit
-                  </DropdownMenuItem>
                   {data.id ? (
-                    <AlertDialogTrigger asChild>
-                      <DropdownMenuItem>Delete</DropdownMenuItem>
-                    </AlertDialogTrigger>
+                    <>
+                      <DropdownMenuItem
+                        onSelect={() => setShowEditPatchFileDialog(true)}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+                      <AlertDialogTrigger asChild>
+                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                      </AlertDialogTrigger>
+                    </>
                   ) : (
                     <></>
                   )}

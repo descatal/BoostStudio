@@ -25,9 +25,9 @@ const fileInfoSchema = z.object({
 export const createPatchFileSchema = z
   .object({
     tblId: patchFileVersionEnum,
-    pathInfo: pathInfoSchema.optional(),
-    fileInfo: fileInfoSchema.optional(),
-    assetFileHash: z.coerce.number().optional(),
+    pathInfo: pathInfoSchema.optional().nullable(),
+    fileInfo: fileInfoSchema.optional().nullable(),
+    assetFileHash: z.coerce.number().optional().nullable(),
   })
   .superRefine((object, ctx) => {
     if (object.fileInfo && !object.assetFileHash) {
@@ -49,9 +49,9 @@ export const updatePatchFileSchema = z
   .object({
     id: z.string(),
     tblId: patchFileVersionEnum,
-    pathInfo: pathInfoSchema.optional(),
-    fileInfo: fileInfoSchema.optional(),
-    assetFileHash: z.coerce.number().optional(),
+    pathInfo: pathInfoSchema.optional().nullable(),
+    fileInfo: fileInfoSchema.optional().nullable(),
+    assetFileHash: z.coerce.number().optional().nullable(),
   })
   .superRefine((object) => {
     if (!object.fileInfo) {

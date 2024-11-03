@@ -22,15 +22,14 @@ import Hitboxes from "./components/tabs/hitboxes"
 import Projectiles from "./components/tabs/projectiles"
 import Stats from "./components/tabs/stats"
 
-const routes = ["/units/:unitId/customize/info/:tab"]
+const routes = ["/units/:unitId/customize/info/:infoTab"]
 
 export default function UnitInformation() {
   const setOpenExportDialog = useExportDialogStore(
     (state) => state.setOpenExportDialog
   )
-  const { selectedTab, setSelectedTab } = useCustomizeInformationUnitStore(
-    (state) => state
-  )
+  const { selectedInformationTab, setSelectedInformationTab } =
+    useCustomizeInformationUnitStore((state) => state)
   const { selectedUnits } = useUnitsStore((state) => state)
 
   const { pathname } = useLocation()
@@ -40,8 +39,10 @@ export default function UnitInformation() {
   const pathPattern = routes.find((pattern) => matchPath(pattern, pathname))
 
   useEffect(() => {
-    setSelectedTab((params.tab as InformationTabModes) ?? "stats")
-  }, [params.tab])
+    setSelectedInformationTab(
+      (params.infoTab as InformationTabModes) ?? "stats"
+    )
+  }, [params.infoTab])
 
   return (
     <>
@@ -69,12 +70,12 @@ export default function UnitInformation() {
             <Tabs
               defaultValue="stats"
               className="space-y-4"
-              value={selectedTab}
+              value={selectedInformationTab}
               onValueChange={(value: string) => {
                 if (!pathPattern) return
                 const newPath = generatePath(pathPattern, {
                   ...params,
-                  tab: value,
+                  infoTab: value,
                 })
                 navigate(
                   {

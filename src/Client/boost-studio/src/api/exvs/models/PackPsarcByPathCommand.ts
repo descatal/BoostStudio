@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { NullableOfCompressionType } from './NullableOfCompressionType';
-import {
-    NullableOfCompressionTypeFromJSON,
-    NullableOfCompressionTypeFromJSONTyped,
-    NullableOfCompressionTypeToJSON,
-} from './NullableOfCompressionType';
-
 /**
  * 
  * @export
@@ -46,10 +39,10 @@ export interface PackPsarcByPathCommand {
     filename?: string | null;
     /**
      * 
-     * @type {NullableOfCompressionType}
+     * @type {string}
      * @memberof PackPsarcByPathCommand
      */
-    compressionType?: NullableOfCompressionType | null;
+    compressionType?: PackPsarcByPathCommandCompressionTypeEnum | null;
     /**
      * 
      * @type {number}
@@ -57,6 +50,19 @@ export interface PackPsarcByPathCommand {
      */
     compressionLevel?: number | null;
 }
+
+
+/**
+ * @export
+ */
+export const PackPsarcByPathCommandCompressionTypeEnum = {
+    None: 'None',
+    Zlib: 'Zlib',
+    Lzma: 'Lzma',
+    Null: 'null'
+} as const;
+export type PackPsarcByPathCommandCompressionTypeEnum = typeof PackPsarcByPathCommandCompressionTypeEnum[keyof typeof PackPsarcByPathCommandCompressionTypeEnum];
+
 
 /**
  * Check if a given object implements the PackPsarcByPathCommand interface.
@@ -80,7 +86,7 @@ export function PackPsarcByPathCommandFromJSONTyped(json: any, ignoreDiscriminat
         'sourcePath': json['sourcePath'],
         'destinationPath': json['destinationPath'],
         'filename': json['filename'] == null ? undefined : json['filename'],
-        'compressionType': json['compressionType'] == null ? undefined : NullableOfCompressionTypeFromJSON(json['compressionType']),
+        'compressionType': json['compressionType'] == null ? undefined : json['compressionType'],
         'compressionLevel': json['compressionLevel'] == null ? undefined : json['compressionLevel'],
     };
 }
@@ -94,7 +100,7 @@ export function PackPsarcByPathCommandToJSON(value?: PackPsarcByPathCommand | nu
         'sourcePath': value['sourcePath'],
         'destinationPath': value['destinationPath'],
         'filename': value['filename'],
-        'compressionType': NullableOfCompressionTypeToJSON(value['compressionType']),
+        'compressionType': value['compressionType'],
         'compressionLevel': value['compressionLevel'],
     };
 }

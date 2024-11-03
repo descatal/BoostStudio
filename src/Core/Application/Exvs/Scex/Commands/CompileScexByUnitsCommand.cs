@@ -42,7 +42,7 @@ public class CompileScexByUnitsCommandHandler(
         var files = new List<FileInfo>();
         foreach (var unit in units)
         {
-            var pathCandidates = Directory.GetFiles(scriptDirectoryConfig.Value.Value, $"{unit.GameUnitId}", SearchOption.AllDirectories);
+            var pathCandidates = Directory.GetFiles(scriptDirectoryConfig.Value.Value, $"*{unit.GameUnitId}*", SearchOption.AllDirectories);
             var sourceFilePath = pathCandidates.FirstOrDefault(path => Regex.IsMatch(path, $@"\b{unit.GameUnitId}\b"));
             
             if (sourceFilePath is null || !File.Exists(sourceFilePath))

@@ -5,6 +5,7 @@ import {
   GetApiTblByIdRequest,
   PostApiPatchFilesByIdRequest,
   PostApiPatchFilesRequest,
+  PostApiPatchFilesResizeRequest,
   PostApiTblExportRequest,
   TblApi,
 } from "../exvs"
@@ -43,6 +44,12 @@ export async function deletePatchFiles(
   request: DeleteApiPatchFilesByIdRequest
 ) {
   return await openapi.deleteApiPatchFilesById(request)
+}
+
+export async function resizePatchFiles(
+  request: PostApiPatchFilesResizeRequest
+) {
+  return await openapi.postApiPatchFilesResize(request)
 }
 
 export async function exportTbl(request: PostApiTblExportRequest) {

@@ -19,10 +19,10 @@ import type {
   CreateUnitAmmoSlotCommand,
   ExportUnitStatByPathCommand,
   ExportUnitStatCommand,
+  GetApiUnitStatsAmmoSlotByUnitId200ResponseInner,
   PaginatedListOfStatDto,
   PaginatedListOfUnitStatDto,
   StatDto,
-  UnitAmmoSlotDto,
   UnitStatDto,
   UpdateStatCommand,
   UpdateUnitAmmoSlotCommand,
@@ -36,14 +36,14 @@ import {
     ExportUnitStatByPathCommandToJSON,
     ExportUnitStatCommandFromJSON,
     ExportUnitStatCommandToJSON,
+    GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerFromJSON,
+    GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerToJSON,
     PaginatedListOfStatDtoFromJSON,
     PaginatedListOfStatDtoToJSON,
     PaginatedListOfUnitStatDtoFromJSON,
     PaginatedListOfUnitStatDtoToJSON,
     StatDtoFromJSON,
     StatDtoToJSON,
-    UnitAmmoSlotDtoFromJSON,
-    UnitAmmoSlotDtoToJSON,
     UnitStatDtoFromJSON,
     UnitStatDtoToJSON,
     UpdateStatCommandFromJSON,
@@ -289,7 +289,7 @@ export class StatsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiUnitStatsAmmoSlotByUnitIdRaw(requestParameters: GetApiUnitStatsAmmoSlotByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UnitAmmoSlotDto>>> {
+    async getApiUnitStatsAmmoSlotByUnitIdRaw(requestParameters: GetApiUnitStatsAmmoSlotByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetApiUnitStatsAmmoSlotByUnitId200ResponseInner>>> {
         if (requestParameters['unitId'] == null) {
             throw new runtime.RequiredError(
                 'unitId',
@@ -308,12 +308,12 @@ export class StatsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UnitAmmoSlotDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetApiUnitStatsAmmoSlotByUnitId200ResponseInnerFromJSON));
     }
 
     /**
      */
-    async getApiUnitStatsAmmoSlotByUnitId(requestParameters: GetApiUnitStatsAmmoSlotByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UnitAmmoSlotDto>> {
+    async getApiUnitStatsAmmoSlotByUnitId(requestParameters: GetApiUnitStatsAmmoSlotByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetApiUnitStatsAmmoSlotByUnitId200ResponseInner>> {
         const response = await this.getApiUnitStatsAmmoSlotByUnitIdRaw(requestParameters, initOverrides);
         return await response.value();
     }

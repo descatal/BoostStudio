@@ -1,39 +1,46 @@
-import { cn } from "@/lib/utils"
-import React from "react";
+import React from "react"
+import { useUnitsStore } from "@/pages/units/libs/store"
+import { Link, useLocation, useParams } from "react-router-dom"
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+import { cn } from "@/lib/utils"
+
+interface MainNavProps extends React.HTMLAttributes<HTMLElement> {}
+
+export function MainNav({ className, ...props }: MainNavProps) {
+  const params = useParams()
+  const unitId = Number(params.unitId)
+
+  const { customizeSection } = useUnitsStore((state) => state)
+
   return (
     <nav
       className={cn("flex items-center space-x-4 lg:space-x-6", className)}
       {...props}
     >
-      <a
-        href="/units/{id}/info/{tab}"
-        className="text-sm font-medium transition-colors hover:text-primary"
+      <Link
+        to={`/units/${unitId}/customize/`}
+        className={`${customizeSection === "info" ? "text-primary" : "text-muted-foreground"} text-sm font-medium transition-colors hover:text-primary`}
       >
         Information
-      </a>
-      <a
-        href="/units/{id}/scripts"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      </Link>
+      <Link
+        to={`/units/${unitId}/customize/script`}
+        className={`${customizeSection === "script" ? "text-primary" : "text-muted-foreground"} text-sm font-medium transition-colors hover:text-primary`}
       >
         Script
-      </a>
-      <a
-        href="/units/{id}/models"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      </Link>
+      <Link
+        to={`/units/${unitId}/customize/assets`}
+        className={`${customizeSection === "assets" ? "text-primary" : "text-muted-foreground"} text-sm font-medium transition-colors hover:text-primary`}
       >
-        Model & Animation
-      </a>
-      <a
-        href="/units/{id}/misc"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Misc
-      </a>
+        Assets
+      </Link>
+      {/*<a*/}
+      {/*  href={`/units/${unitId}/customize/misc`}*/}
+      {/*  className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"*/}
+      {/*>*/}
+      {/*  Misc*/}
+      {/*</a>*/}
     </nav>
   )
 }

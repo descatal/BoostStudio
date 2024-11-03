@@ -6,7 +6,7 @@ using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoostStudio.Application.Exvs.PatchFiles.Commands;
+namespace BoostStudio.Application.Exvs.Tbl.Commands;
 
 public record ImportTblCommand(Stream[] Files) : IRequest;
 
