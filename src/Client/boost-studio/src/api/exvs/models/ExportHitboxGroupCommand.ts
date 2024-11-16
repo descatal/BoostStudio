@@ -31,6 +31,18 @@ export interface ExportHitboxGroupCommand {
      * @memberof ExportHitboxGroupCommand
      */
     unitIds?: Array<number> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ExportHitboxGroupCommand
+     */
+    replaceWorking?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ExportHitboxGroupCommand
+     */
+    hotReload?: boolean;
 }
 
 /**
@@ -52,6 +64,8 @@ export function ExportHitboxGroupCommandFromJSONTyped(json: any, ignoreDiscrimin
         
         'hashes': json['hashes'] == null ? undefined : json['hashes'],
         'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'replaceWorking': json['replaceWorking'] == null ? undefined : json['replaceWorking'],
+        'hotReload': json['hotReload'] == null ? undefined : json['hotReload'],
     };
 }
 
@@ -63,6 +77,8 @@ export function ExportHitboxGroupCommandToJSON(value?: ExportHitboxGroupCommand 
         
         'hashes': value['hashes'],
         'unitIds': value['unitIds'],
+        'replaceWorking': value['replaceWorking'],
+        'hotReload': value['hotReload'],
     };
 }
 

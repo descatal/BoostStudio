@@ -74,9 +74,12 @@ public class Ammo : EndpointGroupBase
     }
     
     // [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportAmmo(ISender sender, CancellationToken cancellationToken)
+    private static async Task<IResult> ExportAmmo(
+        ISender sender,
+        ExportAmmoCommand command,
+        CancellationToken cancellationToken)
     {
-        var fileInfo = await sender.Send(new ExportAmmoCommand(), cancellationToken);
+        var fileInfo = await sender.Send(command, cancellationToken);
         return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
     }
     

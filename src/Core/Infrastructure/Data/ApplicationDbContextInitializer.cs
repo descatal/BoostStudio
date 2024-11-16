@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BoostStudio.Application.Common.Constants;
+using BoostStudio.Application.Common.Enums.Assets;
+using BoostStudio.Domain.Entities.Unit.Assets;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -20,8 +23,8 @@ public static class InitializerExtensions
 }
 
 public class ApplicationDbContextInitializer(
-    ILogger<ApplicationDbContextInitializer> logger, 
-    ApplicationDbContext context
+    ApplicationDbContext context,
+    ILogger<ApplicationDbContextInitializer> logger
 )
 {
     public async Task InitialiseAsync()
@@ -54,5 +57,36 @@ public class ApplicationDbContextInitializer(
     {
         // Default data
         // Seed, if necessary
+    }
+
+    private async Task SeedCommonAssets()
+    {
+        var query = context.AssetFiles.AsQueryable();
+        var exvsCommonAssets = Enum.GetValues<ExvsCommonAssets>();
+        var exvsCommonAssetsHash = exvsCommonAssets.Select(assets => (uint)assets).ToArray();
+
+        query = query.Where(assetFile => exvsCommonAssetsHash.Contains((uint)assetFile.FileType));
+
+        // do upsert
+        var assetFiles = query.ToList();
+        foreach (var exvsCommonAsset in exvsCommonAssets)
+        {
+            var assetFile = assetFiles.FirstOrDefault(assetFile => assetFile.Hash == (uint)exvsCommonAsset);
+            if (assetFile is null)
+            {
+                assetFile = new AssetFile
+                {
+                    // only update the order on new creation
+                    Hash = (uint)exvsCommonAsset,
+                    Order = exvsCommonAsset.GetDefaultOrderIndex()
+                };
+                context.AssetFiles.Add(assetFile);
+            }
+
+            // update the file type if it matches
+            assetFile.FileType = exvsCommonAsset.GetAssetFileType();
+        }
+
+        await context.SaveChangesAsync();
     }
 }

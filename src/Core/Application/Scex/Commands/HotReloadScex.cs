@@ -3,7 +3,6 @@ using System.Diagnostics;
 using Ardalis.GuardClauses;
 using Microsoft.Extensions.Logging;
 using Reloaded.Memory;
-using Reloaded.Memory.Streams;
 
 namespace BoostStudio.Application.Scex.Commands;
 

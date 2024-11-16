@@ -10,6 +10,7 @@ public class Scex : EndpointGroupBase
     {
         app.MapGroup(this, DefinitionNames.Exvs)
             .MapPost(CompileScexByPath, "compile/path")
+            .MapPost(DecompileScexByPath, "decompile/path")
             .MapPost(HotReloadScexByPath, "hot-reload/path")
             .MapPost(CompileScexByUnits, "compile/units")
             .MapPost(DecompileScexByUnits, "decompile/units");
@@ -18,6 +19,14 @@ public class Scex : EndpointGroupBase
     private async Task CompileScexByPath(
         ISender sender, 
         CompileScexByPathCommand request, 
+        CancellationToken cancellationToken)
+    {
+        await sender.Send(request, cancellationToken);
+    }
+
+    private async Task DecompileScexByPath(
+        ISender sender,
+        DecompileScexByPathCommand request,
         CancellationToken cancellationToken)
     {
         await sender.Send(request, cancellationToken);

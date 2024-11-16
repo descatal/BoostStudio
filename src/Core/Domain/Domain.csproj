@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\Assets\" />
     <Folder Include="Exceptions\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>

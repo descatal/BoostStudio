@@ -45,7 +45,7 @@ public class UnpackFhmCommandHandler(
             var index = 1;
             while (fileStream.Position != fileStream.Length)
             {
-                var fhmFolder = Path.Combine(rootFhmFolder, $"FHM-{index++:D3}");
+                var fhmFolder = Path.Combine(rootFhmFolder, $"fhm-{index++:D3}");
                 var fhm = await formatBinarySerializer.DeserializeAsync(fileStream, cancellationToken);
                 await fhmPacker.UnpackAsync(fhm, fhmFolder, cancellationToken);
             }

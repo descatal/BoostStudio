@@ -1,4 +1,5 @@
-﻿using BoostStudio.Application.Common.Interfaces;
+﻿using BoostStudio.Application.Common.Enums.Assets;
+using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Domain.Entities.Tbl;
 using BoostStudio.Domain.Entities.Unit.Assets;
@@ -48,7 +49,8 @@ public class ImportTblCommandHandler(
         var existingAssetFiles = applicationDbContext.AssetFiles
             .Where(assetFile => assetFileHashes.Contains(assetFile.Hash))
             .ToList();
-        
+
+        var exvsCommonAssets = Enum.GetValues<ExvsCommonAssets>();
         foreach ((PatchFileVersion version, TblBinaryFormat binaryData) in deserializedTblBinaryData)
         {
             var tbl = existingTbl.FirstOrDefault(entity => entity.Id == version);
@@ -60,7 +62,7 @@ public class ImportTblCommandHandler(
                 };
                 applicationDbContext.Tbl.Add(tbl);
             }
-            
+
             var patchFiles = new List<PatchFile>();
             var existingPatchFiles = tbl.PatchFiles.ToList();
             for (var index = 0; index < binaryData.CumulativeFileCount; index++)
@@ -98,9 +100,13 @@ public class ImportTblCommandHandler(
                     assetFile = new AssetFile();
                     existingAssetFiles.Add(assetFile);
                 }
-                
+
                 assetFile.Order = (uint)(index + 1); // db can't store 0 because of ValueGeneratedOnAdd
                 assetFile.Hash = fileInfoBody.FileInfo.HashName;
+
+                var commonAsset = exvsCommonAssets.FirstOrDefault(commonAssets => (uint)commonAssets == assetFile.Hash, ExvsCommonAssets.Unknown);
+                if (commonAsset != ExvsCommonAssets.Unknown)
+                    assetFile.FileType = commonAsset.GetAssetFileType();
                 
                 patchFile.AssetFile = assetFile;
 

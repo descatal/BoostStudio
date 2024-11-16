@@ -1,8 +1,8 @@
 ﻿import {
   AmmoApi,
   AmmoDto,
-  GetApiAmmoRequest,
-  type PostApiAmmoExportPathRequest,
+  GetApiAmmoRequest, PostApiAmmoByHashRequest,
+  type PostApiAmmoExportPathRequest, PostApiAmmoExportRequest,
   type PostApiUnitStatsExportPathRequest,
 } from "../exvs"
 import { createOpenApiConfiguration } from "./api-common"
@@ -12,13 +12,13 @@ function createAmmoOpenApiConfiguration() {
   return new AmmoApi(configuration)
 }
 
+const openapi = createAmmoOpenApiConfiguration()
+
 export async function fetchAmmo(request: GetApiAmmoRequest) {
-  const openapi = createAmmoOpenApiConfiguration()
   return await openapi.getApiAmmo(request)
 }
 
 export async function createAmmo(ammoDto: AmmoDto) {
-  const openapi = createAmmoOpenApiConfiguration()
   return await openapi.postApiAmmo({
     createAmmoCommand: {
       ...ammoDto,
@@ -27,7 +27,6 @@ export async function createAmmo(ammoDto: AmmoDto) {
 }
 
 export async function updateAmmo(ammoDto: AmmoDto) {
-  const openapi = createAmmoOpenApiConfiguration()
   return await openapi.postApiAmmoByHash({
     hash: ammoDto.hash!,
     updateAmmoCommand: {
@@ -38,20 +37,21 @@ export async function updateAmmo(ammoDto: AmmoDto) {
 }
 
 export async function deleteAmmo(hash: number) {
-  const openapi = createAmmoOpenApiConfiguration()
   return await openapi.deleteApiAmmoByHash({
     hash: hash,
   })
 }
 
 export async function fetchAmmoOptions(unitIds: number[]) {
-  const openapi = createAmmoOpenApiConfiguration()
   return await openapi.getApiAmmoOptions({
     unitIds: unitIds,
   })
 }
 
+export async function exportAmmo(request: PostApiAmmoExportRequest) {
+  return await openapi.postApiAmmoExport(request)
+}
+
 export async function exportAmmoByPath(request: PostApiAmmoExportPathRequest) {
-  const openapi = createAmmoOpenApiConfiguration()
   return await openapi.postApiAmmoExportPath(request)
 }

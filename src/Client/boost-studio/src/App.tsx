@@ -5,13 +5,8 @@ import {Menu} from "@/components/menu"
 
 import {TailwindIndicator} from "./components/tailwind-indicator"
 import {ThemeProvider} from "./components/theme-provider"
-import DashboardPage from "./pages/dashboard"
 import {cn} from "./lib/utils"
 import { TooltipProvider } from "./components/ui/tooltip"
-import Sidebar from "./components/sidebar"
-import { RouterProvider } from "react-router-dom"
-import router from "@/router";
-import Ammo from "./pages/dashboard/tabs/ammo"
 import {AlertDialog, AlertDialogTrigger} from "@/components/ui/alert-dialog";
 import {Button} from "@/components/ui/button";
 

@@ -81,4 +81,27 @@ public class Compressor : ICompressor
 
         return Task.CompletedTask;
     }
+
+    public Task<List<FileInfo>> DecompressAsync(
+        byte[] data,
+        CancellationToken cancellationToken = default)
+    {
+        var files = new List<FileInfo>();
+
+        using var stream = new MemoryStream(data);
+        using var reader = ReaderFactory.Open(stream);
+        while (reader.MoveToNextEntry())
+        {
+            if (reader.Entry.IsDirectory || reader.Entry.Key.Contains("/PaxHeaders", StringComparison.Ordinal))
+                continue;
+
+            using var fileMemoryStream = new MemoryStream();
+            reader.WriteEntryTo(fileMemoryStream);
+
+            var fileEntry = new FileInfo(fileMemoryStream.ToArray(), reader.Entry.Key);
+            files.Add(fileEntry);
+        }
+
+        return Task.FromResult(files);
+    }
 }

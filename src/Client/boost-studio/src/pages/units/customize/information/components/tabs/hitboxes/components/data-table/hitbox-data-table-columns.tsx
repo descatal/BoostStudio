@@ -177,7 +177,7 @@ export const hitboxColumns: ColumnDef<GetApiHitboxesByHash200Response>[] = [
                 <DropdownMenuItem
                   onClick={async () => {
                     await createHitbox({
-                      postApiHitboxesRequest: { ...data },
+                      createHitboxCommand: { ...data },
                     })
                     await table.options.meta?.fetchData()
                     toast({

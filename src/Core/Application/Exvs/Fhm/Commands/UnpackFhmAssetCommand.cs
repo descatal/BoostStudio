@@ -80,7 +80,12 @@ public class UnpackFhmAssetCommandHandler(
                             continue;
 
                         var tblName = patchFile.TblId.GetPatchName();
-                        var fileTypeName = assetFile.FileType.GetSnakeCaseName();
+                        var fileTypeName = assetFile.FileType switch
+                        {
+                            AssetFileType.Animations => "OMO",
+                            AssetFileType.Effects => "EIDX",
+                            _ => assetFile.FileType.GetSnakeCaseName()
+                        };
 
                         // todo: these are needed for current psarc directory structure
                         string sourceDirectory = string.Empty;

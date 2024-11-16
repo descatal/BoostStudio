@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CreateAmmoCommand,
   ExportAmmoByPathCommand,
+  ExportAmmoCommand,
   PaginatedListOfAmmoDto,
   UpdateAmmoCommand,
 } from '../models/index';
@@ -25,6 +26,8 @@ import {
     CreateAmmoCommandToJSON,
     ExportAmmoByPathCommandFromJSON,
     ExportAmmoByPathCommandToJSON,
+    ExportAmmoCommandFromJSON,
+    ExportAmmoCommandToJSON,
     PaginatedListOfAmmoDtoFromJSON,
     PaginatedListOfAmmoDtoToJSON,
     UpdateAmmoCommandFromJSON,
@@ -58,6 +61,10 @@ export interface PostApiAmmoRequest {
 export interface PostApiAmmoByHashRequest {
     hash: number;
     updateAmmoCommand: UpdateAmmoCommand;
+}
+
+export interface PostApiAmmoExportRequest {
+    exportAmmoCommand: ExportAmmoCommand;
 }
 
 export interface PostApiAmmoExportPathRequest {
@@ -280,16 +287,26 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoExportRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiAmmoExportRaw(requestParameters: PostApiAmmoExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportAmmoCommand'] == null) {
+            throw new runtime.RequiredError(
+                'exportAmmoCommand',
+                'Required parameter "exportAmmoCommand" was null or undefined when calling postApiAmmoExport().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/api/ammo/export`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: ExportAmmoCommandToJSON(requestParameters['exportAmmoCommand']),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -297,8 +314,8 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiAmmoExport(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postApiAmmoExportRaw(initOverrides);
+    async postApiAmmoExport(requestParameters: PostApiAmmoExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiAmmoExportRaw(requestParameters, initOverrides);
     }
 
     /**

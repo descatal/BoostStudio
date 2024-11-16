@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 import type {
   CompileScexByPathCommand,
   CompileScexByUnitsCommand,
+  DecompileScexByPathCommand,
   DecompileScexByUnitsCommand,
   HotReloadScex,
 } from '../models/index';
@@ -25,6 +26,8 @@ import {
     CompileScexByPathCommandToJSON,
     CompileScexByUnitsCommandFromJSON,
     CompileScexByUnitsCommandToJSON,
+    DecompileScexByPathCommandFromJSON,
+    DecompileScexByPathCommandToJSON,
     DecompileScexByUnitsCommandFromJSON,
     DecompileScexByUnitsCommandToJSON,
     HotReloadScexFromJSON,
@@ -37,6 +40,10 @@ export interface PostApiScexCompilePathRequest {
 
 export interface PostApiScexCompileUnitsRequest {
     compileScexByUnitsCommand: CompileScexByUnitsCommand;
+}
+
+export interface PostApiScexDecompilePathRequest {
+    decompileScexByPathCommand: DecompileScexByPathCommand;
 }
 
 export interface PostApiScexDecompileUnitsRequest {
@@ -116,6 +123,39 @@ export class ScexApi extends runtime.BaseAPI {
      */
     async postApiScexCompileUnits(requestParameters: PostApiScexCompileUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiScexCompileUnitsRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiScexDecompilePathRaw(requestParameters: PostApiScexDecompilePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['decompileScexByPathCommand'] == null) {
+            throw new runtime.RequiredError(
+                'decompileScexByPathCommand',
+                'Required parameter "decompileScexByPathCommand" was null or undefined when calling postApiScexDecompilePath().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/scex/decompile/path`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DecompileScexByPathCommandToJSON(requestParameters['decompileScexByPathCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiScexDecompilePath(requestParameters: PostApiScexDecompilePathRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiScexDecompilePathRaw(requestParameters, initOverrides);
     }
 
     /**

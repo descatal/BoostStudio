@@ -18,7 +18,7 @@ public record PackFhmAssetCommand(
     uint[]? AssetFileHashes = null,
     AssetFileType[]? AssetFileTypes = null,
     uint[]? UnitIds = null,
-    PatchFileVersion[]? PatchFileVersions = null,
+    PatchFileVersion[]? PatchFileVersions = null, // ignored if ReplaceStaging is false
     bool ReplaceStaging = false
 ) : IRequest<FileInfo>;
 

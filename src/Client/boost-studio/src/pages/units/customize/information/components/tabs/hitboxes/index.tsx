@@ -50,7 +50,7 @@ const Hitboxes = ({ unitId }: { unitId: number }) => {
       if (!entity.hash) continue
       await updateHitbox({
         hash: entity.hash!,
-        postApiHitboxesByHashRequest: {
+        updateHitboxCommand: {
           ...entity,
           hash: entity.hash!,
         },
@@ -90,6 +90,7 @@ const Hitboxes = ({ unitId }: { unitId: number }) => {
     filterFields: filterFields,
     fetchData: getData,
     saveData: saveData,
+    enableEditingMode: true,
   })
 
   return (

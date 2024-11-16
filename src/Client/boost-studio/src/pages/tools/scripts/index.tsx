@@ -40,7 +40,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
       setSelectedCompileUnits(units)
       setSelectedDecompileUnits(units)
     }
-  }, [])
+  }, [units])
 
   const compileUnitScripts = async () => {
     if (!selectedCompileUnits) {
@@ -176,6 +176,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
               <div className={"space-y-2"}>
                 <Label>Units</Label>
                 <UnitSwitcher
+                  disabled={!!units}
                   multipleSelect={true}
                   selectedUnits={selectedDecompileUnits}
                   setSelectedUnits={setSelectedDecompileUnits}

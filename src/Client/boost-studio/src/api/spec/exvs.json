@@ -262,6 +262,16 @@
           "Ammo"
         ],
         "operationId": "post-api-ammo-export",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportAmmoCommand"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -701,6 +711,29 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CompileScexByPathCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/scex/decompile/path": {
+      "post": {
+        "tags": [
+          "Scex"
+        ],
+        "operationId": "post-api-scex-decompile-path",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DecompileScexByPathCommand"
               }
             }
           },
@@ -3047,7 +3080,7 @@
           "Unknown",
           "Dummy",
           "Animations",
-          "Models",
+          "ModelAndTexture",
           "Data",
           "Effects",
           "SoundEffects",
@@ -3057,7 +3090,7 @@
           "SpriteFrames",
           "VoiceLinesMetadata",
           "PilotVoiceLines",
-          "Hitbox",
+          "Hitboxes",
           "Projectiles",
           "Ammo",
           "RosterInfo",
@@ -4431,6 +4464,26 @@
           }
         }
       },
+      "DecompileScexByPathCommand": {
+        "required": [
+          "sourcePath",
+          "destinationPath"
+        ],
+        "type": "object",
+        "properties": {
+          "sourcePath": {
+            "type": "string"
+          },
+          "destinationPath": {
+            "type": "string"
+          },
+          "fileName": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          }
+        }
+      },
       "DecompileScexByUnitsCommand": {
         "required": [
           "unitIds"
@@ -4457,6 +4510,19 @@
             "type": "string",
             "default": null,
             "nullable": true
+          }
+        }
+      },
+      "ExportAmmoCommand": {
+        "type": "object",
+        "properties": {
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
+          },
+          "hotReload": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -4508,6 +4574,14 @@
             },
             "default": null,
             "nullable": true
+          },
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
+          },
+          "hotReload": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -4558,6 +4632,14 @@
             },
             "default": null,
             "nullable": true
+          },
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
+          },
+          "hotReload": {
+            "type": "boolean",
+            "default": false
           }
         }
       },

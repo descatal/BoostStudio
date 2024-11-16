@@ -30,7 +30,7 @@ public class ImportAssetFileCommandHandler(
                 {
                     [AssetFileType.Dummy] = hashes.DummyHash,
                     [AssetFileType.Data] = hashes.DataHash,
-                    [AssetFileType.Models] = hashes.ModelHash,
+                    [AssetFileType.ModelAndTexture] = hashes.ModelHash,
                     [AssetFileType.Animations] = hashes.AnimationHash,
                     [AssetFileType.Effects] = hashes.EffectsHash,
                     [AssetFileType.SoundEffects] = hashes.SoundEffectsHash,

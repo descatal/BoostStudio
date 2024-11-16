@@ -26,8 +26,10 @@ models/CreateProjectileCommand.ts
 models/CreateStatCommand.ts
 models/CreateUnitAmmoSlotCommand.ts
 models/CreateUnitCommand.ts
+models/DecompileScexByPathCommand.ts
 models/DecompileScexByUnitsCommand.ts
 models/ExportAmmoByPathCommand.ts
+models/ExportAmmoCommand.ts
 models/ExportHitboxGroupByPathCommand.ts
 models/ExportHitboxGroupCommand.ts
 models/ExportTblCommand.ts

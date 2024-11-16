@@ -9,7 +9,7 @@ public enum AssetFileType
     // Unit specific types
     Dummy,
     Animations,
-    Models,
+    ModelAndTexture,
     Data,
     Effects,
     SoundEffects,
@@ -21,7 +21,7 @@ public enum AssetFileType
     PilotVoiceLines,
 
     // Common types
-    Hitbox,
+    Hitboxes,
     Projectiles,
     Ammo,
     RosterInfo,
@@ -46,7 +46,7 @@ public static class AssetFileTypeExtensions
         {
             AssetFileType.Dummy => true,
             AssetFileType.Animations => true,
-            AssetFileType.Models => true,
+            AssetFileType.ModelAndTexture => true,
             AssetFileType.Data => true,
             AssetFileType.Effects => true,
             AssetFileType.SoundEffects => true,
@@ -62,7 +62,7 @@ public static class AssetFileTypeExtensions
     public static bool IsCommon(this AssetFileType fileType)
         => fileType switch
         {
-            AssetFileType.Hitbox => true,
+            AssetFileType.Hitboxes => true,
             AssetFileType.Projectiles => true,
             AssetFileType.Ammo => true,
             AssetFileType.RosterInfo => true,

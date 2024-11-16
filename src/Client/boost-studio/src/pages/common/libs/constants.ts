@@ -2,7 +2,7 @@
   Unknown: "Unknown",
   Dummy: "Dummy",
   Animations: "Animations",
-  Models: "Models",
+  ModelAndTexture: "ModelAndTexture",
   Data: "Data",
   Effects: "Effects",
   SoundEffects: "SoundEffects",
@@ -17,7 +17,7 @@ export type UnitAssetFileOptionsType =
   (typeof UnitAssetFileOptions)[keyof typeof UnitAssetFileOptions]
 
 export const CommonAssetFileOptions = {
-  Hitbox: "Hitbox",
+  Hitboxes: "Hitboxes",
   Projectiles: "Projectiles",
   Ammo: "Ammo",
   RosterInfo: "RosterInfo",

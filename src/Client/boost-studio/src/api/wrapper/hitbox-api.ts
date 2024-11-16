@@ -4,16 +4,16 @@ import {
   HitboxesApi,
   PostApiHitboxesByHashRequest,
   PostApiHitboxesRequest,
-  type PostApiHitboxGroupsExportPathRequest,
+  type PostApiHitboxGroupsExportPathRequest, PostApiHitboxGroupsExportRequest,
 } from "../exvs"
 import { createOpenApiConfiguration } from "./api-common"
 
-function createProjectilesOpenApiConfiguration() {
+function createHitboxesOpenApiConfiguration() {
   const configuration = createOpenApiConfiguration()
   return new HitboxesApi(configuration)
 }
 
-const openapi = createProjectilesOpenApiConfiguration()
+const openapi = createHitboxesOpenApiConfiguration()
 
 export async function fetchHitboxes(request: GetApiHitboxesRequest) {
   return await openapi.getApiHitboxes(request)
@@ -29,6 +29,12 @@ export async function updateHitbox(request: PostApiHitboxesByHashRequest) {
 
 export async function deleteHitbox(request: DeleteApiHitboxesByHashRequest) {
   return await openapi.deleteApiHitboxesByHash(request)
+}
+
+export async function exportHitboxes(
+  request: PostApiHitboxGroupsExportRequest
+) {
+  return await openapi.postApiHitboxGroupsExport(request)
 }
 
 export async function exportHitboxesByPath(

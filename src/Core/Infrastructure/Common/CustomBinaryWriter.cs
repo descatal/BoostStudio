@@ -1,6 +1,4 @@
-﻿using System;
-using System.Buffers.Binary;
-using System.Linq;
+﻿using System.Buffers.Binary;
 using System.Text;
 
 namespace BoostStudio.Infrastructure.Common;
@@ -115,10 +113,7 @@ public class CustomBinaryWriter(
     // There is no endianess for byte and byte arrays, it writes what you passed in
     public void WriteByte(byte value, long? position = null)
     {
-        WriteByteArray(new byte[1]
-        {
-            value
-        }, position);
+        WriteByteArray([value], position);
     }
 
     public void WriteByteArray(byte[] value, long? position = null, uint? alignment = null)
@@ -188,10 +183,9 @@ public class CustomBinaryWriter(
         long? position = null,
         uint? alignment = null)
     {
-        encoding = encoding ?? Encoding.Default;
+        encoding ??= Encoding.Default;
 
         var encodedString = encoding.GetBytes(value);
-        var encodedLength = encodedString.Length;
 
         if (writeSize)
             WriteUint((uint)encodedString.Length, sizeEndian);

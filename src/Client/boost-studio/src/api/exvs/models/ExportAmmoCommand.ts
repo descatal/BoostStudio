@@ -16,59 +16,51 @@ import { mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ExportUnitProjectileCommand
+ * @interface ExportAmmoCommand
  */
-export interface ExportUnitProjectileCommand {
-    /**
-     * 
-     * @type {Array<number>}
-     * @memberof ExportUnitProjectileCommand
-     */
-    unitIds?: Array<number> | null;
+export interface ExportAmmoCommand {
     /**
      * 
      * @type {boolean}
-     * @memberof ExportUnitProjectileCommand
+     * @memberof ExportAmmoCommand
      */
     replaceWorking?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof ExportUnitProjectileCommand
+     * @memberof ExportAmmoCommand
      */
     hotReload?: boolean;
 }
 
 /**
- * Check if a given object implements the ExportUnitProjectileCommand interface.
+ * Check if a given object implements the ExportAmmoCommand interface.
  */
-export function instanceOfExportUnitProjectileCommand(value: object): value is ExportUnitProjectileCommand {
+export function instanceOfExportAmmoCommand(value: object): value is ExportAmmoCommand {
     return true;
 }
 
-export function ExportUnitProjectileCommandFromJSON(json: any): ExportUnitProjectileCommand {
-    return ExportUnitProjectileCommandFromJSONTyped(json, false);
+export function ExportAmmoCommandFromJSON(json: any): ExportAmmoCommand {
+    return ExportAmmoCommandFromJSONTyped(json, false);
 }
 
-export function ExportUnitProjectileCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): ExportUnitProjectileCommand {
+export function ExportAmmoCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): ExportAmmoCommand {
     if (json == null) {
         return json;
     }
     return {
         
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
         'replaceWorking': json['replaceWorking'] == null ? undefined : json['replaceWorking'],
         'hotReload': json['hotReload'] == null ? undefined : json['hotReload'],
     };
 }
 
-export function ExportUnitProjectileCommandToJSON(value?: ExportUnitProjectileCommand | null): any {
+export function ExportAmmoCommandToJSON(value?: ExportAmmoCommand | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'unitIds': value['unitIds'],
         'replaceWorking': value['replaceWorking'],
         'hotReload': value['hotReload'],
     };
