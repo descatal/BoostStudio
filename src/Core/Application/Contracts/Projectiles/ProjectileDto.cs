@@ -8,7 +8,7 @@ public record ProjectileDto : ProjectileDetailsDto
 public record ProjectileDetailsDto
 {
     public uint ProjectileType { get; set; }
-    public uint HitboxHash { get; set; }
+    public uint? HitboxHash { get; set; }
     public uint ModelHash { get; set; }
     public uint SkeletonIndex { get; set; }
     public uint AimType { get; set; }

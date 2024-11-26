@@ -378,7 +378,7 @@ export function useDataTable<TData, TValue>({
 
       // If the initialValue is changed external, sync it up with our state
       React.useEffect(() => {
-        setValue(initialValue)
+        setValue(initialValue ?? "")
       }, [initialValue])
 
       return (

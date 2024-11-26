@@ -11,19 +11,19 @@ public class UpdateProjectileCommandHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<UpdateProjectileByIdCommand>
 {
-    public async ValueTask<Unit> Handle(UpdateProjectileByIdCommand byIdCommand, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(UpdateProjectileByIdCommand command, CancellationToken cancellationToken)
     {
         var existingEntity = await applicationDbContext.Projectiles
             .Include(projectile => projectile.UnitProjectile)
-            .FirstOrDefaultAsync(projectileSet => projectileSet.Hash == byIdCommand.Hash, cancellationToken: cancellationToken);
+            .FirstOrDefaultAsync(projectileSet => projectileSet.Hash == command.Hash, cancellationToken: cancellationToken);
         
-        Guard.Against.NotFound(byIdCommand.Hash, existingEntity);
-        ProjectileMapper.MapToEntity(byIdCommand.Hash, byIdCommand, existingEntity);
+        Guard.Against.NotFound(command.Hash, existingEntity);
 
-        if (existingEntity.UnitProjectile?.GameUnitId != byIdCommand.UnitId)
+        ProjectileMapper.MapToEntity(command.Hash, command, existingEntity);
+        if (existingEntity.UnitProjectile?.GameUnitId != command.UnitId)
         {
             var unitProjectile = await applicationDbContext.UnitProjectiles
-                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == byIdCommand.UnitId, cancellationToken);
+                .FirstOrDefaultAsync(unitProjectile => unitProjectile.GameUnitId == command.UnitId, cancellationToken);
             
             existingEntity.UnitProjectile = unitProjectile;
         }

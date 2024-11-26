@@ -57,6 +57,7 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
 
     for (const entity of modifiedEntities) {
       if (entity.hash === undefined) continue
+      if (entity.hitboxHash === 0) entity.hitboxHash = undefined
       await updateProjectile({
         hash: entity.hash!,
         updateProjectileByIdCommand: {

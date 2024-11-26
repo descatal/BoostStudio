@@ -28,6 +28,11 @@ public static partial class ProjectileMapper
             entity = MapToEntity(sourceDto);
         
         entity.Hash = hash;
+
+        // coalesce it to null if 0 is supplied
+        if (entity.HitboxHash == 0)
+            entity.HitboxHash = null;
+
         return entity;
     }
     

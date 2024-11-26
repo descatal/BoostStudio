@@ -32,7 +32,7 @@ export function ProjectileDataTableToolbar<TData>(
     <div className="flex items-center justify-between">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className={`${modifiedRows.length > 0 ? "" : "hidden"}`} variant={"outline"}>Save</Button>
+          <Button className={`${modifiedRows.length > 0 ? "" : "hidden"}`}>Save</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -44,14 +44,21 @@ export function ProjectileDataTableToolbar<TData>(
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              className={buttonVariants({variant: "outline"})}
-              onClick={async () => await table.options.meta?.saveData()}>Continue
+              onClick={async () => {
+                await table.options.meta?.saveData()
+              }}>
+              Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Button className={`${modifiedRows.length > 0 ? "" : "hidden"}`} variant={"secondary"}
-              onClick={async () => await table.options.meta?.fetchData()}>Discard</Button>
+      <Button
+        className={`${modifiedRows.length > 0 ? "" : "hidden"}`}
+        onClick={async () => {
+          await table.options.meta?.fetchData()
+        }}>
+        Discard
+      </Button>
     </div>
   )
 }
