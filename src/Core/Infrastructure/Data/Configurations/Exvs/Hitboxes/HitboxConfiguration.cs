@@ -3,7 +3,7 @@ using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BoostStudio.Infrastructure.Data.Configurations.Hitboxes;
+namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Hitboxes;
 
 public class HitboxConfiguration : IEntityTypeConfiguration<Hitbox>
 {
@@ -18,7 +18,7 @@ public class HitboxConfiguration : IEntityTypeConfiguration<Hitbox>
             .IsRequired();
         
         builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
+            .HasValueGenerator<UuiDv7Generator>()
             .ValueGeneratedOnAdd();
     }
 }

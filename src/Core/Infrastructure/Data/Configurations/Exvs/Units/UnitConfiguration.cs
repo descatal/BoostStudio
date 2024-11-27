@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BoostStudio.Infrastructure.Data.Configurations.Units;
+namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Units;
 
 public class UnitConfiguration: IEntityTypeConfiguration<Unit>
 {

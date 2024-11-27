@@ -3,7 +3,7 @@ using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BoostStudio.Infrastructure.Data.Configurations.Stats;
+namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Stats;
 
 public class StatConfiguration: IEntityTypeConfiguration<Stat>
 {
@@ -16,7 +16,7 @@ public class StatConfiguration: IEntityTypeConfiguration<Stat>
             .IsRequired(false);
         
         builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
+            .HasValueGenerator<UuiDv7Generator>()
             .ValueGeneratedOnAdd();
     }
 }

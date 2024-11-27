@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TblEntity=BoostStudio.Domain.Entities.Exvs.Tbl.Tbl;
 
-namespace BoostStudio.Infrastructure.Data.Configurations.Tbl;
+namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Tbl;
 
 public class PatchFileConfiguration : IEntityTypeConfiguration<PatchFile>
 {
     public void Configure(EntityTypeBuilder<PatchFile> builder)
     {
         builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
+            .HasValueGenerator<UuiDv7Generator>()
             .ValueGeneratedOnAdd();
 
         builder.HasOne<TblEntity>(patchFile => patchFile.Tbl)

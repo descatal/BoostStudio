@@ -1,13 +1,12 @@
-﻿using BoostStudio.Domain.Entities.Exvs.Ammo;
-using BoostStudio.Infrastructure.Data.ValueGenerators;
+﻿using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BoostStudio.Infrastructure.Data.Configurations;
+namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Ammo;
 
-public class AmmoConfiguration : IEntityTypeConfiguration<Ammo>
+public class AmmoConfiguration : IEntityTypeConfiguration<Domain.Entities.Exvs.Ammo.Ammo>
 {
-    public void Configure(EntityTypeBuilder<Ammo> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Exvs.Ammo.Ammo> builder)
     {
         builder.HasAlternateKey(ammo => ammo.Hash);
         
@@ -17,7 +16,7 @@ public class AmmoConfiguration : IEntityTypeConfiguration<Ammo>
             .IsRequired(false);
         
         builder.Property(entity => entity.Id)
-            .HasValueGenerator<UUIDv7Generator>()
+            .HasValueGenerator<UuiDv7Generator>()
             .ValueGeneratedOnAdd();
     }
 }

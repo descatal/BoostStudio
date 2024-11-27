@@ -1,9 +1,8 @@
 ﻿using BoostStudio.Domain.Entities.Exvs.Assets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BoostStudio.Infrastructure.Data.Configurations.Assets;
+namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Assets;
 
 public class AssetFileConfiguration : IEntityTypeConfiguration<AssetFile>
 {
