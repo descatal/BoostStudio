@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Unit.Projectiles;
+﻿using BoostStudio.Domain.Entities.Exvs.Projectiles;
 using BoostStudio.Formats;
 
 namespace BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;

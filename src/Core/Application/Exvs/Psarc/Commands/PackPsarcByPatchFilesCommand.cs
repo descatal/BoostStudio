@@ -41,7 +41,9 @@ public class PackPsarcPatchFilesCommandHandler(
 
             await mediator.Send(new PackPsarcByPathCommand
             {
-                SourcePath = sourceDirectory, DestinationPath = destinationDirectory, Filename = $"{patchFileName}.psarc"
+                SourcePath = sourceDirectory,
+                DestinationPath = destinationDirectory,
+                Filename = $"{patchFileName}.psarc"
             }, cancellationToken);
         }
 

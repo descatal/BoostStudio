@@ -1,5 +1,5 @@
 ﻿using Riok.Mapperly.Abstractions;
-using TblEntity = BoostStudio.Domain.Entities.Tbl.Tbl;
+using TblEntity = BoostStudio.Domain.Entities.Exvs.Tbl.Tbl;
 
 namespace BoostStudio.Application.Contracts.Tbl;
 

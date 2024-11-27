@@ -4,8 +4,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
+using BoostStudio.Domain.Enums;
 using Microsoft.Extensions.Logging;
-using CompressionType=BoostStudio.Domain.Entities.PsarcFormat.CompressionType;
 
 namespace BoostStudio.Infrastructure.Formats.PsarcFormat;
 

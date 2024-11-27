@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Unit;
+﻿using BoostStudio.Domain.Entities.Exvs.Units;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

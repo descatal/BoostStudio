@@ -1,8 +1,8 @@
 ﻿using BoostStudio.Application.Common.Enums.Assets;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
-using BoostStudio.Domain.Entities.Tbl;
-using BoostStudio.Domain.Entities.Unit.Assets;
+using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
@@ -56,7 +56,7 @@ public class ImportTblCommandHandler(
             var tbl = existingTbl.FirstOrDefault(entity => entity.Id == version);
             if (tbl is null)
             {
-                tbl = new Domain.Entities.Tbl.Tbl
+                tbl = new Domain.Entities.Exvs.Tbl.Tbl
                 {
                     Id = version
                 };

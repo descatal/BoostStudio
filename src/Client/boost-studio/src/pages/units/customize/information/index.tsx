@@ -60,6 +60,13 @@ export default function UnitInformation() {
                     setOpenExportDialog(true)
                   }}
                 >
+                  Import
+                </Button>
+                <Button
+                  onClick={() => {
+                    setOpenExportDialog(true)
+                  }}
+                >
                   Export
                 </Button>
               </div>

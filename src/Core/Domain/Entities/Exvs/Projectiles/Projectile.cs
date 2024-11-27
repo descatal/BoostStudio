@@ -1,6 +1,6 @@
-﻿using BoostStudio.Domain.Entities.Unit.Hitboxes;
+﻿using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 
-namespace BoostStudio.Domain.Entities.Unit.Projectiles;
+namespace BoostStudio.Domain.Entities.Exvs.Projectiles;
 
 public class Projectile : BaseEntity<Guid>
 {

@@ -1,12 +1,10 @@
-﻿using BoostStudio.Domain.Entities.Unit.Stats;
-
-namespace BoostStudio.Domain.Entities.Unit.Projectiles;
+﻿namespace BoostStudio.Domain.Entities.Exvs.Projectiles;
 
 public class UnitProjectile : BaseEntity<Guid>
 { 
     public uint GameUnitId { get; set; }
 
-    public Unit? Unit { get; set; }
+    public Units.Unit? Unit { get; set; }
     
     // the original first four bytes of the stats file 
     public uint? FileSignature { get; set; }

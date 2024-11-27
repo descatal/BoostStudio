@@ -2,8 +2,8 @@
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Domain.Entities;
-using BoostStudio.Domain.Entities.Tbl;
-using BoostStudio.Domain.Entities.Unit.Assets;
+using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Kaitai;

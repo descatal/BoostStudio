@@ -1,9 +1,10 @@
 ﻿using System.Text.Json;
-using BoostStudio.Domain.Entities.Unit.Assets;
-using BoostStudio.Domain.Entities.Unit.Hitboxes;
-using BoostStudio.Domain.Entities.Unit.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Hitboxes;
+using BoostStudio.Domain.Entities.Exvs.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Stats;
 
-namespace BoostStudio.Domain.Entities.Unit;
+namespace BoostStudio.Domain.Entities.Exvs.Units;
 
 public class Unit : BaseEntity<Guid>
 {

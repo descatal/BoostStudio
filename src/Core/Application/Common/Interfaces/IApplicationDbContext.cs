@@ -1,11 +1,12 @@
 ﻿using BoostStudio.Domain.Entities;
-using BoostStudio.Domain.Entities.Tbl;
-using BoostStudio.Domain.Entities.Unit;
-using BoostStudio.Domain.Entities.Unit.Assets;
-using BoostStudio.Domain.Entities.Unit.Hitboxes;
-using BoostStudio.Domain.Entities.Unit.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Hitboxes;
+using BoostStudio.Domain.Entities.Exvs.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Stats;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
+using BoostStudio.Domain.Entities.Exvs.Units;
 using Microsoft.EntityFrameworkCore;
-using Unit=BoostStudio.Domain.Entities.Unit.Unit;
+using Unit=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Common.Interfaces;
 

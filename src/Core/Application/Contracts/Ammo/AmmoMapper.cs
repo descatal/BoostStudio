@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Formats;
 using Riok.Mapperly.Abstractions;
-using AmmoEntity = BoostStudio.Domain.Entities.Unit.Ammo.Ammo;
+using AmmoEntity = BoostStudio.Domain.Entities.Exvs.Ammo.Ammo;
 
 namespace BoostStudio.Application.Contracts.Ammo;
 

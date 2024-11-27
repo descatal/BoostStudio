@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Units;
-using UnitEntity=BoostStudio.Domain.Entities.Unit.Unit;
+using UnitEntity=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
 

@@ -5,7 +5,7 @@ using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Formats.FhmFormat.Commands;
-using BoostStudio.Domain.Entities.Tbl;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Enums;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;

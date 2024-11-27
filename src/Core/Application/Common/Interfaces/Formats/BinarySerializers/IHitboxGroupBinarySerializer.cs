@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Unit.Hitboxes;
+﻿using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 using BoostStudio.Formats;
 
 namespace BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;

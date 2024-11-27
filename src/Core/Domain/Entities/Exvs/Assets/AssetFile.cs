@@ -1,7 +1,7 @@
-﻿using BoostStudio.Domain.Entities.Tbl;
+﻿using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Enums;
 
-namespace BoostStudio.Domain.Entities.Unit.Assets;
+namespace BoostStudio.Domain.Entities.Exvs.Assets;
 
 public class AssetFile : BaseEntity<uint> // id is ignored, Hash is the key
 {
@@ -14,5 +14,5 @@ public class AssetFile : BaseEntity<uint> // id is ignored, Hash is the key
     
     public AssetFileType FileType { get; set; }
 
-    public ICollection<Unit> Units { get; set; } = [];
+    public ICollection<Units.Unit> Units { get; set; } = [];
 }

@@ -1,6 +1,5 @@
 ﻿using BoostStudio.Application.Contracts.Projectiles;
-using BoostStudio.Domain.Entities.Unit.Hitboxes;
-using BoostStudio.Domain.Entities.Unit.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 using BoostStudio.Formats;
 using Riok.Mapperly.Abstractions;
 

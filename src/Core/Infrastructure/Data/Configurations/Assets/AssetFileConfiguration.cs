@@ -1,7 +1,7 @@
-﻿using BoostStudio.Domain.Entities.Unit;
-using BoostStudio.Domain.Entities.Unit.Assets;
+﻿using BoostStudio.Domain.Entities.Exvs.Assets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BoostStudio.Infrastructure.Data.Configurations.Assets;
 
@@ -17,5 +17,8 @@ public class AssetFileConfiguration : IEntityTypeConfiguration<AssetFile>
 
         builder.HasMany(assetFile => assetFile.Units)
             .WithMany(unit => unit.AssetFiles);
+
+        builder.Property(assetFile => assetFile.FileType)
+            .HasConversion<string>();
     }
 }

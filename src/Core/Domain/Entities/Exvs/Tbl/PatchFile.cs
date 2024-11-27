@@ -1,8 +1,8 @@
-﻿using BoostStudio.Domain.Entities.Unit.Assets;
+﻿using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Enums;
-using TblEntity = BoostStudio.Domain.Entities.Tbl.Tbl;
+using TblEntity = BoostStudio.Domain.Entities.Exvs.Tbl.Tbl;
 
-namespace BoostStudio.Domain.Entities.Tbl;
+namespace BoostStudio.Domain.Entities.Exvs.Tbl;
 
 public class PatchFile : BaseEntity<Guid>
 {

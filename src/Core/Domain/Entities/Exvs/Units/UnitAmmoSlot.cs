@@ -1,4 +1,6 @@
-namespace BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Domain.Entities.Exvs.Stats;
+
+namespace BoostStudio.Domain.Entities.Exvs.Units;
 
 public class UnitAmmoSlot : BaseEntity<Guid>
 {

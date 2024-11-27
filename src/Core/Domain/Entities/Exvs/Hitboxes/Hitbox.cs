@@ -1,4 +1,4 @@
-﻿namespace BoostStudio.Domain.Entities.Unit.Hitboxes;
+﻿namespace BoostStudio.Domain.Entities.Exvs.Hitboxes;
 
 public class Hitbox : BaseEntity<Guid>
 {

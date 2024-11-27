@@ -2,7 +2,7 @@
 using BoostStudio.Application.Common.Constants;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Repositories;
-using BoostStudio.Domain.Entities.Tbl;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 

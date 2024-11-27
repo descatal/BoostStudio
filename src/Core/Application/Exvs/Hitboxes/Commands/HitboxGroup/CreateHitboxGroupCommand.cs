@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using HitboxGroupEntity = BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup;
+using HitboxGroupEntity = BoostStudio.Domain.Entities.Exvs.Hitboxes.HitboxGroup;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Commands.HitboxGroup;
 

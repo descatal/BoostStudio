@@ -1,5 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Unit;
-using BoostStudio.Domain.Entities.Unit.Projectiles;
+﻿using BoostStudio.Domain.Entities.Exvs.Projectiles;
 using BoostStudio.Formats;
 using Riok.Mapperly.Abstractions;
 

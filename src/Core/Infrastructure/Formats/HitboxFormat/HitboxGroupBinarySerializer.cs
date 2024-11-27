@@ -1,7 +1,7 @@
 ﻿using System.Buffers.Binary;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
-using BoostStudio.Domain.Entities.Unit.Hitboxes;
+using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using BoostStudio.Infrastructure.Common.Constants;

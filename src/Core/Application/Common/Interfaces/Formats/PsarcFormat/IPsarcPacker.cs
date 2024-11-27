@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.PsarcFormat;
+﻿using BoostStudio.Domain.Enums;
 
 namespace BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 

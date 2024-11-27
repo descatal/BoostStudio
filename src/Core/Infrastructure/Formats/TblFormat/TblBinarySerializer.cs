@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
-using BoostStudio.Domain.Entities.Tbl;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;

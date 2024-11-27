@@ -2,7 +2,6 @@
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Hitboxes;
 using BoostStudio.Application.Contracts.Projectiles;
-using BoostStudio.Domain.Entities.Unit.Projectiles;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Commands.Hitbox;

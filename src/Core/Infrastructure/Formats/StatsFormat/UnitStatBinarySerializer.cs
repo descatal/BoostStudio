@@ -2,7 +2,7 @@
 using System.Text;
 using BoostStudio.Application.Common.Interfaces.Formats;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
-using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Domain.Entities.Exvs.Stats;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using BoostStudio.Infrastructure.Common.Constants;

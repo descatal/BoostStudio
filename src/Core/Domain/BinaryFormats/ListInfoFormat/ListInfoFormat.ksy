@@ -299,32 +299,35 @@ types:
     seq:
       - id: series_index
         type: u1
-      - id: series_index_2
+      - id: unk_2
         type: u1
-        doc: Not sure why is there two series indexes, but this one seems unused
+        doc: Not sure what this is, but closely related to the series_index
       - id: unk_3
-        type: u2
-        doc: Always [ 0x80, 0xFF ] from observed patterns
+        type: u1
+        doc: Always 0x80 from observed patterns
+      - id: unk_4
+        type: u1
+        doc: Always 0xFF from observed patterns
       - id: release_string_offset
         type: u4
         doc: |
           Always after 'SSeriesList.' which is 'Release' in Japanese 'リリース'
-      - id: series_select_order
+      - id: select_order
         type: u1
         doc: |
           Placement of series's selection order, starts from 0
-      - id: series_logo_sprite_index
+      - id: logo_sprite_index
         type: u1
         doc: |
           Placement of series's select sprite texture in the 'SeriesLogoSprites' asset file
-      - id: series_logo_sprite_2_index
+      - id: logo_sprite_2_index
         type: u1
         doc: |
           Placement of series's select sprite texture in the 'SeriesLogoSprites2' asset file
       - id: unk_11
         type: u1
         doc: Always 0xFF from observed patterns
-      - id: series_movie_asset_hash
+      - id: movie_asset_hash
         type: u4
         doc: |
           Asset hash for the series movie / pv

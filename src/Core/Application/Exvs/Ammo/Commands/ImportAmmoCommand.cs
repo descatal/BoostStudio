@@ -7,7 +7,7 @@ namespace BoostStudio.Application.Exvs.Ammo.Commands;
 public record ImportAmmoCommand(Stream File) : IRequest;
 
 public class ImportAmmoCommandHandler(
-    IFormatBinarySerializer<List<Domain.Entities.Unit.Ammo.Ammo>> ammoBinarySerializer,
+    IFormatBinarySerializer<List<Domain.Entities.Exvs.Ammo.Ammo>> ammoBinarySerializer,
     IApplicationDbContext applicationDbContext,
     ILogger<ImportAmmoCommandHandler> logger
 ) : IRequestHandler<ImportAmmoCommand>

@@ -47,41 +47,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Configs");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Tbl.PatchFile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint?>("AssetFileHash")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TblId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AssetFileHash");
-
-                    b.HasIndex("TblId");
-
-                    b.ToTable("PatchFiles");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Tbl.Tbl", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("CumulativeAssetIndex")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tbl");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Ammo.Ammo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -202,14 +168,15 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Ammo");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Assets.AssetFile", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", b =>
                 {
                     b.Property<uint>("Hash")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("FileType")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<uint>("Order")
                         .ValueGeneratedOnAdd()
@@ -220,7 +187,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("AssetFiles");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Hitboxes.Hitbox", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -326,7 +293,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Hitboxes");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Hitboxes.HitboxGroup", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -340,7 +307,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("HitboxGroups");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.Projectile", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Projectiles.Projectile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -573,7 +540,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Projectiles");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Projectiles.UnitProjectile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -593,7 +560,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("UnitProjectiles");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.Stat", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.Stat", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1059,7 +1026,61 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Stats");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint?>("FileSignature")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("GameUnitId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameUnitId")
+                        .IsUnique();
+
+                    b.ToTable("UnitStats");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Tbl.PatchFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<uint?>("AssetFileHash")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TblId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssetFileHash");
+
+                    b.HasIndex("TblId");
+
+                    b.ToTable("PatchFiles");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Tbl.Tbl", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("CumulativeAssetIndex")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tbl");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Units.Unit", b =>
                 {
                     b.Property<uint>("GameUnitId")
                         .ValueGeneratedOnAdd()
@@ -1087,7 +1108,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitAmmoSlot", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Units.UnitAmmoSlot", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -1111,54 +1132,98 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("UnitAmmoSlots");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<uint?>("FileSignature")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint>("GameUnitId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameUnitId")
-                        .IsUnique();
-
-                    b.ToTable("UnitStats");
-                });
-
             modelBuilder.Entity("AssetFileUnit", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Assets.AssetFile", null)
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", null)
                         .WithMany()
                         .HasForeignKey("AssetFilesHash")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", null)
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Units.Unit", null)
                         .WithMany()
                         .HasForeignKey("UnitsGameUnitId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Tbl.PatchFile", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Ammo.Ammo", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Assets.AssetFile", "AssetFile")
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", "UnitStat")
+                        .WithMany("Ammo")
+                        .HasForeignKey("UnitStatId");
+
+                    b.Navigation("UnitStat");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Hitboxes.Hitbox", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Hitboxes.HitboxGroup", "HitboxGroup")
+                        .WithMany("Hitboxes")
+                        .HasForeignKey("HitboxGroupHash")
+                        .HasPrincipalKey("Hash")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("HitboxGroup");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Projectiles.Projectile", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Hitboxes.Hitbox", "Hitbox")
+                        .WithMany()
+                        .HasForeignKey("HitboxHash")
+                        .HasPrincipalKey("Hash");
+
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Projectiles.UnitProjectile", "UnitProjectile")
+                        .WithMany("Projectiles")
+                        .HasForeignKey("UnitProjectileId");
+
+                    b.Navigation("Hitbox");
+
+                    b.Navigation("UnitProjectile");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Projectiles.UnitProjectile", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Units.Unit", "Unit")
+                        .WithOne("UnitProjectiles")
+                        .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Projectiles.UnitProjectile", "GameUnitId");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.Stat", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", "UnitStat")
+                        .WithMany("Stats")
+                        .HasForeignKey("UnitStatId");
+
+                    b.Navigation("UnitStat");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Units.Unit", "Unit")
+                        .WithOne("UnitStats")
+                        .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", "GameUnitId");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Tbl.PatchFile", b =>
+                {
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "AssetFile")
                         .WithMany("PatchFiles")
                         .HasForeignKey("AssetFileHash");
 
-                    b.HasOne("BoostStudio.Domain.Entities.Tbl.Tbl", "Tbl")
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Tbl.Tbl", "Tbl")
                         .WithMany("PatchFiles")
                         .HasForeignKey("TblId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("BoostStudio.Domain.Entities.Tbl.PatchFileInfo", "FileInfo", b1 =>
+                    b.OwnsOne("BoostStudio.Domain.Entities.Exvs.Tbl.PatchFileInfo", "FileInfo", b1 =>
                         {
                             b1.Property<Guid>("PatchFileId")
                                 .HasColumnType("TEXT");
@@ -1186,7 +1251,7 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                                 .HasForeignKey("PatchFileId");
                         });
 
-                    b.OwnsOne("BoostStudio.Domain.Entities.Tbl.PathInfo", "PathInfo", b1 =>
+                    b.OwnsOne("BoostStudio.Domain.Entities.Exvs.Tbl.PathInfo", "PathInfo", b1 =>
                         {
                             b1.Property<Guid>("PatchFileId")
                                 .HasColumnType("TEXT");
@@ -1215,64 +1280,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Navigation("Tbl");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Units.Unit", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.UnitStat", "UnitStat")
-                        .WithMany("Ammo")
-                        .HasForeignKey("UnitStatId");
-
-                    b.Navigation("UnitStat");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", "HitboxGroup")
-                        .WithMany("Hitboxes")
-                        .HasForeignKey("HitboxGroupHash")
-                        .HasPrincipalKey("Hash")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("HitboxGroup");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.Projectile", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox", "Hitbox")
-                        .WithMany()
-                        .HasForeignKey("HitboxHash")
-                        .HasPrincipalKey("Hash");
-
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", "UnitProjectile")
-                        .WithMany("Projectiles")
-                        .HasForeignKey("UnitProjectileId");
-
-                    b.Navigation("Hitbox");
-
-                    b.Navigation("UnitProjectile");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
-                        .WithOne("UnitProjectiles")
-                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", "GameUnitId");
-
-                    b.Navigation("Unit");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Stats.Stat", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.UnitStat", "UnitStat")
-                        .WithMany("Stats")
-                        .HasForeignKey("UnitStatId");
-
-                    b.Navigation("UnitStat");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", "HitboxGroup")
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Hitboxes.HitboxGroup", "HitboxGroup")
                         .WithMany("Units")
                         .HasForeignKey("HitboxGroupHash")
                         .HasPrincipalKey("Hash");
@@ -1280,16 +1290,16 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Navigation("HitboxGroup");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitAmmoSlot", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Units.UnitAmmoSlot", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Ammo.Ammo", "Ammo")
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Ammo.Ammo", "Ammo")
                         .WithMany()
                         .HasForeignKey("AmmoHash")
                         .HasPrincipalKey("Hash")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.UnitStat", "UnitStat")
+                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", "UnitStat")
                         .WithMany("AmmoSlots")
                         .HasForeignKey("UnitStatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1300,51 +1310,42 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Navigation("UnitStat");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
-                {
-                    b.HasOne("BoostStudio.Domain.Entities.Unit.Unit", "Unit")
-                        .WithOne("UnitStats")
-                        .HasForeignKey("BoostStudio.Domain.Entities.Unit.UnitStat", "GameUnitId");
-
-                    b.Navigation("Unit");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Tbl.Tbl", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", b =>
                 {
                     b.Navigation("PatchFiles");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Assets.AssetFile", b =>
-                {
-                    b.Navigation("PatchFiles");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Hitboxes.HitboxGroup", b =>
                 {
                     b.Navigation("Hitboxes");
 
                     b.Navigation("Units");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Projectiles.UnitProjectile", b =>
                 {
                     b.Navigation("Projectiles");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.Unit", b =>
-                {
-                    b.Navigation("UnitProjectiles");
-
-                    b.Navigation("UnitStats");
-                });
-
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Unit.UnitStat", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.UnitStat", b =>
                 {
                     b.Navigation("Ammo");
 
                     b.Navigation("AmmoSlots");
 
                     b.Navigation("Stats");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Tbl.Tbl", b =>
+                {
+                    b.Navigation("PatchFiles");
+                });
+
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Units.Unit", b =>
+                {
+                    b.Navigation("UnitProjectiles");
+
+                    b.Navigation("UnitStats");
                 });
 #pragma warning restore 612, 618
         }

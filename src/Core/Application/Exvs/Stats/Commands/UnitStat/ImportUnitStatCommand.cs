@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
-using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Domain.Entities.Exvs.Units;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -35,7 +35,7 @@ public class ImportUnitStatCommandHandler(
         
             var isExist = entity is not null;
             
-            entity ??= new Domain.Entities.Unit.UnitStat
+            entity ??= new Domain.Entities.Exvs.Stats.UnitStat
             {
                 GameUnitId = statsBinaryFormat.UnitId
             };
@@ -53,7 +53,7 @@ public class ImportUnitStatCommandHandler(
 
     // Manually map the binary format into entity
     private async Task MapToUnitStat(
-        Domain.Entities.Unit.UnitStat entity, 
+        Domain.Entities.Exvs.Stats.UnitStat entity, 
         StatsBinaryFormat statsBinaryFormat, 
         CancellationToken cancellationToken = default)
     {
@@ -128,7 +128,7 @@ public class ImportUnitStatCommandHandler(
         var stats = statsBinaryFormat.Sets.Select(setBody =>
         {
             // Use reflection to map the Stats enum to concrete Stat
-            var stat = new Domain.Entities.Unit.Stats.Stat
+            var stat = new Domain.Entities.Exvs.Stats.Stat
             {
                 Order = setBody.SetIndex
             };
@@ -142,7 +142,7 @@ public class ImportUnitStatCommandHandler(
                 };
 
                 var propertyName = statsBody.PropertyName;
-                var propertyInfo = typeof(Domain.Entities.Unit.Stats.Stat).GetProperty(propertyName.ToString());
+                var propertyInfo = typeof(Domain.Entities.Exvs.Stats.Stat).GetProperty(propertyName.ToString());
                 if (propertyInfo is null || propertyInfo.PropertyType != type)
                     throw new Exception("Property type mismatch between defined Stat and StatsBinaryFormat!");
 

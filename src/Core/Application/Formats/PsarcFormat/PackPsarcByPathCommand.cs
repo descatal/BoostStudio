@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
-using BoostStudio.Domain.Entities.PsarcFormat;
-using Mediator;
+using BoostStudio.Domain.Enums;
 using Microsoft.Extensions.Logging;
 using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
@@ -15,7 +14,7 @@ public record PackPsarcByPathCommand : IRequest<FileInfo>
 
     public string? Filename { get; init; }
     
-    [DefaultValue(Domain.Entities.PsarcFormat.CompressionType.Zlib)]
+    [DefaultValue(BoostStudio.Domain.Enums.CompressionType.Zlib)]
     public CompressionType? CompressionType { get; init; }
 
     [DefaultValue(9)]

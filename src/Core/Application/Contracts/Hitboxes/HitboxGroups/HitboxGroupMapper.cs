@@ -1,5 +1,5 @@
-﻿using BoostStudio.Domain.Entities.Unit.Hitboxes;
-using UnitEntity=BoostStudio.Domain.Entities.Unit.Unit;
+﻿using BoostStudio.Domain.Entities.Exvs.Hitboxes;
+using UnitEntity=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 using Riok.Mapperly.Abstractions;
 
 namespace BoostStudio.Application.Contracts.Hitboxes.HitboxGroups;

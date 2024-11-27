@@ -1,4 +1,6 @@
-namespace BoostStudio.Domain.Entities.Unit.Ammo;
+using BoostStudio.Domain.Entities.Exvs.Stats;
+
+namespace BoostStudio.Domain.Entities.Exvs.Ammo;
 
 public class Ammo : BaseEntity<Guid>
 {

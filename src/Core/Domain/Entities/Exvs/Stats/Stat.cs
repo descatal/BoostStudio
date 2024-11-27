@@ -1,4 +1,4 @@
-﻿namespace BoostStudio.Domain.Entities.Unit.Stats;
+﻿namespace BoostStudio.Domain.Entities.Exvs.Stats;
 
 public class Stat : BaseEntity<Guid>
 {

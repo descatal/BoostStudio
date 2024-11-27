@@ -1,7 +1,7 @@
 ﻿using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TblEntity = BoostStudio.Domain.Entities.Tbl.Tbl;
+using TblEntity = BoostStudio.Domain.Entities.Exvs.Tbl.Tbl;
 
 namespace BoostStudio.Infrastructure.Data.Configurations.Tbl;
 

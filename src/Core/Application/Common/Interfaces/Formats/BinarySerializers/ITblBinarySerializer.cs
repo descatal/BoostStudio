@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Tbl;
+﻿using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Formats;
 
 namespace BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BoostStudio.Application.Formats.PsarcFormat;
-using BoostStudio.Domain.Entities.PsarcFormat;
+using BoostStudio.Domain.Enums;
 using Mediator;
 
 namespace Console.Commands.Psarc;

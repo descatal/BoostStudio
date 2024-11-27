@@ -1,14 +1,14 @@
 ﻿using System.Reflection;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Domain.Entities;
-using BoostStudio.Domain.Entities.Tbl;
-using BoostStudio.Domain.Entities.Unit;
-using BoostStudio.Domain.Entities.Unit.Ammo;
-using BoostStudio.Domain.Entities.Unit.Assets;
-using BoostStudio.Domain.Entities.Unit.Hitboxes;
-using BoostStudio.Domain.Entities.Unit.Projectiles;
-using BoostStudio.Domain.Entities.Unit.Stats;
+using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Hitboxes;
+using BoostStudio.Domain.Entities.Exvs.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Stats;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
+using BoostStudio.Domain.Entities.Exvs.Units;
 using Microsoft.EntityFrameworkCore;
+using AmmoEntity = BoostStudio.Domain.Entities.Exvs.Ammo.Ammo;
 
 namespace BoostStudio.Infrastructure.Data;
 
@@ -26,7 +26,7 @@ public class ApplicationDbContext(
     
     public DbSet<Stat> Stats => Set<Stat>();
     
-    public DbSet<Ammo> Ammo => Set<Ammo>();
+    public DbSet<AmmoEntity> Ammo => Set<AmmoEntity>();
     
     public DbSet<UnitProjectile> UnitProjectiles => Set<UnitProjectile>();
     

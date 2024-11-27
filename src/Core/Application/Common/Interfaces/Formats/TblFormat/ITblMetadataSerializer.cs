@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Contracts.Metadata.Models;
 using BoostStudio.Domain.Entities;
-using BoostStudio.Domain.Entities.Tbl;
+using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 

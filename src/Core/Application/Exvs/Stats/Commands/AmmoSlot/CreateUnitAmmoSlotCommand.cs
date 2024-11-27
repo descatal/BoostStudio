@@ -1,5 +1,5 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Domain.Entities.Unit;
+using BoostStudio.Domain.Entities.Exvs.Units;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Stats.Commands.AmmoSlot;

@@ -1,6 +1,5 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Domain.Entities.Unit;
-using BoostStudio.Domain.Entities.Unit.Ammo;
+using BoostStudio.Domain.Entities.Exvs.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;

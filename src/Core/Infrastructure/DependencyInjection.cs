@@ -7,7 +7,7 @@ using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Application.Common.Interfaces.Repositories;
-using BoostStudio.Domain.Entities.Unit.Ammo;
+using BoostStudio.Domain.Entities.Exvs.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.BackgroundServices;
 using BoostStudio.Infrastructure.Compressor;

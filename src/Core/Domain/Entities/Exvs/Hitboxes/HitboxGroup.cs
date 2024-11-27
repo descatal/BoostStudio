@@ -1,4 +1,4 @@
-﻿namespace BoostStudio.Domain.Entities.Unit.Hitboxes;
+﻿namespace BoostStudio.Domain.Entities.Exvs.Hitboxes;
 
 public class HitboxGroup : BaseEntity<Guid>
 {
@@ -7,5 +7,5 @@ public class HitboxGroup : BaseEntity<Guid>
 
     public ICollection<Hitbox> Hitboxes { get; set; } = [];
     
-    public ICollection<Unit> Units { get; set; } = [];
+    public ICollection<Units.Unit> Units { get; set; } = [];
 }

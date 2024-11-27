@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Unit.Assets;
+﻿using BoostStudio.Domain.Entities.Exvs.Assets;
 using Riok.Mapperly.Abstractions;
 
 namespace BoostStudio.Application.Contracts.Assets;

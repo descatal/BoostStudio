@@ -5,8 +5,8 @@ using BoostStudio.Application.Contracts.Projectiles;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using UnitProjectileEntity=BoostStudio.Domain.Entities.Unit.Projectiles.UnitProjectile;
-using ProjectileEntity=BoostStudio.Domain.Entities.Unit.Projectiles.Projectile;
+using UnitProjectileEntity=BoostStudio.Domain.Entities.Exvs.Projectiles.UnitProjectile;
+using ProjectileEntity=BoostStudio.Domain.Entities.Exvs.Projectiles.Projectile;
 
 namespace BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 

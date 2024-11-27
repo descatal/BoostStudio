@@ -1,6 +1,6 @@
 ﻿using BoostStudio.Application.Common.Constants;
 using BoostStudio.Application.Common.Enums.Assets;
-using BoostStudio.Domain.Entities.Unit.Assets;
+using BoostStudio.Domain.Entities.Exvs.Assets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

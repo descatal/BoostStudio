@@ -2,7 +2,7 @@
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Contracts.Assets;
 using BoostStudio.Application.Contracts.Tbl.PatchFiles;
-using BoostStudio.Domain.Entities.Unit.Assets;
+using BoostStudio.Domain.Entities.Exvs.Assets;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Assets.Queries;

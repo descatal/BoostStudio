@@ -1,5 +1,5 @@
 ﻿using Riok.Mapperly.Abstractions;
-using UnitStat = BoostStudio.Domain.Entities.Unit.UnitStat;
+using UnitStat = BoostStudio.Domain.Entities.Exvs.Stats.UnitStat;
 
 namespace BoostStudio.Application.Contracts.Stats.UnitStats;
 

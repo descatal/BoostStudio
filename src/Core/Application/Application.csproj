@@ -49,7 +49,6 @@
 
   <ItemGroup>
     <Folder Include="Exvs2\" />
-    <Folder Include="Formats\StatsFormat\Commands\" />
   </ItemGroup>
 
   <ItemGroup>

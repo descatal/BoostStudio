@@ -9,7 +9,7 @@ using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Reloaded.Memory;
-using AmmoEntity=BoostStudio.Domain.Entities.Unit.Ammo.Ammo;
+using AmmoEntity=BoostStudio.Domain.Entities.Exvs.Ammo.Ammo;
 using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Ammo.Commands;

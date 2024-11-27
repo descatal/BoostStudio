@@ -1,4 +1,5 @@
-﻿using BoostStudio.Domain.Entities.Unit;
+﻿using BoostStudio.Domain.Entities.Exvs.Stats;
+using BoostStudio.Domain.Entities.Exvs.Units;
 using BoostStudio.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

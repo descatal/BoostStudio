@@ -1,5 +1,5 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
-using BoostStudio.Domain.Entities.Unit.Assets;
+using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;

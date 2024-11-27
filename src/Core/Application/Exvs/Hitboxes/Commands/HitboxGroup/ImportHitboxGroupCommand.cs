@@ -3,8 +3,8 @@ using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using HitboxGroupEntity=BoostStudio.Domain.Entities.Unit.Hitboxes.HitboxGroup;
-using HitboxEntity=BoostStudio.Domain.Entities.Unit.Hitboxes.Hitbox;
+using HitboxGroupEntity=BoostStudio.Domain.Entities.Exvs.Hitboxes.HitboxGroup;
+using HitboxEntity=BoostStudio.Domain.Entities.Exvs.Hitboxes.Hitbox;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Commands.HitboxGroup;
 

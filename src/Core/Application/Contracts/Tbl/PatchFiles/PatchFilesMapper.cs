@@ -1,4 +1,4 @@
-﻿using BoostStudio.Domain.Entities.Tbl;
+﻿using BoostStudio.Domain.Entities.Exvs.Tbl;
 using Riok.Mapperly.Abstractions;
 
 namespace BoostStudio.Application.Contracts.Tbl.PatchFiles;
