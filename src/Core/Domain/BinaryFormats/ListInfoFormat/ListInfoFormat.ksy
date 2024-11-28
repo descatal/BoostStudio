@@ -1,12 +1,12 @@
 meta:
-  id: list_binary_format
+  id: list_info_binary_format
   endian: be
   file-extension: list
 seq:
-  - id: list_name_string_offset
+  - id: list_info_name_string_offset
     type: u4
     doc: |
-      Name of the list, will determine which list info schema to use
+      Name of the list info, will determine which list info schema to use
   - id: count
     type: u2
     doc: Number of info items in the list
@@ -14,8 +14,8 @@ seq:
     contents: [ 0, 0 ]
     doc: Always 0 from observed patterns
 instances:
-  list_name:
-    pos: list_name_string_offset
+  list_info_name:
+    pos: list_info_name_string_offset
     terminator: 0
     type: str
     encoding: UTF-8
@@ -23,7 +23,7 @@ instances:
     repeat: expr
     repeat-expr: count
     type:
-      switch-on: list_name
+      switch-on: list_info_name
       cases:
         '"SCharacterList"': character_info
         '"SSeriesList"': series_info

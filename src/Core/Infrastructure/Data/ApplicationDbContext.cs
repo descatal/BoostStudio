@@ -4,6 +4,7 @@ using BoostStudio.Domain.Entities;
 using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 using BoostStudio.Domain.Entities.Exvs.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Series;
 using BoostStudio.Domain.Entities.Exvs.Stats;
 using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Entities.Exvs.Units;
@@ -19,7 +20,11 @@ public class ApplicationDbContext(
     public DbSet<Config> Configs => Set<Config>();
     
     public DbSet<Unit> Units => Set<Unit>();
-    
+
+    public DbSet<Series> Series => Set<Series>();
+
+    public DbSet<PlayableSeries> PlayableSeries => Set<PlayableSeries>();
+
     public DbSet<UnitStat> UnitStats => Set<UnitStat>();
     
     public DbSet<UnitAmmoSlot> UnitAmmoSlots => Set<UnitAmmoSlot>();

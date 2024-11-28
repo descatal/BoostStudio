@@ -2,6 +2,7 @@
 using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 using BoostStudio.Domain.Entities.Exvs.Projectiles;
+using BoostStudio.Domain.Entities.Exvs.Series;
 using BoostStudio.Domain.Entities.Exvs.Stats;
 using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Entities.Exvs.Units;
@@ -15,6 +16,8 @@ public interface IApplicationDbContext
     public DbSet<Config> Configs { get; }
     
     public DbSet<Unit> Units { get; }
+
+    public DbSet<PlayableSeries> PlayableSeries { get; }
     
     public DbSet<UnitStat> UnitStats { get; }
     
@@ -37,6 +40,6 @@ public interface IApplicationDbContext
     public DbSet<PatchFile> PatchFiles { get; }
     
     public DbSet<Tbl> Tbl { get; }
-    
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

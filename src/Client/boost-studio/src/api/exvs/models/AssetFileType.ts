@@ -34,7 +34,7 @@ export const AssetFileType = {
     Hitboxes: 'Hitboxes',
     Projectiles: 'Projectiles',
     Ammo: 'Ammo',
-    RosterInfo: 'RosterInfo',
+    ListInfo: 'ListInfo',
     UnitCostInfo: 'UnitCostInfo',
     FigurineSprites: 'FigurineSprites',
     MapSelectSprites: 'MapSelectSprites',

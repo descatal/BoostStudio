@@ -1,24 +1,10 @@
-﻿using BoostStudio.Domain.Entities.Exvs.Assets;
+﻿namespace BoostStudio.Domain.Entities.Exvs.Series;
 
-namespace BoostStudio.Domain.Entities.Exvs.Series;
-
-public class Series : BaseEntity<uint>
+public class Series : BaseEntity<byte>
 {
-    public byte Unk2 { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public byte Unk3 { get; set; }
+    public string NameJapanese { get; set; } = string.Empty;
 
-    public byte Unk4 { get; set; }
-
-    public uint SelectOrder { get; set; }
-
-    public uint LogoSpriteIndex { get; set; }
-
-    public uint LogoSpriteIndex2 { get; set; }
-
-    public uint Unk11 { get; set; }
-
-    public uint MovieAssetHash { get; set; }
-
-    public AssetFile? MovieAsset { get; set; }
+    public string NameChinese { get; set; } = string.Empty;
 }

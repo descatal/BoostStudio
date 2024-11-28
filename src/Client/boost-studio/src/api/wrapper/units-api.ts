@@ -1,5 +1,5 @@
 import {createOpenApiConfiguration} from "./api-common";
-import {GetApiUnitsRequest, UnitsApi} from "../exvs";
+import {GetApiUnitsRequest, PostApiUnitProjectilesExportRequest, UnitsApi} from "../exvs";
 
 function createUnitsOpenApiConfiguration(){
   const configuration = createOpenApiConfiguration();

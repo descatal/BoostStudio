@@ -36,7 +36,7 @@ export interface ProjectileDto {
      * @type {number}
      * @memberof ProjectileDto
      */
-    hitboxHash?: number;
+    hitboxHash?: number | null;
     /**
      * 
      * @type {number}

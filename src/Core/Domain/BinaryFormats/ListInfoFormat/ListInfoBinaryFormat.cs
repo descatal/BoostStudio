@@ -5,24 +5,24 @@ using System.Collections.Generic;
 
 namespace BoostStudio.Formats
 {
-    public partial class ListBinaryFormat : KaitaiStruct
+    public partial class ListInfoBinaryFormat : KaitaiStruct
     {
-        public static ListBinaryFormat FromFile(string fileName)
+        public static ListInfoBinaryFormat FromFile(string fileName)
         {
-            return new ListBinaryFormat(new KaitaiStream(fileName));
+            return new ListInfoBinaryFormat(new KaitaiStream(fileName));
         }
 
-        public ListBinaryFormat(KaitaiStream p__io, KaitaiStruct p__parent = null, ListBinaryFormat p__root = null) : base(p__io)
+        public ListInfoBinaryFormat(KaitaiStream p__io, KaitaiStruct p__parent = null, ListInfoBinaryFormat p__root = null) : base(p__io)
         {
             m_parent = p__parent;
             m_root = p__root ?? this;
-            f_listName = false;
+            f_listInfoName = false;
             f_body = false;
             _read();
         }
         private void _read()
         {
-            _listNameStringOffset = m_io.ReadU4be();
+            _listInfoNameStringOffset = m_io.ReadU4be();
             _count = m_io.ReadU2be();
             _unk6 = m_io.ReadBytes(2);
             if (!((KaitaiStream.ByteArrayCompare(Unk6, new byte[] { 0, 0 }) == 0)))
@@ -41,7 +41,7 @@ namespace BoostStudio.Formats
                 return new CharacterInfo(new KaitaiStream(fileName));
             }
 
-            public CharacterInfo(KaitaiStream p__io, ListBinaryFormat p__parent = null, ListBinaryFormat p__root = null) : base(p__io)
+            public CharacterInfo(KaitaiStream p__io, ListInfoBinaryFormat p__parent = null, ListInfoBinaryFormat p__root = null) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -280,8 +280,8 @@ namespace BoostStudio.Formats
             private uint _catalogStorePilotCostume3TStringOffset;
             private uint _catalogStorePilotCostume3StringOffset;
             private uint _unk156;
-            private ListBinaryFormat m_root;
-            private ListBinaryFormat m_parent;
+            private ListInfoBinaryFormat m_root;
+            private ListInfoBinaryFormat m_parent;
             public byte UnitIndex { get { return _unitIndex; } }
             public byte SeriesIndex { get { return _seriesIndex; } }
 
@@ -540,8 +540,8 @@ namespace BoostStudio.Formats
             /// </summary>
             public uint CatalogStorePilotCostume3StringOffset { get { return _catalogStorePilotCostume3StringOffset; } }
             public uint Unk156 { get { return _unk156; } }
-            public ListBinaryFormat M_Root { get { return m_root; } }
-            public ListBinaryFormat M_Parent { get { return m_parent; } }
+            public ListInfoBinaryFormat M_Root { get { return m_root; } }
+            public ListInfoBinaryFormat M_Parent { get { return m_parent; } }
         }
 
         /// <summary>
@@ -554,7 +554,7 @@ namespace BoostStudio.Formats
                 return new SeriesInfo(new KaitaiStream(fileName));
             }
 
-            public SeriesInfo(KaitaiStream p__io, ListBinaryFormat p__parent = null, ListBinaryFormat p__root = null) : base(p__io)
+            public SeriesInfo(KaitaiStream p__io, ListInfoBinaryFormat p__parent = null, ListInfoBinaryFormat p__root = null) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -564,14 +564,15 @@ namespace BoostStudio.Formats
             private void _read()
             {
                 _seriesIndex = m_io.ReadU1();
-                _seriesIndex2 = m_io.ReadU1();
-                _unk3 = m_io.ReadU2be();
+                _unk2 = m_io.ReadU1();
+                _unk3 = m_io.ReadU1();
+                _unk4 = m_io.ReadU1();
                 _releaseStringOffset = m_io.ReadU4be();
-                _seriesSelectOrder = m_io.ReadU1();
-                _seriesLogoSpriteIndex = m_io.ReadU1();
-                _seriesLogoSprite2Index = m_io.ReadU1();
+                _selectOrder = m_io.ReadU1();
+                _logoSpriteIndex = m_io.ReadU1();
+                _logoSprite2Index = m_io.ReadU1();
                 _unk11 = m_io.ReadU1();
-                _seriesMovieAssetHash = m_io.ReadU4be();
+                _movieAssetHash = m_io.ReadU4be();
             }
             private bool f_releaseString;
             private string _releaseString;
@@ -590,27 +591,33 @@ namespace BoostStudio.Formats
                 }
             }
             private byte _seriesIndex;
-            private byte _seriesIndex2;
-            private ushort _unk3;
+            private byte _unk2;
+            private byte _unk3;
+            private byte _unk4;
             private uint _releaseStringOffset;
-            private byte _seriesSelectOrder;
-            private byte _seriesLogoSpriteIndex;
-            private byte _seriesLogoSprite2Index;
+            private byte _selectOrder;
+            private byte _logoSpriteIndex;
+            private byte _logoSprite2Index;
             private byte _unk11;
-            private uint _seriesMovieAssetHash;
-            private ListBinaryFormat m_root;
-            private ListBinaryFormat m_parent;
+            private uint _movieAssetHash;
+            private ListInfoBinaryFormat m_root;
+            private ListInfoBinaryFormat m_parent;
             public byte SeriesIndex { get { return _seriesIndex; } }
 
             /// <summary>
-            /// Not sure why is there two series indexes, but this one seems unused
+            /// Not sure what this is, but closely related to the series_index
             /// </summary>
-            public byte SeriesIndex2 { get { return _seriesIndex2; } }
+            public byte Unk2 { get { return _unk2; } }
 
             /// <summary>
-            /// Always [ 0x80, 0xFF ] from observed patterns
+            /// Always 0x80 from observed patterns
             /// </summary>
-            public ushort Unk3 { get { return _unk3; } }
+            public byte Unk3 { get { return _unk3; } }
+
+            /// <summary>
+            /// Always 0xFF from observed patterns
+            /// </summary>
+            public byte Unk4 { get { return _unk4; } }
 
             /// <summary>
             /// Always after 'SSeriesList.' which is 'Release' in Japanese 'リリース'
@@ -620,17 +627,17 @@ namespace BoostStudio.Formats
             /// <summary>
             /// Placement of series's selection order, starts from 0
             /// </summary>
-            public byte SeriesSelectOrder { get { return _seriesSelectOrder; } }
+            public byte SelectOrder { get { return _selectOrder; } }
 
             /// <summary>
             /// Placement of series's select sprite texture in the 'SeriesLogoSprites' asset file
             /// </summary>
-            public byte SeriesLogoSpriteIndex { get { return _seriesLogoSpriteIndex; } }
+            public byte LogoSpriteIndex { get { return _logoSpriteIndex; } }
 
             /// <summary>
             /// Placement of series's select sprite texture in the 'SeriesLogoSprites2' asset file
             /// </summary>
-            public byte SeriesLogoSprite2Index { get { return _seriesLogoSprite2Index; } }
+            public byte LogoSprite2Index { get { return _logoSprite2Index; } }
 
             /// <summary>
             /// Always 0xFF from observed patterns
@@ -641,24 +648,24 @@ namespace BoostStudio.Formats
             /// Asset hash for the series movie / pv
             /// Played after selection of unit in arcade mode
             /// </summary>
-            public uint SeriesMovieAssetHash { get { return _seriesMovieAssetHash; } }
-            public ListBinaryFormat M_Root { get { return m_root; } }
-            public ListBinaryFormat M_Parent { get { return m_parent; } }
+            public uint MovieAssetHash { get { return _movieAssetHash; } }
+            public ListInfoBinaryFormat M_Root { get { return m_root; } }
+            public ListInfoBinaryFormat M_Parent { get { return m_parent; } }
         }
-        private bool f_listName;
-        private string _listName;
-        public string ListName
+        private bool f_listInfoName;
+        private string _listInfoName;
+        public string ListInfoName
         {
             get
             {
-                if (f_listName)
-                    return _listName;
+                if (f_listInfoName)
+                    return _listInfoName;
                 long _pos = m_io.Pos;
-                m_io.Seek(ListNameStringOffset);
-                _listName = System.Text.Encoding.GetEncoding("UTF-8").GetString(m_io.ReadBytesTerm(0, false, true, true));
+                m_io.Seek(ListInfoNameStringOffset);
+                _listInfoName = System.Text.Encoding.GetEncoding("UTF-8").GetString(m_io.ReadBytesTerm(0, false, true, true));
                 m_io.Seek(_pos);
-                f_listName = true;
-                return _listName;
+                f_listInfoName = true;
+                return _listInfoName;
             }
         }
         private bool f_body;
@@ -672,7 +679,7 @@ namespace BoostStudio.Formats
                 _body = new List<KaitaiStruct>();
                 for (var i = 0; i < Count; i++)
                 {
-                    switch (ListName) {
+                    switch (ListInfoName) {
                     case "SCharacterList": {
                         _body.Add(new CharacterInfo(m_io, this, m_root));
                         break;
@@ -687,16 +694,16 @@ namespace BoostStudio.Formats
                 return _body;
             }
         }
-        private uint _listNameStringOffset;
+        private uint _listInfoNameStringOffset;
         private ushort _count;
         private byte[] _unk6;
-        private ListBinaryFormat m_root;
+        private ListInfoBinaryFormat m_root;
         private KaitaiStruct m_parent;
 
         /// <summary>
-        /// Name of the list, will determine which list info schema to use
+        /// Name of the list info, will determine which list info schema to use
         /// </summary>
-        public uint ListNameStringOffset { get { return _listNameStringOffset; } }
+        public uint ListInfoNameStringOffset { get { return _listInfoNameStringOffset; } }
 
         /// <summary>
         /// Number of info items in the list
@@ -707,7 +714,7 @@ namespace BoostStudio.Formats
         /// Always 0 from observed patterns
         /// </summary>
         public byte[] Unk6 { get { return _unk6; } }
-        public ListBinaryFormat M_Root { get { return m_root; } }
+        public ListInfoBinaryFormat M_Root { get { return m_root; } }
         public KaitaiStruct M_Parent { get { return m_parent; } }
     }
 }

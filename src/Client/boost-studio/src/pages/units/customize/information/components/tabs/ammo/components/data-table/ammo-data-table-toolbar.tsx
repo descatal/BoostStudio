@@ -29,10 +29,15 @@ export function AmmoDataTableToolbar<TData>(
   const modifiedRows = table.options.meta?.modifiedRows ?? []
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="space-x-2">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className={`${modifiedRows.length > 0 ? "" : "hidden"}`} variant={"outline"}>Save</Button>
+          <Button
+            className={`${modifiedRows.length > 0 ? "" : "hidden"}`}
+            variant={"outline"}
+          >
+            Save
+          </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -44,14 +49,24 @@ export function AmmoDataTableToolbar<TData>(
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              className={buttonVariants({variant: "outline"})}
-              onClick={async () => await table.options.meta?.saveData()}>Continue
+              onClick={async () => {
+                await table.options.meta?.saveData()
+              }}
+            >
+              Continue
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Button className={`${modifiedRows.length > 0 ? "" : "hidden"}`} variant={"secondary"}
-              onClick={async () => await table.options.meta?.fetchData()}>Discard</Button>
+      <Button
+        className={`${modifiedRows.length > 0 ? "" : "hidden"}`}
+        onClick={async () => {
+          await table.options.meta?.fetchData()
+        }}
+        variant={"destructive"}
+      >
+        Discard
+      </Button>
     </div>
   )
 }

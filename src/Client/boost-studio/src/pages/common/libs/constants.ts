@@ -20,7 +20,7 @@ export const CommonAssetFileOptions = {
   Hitboxes: "Hitboxes",
   Projectiles: "Projectiles",
   Ammo: "Ammo",
-  RosterInfo: "RosterInfo",
+  ListInfo: "ListInfo",
   UnitCostInfo: "UnitCostInfo",
   FigurineSprites: "FigurineSprites",
   MapSelectSprites: "MapSelectSprites",

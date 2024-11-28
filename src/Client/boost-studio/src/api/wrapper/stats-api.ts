@@ -9,7 +9,7 @@ import {
   StatsApi,
   type PostApiStatsRequest,
   type PostApiUnitStatsAmmoSlotByIdRequest,
-  type PostApiUnitStatsExportPathRequest,
+  type PostApiUnitStatsExportPathRequest, PostApiUnitProjectilesExportRequest, PostApiUnitStatsExportRequest,
 } from "../exvs"
 
 function createStatsOpenApiConfiguration() {
@@ -17,27 +17,25 @@ function createStatsOpenApiConfiguration() {
   return new StatsApi(configuration)
 }
 
+const openapi = createStatsOpenApiConfiguration()
+
 export async function fetchUnitStats(request: GetApiUnitStatsRequest) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.getApiUnitStats(request)
 }
 
 export async function fetchUnitStatsByUnitId(
   request: GetApiUnitStatsByUnitIdRequest
 ) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.getApiUnitStatsByUnitId(request)
 }
 
 export async function createUnitAmmoSlot(
   data: PostApiUnitStatsAmmoSlotRequest
 ) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.postApiUnitStatsAmmoSlot(data)
 }
 
 export async function deleteUnitAmmoSlot(id: string) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.deleteApiUnitStatsAmmoSlotById({
     id: id,
   })
@@ -46,37 +44,31 @@ export async function deleteUnitAmmoSlot(id: string) {
 export async function updateUnitAmmoSlot(
   data: PostApiUnitStatsAmmoSlotByIdRequest
 ) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.postApiUnitStatsAmmoSlotById(data)
 }
 
 export async function fetchStats(request: GetApiStatsRequest) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.getApiStats({
     ...request,
   })
 }
 
 export async function createStats(data: PostApiStatsRequest) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.postApiStats(data)
 }
 
 export async function updateStats(data: PostApiStatsByIdRequest) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.postApiStatsById(data)
 }
 
 export async function deleteStats(id: string) {
-  const openapi = createStatsOpenApiConfiguration()
   return await openapi.deleteApiStatsById({
     id: id,
   })
 }
 
-export async function exportStatsByPath(
-  request: PostApiUnitStatsExportPathRequest
+export async function exportUnitStats(
+  request: PostApiUnitStatsExportRequest
 ) {
-  const openapi = createStatsOpenApiConfiguration()
-  return await openapi.postApiUnitStatsExportPath(request)
+  return await openapi.postApiUnitStatsExport(request)
 }

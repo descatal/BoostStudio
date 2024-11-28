@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Units;
 
-public class UnitConfiguration: IEntityTypeConfiguration<Unit>
+public class UnitConfiguration : IEntityTypeConfiguration<Unit>
 {
     public void Configure(EntityTypeBuilder<Unit> builder)
     {

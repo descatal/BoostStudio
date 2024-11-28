@@ -21,11 +21,12 @@ import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
 
 import { projectileColumns } from "./components/data-table/projectile-data-table-columns"
 import { ProjectileDataTableToolbar } from "./components/data-table/projectile-data-table-toolbar"
+import {GetApiProjectilesRequest, type PaginatedListOfProjectileDto, type ProjectileDto} from "@/api/exvs";
 
 const Projectiles = ({ unitId }: { unitId: number }) => {
-  const [response, setResponse] = useState<GetApiProjectiles200Response>()
+  const [response, setResponse] = useState<PaginatedListOfProjectileDto>()
   const [projectiles, setProjectiles] = useState<
-    GetApiProjectilesByHash200Response[]
+    ProjectileDto[]
   >([])
 
   const getData = useCallback(async () => {
@@ -39,14 +40,14 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
       ?.value as string
 
     const hashes = hash?.split(";").map((x) => Number(x))
-    const getApiProjectiles200Response = await fetchProjectiles({
+    const projectileDto = await fetchProjectiles({
       unitIds: [unitId],
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
       hashes: hashes,
       search: hitboxHash,
     })
-    setResponse(getApiProjectiles200Response)
+    setResponse(projectileDto)
   }, [unitId])
 
   const saveData = useCallback(async () => {
@@ -82,7 +83,7 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
     getData().catch(console.error)
   }, [unitId])
 
-  const filterFields: DataTableFilterField<GetApiProjectilesByHash200Response>[] =
+  const filterFields: DataTableFilterField<ProjectileDto>[] =
     [
       {
         type: "input",

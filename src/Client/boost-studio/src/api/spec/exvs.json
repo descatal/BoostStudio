@@ -329,19 +329,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "required": [
-                      "key",
-                      "value"
-                    ],
-                    "type": "object",
-                    "properties": {
-                      "key": {
-                        "type": "string"
-                      },
-                      "value": {
-                        "type": "string"
-                      }
-                    }
+                    "$ref": "#/components/schemas/ConfigDto"
                   }
                 }
               }
@@ -1794,21 +1782,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string",
-                        "nullable": true
-                      },
-                      "slotOrder": {
-                        "type": "integer",
-                        "format": "int32"
-                      },
-                      "ammoHash": {
-                        "type": "integer",
-                        "format": "uint32"
-                      }
-                    }
+                    "$ref": "#/components/schemas/UnitAmmoSlotDto"
                   }
                 }
               }
@@ -3093,7 +3067,7 @@
           "Hitboxes",
           "Projectiles",
           "Ammo",
-          "RosterInfo",
+          "ListInfo",
           "UnitCostInfo",
           "FigurineSprites",
           "MapSelectSprites",
@@ -3190,6 +3164,21 @@
           "hotReload": {
             "type": "boolean",
             "default": false
+          }
+        }
+      },
+      "ConfigDto": {
+        "required": [
+          "key",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
           }
         }
       },
@@ -3533,7 +3522,8 @@
           },
           "hitboxHash": {
             "type": "integer",
-            "format": "uint32"
+            "format": "uint32",
+            "nullable": true
           },
           "modelHash": {
             "type": "integer",
@@ -4673,6 +4663,10 @@
             },
             "default": null,
             "nullable": true
+          },
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -4880,6 +4874,16 @@
           "$ref": "#/components/schemas/IFormFile"
         }
       },
+      "NullableOfCompressionType": {
+        "enum": [
+          "None",
+          "Zlib",
+          "Lzma",
+          null
+        ],
+        "default": "Zlib",
+        "nullable": true
+      },
       "PackFhmAssetCommand": {
         "type": "object",
         "properties": {
@@ -4954,14 +4958,7 @@
             "nullable": true
           },
           "compressionType": {
-            "enum": [
-              "None",
-              "Zlib",
-              "Lzma",
-              null
-            ],
-            "default": "Zlib",
-            "nullable": true
+            "$ref": "#/components/schemas/NullableOfCompressionType"
           },
           "compressionLevel": {
             "type": "integer",
@@ -5433,7 +5430,8 @@
           },
           "hitboxHash": {
             "type": "integer",
-            "format": "uint32"
+            "format": "uint32",
+            "nullable": true
           },
           "modelHash": {
             "type": "integer",
@@ -6537,6 +6535,23 @@
           }
         }
       },
+      "UnitAmmoSlotDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "slotOrder": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ammoHash": {
+            "type": "integer",
+            "format": "uint32"
+          }
+        }
+      },
       "UnitDto": {
         "type": "object",
         "properties": {
@@ -6584,21 +6599,7 @@
           "ammoSlots": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "slotOrder": {
-                  "type": "integer",
-                  "format": "int32"
-                },
-                "ammoHash": {
-                  "type": "integer",
-                  "format": "uint32"
-                }
-              }
+              "$ref": "#/components/schemas/UnitAmmoSlotDto"
             }
           }
         }
@@ -7047,7 +7048,8 @@
           },
           "hitboxHash": {
             "type": "integer",
-            "format": "uint32"
+            "format": "uint32",
+            "nullable": true
           },
           "modelHash": {
             "type": "integer",

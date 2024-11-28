@@ -25,6 +25,12 @@ export interface ExportUnitStatCommand {
      * @memberof ExportUnitStatCommand
      */
     unitIds?: Array<number> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ExportUnitStatCommand
+     */
+    replaceWorking?: boolean;
 }
 
 /**
@@ -45,6 +51,7 @@ export function ExportUnitStatCommandFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'replaceWorking': json['replaceWorking'] == null ? undefined : json['replaceWorking'],
     };
 }
 
@@ -55,6 +62,7 @@ export function ExportUnitStatCommandToJSON(value?: ExportUnitStatCommand | null
     return {
         
         'unitIds': value['unitIds'],
+        'replaceWorking': value['replaceWorking'],
     };
 }
 

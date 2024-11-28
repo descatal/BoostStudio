@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\Exvs\Series\" />
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
   

@@ -31,7 +31,7 @@ type Action = {
 
 export const useCustomizePatchInformationStore = create<Patches & Action>(
   (set) => ({
-    selectedPatchFileVersion: "All",
+    selectedPatchFileVersion: "Patch6",
     setSelectedPatchFileVersion: (selectedPatchFileVersion) =>
       set(() => ({
         selectedPatchFileVersion: selectedPatchFileVersion,

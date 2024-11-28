@@ -36,7 +36,7 @@ export interface UpdateProjectileByIdCommand {
      * @type {number}
      * @memberof UpdateProjectileByIdCommand
      */
-    hitboxHash?: number;
+    hitboxHash?: number | null;
     /**
      * 
      * @type {number}

@@ -75,7 +75,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Navigate to="All" replace />,
+            element: <Navigate to="Patch6" replace />,
           },
           {
             path: ":patchId",

@@ -32,7 +32,12 @@ export function HitboxDataTableToolbar<TData>(
     <div className="space-x-2">
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button className={`${modifiedRows.length > 0 ? "" : "hidden"}`}>Save</Button>
+          <Button
+            className={`${modifiedRows.length > 0 ? "" : "hidden"}`}
+            variant={"outline"}
+          >
+            Save
+          </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -57,7 +62,9 @@ export function HitboxDataTableToolbar<TData>(
         className={`${modifiedRows.length > 0 ? "" : "hidden"}`}
         onClick={async () => {
           await table.options.meta?.fetchData()
-        }}>
+        }}
+        variant={"destructive"}
+      >
         Discard
       </Button>
     </div>

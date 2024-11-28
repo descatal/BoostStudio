@@ -6,13 +6,17 @@ using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Application.Common.Models;
+using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Stats.Commands.UnitStat;
 
-public record ExportUnitStatCommand(uint[]? UnitIds = null) : IRequest<FileInfo>;
+public record ExportUnitStatCommand(
+    uint[]? UnitIds = null,
+    bool ReplaceWorking = false
+) : IRequest<FileInfo>;
 
 public record ExportUnitStatByPathCommand(uint[]? UnitIds = null, string? ExportPath = null) : IRequest;
 
@@ -28,7 +32,7 @@ public class ExportUnitStatCommandHandler(
     public async ValueTask<FileInfo> Handle(ExportUnitStatCommand command, CancellationToken cancellationToken)
     {
         // return combined tar file
-        var generatedBinaries = await GenerateBinary(command.UnitIds, cancellationToken);
+        var generatedBinaries = await GenerateBinary(command.UnitIds, command.ReplaceWorking, cancellationToken);
 
         var tarFileBytes = await compressor.CompressAsync(generatedBinaries, CompressionFormats.Tar, cancellationToken);
         return new FileInfo(tarFileBytes, "stats.tar", MediaTypeNames.Application.Octet);
@@ -37,7 +41,7 @@ public class ExportUnitStatCommandHandler(
     public async ValueTask<Unit> Handle(ExportUnitStatByPathCommand command, CancellationToken cancellationToken)
     {
         // write to specified path
-        var generatedBinaries = await GenerateBinary(command.UnitIds, cancellationToken);
+        var generatedBinaries = await GenerateBinary(command.UnitIds, cancellationToken: cancellationToken);
 
         var exportPath = command.ExportPath ?? string.Empty;
         if (string.IsNullOrWhiteSpace(command.ExportPath))
@@ -61,9 +65,14 @@ public class ExportUnitStatCommandHandler(
     }
 
     private async ValueTask<List<FileInfo>> GenerateBinary(
-        uint[]? unitIds = null, 
+        uint[]? unitIds = null,
+        bool replaceWorking = false,
         CancellationToken cancellationToken = default)
     {
+        var workingDirectory = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
+        if (replaceWorking && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value)))
+            throw new NotFoundException(ConfigKeys.WorkingDirectory, workingDirectory.FirstError.Description);
+
         var query = applicationDbContext.UnitStats
             .Include(stat => stat.AmmoSlots)
             .Include(stat => stat.Ammo)
@@ -81,10 +90,22 @@ public class ExportUnitStatCommandHandler(
         {
             if (stat.Unit is null)
                 continue;
-            
-            var serializedBytes = await statBinarySerializer.SerializeAsync(stat, cancellationToken);
-            var fileName = Path.ChangeExtension(stat.Unit.SnakeCaseName, ".stats");
 
+            var serializedBytes = await statBinarySerializer.SerializeAsync(stat, cancellationToken);
+
+            if (replaceWorking)
+            {
+                var unitStatsWorkingDirectory = Path.Combine(workingDirectory.Value.Value, "units", stat.Unit.SnakeCaseName, AssetFileType.Data.GetSnakeCaseName());
+                if (!Directory.Exists(unitStatsWorkingDirectory))
+                    Directory.CreateDirectory(unitStatsWorkingDirectory);
+
+                // working directory is 001.bin
+                var workingFilePath = Path.Combine(unitStatsWorkingDirectory, "001.bin");
+                await File.WriteAllBytesAsync(workingFilePath, serializedBytes, cancellationToken);
+            }
+
+            // filename for exporting
+            var fileName = Path.ChangeExtension(stat.Unit.SnakeCaseName, ".stats");
             fileInfo.Add(new FileInfo(serializedBytes, fileName));
         }
 

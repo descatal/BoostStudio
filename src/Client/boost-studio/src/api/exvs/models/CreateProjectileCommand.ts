@@ -30,7 +30,7 @@ export interface CreateProjectileCommand {
      * @type {number}
      * @memberof CreateProjectileCommand
      */
-    hitboxHash?: number;
+    hitboxHash?: number | null;
     /**
      * 
      * @type {number}

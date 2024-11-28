@@ -1,6 +1,6 @@
 "use client"
 
-import type { CreateProjectileCommand } from "@/api/exvs"
+import type {CreateProjectileCommand, ProjectileDto} from "@/api/exvs"
 import { GetApiProjectilesByHash200Response } from "@/api/exvs/models/GetApiProjectilesByHash200Response"
 import {
   createProjectile,
@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { toast } from "@/components/ui/use-toast"
 
-export const projectileColumns: ColumnDef<GetApiProjectilesByHash200Response>[] =
+export const projectileColumns: ColumnDef<ProjectileDto>[] =
   [
     {
       accessorKey: "hash",

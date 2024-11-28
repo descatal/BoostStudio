@@ -42,6 +42,9 @@ public class ExportAmmoCommandHandler(
         var ammoWorkingDirectory = Path.Combine(workingDirectory.Value.Value, "common", AssetFileType.Ammo.GetSnakeCaseName());
         if (command.HotReload || command.ReplaceWorking)
         {
+            if (!Directory.Exists(ammoWorkingDirectory))
+                Directory.CreateDirectory(ammoWorkingDirectory);
+
             var workingFilePath = Path.Combine(ammoWorkingDirectory, generatedBinary.FileName);
             await File.WriteAllBytesAsync(workingFilePath, generatedBinary.Data, cancellationToken);
         }

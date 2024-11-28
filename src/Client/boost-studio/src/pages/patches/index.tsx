@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from "react"
+﻿import React, {useEffect} from "react"
 import PatchInformation from "@/pages/patches/components/tabs"
 import {
   PatchFileTabs,
@@ -12,15 +12,15 @@ import {
   useParams,
 } from "react-router-dom"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
 
 const routes = ["/patches/:patchId"]
 
 export default function PatchesPage() {
-  const { selectedPatchFileVersion, setSelectedPatchFileVersion } =
+  const {selectedPatchFileVersion, setSelectedPatchFileVersion} =
     useCustomizePatchInformationStore((state) => state)
 
-  const { pathname } = useLocation()
+  const {pathname} = useLocation()
   const params = useParams()
   const navigate = useNavigate()
 
@@ -37,7 +37,7 @@ export default function PatchesPage() {
           <h2 className="text-3xl font-bold tracking-tight">Patches</h2>
         </div>
         <Tabs
-          defaultValue="All"
+          defaultValue="Patch6"
           className="space-y-4"
           value={selectedPatchFileVersion}
           onValueChange={(value: string) => {
@@ -67,28 +67,28 @@ export default function PatchesPage() {
             <TabsTrigger value="Patch6">Patch 6</TabsTrigger>
           </TabsList>
           <TabsContent value="All" className="space-y-4">
-            <PatchInformation />
+            <PatchInformation/>
           </TabsContent>
           <TabsContent value="Base" className="space-y-4">
-            <PatchInformation patchId={"Base"} />
+            <PatchInformation patchId={"Base"}/>
           </TabsContent>
           <TabsContent value="Patch1" className="space-y-4">
-            <PatchInformation patchId={"Patch1"} />
+            <PatchInformation patchId={"Patch1"}/>
           </TabsContent>
           <TabsContent value="Patch2" className="space-y-4">
-            <PatchInformation patchId={"Patch2"} />
+            <PatchInformation patchId={"Patch2"}/>
           </TabsContent>
           <TabsContent value="Patch3" className="space-y-4">
-            <PatchInformation patchId={"Patch3"} />
+            <PatchInformation patchId={"Patch3"}/>
           </TabsContent>
           <TabsContent value="Patch4" className="space-y-4">
-            <PatchInformation patchId={"Patch4"} />
+            <PatchInformation patchId={"Patch4"}/>
           </TabsContent>
           <TabsContent value="Patch5" className="space-y-4">
-            <PatchInformation patchId={"Patch5"} />
+            <PatchInformation patchId={"Patch5"}/>
           </TabsContent>
           <TabsContent value="Patch6" className="space-y-4">
-            <PatchInformation patchId={"Patch6"} />
+            <PatchInformation patchId={"Patch6"}/>
           </TabsContent>
         </Tabs>
       </div>

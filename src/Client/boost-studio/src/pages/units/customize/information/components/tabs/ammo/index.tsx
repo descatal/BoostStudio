@@ -63,22 +63,23 @@ const Ammo = ({ unitId }: { unitId: number }) => {
     getData().catch(console.error)
   }, [unitId])
 
-  const filterFields: DataTableFilterField<AmmoDto>[] = [
-    {
-      label: "Title",
-      value: "hash",
-      placeholder: "Search by hash",
-    },
-  ]
+  // const filterFields: DataTableFilterField<AmmoDto>[] = [
+  //   {
+  //     label: "Title",
+  //     value: "hash",
+  //     placeholder: "Search by hash",
+  //   },
+  // ]
 
   const { table } = useDataTable({
     data: ammo,
     setData: setAmmo,
     columns: ammoColumns,
     pageCount: response?.totalPages ?? 0,
-    filterFields: filterFields,
+    // filterFields: filterFields,
     fetchData: getData,
     saveData: saveData,
+    enableEditingMode: true,
   })
 
   return (
@@ -94,7 +95,7 @@ const Ammo = ({ unitId }: { unitId: number }) => {
           <CardContent>
             <div className="space-y-4">
               <DataTable table={table}>
-                <DataTableToolbar table={table} filterFields={filterFields}>
+                <DataTableToolbar table={table}>
                   <AmmoDataTableToolbar table={table} />
                 </DataTableToolbar>
               </DataTable>

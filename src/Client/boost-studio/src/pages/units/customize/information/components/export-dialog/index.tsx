@@ -7,6 +7,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {useCustomizeInformationUnitStore} from "@/pages/units/customize/information/libs/store";
 import ProjectileExport from "@/pages/units/customize/information/components/export-dialog/projectiles";
 import AmmoExport from "@/pages/units/customize/information/components/export-dialog/ammo";
+import StatsExport from "@/pages/units/customize/information/components/export-dialog/stats";
 
 interface ExportDialogProps extends React.ComponentPropsWithRef<typeof Dialog> {
 }
@@ -18,7 +19,7 @@ const ExportDialog = ({...props}: ExportDialogProps) => {
   } = useExportDialogStore()
 
   const unit = useUnitsStore((state) => state.selectedUnits)
-  const { selectedInformationTab } = useCustomizeInformationUnitStore(state => state);
+  const {selectedInformationTab} = useCustomizeInformationUnitStore(state => state);
 
   return (
     <Dialog open={openExportDialog} onOpenChange={setOpenExportDialog}>
@@ -34,6 +35,12 @@ const ExportDialog = ({...props}: ExportDialogProps) => {
             <TabsTrigger value="hitboxes">Hitboxes</TabsTrigger>
           </TabsList>
           <TabsContent value="stats" className="space-y-4">
+            <StatsExport
+              units={unit}
+              onExport={() => {
+                setOpenExportDialog(false)
+              }}
+            />
           </TabsContent>
           <TabsContent value="ammo" className="space-y-4">
             <AmmoExport
