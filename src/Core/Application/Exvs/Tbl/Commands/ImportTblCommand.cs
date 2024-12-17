@@ -71,16 +71,6 @@ public class ImportTblCommandHandler(
                 if (fileInfoBody?.FileInfo is null)
                     continue;
 
-                if (fileInfoBody.FileInfo.HashName == 0x8FAE105C)
-                {
-
-                }
-
-                if (fileInfoBody.FileInfo.HashName == 0)
-                {
-
-                }
-
                 // patch file matching (fuck you bandai):
                 // 1. both path and the asset file hash matches OR
                 // 2. only asset file hash match OR
@@ -88,22 +78,8 @@ public class ImportTblCommandHandler(
 
                 // both path and the asset file hash matches
                 var patchFile = existingTblPatchFiles.FirstOrDefault(file =>
-                        (file.PathInfo is not null &&
-                         !string.IsNullOrWhiteSpace(file.PathInfo.Path) &&
-                         file.PathInfo.Path.Equals(fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty, StringComparison.OrdinalIgnoreCase) &&
-                         file.FileInfo is not null &&
-                         file.AssetFileHash == fileInfoBody.FileInfo.HashName)
-                    );
-
-                // only asset file hash match
-                patchFile ??= existingTblPatchFiles.FirstOrDefault(file =>
-                    (file.FileInfo is not null && file.AssetFileHash == fileInfoBody.FileInfo.HashName));
-
-                // only path match
-                patchFile ??= existingTblPatchFiles.FirstOrDefault(file =>
-                    (file.PathInfo is not null &&
-                     !string.IsNullOrWhiteSpace(file.PathInfo.Path) &&
-                     file.PathInfo.Path.Equals(fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty, StringComparison.OrdinalIgnoreCase)));
+                    file.FileInfo is not null &&
+                    file.AssetFileHash == fileInfoBody.FileInfo.HashName);
 
                 // if everything fails create a new PatchFile entry
                 if (patchFile is null)
@@ -116,7 +92,7 @@ public class ImportTblCommandHandler(
                 if (assetFile is null)
                 {
                     assetFile = new AssetFile();
-                    existingAssetFiles.Add(assetFile);
+                    applicationDbContext.AssetFiles.Add(assetFile);
                 }
 
                 assetFile.Order = (uint)(index + 1); // db can't store 0 because of ValueGeneratedOnAdd

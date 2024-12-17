@@ -90,25 +90,26 @@ public class TblBinarySerializer : ITblBinarySerializer
 
     public async Task<byte[]> SerializeAsync(Tbl data, CancellationToken cancellationToken)
     {
-        var paths = data.PatchFiles
+        var filePaths = data.PatchFiles
             .Where(patchFile => patchFile.PathInfo is not null)
             .OrderBy(patchFile => patchFile.PathInfo!.Order)
             .Select(patchFile => patchFile.PathInfo!.Path)
             .Where(path => !string.IsNullOrWhiteSpace(path))
             .Select(path => path!)
+            .Distinct()
             .ToList();
-        
+
         await using var tblMetadataStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
 
         tblMetadataStream.WriteUint(0x54424C20); // Magic
         tblMetadataStream.WriteByteArray([0x1, 0x1]);
         tblMetadataStream.WriteByteArray([0x0, 0x0]);
-        tblMetadataStream.WriteUint((uint)paths.Count);
+        tblMetadataStream.WriteUint((uint)filePaths.Count);
         tblMetadataStream.WriteUint(data.CumulativeAssetIndex);
 
         var fileInfoPointer = Binary.CalculateAlignment(
             tblMetadataStream.GetLength() +
-            (paths.Count * 4) +
+            (filePaths.Count * 4) +
             (data.CumulativeAssetIndex * 4), 0x8);
 
         var fileInfoEntries = data.PatchFiles.Count(patchFile => (patchFile.FileInfo is not null || patchFile.AssetFileHash is not null));
@@ -137,7 +138,7 @@ public class TblBinarySerializer : ITblBinarySerializer
             if (patchFile?.FileInfo is null || patchFile.AssetFile is null)
                 continue;
 
-            var filePathIndex = paths.IndexOf(patchFile.PathInfo?.Path ?? string.Empty);
+            var filePathIndex = filePaths.IndexOf(patchFile.PathInfo?.Path ?? string.Empty);
             fileInfoStream.WriteUint((uint)patchFile.FileInfo.Version);
             fileInfoStream.WriteUint(filePathIndex == -1 ? 0u : (uint)filePathIndex);
             fileInfoStream.WriteByteArray([0x0, 0x4, 0x0, 0x0]);
@@ -148,11 +149,11 @@ public class TblBinarySerializer : ITblBinarySerializer
             fileInfoStream.WriteUint(patchFile.AssetFile.Hash);
         }
 
-        foreach (var filePath in paths)
+        foreach (var filePath in filePaths)
         {
             // No idea how the subdirectory flag works, if it is within the first directory it seems like it is 0
             // Anything that has sub-sub directory has 0x80 flag.
-            var subdirectoryFlag = string.IsNullOrWhiteSpace(Path.GetDirectoryName(Path.GetDirectoryName(filePath)))
+            var subdirectoryFlag = string.IsNullOrWhiteSpace(Path.GetDirectoryName(filePath))
                 ? (byte)0x0
                 : (byte)0x80;
 
