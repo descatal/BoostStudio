@@ -21,9 +21,7 @@ public class ApplicationDbContext(
     
     public DbSet<Unit> Units => Set<Unit>();
 
-    public DbSet<Series> Series => Set<Series>();
-
-    public DbSet<PlayableSeries> PlayableSeries => Set<PlayableSeries>();
+    public DbSet<Series> PlayableSeries => Set<Series>();
 
     public DbSet<UnitStat> UnitStats => Set<UnitStat>();
     

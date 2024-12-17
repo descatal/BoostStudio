@@ -10,21 +10,19 @@ namespace BoostStudio.Infrastructure.Formats.ListInfoFormat;
 public class ListInfoBinarySerializer : IListInfoBinarySerializer
 {
     public async Task<byte[]> SerializeSeriesAsync(
-        List<PlayableSeries> data,
+        List<Series> data,
         CancellationToken cancellationToken)
     {
         await using var metadataStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
         await using var dataStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
         await using var stringSectionStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
 
-        var seriesListNameString = Encoding.Default.GetBytes("SSeriesList");
-        var releaseString = "リリース"u8.ToArray();
-
-        stringSectionStream.WriteByteArray(seriesListNameString);
-        stringSectionStream.WriteByteArray(releaseString);
+        stringSectionStream.WriteString("SSeriesList", Encoding.Default, writeSize: false);
+        var seriesListNameStringLength = stringSectionStream.GetLength();
+        stringSectionStream.WriteString("リリース", Encoding.UTF8, writeSize: false);
 
         var stringSectionPointer = (uint)(0x8 + data.Count * 0x10);
-        var configurationPointer = (uint)(stringSectionPointer + seriesListNameString.Length);
+        var configurationPointer = (uint)(stringSectionPointer + seriesListNameStringLength);
 
         metadataStream.WriteUint(stringSectionPointer);
         metadataStream.WriteUshort((ushort)data.Count);
@@ -32,7 +30,7 @@ public class ListInfoBinarySerializer : IListInfoBinarySerializer
 
         foreach (var series in data)
         {
-            dataStream.WriteByte(series.InGameId);
+            dataStream.WriteByte(series.Id);
             dataStream.WriteByte(series.Unk2);
             dataStream.WriteByte(series.Unk3);
             dataStream.WriteByte(series.Unk4);
@@ -42,7 +40,7 @@ public class ListInfoBinarySerializer : IListInfoBinarySerializer
 
             dataStream.WriteByte(series.SelectOrder);
             dataStream.WriteByte(series.LogoSpriteIndex);
-            dataStream.WriteByte(series.LogoSpriteIndex2);
+            dataStream.WriteByte(series.LogoSprite2Index);
             dataStream.WriteByte(series.Unk11);
 
             dataStream.WriteUint(series.MovieAssetHash ?? 0);

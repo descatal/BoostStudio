@@ -17,7 +17,7 @@ public interface IApplicationDbContext
     
     public DbSet<Unit> Units { get; }
 
-    public DbSet<PlayableSeries> PlayableSeries { get; }
+    public DbSet<Series> PlayableSeries { get; }
     
     public DbSet<UnitStat> UnitStats { get; }
     

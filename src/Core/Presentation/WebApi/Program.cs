@@ -12,6 +12,9 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    builder.Configuration.AddJsonFile("appsettings.Mappings.json");
+    builder.Configuration.AddEnvironmentVariables();
+
     builder.Logging.ClearProviders();
 
     builder.Host.UseSerilog();

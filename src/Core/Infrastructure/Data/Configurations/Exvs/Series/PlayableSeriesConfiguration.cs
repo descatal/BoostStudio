@@ -4,15 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BoostStudio.Infrastructure.Data.Configurations.Exvs.Series;
 
-public class TblConfiguration : IEntityTypeConfiguration<PlayableSeries>
+public class TblConfiguration : IEntityTypeConfiguration<Domain.Entities.Exvs.Series.Series>
 {
-    public void Configure(EntityTypeBuilder<PlayableSeries> builder)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Exvs.Series.Series> builder)
     {
-        builder.HasAlternateKey(series => series.InGameId);
-
         builder.HasOne(series => series.MovieAsset)
             .WithOne()
-            .HasForeignKey<PlayableSeries>(series => series.MovieAssetHash)
+            .HasForeignKey<Domain.Entities.Exvs.Series.Series>(series => series.MovieAssetHash)
             .IsRequired(false);
     }
 }

@@ -1,4 +1,6 @@
-﻿using ServiceScan.SourceGenerator;
+﻿using BoostStudio.Application.Common.Constants;
+using BoostStudio.Application.Common.Models.Options;
+using ServiceScan.SourceGenerator;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -32,6 +34,10 @@ public static class DependencyInjection
                 ServerCertificateCustomValidationCallback = (m, c, ch, e) => true
             };
         });
+
+        services.AddOptions<List<SeriesMetadataOption>>()
+            .BindConfiguration(AppSettingPaths.Series)
+            .ValidateOnStart();
 
         return services;
     }

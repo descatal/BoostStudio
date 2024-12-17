@@ -1,11 +1,12 @@
-﻿using BoostStudio.Domain.Entities.Exvs.Assets;
+﻿namespace BoostStudio.Application.Contracts.Series;
 
-namespace BoostStudio.Domain.Entities.Exvs.Series;
-
-public class Series : BaseEntity<byte>
+public record PlayableSeriesDto : PlayableSeriesDetailsDto
 {
-    public new byte Id { get; set; }
+    public byte Id { get; set; }
+}
 
+public record PlayableSeriesDetailsDto
+{
     public byte Unk2 { get; set; }
 
     public byte Unk3 { get; set; }
@@ -22,11 +23,6 @@ public class Series : BaseEntity<byte>
 
     public uint? MovieAssetHash { get; set; }
 
-    public AssetFile? MovieAsset { get; set; }
-
-    // some of the fields data such as names needs to be manually identified, which comes from the program's appsettings.json mapping
-    // if possible would be better to pre seed these in table, but currently ef core does not support optional principal foreign key
-    // https://github.com/dotnet/efcore/issues/13146
     public string SlugName { get; set; } = string.Empty;
 
     public string NameEnglish { get; set; } = string.Empty;

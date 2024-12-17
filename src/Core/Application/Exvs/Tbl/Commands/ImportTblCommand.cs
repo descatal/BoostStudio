@@ -22,15 +22,15 @@ public class ImportTblCommandHandler(
         foreach (var fileStream in command.Files)
         {
             var binaryData = await binarySerializer.DeserializeAsync(fileStream, cancellationToken);
-            
+
             // to determine what's the tbl version, select the highest version of the file info
             var version = binaryData.FileInfos
                 .Where(body => body.FileInfo is not null)
                 .Max(body => body.FileInfo.PatchNumber);
-            
-            deserializedTblBinaryData.Add((PatchFileVersion)version,binaryData);
+
+            deserializedTblBinaryData.Add((PatchFileVersion)version, binaryData);
         }
-        
+
         var existingTbl = await applicationDbContext.Tbl
             .Include(tbl => tbl.PatchFiles)
             .ThenInclude(patchFile => patchFile.FileInfo)
@@ -38,14 +38,14 @@ public class ImportTblCommandHandler(
             .ThenInclude(patchFile => patchFile.AssetFile)
             .Where(tbl => deserializedTblBinaryData.Keys.Contains(tbl.Id))
             .ToListAsync(cancellationToken);
-        
+
         // load all existing asset file that's associated with this binary
         var assetFileHashes = deserializedTblBinaryData.Values
             .SelectMany(binaryFormat => binaryFormat.FileInfos)
             .Where(fileInfo => fileInfo?.FileInfo is not null)
             .Select(fileInfo => fileInfo.FileInfo.HashName)
             .ToList();
-        
+
         var existingAssetFiles = applicationDbContext.AssetFiles
             .Where(assetFile => assetFileHashes.Contains(assetFile.Hash))
             .ToList();
@@ -64,34 +64,52 @@ public class ImportTblCommandHandler(
             }
 
             var patchFiles = new List<PatchFile>();
-            var existingPatchFiles = tbl.PatchFiles.ToList();
+            var existingTblPatchFiles = tbl.PatchFiles.ToList();
             for (var index = 0; index < binaryData.CumulativeFileCount; index++)
             {
                 var fileInfoBody = binaryData.FileInfos[index];
                 if (fileInfoBody?.FileInfo is null)
                     continue;
-                
+
+                if (fileInfoBody.FileInfo.HashName == 0x8FAE105C)
+                {
+
+                }
+
+                if (fileInfoBody.FileInfo.HashName == 0)
+                {
+
+                }
+
                 // patch file matching (fuck you bandai):
                 // 1. both path and the asset file hash matches OR
                 // 2. only asset file hash match OR
                 // 3. only path match
-                var patchFile = existingPatchFiles.FirstOrDefault(patchFile =>
-                        (patchFile.PathInfo is not null &&
-                         !string.IsNullOrWhiteSpace(patchFile.PathInfo.Path) &&
-                         patchFile.PathInfo.Path.Equals(fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty, StringComparison.OrdinalIgnoreCase) &&
-                         patchFile.FileInfo is not null &&
-                         patchFile.AssetFileHash == fileInfoBody.FileInfo.HashName) ||
-                        (patchFile.FileInfo is not null &&
-                         patchFile.AssetFileHash == fileInfoBody.FileInfo.HashName) ||
-                        (patchFile.PathInfo is not null &&
-                         !string.IsNullOrWhiteSpace(patchFile.PathInfo.Path) &&
-                         patchFile.PathInfo.Path.Equals(fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty, StringComparison.OrdinalIgnoreCase))
+
+                // both path and the asset file hash matches
+                var patchFile = existingTblPatchFiles.FirstOrDefault(file =>
+                        (file.PathInfo is not null &&
+                         !string.IsNullOrWhiteSpace(file.PathInfo.Path) &&
+                         file.PathInfo.Path.Equals(fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty, StringComparison.OrdinalIgnoreCase) &&
+                         file.FileInfo is not null &&
+                         file.AssetFileHash == fileInfoBody.FileInfo.HashName)
                     );
-                
+
+                // only asset file hash match
+                patchFile ??= existingTblPatchFiles.FirstOrDefault(file =>
+                    (file.FileInfo is not null && file.AssetFileHash == fileInfoBody.FileInfo.HashName));
+
+                // only path match
+                patchFile ??= existingTblPatchFiles.FirstOrDefault(file =>
+                    (file.PathInfo is not null &&
+                     !string.IsNullOrWhiteSpace(file.PathInfo.Path) &&
+                     file.PathInfo.Path.Equals(fileInfoBody.FileInfo.PathBody?.Path ?? string.Empty, StringComparison.OrdinalIgnoreCase)));
+
+                // if everything fails create a new PatchFile entry
                 if (patchFile is null)
                 {
                     patchFile = new PatchFile();
-                    existingPatchFiles.Add(patchFile);
+                    existingTblPatchFiles.Add(patchFile);
                 }
 
                 var assetFile = existingAssetFiles.FirstOrDefault(assetFile => assetFile.Hash == fileInfoBody.FileInfo.HashName);
@@ -107,7 +125,7 @@ public class ImportTblCommandHandler(
                 var commonAsset = exvsCommonAssets.FirstOrDefault(commonAssets => (uint)commonAssets == assetFile.Hash, ExvsCommonAssets.Unknown);
                 if (commonAsset != ExvsCommonAssets.Unknown)
                     assetFile.FileType = commonAsset.GetAssetFileType();
-                
+
                 patchFile.AssetFile = assetFile;
 
                 var patchFileInfo = patchFile.FileInfo ?? new PatchFileInfo();
@@ -116,10 +134,11 @@ public class ImportTblCommandHandler(
                 patchFileInfo.Size1 = fileInfoBody.FileInfo.Size1;
                 patchFileInfo.Size2 = fileInfoBody.FileInfo.Size2;
                 patchFileInfo.Size3 = fileInfoBody.FileInfo.Size3;
+                patchFileInfo.Size4 = fileInfoBody.FileInfo.Size4;
 
                 // path info can be null
                 PathInfo? pathInfo = null;
-                if (fileInfoBody.FileInfo.PathBody?.Path is not null)
+                if (!string.IsNullOrWhiteSpace(fileInfoBody.FileInfo.PathBody?.Path))
                 {
                     pathInfo = patchFile.PathInfo ?? new PathInfo();
                     pathInfo.Path = fileInfoBody.FileInfo.PathBody.Path;
@@ -144,17 +163,17 @@ public class ImportTblCommandHandler(
 
             foreach (var filePathBody in filePathsWithoutInfo)
             {
-                var patchFile = existingPatchFiles.FirstOrDefault(patchFile => 
+                var patchFile = existingTblPatchFiles.FirstOrDefault(patchFile =>
                     patchFile.PathInfo is not null &&
-                    !string.IsNullOrWhiteSpace(patchFile.PathInfo.Path) && 
+                    !string.IsNullOrWhiteSpace(patchFile.PathInfo.Path) &&
                     patchFile.PathInfo.Path.Equals(filePathBody.Path, StringComparison.OrdinalIgnoreCase));
 
                 if (patchFile is null)
                 {
                     patchFile = new PatchFile();
-                    existingPatchFiles.Add(patchFile);
+                    existingTblPatchFiles.Add(patchFile);
                 }
-                
+
                 var pathInfo = patchFile.PathInfo ?? new PathInfo();
                 pathInfo.Path = filePathBody.Path;
                 pathInfo.Order = (uint)filePathBody.Index;
@@ -163,7 +182,7 @@ public class ImportTblCommandHandler(
                 patchFile.FileInfo = null;
                 patchFile.AssetFileHash = null;
                 patchFile.AssetFile = null;
-                
+
                 patchFiles.Add(patchFile);
             }
 

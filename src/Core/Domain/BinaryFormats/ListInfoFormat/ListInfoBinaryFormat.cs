@@ -58,7 +58,7 @@ namespace BoostStudio.Formats
             private void _read()
             {
                 _unitIndex = m_io.ReadU1();
-                _seriesIndex = m_io.ReadU1();
+                _seriesId = m_io.ReadU1();
                 _unk2 = m_io.ReadU2be();
                 _unitId = m_io.ReadU4be();
                 _releaseStringOffset = m_io.ReadU4be();
@@ -234,7 +234,7 @@ namespace BoostStudio.Formats
                 }
             }
             private byte _unitIndex;
-            private byte _seriesIndex;
+            private byte _seriesId;
             private ushort _unk2;
             private uint _unitId;
             private uint _releaseStringOffset;
@@ -283,7 +283,7 @@ namespace BoostStudio.Formats
             private ListInfoBinaryFormat m_root;
             private ListInfoBinaryFormat m_parent;
             public byte UnitIndex { get { return _unitIndex; } }
-            public byte SeriesIndex { get { return _seriesIndex; } }
+            public byte SeriesId { get { return _seriesId; } }
 
             /// <summary>
             /// Always double 0xFF from observed patterns
@@ -563,7 +563,7 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                _seriesIndex = m_io.ReadU1();
+                _seriesId = m_io.ReadU1();
                 _unk2 = m_io.ReadU1();
                 _unk3 = m_io.ReadU1();
                 _unk4 = m_io.ReadU1();
@@ -590,7 +590,7 @@ namespace BoostStudio.Formats
                     return _releaseString;
                 }
             }
-            private byte _seriesIndex;
+            private byte _seriesId;
             private byte _unk2;
             private byte _unk3;
             private byte _unk4;
@@ -602,10 +602,10 @@ namespace BoostStudio.Formats
             private uint _movieAssetHash;
             private ListInfoBinaryFormat m_root;
             private ListInfoBinaryFormat m_parent;
-            public byte SeriesIndex { get { return _seriesIndex; } }
+            public byte SeriesId { get { return _seriesId; } }
 
             /// <summary>
-            /// Not sure what this is, but closely related to the series_index
+            /// Not sure what this is, but closely related to the series_id
             /// </summary>
             public byte Unk2 { get { return _unk2; } }
 

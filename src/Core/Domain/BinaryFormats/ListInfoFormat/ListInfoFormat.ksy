@@ -33,7 +33,7 @@ types:
     seq:
       - id: unit_index
         type: u1
-      - id: series_index
+      - id: series_id
         type: u1
       - id: unk_2
         type: u2
@@ -297,11 +297,11 @@ types:
   series_info:
     doc: Series metadata info
     seq:
-      - id: series_index
+      - id: series_id
         type: u1
       - id: unk_2
         type: u1
-        doc: Not sure what this is, but closely related to the series_index
+        doc: Not sure what this is, but closely related to the series_id
       - id: unk_3
         type: u1
         doc: Always 0x80 from observed patterns

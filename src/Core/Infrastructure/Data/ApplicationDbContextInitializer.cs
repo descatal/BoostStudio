@@ -1,10 +1,14 @@
 ﻿using BoostStudio.Application.Common.Constants;
 using BoostStudio.Application.Common.Enums.Assets;
+using BoostStudio.Application.Common.Models.Options;
 using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Series;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BoostStudio.Infrastructure.Data;
 
@@ -24,8 +28,8 @@ public static class InitializerExtensions
 
 public class ApplicationDbContextInitializer(
     ApplicationDbContext context,
-    ILogger<ApplicationDbContextInitializer> logger
-)
+    IOptions<List<SeriesMetadataOption>> seriesOptions,
+    ILogger<ApplicationDbContextInitializer> logger)
 {
     public async Task InitialiseAsync()
     {

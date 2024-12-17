@@ -51,7 +51,7 @@
     <PackageVersion Include="OneOf" Version="3.0.263" />
     <PackageVersion Include="Reloaded.Memory" Version="9.4.1" />
     <PackageVersion Include="Respawn" Version="6.1.0" />
-    <PackageVersion Include="Riok.Mapperly" Version="3.6.0-next.1" />
+    <PackageVersion Include="Riok.Mapperly" Version="4.1.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
