@@ -25,7 +25,7 @@ public class GetUnitQueryHandler(
         if (!string.IsNullOrWhiteSpace(query.Search))
         {
             unitsQuery = unitsQuery.Where(unit =>
-                unit.Name.ToLower().Contains(query.Search) ||
+                unit.NameEnglish.ToLower().Contains(query.Search) ||
                 unit.NameChinese.ToLower().Contains(query.Search) ||
                 unit.NameJapanese.ToLower().Contains(query.Search));
         }

@@ -15,7 +15,7 @@ public class CreateUnitCommandHandler(
         var entity = new Unit
         {
             GameUnitId = command.UnitId,
-            Name = command.Name,
+            NameEnglish = command.Name,
             NameJapanese = command.NameJapanese,
             NameChinese = command.NameChinese
         };

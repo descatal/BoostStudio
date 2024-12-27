@@ -36,7 +36,7 @@ public class ImportAssetFileCommandHandler(
                     [AssetFileType.SoundEffects] = hashes.SoundEffectsHash,
                     [AssetFileType.InGamePilotVoiceLines] = hashes.InGamePilotVoiceLinesHash,
                     [AssetFileType.WeaponSprites] = hashes.WeaponSpritesHash,
-                    [AssetFileType.InGameCutInSprites] = hashes.InGameCutInSpritesHash,
+                    [AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite] = hashes.InGameCutInSpritesHash,
                     [AssetFileType.SpriteFrames] = hashes.SpriteFramesHash,
                     [AssetFileType.VoiceLinesMetadata] = hashes.VoiceLinesMetadataHash,
                     [AssetFileType.PilotVoiceLines] = hashes.PilotVoiceLinesHash,

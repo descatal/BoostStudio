@@ -9,7 +9,7 @@ namespace BoostStudio.Infrastructure.Formats.ListInfoFormat;
 
 public class ListInfoBinarySerializer : IListInfoBinarySerializer
 {
-    public async Task<byte[]> SerializeSeriesAsync(
+    public async Task<byte[]> SerializePlayableSeriesAsync(
         List<Series> data,
         CancellationToken cancellationToken)
     {
@@ -30,20 +30,23 @@ public class ListInfoBinarySerializer : IListInfoBinarySerializer
 
         foreach (var series in data)
         {
+            if (series.PlayableSeries is null)
+                continue;
+
             dataStream.WriteByte(series.Id);
-            dataStream.WriteByte(series.Unk2);
-            dataStream.WriteByte(series.Unk3);
-            dataStream.WriteByte(series.Unk4);
+            dataStream.WriteByte(series.PlayableSeries.Unk2);
+            dataStream.WriteByte(series.PlayableSeries.Unk3);
+            dataStream.WriteByte(series.PlayableSeries.Unk4);
 
             // pointer to release string
             dataStream.WriteUint(configurationPointer);
 
-            dataStream.WriteByte(series.SelectOrder);
-            dataStream.WriteByte(series.LogoSpriteIndex);
-            dataStream.WriteByte(series.LogoSprite2Index);
-            dataStream.WriteByte(series.Unk11);
+            dataStream.WriteByte(series.PlayableSeries.SelectOrder);
+            dataStream.WriteByte(series.PlayableSeries.LogoSpriteIndex);
+            dataStream.WriteByte(series.PlayableSeries.LogoSprite2Index);
+            dataStream.WriteByte(series.PlayableSeries.Unk11);
 
-            dataStream.WriteUint(series.MovieAssetHash ?? 0);
+            dataStream.WriteUint(series.PlayableSeries.MovieAssetHash ?? 0);
         }
 
         // concatenate the file metadata stream with the file body stream

@@ -65,7 +65,7 @@ namespace BoostStudio.Formats
                 _fStringOffset = m_io.ReadU4be();
                 _fOutStringOffset = m_io.ReadU4be();
                 _pStringOffset = m_io.ReadU4be();
-                _unitSelectOrder = m_io.ReadU1();
+                _unitSelectOrderInSeries = m_io.ReadU1();
                 _arcadeSmallSpriteIndex = m_io.ReadU1();
                 _arcadeUnitNameSpriteIndex = m_io.ReadU1();
                 _unk27 = m_io.ReadU1();
@@ -74,9 +74,9 @@ namespace BoostStudio.Formats
                 _arcadeSelectionCostume3SpriteAssetHash = m_io.ReadU4be();
                 _loadingLeftCostume1SpriteAssetHash = m_io.ReadU4be();
                 _loadingLeftCostume2SpriteAssetHash = m_io.ReadU4be();
-                _loadingLeftPilotCostume3SpriteAssetHash = m_io.ReadU4be();
+                _loadingLeftCostume3SpriteAssetHash = m_io.ReadU4be();
                 _loadingRightCostume1SpriteAssetHash = m_io.ReadU4be();
-                _loadingRighCostume2SpriteAssetHash = m_io.ReadU4be();
+                _loadingRightCostume2SpriteAssetHash = m_io.ReadU4be();
                 _loadingRightCostume3SpriteAssetHash = m_io.ReadU4be();
                 _genericSelectionCostume1SpriteAssetHash = m_io.ReadU4be();
                 _genericSelectionCostume2SpriteAssetHash = m_io.ReadU4be();
@@ -241,7 +241,7 @@ namespace BoostStudio.Formats
             private uint _fStringOffset;
             private uint _fOutStringOffset;
             private uint _pStringOffset;
-            private byte _unitSelectOrder;
+            private byte _unitSelectOrderInSeries;
             private byte _arcadeSmallSpriteIndex;
             private byte _arcadeUnitNameSpriteIndex;
             private byte _unk27;
@@ -250,9 +250,9 @@ namespace BoostStudio.Formats
             private uint _arcadeSelectionCostume3SpriteAssetHash;
             private uint _loadingLeftCostume1SpriteAssetHash;
             private uint _loadingLeftCostume2SpriteAssetHash;
-            private uint _loadingLeftPilotCostume3SpriteAssetHash;
+            private uint _loadingLeftCostume3SpriteAssetHash;
             private uint _loadingRightCostume1SpriteAssetHash;
-            private uint _loadingRighCostume2SpriteAssetHash;
+            private uint _loadingRightCostume2SpriteAssetHash;
             private uint _loadingRightCostume3SpriteAssetHash;
             private uint _genericSelectionCostume1SpriteAssetHash;
             private uint _genericSelectionCostume2SpriteAssetHash;
@@ -314,7 +314,7 @@ namespace BoostStudio.Formats
             /// <summary>
             /// Placement of unit's selection order in its series, starts from 0
             /// </summary>
-            public byte UnitSelectOrder { get { return _unitSelectOrder; } }
+            public byte UnitSelectOrderInSeries { get { return _unitSelectOrderInSeries; } }
 
             /// <summary>
             /// Placement of unit's arcade small select sprite texture in the 'ArcadeSelectSmallSprites' asset file
@@ -328,84 +328,84 @@ namespace BoostStudio.Formats
             public byte Unk27 { get { return _unk27; } }
 
             /// <summary>
-            /// Asset hash for arcade selection srpties
+            /// Asset hash for arcade selection sprites
             /// Used when selecting unit in arcade mode
             /// Asset contains both unit and pilot sprites (costume 1)
             /// </summary>
             public uint ArcadeSelectionCostume1SpriteAssetHash { get { return _arcadeSelectionCostume1SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for arcade selection srpties (optional)
+            /// Asset hash for arcade selection sprites (optional)
             /// Used when selecting unit in arcade mode
             /// Asset contains both unit and pilot sprites (costume 2)
             /// </summary>
             public uint ArcadeSelectionCostume2SpriteAssetHash { get { return _arcadeSelectionCostume2SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for arcade selection srpties (optional)
+            /// Asset hash for arcade selection sprites (optional)
             /// Used when selecting unit in arcade mode
             /// Asset contains both unit and pilot sprites (costume 3)
             /// </summary>
             public uint ArcadeSelectionCostume3SpriteAssetHash { get { return _arcadeSelectionCostume3SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for loading screen (left) srpties 
+            /// Asset hash for loading screen (left) sprites 
             /// Used during VS loading screen when the unit is on the left side
             /// Asset contains both unit and pilot sprites (costume 1)
             /// </summary>
             public uint LoadingLeftCostume1SpriteAssetHash { get { return _loadingLeftCostume1SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for loading screen (left) srpties (optional)
+            /// Asset hash for loading screen (left) sprites (optional)
             /// Used during VS loading screen when the unit is on the left side
             /// Asset contains both unit and pilot sprites (costume 2)
             /// </summary>
             public uint LoadingLeftCostume2SpriteAssetHash { get { return _loadingLeftCostume2SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for loading screen (left) srpties (optional)
+            /// Asset hash for loading screen (left) sprites (optional)
             /// Used during VS loading screen when the unit is on the left side
             /// Asset contains both unit and pilot sprite (costume 3)
             /// </summary>
-            public uint LoadingLeftPilotCostume3SpriteAssetHash { get { return _loadingLeftPilotCostume3SpriteAssetHash; } }
+            public uint LoadingLeftCostume3SpriteAssetHash { get { return _loadingLeftCostume3SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for loading screen (right) srpties
+            /// Asset hash for loading screen (right) sprites
             /// Used during VS loading screen when the unit is on the right side
             /// Asset contains both unit and pilot sprites (costume 1)
             /// </summary>
             public uint LoadingRightCostume1SpriteAssetHash { get { return _loadingRightCostume1SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for loading screen (right) srpties (optional)
+            /// Asset hash for loading screen (right) sprites (optional)
             /// Used during VS loading screen when the unit is on the right side
             /// Asset contains both unit and pilot sprites (costume 2)
             /// </summary>
-            public uint LoadingRighCostume2SpriteAssetHash { get { return _loadingRighCostume2SpriteAssetHash; } }
+            public uint LoadingRightCostume2SpriteAssetHash { get { return _loadingRightCostume2SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for loading screen (right) srpties (optional)
+            /// Asset hash for loading screen (right) sprites (optional)
             /// Used during VS loading screen when the unit is on the right side
             /// Asset contains both unit and pilot sprites (costume 3)
             /// </summary>
             public uint LoadingRightCostume3SpriteAssetHash { get { return _loadingRightCostume3SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for generic selection srpties
+            /// Asset hash for generic selection sprites
             /// Mostly used in vertical unit selection menu e.g. Free Battle / FB Missions
             /// Asset contains both unit and pilot sprite (costume 1)
             /// </summary>
             public uint GenericSelectionCostume1SpriteAssetHash { get { return _genericSelectionCostume1SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for generic selection srpties (optional)
+            /// Asset hash for generic selection sprites (optional)
             /// Mostly used in vertical unit selection menu e.g. Free Battle / FB Missions
             /// Asset contains both unit and pilot sprites (costume 2)
             /// </summary>
             public uint GenericSelectionCostume2SpriteAssetHash { get { return _genericSelectionCostume2SpriteAssetHash; } }
 
             /// <summary>
-            /// Asset hash for generic selection srpties (optional)
+            /// Asset hash for generic selection sprites (optional)
             /// Mostly used in vertical unit selection menu e.g. Free Battle / FB Missions
             /// Asset contains both unit and pilot sprites (costume 3)
             /// </summary>

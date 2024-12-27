@@ -2,11 +2,13 @@
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Models.Options;
 using BoostStudio.Application.Contracts.Series;
-using BoostStudio.Domain.Entities.Exvs.Series;
+using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SeriesInfo = BoostStudio.Formats.ListInfoBinaryFormat.SeriesInfo;
+using SeriesEntity = BoostStudio.Domain.Entities.Exvs.Series.Series;
 
 namespace BoostStudio.Application.Exvs.Series.Commands;
 
@@ -35,8 +37,18 @@ public class ImportPlayableSeriesCommandHandler(
             .Select(info => info!.SeriesId)
             .ToList();
 
-        var playableSeriesEntities = await applicationDbContext.PlayableSeries
+        var allBinaryAssetHashes = allBinarySeriesInfo
+            .Where(info => info is not null)
+            .Select(info => info!.MovieAssetHash)
+            .ToList();
+
+        var seriesEntities = await applicationDbContext.Series
+            .Include(series => series.PlayableSeries)
             .Where(entity => allBinarySeriesId.Contains(entity.Id))
+            .ToListAsync(cancellationToken);
+
+        var assetEntities = await applicationDbContext.AssetFiles
+            .Where(entity => allBinaryAssetHashes.Contains(entity.Hash))
             .ToListAsync(cancellationToken);
 
         foreach (var binarySeriesInfo in allBinarySeriesInfo)
@@ -45,25 +57,37 @@ public class ImportPlayableSeriesCommandHandler(
                 continue;
 
             var binaryEntity = PlayableSeriesMapper.MapToEntity(binarySeriesInfo);
-            var playableSeriesEntity = playableSeriesEntities.FirstOrDefault(playableSeries => playableSeries.Id == binarySeriesInfo.SeriesId);
+            var seriesEntity = seriesEntities.FirstOrDefault(series => series.Id == binarySeriesInfo.SeriesId);
 
-            if (playableSeriesEntity is null)
+            if (seriesEntity is null)
             {
-                playableSeriesEntity = new Domain.Entities.Exvs.Series.Series
+                seriesEntity = new SeriesEntity
                 {
                     Id = binarySeriesInfo.SeriesId
                 };
-                await applicationDbContext.PlayableSeries.AddAsync(playableSeriesEntity, cancellationToken);
+                await applicationDbContext.Series.AddAsync(seriesEntity, cancellationToken);
+            }
+            seriesEntity.PlayableSeries = binaryEntity;
+
+            // add or update movie asset file if supplied / not 0
+            if (binaryEntity.MovieAssetHash != null && binaryEntity.MovieAssetHash != 0)
+            {
+                var movieAsset = assetEntities.FirstOrDefault(assetFile => assetFile.Hash == seriesEntity.PlayableSeries?.MovieAssetHash);
+                if (movieAsset is null)
+                {
+                    movieAsset = new AssetFile()
+                    {
+                        Hash = (uint)binaryEntity.MovieAssetHash
+                    };
+                    applicationDbContext.AssetFiles.Add(movieAsset);
+                }
+                movieAsset.FileType = AssetFileType.Movie;
+                seriesEntity.PlayableSeries!.MovieAsset = movieAsset;
             }
 
-            PlayableSeriesMapper.UpdateEntity(binaryEntity, playableSeriesEntity);
-
-            if (playableSeriesEntity.MovieAssetHash == 0)
-                playableSeriesEntity.MovieAssetHash = null;
-
-            var seriesMetadata = seriesMetadataOptions.Value.FirstOrDefault(option => binaryEntity.Id == option.Id);
+            var seriesMetadata = seriesMetadataOptions.Value.FirstOrDefault(option => binaryEntity.SeriesId == option.Id);
             if (seriesMetadata is not null)
-                PlayableSeriesMapper.UpdateEntityMetadata(seriesMetadata, playableSeriesEntity);
+                SeriesMapper.UpdateEntityDetailsIfNull(seriesMetadata, seriesEntity);
         }
 
         await applicationDbContext.SaveChangesAsync(cancellationToken);

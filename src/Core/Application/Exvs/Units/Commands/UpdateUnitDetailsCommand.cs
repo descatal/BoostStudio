@@ -18,7 +18,7 @@ public class UpdateUnitCommandCommandHandler(
         
         Guard.Against.NotFound(command.UnitId, existingEntity);
         
-        existingEntity.Name = command.Name; 
+        existingEntity.NameEnglish = command.Name;
         existingEntity.NameJapanese = command.NameJapanese; 
         existingEntity.NameChinese = command.NameChinese; 
         

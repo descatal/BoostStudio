@@ -46,7 +46,7 @@ public class CompileScexByUnitsCommandHandler(
             var sourceFilePath = pathCandidates.FirstOrDefault(path => Regex.IsMatch(path, $@"\b{unit.GameUnitId}\b"));
             
             if (sourceFilePath is null || !File.Exists(sourceFilePath))
-                throw new NotFoundException(nameof(sourceFilePath), $"No script file for {unit.Name} found!");
+                throw new NotFoundException(nameof(sourceFilePath), $"No script file for {unit.NameEnglish} found!");
             
             var destinationFilePath = request.ReplaceWorking 
                 ? Path.Combine(workingDirectoryConfig.Value.Value, "units", unit.SnakeCaseName, AssetFileType.Data.ToString().ToLower())

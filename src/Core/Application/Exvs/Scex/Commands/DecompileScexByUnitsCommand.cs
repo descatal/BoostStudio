@@ -43,7 +43,7 @@ public class DecompileScexByUnitsCommandHandler(
             var sourceFilePath = Path.Combine(workingDirectoryConfig.Value.Value, "units", unit.SnakeCaseName, AssetFileType.Data.ToString().ToLower(), "005.bin");
                 
             if (!File.Exists(sourceFilePath))
-                throw new NotFoundException(nameof(sourceFilePath), $"{unit.Name}");
+                throw new NotFoundException(nameof(sourceFilePath), $"{unit.NameEnglish}");
             
             var destinationFilePath = request.ReplaceScript
                 ? Path.Combine(scriptDirectoryConfig.Value.Value)                 

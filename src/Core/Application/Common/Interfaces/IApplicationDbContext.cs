@@ -6,6 +6,7 @@ using BoostStudio.Domain.Entities.Exvs.Series;
 using BoostStudio.Domain.Entities.Exvs.Stats;
 using BoostStudio.Domain.Entities.Exvs.Tbl;
 using BoostStudio.Domain.Entities.Exvs.Units;
+using BoostStudio.Domain.Entities.Exvs.Units.Characters;
 using Microsoft.EntityFrameworkCore;
 using Unit=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
@@ -17,8 +18,12 @@ public interface IApplicationDbContext
     
     public DbSet<Unit> Units { get; }
 
-    public DbSet<Series> PlayableSeries { get; }
-    
+    public DbSet<Series> Series { get; }
+
+    public DbSet<PlayableCharacter> PlayableCharacters { get; }
+
+    public DbSet<PlayableSeries> PlayableSeries { get; }
+
     public DbSet<UnitStat> UnitStats { get; }
     
     public DbSet<UnitAmmoSlot> UnitAmmoSlots { get; }

@@ -56,7 +56,7 @@ types:
         type: u4
         doc: |
           Format: P_{{unit_id}}
-      - id: unit_select_order
+      - id: unit_select_order_in_series
         type: u1
         doc: |
           Placement of unit's selection order in its series, starts from 0
@@ -73,73 +73,73 @@ types:
       - id: arcade_selection_costume_1_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for arcade selection srpties
+          Asset hash for arcade selection sprites
           Used when selecting unit in arcade mode
           Asset contains both unit and pilot sprites (costume 1)
       - id: arcade_selection_costume_2_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for arcade selection srpties (optional)
+          Asset hash for arcade selection sprites (optional)
           Used when selecting unit in arcade mode
           Asset contains both unit and pilot sprites (costume 2)
       - id: arcade_selection_costume_3_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for arcade selection srpties (optional)
+          Asset hash for arcade selection sprites (optional)
           Used when selecting unit in arcade mode
           Asset contains both unit and pilot sprites (costume 3)
       - id: loading_left_costume_1_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for loading screen (left) srpties 
+          Asset hash for loading screen (left) sprites 
           Used during VS loading screen when the unit is on the left side
           Asset contains both unit and pilot sprites (costume 1)
       - id: loading_left_costume_2_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for loading screen (left) srpties (optional)
+          Asset hash for loading screen (left) sprites (optional)
           Used during VS loading screen when the unit is on the left side
           Asset contains both unit and pilot sprites (costume 2)
-      - id: loading_left_pilot_costume_3_sprite_asset_hash
+      - id: loading_left_costume_3_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for loading screen (left) srpties (optional)
+          Asset hash for loading screen (left) sprites (optional)
           Used during VS loading screen when the unit is on the left side
           Asset contains both unit and pilot sprite (costume 3)
       - id: loading_right_costume_1_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for loading screen (right) srpties
+          Asset hash for loading screen (right) sprites
           Used during VS loading screen when the unit is on the right side
           Asset contains both unit and pilot sprites (costume 1)
-      - id: loading_righ_costume_2_sprite_asset_hash
+      - id: loading_right_costume_2_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for loading screen (right) srpties (optional)
+          Asset hash for loading screen (right) sprites (optional)
           Used during VS loading screen when the unit is on the right side
           Asset contains both unit and pilot sprites (costume 2)
       - id: loading_right_costume_3_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for loading screen (right) srpties (optional)
+          Asset hash for loading screen (right) sprites (optional)
           Used during VS loading screen when the unit is on the right side
           Asset contains both unit and pilot sprites (costume 3)
       - id: generic_selection_costume_1_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for generic selection srpties
+          Asset hash for generic selection sprites
           Mostly used in vertical unit selection menu e.g. Free Battle / FB Missions
           Asset contains both unit and pilot sprite (costume 1)
       - id: generic_selection_costume_2_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for generic selection srpties (optional)
+          Asset hash for generic selection sprites (optional)
           Mostly used in vertical unit selection menu e.g. Free Battle / FB Missions
           Asset contains both unit and pilot sprites (costume 2)
       - id: generic_selection_costume_3_sprite_asset_hash
         type: u4
         doc: |
-          Asset hash for generic selection srpties (optional)
+          Asset hash for generic selection sprites (optional)
           Mostly used in vertical unit selection menu e.g. Free Battle / FB Missions
           Asset contains both unit and pilot sprites (costume 3)
       - id: loading_target_unit_sprite_asset_hash
@@ -219,7 +219,7 @@ types:
         type: u4
         doc: |
           Asset hash for loading screen small target unit sprite
-          More compact version of `loading_target_unit_sprite_asset_hash`, probably used in similiar scenarios
+          More compact version of `loading_target_unit_sprite_asset_hash`, probably used in similar scenarios
           Asset only contains unit sprite
       - id: unk_124
         type: u4

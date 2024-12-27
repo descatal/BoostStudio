@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoostStudio.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241216133909_AddSeries")]
+    [Migration("20241223094901_AddSeries")]
     partial class AddSeries
     {
         /// <inheritdoc />
@@ -563,18 +563,9 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.ToTable("UnitProjectiles");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Series.PlayableSeries", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Series.Series", b =>
                 {
                     b.Property<byte>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("LogoSprite2Index")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("LogoSpriteIndex")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<uint?>("MovieAssetHash")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("NameChinese")
@@ -589,31 +580,13 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte>("SelectOrder")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("SlugName")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte>("Unk11")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("Unk2")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("Unk3")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<byte>("Unk4")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieAssetHash")
-                        .IsUnique();
-
-                    b.ToTable("PlayableSeries");
+                    b.ToTable("Series");
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.Stat", b =>
@@ -1249,13 +1222,57 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Series.PlayableSeries", b =>
+            modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Series.Series", b =>
                 {
-                    b.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "MovieAsset")
-                        .WithOne()
-                        .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Series.PlayableSeries", "MovieAssetHash");
+                    b.OwnsOne("BoostStudio.Domain.Entities.Exvs.Series.PlayableSeries", "PlayableSeries", b1 =>
+                        {
+                            b1.Property<byte>("SeriesId")
+                                .HasColumnType("INTEGER");
 
-                    b.Navigation("MovieAsset");
+                            b1.Property<byte>("LogoSprite2Index")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("LogoSpriteIndex")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<uint?>("MovieAssetHash")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("SelectOrder")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("Unk11")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("Unk2")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("Unk3")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("Unk4")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("SeriesId");
+
+                            b1.HasIndex("MovieAssetHash")
+                                .IsUnique();
+
+                            b1.ToTable("PlayableSeries");
+
+                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "MovieAsset")
+                                .WithOne()
+                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Series.Series.PlayableSeries#BoostStudio.Domain.Entities.Exvs.Series.PlayableSeries", "MovieAssetHash");
+
+                            b1.WithOwner("Series")
+                                .HasForeignKey("SeriesId");
+
+                            b1.Navigation("MovieAsset");
+
+                            b1.Navigation("Series");
+                        });
+
+                    b.Navigation("PlayableSeries");
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Stats.Stat", b =>

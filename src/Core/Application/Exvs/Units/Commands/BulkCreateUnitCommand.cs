@@ -18,7 +18,7 @@ public class BulkCreateUnitCommandHandler(
             var entity = new UnitEntity
             {
                 GameUnitId = unit.UnitId,
-                Name = unit.Name,
+                NameEnglish = unit.Name,
                 NameJapanese = unit.NameJapanese,
                 NameChinese = unit.NameChinese
             };

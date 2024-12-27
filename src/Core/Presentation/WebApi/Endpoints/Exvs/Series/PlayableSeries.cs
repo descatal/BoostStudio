@@ -20,9 +20,9 @@ public class PlayableSeries : EndpointGroupBase
             .MapPost(ExportPlayableSeries, "export");
     }
 
-    private static async Task<PaginatedList<PlayableSeriesDto>> GetUnitProjectilesWithPagination(
+    private static async Task<PaginatedList<SeriesDto>> GetUnitProjectilesWithPagination(
         ISender sender,
-        [AsParameters] GetPlayableSeriesWithPaginationQuery request)
+        [AsParameters] GetSeriesWithPaginationQuery request)
     {
         return await sender.Send(request);
     }

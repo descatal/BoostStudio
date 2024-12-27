@@ -1,23 +1,73 @@
 ﻿using BoostStudio.Application.Common.Models.Options;
 using BoostStudio.Domain.Entities.Exvs.Series;
-using BoostStudio.Formats;
 using Riok.Mapperly.Abstractions;
+using SeriesEntity = BoostStudio.Domain.Entities.Exvs.Series.Series;
+using SeriesInfoFormat = BoostStudio.Formats.ListInfoBinaryFormat.SeriesInfo;
 
 namespace BoostStudio.Application.Contracts.Series;
 
 [Mapper]
+[UseStaticMapper(typeof(PlayableSeriesMapper))]
+public static partial class SeriesMapper
+{
+    public static partial SeriesEntity MapToEntity(SeriesDto dto);
+
+    [MapperIgnoreSource(nameof(SeriesEntity.DomainEvents))]
+    public static partial SeriesDto MapToDto(SeriesEntity entity);
+
+    public static partial IQueryable<SeriesDto> ProjectToDto(IQueryable<SeriesEntity> entity);
+
+    [MapperIgnoreTarget(nameof(SeriesEntity.PlayableSeries))]
+    public static partial void UpdateEntityMetadata(SeriesMetadataOption source, SeriesEntity target);
+
+    public static void UpdateEntityDetailsIfNull(SeriesMetadataOption source, SeriesEntity target)
+    {
+        if (string.IsNullOrWhiteSpace(target.NameEnglish))
+            target.NameEnglish = source.NameEnglish;
+
+        if (string.IsNullOrWhiteSpace(target.NameChinese))
+            target.NameChinese = source.NameChinese;
+
+        if (string.IsNullOrWhiteSpace(target.NameJapanese))
+            target.NameJapanese = source.NameJapanese;
+
+        if (string.IsNullOrWhiteSpace(target.SlugName))
+            target.SlugName = source.SlugName;
+    }
+}
+
+[Mapper]
 public static partial class PlayableSeriesMapper
 {
-    public static partial Domain.Entities.Exvs.Series.Series MapToEntity(PlayableSeriesDto dto);
+    [MapperIgnoreSource(nameof(SeriesInfoFormat.M_Root))]
+    [MapperIgnoreSource(nameof(SeriesInfoFormat.M_Parent))]
+    [MapperIgnoreSource(nameof(SeriesInfoFormat.M_Io))]
+    [MapperIgnoreSource(nameof(SeriesInfoFormat.ReleaseString))]
+    [MapperIgnoreSource(nameof(SeriesInfoFormat.ReleaseStringOffset))]
+    [MapperIgnoreTarget(nameof(PlayableSeries.MovieAsset))]
+    [MapperIgnoreTarget(nameof(PlayableSeries.Series))]
+    public static partial PlayableSeries MapToEntity(SeriesInfoFormat binary);
 
-    [MapProperty(nameof(ListInfoBinaryFormat.SeriesInfo.SeriesId), nameof(Domain.Entities.Exvs.Series.Series.Id))]
-    public static partial Domain.Entities.Exvs.Series.Series MapToEntity(ListInfoBinaryFormat.SeriesInfo binary);
+    [MapperIgnoreTarget(nameof(PlayableSeries.SeriesId))]
+    [MapperIgnoreTarget(nameof(PlayableSeries.MovieAsset))]
+    [MapperIgnoreTarget(nameof(PlayableSeries.Series))]
+    public static partial PlayableSeries MapToEntity(PlayableSeriesDetailsDto detailsDto);
 
-    public static partial void UpdateEntity(Domain.Entities.Exvs.Series.Series source, Domain.Entities.Exvs.Series.Series target);
+    public static PlayableSeries MapToEntity(PlayableSeriesDto dto)
+    {
+        var mapped = MapToEntity((PlayableSeriesDetailsDto)dto);
+        mapped.SeriesId = dto.SeriesId;
+        return mapped;
+    }
 
-    public static partial void UpdateEntityMetadata(SeriesMetadataOption source, Domain.Entities.Exvs.Series.Series target);
+    [MapperIgnoreSource(nameof(PlayableSeries.MovieAsset))]
+    [MapperIgnoreSource(nameof(PlayableSeries.Series))]
+    public static partial PlayableSeriesDto MapToDto(PlayableSeries entity);
 
-    public static partial PlayableSeriesDto MapToDto(Domain.Entities.Exvs.Series.Series entity);
+    [MapperIgnoreSource(nameof(PlayableSeries.SeriesId))]
+    [MapperIgnoreSource(nameof(PlayableSeries.MovieAsset))]
+    [MapperIgnoreSource(nameof(PlayableSeries.Series))]
+    public static partial PlayableSeriesDetailsDto MapToDetailsDto(PlayableSeries entity);
 
-    public static partial IQueryable<PlayableSeriesDto> ProjectToDto(IQueryable<Domain.Entities.Exvs.Series.Series> entity);
+    public static partial IQueryable<PlayableSeriesDto> ProjectToDto(IQueryable<PlayableSeries> entity);
 }

@@ -27,13 +27,14 @@ public class ExportPlayableSeriesCommandHandler(
         if (command.ReplaceWorking && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value)))
             throw new NotFoundException(ConfigKeys.WorkingDirectory, workingDirectory.FirstError.Description);
 
-        var query = applicationDbContext.PlayableSeries
-            .Include(playableSeries => playableSeries.MovieAsset)
+        var query = applicationDbContext.Series
+            .Include(series => series.PlayableSeries)
+            .ThenInclude(playableSeries => playableSeries!.MovieAsset)
             .AsQueryable();
 
         var playableSeries = await query.ToListAsync(cancellationToken);
 
-        var serializedBytes = await binarySerializer.SerializeSeriesAsync(playableSeries, cancellationToken);
+        var serializedBytes = await binarySerializer.SerializePlayableSeriesAsync(playableSeries, cancellationToken);
 
         if (command.ReplaceWorking)
         {

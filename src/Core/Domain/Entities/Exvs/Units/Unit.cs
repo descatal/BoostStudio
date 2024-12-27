@@ -3,15 +3,18 @@ using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Entities.Exvs.Hitboxes;
 using BoostStudio.Domain.Entities.Exvs.Projectiles;
 using BoostStudio.Domain.Entities.Exvs.Stats;
+using BoostStudio.Domain.Entities.Exvs.Units.Characters;
 
 namespace BoostStudio.Domain.Entities.Exvs.Units;
 
 public class Unit : BaseEntity<Guid>
 {
     // The Id that's used in game, e.g. 1011 for Gundam
-    public uint GameUnitId { get; set; }
-    
-    public string Name { get; set; } = string.Empty;
+    public new uint GameUnitId { get; set; }
+
+    public string SlugName { get; set; } = string.Empty;
+
+    public string NameEnglish { get; set; } = string.Empty;
     
     public string NameJapanese { get; set; } = string.Empty;
     
@@ -27,5 +30,9 @@ public class Unit : BaseEntity<Guid>
 
     public ICollection<AssetFile> AssetFiles { get; set; } = [];
 
-    public string SnakeCaseName => JsonNamingPolicy.SnakeCaseLower.ConvertName(Name);
+    public string SnakeCaseName => string.IsNullOrWhiteSpace(SlugName)
+        ? JsonNamingPolicy.SnakeCaseLower.ConvertName(NameEnglish)
+        : SlugName;
+
+    public PlayableCharacter? PlayableCharacter { get; set; }
 }
