@@ -1115,16 +1115,23 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<uint?>("HitboxGroupHash")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameChinese")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NameChinese")
+                    b.Property<string>("NameEnglish")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NameJapanese")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SlugName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StagingDirectoryPath")
                         .HasColumnType("TEXT");
 
                     b.HasKey("GameUnitId");
@@ -1371,15 +1378,6 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                             b1.Property<uint>("UnitId")
                                 .HasColumnType("INTEGER");
 
-                            b1.Property<uint>("ArcadeSelectionCostume1SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("ArcadeSelectionCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("ArcadeSelectionCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
                             b1.Property<byte>("ArcadeSmallSpriteIndex")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("INTEGER");
@@ -1388,17 +1386,11 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("INTEGER");
 
-                            b1.Property<uint?>("CatalogStorePilotCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
                             b1.Property<string>("CatalogStorePilotCostume2String")
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("CatalogStorePilotCostume2TString")
                                 .HasColumnType("TEXT");
-
-                            b1.Property<uint?>("CatalogStorePilotCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
 
                             b1.Property<string>("CatalogStorePilotCostume3String")
                                 .HasColumnType("TEXT");
@@ -1412,74 +1404,14 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                             b1.Property<string>("FString")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<uint>("FigurineSpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
                             b1.Property<byte>("FigurineSpriteIndex")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("GenericSelectionCostume1SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("GenericSelectionCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("GenericSelectionCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("InGameSortieAndAwakeningPilotCostume1SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("InGameSortieAndAwakeningPilotCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("InGameSortieAndAwakeningPilotCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("LoadingLeftCostume1SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("LoadingLeftCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("LoadingLeftCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("LoadingRightCostume1SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("LoadingRightCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("LoadingRightCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("LoadingTargetPilotCostume1SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("LoadingTargetPilotCostume2SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint?>("LoadingTargetPilotCostume3SpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("LoadingTargetUnitSmallSpriteAssetHash")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("LoadingTargetUnitSpriteAssetHash")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<string>("PString")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<uint>("ResultSmallUnitSpriteHash")
-                                .HasColumnType("INTEGER");
-
                             b1.Property<byte>("SeriesId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<uint>("SpriteFramesAssetHash")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<byte>("UnitIndex")
@@ -1513,257 +1445,20 @@ namespace BoostStudio.Infrastructure.Data.Migrations
 
                             b1.HasKey("UnitId");
 
-                            b1.HasIndex("ArcadeSelectionCostume1SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("ArcadeSelectionCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("ArcadeSelectionCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("CatalogStorePilotCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("CatalogStorePilotCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("FigurineSpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("GenericSelectionCostume1SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("GenericSelectionCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("GenericSelectionCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("InGameSortieAndAwakeningPilotCostume1SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("InGameSortieAndAwakeningPilotCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("InGameSortieAndAwakeningPilotCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingLeftCostume1SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingLeftCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingLeftCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingRightCostume1SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingRightCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingRightCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingTargetPilotCostume1SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingTargetPilotCostume2SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingTargetPilotCostume3SpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingTargetUnitSmallSpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("LoadingTargetUnitSpriteAssetHash")
-                                .IsUnique();
-
-                            b1.HasIndex("ResultSmallUnitSpriteHash")
-                                .IsUnique();
-
-                            b1.HasIndex("SpriteFramesAssetHash")
-                                .IsUnique();
+                            b1.HasIndex("SeriesId");
 
                             b1.ToTable("PlayableCharacters");
 
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "ArcadeSelectionCostume1SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "ArcadeSelectionCostume1SpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "ArcadeSelectionCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "ArcadeSelectionCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "ArcadeSelectionCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "ArcadeSelectionCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "CatalogStorePilotCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "CatalogStorePilotCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "CatalogStorePilotCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "CatalogStorePilotCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "FigurineSpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "FigurineSpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "GenericSelectionCostume1SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "GenericSelectionCostume1SpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "GenericSelectionCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "GenericSelectionCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "GenericSelectionCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "GenericSelectionCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "InGameSortieAndAwakeningPilotCostume1SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "InGameSortieAndAwakeningPilotCostume1SpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "InGameSortieAndAwakeningPilotCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "InGameSortieAndAwakeningPilotCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "InGameSortieAndAwakeningPilotCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "InGameSortieAndAwakeningPilotCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingLeftCostume1SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingLeftCostume1SpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingLeftCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingLeftCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingLeftCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingLeftCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingRightCostume1SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingRightCostume1SpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingRightCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingRightCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingRightCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingRightCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingTargetPilotCostume1SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingTargetPilotCostume1SpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingTargetPilotCostume2SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingTargetPilotCostume2SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingTargetPilotCostume3SpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingTargetPilotCostume3SpriteAssetHash");
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingTargetUnitSmallSpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingTargetUnitSmallSpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "LoadingTargetUnitSpriteAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "LoadingTargetUnitSpriteAssetHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "ResultSmallUnitSprite")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "ResultSmallUnitSpriteHash")
-                                .OnDelete(DeleteBehavior.Cascade)
-                                .IsRequired();
-
-                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Assets.AssetFile", "SpriteFramesAsset")
-                                .WithOne()
-                                .HasForeignKey("BoostStudio.Domain.Entities.Exvs.Units.Unit.PlayableCharacter#BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "SpriteFramesAssetHash")
+                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Series.Series", "Series")
+                                .WithMany()
+                                .HasForeignKey("SeriesId")
                                 .OnDelete(DeleteBehavior.Cascade)
                                 .IsRequired();
 
                             b1.WithOwner("Unit")
                                 .HasForeignKey("UnitId");
 
-                            b1.Navigation("ArcadeSelectionCostume1SpriteAsset");
-
-                            b1.Navigation("ArcadeSelectionCostume2SpriteAsset");
-
-                            b1.Navigation("ArcadeSelectionCostume3SpriteAsset");
-
-                            b1.Navigation("CatalogStorePilotCostume2SpriteAsset");
-
-                            b1.Navigation("CatalogStorePilotCostume3SpriteAsset");
-
-                            b1.Navigation("FigurineSpriteAsset");
-
-                            b1.Navigation("GenericSelectionCostume1SpriteAsset");
-
-                            b1.Navigation("GenericSelectionCostume2SpriteAsset");
-
-                            b1.Navigation("GenericSelectionCostume3SpriteAsset");
-
-                            b1.Navigation("InGameSortieAndAwakeningPilotCostume1SpriteAsset");
-
-                            b1.Navigation("InGameSortieAndAwakeningPilotCostume2SpriteAsset");
-
-                            b1.Navigation("InGameSortieAndAwakeningPilotCostume3SpriteAsset");
-
-                            b1.Navigation("LoadingLeftCostume1SpriteAsset");
-
-                            b1.Navigation("LoadingLeftCostume2SpriteAsset");
-
-                            b1.Navigation("LoadingLeftCostume3SpriteAsset");
-
-                            b1.Navigation("LoadingRightCostume1SpriteAsset");
-
-                            b1.Navigation("LoadingRightCostume2SpriteAsset");
-
-                            b1.Navigation("LoadingRightCostume3SpriteAsset");
-
-                            b1.Navigation("LoadingTargetPilotCostume1SpriteAsset");
-
-                            b1.Navigation("LoadingTargetPilotCostume2SpriteAsset");
-
-                            b1.Navigation("LoadingTargetPilotCostume3SpriteAsset");
-
-                            b1.Navigation("LoadingTargetUnitSmallSpriteAsset");
-
-                            b1.Navigation("LoadingTargetUnitSpriteAsset");
-
-                            b1.Navigation("ResultSmallUnitSprite");
-
-                            b1.Navigation("SpriteFramesAsset");
+                            b1.Navigation("Series");
 
                             b1.Navigation("Unit");
                         });

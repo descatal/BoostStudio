@@ -51,7 +51,7 @@ public class PlayableSeries : EndpointGroupBase
 
     private static async Task<IResult> ExportPlayableSeries(
         ISender sender,
-        ExportSeriesCommand command,
+        ExportPlayableSeriesCommand command,
         CancellationToken cancellationToken)
     {
         var fileInfo = await sender.Send(command, cancellationToken);

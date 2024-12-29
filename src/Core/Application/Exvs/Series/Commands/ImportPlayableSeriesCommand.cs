@@ -85,6 +85,9 @@ public class ImportPlayableSeriesCommandHandler(
                 seriesEntity.PlayableSeries!.MovieAsset = movieAsset;
             }
 
+            if (seriesEntity.PlayableSeries.MovieAssetHash == 0)
+                seriesEntity.PlayableSeries.MovieAssetHash = null;
+
             var seriesMetadata = seriesMetadataOptions.Value.FirstOrDefault(option => binaryEntity.SeriesId == option.Id);
             if (seriesMetadata is not null)
                 SeriesMapper.UpdateEntityDetailsIfNull(seriesMetadata, seriesEntity);

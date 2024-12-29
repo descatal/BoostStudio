@@ -195,7 +195,7 @@ types:
         doc: |
           Asset hash for sprite frame data, also known as KPKP format
           In game sortie sprite's mouth piece sprite "movement" is controlled by this file
-      - id: result_small_unit_sprite_hash
+      - id: result_small_unit_sprite_asset_hash
         type: u4
         doc: |
           Asset hash for result screen sidebar scoreboard's unit sprite
@@ -209,7 +209,7 @@ types:
           Placement of unit's figure sprite texture in the 'FigurineSprites' asset file
       - id: unk_114
         type: u2
-        doc: Always double 0xFF from observed patterns
+        doc: Not sure what this is, but seems sequential on some parts
       - id: figurine_sprite_asset_hash
         type: u4
         doc: |

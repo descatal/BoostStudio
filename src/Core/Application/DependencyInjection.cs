@@ -39,6 +39,10 @@ public static class DependencyInjection
             .BindConfiguration(AppSettingPaths.Series)
             .ValidateOnStart();
 
+        services.AddOptions<List<UnitsMetadataOption>>()
+            .BindConfiguration(AppSettingPaths.Units)
+            .ValidateOnStart();
+
         return services;
     }
 }

@@ -10,7 +10,7 @@ using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Series.Commands;
 
-public record ExportSeriesCommand(
+public record ExportPlayableSeriesCommand(
     bool ReplaceWorking = false
 ) : IRequest<FileInfo>;
 
@@ -19,9 +19,9 @@ public class ExportPlayableSeriesCommandHandler(
     IApplicationDbContext applicationDbContext,
     IListInfoBinarySerializer binarySerializer,
     ILogger<ExportPlayableSeriesCommandHandler> logger
-) : IRequestHandler<ExportSeriesCommand, FileInfo>
+) : IRequestHandler<ExportPlayableSeriesCommand, FileInfo>
 {
-    public async ValueTask<FileInfo> Handle(ExportSeriesCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(ExportPlayableSeriesCommand command, CancellationToken cancellationToken)
     {
         var workingDirectory = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
         if (command.ReplaceWorking && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value)))

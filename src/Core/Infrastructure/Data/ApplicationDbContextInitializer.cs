@@ -28,7 +28,6 @@ public static class InitializerExtensions
 
 public class ApplicationDbContextInitializer(
     ApplicationDbContext context,
-    IOptions<List<SeriesMetadataOption>> seriesOptions,
     ILogger<ApplicationDbContextInitializer> logger)
 {
     public async Task InitialiseAsync()

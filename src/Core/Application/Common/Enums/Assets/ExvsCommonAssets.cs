@@ -60,7 +60,7 @@ public static class ExvsCommonAssetsExtensions
             ExvsCommonAssets.ExvsAmmo => AssetFileType.Ammo,
             ExvsCommonAssets.ExvsListInfo => AssetFileType.ListInfo,
             ExvsCommonAssets.ExvsUnitCostInfo => AssetFileType.UnitCostInfo,
-            ExvsCommonAssets.ExvsFigurineSprites => AssetFileType.FigurineSprites,
+            ExvsCommonAssets.ExvsFigurineSprites => AssetFileType.SharedFigurineSprites,
             ExvsCommonAssets.ExvsMapSelectSprites => AssetFileType.MapSelectSprites,
             ExvsCommonAssets.ExvsArcadeSelectSmallSprites => AssetFileType.ArcadeSelectSmallSprites,
             ExvsCommonAssets.ExvsArcadeSelectUnitNameSprites => AssetFileType.ArcadeSelectUnitNameSprites,

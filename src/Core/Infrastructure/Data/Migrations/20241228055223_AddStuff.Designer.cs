@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoostStudio.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241223094901_AddSeries")]
-    partial class AddSeries
+    [Migration("20241228055223_AddStuff")]
+    partial class AddStuff
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1118,16 +1118,23 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                     b.Property<uint?>("HitboxGroupHash")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("NameChinese")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NameChinese")
+                    b.Property<string>("NameEnglish")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NameJapanese")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SlugName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StagingDirectoryPath")
                         .HasColumnType("TEXT");
 
                     b.HasKey("GameUnitId");
@@ -1369,7 +1376,99 @@ namespace BoostStudio.Infrastructure.Data.Migrations
                         .HasForeignKey("HitboxGroupHash")
                         .HasPrincipalKey("Hash");
 
+                    b.OwnsOne("BoostStudio.Domain.Entities.Exvs.Units.Characters.PlayableCharacter", "PlayableCharacter", b1 =>
+                        {
+                            b1.Property<uint>("UnitId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("ArcadeSmallSpriteIndex")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("ArcadeUnitNameSpriteIndex")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("CatalogStorePilotCostume2String")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("CatalogStorePilotCostume2TString")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("CatalogStorePilotCostume3String")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("CatalogStorePilotCostume3TString")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("FOutString")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("FString")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<byte>("FigurineSpriteIndex")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("PString")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<byte>("SeriesId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("UnitIndex")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("UnitSelectOrderInSeries")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("Unk112")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<ushort>("Unk114")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<uint>("Unk124")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<uint>("Unk128")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<uint>("Unk156")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<ushort>("Unk2")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<byte>("Unk27")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("UnitId");
+
+                            b1.HasIndex("SeriesId");
+
+                            b1.ToTable("PlayableCharacters");
+
+                            b1.HasOne("BoostStudio.Domain.Entities.Exvs.Series.Series", "Series")
+                                .WithMany()
+                                .HasForeignKey("SeriesId")
+                                .OnDelete(DeleteBehavior.Cascade)
+                                .IsRequired();
+
+                            b1.WithOwner("Unit")
+                                .HasForeignKey("UnitId");
+
+                            b1.Navigation("Series");
+
+                            b1.Navigation("Unit");
+                        });
+
                     b.Navigation("HitboxGroup");
+
+                    b.Navigation("PlayableCharacter");
                 });
 
             modelBuilder.Entity("BoostStudio.Domain.Entities.Exvs.Units.UnitAmmoSlot", b =>

@@ -1,4 +1,5 @@
 ﻿using BoostStudio.Domain.Entities.Exvs.Assets;
+using BoostStudio.Domain.Entities.Exvs.Units.Characters;
 
 namespace BoostStudio.Domain.Entities.Exvs.Series;
 

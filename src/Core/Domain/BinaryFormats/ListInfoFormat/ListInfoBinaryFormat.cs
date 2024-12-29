@@ -89,7 +89,7 @@ namespace BoostStudio.Formats
                 _inGameSortieAndAwakeningPilotCostume2SpriteAssetHash = m_io.ReadU4be();
                 _inGameSortieAndAwakeningPilotCostume3SpriteAssetHash = m_io.ReadU4be();
                 _spriteFramesAssetHash = m_io.ReadU4be();
-                _resultSmallUnitSpriteHash = m_io.ReadU4be();
+                _resultSmallUnitSpriteAssetHash = m_io.ReadU4be();
                 _unk112 = m_io.ReadU1();
                 _figurineSpriteIndex = m_io.ReadU1();
                 _unk114 = m_io.ReadU2be();
@@ -265,7 +265,7 @@ namespace BoostStudio.Formats
             private uint _inGameSortieAndAwakeningPilotCostume2SpriteAssetHash;
             private uint _inGameSortieAndAwakeningPilotCostume3SpriteAssetHash;
             private uint _spriteFramesAssetHash;
-            private uint _resultSmallUnitSpriteHash;
+            private uint _resultSmallUnitSpriteAssetHash;
             private byte _unk112;
             private byte _figurineSpriteIndex;
             private ushort _unk114;
@@ -476,7 +476,7 @@ namespace BoostStudio.Formats
             /// Asset hash for result screen sidebar scoreboard's unit sprite
             /// Asset only contains unit sprite
             /// </summary>
-            public uint ResultSmallUnitSpriteHash { get { return _resultSmallUnitSpriteHash; } }
+            public uint ResultSmallUnitSpriteAssetHash { get { return _resultSmallUnitSpriteAssetHash; } }
 
             /// <summary>
             /// Always single 0 from observed patterns
@@ -489,7 +489,7 @@ namespace BoostStudio.Formats
             public byte FigurineSpriteIndex { get { return _figurineSpriteIndex; } }
 
             /// <summary>
-            /// Always double 0xFF from observed patterns
+            /// Not sure what this is, but seems sequential on some parts
             /// </summary>
             public ushort Unk114 { get { return _unk114; } }
 

@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
+using BoostStudio.Application.Common.Models.Options;
 using BoostStudio.Application.Contracts.Series;
 using BoostStudio.Application.Contracts.Units;
 using BoostStudio.Domain.Entities.Exvs.Assets;
@@ -7,6 +8,7 @@ using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using UnitEntity = BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
@@ -18,6 +20,7 @@ public record ImportPlayableCharactersCommand(
 public class ImportPlayableCharactersCommandHandler(
     IListInfoBinarySerializer binarySerializer,
     IApplicationDbContext applicationDbContext,
+    IOptions<List<UnitsMetadataOption>> unitsMetadataOptions,
     ILogger<ImportPlayableCharactersCommandHandler> logger
 ) : IRequestHandler<ImportPlayableCharactersCommand>
 {
@@ -28,6 +31,10 @@ public class ImportPlayableCharactersCommandHandler(
         if (binaryData.Body.FirstOrDefault() is not ListInfoBinaryFormat.CharacterInfo)
             throw new Exception("The file supplied is not a valid playable character info file format");
 
+        var foo = binaryData.Body
+            .Select(x => ((x as ListInfoBinaryFormat.CharacterInfo)!).UnitId)
+            .ToList();
+
         var allBinaryCharacterInfo = binaryData.Body
             .Select(kaitaiStruct => kaitaiStruct as ListInfoBinaryFormat.CharacterInfo)
             .ToList();
@@ -37,10 +44,23 @@ public class ImportPlayableCharactersCommandHandler(
             .Select(info => info!.UnitId)
             .ToList();
 
+        var allBinaryAssetFileHashes = allBinaryCharacterInfo
+            .Where(info => info is not null)
+            .SelectMany(info => CharacterInfoUtils.GetAssetHashes(info!).Select(tuple => tuple.Item1))
+            .ToList();
+
         var unitEntities = await applicationDbContext.Units
             .Include(unit => unit.PlayableCharacter)
+            .Include(unit => unit.AssetFiles)
             .Where(entity => allBinaryUnitId.Contains(entity.GameUnitId))
             .ToListAsync(cancellationToken);
+
+        var assetEntities = await applicationDbContext.AssetFiles
+            .Where(assetFile => allBinaryAssetFileHashes.Contains(assetFile.Hash))
+            .ToListAsync(cancellationToken);
+
+        var lastAssetFileOrder = await applicationDbContext.AssetFiles
+            .MaxAsync(assetFile => assetFile.Order, cancellationToken: cancellationToken) + 1;
 
         foreach (var binaryCharacterInfo in allBinaryCharacterInfo)
         {
@@ -60,29 +80,14 @@ public class ImportPlayableCharactersCommandHandler(
             }
             unitEntity.PlayableCharacter = playableCharacterEntity;
 
-            // add or update any asset file if supplied / not 0
-            // if (playableCharacterEntity.MovieAssetHash != null && playableCharacterEntity.MovieAssetHash != 0)
-            // {
-            //     var movieAsset = assetEntities.FirstOrDefault(assetFile => assetFile.Hash == unitEntity.PlayableSeries?.MovieAssetHash);
-            //     if (movieAsset is null)
-            //     {
-            //         movieAsset = new AssetFile()
-            //         {
-            //             Hash = (uint)playableCharacterEntity.MovieAssetHash
-            //         };
-            //         applicationDbContext.AssetFiles.Add(movieAsset);
-            //     }
-            //     movieAsset.FileType = AssetFileType.Movie;
-            //     unitEntity.PlayableSeries!.MovieAsset = movieAsset;
-            // }
+            lastAssetFileOrder = UnitMapper2.UpsertCharacterAssetFiles(applicationDbContext, lastAssetFileOrder, unitEntity, assetEntities, binaryCharacterInfo);
 
-            // var seriesMetadata = seriesMetadataOptions.Value.FirstOrDefault(option => playableCharacterEntity.SeriesId == option.Id);
-            // if (seriesMetadata is not null)
-            //     SeriesMapper.UpdateEntityDetailsIfNull(seriesMetadata, unitEntity);
+            var seriesMetadata = unitsMetadataOptions.Value.FirstOrDefault(option => playableCharacterEntity.UnitId == option.Id);
+            if (seriesMetadata is not null)
+                UnitMapper2.UpdateEntityDetailsIfNull(seriesMetadata, unitEntity);
         }
 
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
         return default;
     }
-
-
 }

@@ -1,4 +1,7 @@
-﻿namespace BoostStudio.Domain.Entities.Exvs.Series;
+﻿using BoostStudio.Domain.Entities.Exvs.Units;
+using BoostStudio.Domain.Entities.Exvs.Units.Characters;
+
+namespace BoostStudio.Domain.Entities.Exvs.Series;
 
 public class Series : BaseEntity<byte>
 {
