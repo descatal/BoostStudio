@@ -62,34 +62,34 @@ public class ApplicationDbContextInitializer(
         // Seed, if necessary
     }
 
-    private async Task SeedCommonAssets()
-    {
-        var query = context.AssetFiles.AsQueryable();
-        var exvsCommonAssets = Enum.GetValues<ExvsCommonAssets>();
-        var exvsCommonAssetsHash = exvsCommonAssets.Select(assets => (uint)assets).ToArray();
-
-        query = query.Where(assetFile => exvsCommonAssetsHash.Contains((uint)assetFile.FileType));
-
-        // do upsert
-        var assetFiles = query.ToList();
-        foreach (var exvsCommonAsset in exvsCommonAssets)
-        {
-            var assetFile = assetFiles.FirstOrDefault(assetFile => assetFile.Hash == (uint)exvsCommonAsset);
-            if (assetFile is null)
-            {
-                assetFile = new AssetFile
-                {
-                    // only update the order on new creation
-                    Hash = (uint)exvsCommonAsset,
-                    Order = exvsCommonAsset.GetDefaultOrderIndex()
-                };
-                context.AssetFiles.Add(assetFile);
-            }
-
-            // update the file type if it matches
-            assetFile.FileType = exvsCommonAsset.GetAssetFileType();
-        }
-
-        await context.SaveChangesAsync();
-    }
+    // private async Task SeedCommonAssets()
+    // {
+    //     var query = context.AssetFiles.AsQueryable();
+    //     var exvsCommonAssets = Enum.GetValues<ExvsCommonAssets>();
+    //     var exvsCommonAssetsHash = exvsCommonAssets.Select(assets => (uint)assets).ToArray();
+    //
+    //     query = query.Where(assetFile => exvsCommonAssetsHash.Contains((uint)assetFile.FileType));
+    //
+    //     // do upsert
+    //     var assetFiles = query.ToList();
+    //     foreach (var exvsCommonAsset in exvsCommonAssets)
+    //     {
+    //         var assetFile = assetFiles.FirstOrDefault(assetFile => assetFile.Hash == (uint)exvsCommonAsset);
+    //         if (assetFile is null)
+    //         {
+    //             assetFile = new AssetFile
+    //             {
+    //                 // only update the order on new creation
+    //                 Hash = (uint)exvsCommonAsset,
+    //                 Order = exvsCommonAsset.GetDefaultOrderIndex()
+    //             };
+    //             context.AssetFiles.Add(assetFile);
+    //         }
+    //
+    //         // update the file type if it matches
+    //         assetFile.FileType = exvsCommonAsset.GetAssetFileType();
+    //     }
+    //
+    //     await context.SaveChangesAsync();
+    // }
 }

@@ -81,7 +81,8 @@ public class ImportPlayableSeriesCommandHandler(
                     };
                     applicationDbContext.AssetFiles.Add(movieAsset);
                 }
-                movieAsset.FileType = AssetFileType.Movie;
+                movieAsset.AddFileType(AssetFileType.Movie);
+
                 seriesEntity.PlayableSeries!.MovieAsset = movieAsset;
             }
 

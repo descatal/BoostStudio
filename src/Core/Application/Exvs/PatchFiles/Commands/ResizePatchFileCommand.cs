@@ -47,9 +47,9 @@ public class ResizePatchFileCommandHandler(
 
         if (request.AssetFileTypes?.Length > 0)
         {
-            query = query.Where(patchFile => 
-                patchFile.AssetFile != null && 
-                request.AssetFileTypes.Contains(patchFile.AssetFile.FileType)
+            query = query.Where(patchFile =>
+                patchFile.AssetFile != null &&
+                request.AssetFileTypes.Any(type => patchFile.AssetFile.FileType.Contains(type))
             );
         }
 
@@ -58,11 +58,6 @@ public class ResizePatchFileCommandHandler(
         {
             if (patchFile.AssetFile is null)
                 continue;
-            
-            if (patchFile.AssetFile.Hash == 0x81C0B90)
-            {
-                
-            }
             
             var destinationBaseDirectory = Path.Combine(
                 stagingDirectoryConfig.Value.Value, 

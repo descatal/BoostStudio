@@ -37,6 +37,6 @@ public record FileInfoDto(
 public record AssetFileDto(
     uint Hash,
     uint Order,
-    AssetFileType FileType,
+    List<AssetFileType> FileType,
     UnitDto[] Units
 );

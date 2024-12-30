@@ -37,7 +37,7 @@ public class GetPatchFilesSummaryWithPaginationQueryHandler(
         {
             query = query.Where(entity =>
                     entity.AssetFile != null &&
-                    request.AssetFileTypes.Any(x => x == entity.AssetFile.FileType)
+                    request.AssetFileTypes.Any(type => entity.AssetFile.FileType.Contains(type))
                 );
         }
 

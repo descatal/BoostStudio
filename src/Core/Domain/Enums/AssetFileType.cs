@@ -34,11 +34,8 @@ public enum AssetFileType
     GenericSelectionCostume3Sprite,
     LoadingTargetUnitSprite,
     LoadingTargetPilotCostume1Sprite,
-    // In practical case, bandai devs never have these two set as different
-    // Since for target, you don't need to show any alt costumes
-    // Leave this here just in case, but probably not used ever
-    // LoadingTargetPilotCostume2Sprite,
-    // LoadingTargetPilotCostume3Sprite,
+    LoadingTargetPilotCostume2Sprite,
+    LoadingTargetPilotCostume3Sprite,
     InGameSortieAndAwakeningPilotCostume1Sprite,
     InGameSortieAndAwakeningPilotCostume2Sprite,
     InGameSortieAndAwakeningPilotCostume3Sprite,
@@ -86,7 +83,6 @@ public static class AssetFileTypeExtensions
             AssetFileType.SpriteFrames => true,
             AssetFileType.VoiceLinesMetadata => true,
             AssetFileType.PilotVoiceLines => true,
-
             AssetFileType.ArcadeSelectionCostume1Sprite => true,
             AssetFileType.ArcadeSelectionCostume2Sprite => true,
             AssetFileType.ArcadeSelectionCostume3Sprite => true,
@@ -101,6 +97,8 @@ public static class AssetFileTypeExtensions
             AssetFileType.GenericSelectionCostume3Sprite => true,
             AssetFileType.LoadingTargetUnitSprite => true,
             AssetFileType.LoadingTargetPilotCostume1Sprite => true,
+            AssetFileType.LoadingTargetPilotCostume2Sprite => true,
+            AssetFileType.LoadingTargetPilotCostume3Sprite => true,
             AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite => true,
             AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite => true,
             AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite => true,

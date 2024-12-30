@@ -47,7 +47,7 @@ public class CreateSeriesCommandHandler(
                 applicationDbContext.AssetFiles.Add(movieAsset);
             }
 
-            movieAsset.FileType = AssetFileType.Movie;
+            movieAsset.AddFileType(AssetFileType.Movie);
             entity.PlayableSeries!.MovieAsset = movieAsset;
         }
 

@@ -83,7 +83,6 @@ public class PlayableCharacter
     /// </summary>
     public string? CatalogStorePilotCostume2String { get; set; }
 
-
     /// <summary>
     /// Format: IS_COSTUME_{{costume_id}}_T
     /// </summary>

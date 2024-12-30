@@ -1,17 +1,14 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Models.Options;
-using BoostStudio.Application.Contracts.Series;
 using BoostStudio.Application.Contracts.Units;
-using BoostStudio.Domain.Entities.Exvs.Assets;
-using BoostStudio.Domain.Enums;
 using BoostStudio.Formats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using UnitEntity = BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
-namespace BoostStudio.Application.Exvs.Units.Commands;
+namespace BoostStudio.Application.Exvs.Units.Commands.PlayableCharacters;
 
 public record ImportPlayableCharactersCommand(
     Stream File
@@ -46,7 +43,7 @@ public class ImportPlayableCharactersCommandHandler(
 
         var allBinaryAssetFileHashes = allBinaryCharacterInfo
             .Where(info => info is not null)
-            .SelectMany(info => CharacterInfoUtils.GetAssetHashes(info!).Select(tuple => tuple.Item1))
+            .SelectMany(info => CharacterAssetUtils.GetAssetHashes(info!).Select(tuple => tuple.Item1))
             .ToList();
 
         var unitEntities = await applicationDbContext.Units
@@ -80,7 +77,8 @@ public class ImportPlayableCharactersCommandHandler(
             }
             unitEntity.PlayableCharacter = playableCharacterEntity;
 
-            lastAssetFileOrder = UnitMapper2.UpsertCharacterAssetFiles(applicationDbContext, lastAssetFileOrder, unitEntity, assetEntities, binaryCharacterInfo);
+            var characterAssets = CharacterAssetUtils.GetAssetHashes(binaryCharacterInfo);
+            lastAssetFileOrder = UnitMapper2.UpsertCharacterAssetFiles(applicationDbContext, lastAssetFileOrder, unitEntity, assetEntities, characterAssets);
 
             var seriesMetadata = unitsMetadataOptions.Value.FirstOrDefault(option => playableCharacterEntity.UnitId == option.Id);
             if (seriesMetadata is not null)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
-namespace BoostStudio.Application.Exvs.Units.Commands;
+namespace BoostStudio.Application.Exvs.Units.Commands.PlayableCharacters;
 
 public record ExportPlayableCharactersCommand(
     bool ReplaceWorking = false
@@ -266,6 +266,7 @@ public class ExportPlayableCharactersCommandHandler(
             70061,
             70391,
             16211,
+            16111,
         ];
 
         units = units.OrderBy(x => foo.IndexOf(x.GameUnitId)).ToList();

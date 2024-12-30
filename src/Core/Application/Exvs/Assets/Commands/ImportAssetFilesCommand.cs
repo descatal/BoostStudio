@@ -95,7 +95,7 @@ public class ImportAssetFileCommandHandler(
                     if (assetFile.Units.All(unit => unit.GameUnitId != unitId))
                         assetFile.Units.Add(unitEntity);
                     
-                    assetFile.FileType = fileType;
+                    assetFile.AddFileType(fileType);
                 }
             }
 

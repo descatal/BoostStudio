@@ -2,7 +2,9 @@
 using BoostStudio.Application.Contracts.Units;
 using BoostStudio.Application.Exvs.Series.Commands;
 using BoostStudio.Application.Exvs.Units.Commands;
+using BoostStudio.Application.Exvs.Units.Commands.PlayableCharacters;
 using BoostStudio.Application.Exvs.Units.Queries;
+using BoostStudio.Application.Exvs.Units.Queries.PlayableCharacters;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +17,11 @@ public class Units : EndpointGroupBase
         app.MapGroup(this, DefinitionNames.Exvs)
             .MapGet(GetUnit)
             .MapGet(GetUnitByUnitId, "{unitId}")
+            .MapGet(GetPlayableCharactersByUnitId, "{unitId}/playable-characters")
             .MapPost(CreateUnit)
             .MapPost(UpdateUnit, "{unitId}")
             .MapPost(BulkCreateUnit, "bulk")
+            .MapPost(UpsertPlayableCharacterByUnitId, "{unitId}/playable-characters")
             .MapPost(ImportPlayableCharacters, "playable-characters/import")
             .MapPost(ExportPlayableCharacters, "playable-characters/export");
     }
@@ -36,6 +40,14 @@ public class Units : EndpointGroupBase
         CancellationToken cancellationToken)
     {
         return await sender.Send(new GetUnitQueryByUnitId(unitId), cancellationToken);
+    }
+
+    private static async Task<PlayableCharacterDto> GetPlayableCharactersByUnitId(
+        ISender sender,
+        uint unitId,
+        CancellationToken cancellationToken)
+    {
+        return await sender.Send(new GetPlayableCharactersQuery(unitId), cancellationToken);
     }
     
     private static async Task<IResult> CreateUnit(
@@ -60,6 +72,17 @@ public class Units : EndpointGroupBase
         ISender sender, 
         uint unitId, 
         UpdateUnitCommand command, 
+        CancellationToken cancellationToken)
+    {
+        if (unitId != command.UnitId) return Results.BadRequest();
+        await sender.Send(command, cancellationToken);
+        return Results.NoContent();
+    }
+
+    private static async Task<IResult> UpsertPlayableCharacterByUnitId(
+        ISender sender,
+        uint unitId,
+        UpsertPlayableCharactersCommand command,
         CancellationToken cancellationToken)
     {
         if (unitId != command.UnitId) return Results.BadRequest();

@@ -17,7 +17,7 @@ public class AssetFileConfiguration : IEntityTypeConfiguration<AssetFile>
         builder.HasMany(assetFile => assetFile.Units)
             .WithMany(unit => unit.AssetFiles);
 
-        builder.Property(assetFile => assetFile.FileType)
-            .HasConversion<string>();
+        // builder.Property(assetFile => assetFile.FileType)
+        //     .HasConversion<string>();
     }
 }

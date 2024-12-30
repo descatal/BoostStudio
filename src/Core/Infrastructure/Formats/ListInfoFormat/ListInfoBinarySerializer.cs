@@ -113,19 +113,8 @@ public class ListInfoBinarySerializer : IListInfoBinarySerializer
             WriteAssetHash(unit, dataStream, AssetFileType.GenericSelectionCostume3Sprite);
             WriteAssetHash(unit, dataStream, AssetFileType.LoadingTargetUnitSprite);
             WriteAssetHash(unit, dataStream, AssetFileType.LoadingTargetPilotCostume1Sprite);
-
-            // On serializing this part, it gets interesting since bandai only fills in these two TargetPilot alt costumes information (that's the same asset as costume 1) when there's alternate costume
-            // So need to check if this unit has alternate costume, and based on how many there are, fill in the same Costume 1 sprite hash
-            if (unit.AssetFiles.Any(assetFile => assetFile.FileType == AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite))
-                WriteAssetHash(unit, dataStream, AssetFileType.LoadingTargetPilotCostume1Sprite);
-            else
-                dataStream.WriteUint(0);
-
-            if (unit.AssetFiles.Any(assetFile => assetFile.FileType == AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite))
-                WriteAssetHash(unit, dataStream, AssetFileType.LoadingTargetPilotCostume1Sprite);
-            else
-                dataStream.WriteUint(0);
-
+            WriteAssetHash(unit, dataStream, AssetFileType.LoadingTargetPilotCostume2Sprite);
+            WriteAssetHash(unit, dataStream, AssetFileType.LoadingTargetPilotCostume3Sprite);
             WriteAssetHash(unit, dataStream, AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite);
             WriteAssetHash(unit, dataStream, AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite);
             WriteAssetHash(unit, dataStream, AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite);
@@ -174,7 +163,7 @@ public class ListInfoBinarySerializer : IListInfoBinarySerializer
         CustomBinaryWriter dataStream,
         AssetFileType type)
     {
-        var assetHash = unit.AssetFiles.FirstOrDefault(file => file.FileType == type)?.Hash ?? 0;
+        var assetHash = unit.AssetFiles.FirstOrDefault(file => file.FileType.Contains(type))?.Hash ?? 0;
         dataStream.WriteUint(assetHash);
     }
 

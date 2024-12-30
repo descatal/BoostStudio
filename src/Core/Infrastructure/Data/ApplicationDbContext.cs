@@ -54,5 +54,12 @@ public class ApplicationDbContext(
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        // Not yet supported in custom configuration, so will have to do here for now
+        // https://github.com/dotnet/efcore/issues/33688
+        modelBuilder.Entity<AssetFile>()
+            .PrimitiveCollection(e => e.FileType)
+            .ElementType()
+            .HasConversion<string>();
     }
 }

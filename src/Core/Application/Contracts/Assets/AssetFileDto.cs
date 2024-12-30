@@ -10,8 +10,8 @@ public record AssetFileVm : AssetFileDto
 public record AssetFileDto
 {
     public uint Order { get; set; }
-    
-    public AssetFileType FileType { get; set; }
+
+    public List<AssetFileType> FileType { get; set; } = [];
     
     public uint? GameUnitId { get; set; }
 }

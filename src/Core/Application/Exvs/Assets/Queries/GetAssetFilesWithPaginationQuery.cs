@@ -24,8 +24,12 @@ public class GetAssetFilesWithPaginationHandler(
             query = query.Where(entity => entity.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
         
         if (request.AssetFileTypes?.Length > 0)
-            query = query.Where(entity => request.AssetFileTypes.Contains(entity.FileType));
-        
+        {
+            query = query.Where(entity =>
+                entity.FileType.Any(assetFileType => request.AssetFileTypes.Contains(assetFileType))
+            );
+        }
+
         var mappedQuery = AssetFileMapper.ProjectToVm(query);
         return await PaginatedList<AssetFileVm>.CreateAsync(mappedQuery, request.Page, request.PerPage);
     }

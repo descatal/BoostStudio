@@ -100,7 +100,7 @@ public class ImportTblCommandHandler(
 
                 var commonAsset = exvsCommonAssets.FirstOrDefault(commonAssets => (uint)commonAssets == assetFile.Hash, ExvsCommonAssets.Unknown);
                 if (commonAsset != ExvsCommonAssets.Unknown)
-                    assetFile.FileType = commonAsset.GetAssetFileType();
+                    assetFile.AddFileType(commonAsset.GetAssetFileType());
 
                 patchFile.AssetFile = assetFile;
 

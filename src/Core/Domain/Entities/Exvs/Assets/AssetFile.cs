@@ -11,8 +11,16 @@ public class AssetFile : BaseEntity<uint> // id is ignored, Hash is the key
 
     // should be PatchFileInfo here, but for now ef core can't map to owned entity yet
     public ICollection<PatchFile> PatchFiles { get; set; } = [];
-    
-    public AssetFileType FileType { get; set; }
+
+    public List<AssetFileType> FileType { get; set; } = [];
 
     public ICollection<Units.Unit> Units { get; set; } = [];
+
+    public void AddFileType(AssetFileType assetFileType)
+    {
+        if (FileType.Contains(assetFileType))
+            return;
+
+        FileType.Add(assetFileType);
+    }
 }
