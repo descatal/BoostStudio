@@ -1,4 +1,4 @@
-﻿using BoostStudio.Application.Debug;
+﻿using BoostStudio.Application.Debugging;
 using BoostStudio.Web.Constants;
 
 namespace BoostStudio.Web.Endpoints.Exvs;
