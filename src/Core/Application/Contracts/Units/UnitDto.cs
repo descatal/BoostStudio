@@ -1,14 +1,19 @@
-﻿namespace BoostStudio.Application.Contracts.Units;
+﻿using BoostStudio.Application.Contracts.Series;
 
-public record UnitDto
+namespace BoostStudio.Application.Contracts.Units;
+
+public record UnitSummaryVm
 {
-    public uint UnitId { get; init; }
-    public string Name { get; init; } = string.Empty;
-    public string NameJapanese { get; init; } = string.Empty;
-    public string NameChinese { get; init; } = string.Empty;
+    public uint UnitId { get; set; }
+    public string? SlugName { get; set; }
+    public string? NameEnglish { get; set; }
+    public string? NameJapanese { get; set; }
+    public string? NameChinese { get; set; }
+    public uint? SeriesId { get; set; }
+    // public SeriesVm? Series { get; set; }
 }
 
-public record UnitDto2 : UnitDetailsDto
+public record UnitDto : UnitDetailsDto
 {
     public uint Id { get; init; }
 }

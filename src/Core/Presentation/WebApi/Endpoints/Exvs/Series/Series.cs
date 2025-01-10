@@ -9,20 +9,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Series;
 
-public class PlayableSeries : EndpointGroupBase
+public class Series : EndpointGroupBase
 {
     public override void Map(WebApplication app)
     {
-        app.MapSubgroup(this, customTagName: nameof(Series), areaName: DefinitionNames.Exvs)
-            .MapGet(GetUnitProjectilesWithPagination)
+        app.MapSubgroup(this, customTagName: nameof(Exvs.Series), areaName: DefinitionNames.Exvs)
+            .MapGet(GetSeriesWithPagination)
+            .MapGet(GetSeriesUnitsWithPagination, "/units")
             .MapPost(CreatePlayableSeries)
             .MapPost(ImportPlayableSeries, "import")
             .MapPost(ExportPlayableSeries, "export");
     }
 
-    private static async Task<PaginatedList<SeriesDto>> GetUnitProjectilesWithPagination(
+    private static async Task<PaginatedList<SeriesDto>> GetSeriesWithPagination(
         ISender sender,
         [AsParameters] GetSeriesWithPaginationQuery request)
+    {
+        return await sender.Send(request);
+    }
+
+    private static async Task<PaginatedList<SeriesUnitsVm>> GetSeriesUnitsWithPagination(
+        ISender sender,
+        [AsParameters] GetSeriesUnitsWithPaginationQuery request)
     {
         return await sender.Send(request);
     }

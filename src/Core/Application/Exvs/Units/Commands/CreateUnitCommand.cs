@@ -4,7 +4,7 @@ using Unit=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
 
-public record CreateUnitCommand() : UnitDto, IRequest<Guid>;
+public record CreateUnitCommand() : UnitSummaryVm, IRequest<Guid>;
 
 public class CreateUnitCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -15,7 +15,7 @@ public class CreateUnitCommandHandler(
         var entity = new Unit
         {
             GameUnitId = command.UnitId,
-            NameEnglish = command.Name,
+            NameEnglish = command.NameEnglish,
             NameJapanese = command.NameJapanese,
             NameChinese = command.NameChinese
         };

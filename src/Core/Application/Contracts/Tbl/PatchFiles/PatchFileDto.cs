@@ -38,5 +38,5 @@ public record AssetFileDto(
     uint Hash,
     uint Order,
     List<AssetFileType> FileType,
-    UnitDto[] Units
+    UnitSummaryVm[] Units
 );

@@ -4,7 +4,7 @@ using UnitEntity=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
 
-public record BulkCreateUnitCommand(UnitDto[] Units) : IRequest;
+public record BulkCreateUnitCommand(UnitSummaryVm[] Units) : IRequest;
 
 public class BulkCreateUnitCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -18,7 +18,7 @@ public class BulkCreateUnitCommandHandler(
             var entity = new UnitEntity
             {
                 GameUnitId = unit.UnitId,
-                NameEnglish = unit.Name,
+                NameEnglish = unit.NameEnglish,
                 NameJapanese = unit.NameJapanese,
                 NameChinese = unit.NameChinese
             };

@@ -6,13 +6,13 @@ using UnitMapper=BoostStudio.Application.Contracts.Units.UnitMapper;
 
 namespace BoostStudio.Application.Exvs.Units.Queries;
 
-public record GetUnitQueryByUnitId(uint UnitId) : IRequest<UnitDto>;
+public record GetUnitQueryByUnitId(uint UnitId) : IRequest<UnitSummaryVm>;
 
 public class GetUnitQueryByUnitIdHandler(
     IApplicationDbContext applicationDbContext
-) : IRequestHandler<GetUnitQueryByUnitId, UnitDto>
+) : IRequestHandler<GetUnitQueryByUnitId, UnitSummaryVm>
 {
-    public async ValueTask<UnitDto> Handle(GetUnitQueryByUnitId query, CancellationToken cancellationToken)
+    public async ValueTask<UnitSummaryVm> Handle(GetUnitQueryByUnitId query, CancellationToken cancellationToken)
     {
         var unitsQuery = applicationDbContext.Units.AsQueryable();
         var entity = await unitsQuery

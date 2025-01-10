@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoostStudio.Application.Exvs.Units.Commands;
 
-public record UpdateUnitCommand : UnitDto, IRequest;
+public record UpdateUnitCommand : UnitSummaryVm, IRequest;
 
 public class UpdateUnitCommandCommandHandler(
     IApplicationDbContext applicationDbContext
@@ -18,7 +18,7 @@ public class UpdateUnitCommandCommandHandler(
         
         Guard.Against.NotFound(command.UnitId, existingEntity);
         
-        existingEntity.NameEnglish = command.Name;
+        existingEntity.NameEnglish = command.NameEnglish;
         existingEntity.NameJapanese = command.NameJapanese; 
         existingEntity.NameChinese = command.NameChinese; 
         

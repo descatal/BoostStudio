@@ -26,15 +26,15 @@ public class Units : EndpointGroupBase
             .MapPost(ExportPlayableCharacters, "playable-characters/export");
     }
     
-    private static async Task<List<UnitDto>> GetUnit(
+    private static async Task<List<UnitSummaryVm>> GetUnit(
         ISender sender, 
-        [AsParameters] GetUnitQuery query, 
+        [AsParameters] GetUnitSummaryQuery summaryQuery, 
         CancellationToken cancellationToken)
     {
-        return await sender.Send(query, cancellationToken);
+        return await sender.Send(summaryQuery, cancellationToken);
     }
     
-    private static async Task<UnitDto> GetUnitByUnitId(
+    private static async Task<UnitSummaryVm> GetUnitByUnitId(
         ISender sender, 
         uint unitId,
         CancellationToken cancellationToken)

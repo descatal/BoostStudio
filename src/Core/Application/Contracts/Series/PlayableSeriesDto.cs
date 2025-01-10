@@ -1,21 +1,36 @@
-﻿namespace BoostStudio.Application.Contracts.Series;
+﻿using BoostStudio.Application.Contracts.Units;
+
+namespace BoostStudio.Application.Contracts.Series;
 
 public record SeriesDto : SeriesDetailsDto
 {
     public byte Id { get; set; }
 }
 
-public record SeriesDetailsDto
+public record SeriesDetailsDto : SeriesSummaryDto
+{
+    public PlayableSeriesDetailsDto? PlayableSeries { get; set; }
+}
+
+public record SeriesUnitsVm : SeriesVm
+{
+    public List<UnitSummaryVm> Units { get; set; } = [];
+}
+
+public record SeriesVm : SeriesSummaryDto
+{
+    public byte Id { get; set; }
+}
+
+public record SeriesSummaryDto
 {
     public string SlugName { get; set; } = string.Empty;
 
-    public string NameEnglish { get; set; } = string.Empty;
+    public string? NameEnglish { get; set; }
 
-    public string NameJapanese { get; set; } = string.Empty;
+    public string? NameJapanese { get; set; }
 
-    public string NameChinese { get; set; } = string.Empty;
-
-    public PlayableSeriesDetailsDto? PlayableSeries { get; set; }
+    public string? NameChinese { get; set; }
 }
 
 public record PlayableSeriesDto : PlayableSeriesDetailsDto

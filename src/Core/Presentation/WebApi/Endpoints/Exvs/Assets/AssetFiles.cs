@@ -21,9 +21,7 @@ public class Assets: EndpointGroupBase
             .MapDelete(DeleteAssetFileByHash, "{hash}")
             .MapPost(ImportAssetFiles, "import");
     }
-    
-    // [Produces(MediaTypeNames.Application.Json)]
-    // [ProducesResponseType(typeof(PaginatedList<PatchFileDto>), StatusCodes.Status200OK)]
+
     private static async Task<PaginatedList<AssetFileVm>> GetAssetFilesWithPagination(
         ISender sender, 
         [AsParameters] GetAssetFilesWithPagination request,
@@ -32,7 +30,6 @@ public class Assets: EndpointGroupBase
         return await sender.Send(request, cancellationToken);
     }
     
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<AssetFileVm> GetAssetFileByHash(
         ISender sender, 
         uint hash,
@@ -41,7 +38,6 @@ public class Assets: EndpointGroupBase
         return await sender.Send(new GetAssetFilesByHashQuery(hash), cancellationToken);
     }
     
-    // [ProducesResponseType(StatusCodes.Status200OK)]
     private static async Task CreateAssetFile(
         ISender sender, 
         CreateAssetFileCommand request, 
@@ -50,7 +46,6 @@ public class Assets: EndpointGroupBase
         await sender.Send(request, cancellationToken);
     }
     
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> UpdateAssetFileByHash(
         ISender sender, 
         uint hash, 
@@ -62,7 +57,6 @@ public class Assets: EndpointGroupBase
         return Results.NoContent();
     }
     
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
     private static async Task<IResult> DeleteAssetFileByHash(
         ISender sender, 
         uint hash, 
@@ -71,8 +65,7 @@ public class Assets: EndpointGroupBase
         await sender.Send(new DeleteAssetFileByHashCommand(hash), cancellationToken);
         return Results.NoContent();
     }
-    
-    // [ProducesResponseType(StatusCodes.Status201Created)]
+
     private static async Task<IResult> ImportAssetFiles(
         ISender sender, 
         [FromForm] IFormFileCollection files, 

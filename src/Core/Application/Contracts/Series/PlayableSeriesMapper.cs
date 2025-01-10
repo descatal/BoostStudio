@@ -1,12 +1,15 @@
 ﻿using BoostStudio.Application.Common.Models.Options;
+using BoostStudio.Application.Contracts.Units;
 using BoostStudio.Domain.Entities.Exvs.Series;
 using Riok.Mapperly.Abstractions;
 using SeriesEntity = BoostStudio.Domain.Entities.Exvs.Series.Series;
 using SeriesInfoFormat = BoostStudio.Formats.ListInfoBinaryFormat.SeriesInfo;
+using Unit=BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Contracts.Series;
 
 [Mapper]
+[UseStaticMapper(typeof(UnitMapper2))]
 [UseStaticMapper(typeof(PlayableSeriesMapper))]
 public static partial class SeriesMapper
 {
@@ -14,6 +17,25 @@ public static partial class SeriesMapper
 
     [MapperIgnoreSource(nameof(SeriesEntity.DomainEvents))]
     public static partial SeriesDto MapToDto(SeriesEntity entity);
+
+    [MapperIgnoreSource(nameof(SeriesEntity.PlayableSeries))]
+    [MapperIgnoreSource(nameof(SeriesEntity.DomainEvents))]
+    public static partial SeriesVm MapToVm(SeriesEntity entity);
+
+    public static SeriesUnitsVm MapToSeriesUnitsVm(IGrouping<SeriesEntity?, Unit> grouping)
+    {
+        var seriesVm = MapToSeriesUnitsVm(grouping.Key!);
+        var units = grouping.ToList();
+        seriesVm.Units = UnitMapper2.MapToVm(units);
+        return seriesVm;
+    }
+
+    [MapperIgnoreTarget(nameof(SeriesUnitsVm.Units))]
+    [MapperIgnoreSource(nameof(SeriesEntity.PlayableSeries))]
+    [MapperIgnoreSource(nameof(SeriesEntity.DomainEvents))]
+    public static partial SeriesUnitsVm MapToSeriesUnitsVm(SeriesEntity entity);
+
+    public static partial IQueryable<SeriesVm> ProjectToVm(IQueryable<SeriesEntity> entity);
 
     public static partial IQueryable<SeriesDto> ProjectToDto(IQueryable<SeriesEntity> entity);
 

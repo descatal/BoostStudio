@@ -1,5 +1,6 @@
 ﻿using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Models.Options;
+using BoostStudio.Application.Contracts.Series;
 using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Entities.Exvs.Units.Characters;
 using BoostStudio.Domain.Enums;
@@ -12,33 +13,67 @@ namespace BoostStudio.Application.Contracts.Units;
 [Mapper]
 public static partial class UnitMapper
 {
-    public static partial List<Unit> UnitDtoToUnit(List<UnitDto> dto);
+    public static partial List<Unit> UnitDtoToUnit(List<UnitSummaryVm> dto);
 
-    [MapProperty(nameof(UnitDto.UnitId), nameof(Unit.GameUnitId))]
-    public static partial Unit MapToEntity(UnitDto dto);
+    [MapProperty(nameof(UnitSummaryVm.UnitId), nameof(Unit.GameUnitId))]
+    public static partial Unit MapToEntity(UnitSummaryVm summaryVm);
 
-    public static partial List<UnitDto> MapToDto(List<Unit> entity);
-
-    [MapProperty(nameof(Unit.GameUnitId), nameof(UnitDto.UnitId))]
-    public static partial UnitDto MapToDto(Unit entity);
+    [MapProperty(nameof(Unit.GameUnitId), nameof(UnitSummaryVm.UnitId))]
+    public static partial UnitSummaryVm MapToDto(Unit entity);
 
     public static partial Unit Update(Unit entity);
 }
 
 [Mapper]
 [UseStaticMapper(typeof(PlayableCharacterMapper))]
+[UseStaticMapper(typeof(SeriesMapper))]
 public static partial class UnitMapper2
 {
-    public static partial Unit MapToEntity(UnitDto2 dto);
+    [MapperIgnoreSource(nameof(Unit.DomainEvents))]
+    [MapperIgnoreSource(nameof(Unit.UnitStats))]
+    [MapperIgnoreSource(nameof(Unit.UnitProjectiles))]
+    [MapperIgnoreSource(nameof(Unit.HitboxGroup))]
+    [MapperIgnoreSource(nameof(Unit.AssetFiles))]
+    [MapperIgnoreSource(nameof(Unit.StagingDirectoryPath))]
+    [MapperIgnoreSource(nameof(Unit.HitboxGroupHash))]
+    [MapperIgnoreSource(nameof(Unit.SnakeCaseName))]
+    [MapperIgnoreSource(nameof(Unit.Id))]
+    [MapProperty(nameof(Unit.GameUnitId), nameof(UnitSummaryVm.UnitId))]
+    [MapProperty(nameof(@Unit.PlayableCharacter.SeriesId), nameof(UnitSummaryVm.SeriesId))]
+    public static partial UnitSummaryVm MapToVm(Unit entity);
+
+    public static partial List<UnitSummaryVm> MapToVm(List<Unit> entity);
+
+    // Not pretty but does the job
+    public static List<UnitSummaryVm> MapToVm(List<Unit> entity, LanguageSettings[]? languageSettings)
+    {
+        var mappedVmList = MapToVm(entity);
+        if (languageSettings is null || languageSettings.Length <= 0)
+            return mappedVmList;
+
+        foreach (var mappedVm in mappedVmList)
+        {
+            if (!languageSettings.Contains(LanguageSettings.English))
+                mappedVm.NameEnglish = null;
+
+            if (!languageSettings.Contains(LanguageSettings.Chinese))
+                mappedVm.NameChinese = null;
+
+            if (!languageSettings.Contains(LanguageSettings.Japanese))
+                mappedVm.NameJapanese = null;
+        }
+
+        return mappedVmList;
+    }
 
     [MapperIgnoreSource(nameof(Unit.DomainEvents))]
     [MapperIgnoreSource(nameof(Unit.UnitStats))]
     [MapperIgnoreSource(nameof(Unit.UnitProjectiles))]
     [MapperIgnoreSource(nameof(Unit.HitboxGroup))]
-    [MapProperty(nameof(Unit.GameUnitId), nameof(UnitDto2.Id))]
-    public static partial UnitDto2 MapToDto(Unit entity);
+    [MapProperty(nameof(Unit.GameUnitId), nameof(UnitDto.Id))]
+    public static partial UnitDto MapToDto(Unit entity);
 
-    public static partial IQueryable<UnitDto2> ProjectToDto(IQueryable<Unit> entity);
+    public static partial IQueryable<UnitDto> ProjectToDto(IQueryable<Unit> entity);
 
     public static void UpdateEntityDetailsIfNull(UnitsMetadataOption source, Unit target)
     {
