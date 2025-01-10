@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { SeriesVm } from './SeriesVm';
+import {
+    SeriesVmFromJSON,
+    SeriesVmFromJSONTyped,
+    SeriesVmToJSON,
+} from './SeriesVm';
+
 /**
  * 
  * @export
@@ -30,19 +37,31 @@ export interface UpdateUnitCommand {
      * @type {string}
      * @memberof UpdateUnitCommand
      */
-    name?: string;
+    slugName?: string | null;
     /**
      * 
      * @type {string}
      * @memberof UpdateUnitCommand
      */
-    nameJapanese?: string;
+    nameEnglish?: string | null;
     /**
      * 
      * @type {string}
      * @memberof UpdateUnitCommand
      */
-    nameChinese?: string;
+    nameJapanese?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateUnitCommand
+     */
+    nameChinese?: string | null;
+    /**
+     * 
+     * @type {SeriesVm}
+     * @memberof UpdateUnitCommand
+     */
+    series?: SeriesVm | null;
 }
 
 /**
@@ -63,9 +82,11 @@ export function UpdateUnitCommandFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'unitId': json['unitId'] == null ? undefined : json['unitId'],
-        'name': json['name'] == null ? undefined : json['name'],
+        'slugName': json['slugName'] == null ? undefined : json['slugName'],
+        'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
         'nameChinese': json['nameChinese'] == null ? undefined : json['nameChinese'],
+        'series': json['series'] == null ? undefined : SeriesVmFromJSON(json['series']),
     };
 }
 
@@ -76,9 +97,11 @@ export function UpdateUnitCommandToJSON(value?: UpdateUnitCommand | null): any {
     return {
         
         'unitId': value['unitId'],
-        'name': value['name'],
+        'slugName': value['slugName'],
+        'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],
         'nameChinese': value['nameChinese'],
+        'series': SeriesVmToJSON(value['series']),
     };
 }
 

@@ -1,4 +1,4 @@
-﻿import { UnitDto } from "@/api/exvs"
+﻿import { UnitSummaryVm } from "@/api/exvs"
 import { create } from "zustand"
 
 export const CustomizeSections = ["info", "script", "assets"] as const
@@ -6,7 +6,7 @@ export type CustomizeSections = (typeof CustomizeSections)[number]
 
 type State = {
   customizeSection: CustomizeSections
-  selectedUnits: UnitDto[] | undefined
+  selectedUnits: UnitSummaryVm[] | undefined
 }
 
 type Action = {

@@ -1,46 +1,29 @@
-import React, {useState} from "react"
-import {invoke} from "@tauri-apps/api/tauri"
+import React, {useRef} from "react"
 
 import {Menu} from "@/components/menu"
+import {TooltipProvider} from "./components/ui/tooltip"
+import {createAppStore} from "@/stores/app-store";
+import {AppContext} from "@/providers/app-store-provider";
+import {RouterProvider} from "react-router-dom";
+import router from "@/router";
+import {Toaster} from "@/components/ui/toaster";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 
-import {TailwindIndicator} from "./components/tailwind-indicator"
-import {ThemeProvider} from "./components/theme-provider"
-import {cn} from "./lib/utils"
-import { TooltipProvider } from "./components/ui/tooltip"
-import {AlertDialog, AlertDialogTrigger} from "@/components/ui/alert-dialog";
-import {Button} from "@/components/ui/button";
+const queryClient = new QueryClient()
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("")
-  const [name, setName] = useState("")
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", {name}))
-  }
+  const store = useRef(createAppStore()).current
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <TooltipProvider>
-        <div className="h-screen overflow-clip">
-          <Menu/>
-          <div
-            className={cn(
-              "h-screen overflow-auto border-t bg-background pb-8",
-              // "scrollbar-none"
-              "scrollbar scrollbar-track-transparent scrollbar-thumb-accent scrollbar-thumb-rounded-md"
-            )}
-          >
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button variant={"default"} onClick={() => {}}>Save</Button>
-              </AlertDialogTrigger>
-            </AlertDialog>
-          </div>
-        </div>
-      </TooltipProvider>
-      <TailwindIndicator/>
-    </ThemeProvider>
+    <AppContext.Provider value={store}>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          {'__TAURI__' in window ? <Menu/> : <></>}
+          <RouterProvider router={router}/>
+          <Toaster/>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </AppContext.Provider>
   )
 }
 

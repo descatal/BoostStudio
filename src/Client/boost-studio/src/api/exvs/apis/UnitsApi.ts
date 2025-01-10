@@ -17,26 +17,43 @@ import * as runtime from '../runtime';
 import type {
   BulkCreateUnitCommand,
   CreateUnitCommand,
-  UnitDto,
+  ExportPlayableCharactersCommand,
+  LanguageSettings,
+  PlayableCharacterDto,
+  UnitSummaryVm,
   UpdateUnitCommand,
+  UpsertPlayableCharactersCommand,
 } from '../models/index';
 import {
     BulkCreateUnitCommandFromJSON,
     BulkCreateUnitCommandToJSON,
     CreateUnitCommandFromJSON,
     CreateUnitCommandToJSON,
-    UnitDtoFromJSON,
-    UnitDtoToJSON,
+    ExportPlayableCharactersCommandFromJSON,
+    ExportPlayableCharactersCommandToJSON,
+    LanguageSettingsFromJSON,
+    LanguageSettingsToJSON,
+    PlayableCharacterDtoFromJSON,
+    PlayableCharacterDtoToJSON,
+    UnitSummaryVmFromJSON,
+    UnitSummaryVmToJSON,
     UpdateUnitCommandFromJSON,
     UpdateUnitCommandToJSON,
+    UpsertPlayableCharactersCommandFromJSON,
+    UpsertPlayableCharactersCommandToJSON,
 } from '../models/index';
 
 export interface GetApiUnitsRequest {
     search?: string;
     unitIds?: Array<number>;
+    languages?: Array<LanguageSettings>;
 }
 
 export interface GetApiUnitsByUnitIdRequest {
+    unitId: number;
+}
+
+export interface GetApiUnitsByUnitIdPlayableCharactersRequest {
     unitId: number;
 }
 
@@ -53,6 +70,19 @@ export interface PostApiUnitsByUnitIdRequest {
     updateUnitCommand: UpdateUnitCommand;
 }
 
+export interface PostApiUnitsByUnitIdPlayableCharactersRequest {
+    unitId: number;
+    upsertPlayableCharactersCommand: UpsertPlayableCharactersCommand;
+}
+
+export interface PostApiUnitsPlayableCharactersExportRequest {
+    exportPlayableCharactersCommand: ExportPlayableCharactersCommand;
+}
+
+export interface PostApiUnitsPlayableCharactersImportRequest {
+    file: Blob;
+}
+
 /**
  * 
  */
@@ -60,7 +90,7 @@ export class UnitsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiUnitsRaw(requestParameters: GetApiUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UnitDto>>> {
+    async getApiUnitsRaw(requestParameters: GetApiUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UnitSummaryVm>>> {
         const queryParameters: any = {};
 
         if (requestParameters['search'] != null) {
@@ -69,6 +99,10 @@ export class UnitsApi extends runtime.BaseAPI {
 
         if (requestParameters['unitIds'] != null) {
             queryParameters['UnitIds'] = requestParameters['unitIds'];
+        }
+
+        if (requestParameters['languages'] != null) {
+            queryParameters['Languages'] = requestParameters['languages'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -80,19 +114,19 @@ export class UnitsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UnitDtoFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UnitSummaryVmFromJSON));
     }
 
     /**
      */
-    async getApiUnits(requestParameters: GetApiUnitsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UnitDto>> {
+    async getApiUnits(requestParameters: GetApiUnitsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UnitSummaryVm>> {
         const response = await this.getApiUnitsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getApiUnitsByUnitIdRaw(requestParameters: GetApiUnitsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UnitDto>> {
+    async getApiUnitsByUnitIdRaw(requestParameters: GetApiUnitsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UnitSummaryVm>> {
         if (requestParameters['unitId'] == null) {
             throw new runtime.RequiredError(
                 'unitId',
@@ -111,13 +145,44 @@ export class UnitsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UnitDtoFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UnitSummaryVmFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiUnitsByUnitId(requestParameters: GetApiUnitsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UnitDto> {
+    async getApiUnitsByUnitId(requestParameters: GetApiUnitsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UnitSummaryVm> {
         const response = await this.getApiUnitsByUnitIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async getApiUnitsByUnitIdPlayableCharactersRaw(requestParameters: GetApiUnitsByUnitIdPlayableCharactersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PlayableCharacterDto>> {
+        if (requestParameters['unitId'] == null) {
+            throw new runtime.RequiredError(
+                'unitId',
+                'Required parameter "unitId" was null or undefined when calling getApiUnitsByUnitIdPlayableCharacters().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/units/{unitId}/playable-characters`.replace(`{${"unitId"}}`, encodeURIComponent(String(requestParameters['unitId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PlayableCharacterDtoFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiUnitsByUnitIdPlayableCharacters(requestParameters: GetApiUnitsByUnitIdPlayableCharactersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PlayableCharacterDto> {
+        const response = await this.getApiUnitsByUnitIdPlayableCharactersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -225,6 +290,130 @@ export class UnitsApi extends runtime.BaseAPI {
      */
     async postApiUnitsByUnitId(requestParameters: PostApiUnitsByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.postApiUnitsByUnitIdRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitsByUnitIdPlayableCharactersRaw(requestParameters: PostApiUnitsByUnitIdPlayableCharactersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['unitId'] == null) {
+            throw new runtime.RequiredError(
+                'unitId',
+                'Required parameter "unitId" was null or undefined when calling postApiUnitsByUnitIdPlayableCharacters().'
+            );
+        }
+
+        if (requestParameters['upsertPlayableCharactersCommand'] == null) {
+            throw new runtime.RequiredError(
+                'upsertPlayableCharactersCommand',
+                'Required parameter "upsertPlayableCharactersCommand" was null or undefined when calling postApiUnitsByUnitIdPlayableCharacters().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/units/{unitId}/playable-characters`.replace(`{${"unitId"}}`, encodeURIComponent(String(requestParameters['unitId']))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpsertPlayableCharactersCommandToJSON(requestParameters['upsertPlayableCharactersCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitsByUnitIdPlayableCharacters(requestParameters: PostApiUnitsByUnitIdPlayableCharactersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitsByUnitIdPlayableCharactersRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitsPlayableCharactersExportRaw(requestParameters: PostApiUnitsPlayableCharactersExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['exportPlayableCharactersCommand'] == null) {
+            throw new runtime.RequiredError(
+                'exportPlayableCharactersCommand',
+                'Required parameter "exportPlayableCharactersCommand" was null or undefined when calling postApiUnitsPlayableCharactersExport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/units/playable-characters/export`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ExportPlayableCharactersCommandToJSON(requestParameters['exportPlayableCharactersCommand']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitsPlayableCharactersExport(requestParameters: PostApiUnitsPlayableCharactersExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitsPlayableCharactersExportRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async postApiUnitsPlayableCharactersImportRaw(requestParameters: PostApiUnitsPlayableCharactersImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling postApiUnitsPlayableCharactersImport().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters['file'] != null) {
+            formParams.append('file', requestParameters['file'] as any);
+        }
+
+        const response = await this.request({
+            path: `/api/units/playable-characters/import`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async postApiUnitsPlayableCharactersImport(requestParameters: PostApiUnitsPlayableCharactersImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiUnitsPlayableCharactersImportRaw(requestParameters, initOverrides);
     }
 
 }

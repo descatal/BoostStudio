@@ -40,10 +40,10 @@ export interface AssetFileVm {
     order?: number;
     /**
      * 
-     * @type {AssetFileType}
+     * @type {Array<AssetFileType>}
      * @memberof AssetFileVm
      */
-    fileType?: AssetFileType;
+    fileType?: Array<AssetFileType>;
     /**
      * 
      * @type {number}
@@ -72,7 +72,7 @@ export function AssetFileVmFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'hash': json['hash'],
         'order': json['order'] == null ? undefined : json['order'],
-        'fileType': json['fileType'] == null ? undefined : AssetFileTypeFromJSON(json['fileType']),
+        'fileType': json['fileType'] == null ? undefined : ((json['fileType'] as Array<any>).map(AssetFileTypeFromJSON)),
         'gameUnitId': json['gameUnitId'] == null ? undefined : json['gameUnitId'],
     };
 }
@@ -85,7 +85,7 @@ export function AssetFileVmToJSON(value?: AssetFileVm | null): any {
         
         'hash': value['hash'],
         'order': value['order'],
-        'fileType': AssetFileTypeToJSON(value['fileType']),
+        'fileType': value['fileType'] == null ? undefined : ((value['fileType'] as Array<any>).map(AssetFileTypeToJSON)),
         'gameUnitId': value['gameUnitId'],
     };
 }

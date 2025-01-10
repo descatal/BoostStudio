@@ -410,6 +410,29 @@
         }
       }
     },
+    "/api/debug": {
+      "post": {
+        "tags": [
+          "Debug"
+        ],
+        "operationId": "post-api-debug",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DebugCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/fhm/pack-path": {
       "get": {
         "tags": [
@@ -829,6 +852,17 @@
               },
               "default": null
             }
+          },
+          {
+            "name": "Languages",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/LanguageSettings"
+              },
+              "default": null
+            }
           }
         ],
         "responses": {
@@ -839,7 +873,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/UnitDto"
+                    "$ref": "#/components/schemas/UnitSummaryVm"
                   }
                 }
               }
@@ -892,7 +926,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UnitDto"
+                  "$ref": "#/components/schemas/UnitSummaryVm"
                 }
               }
             }
@@ -932,6 +966,69 @@
         }
       }
     },
+    "/api/units/{unitId}/playable-characters": {
+      "get": {
+        "tags": [
+          "Units"
+        ],
+        "operationId": "get-api-units-by-unitId-playable-characters",
+        "parameters": [
+          {
+            "name": "unitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "uint32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayableCharacterDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Units"
+        ],
+        "operationId": "post-api-units-by-unitId-playable-characters",
+        "parameters": [
+          {
+            "name": "unitId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "uint32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertPlayableCharactersCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/units/bulk": {
       "post": {
         "tags": [
@@ -943,6 +1040,60 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/BulkCreateUnitCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/units/playable-characters/import": {
+      "post": {
+        "tags": [
+          "Units"
+        ],
+        "operationId": "post-api-units-playable-characters-import",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "$ref": "#/components/schemas/IFormFile"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/units/playable-characters/export": {
+      "post": {
+        "tags": [
+          "Units"
+        ],
+        "operationId": "post-api-units-playable-characters-export",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportPlayableCharactersCommand"
               }
             }
           },
@@ -1871,6 +2022,180 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/series": {
+      "get": {
+        "tags": [
+          "Series"
+        ],
+        "operationId": "get-api-series",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "PerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "Search",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": null
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfSeriesDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Series"
+        ],
+        "operationId": "post-api-series",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSeriesCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/series/units": {
+      "get": {
+        "tags": [
+          "Series"
+        ],
+        "operationId": "get-api-series-units",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "PerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          },
+          {
+            "name": "ListAll",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfSeriesUnitsVm"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/series/import": {
+      "post": {
+        "tags": [
+          "Series"
+        ],
+        "operationId": "post-api-series-import",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "$ref": "#/components/schemas/IFormFile"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/series/export": {
+      "post": {
+        "tags": [
+          "Series"
+        ],
+        "operationId": "post-api-series-export",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportPlayableSeriesCommand"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -3059,17 +3384,41 @@
           "Effects",
           "SoundEffects",
           "InGamePilotVoiceLines",
-          "WeaponSprites",
-          "InGameCutInSprites",
           "SpriteFrames",
+          "WeaponSprites",
           "VoiceLinesMetadata",
           "PilotVoiceLines",
+          "ArcadeSelectionCostume1Sprite",
+          "ArcadeSelectionCostume2Sprite",
+          "ArcadeSelectionCostume3Sprite",
+          "LoadingLeftCostume1Sprite",
+          "LoadingLeftCostume2Sprite",
+          "LoadingLeftCostume3Sprite",
+          "LoadingRightCostume1Sprite",
+          "LoadingRightCostume2Sprite",
+          "LoadingRightCostume3Sprite",
+          "GenericSelectionCostume1Sprite",
+          "GenericSelectionCostume2Sprite",
+          "GenericSelectionCostume3Sprite",
+          "LoadingTargetUnitSprite",
+          "LoadingTargetPilotCostume1Sprite",
+          "LoadingTargetPilotCostume2Sprite",
+          "LoadingTargetPilotCostume3Sprite",
+          "InGameSortieAndAwakeningPilotCostume1Sprite",
+          "InGameSortieAndAwakeningPilotCostume2Sprite",
+          "InGameSortieAndAwakeningPilotCostume3Sprite",
+          "ResultSmallUnitSprite",
+          "FigurineSprite",
+          "LoadingTargetUnitSmallSprite",
+          "CatalogStorePilotCostume2Sprite",
+          "CatalogStorePilotCostume3Sprite",
+          "Movie",
           "Hitboxes",
           "Projectiles",
           "Ammo",
           "ListInfo",
           "UnitCostInfo",
-          "FigurineSprites",
+          "SharedFigurineSprites",
           "MapSelectSprites",
           "ArcadeSelectSmallSprites",
           "ArcadeSelectUnitNameSprites",
@@ -3097,7 +3446,10 @@
             "format": "uint32"
           },
           "fileType": {
-            "$ref": "#/components/schemas/AssetFileType"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            }
           },
           "gameUnitId": {
             "type": "integer",
@@ -3115,7 +3467,7 @@
           "units": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UnitDto"
+              "$ref": "#/components/schemas/UnitSummaryVm"
             }
           }
         }
@@ -3336,7 +3688,10 @@
             "format": "uint32"
           },
           "fileType": {
-            "$ref": "#/components/schemas/AssetFileType"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            }
           },
           "gameUnitId": {
             "type": "integer",
@@ -3800,6 +4155,33 @@
           "unitId": {
             "type": "integer",
             "format": "uint32",
+            "nullable": true
+          }
+        }
+      },
+      "CreateSeriesCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "playableSeries": {
+            "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+          },
+          "slugName": {
+            "type": "string"
+          },
+          "nameEnglish": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameJapanese": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameChinese": {
+            "type": "string",
             "nullable": true
           }
         }
@@ -4443,16 +4825,31 @@
             "type": "integer",
             "format": "uint32"
           },
-          "name": {
-            "type": "string"
+          "slugName": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEnglish": {
+            "type": "string",
+            "nullable": true
           },
           "nameJapanese": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "nameChinese": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "seriesId": {
+            "type": "integer",
+            "format": "uint32",
+            "nullable": true
           }
         }
+      },
+      "DebugCommand": {
+        "type": "object"
       },
       "DecompileScexByPathCommand": {
         "required": [
@@ -4570,6 +4967,24 @@
             "default": false
           },
           "hotReload": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "ExportPlayableCharactersCommand": {
+        "type": "object",
+        "properties": {
+          "replaceWorking": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "ExportPlayableSeriesCommand": {
+        "type": "object",
+        "properties": {
+          "replaceWorking": {
             "type": "boolean",
             "default": false
           }
@@ -4874,6 +5289,13 @@
           "$ref": "#/components/schemas/IFormFile"
         }
       },
+      "LanguageSettings": {
+        "enum": [
+          "English",
+          "Japanese",
+          "Chinese"
+        ]
+      },
       "NullableOfCompressionType": {
         "enum": [
           "None",
@@ -5139,12 +5561,15 @@
                       "format": "uint32"
                     },
                     "fileType": {
-                      "$ref": "#/components/schemas/AssetFileType"
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AssetFileType"
+                      }
                     },
                     "units": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/UnitDto"
+                        "$ref": "#/components/schemas/UnitSummaryVm"
                       }
                     }
                   },
@@ -5237,6 +5662,125 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ProjectileDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginatedListOfSeriesDto": {
+        "required": [
+          "items",
+          "pageNumber",
+          "totalCount"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "uint8"
+                },
+                "playableSeries": {
+                  "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+                },
+                "slugName": {
+                  "type": "string"
+                },
+                "nameEnglish": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "nameJapanese": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "nameChinese": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PaginatedListOfSeriesUnitsVm": {
+        "required": [
+          "items",
+          "pageNumber",
+          "totalCount"
+        ],
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "units": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UnitSummaryVm"
+                  }
+                },
+                "id": {
+                  "type": "integer",
+                  "format": "uint8"
+                },
+                "slugName": {
+                  "type": "string"
+                },
+                "nameEnglish": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "nameJapanese": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "nameChinese": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
             }
           },
           "pageNumber": {
@@ -5412,6 +5956,234 @@
             "type": "integer",
             "format": "uint32",
             "default": null,
+            "nullable": true
+          }
+        },
+        "nullable": true
+      },
+      "PlayableCharacterDto": {
+        "type": "object",
+        "properties": {
+          "unitId": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "unitIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "seriesId": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk2": {
+            "type": "integer",
+            "format": "uint16"
+          },
+          "fString": {
+            "type": "string",
+            "nullable": true
+          },
+          "fOutString": {
+            "type": "string",
+            "nullable": true
+          },
+          "pString": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitSelectOrderInSeries": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "arcadeSmallSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "arcadeUnitNameSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk27": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk112": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "figurineSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk114": {
+            "type": "integer",
+            "format": "uint16"
+          },
+          "unk124": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "unk128": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "catalogStorePilotCostume2TString": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogStorePilotCostume2String": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogStorePilotCostume3TString": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogStorePilotCostume3String": {
+            "type": "string",
+            "nullable": true
+          },
+          "unk156": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "arcadeSelectionCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "arcadeSelectionCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "arcadeSelectionCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingLeftCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingLeftCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingLeftCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingRightCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingRightCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingRightCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "genericSelectionCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "genericSelectionCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "genericSelectionCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetUnitSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetPilotCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetPilotCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetPilotCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "inGameSortieAndAwakeningPilotCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "inGameSortieAndAwakeningPilotCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "inGameSortieAndAwakeningPilotCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "spriteFramesAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "resultSmallUnitSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "figurineSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetUnitSmallSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "catalogStorePilotCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "catalogStorePilotCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          }
+        }
+      },
+      "PlayableSeriesDetailsDto": {
+        "type": "object",
+        "properties": {
+          "unk2": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk3": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk4": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "selectOrder": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "logoSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "logoSprite2Index": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk11": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "movieAssetHash": {
+            "type": "integer",
+            "format": "uint32",
             "nullable": true
           }
         },
@@ -6552,24 +7324,6 @@
           }
         }
       },
-      "UnitDto": {
-        "type": "object",
-        "properties": {
-          "unitId": {
-            "type": "integer",
-            "format": "uint32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "nameJapanese": {
-            "type": "string"
-          },
-          "nameChinese": {
-            "type": "string"
-          }
-        }
-      },
       "UnitProjectileDto": {
         "type": "object",
         "properties": {
@@ -6601,6 +7355,36 @@
             "items": {
               "$ref": "#/components/schemas/UnitAmmoSlotDto"
             }
+          }
+        }
+      },
+      "UnitSummaryVm": {
+        "type": "object",
+        "properties": {
+          "unitId": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "slugName": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEnglish": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameJapanese": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameChinese": {
+            "type": "string",
+            "nullable": true
+          },
+          "seriesId": {
+            "type": "integer",
+            "format": "uint32",
+            "nullable": true
           }
         }
       },
@@ -6843,7 +7627,10 @@
             "format": "uint32"
           },
           "fileType": {
-            "$ref": "#/components/schemas/AssetFileType"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            }
           },
           "gameUnitId": {
             "type": "integer",
@@ -7983,14 +8770,26 @@
             "type": "integer",
             "format": "uint32"
           },
-          "name": {
-            "type": "string"
+          "slugName": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameEnglish": {
+            "type": "string",
+            "nullable": true
           },
           "nameJapanese": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "nameChinese": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
+          },
+          "seriesId": {
+            "type": "integer",
+            "format": "uint32",
+            "nullable": true
           }
         }
       },
@@ -8008,6 +8807,198 @@
             "type": "string"
           }
         }
+      },
+      "UpsertPlayableCharactersCommand": {
+        "required": [
+          "unitId"
+        ],
+        "type": "object",
+        "properties": {
+          "unitId": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "unitIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "seriesId": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk2": {
+            "type": "integer",
+            "format": "uint16"
+          },
+          "fString": {
+            "type": "string",
+            "nullable": true
+          },
+          "fOutString": {
+            "type": "string",
+            "nullable": true
+          },
+          "pString": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitSelectOrderInSeries": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "arcadeSmallSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "arcadeUnitNameSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk27": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk112": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "figurineSpriteIndex": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "unk114": {
+            "type": "integer",
+            "format": "uint16"
+          },
+          "unk124": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "unk128": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "catalogStorePilotCostume2TString": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogStorePilotCostume2String": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogStorePilotCostume3TString": {
+            "type": "string",
+            "nullable": true
+          },
+          "catalogStorePilotCostume3String": {
+            "type": "string",
+            "nullable": true
+          },
+          "unk156": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "arcadeSelectionCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "arcadeSelectionCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "arcadeSelectionCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingLeftCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingLeftCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingLeftCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingRightCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingRightCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingRightCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "genericSelectionCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "genericSelectionCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "genericSelectionCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetUnitSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetPilotCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetPilotCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetPilotCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "inGameSortieAndAwakeningPilotCostume1SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "inGameSortieAndAwakeningPilotCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "inGameSortieAndAwakeningPilotCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "spriteFramesAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "resultSmallUnitSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "figurineSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "loadingTargetUnitSmallSpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "catalogStorePilotCostume2SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "catalogStorePilotCostume3SpriteAssetHash": {
+            "type": "integer",
+            "format": "uint32"
+          }
+        }
       }
     }
   },
@@ -8017,6 +9008,9 @@
     },
     {
       "name": "Configs"
+    },
+    {
+      "name": "Debug"
     },
     {
       "name": "Fhm"
@@ -8035,6 +9029,9 @@
     },
     {
       "name": "Stats"
+    },
+    {
+      "name": "Series"
     },
     {
       "name": "Projectiles"

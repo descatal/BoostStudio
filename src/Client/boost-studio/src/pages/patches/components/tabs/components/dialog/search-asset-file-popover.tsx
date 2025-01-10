@@ -1,21 +1,11 @@
 ﻿import * as React from "react"
-import { AssetFileType, AssetFileVm, UnitDto } from "@/api/exvs"
-import { fetchAssetFiles } from "@/api/wrapper/asset-api"
+import { AssetFileType, AssetFileVm } from "@/api/exvs"
 import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
-import SelectAssetFileType from "@/pages/common/components/selects/select-asset-file-type"
-import {
-  CommonAssetFileOptions,
-  CommonAssetFileOptionsType,
-  UnitAssetFileOptions,
-  UnitAssetFileOptionsType,
-} from "@/pages/common/libs/constants"
-import UnitSwitcher from "@/pages/units/customize/components/unit-switcher"
 
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { HashInput } from "@/components/custom/hash-input"
 
 interface SearchAssetFilePopoverProps

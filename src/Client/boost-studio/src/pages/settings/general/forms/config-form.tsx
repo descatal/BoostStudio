@@ -110,7 +110,7 @@ const ConfigForm = ({
             />
           </CardContent>
           <CardFooter className="border-t px-6 py-4">
-            <Button type={"submit"} variant={"default"}>
+            <Button>
               Save
             </Button>
           </CardFooter>

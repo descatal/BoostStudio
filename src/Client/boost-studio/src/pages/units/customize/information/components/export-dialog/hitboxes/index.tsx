@@ -1,5 +1,5 @@
 ﻿import React from "react"
-import {UnitDto} from "@/api/exvs"
+import {UnitSummaryVm} from "@/api/exvs"
 
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
@@ -13,7 +13,7 @@ import {Label} from "@/components/ui/label";
 import UnitSwitcher from "@/pages/common/components/custom/unit-switcher";
 
 interface HitboxExportProps {
-  units?: UnitDto[] | undefined
+  units?: UnitSummaryVm[] | undefined
   onExport: () => void
 }
 
@@ -22,7 +22,7 @@ const HitboxExport = ({units, onExport}: HitboxExportProps) => {
   const [hotReload, setHotReload] = React.useState(true)
 
   const [selectedExportUnits, setSelectedExportUnits] =
-    React.useState<UnitDto[]>()
+    React.useState<UnitSummaryVm[]>()
 
   React.useEffect(() => {
     if (units) {

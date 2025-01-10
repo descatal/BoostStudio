@@ -13,18 +13,18 @@
  */
 
 import { mapValues } from '../runtime';
+import type { UnitSummaryVm } from './UnitSummaryVm';
+import {
+    UnitSummaryVmFromJSON,
+    UnitSummaryVmFromJSONTyped,
+    UnitSummaryVmToJSON,
+} from './UnitSummaryVm';
 import type { AssetFileType } from './AssetFileType';
 import {
     AssetFileTypeFromJSON,
     AssetFileTypeFromJSONTyped,
     AssetFileTypeToJSON,
 } from './AssetFileType';
-import type { UnitDto } from './UnitDto';
-import {
-    UnitDtoFromJSON,
-    UnitDtoFromJSONTyped,
-    UnitDtoToJSON,
-} from './UnitDto';
 
 /**
  * 
@@ -46,16 +46,16 @@ export interface PaginatedListOfPatchFileSummaryVmItemsInnerAssetFile {
     order: number;
     /**
      * 
-     * @type {AssetFileType}
+     * @type {Array<AssetFileType>}
      * @memberof PaginatedListOfPatchFileSummaryVmItemsInnerAssetFile
      */
-    fileType: AssetFileType;
+    fileType: Array<AssetFileType>;
     /**
      * 
-     * @type {Array<UnitDto>}
+     * @type {Array<UnitSummaryVm>}
      * @memberof PaginatedListOfPatchFileSummaryVmItemsInnerAssetFile
      */
-    units: Array<UnitDto>;
+    units: Array<UnitSummaryVm>;
 }
 
 /**
@@ -81,8 +81,8 @@ export function PaginatedListOfPatchFileSummaryVmItemsInnerAssetFileFromJSONType
         
         'hash': json['hash'],
         'order': json['order'],
-        'fileType': AssetFileTypeFromJSON(json['fileType']),
-        'units': ((json['units'] as Array<any>).map(UnitDtoFromJSON)),
+        'fileType': ((json['fileType'] as Array<any>).map(AssetFileTypeFromJSON)),
+        'units': ((json['units'] as Array<any>).map(UnitSummaryVmFromJSON)),
     };
 }
 
@@ -94,8 +94,8 @@ export function PaginatedListOfPatchFileSummaryVmItemsInnerAssetFileToJSON(value
         
         'hash': value['hash'],
         'order': value['order'],
-        'fileType': AssetFileTypeToJSON(value['fileType']),
-        'units': ((value['units'] as Array<any>).map(UnitDtoToJSON)),
+        'fileType': ((value['fileType'] as Array<any>).map(AssetFileTypeToJSON)),
+        'units': ((value['units'] as Array<any>).map(UnitSummaryVmToJSON)),
     };
 }
 

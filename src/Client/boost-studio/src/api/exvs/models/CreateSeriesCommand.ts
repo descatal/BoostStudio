@@ -13,95 +13,95 @@
  */
 
 import { mapValues } from '../runtime';
-import type { SeriesVm } from './SeriesVm';
+import type { PlayableSeriesDetailsDto } from './PlayableSeriesDetailsDto';
 import {
-    SeriesVmFromJSON,
-    SeriesVmFromJSONTyped,
-    SeriesVmToJSON,
-} from './SeriesVm';
+    PlayableSeriesDetailsDtoFromJSON,
+    PlayableSeriesDetailsDtoFromJSONTyped,
+    PlayableSeriesDetailsDtoToJSON,
+} from './PlayableSeriesDetailsDto';
 
 /**
  * 
  * @export
- * @interface CreateUnitCommand
+ * @interface CreateSeriesCommand
  */
-export interface CreateUnitCommand {
+export interface CreateSeriesCommand {
     /**
      * 
      * @type {number}
-     * @memberof CreateUnitCommand
+     * @memberof CreateSeriesCommand
      */
-    unitId?: number;
+    id?: number;
+    /**
+     * 
+     * @type {PlayableSeriesDetailsDto}
+     * @memberof CreateSeriesCommand
+     */
+    playableSeries?: PlayableSeriesDetailsDto | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof CreateSeriesCommand
      */
-    slugName?: string | null;
+    slugName?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof CreateSeriesCommand
      */
     nameEnglish?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof CreateSeriesCommand
      */
     nameJapanese?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof CreateSeriesCommand
      */
     nameChinese?: string | null;
-    /**
-     * 
-     * @type {SeriesVm}
-     * @memberof CreateUnitCommand
-     */
-    series?: SeriesVm | null;
 }
 
 /**
- * Check if a given object implements the CreateUnitCommand interface.
+ * Check if a given object implements the CreateSeriesCommand interface.
  */
-export function instanceOfCreateUnitCommand(value: object): value is CreateUnitCommand {
+export function instanceOfCreateSeriesCommand(value: object): value is CreateSeriesCommand {
     return true;
 }
 
-export function CreateUnitCommandFromJSON(json: any): CreateUnitCommand {
-    return CreateUnitCommandFromJSONTyped(json, false);
+export function CreateSeriesCommandFromJSON(json: any): CreateSeriesCommand {
+    return CreateSeriesCommandFromJSONTyped(json, false);
 }
 
-export function CreateUnitCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateUnitCommand {
+export function CreateSeriesCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateSeriesCommand {
     if (json == null) {
         return json;
     }
     return {
         
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'id': json['id'] == null ? undefined : json['id'],
+        'playableSeries': json['playableSeries'] == null ? undefined : PlayableSeriesDetailsDtoFromJSON(json['playableSeries']),
         'slugName': json['slugName'] == null ? undefined : json['slugName'],
         'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
         'nameChinese': json['nameChinese'] == null ? undefined : json['nameChinese'],
-        'series': json['series'] == null ? undefined : SeriesVmFromJSON(json['series']),
     };
 }
 
-export function CreateUnitCommandToJSON(value?: CreateUnitCommand | null): any {
+export function CreateSeriesCommandToJSON(value?: CreateSeriesCommand | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'unitId': value['unitId'],
+        'id': value['id'],
+        'playableSeries': PlayableSeriesDetailsDtoToJSON(value['playableSeries']),
         'slugName': value['slugName'],
         'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],
         'nameChinese': value['nameChinese'],
-        'series': SeriesVmToJSON(value['series']),
     };
 }
 

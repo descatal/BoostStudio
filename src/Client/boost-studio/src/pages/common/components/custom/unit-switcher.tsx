@@ -2,10 +2,11 @@
 
 import * as React from "react"
 import { useCallback, useEffect, useState } from "react"
-import { UnitDto } from "@/api/exvs"
+import {BASE_PATH, UnitSummaryVm} from "@/api/exvs"
 import { fetchUnits } from "@/api/wrapper/units-api"
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import { GoPlus } from "react-icons/go"
+import _ from "lodash";
 
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -18,15 +19,16 @@ import {
 import VirtualizedCommand from "@/components/virtualized-command"
 
 type UnitGroup = {
+  id: number
   label: string
-  units: UnitDto[]
+  units: UnitSummaryVm[]
 }
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 interface UnitSwitcherProps extends PopoverTriggerProps {
-  selectedUnits: UnitDto[] | undefined
-  setSelectedUnits: (selectedUnits: UnitDto[] | undefined) => void
+  selectedUnits: UnitSummaryVm[] | undefined
+  setSelectedUnits: (selectedUnits: UnitSummaryVm[] | undefined) => void
   multipleSelect?: boolean | undefined
 }
 
@@ -38,24 +40,21 @@ export default function UnitSwitcher({
   ...props
 }: UnitSwitcherProps) {
   const [unitGroups, setUnitGroups] = useState<UnitGroup[]>([])
+  const [allUnits, setAllUnits] = useState<UnitSummaryVm[]>([])
 
   const [open, setOpen] = React.useState(false)
 
   const getData = useCallback(async () => {
     let units = await fetchUnits({})
     units = units.sort((a, b) => (a.unitId ?? 0) - (b.unitId ?? 0))
-    // const mappedUnits = units.map((item) => {
-    //   return {
-    //     label: item.name ?? "",
-    //     value: item.unitId ?? 0,
-    //   }
-    // })
-    const group: UnitGroup[] = [
-      {
-        label: "All",
-        units: units,
-      },
-    ]
+
+    const unitsBySeriesId = Object.groupBy(units, (user) => user.series?.id ?? 0);
+    const group = Object.entries(unitsBySeriesId).map(([seriesId, units]) => ({
+      id: Number(seriesId),
+      label: units ? units[0].series?.nameEnglish ?? "" : "",
+      units: units ?? []
+    }));
+
     setUnitGroups(group)
   }, [])
 
@@ -65,11 +64,13 @@ export default function UnitSwitcher({
 
   useEffect(() => {
     if (unitGroups.length <= 0) return
-    const units = unitGroups[0]?.units?.filter((unit) =>
+    const units = unitGroups?.flatMap(x => x.units);
+    const filteredUnits = units.filter((unit) =>
       selectedUnits?.some((x) => x.unitId === unit.unitId)
-    )
+    );
 
-    setSelectedUnits(units)
+    setAllUnits(units)
+    setSelectedUnits(filteredUnits)
   }, [unitGroups])
 
   return (
@@ -87,29 +88,29 @@ export default function UnitSwitcher({
             <AvatarImage
               src={
                 selectedUnits
-                  ? `https://localhost:5001/assets/${selectedUnits[0]?.unitId ?? "default"}.png`
+                  ? `${BASE_PATH}/assets/${selectedUnits[0]?.unitId ?? "default"}.png`
                   : ""
               }
-              alt={selectedUnits ? (selectedUnits[0]?.name ?? "") : ""}
+              alt={selectedUnits ? (selectedUnits[0]?.nameEnglish ?? "") : ""}
             />
             <AvatarFallback>
-              {selectedUnits ? (selectedUnits[0]?.name?.charAt(0) ?? "G") : "G"}
+              {selectedUnits ? (selectedUnits[0]?.nameEnglish?.charAt(0) ?? "G") : "G"}
             </AvatarFallback>
           </Avatar>
           {selectedUnits ? (
             selectedUnits.length <= 1 ? (
-              (selectedUnits[0]?.name ?? "Select a unit")
+              (selectedUnits[0]?.nameEnglish ?? "Select a unit")
             ) : (
               <div className={"flex flex-row items-center"}>
                 {selectedUnits.length >= 2 && (
                   <Avatar className="mr-2 h-5 w-5">
                     <AvatarImage
-                      src={`https://localhost:5001/assets/${selectedUnits[1]?.unitId}.png`}
-                      alt={selectedUnits[1]?.name ?? ""}
+                      src={`${BASE_PATH}/assets/${selectedUnits[1]?.unitId}.png`}
+                      alt={selectedUnits[1]?.nameEnglish ?? ""}
                     />
                     <AvatarFallback>
                       {selectedUnits
-                        ? (selectedUnits[1]?.name?.charAt(0) ?? "G")
+                        ? (selectedUnits[1]?.nameEnglish?.charAt(0) ?? "G")
                         : "G"}
                     </AvatarFallback>
                   </Avatar>
@@ -118,12 +119,12 @@ export default function UnitSwitcher({
                   <>
                     <Avatar className="mr-2 h-5 w-5 bg-red-400">
                       <AvatarImage
-                        src={`https://localhost:5001/assets/${selectedUnits[2]?.unitId}.png`}
-                        alt={selectedUnits[2]?.name ?? ""}
+                        src={`${BASE_PATH}/assets/${selectedUnits[2]?.unitId}.png`}
+                        alt={selectedUnits[2]?.nameEnglish ?? ""}
                       />
                       <AvatarFallback>
                         {selectedUnits
-                          ? (selectedUnits[2]?.name?.charAt(0) ?? "G")
+                          ? (selectedUnits[2]?.nameEnglish?.charAt(0) ?? "G")
                           : "G"}
                       </AvatarFallback>
                     </Avatar>
@@ -142,10 +143,10 @@ export default function UnitSwitcher({
         <VirtualizedCommand
           height={"450px"}
           options={
-            unitGroups[0]?.units?.map((option) => ({
+            allUnits?.map((option) => ({
               value: option.unitId!.toString(),
-              label: option.name ?? "",
-              imageSrc: `https://localhost:5001/assets/${option.unitId ?? "default"}.png`,
+              label: option.nameEnglish ?? "",
+              imageSrc: `${BASE_PATH}/assets/${option.unitId ?? "default"}.png`,
             })) ?? []
           }
           placeholder={"Search units..."}
@@ -155,8 +156,8 @@ export default function UnitSwitcher({
               .map((option) => option.unitId!.toString()) ?? []
           }
           onSelectOptions={(options) => {
-            const units = unitGroups[0]?.units.filter((unitDto) =>
-              options.some((option) => option === unitDto.unitId?.toString())
+            const units = allUnits?.filter((x) =>
+              options.some((option) => option === x.unitId?.toString())
             )
             setSelectedUnits(units)
 

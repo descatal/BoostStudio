@@ -98,6 +98,9 @@ dependencies:
   '@tabler/icons-react':
     specifier: ^3.10.0
     version: 3.10.0(react@18.2.0)
+  '@tanstack/react-query':
+    specifier: ^5.62.15
+    version: 5.62.15(react@18.2.0)
   '@tanstack/react-table':
     specifier: ^8.19.3
     version: 8.19.3(react-dom@18.2.0)(react@18.2.0)
@@ -119,6 +122,9 @@ dependencies:
   '@tauri-apps/plugin-window':
     specifier: 2.0.0-alpha.0
     version: 2.0.0-alpha.0
+  '@uidotdev/usehooks':
+    specifier: ^2.4.1
+    version: 2.4.1(react-dom@18.2.0)(react@18.2.0)
   '@vitejs/plugin-react-swc':
     specifier: ^3.3.2
     version: 3.3.2(vite@4.4.8)
@@ -224,8 +230,8 @@ devDependencies:
     specifier: ^0.11.2
     version: 0.11.2
   typescript:
-    specifier: ^5.1.6
-    version: 5.1.6
+    specifier: ^5.7.2
+    version: 5.7.2
   vite:
     specifier: ^4.4.8
     version: 4.4.8(@types/node@20.14.10)
@@ -2758,6 +2764,19 @@ packages:
     resolution: {integrity: sha512-jCMO+hDTw8Gn1CNb15zIENLQ9b0UplGXtjMnEUhDoKH+Q4fta8tBLUxZpPpFtpV+q+gzGqfM76xNAoD1GBpmnA==}
     dev: false
 
+  /@tanstack/query-core@5.62.15:
+    resolution: {integrity: sha512-wT20X14CxcWY8YLJ/1pnsXn/y1Q2uRJZYWW93PWRtZt+3/JlGZyiyTcO4pGnqycnP7CokCROAyatsraosqZsDA==}
+    dev: false
+
+  /@tanstack/react-query@5.62.15(react@18.2.0):
+    resolution: {integrity: sha512-Ny3xxsOWmEQCFyHiV3CF7t6+QAV+LpBEREiXyllKR4+tStyd8smOAa98ZHmEx0ZNy36M31K8enifB5wTSYAKJw==}
+    peerDependencies:
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-core': 5.62.15
+      react: 18.2.0
+    dev: false
+
   /@tanstack/react-table@8.19.3(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-MtgPZc4y+cCRtU16y1vh1myuyZ2OdkWgMEBzyjYsoMWMicKZGZvcDnub3Zwb6XF2pj9iRMvm1SO1n57lS0vXLw==}
     engines: {node: '>=12'}
@@ -3013,6 +3032,17 @@ packages:
 
   /@types/scheduler@0.16.3:
     resolution: {integrity: sha512-5cJ8CB4yAx7BH1oMvdU0Jh9lrEXyPkar6F9G/ERswkCuvP4KQZfZkSjcMbAICCpQTN4OuZn8tz0HiKv9TGZgrQ==}
+
+  /@uidotdev/usehooks@2.4.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-1I+RwWyS+kdv3Mv0Vmc+p0dPYH0DTRAo04HLyXReYBL9AeseDWUJyi4THuksBJcu9F0Pih69Ak150VDnqbVnXg==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   /@vitejs/plugin-react-swc@3.3.2(vite@4.4.8):
     resolution: {integrity: sha512-VJFWY5sfoZerQRvJrh518h3AcQt6f/yTuWn4/TRB+dqmYU0NX1qz7qM5Wfd+gOQqUzQW4gxKqKN3KpE/P3+zrA==}
@@ -5386,8 +5416,8 @@ packages:
       - supports-color
     dev: true
 
-  /typescript@5.1.6:
-    resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}
+  /typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true

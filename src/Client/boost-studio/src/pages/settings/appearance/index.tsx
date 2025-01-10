@@ -117,8 +117,7 @@ const Appearance = () => {
             </FormItem>
           )}
         />
-
-        <Button type="submit">Update preferences</Button>
+        <Button>Update preferences</Button>
       </form>
     </Form>
   )

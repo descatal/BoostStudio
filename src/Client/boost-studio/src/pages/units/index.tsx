@@ -1,45 +1,41 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { UnitDto } from "@/api/exvs"
-import { fetchUnits } from "@/api/wrapper/units-api"
-import { Link, useLocation } from "react-router-dom"
+import React, {useState} from "react"
+import {UnitSummaryVm} from "@/api/exvs"
+import {Link} from "react-router-dom"
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
+import {Button} from "@/components/ui/button"
+import {Input} from "@/components/ui/input"
+import {Separator} from "@/components/ui/separator"
 
 import UnitCard from "./components/unit-card"
+import {keepPreviousData, useQuery} from "@tanstack/react-query"
+import {useAppContext} from "@/providers/app-store-provider"
+import {useDebounce} from "@uidotdev/usehooks"
 
 const UnitsPage = () => {
-  const [search, setSearch] = useState("")
-  const [debouncedSearch, setDebouncedSearch] = useState("")
+  const unitsApi = useAppContext((s) => s.unitsApi)
 
-  const [units, setUnits] = useState<UnitDto[]>([])
-  const [selectedUnit, setSelectedUnit] = useState<UnitDto | undefined>(
+  const [search, setSearch] = useState("")
+  const debouncedSearchParam = useDebounce(search, 1000)
+  const [selectedUnit, setSelectedUnit] = useState<UnitSummaryVm | undefined>(
     undefined
   )
 
-  const getData = useCallback(async () => {
-    let units = await fetchUnits({
-      search: debouncedSearch,
-    })
-    units = units.sort((a, b) => (a.unitId ?? 0) - (b.unitId ?? 0))
-    setUnits(units)
-  }, [debouncedSearch])
+  const query = useQuery({
+      queryKey: ["getApiUnits", debouncedSearchParam],
+      queryFn: async () => {
+        const unitsSummary = await unitsApi.getApiUnits({
+          search: debouncedSearchParam
+        })
+        return Object.groupBy(unitsSummary, (unitSummaryVm) => {
+          return unitSummaryVm.series?.slugName ?? "unknown"
+        })
+      },
+      placeholderData: keepPreviousData,
+      staleTime: 1000
+    }
+  );
 
-  useEffect(() => {
-    getData().catch((e) => console.error(e))
-  }, [])
-
-  useEffect(() => {
-    getData().catch((e) => console.error(e))
-  }, [debouncedSearch])
-
-  useEffect(() => {
-    const delayInputTimeoutId = setTimeout(() => {
-      setDebouncedSearch(search)
-    }, 200)
-    return () => clearTimeout(delayInputTimeoutId)
-  }, [search, 200])
+  const groupedData = query.data;
 
   return (
     <div className="flex flex-col items-center">
@@ -47,9 +43,7 @@ const UnitsPage = () => {
         <Input
           placeholder={"Search units"}
           value={search}
-          onChange={(event) => {
-            setSearch(event.target.value)
-          }}
+          onChange={e => setSearch(e.target.value)}
           className={"m-2 h-8 w-[300px]"}
         />
         {selectedUnit && (
@@ -58,18 +52,27 @@ const UnitsPage = () => {
           </Link>
         )}
       </div>
-      <Separator />
-      <div className="grid gap-3 p-6 md:grid-cols-2 lg:grid-cols-3">
-        {units?.map((unit) => (
-          <UnitCard
-            className={"cursor-pointer"}
-            onClick={() => setSelectedUnit(unit)}
-            key={unit.unitId}
-            unit={unit}
-            selected={selectedUnit?.unitId === unit.unitId}
-          />
-        ))}
-      </div>
+      <Separator/>
+      {groupedData && Object.keys(groupedData)?.map((seriesSlugName) => (
+        <>
+          {groupedData[seriesSlugName] ? groupedData[seriesSlugName]![0].series?.nameEnglish ?? "Unknown" : "Unknown"}
+          <div className={"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6"}>
+            {
+              groupedData[seriesSlugName]?.map((unit) => (
+                <UnitCard
+                  className={"cursor-pointer"}
+                  onClick={() => setSelectedUnit(unit)}
+                  key={unit.unitId}
+                  unit={unit}
+                  selected={selectedUnit?.unitId === unit.unitId}
+                />
+              ))
+            }
+          </div>
+          <Separator/>
+        </>
+
+      ))}
     </div>
   )
 }

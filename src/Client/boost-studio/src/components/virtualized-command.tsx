@@ -9,7 +9,7 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
-  CommandItem,
+  CommandItem, CommandList,
 } from "@/components/ui/command"
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
@@ -68,8 +68,7 @@ const VirtualizedCommand = ({
   return (
     <Command shouldFilter={false} onKeyDown={handleKeyDown}>
       <CommandInput onValueChange={handleSearch} placeholder={placeholder} />
-      <CommandEmpty>No item found.</CommandEmpty>
-      <CommandGroup
+      <CommandList
         ref={parentRef}
         style={{
           height: height,
@@ -77,81 +76,84 @@ const VirtualizedCommand = ({
           overflow: "auto",
         }}
       >
-        <div
-          style={{
-            height: `${virtualizer.getTotalSize()}px`,
-            width: "100%",
-            position: "relative",
-          }}
-        >
-          {virtualOptions.map((virtualOption) => (
-            <CommandItem
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: `${virtualOption.size}px`,
-                transform: `translateY(${virtualOption.start}px)`,
-              }}
-              key={filteredOptions[virtualOption.index].value}
-              value={filteredOptions[virtualOption.index].value}
-              onSelect={() => {
-                if (!onSelectOptions) return
+        <CommandEmpty>No item found.</CommandEmpty>
+        <CommandGroup>
+          <div
+            style={{
+              height: `${virtualizer.getTotalSize()}px`,
+              width: "100%",
+              position: "relative",
+            }}
+          >
+            {virtualOptions.map((virtualOption) => (
+              <CommandItem
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: `${virtualOption.size}px`,
+                  transform: `translateY(${virtualOption.start}px)`,
+                }}
+                key={filteredOptions[virtualOption.index].value}
+                value={filteredOptions[virtualOption.index].value}
+                onSelect={() => {
+                  if (!onSelectOptions) return
 
-                if (!selectedOptions) selectedOptions = []
-                const selectedOption =
-                  filteredOptions[virtualOption.index].value
+                  if (!selectedOptions) selectedOptions = []
+                  const selectedOption =
+                    filteredOptions[virtualOption.index].value
 
-                if (multipleSelect) {
-                  // add the newly selected unit to the list
-                  // if it is previously selected, remove it
-                  const ifExist = selectedOptions.some(
-                    (option) => option === selectedOption
-                  )
-
-                  if (ifExist) {
-                    // deselect the unit
-                    const filteredUnits = selectedOptions.filter(
-                      (selectOption) => selectOption !== selectedOption
+                  if (multipleSelect) {
+                    // add the newly selected unit to the list
+                    // if it is previously selected, remove it
+                    const ifExist = selectedOptions.some(
+                      (option) => option === selectedOption
                     )
-                    onSelectOptions(filteredUnits)
+
+                    if (ifExist) {
+                      // deselect the unit
+                      const filteredUnits = selectedOptions.filter(
+                        (selectOption) => selectOption !== selectedOption
+                      )
+                      onSelectOptions(filteredUnits)
+                    } else {
+                      onSelectOptions([...selectedOptions, selectedOption])
+                    }
                   } else {
-                    onSelectOptions([...selectedOptions, selectedOption])
+                    onSelectOptions([selectedOption])
                   }
-                } else {
-                  onSelectOptions([selectedOption])
-                }
-              }}
-            >
-              {filteredOptions[virtualOption.index].imageSrc && (
-                <Avatar className="mr-2 h-5 w-5">
-                  <AvatarImage
-                    src={filteredOptions[virtualOption.index].imageSrc}
-                    alt={filteredOptions[virtualOption.index].label}
-                  />
-                  <AvatarFallback>
-                    {filteredOptions[virtualOption.index].label.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
-              )}
-              {filteredOptions[virtualOption.index].label}
-              <Check
-                className={cn(
-                  "ml-auto h-4 w-4",
-                  selectedOptions?.some(
-                    (selectedOption) =>
-                      selectedOption ===
-                      filteredOptions[virtualOption.index].value
-                  )
-                    ? "opacity-100"
-                    : "opacity-0"
+                }}
+              >
+                {filteredOptions[virtualOption.index].imageSrc && (
+                  <Avatar className="mr-2 h-5 w-5">
+                    <AvatarImage
+                      src={filteredOptions[virtualOption.index].imageSrc}
+                      alt={filteredOptions[virtualOption.index].label}
+                    />
+                    <AvatarFallback>
+                      {filteredOptions[virtualOption.index].label.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
                 )}
-              />
-            </CommandItem>
-          ))}
-        </div>
-      </CommandGroup>
+                {filteredOptions[virtualOption.index].label}
+                <Check
+                  className={cn(
+                    "ml-auto h-4 w-4",
+                    selectedOptions?.some(
+                      (selectedOption) =>
+                        selectedOption ===
+                        filteredOptions[virtualOption.index].value
+                    )
+                      ? "opacity-100"
+                      : "opacity-0"
+                  )}
+                />
+              </CommandItem>
+            ))}
+          </div>
+        </CommandGroup>
+      </CommandList>
     </Command>
   )
 }

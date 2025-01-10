@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react"
-import { UnitDto } from "@/api/exvs"
+import { UnitSummaryVm } from "@/api/exvs"
 import { fetchUnitById } from "@/api/wrapper/units-api"
 import UnitSwitcher from "@/pages/common/components/custom/unit-switcher"
 import { MainNav } from "@/pages/units/customize/components/main-nav"
@@ -65,7 +65,7 @@ const CustomizeUnitPage = () => {
             <div className="flex h-16 items-center px-4">
               <UnitSwitcher
                 selectedUnits={selectedUnits}
-                setSelectedUnits={(selectedUnits: UnitDto[] | undefined) => {
+                setSelectedUnits={(selectedUnits: UnitSummaryVm[] | undefined) => {
                   if (
                     !pathPattern ||
                     !selectedUnits ||

@@ -13,95 +13,80 @@
  */
 
 import { mapValues } from '../runtime';
-import type { SeriesVm } from './SeriesVm';
-import {
-    SeriesVmFromJSON,
-    SeriesVmFromJSONTyped,
-    SeriesVmToJSON,
-} from './SeriesVm';
-
 /**
  * 
  * @export
- * @interface CreateUnitCommand
+ * @interface SeriesVm
  */
-export interface CreateUnitCommand {
+export interface SeriesVm {
     /**
      * 
      * @type {number}
-     * @memberof CreateUnitCommand
+     * @memberof SeriesVm
      */
-    unitId?: number;
+    id?: number;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof SeriesVm
      */
-    slugName?: string | null;
+    slugName?: string;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof SeriesVm
      */
     nameEnglish?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof SeriesVm
      */
     nameJapanese?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof SeriesVm
      */
     nameChinese?: string | null;
-    /**
-     * 
-     * @type {SeriesVm}
-     * @memberof CreateUnitCommand
-     */
-    series?: SeriesVm | null;
 }
 
 /**
- * Check if a given object implements the CreateUnitCommand interface.
+ * Check if a given object implements the SeriesVm interface.
  */
-export function instanceOfCreateUnitCommand(value: object): value is CreateUnitCommand {
+export function instanceOfSeriesVm(value: object): value is SeriesVm {
     return true;
 }
 
-export function CreateUnitCommandFromJSON(json: any): CreateUnitCommand {
-    return CreateUnitCommandFromJSONTyped(json, false);
+export function SeriesVmFromJSON(json: any): SeriesVm {
+    return SeriesVmFromJSONTyped(json, false);
 }
 
-export function CreateUnitCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateUnitCommand {
+export function SeriesVmFromJSONTyped(json: any, ignoreDiscriminator: boolean): SeriesVm {
     if (json == null) {
         return json;
     }
     return {
         
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'id': json['id'] == null ? undefined : json['id'],
         'slugName': json['slugName'] == null ? undefined : json['slugName'],
         'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
         'nameChinese': json['nameChinese'] == null ? undefined : json['nameChinese'],
-        'series': json['series'] == null ? undefined : SeriesVmFromJSON(json['series']),
     };
 }
 
-export function CreateUnitCommandToJSON(value?: CreateUnitCommand | null): any {
+export function SeriesVmToJSON(value?: SeriesVm | null): any {
     if (value == null) {
         return value;
     }
     return {
         
-        'unitId': value['unitId'],
+        'id': value['id'],
         'slugName': value['slugName'],
         'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],
         'nameChinese': value['nameChinese'],
-        'series': SeriesVmToJSON(value['series']),
     };
 }
 

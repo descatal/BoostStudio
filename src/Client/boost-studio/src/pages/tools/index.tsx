@@ -4,7 +4,7 @@ import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-sea
 import {
   CommonAssetFileOptionsType,
   UnitAssetFileOptionsType,
-} from "@/pages/common/libs/constants"
+} from "@/lib/constants"
 import { IconBrowserCheck, IconUser } from "@tabler/icons-react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 

@@ -23,59 +23,59 @@ import {
 /**
  * 
  * @export
- * @interface CreateUnitCommand
+ * @interface UnitSummaryVm
  */
-export interface CreateUnitCommand {
+export interface UnitSummaryVm {
     /**
      * 
      * @type {number}
-     * @memberof CreateUnitCommand
+     * @memberof UnitSummaryVm
      */
     unitId?: number;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof UnitSummaryVm
      */
     slugName?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof UnitSummaryVm
      */
     nameEnglish?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof UnitSummaryVm
      */
     nameJapanese?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateUnitCommand
+     * @memberof UnitSummaryVm
      */
     nameChinese?: string | null;
     /**
      * 
      * @type {SeriesVm}
-     * @memberof CreateUnitCommand
+     * @memberof UnitSummaryVm
      */
     series?: SeriesVm | null;
 }
 
 /**
- * Check if a given object implements the CreateUnitCommand interface.
+ * Check if a given object implements the UnitSummaryVm interface.
  */
-export function instanceOfCreateUnitCommand(value: object): value is CreateUnitCommand {
+export function instanceOfUnitSummaryVm(value: object): value is UnitSummaryVm {
     return true;
 }
 
-export function CreateUnitCommandFromJSON(json: any): CreateUnitCommand {
-    return CreateUnitCommandFromJSONTyped(json, false);
+export function UnitSummaryVmFromJSON(json: any): UnitSummaryVm {
+    return UnitSummaryVmFromJSONTyped(json, false);
 }
 
-export function CreateUnitCommandFromJSONTyped(json: any, ignoreDiscriminator: boolean): CreateUnitCommand {
+export function UnitSummaryVmFromJSONTyped(json: any, ignoreDiscriminator: boolean): UnitSummaryVm {
     if (json == null) {
         return json;
     }
@@ -90,7 +90,7 @@ export function CreateUnitCommandFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function CreateUnitCommandToJSON(value?: CreateUnitCommand | null): any {
+export function UnitSummaryVmToJSON(value?: UnitSummaryVm | null): any {
     if (value == null) {
         return value;
     }

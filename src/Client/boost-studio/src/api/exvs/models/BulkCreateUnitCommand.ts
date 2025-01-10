@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { UnitDto } from './UnitDto';
+import type { UnitSummaryVm } from './UnitSummaryVm';
 import {
-    UnitDtoFromJSON,
-    UnitDtoFromJSONTyped,
-    UnitDtoToJSON,
-} from './UnitDto';
+    UnitSummaryVmFromJSON,
+    UnitSummaryVmFromJSONTyped,
+    UnitSummaryVmToJSON,
+} from './UnitSummaryVm';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface BulkCreateUnitCommand {
     /**
      * 
-     * @type {Array<UnitDto>}
+     * @type {Array<UnitSummaryVm>}
      * @memberof BulkCreateUnitCommand
      */
-    units: Array<UnitDto>;
+    units: Array<UnitSummaryVm>;
 }
 
 /**
@@ -52,7 +52,7 @@ export function BulkCreateUnitCommandFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'units': ((json['units'] as Array<any>).map(UnitDtoFromJSON)),
+        'units': ((json['units'] as Array<any>).map(UnitSummaryVmFromJSON)),
     };
 }
 
@@ -62,7 +62,7 @@ export function BulkCreateUnitCommandToJSON(value?: BulkCreateUnitCommand | null
     }
     return {
         
-        'units': ((value['units'] as Array<any>).map(UnitDtoToJSON)),
+        'units': ((value['units'] as Array<any>).map(UnitSummaryVmToJSON)),
     };
 }
 

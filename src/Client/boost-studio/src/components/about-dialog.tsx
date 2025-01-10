@@ -86,7 +86,6 @@ export function AboutDialog() {
         </div>
 
         <Button
-          type="submit"
           variant="outline"
           className="h-7 gap-1"
           onClick={() => setUpdateText("You have the latest version.")}
@@ -94,7 +93,6 @@ export function AboutDialog() {
           <UpdateIcon /> Check for Updates
         </Button>
         <DialogPrimitive.Close
-          type="submit"
           className={buttonVariants({ variant: "ghost", className: "h-7" })}
         >
           Close

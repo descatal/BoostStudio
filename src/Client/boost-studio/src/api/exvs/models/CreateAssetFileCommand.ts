@@ -34,10 +34,10 @@ export interface CreateAssetFileCommand {
     order?: number;
     /**
      * 
-     * @type {AssetFileType}
+     * @type {Array<AssetFileType>}
      * @memberof CreateAssetFileCommand
      */
-    fileType?: AssetFileType;
+    fileType?: Array<AssetFileType>;
     /**
      * 
      * @type {number}
@@ -64,7 +64,7 @@ export function CreateAssetFileCommandFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'order': json['order'] == null ? undefined : json['order'],
-        'fileType': json['fileType'] == null ? undefined : AssetFileTypeFromJSON(json['fileType']),
+        'fileType': json['fileType'] == null ? undefined : ((json['fileType'] as Array<any>).map(AssetFileTypeFromJSON)),
         'gameUnitId': json['gameUnitId'] == null ? undefined : json['gameUnitId'],
     };
 }
@@ -76,7 +76,7 @@ export function CreateAssetFileCommandToJSON(value?: CreateAssetFileCommand | nu
     return {
         
         'order': value['order'],
-        'fileType': AssetFileTypeToJSON(value['fileType']),
+        'fileType': value['fileType'] == null ? undefined : ((value['fileType'] as Array<any>).map(AssetFileTypeToJSON)),
         'gameUnitId': value['gameUnitId'],
     };
 }

@@ -1,11 +1,11 @@
 ﻿import React from "react"
-import { AssetFileType, AssetFileVm, UnitDto } from "@/api/exvs"
+import { AssetFileType, AssetFileVm, UnitSummaryVm } from "@/api/exvs"
 import { fetchAssetFiles } from "@/api/wrapper/asset-api"
 import SelectAssetFileType from "@/pages/common/components/selects/select-asset-file-type"
 import {
   CommonAssetFileOptionsType,
   UnitAssetFileOptionsType,
-} from "@/pages/common/libs/constants"
+} from "@/lib/constants"
 
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import UnitSwitcher from "./unit-switcher"
 
 interface AssetFilesSearcherProps {
-  units?: UnitDto[] | undefined
+  units?: UnitSummaryVm[] | undefined
   setResultAssetFiles: (resultAssetFiles: AssetFileVm[] | undefined) => void
 }
 
@@ -24,11 +24,14 @@ const AssetFilesSearcher = ({
   const [selectedTab, setSelectedTab] = React.useState<"unit" | "common">(
     "unit"
   )
+
   const [selectedUnits, setSelectedUnits] = React.useState<
-    UnitDto[] | undefined
+    UnitSummaryVm[] | undefined
   >()
+
   const [selectedUnitAssetFileType, setSelectedUnitAssetFileType] =
     React.useState<UnitAssetFileOptionsType>()
+
   const [selectedCommonAssetFileType, setSelectedCommonAssetFileType] =
     React.useState<CommonAssetFileOptionsType>()
 
@@ -74,7 +77,7 @@ const AssetFilesSearcher = ({
       }
     }
 
-    search().catch((error) => console.error(error))
+  search().catch((error) => console.error(error))
   }, [
     selectedTab,
     selectedUnits,
@@ -115,7 +118,7 @@ const AssetFilesSearcher = ({
               setSelectedUnitAssetFileType={(type) =>
                 setSelectedUnitAssetFileType(type as UnitAssetFileOptionsType)
               }
-            ></SelectAssetFileType>
+            />
           </div>
         </TabsContent>
         <TabsContent value="common" className="space-y-4">

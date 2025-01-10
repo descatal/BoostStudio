@@ -1,5 +1,4 @@
 ﻿import React from "react"
-import {UnitDto} from "@/api/exvs"
 
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
@@ -8,9 +7,6 @@ import {toast} from "@/components/ui/use-toast"
 import {Icons} from "@/components/icons"
 import {ArrowBigDownDash} from "lucide-react";
 import {Switch} from "@/components/ui/switch";
-import {exportHitboxes} from "@/api/wrapper/hitbox-api";
-import {Label} from "@/components/ui/label";
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher";
 import {exportAmmo} from "@/api/wrapper/ammo-api";
 
 interface AmmoExportProps {
