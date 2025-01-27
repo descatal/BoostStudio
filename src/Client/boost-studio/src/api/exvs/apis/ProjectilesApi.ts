@@ -19,7 +19,9 @@ import type {
   ExportUnitProjectileByPathCommand,
   ExportUnitProjectileCommand,
   PaginatedListOfProjectileDto,
+  PaginatedListOfUnitProjectileDto,
   ProjectileDto,
+  UnitProjectileDto,
   UpdateProjectileByIdCommand,
 } from '../models/index';
 import {
@@ -31,8 +33,12 @@ import {
     ExportUnitProjectileCommandToJSON,
     PaginatedListOfProjectileDtoFromJSON,
     PaginatedListOfProjectileDtoToJSON,
+    PaginatedListOfUnitProjectileDtoFromJSON,
+    PaginatedListOfUnitProjectileDtoToJSON,
     ProjectileDtoFromJSON,
     ProjectileDtoToJSON,
+    UnitProjectileDtoFromJSON,
+    UnitProjectileDtoToJSON,
     UpdateProjectileByIdCommandFromJSON,
     UpdateProjectileByIdCommandToJSON,
 } from '../models/index';
@@ -201,7 +207,7 @@ export class ProjectilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiUnitProjectilesRaw(requestParameters: GetApiUnitProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiUnitProjectilesRaw(requestParameters: GetApiUnitProjectilesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfUnitProjectileDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -229,18 +235,19 @@ export class ProjectilesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfUnitProjectileDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiUnitProjectiles(requestParameters: GetApiUnitProjectilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiUnitProjectilesRaw(requestParameters, initOverrides);
+    async getApiUnitProjectiles(requestParameters: GetApiUnitProjectilesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfUnitProjectileDto> {
+        const response = await this.getApiUnitProjectilesRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      */
-    async getApiUnitProjectilesByUnitIdRaw(requestParameters: GetApiUnitProjectilesByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiUnitProjectilesByUnitIdRaw(requestParameters: GetApiUnitProjectilesByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UnitProjectileDto>> {
         if (requestParameters['unitId'] == null) {
             throw new runtime.RequiredError(
                 'unitId',
@@ -259,13 +266,14 @@ export class ProjectilesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => UnitProjectileDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiUnitProjectilesByUnitId(requestParameters: GetApiUnitProjectilesByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiUnitProjectilesByUnitIdRaw(requestParameters, initOverrides);
+    async getApiUnitProjectilesByUnitId(requestParameters: GetApiUnitProjectilesByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UnitProjectileDto> {
+        const response = await this.getApiUnitProjectilesByUnitIdRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

@@ -1,17 +1,9 @@
-﻿{
+{
   "openapi": "3.0.1",
   "info": {
     "title": "BoostStudio.Web | exvs",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "https://localhost:5001"
-    },
-    {
-      "url": "http://localhost:5000"
-    }
-  ],
   "paths": {
     "/api/ammo": {
       "get": {
@@ -127,7 +119,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AmmoDto"
+                }
+              }
             }
           }
         }
@@ -859,7 +855,11 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/LanguageSettings"
+                "enum": [
+                  "English",
+                  "Japanese",
+                  "Chinese"
+                ]
               },
               "default": null
             }
@@ -1236,6 +1236,18 @@
           },
           {
             "name": "UnitIds",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "uint32"
+              },
+              "default": null
+            }
+          },
+          {
+            "name": "AssetFileHashes",
             "in": "query",
             "schema": {
               "type": "array",
@@ -2431,7 +2443,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfUnitProjectileDto"
+                }
+              }
             }
           }
         }
@@ -2458,7 +2474,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnitProjectileDto"
+                }
+              }
             }
           }
         }
@@ -2796,7 +2816,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfHitboxGroupDto"
+                }
+              }
             }
           }
         }
@@ -2844,7 +2868,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HitboxGroupDto"
+                }
+              }
             }
           }
         }
@@ -2871,7 +2899,11 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": { }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HitboxGroupDto"
+                }
+              }
             }
           }
         }
@@ -3373,6 +3405,38 @@
             "nullable": true
           }
         }
+      },
+      "AssetFileDto": {
+        "required": [
+          "hash",
+          "order",
+          "fileType",
+          "units"
+        ],
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "order": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "fileType": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssetFileType"
+            }
+          },
+          "units": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UnitSummaryVm"
+            }
+          }
+        },
+        "nullable": true
       },
       "AssetFileType": {
         "enum": [
@@ -5289,13 +5353,6 @@
           "$ref": "#/components/schemas/IFormFile"
         }
       },
-      "LanguageSettings": {
-        "enum": [
-          "English",
-          "Japanese",
-          "Chinese"
-        ]
-      },
       "NullableOfCompressionType": {
         "enum": [
           "None",
@@ -5537,63 +5594,7 @@
           "items": {
             "type": "array",
             "items": {
-              "required": [
-                "id",
-                "tblId"
-              ],
-              "type": "object",
-              "properties": {
-                "assetFile": {
-                  "required": [
-                    "hash",
-                    "order",
-                    "fileType",
-                    "units"
-                  ],
-                  "type": "object",
-                  "properties": {
-                    "hash": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "order": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "fileType": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/AssetFileType"
-                      }
-                    },
-                    "units": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/UnitSummaryVm"
-                      }
-                    }
-                  },
-                  "nullable": true
-                },
-                "id": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "tblId": {
-                  "$ref": "#/components/schemas/PatchFileVersion"
-                },
-                "pathInfo": {
-                  "$ref": "#/components/schemas/PathInfoDto"
-                },
-                "fileInfo": {
-                  "$ref": "#/components/schemas/FileInfoDto"
-                },
-                "assetFileHash": {
-                  "type": "integer",
-                  "format": "uint32",
-                  "nullable": true
-                }
-              }
+              "$ref": "#/components/schemas/PatchFileSummaryVm"
             }
           },
           "pageNumber": {
@@ -5695,31 +5696,7 @@
           "items": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "format": "uint8"
-                },
-                "playableSeries": {
-                  "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
-                },
-                "slugName": {
-                  "type": "string"
-                },
-                "nameEnglish": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "nameJapanese": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "nameChinese": {
-                  "type": "string",
-                  "nullable": true
-                }
-              }
+              "$ref": "#/components/schemas/SeriesDto"
             }
           },
           "pageNumber": {
@@ -5753,34 +5730,7 @@
           "items": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "units": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UnitSummaryVm"
-                  }
-                },
-                "id": {
-                  "type": "integer",
-                  "format": "uint8"
-                },
-                "slugName": {
-                  "type": "string"
-                },
-                "nameEnglish": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "nameJapanese": {
-                  "type": "string",
-                  "nullable": true
-                },
-                "nameChinese": {
-                  "type": "string",
-                  "nullable": true
-                }
-              }
+              "$ref": "#/components/schemas/SeriesUnitsVm"
             }
           },
           "pageNumber": {
@@ -5902,6 +5852,49 @@
           },
           "hasNextPage": {
             "type": "boolean"
+          }
+        }
+      },
+      "PatchFileMetadataDto": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "default": null,
+            "nullable": true
+          },
+          "fileInfoMetadata": {
+            "$ref": "#/components/schemas/TblFileInfoMetadata"
+          }
+        }
+      },
+      "PatchFileSummaryVm": {
+        "required": [
+          "id",
+          "tblId"
+        ],
+        "type": "object",
+        "properties": {
+          "assetFile": {
+            "$ref": "#/components/schemas/AssetFileDto"
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "tblId": {
+            "$ref": "#/components/schemas/PatchFileVersion"
+          },
+          "pathInfo": {
+            "$ref": "#/components/schemas/PathInfoDto"
+          },
+          "fileInfo": {
+            "$ref": "#/components/schemas/FileInfoDto"
+          },
+          "assetFileHash": {
+            "type": "integer",
+            "format": "uint32",
+            "nullable": true
           }
         }
       },
@@ -6537,58 +6530,7 @@
           "fileMetadata": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "path": {
-                  "type": "string",
-                  "default": null,
-                  "nullable": true
-                },
-                "fileInfoMetadata": {
-                  "required": [
-                    "cumulativeIndex",
-                    "patchNumber",
-                    "size1",
-                    "size2",
-                    "size3",
-                    "size4",
-                    "hashName"
-                  ],
-                  "type": "object",
-                  "properties": {
-                    "cumulativeIndex": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "patchNumber": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size1": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size2": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size3": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size4": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "hashName": {
-                      "type": "integer",
-                      "format": "uint32"
-                    }
-                  },
-                  "default": null,
-                  "nullable": true
-                }
-              }
+              "$ref": "#/components/schemas/PatchFileMetadataDto"
             }
           },
           "pathOrder": {
@@ -6597,6 +6539,63 @@
               "type": "string"
             },
             "default": null,
+            "nullable": true
+          }
+        }
+      },
+      "SeriesDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "playableSeries": {
+            "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+          },
+          "slugName": {
+            "type": "string"
+          },
+          "nameEnglish": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameJapanese": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameChinese": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SeriesUnitsVm": {
+        "type": "object",
+        "properties": {
+          "units": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UnitSummaryVm"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "uint8"
+          },
+          "slugName": {
+            "type": "string"
+          },
+          "nameEnglish": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameJapanese": {
+            "type": "string",
+            "nullable": true
+          },
+          "nameChinese": {
+            "type": "string",
             "nullable": true
           }
         }
@@ -7228,58 +7227,7 @@
           "fileMetadata": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "path": {
-                  "type": "string",
-                  "default": null,
-                  "nullable": true
-                },
-                "fileInfoMetadata": {
-                  "required": [
-                    "cumulativeIndex",
-                    "patchNumber",
-                    "size1",
-                    "size2",
-                    "size3",
-                    "size4",
-                    "hashName"
-                  ],
-                  "type": "object",
-                  "properties": {
-                    "cumulativeIndex": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "patchNumber": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size1": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size2": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size3": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "size4": {
-                      "type": "integer",
-                      "format": "uint32"
-                    },
-                    "hashName": {
-                      "type": "integer",
-                      "format": "uint32"
-                    }
-                  },
-                  "default": null,
-                  "nullable": true
-                }
-              }
+              "$ref": "#/components/schemas/PatchFileMetadataDto"
             }
           },
           "pathOrder": {
@@ -7291,6 +7239,50 @@
             "nullable": true
           }
         }
+      },
+      "TblFileInfoMetadata": {
+        "required": [
+          "cumulativeIndex",
+          "patchNumber",
+          "size1",
+          "size2",
+          "size3",
+          "size4",
+          "hashName"
+        ],
+        "type": "object",
+        "properties": {
+          "cumulativeIndex": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "patchNumber": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "size1": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "size2": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "size3": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "size4": {
+            "type": "integer",
+            "format": "uint32"
+          },
+          "hashName": {
+            "type": "integer",
+            "format": "uint32"
+          }
+        },
+        "default": null,
+        "nullable": true
       },
       "TblVm": {
         "required": [

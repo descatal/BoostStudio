@@ -10,7 +10,7 @@ import {ArrowBigDownDash} from "lucide-react";
 import {Switch} from "@/components/ui/switch";
 import {exportHitboxes} from "@/api/wrapper/hitbox-api";
 import {Label} from "@/components/ui/label";
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher";
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
 
 interface HitboxExportProps {
   units?: UnitSummaryVm[] | undefined
@@ -67,7 +67,7 @@ const HitboxExport = ({units, onExport}: HitboxExportProps) => {
         <div className="grid gap-4">
           <div className={"space-y-2"}>
             <Label>Units</Label>
-            <UnitSwitcher
+            <SeriesUnitsSelector
               disabled={!!units}
               multipleSelect={true}
               selectedUnits={selectedExportUnits}

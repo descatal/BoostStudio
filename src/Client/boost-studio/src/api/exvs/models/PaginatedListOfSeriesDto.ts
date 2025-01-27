@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PaginatedListOfSeriesDtoItemsInner } from './PaginatedListOfSeriesDtoItemsInner';
+import type { SeriesDto } from './SeriesDto';
 import {
-    PaginatedListOfSeriesDtoItemsInnerFromJSON,
-    PaginatedListOfSeriesDtoItemsInnerFromJSONTyped,
-    PaginatedListOfSeriesDtoItemsInnerToJSON,
-} from './PaginatedListOfSeriesDtoItemsInner';
+    SeriesDtoFromJSON,
+    SeriesDtoFromJSONTyped,
+    SeriesDtoToJSON,
+} from './SeriesDto';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface PaginatedListOfSeriesDto {
     /**
      * 
-     * @type {Array<PaginatedListOfSeriesDtoItemsInner>}
+     * @type {Array<SeriesDto>}
      * @memberof PaginatedListOfSeriesDto
      */
-    items: Array<PaginatedListOfSeriesDtoItemsInner>;
+    items: Array<SeriesDto>;
     /**
      * 
      * @type {number}
@@ -84,7 +84,7 @@ export function PaginatedListOfSeriesDtoFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'items': ((json['items'] as Array<any>).map(PaginatedListOfSeriesDtoItemsInnerFromJSON)),
+        'items': ((json['items'] as Array<any>).map(SeriesDtoFromJSON)),
         'pageNumber': json['pageNumber'],
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalCount': json['totalCount'],
@@ -99,7 +99,7 @@ export function PaginatedListOfSeriesDtoToJSON(value?: PaginatedListOfSeriesDto 
     }
     return {
         
-        'items': ((value['items'] as Array<any>).map(PaginatedListOfSeriesDtoItemsInnerToJSON)),
+        'items': ((value['items'] as Array<any>).map(SeriesDtoToJSON)),
         'pageNumber': value['pageNumber'],
         'totalPages': value['totalPages'],
         'totalCount': value['totalCount'],

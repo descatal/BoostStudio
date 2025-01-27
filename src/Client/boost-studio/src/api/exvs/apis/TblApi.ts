@@ -76,6 +76,7 @@ export interface GetApiPatchFilesSummaryRequest {
     perPage?: number;
     versions?: Array<PatchFileVersion>;
     unitIds?: Array<number>;
+    assetFileHashes?: Array<number>;
     assetFileTypes?: Array<AssetFileType>;
 }
 
@@ -249,6 +250,10 @@ export class TblApi extends runtime.BaseAPI {
 
         if (requestParameters['unitIds'] != null) {
             queryParameters['UnitIds'] = requestParameters['unitIds'];
+        }
+
+        if (requestParameters['assetFileHashes'] != null) {
+            queryParameters['AssetFileHashes'] = requestParameters['assetFileHashes'];
         }
 
         if (requestParameters['assetFileTypes'] != null) {

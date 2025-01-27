@@ -18,7 +18,6 @@ import type {
   BulkCreateUnitCommand,
   CreateUnitCommand,
   ExportPlayableCharactersCommand,
-  LanguageSettings,
   PlayableCharacterDto,
   UnitSummaryVm,
   UpdateUnitCommand,
@@ -31,8 +30,6 @@ import {
     CreateUnitCommandToJSON,
     ExportPlayableCharactersCommandFromJSON,
     ExportPlayableCharactersCommandToJSON,
-    LanguageSettingsFromJSON,
-    LanguageSettingsToJSON,
     PlayableCharacterDtoFromJSON,
     PlayableCharacterDtoToJSON,
     UnitSummaryVmFromJSON,
@@ -46,7 +43,7 @@ import {
 export interface GetApiUnitsRequest {
     search?: string;
     unitIds?: Array<number>;
-    languages?: Array<LanguageSettings>;
+    languages?: Array<GetApiUnitsLanguagesEnum>;
 }
 
 export interface GetApiUnitsByUnitIdRequest {
@@ -417,3 +414,13 @@ export class UnitsApi extends runtime.BaseAPI {
     }
 
 }
+
+/**
+ * @export
+ */
+export const GetApiUnitsLanguagesEnum = {
+    English: 'English',
+    Japanese: 'Japanese',
+    Chinese: 'Chinese'
+} as const;
+export type GetApiUnitsLanguagesEnum = typeof GetApiUnitsLanguagesEnum[keyof typeof GetApiUnitsLanguagesEnum];

@@ -18,6 +18,7 @@ import type {
   CreateSeriesCommand,
   ExportPlayableSeriesCommand,
   PaginatedListOfSeriesDto,
+  PaginatedListOfSeriesUnitsVm,
 } from '../models/index';
 import {
     CreateSeriesCommandFromJSON,
@@ -26,23 +27,31 @@ import {
     ExportPlayableSeriesCommandToJSON,
     PaginatedListOfSeriesDtoFromJSON,
     PaginatedListOfSeriesDtoToJSON,
+    PaginatedListOfSeriesUnitsVmFromJSON,
+    PaginatedListOfSeriesUnitsVmToJSON,
 } from '../models/index';
 
-export interface GetApiPlayableSeriesRequest {
+export interface GetApiSeriesRequest {
     page?: number;
     perPage?: number;
     search?: Array<string>;
 }
 
-export interface PostApiPlayableSeriesRequest {
+export interface GetApiSeriesUnitsRequest {
+    page?: number;
+    perPage?: number;
+    listAll?: boolean;
+}
+
+export interface PostApiSeriesRequest {
     createSeriesCommand: CreateSeriesCommand;
 }
 
-export interface PostApiPlayableSeriesExportRequest {
+export interface PostApiSeriesExportRequest {
     exportPlayableSeriesCommand: ExportPlayableSeriesCommand;
 }
 
-export interface PostApiPlayableSeriesImportRequest {
+export interface PostApiSeriesImportRequest {
     file: Blob;
 }
 
@@ -53,7 +62,7 @@ export class SeriesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiPlayableSeriesRaw(requestParameters: GetApiPlayableSeriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfSeriesDto>> {
+    async getApiSeriesRaw(requestParameters: GetApiSeriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfSeriesDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -71,7 +80,7 @@ export class SeriesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/playable-series`,
+            path: `/api/series`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -82,18 +91,54 @@ export class SeriesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiPlayableSeries(requestParameters: GetApiPlayableSeriesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfSeriesDto> {
-        const response = await this.getApiPlayableSeriesRaw(requestParameters, initOverrides);
+    async getApiSeries(requestParameters: GetApiSeriesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfSeriesDto> {
+        const response = await this.getApiSeriesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async postApiPlayableSeriesRaw(requestParameters: PostApiPlayableSeriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiSeriesUnitsRaw(requestParameters: GetApiSeriesUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfSeriesUnitsVm>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['Page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['perPage'] != null) {
+            queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['listAll'] != null) {
+            queryParameters['ListAll'] = requestParameters['listAll'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/series/units`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfSeriesUnitsVmFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getApiSeriesUnits(requestParameters: GetApiSeriesUnitsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfSeriesUnitsVm> {
+        const response = await this.getApiSeriesUnitsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
+    async postApiSeriesRaw(requestParameters: PostApiSeriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['createSeriesCommand'] == null) {
             throw new runtime.RequiredError(
                 'createSeriesCommand',
-                'Required parameter "createSeriesCommand" was null or undefined when calling postApiPlayableSeries().'
+                'Required parameter "createSeriesCommand" was null or undefined when calling postApiSeries().'
             );
         }
 
@@ -104,7 +149,7 @@ export class SeriesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/playable-series`,
+            path: `/api/series`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -116,17 +161,17 @@ export class SeriesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiPlayableSeries(requestParameters: PostApiPlayableSeriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postApiPlayableSeriesRaw(requestParameters, initOverrides);
+    async postApiSeries(requestParameters: PostApiSeriesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiSeriesRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiPlayableSeriesExportRaw(requestParameters: PostApiPlayableSeriesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiSeriesExportRaw(requestParameters: PostApiSeriesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['exportPlayableSeriesCommand'] == null) {
             throw new runtime.RequiredError(
                 'exportPlayableSeriesCommand',
-                'Required parameter "exportPlayableSeriesCommand" was null or undefined when calling postApiPlayableSeriesExport().'
+                'Required parameter "exportPlayableSeriesCommand" was null or undefined when calling postApiSeriesExport().'
             );
         }
 
@@ -137,7 +182,7 @@ export class SeriesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/playable-series/export`,
+            path: `/api/series/export`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -149,17 +194,17 @@ export class SeriesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiPlayableSeriesExport(requestParameters: PostApiPlayableSeriesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postApiPlayableSeriesExportRaw(requestParameters, initOverrides);
+    async postApiSeriesExport(requestParameters: PostApiSeriesExportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiSeriesExportRaw(requestParameters, initOverrides);
     }
 
     /**
      */
-    async postApiPlayableSeriesImportRaw(requestParameters: PostApiPlayableSeriesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiSeriesImportRaw(requestParameters: PostApiSeriesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (requestParameters['file'] == null) {
             throw new runtime.RequiredError(
                 'file',
-                'Required parameter "file" was null or undefined when calling postApiPlayableSeriesImport().'
+                'Required parameter "file" was null or undefined when calling postApiSeriesImport().'
             );
         }
 
@@ -188,7 +233,7 @@ export class SeriesApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/api/playable-series/import`,
+            path: `/api/series/import`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -200,8 +245,8 @@ export class SeriesApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiPlayableSeriesImport(requestParameters: PostApiPlayableSeriesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postApiPlayableSeriesImportRaw(requestParameters, initOverrides);
+    async postApiSeriesImport(requestParameters: PostApiSeriesImportRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.postApiSeriesImportRaw(requestParameters, initOverrides);
     }
 
 }

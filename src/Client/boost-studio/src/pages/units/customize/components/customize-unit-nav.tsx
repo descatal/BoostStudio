@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 interface MainNavProps extends React.HTMLAttributes<HTMLElement> {}
 
-export function MainNav({ className, ...props }: MainNavProps) {
+export function CustomizeUnitNav({ className, ...props }: MainNavProps) {
   const params = useParams()
   const unitId = Number(params.unitId)
 

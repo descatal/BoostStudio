@@ -7,7 +7,7 @@ import {Separator} from "@/components/ui/separator"
 import {toast} from "@/components/ui/use-toast"
 import {Icons} from "@/components/icons"
 import {Label} from "@/components/ui/label";
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher";
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
 import {exportUnitStats} from "@/api/wrapper/stats-api";
 
 interface StatsExportProps {
@@ -64,7 +64,7 @@ const StatsExport = ({units, onExport}: StatsExportProps) => {
         <div className="grid gap-4">
           <div className={"space-y-2"}>
             <Label>Units</Label>
-            <UnitSwitcher
+            <SeriesUnitsSelector
               disabled={!!units}
               multipleSelect={true}
               selectedUnits={selectedExportUnits}

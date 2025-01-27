@@ -1,35 +1,21 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React from "react"
 import {
   AssetFileType,
-  PaginatedListOfPatchFileSummaryVm,
-  UnitDto,
-  type PaginatedListOfPatchFileSummaryVmItemsInner,
+  PatchFileVersion,
+  type PatchFileSummaryVm,
 } from "@/api/exvs"
-import { GetApiTblById200Response } from "@/api/exvs/models/GetApiTblById200Response"
-import {
-  exportTbl,
-  fetchPatchFileSummaries,
-  fetchTblById,
-  resizePatchFiles,
-} from "@/api/wrapper/tbl-api"
+import { useTblById } from "@/features/patches/api/get-tbl"
+import { useTblPatchFiles } from "@/features/patches/api/get-tbl-patches"
+import ExportTblDialog from "@/features/patches/components/export-tbl-dialog"
+import ResizePatchDialog from "@/features/patches/components/resize-patch-dialog"
+import { useSeriesUnits } from "@/features/series/api/get-series"
+import { loadPaginatedPatchesSearchParams } from "@/loaders/patches-search-params"
 import { PatchFilesTableToolbarActions } from "@/pages/patches/components/tabs/components/data-table/patch-files-table-toolbar-actions"
 import { PatchFileTabs, PatchIdNameMap } from "@/pages/patches/libs/store"
-import { useSettingsStore } from "@/pages/settings/libs/store"
-import { DataTableFilterField } from "@/types"
 
-import { useDataTable } from "@/hooks/use-react-table-2"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+import { DataTableFilterField } from "@/types/index2"
+import { toSentenceCase } from "@/lib/utils"
+import { useDataTable } from "@/hooks/use-react-table-3"
 import {
   Card,
   CardContent,
@@ -37,9 +23,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { DataTable } from "@/components/data-table/data-table"
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
+import { DataTable } from "@/components/data-table-2/data-table"
+import { DataTableSkeleton } from "@/components/data-table-2/data-table-skeleton"
+import { DataTableToolbar } from "@/components/data-table-2/data-table-toolbar"
 
 import { patchFileColumns } from "./components/data-table/patch-file-data-table-columns"
 
@@ -48,102 +34,60 @@ const PatchInformation = ({
 }: {
   patchId?: PatchFileTabs | undefined
 }) => {
-  const [hideNoAssetEntries, setHideNoAssetEntries] = useState(false)
-  const [hideNoPathEntries, setHideNoPathEntries] = useState(false)
+  const { page, perPage, assetFileHashes, fileTypes } =
+    loadPaginatedPatchesSearchParams(location.search)
 
-  const [tblResponse, setTblResponse] = useState<
-    GetApiTblById200Response | undefined
-  >()
-  const [patchFilesResponse, setPatchFilesResponse] =
-    useState<PaginatedListOfPatchFileSummaryVm>()
-  const [patchFiles, setPatchFiles] = useState<
-    PaginatedListOfPatchFileSummaryVmItemsInner[]
-  >([])
+  const patchFiles = useTblPatchFiles({
+    page: page,
+    perPage: perPage,
+    versions: !patchId || patchId === "All" ? undefined : [patchId],
+    assetFileHashes: assetFileHashes ? assetFileHashes : undefined,
+    assetFileTypes: fileTypes ? fileTypes : undefined,
+  })?.data
 
-  const stagingDirectory = useSettingsStore((state) => state.stagingDirectory)
+  const tblInfo =
+    !patchId || patchId === "All" ? undefined : useTblById(patchId)?.data
 
-  const getData = useCallback(async () => {
-    const pagination = table.getState().pagination
+  const seriesUnits =
+    useSeriesUnits()
+      ?.data?.items.filter((vm) => vm.units)
+      .flatMap((vm) => vm.units!) ?? []
 
-    setTblResponse(
-      patchId && patchId != "All"
-        ? await fetchTblById({
-            id: patchId,
-          })
-        : undefined
-    )
-
-    const search = table
-      .getState()
-      .columnFilters.find((column) => column.id === "fileHash")?.value as string
-
-    const fileTypes = table
-      .getState()
-      .columnFilters.filter((column) => column.id === "fileType")
-      .map((filter) => filter.value as AssetFileType)
-
-    const units = table
-      .getState()
-      .columnFilters.find((column) => column.id === "unit")?.value as
-      | UnitDto[]
-      | undefined
-
-    const unitIds =
-      units && units.length > 0 ? units.map((u) => u.unitId!) : undefined
-
-    const patchFilesResponse = await fetchPatchFileSummaries({
-      versions: patchId && patchId != "All" ? [patchId] : undefined,
-      page: pagination.pageIndex + 1,
-      perPage: pagination.pageSize,
-      unitIds: unitIds,
-      assetFileTypes: fileTypes.length > 0 ? fileTypes : undefined,
-    })
-    setPatchFilesResponse(patchFilesResponse)
-  }, [patchId])
-
-  useEffect(() => {
-    setPatchFiles(patchFilesResponse?.items ?? [])
-  }, [patchFilesResponse])
-
-  useEffect(() => {
-    getData().catch((e) => console.error(e))
-  }, [patchId])
-
-  const filterFields: DataTableFilterField<PaginatedListOfPatchFileSummaryVmItemsInner>[] =
-    [
-      {
-        type: "input",
-        label: "File Hash",
-        // @ts-ignore
-        value: "fileHash",
-        placeholder: "Filter hash...",
-      },
-      {
-        type: "unit",
-        label: "Units",
-        // @ts-ignore
-        value: "unit",
-      },
-      {
-        type: "select",
-        label: "File Type",
-        // @ts-ignore
-        value: "fileType",
-        options: Object.values(AssetFileType).map((type) => ({
-          label: type,
-          value: type,
-          withCount: true,
-        })),
-      },
-    ]
+  const filterFields: DataTableFilterField<PatchFileSummaryVm>[] = [
+    {
+      id: "assetFileHash",
+      label: "File Hash",
+      placeholder: "Filter by Asset File Hash",
+    },
+    {
+      // @ts-ignore
+      id: "fileType",
+      label: "File Type",
+      options: Object.keys(AssetFileType).map((type) => ({
+        label: toSentenceCase(type),
+        value: type,
+      })),
+    },
+    {
+      // @ts-ignore
+      id: "units",
+      label: "Units",
+      options: seriesUnits.map((type) => ({
+        label: type.nameEnglish ?? "-",
+        value: type.unitId!.toString(),
+      })),
+    },
+  ]
 
   const { table } = useDataTable({
-    data: patchFiles,
-    setData: setPatchFiles,
+    data: patchFiles?.items ?? [],
     columns: patchFileColumns,
-    pageCount: patchFilesResponse?.totalPages ?? 0,
     filterFields: filterFields,
-    fetchData: getData,
+    initialState: {
+      columnPinning: { right: ["actions"] },
+    },
+    pageCount: patchFiles?.totalPages ?? 0,
+    shallow: false,
   })
 
   return (
@@ -154,90 +98,40 @@ const PatchInformation = ({
             <CardTitle>{patchId ? PatchIdNameMap[patchId] : "All"}</CardTitle>
             <CardDescription className={"pt-2"}>
               Cumulative asset index:
-              {tblResponse?.cumulativeAssetIndex ?? "-"}
+              {tblInfo?.cumulativeAssetIndex ?? "-"}
             </CardDescription>
           </div>
           <div className={"space-x-2"}>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button>Resize</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will update the size info for all the patch file
-                    entries
-                    {patchId && ` in ${PatchIdNameMap[patchId]}`}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={async () => {
-                      await resizePatchFiles({
-                        resizePatchFileCommand: {
-                          versions:
-                            !patchId || patchId === "All"
-                              ? undefined
-                              : [patchId],
-                        },
-                      })
-
-                      toast({
-                        title: "Resize success!",
-                      })
-                    }}
-                  >
-                    Confirm
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button>Export</Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    This will replace the tbl information at{" "}
-                    {patchId && PatchIdNameMap[patchId]}/PATCH.TBL
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={async () => {
-                      if (!patchId || patchId === "All") return
-
-                      await exportTbl({
-                        exportTblCommand: {
-                          versions: [patchId],
-                          replaceStaging: true,
-                        },
-                      })
-
-                      toast({
-                        title: "Export success!",
-                      })
-                    }}
-                  >
-                    Confirm
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <ResizePatchDialog patchId={patchId} />
+            <ExportTblDialog patchId={patchId} />
           </div>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <DataTable table={table}>
-              <DataTableToolbar table={table} filterFields={filterFields}>
-                <PatchFilesTableToolbarActions table={table} />
-              </DataTableToolbar>
-            </DataTable>
+            <React.Suspense
+              fallback={
+                <DataTableSkeleton
+                  columnCount={6}
+                  searchableColumnCount={1}
+                  filterableColumnCount={2}
+                  cellWidths={[
+                    "10rem",
+                    "40rem",
+                    "12rem",
+                    "12rem",
+                    "8rem",
+                    "8rem",
+                  ]}
+                  shrinkZero
+                />
+              }
+            >
+              <DataTable table={table}>
+                <DataTableToolbar table={table} filterFields={filterFields}>
+                  <PatchFilesTableToolbarActions table={table} />
+                </DataTableToolbar>
+              </DataTable>
+            </React.Suspense>
           </div>
         </CardContent>
       </Card>

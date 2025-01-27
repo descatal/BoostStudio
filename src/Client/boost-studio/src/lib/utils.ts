@@ -14,6 +14,16 @@ export function formatDate(input: string | number): string {
   })
 }
 
+export function toSentenceCase(str: string) {
+  return str
+    .replace(/_/g, " ")
+    .replace(/([A-Z])/g, " $1")
+    .toLowerCase()
+    .replace(/^\w/, (c) => c.toUpperCase())
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
 export function absoluteUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
 }

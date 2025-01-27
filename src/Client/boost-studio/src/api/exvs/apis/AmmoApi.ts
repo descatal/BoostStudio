@@ -15,6 +15,7 @@
 
 import * as runtime from '../runtime';
 import type {
+  AmmoDto,
   CreateAmmoCommand,
   ExportAmmoByPathCommand,
   ExportAmmoCommand,
@@ -22,6 +23,8 @@ import type {
   UpdateAmmoCommand,
 } from '../models/index';
 import {
+    AmmoDtoFromJSON,
+    AmmoDtoToJSON,
     CreateAmmoCommandFromJSON,
     CreateAmmoCommandToJSON,
     ExportAmmoByPathCommandFromJSON,
@@ -156,7 +159,7 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiAmmoByHashRaw(requestParameters: GetApiAmmoByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiAmmoByHashRaw(requestParameters: GetApiAmmoByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AmmoDto>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -175,13 +178,14 @@ export class AmmoApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => AmmoDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiAmmoByHash(requestParameters: GetApiAmmoByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiAmmoByHashRaw(requestParameters, initOverrides);
+    async getApiAmmoByHash(requestParameters: GetApiAmmoByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AmmoDto> {
+        const response = await this.getApiAmmoByHashRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

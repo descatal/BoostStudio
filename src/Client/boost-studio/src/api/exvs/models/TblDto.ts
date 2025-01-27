@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { SerializeTblFileMetadataInner } from './SerializeTblFileMetadataInner';
+import type { PatchFileMetadataDto } from './PatchFileMetadataDto';
 import {
-    SerializeTblFileMetadataInnerFromJSON,
-    SerializeTblFileMetadataInnerFromJSONTyped,
-    SerializeTblFileMetadataInnerToJSON,
-} from './SerializeTblFileMetadataInner';
+    PatchFileMetadataDtoFromJSON,
+    PatchFileMetadataDtoFromJSONTyped,
+    PatchFileMetadataDtoToJSON,
+} from './PatchFileMetadataDto';
 
 /**
  * 
@@ -34,10 +34,10 @@ export interface TblDto {
     cumulativeFileInfoCount: number;
     /**
      * 
-     * @type {Array<SerializeTblFileMetadataInner>}
+     * @type {Array<PatchFileMetadataDto>}
      * @memberof TblDto
      */
-    fileMetadata: Array<SerializeTblFileMetadataInner>;
+    fileMetadata: Array<PatchFileMetadataDto>;
     /**
      * 
      * @type {Array<string>}
@@ -66,7 +66,7 @@ export function TblDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tb
     return {
         
         'cumulativeFileInfoCount': json['cumulativeFileInfoCount'],
-        'fileMetadata': ((json['fileMetadata'] as Array<any>).map(SerializeTblFileMetadataInnerFromJSON)),
+        'fileMetadata': ((json['fileMetadata'] as Array<any>).map(PatchFileMetadataDtoFromJSON)),
         'pathOrder': json['pathOrder'] == null ? undefined : json['pathOrder'],
     };
 }
@@ -78,7 +78,7 @@ export function TblDtoToJSON(value?: TblDto | null): any {
     return {
         
         'cumulativeFileInfoCount': value['cumulativeFileInfoCount'],
-        'fileMetadata': ((value['fileMetadata'] as Array<any>).map(SerializeTblFileMetadataInnerToJSON)),
+        'fileMetadata': ((value['fileMetadata'] as Array<any>).map(PatchFileMetadataDtoToJSON)),
         'pathOrder': value['pathOrder'],
     };
 }

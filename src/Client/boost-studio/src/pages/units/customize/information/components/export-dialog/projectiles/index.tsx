@@ -9,7 +9,7 @@ import {Icons} from "@/components/icons"
 import {ArrowBigDownDash} from "lucide-react";
 import {Switch} from "@/components/ui/switch";
 import {Label} from "@/components/ui/label";
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher";
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
 import {exportProjectiles} from "@/api/wrapper/projectile-api";
 
 interface ProjectileExportProps {
@@ -67,7 +67,7 @@ const ProjectileExport = ({units, onExport}: ProjectileExportProps) => {
         <div className="grid gap-4">
           <div className={"space-y-2"}>
             <Label>Units</Label>
-            <UnitSwitcher
+            <SeriesUnitsSelector
               disabled={!!units}
               multipleSelect={true}
               selectedUnits={selectedExportUnits}

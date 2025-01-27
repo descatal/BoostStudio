@@ -2,9 +2,12 @@
 
 import * as React from "react"
 import { PatchFileVersion } from "@/api/exvs"
+import {
+  CreatePatchFileSchema,
+  UpdatePatchFileSchema,
+} from "@/features/patches/libs/validations"
 import { SearchAssetFilePopover } from "@/pages/patches/components/tabs/components/dialog/search-asset-file-popover"
 import { PatchIdNameMap } from "@/pages/patches/libs/store"
-import AutoHeight from "embla-carousel-auto-height"
 import { type UseFormReturn } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
@@ -16,7 +19,6 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { CarouselApi } from "@/components/ui/carousel"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Form,
@@ -40,11 +42,6 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { HashInput } from "@/components/custom/hash-input"
 
-import {
-  CreatePatchFileSchema,
-  UpdatePatchFileSchema,
-} from "../../libs/validations"
-
 interface PatchFileFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
   children: React.ReactNode
@@ -58,15 +55,8 @@ export function PatchFileForm({
   children,
   className,
 }: PatchFileFormProps) {
-  const plugin = React.useRef(AutoHeight())
-  const [api, setApi] = React.useState<CarouselApi>()
-
   const [hasAsset, setHasAsset] = React.useState(true)
   const [hasPath, setHasPath] = React.useState(true)
-
-  // const [selectedTab, setSelectedTab] = React.useState<"asset" | "path">(
-  //   "asset"
-  // )
 
   return (
     <Form {...form}>
@@ -182,7 +172,6 @@ export function PatchFileForm({
                 </Card>
               </AccordionContent>
             </AccordionItem>
-
             <AccordionItem value="file">
               <AccordionTrigger>
                 <Label>File Information</Label>
@@ -392,76 +381,6 @@ export function PatchFileForm({
             </AccordionItem>
           </Accordion>
         </div>
-
-        {/*<Carousel*/}
-        {/*  plugins={[plugin.current]}*/}
-        {/*  className={"w-full"}*/}
-        {/*  setApi={setApi}*/}
-        {/*>*/}
-        {/*  <CarouselContent className={"flex items-start"}>*/}
-        {/*<CarouselItem>*/}
-        {/*  <Card>*/}
-        {/*    <CardContent className={"flex flex-col space-y-6 p-8"}>*/}
-        {/*      <div className="grid w-full items-center gap-1.5">*/}
-        {/*        <Label htmlFor="file">Select File</Label>*/}
-        {/*        <Input id="file" type="file" onChange={(e) => {}} />*/}
-        {/*      </div>*/}
-        {/*      <Label className={"text-center font-semibold"}>OR</Label>*/}
-        {/*      <div>*/}
-        {/*        <Button*/}
-        {/*          type={"button"}*/}
-        {/*          className={"w-full"}*/}
-        {/*          onClick={() => {*/}
-        {/*            if (!api) return*/}
-        {/*            api.scrollTo(1)*/}
-        {/*          }}*/}
-        {/*        >*/}
-        {/*          Fill In Manually*/}
-        {/*        </Button>*/}
-        {/*      </div>*/}
-        {/*    </CardContent>*/}
-        {/*  </Card>*/}
-        {/*</CarouselItem>*/}
-        {/*<CarouselItem>*/}
-        {/*  <div className={"flex-row space-y-4"}>*/}
-        {/*    <div*/}
-        {/*      className={"max-h-[50vh] flex-row space-y-2 overflow-y-auto"}*/}
-        {/*    >*/}
-        {/*<Tabs*/}
-        {/*  defaultValue="unit"*/}
-        {/*  className="w-full"*/}
-        {/*  value={selectedTab}*/}
-        {/*  onValueChange={(e) => {*/}
-        {/*    setSelectedTab(e as "asset" | "path")*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  <TabsList>*/}
-        {/*    <TabsTrigger value="asset">Asset</TabsTrigger>*/}
-        {/*    <TabsTrigger value="path">Path</TabsTrigger>*/}
-        {/*  </TabsList>*/}
-        {/*</TabsContent>*/}
-        {/*<TabsContent value="path" className="space-y-4">*/}
-        {/* Card contents go here */}
-        {/*</TabsContent>*/}
-        {/*</Tabs>*/}
-        {/*  <TabsContent value="asset" className="space-y-4">*/}
-        {/* Card contents go here */}
-        {/*</div>*/}
-        {/*<Separator />*/}
-        {/*<Button*/}
-        {/*  type={"button"}*/}
-        {/*  className={"w-full"}*/}
-        {/*  onClick={() => {*/}
-        {/*    if (!api) return*/}
-        {/*    api.scrollTo(0)*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Go Back*/}
-        {/*</Button>*/}
-        {/*      </div>*/}
-        {/*    </CarouselItem>*/}
-        {/*  </CarouselContent>*/}
-        {/*</Carousel>*/}
         {children}
       </form>
     </Form>

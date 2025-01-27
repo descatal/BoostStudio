@@ -10,7 +10,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
-import UnitSwitcher from "./unit-switcher"
+import SeriesUnitsSelector from "../../../../features/series/components/series-units-selector"
 
 interface AssetFilesSearcherProps {
   units?: UnitSummaryVm[] | undefined
@@ -102,7 +102,7 @@ const AssetFilesSearcher = ({
         <TabsContent value="unit" className="space-y-4">
           <div className={"space-y-2"}>
             <Label>Search by unit asset files</Label>
-            <UnitSwitcher
+            <SeriesUnitsSelector
               disabled={!!units}
               setSelectedUnits={setSelectedUnits}
               selectedUnits={selectedUnits}

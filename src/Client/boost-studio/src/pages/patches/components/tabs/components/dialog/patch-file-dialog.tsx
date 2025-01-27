@@ -1,6 +1,6 @@
 ﻿import React from "react"
 import { createPatchFiles, updatePatchFiles } from "@/api/wrapper/tbl-api"
-import { PatchFileForm } from "@/pages/patches/components/tabs/components/forms/patch-file-form"
+import { PatchFileForm } from "@/features/patches/components/patch-file-form"
 import {
   PatchIdNameMap,
   useCustomizePatchInformationStore,

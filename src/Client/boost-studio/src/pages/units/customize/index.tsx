@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from "react"
 import { UnitSummaryVm } from "@/api/exvs"
 import { fetchUnitById } from "@/api/wrapper/units-api"
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher"
-import { MainNav } from "@/pages/units/customize/components/main-nav"
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
+import { CustomizeUnitNav } from "@/pages/units/customize/components/customize-unit-nav"
 import { CustomizeSections, useUnitsStore } from "@/pages/units/libs/store"
 import {
   generatePath,
@@ -12,6 +12,7 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom"
+import TopBar from "@/components/custom/top-bar";
 
 const routes = ["/units/:unitId/customize/*"]
 
@@ -61,40 +62,38 @@ const CustomizeUnitPage = () => {
     <>
       {unitId && (
         <div className="flex-col md:flex">
-          <div className="sticky top-0 z-10 border-b bg-background">
-            <div className="flex h-16 items-center px-4">
-              <UnitSwitcher
-                selectedUnits={selectedUnits}
-                setSelectedUnits={(selectedUnits: UnitSummaryVm[] | undefined) => {
-                  if (
-                    !pathPattern ||
-                    !selectedUnits ||
-                    selectedUnits.length <= 0 ||
-                    unitId == selectedUnits[0]?.unitId
-                  ) {
-                    return
+          <TopBar>
+            <SeriesUnitsSelector
+              selectedUnits={selectedUnits}
+              setSelectedUnits={(selectedUnits: UnitSummaryVm[] | undefined) => {
+                if (
+                  !pathPattern ||
+                  !selectedUnits ||
+                  selectedUnits.length <= 0 ||
+                  unitId == selectedUnits[0]?.unitId
+                ) {
+                  return
+                }
+                const newPath = generatePath(pathPattern, {
+                  ...params,
+                  unitId: selectedUnits[0]?.unitId,
+                })
+                navigate(
+                  {
+                    pathname: `${newPath}/${customizeSection}`,
+                  },
+                  {
+                    replace: false,
                   }
-                  const newPath = generatePath(pathPattern, {
-                    ...params,
-                    unitId: selectedUnits[0]?.unitId,
-                  })
-                  navigate(
-                    {
-                      pathname: `${newPath}/${customizeSection}`,
-                    },
-                    {
-                      replace: false,
-                    }
-                  )
-                  setSelectedUnits(selectedUnits)
-                }}
-                className={"w-[350px]"}
-              />
-              <div className={"mr-4 flex w-full flex-row justify-between"}>
-                <MainNav className="mx-6" />
-              </div>
+                )
+                setSelectedUnits(selectedUnits)
+              }}
+              className={"w-[350px]"}
+            />
+            <div className={"mr-4 flex w-full flex-row justify-between"}>
+              <CustomizeUnitNav className="mx-6" />
             </div>
-          </div>
+          </TopBar>
           <Outlet />
         </div>
       )}

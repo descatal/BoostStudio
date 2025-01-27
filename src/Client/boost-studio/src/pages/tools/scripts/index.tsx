@@ -1,7 +1,7 @@
 ﻿import React from "react"
-import { UnitDto } from "@/api/exvs"
+import { UnitSummaryVm } from "@/api/exvs"
 import { compileScexUnits, decompileScexUnits } from "@/api/wrapper/scex-api"
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher"
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
 import { ArrowBigDownDash } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -20,7 +20,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 interface ScriptToolsProps {
-  units?: UnitDto[] | undefined
+  units?: UnitSummaryVm[] | undefined
 }
 
 const ScriptTools = ({ units }: ScriptToolsProps) => {
@@ -30,10 +30,10 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
   const [hotReload, setHotReload] = React.useState(false)
 
   const [selectedCompileUnits, setSelectedCompileUnits] =
-    React.useState<UnitDto[]>()
+    React.useState<UnitSummaryVm[]>()
 
   const [selectedDecompileUnits, setSelectedDecompileUnits] =
-    React.useState<UnitDto[]>()
+    React.useState<UnitSummaryVm[]>()
 
   React.useEffect(() => {
     if (units) {
@@ -124,7 +124,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
             <div className="grid gap-4">
               <div className={"space-y-2"}>
                 <Label>Units</Label>
-                <UnitSwitcher
+                <SeriesUnitsSelector
                   disabled={!!units}
                   multipleSelect={true}
                   selectedUnits={selectedCompileUnits}
@@ -175,7 +175,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
             <div className="grid gap-6">
               <div className={"space-y-2"}>
                 <Label>Units</Label>
-                <UnitSwitcher
+                <SeriesUnitsSelector
                   disabled={!!units}
                   multipleSelect={true}
                   selectedUnits={selectedDecompileUnits}

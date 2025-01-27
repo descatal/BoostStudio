@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import VirtualizedCommand from "@/components/virtualized-command"
+import {useSeriesUnits} from "@/features/series/api/get-series";
 
 type UnitGroup = {
   id: number
@@ -32,46 +33,19 @@ interface UnitSwitcherProps extends PopoverTriggerProps {
   multipleSelect?: boolean | undefined
 }
 
-export default function UnitSwitcher({
+export default function SeriesUnitsSelector({
   className,
   selectedUnits,
   setSelectedUnits,
   multipleSelect = false,
   ...props
 }: UnitSwitcherProps) {
-  const [unitGroups, setUnitGroups] = useState<UnitGroup[]>([])
-  const [allUnits, setAllUnits] = useState<UnitSummaryVm[]>([])
-
   const [open, setOpen] = React.useState(false)
 
-  const getData = useCallback(async () => {
-    let units = await fetchUnits({})
-    units = units.sort((a, b) => (a.unitId ?? 0) - (b.unitId ?? 0))
-
-    const unitsBySeriesId = Object.groupBy(units, (user) => user.series?.id ?? 0);
-    const group = Object.entries(unitsBySeriesId).map(([seriesId, units]) => ({
-      id: Number(seriesId),
-      label: units ? units[0].series?.nameEnglish ?? "" : "",
-      units: units ?? []
-    }));
-
-    setUnitGroups(group)
-  }, [])
-
-  useEffect(() => {
-    getData().catch(console.error)
-  }, [])
-
-  useEffect(() => {
-    if (unitGroups.length <= 0) return
-    const units = unitGroups?.flatMap(x => x.units);
-    const filteredUnits = units.filter((unit) =>
-      selectedUnits?.some((x) => x.unitId === unit.unitId)
-    );
-
-    setAllUnits(units)
-    setSelectedUnits(filteredUnits)
-  }, [unitGroups])
+  const seriesUnitsQuery = useSeriesUnits();
+  const seriesUnits = seriesUnitsQuery.data?.items
+    .filter(x => x.units)
+    .flatMap(x => x.units!) ?? [];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -143,7 +117,7 @@ export default function UnitSwitcher({
         <VirtualizedCommand
           height={"450px"}
           options={
-            allUnits?.map((option) => ({
+            seriesUnits?.map((option) => ({
               value: option.unitId!.toString(),
               label: option.nameEnglish ?? "",
               imageSrc: `${BASE_PATH}/assets/${option.unitId ?? "default"}.png`,
@@ -156,7 +130,7 @@ export default function UnitSwitcher({
               .map((option) => option.unitId!.toString()) ?? []
           }
           onSelectOptions={(options) => {
-            const units = allUnits?.filter((x) =>
+            const units = seriesUnits?.filter((x) =>
               options.some((option) => option === x.unitId?.toString())
             )
             setSelectedUnits(units)

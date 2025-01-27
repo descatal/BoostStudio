@@ -13,12 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
-import type { PaginatedListOfPatchFileSummaryVmItemsInner } from './PaginatedListOfPatchFileSummaryVmItemsInner';
+import type { PatchFileSummaryVm } from './PatchFileSummaryVm';
 import {
-    PaginatedListOfPatchFileSummaryVmItemsInnerFromJSON,
-    PaginatedListOfPatchFileSummaryVmItemsInnerFromJSONTyped,
-    PaginatedListOfPatchFileSummaryVmItemsInnerToJSON,
-} from './PaginatedListOfPatchFileSummaryVmItemsInner';
+    PatchFileSummaryVmFromJSON,
+    PatchFileSummaryVmFromJSONTyped,
+    PatchFileSummaryVmToJSON,
+} from './PatchFileSummaryVm';
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface PaginatedListOfPatchFileSummaryVm {
     /**
      * 
-     * @type {Array<PaginatedListOfPatchFileSummaryVmItemsInner>}
+     * @type {Array<PatchFileSummaryVm>}
      * @memberof PaginatedListOfPatchFileSummaryVm
      */
-    items: Array<PaginatedListOfPatchFileSummaryVmItemsInner>;
+    items: Array<PatchFileSummaryVm>;
     /**
      * 
      * @type {number}
@@ -84,7 +84,7 @@ export function PaginatedListOfPatchFileSummaryVmFromJSONTyped(json: any, ignore
     }
     return {
         
-        'items': ((json['items'] as Array<any>).map(PaginatedListOfPatchFileSummaryVmItemsInnerFromJSON)),
+        'items': ((json['items'] as Array<any>).map(PatchFileSummaryVmFromJSON)),
         'pageNumber': json['pageNumber'],
         'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
         'totalCount': json['totalCount'],
@@ -99,7 +99,7 @@ export function PaginatedListOfPatchFileSummaryVmToJSON(value?: PaginatedListOfP
     }
     return {
         
-        'items': ((value['items'] as Array<any>).map(PaginatedListOfPatchFileSummaryVmItemsInnerToJSON)),
+        'items': ((value['items'] as Array<any>).map(PatchFileSummaryVmToJSON)),
         'pageNumber': value['pageNumber'],
         'totalPages': value['totalPages'],
         'totalCount': value['totalCount'],

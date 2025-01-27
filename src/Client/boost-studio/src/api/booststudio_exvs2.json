@@ -1,0 +1,155 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "BoostStudio.Web | exvs2",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/audio/nus3audio/unpack-path": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "operationId": "get-api-audio-nus3audio-unpack-path",
+        "parameters": [
+          {
+            "name": "SourceFilePath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "OutputDirectoryPath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/audio/nus3audio/pack-path": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "operationId": "get-api-audio-nus3audio-pack-path",
+        "parameters": [
+          {
+            "name": "SourcePath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DestinationPath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/audio/nus3bank/unpack-path": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "operationId": "get-api-audio-nus3bank-unpack-path",
+        "parameters": [
+          {
+            "name": "SourceFilePath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "OutputDirectoryPath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/audio/nus3bank/pack-path": {
+      "get": {
+        "tags": [
+          "Audio"
+        ],
+        "operationId": "get-api-audio-nus3bank-pack-path",
+        "parameters": [
+          {
+            "name": "SourcePath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DestinationPath",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FileName",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": null
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": { },
+  "tags": [
+    {
+      "name": "Audio"
+    }
+  ]
+}

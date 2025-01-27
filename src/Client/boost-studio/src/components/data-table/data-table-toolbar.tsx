@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { UnitDto } from "@/api/exvs";
-import UnitSwitcher from "@/pages/common/components/custom/unit-switcher";
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
 import { DataTableFilterField, DataTableInputFilterField } from "@/types";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import type { Table } from "@tanstack/react-table";
@@ -68,7 +68,7 @@ export function DataTableToolbar<TData>({
 
             return (
               table.getColumn(column.value ? String(column.value) : "") && (
-                <UnitSwitcher
+                <SeriesUnitsSelector
                   multipleSelect={true}
                   className={"w-fit"}
                   key={String(column.value)}

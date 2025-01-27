@@ -9,9 +9,15 @@
     "format": "npx prettier --write . --ignore-path .gitignore ",
     "taze": "taze major -I",
     "taze:minor": "taze minor -w",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "openapi-exvs": "openapi-generator-cli generate -i \"src/api/booststudio_exvs.json\" -o \"src/api/exvs\" -g typescript-fetch --skip-validate-spec",
+    "openapi-exvs2": "openapi-generator-cli generate -i \"src/api/booststudio_exvs2.json\" -o \"src/api/exvs2\" -g typescript-fetch --skip-validate-spec"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^3.1.1",
     "@radix-ui/react-accessible-icon": "^1.0.3",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -57,7 +63,9 @@
     "date-fns": "^2.30.0",
     "embla-carousel-react": "^8.3.0",
     "lucide-react": "^0.263.1",
+    "nanoid": "^5.0.9",
     "next-themes": "^0.2.1",
+    "nuqs": "^2.3.1",
     "react": "^18.2.0",
     "react-day-picker": "^8.8.0",
     "react-dom": "^18.2.0",
@@ -67,7 +75,6 @@
     "recharts": "^2.7.2",
     "tailwind-scrollbar": "^3.0.4",
     "tailwindcss-animate": "^1.0.6",
-    "tauri-controls": "^0.1.0",
     "vaul": "^0.9.3",
     "wouter": "^3.3.1",
     "zod": "^3.21.4",
@@ -75,6 +82,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
+    "@openapitools/openapi-generator-cli": "^2.15.3",
     "@tauri-apps/cli": "^2.0.1",
     "@types/node": "^20.4.6",
     "@types/react": "^18.2.18",
@@ -86,7 +94,7 @@
     "prettier": "^3.0.1",
     "prettier-plugin-tailwindcss": "^0.4.1",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss": "^3.3.3",
+    "tailwindcss": "^3.4.17",
     "taze": "^0.11.2",
     "typescript": "^5.7.2",
     "vite": "^4.4.8"

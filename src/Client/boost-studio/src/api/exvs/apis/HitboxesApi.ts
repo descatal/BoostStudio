@@ -20,7 +20,9 @@ import type {
   ExportHitboxGroupByPathCommand,
   ExportHitboxGroupCommand,
   HitboxDto,
+  HitboxGroupDto,
   PaginatedListOfHitboxDto,
+  PaginatedListOfHitboxGroupDto,
   UpdateHitboxCommand,
   UpdateHitboxGroupCommand,
 } from '../models/index';
@@ -35,8 +37,12 @@ import {
     ExportHitboxGroupCommandToJSON,
     HitboxDtoFromJSON,
     HitboxDtoToJSON,
+    HitboxGroupDtoFromJSON,
+    HitboxGroupDtoToJSON,
     PaginatedListOfHitboxDtoFromJSON,
     PaginatedListOfHitboxDtoToJSON,
+    PaginatedListOfHitboxGroupDtoFromJSON,
+    PaginatedListOfHitboxGroupDtoToJSON,
     UpdateHitboxCommandFromJSON,
     UpdateHitboxCommandToJSON,
     UpdateHitboxGroupCommandFromJSON,
@@ -146,7 +152,7 @@ export class HitboxesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiHitboxGroupsRaw(requestParameters: GetApiHitboxGroupsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiHitboxGroupsRaw(requestParameters: GetApiHitboxGroupsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfHitboxGroupDto>> {
         const queryParameters: any = {};
 
         if (requestParameters['page'] != null) {
@@ -174,18 +180,19 @@ export class HitboxesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfHitboxGroupDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiHitboxGroups(requestParameters: GetApiHitboxGroupsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiHitboxGroupsRaw(requestParameters, initOverrides);
+    async getApiHitboxGroups(requestParameters: GetApiHitboxGroupsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfHitboxGroupDto> {
+        const response = await this.getApiHitboxGroupsRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      */
-    async getApiHitboxGroupsHashByHashRaw(requestParameters: GetApiHitboxGroupsHashByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiHitboxGroupsHashByHashRaw(requestParameters: GetApiHitboxGroupsHashByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HitboxGroupDto>> {
         if (requestParameters['hash'] == null) {
             throw new runtime.RequiredError(
                 'hash',
@@ -204,18 +211,19 @@ export class HitboxesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => HitboxGroupDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiHitboxGroupsHashByHash(requestParameters: GetApiHitboxGroupsHashByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiHitboxGroupsHashByHashRaw(requestParameters, initOverrides);
+    async getApiHitboxGroupsHashByHash(requestParameters: GetApiHitboxGroupsHashByHashRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HitboxGroupDto> {
+        const response = await this.getApiHitboxGroupsHashByHashRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**
      */
-    async getApiHitboxGroupsUnitIdByUnitIdRaw(requestParameters: GetApiHitboxGroupsUnitIdByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async getApiHitboxGroupsUnitIdByUnitIdRaw(requestParameters: GetApiHitboxGroupsUnitIdByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<HitboxGroupDto>> {
         if (requestParameters['unitId'] == null) {
             throw new runtime.RequiredError(
                 'unitId',
@@ -234,13 +242,14 @@ export class HitboxesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => HitboxGroupDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiHitboxGroupsUnitIdByUnitId(requestParameters: GetApiHitboxGroupsUnitIdByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.getApiHitboxGroupsUnitIdByUnitIdRaw(requestParameters, initOverrides);
+    async getApiHitboxGroupsUnitIdByUnitId(requestParameters: GetApiHitboxGroupsUnitIdByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<HitboxGroupDto> {
+        const response = await this.getApiHitboxGroupsUnitIdByUnitIdRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

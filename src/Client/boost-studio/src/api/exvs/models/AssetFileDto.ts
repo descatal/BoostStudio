@@ -13,6 +13,12 @@
  */
 
 import { mapValues } from '../runtime';
+import type { UnitSummaryVm } from './UnitSummaryVm';
+import {
+    UnitSummaryVmFromJSON,
+    UnitSummaryVmFromJSONTyped,
+    UnitSummaryVmToJSON,
+} from './UnitSummaryVm';
 import type { AssetFileType } from './AssetFileType';
 import {
     AssetFileTypeFromJSON,
@@ -40,10 +46,16 @@ export interface AssetFileDto {
     order: number;
     /**
      * 
-     * @type {AssetFileType}
+     * @type {Array<AssetFileType>}
      * @memberof AssetFileDto
      */
-    fileType: AssetFileType;
+    fileType: Array<AssetFileType>;
+    /**
+     * 
+     * @type {Array<UnitSummaryVm>}
+     * @memberof AssetFileDto
+     */
+    units: Array<UnitSummaryVm>;
 }
 
 /**
@@ -53,6 +65,7 @@ export function instanceOfAssetFileDto(value: object): value is AssetFileDto {
     if (!('hash' in value) || value['hash'] === undefined) return false;
     if (!('order' in value) || value['order'] === undefined) return false;
     if (!('fileType' in value) || value['fileType'] === undefined) return false;
+    if (!('units' in value) || value['units'] === undefined) return false;
     return true;
 }
 
@@ -68,7 +81,8 @@ export function AssetFileDtoFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'hash': json['hash'],
         'order': json['order'],
-        'fileType': AssetFileTypeFromJSON(json['fileType']),
+        'fileType': ((json['fileType'] as Array<any>).map(AssetFileTypeFromJSON)),
+        'units': ((json['units'] as Array<any>).map(UnitSummaryVmFromJSON)),
     };
 }
 
@@ -80,7 +94,8 @@ export function AssetFileDtoToJSON(value?: AssetFileDto | null): any {
         
         'hash': value['hash'],
         'order': value['order'],
-        'fileType': AssetFileTypeToJSON(value['fileType']),
+        'fileType': ((value['fileType'] as Array<any>).map(AssetFileTypeToJSON)),
+        'units': ((value['units'] as Array<any>).map(UnitSummaryVmToJSON)),
     };
 }
 

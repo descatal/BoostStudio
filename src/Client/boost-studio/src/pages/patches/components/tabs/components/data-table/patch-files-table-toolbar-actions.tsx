@@ -2,6 +2,7 @@
 
 import React from "react"
 import { PatchFileVm } from "@/api/exvs"
+import ResizePatchDialog from "@/features/patches/components/resize-patch-dialog"
 import { type Table } from "@tanstack/react-table"
 import { PlusIcon } from "lucide-react"
 

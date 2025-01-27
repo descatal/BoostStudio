@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from '../runtime';
-import type { SeriesVm } from './SeriesVm';
-import {
-    SeriesVmFromJSON,
-    SeriesVmFromJSONTyped,
-    SeriesVmToJSON,
-} from './SeriesVm';
-
 /**
  * 
  * @export
@@ -58,10 +51,10 @@ export interface CreateUnitCommand {
     nameChinese?: string | null;
     /**
      * 
-     * @type {SeriesVm}
+     * @type {number}
      * @memberof CreateUnitCommand
      */
-    series?: SeriesVm | null;
+    seriesId?: number | null;
 }
 
 /**
@@ -86,7 +79,7 @@ export function CreateUnitCommandFromJSONTyped(json: any, ignoreDiscriminator: b
         'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
         'nameChinese': json['nameChinese'] == null ? undefined : json['nameChinese'],
-        'series': json['series'] == null ? undefined : SeriesVmFromJSON(json['series']),
+        'seriesId': json['seriesId'] == null ? undefined : json['seriesId'],
     };
 }
 
@@ -101,7 +94,7 @@ export function CreateUnitCommandToJSON(value?: CreateUnitCommand | null): any {
         'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],
         'nameChinese': value['nameChinese'],
-        'series': SeriesVmToJSON(value['series']),
+        'seriesId': value['seriesId'],
     };
 }
 
