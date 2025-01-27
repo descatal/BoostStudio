@@ -10,8 +10,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader } from "lucide-react"
 import { useForm } from "react-hook-form"
 
+import { useMediaQuery } from "@/hooks/use-media-query"
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
 import {
   Sheet,
   SheetClose,
@@ -30,17 +41,17 @@ import {
   updatePatchFileSchema,
 } from "../libs/validations"
 
-interface UpdatePatchSheetProps
+interface UpsertPatchDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
   patchFile: PatchFileSummaryVm
   triggerButton?: React.ReactElement | undefined
 }
 
-const UpdatePatchSheet = ({
+const UpdatePatchDialog = ({
   triggerButton,
   patchFile,
   ...props
-}: UpdatePatchSheetProps) => {
+}: UpsertPatchDialogProps) => {
   const { selectedPatchFileVersion } = useCustomizePatchInformationStore(
     (state) => state
   )
@@ -82,26 +93,31 @@ const UpdatePatchSheet = ({
         },
   })
 
-  return (
-    <Sheet {...props}>
-      <SheetTrigger asChild>{triggerButton ?? <></>}</SheetTrigger>
-      <SheetContent className="flex flex-col gap-6 sm:max-w-md">
-        <SheetHeader className="text-left">
-          <SheetTitle>Update patch file details</SheetTitle>
-          <SheetDescription>
-            Update the patch file details and save the changes
-          </SheetDescription>
-          <PatchFileForm
-            form={form}
-            onSubmit={(values) => {
-              if (patchFile) {
-                updateTblPatchFileMutation.mutate({
-                  ...values,
-                  id: patchFile.id!,
-                })
-              }
-            }}
-          >
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
+  const handleFormSubmit = (
+    values: CreatePatchFileSchema | UpdatePatchFileSchema
+  ) => {
+    if (patchFile) {
+      updateTblPatchFileMutation.mutate({
+        ...values,
+        id: patchFile.id!,
+      })
+    }
+  }
+
+  if (isDesktop) {
+    return (
+      <Sheet {...props}>
+        <SheetTrigger asChild>{triggerButton ?? <></>}</SheetTrigger>
+        <SheetContent className="flex flex-col gap-6 sm:max-w-md">
+          <SheetHeader className="text-left">
+            <SheetTitle>Update patch file details</SheetTitle>
+            <SheetDescription>
+              Update the patch file details and save the changes
+            </SheetDescription>
+          </SheetHeader>
+          <PatchFileForm form={form} onSubmit={handleFormSubmit}>
             <SheetFooter className="gap-2 pt-2 sm:space-x-0">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
@@ -119,10 +135,42 @@ const UpdatePatchSheet = ({
               </Button>
             </SheetFooter>
           </PatchFileForm>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+        </SheetContent>
+      </Sheet>
+    )
+  }
+
+  return (
+    <Drawer {...props}>
+      <DrawerTrigger asChild>{triggerButton ?? <></>}</DrawerTrigger>
+      <DrawerContent className="flex flex-col gap-6 sm:max-w-md">
+        <DrawerHeader className="text-left">
+          <DrawerTitle>Update patch file details</DrawerTitle>
+          <DrawerDescription>
+            Update the patch file details and save the changes
+          </DrawerDescription>
+        </DrawerHeader>
+        <PatchFileForm form={form} onSubmit={handleFormSubmit}>
+          <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
+            <DrawerClose>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DrawerClose>
+            <Button disabled={updateTblPatchFileMutation.isPending}>
+              {updateTblPatchFileMutation.isPending && (
+                <Loader
+                  className="mr-2 size-4 animate-spin"
+                  aria-hidden="true"
+                />
+              )}
+              Save
+            </Button>
+          </DrawerFooter>
+        </PatchFileForm>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
-export default UpdatePatchSheet
+export default UpdatePatchDialog

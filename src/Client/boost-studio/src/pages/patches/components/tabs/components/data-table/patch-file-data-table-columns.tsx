@@ -2,7 +2,7 @@
 
 import React from "react"
 import { type PatchFileSummaryVm } from "@/api/exvs"
-import UpdatePatchSheet from "@/features/patches/components/update-patch-sheet"
+import UpdatePatchDialog from "@/features/patches/components/update-patch-dialog"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
 
@@ -107,7 +107,7 @@ export const patchFileColumns: ColumnDef<PatchFileSummaryVm>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               {data.id ? (
                 <>
-                  <UpdatePatchSheet
+                  <UpdatePatchDialog
                     triggerButton={
                       <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         Edit

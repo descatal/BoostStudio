@@ -93,7 +93,7 @@ const PatchInformation = ({
   return (
     <>
       <Card>
-        <CardHeader className="flex-row justify-between px-7">
+        <CardHeader className="px-7">
           <div>
             <CardTitle>{patchId ? PatchIdNameMap[patchId] : "All"}</CardTitle>
             <CardDescription className={"pt-2"}>
@@ -101,7 +101,7 @@ const PatchInformation = ({
               {tblInfo?.cumulativeAssetIndex ?? "-"}
             </CardDescription>
           </div>
-          <div className={"space-x-2"}>
+          <div className={"flex flex-row justify-end space-x-2"}>
             <ResizePatchDialog patchId={patchId} />
             <ExportTblDialog patchId={patchId} />
           </div>

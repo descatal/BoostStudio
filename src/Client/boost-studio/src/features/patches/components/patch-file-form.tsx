@@ -69,8 +69,12 @@ export function PatchFileForm({
           // the original form submission
           form.handleSubmit(onSubmit)(e)
         }}
-        className={cn("flex flex-col gap-4", className)}
+        className={cn(
+          "flex max-h-screen flex-col gap-4 overflow-auto px-4",
+          className
+        )}
       >
+        <Separator />
         <FormField
           control={form.control}
           name="tblId"
@@ -102,8 +106,8 @@ export function PatchFileForm({
           )}
         />
         <Separator />
-        <div className={"max-h-[50vh] flex-row space-y-5 overflow-y-auto"}>
-          <Accordion type={"multiple"}>
+        <div className={"flex-row space-y-5"}>
+          <Accordion type={"multiple"} className={"w-full"}>
             <AccordionItem value="path">
               <AccordionTrigger>
                 <Label>Path Information</Label>
@@ -214,14 +218,18 @@ export function PatchFileForm({
                                   initialValue={field.value}
                                   placeholder="Enter Hash"
                                   {...field}
+                                  value={field.value ?? undefined}
                                   onHashChanged={(value) => {
-                                    form.setValue("assetFileHash", value)
+                                    form.setValue(
+                                      "assetFileHash",
+                                      value ?? null
+                                    )
                                   }}
                                 />
                                 <SearchAssetFilePopover
                                   setAssetFile={(asset) => {
                                     if (!asset) return
-                                    form.setValue("assetFileHash", undefined)
+                                    form.setValue("assetFileHash", null)
                                     // not the best way, but this will force a re-render
                                     setTimeout(function () {
                                       form.setValue("assetFileHash", asset.hash)
@@ -381,6 +389,7 @@ export function PatchFileForm({
             </AccordionItem>
           </Accordion>
         </div>
+        <Separator />
         {children}
       </form>
     </Form>

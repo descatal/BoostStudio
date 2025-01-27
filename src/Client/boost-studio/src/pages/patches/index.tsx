@@ -1,4 +1,4 @@
-﻿import React, {useEffect} from "react"
+﻿import React, { useEffect } from "react"
 import PatchInformation from "@/pages/patches/components/tabs"
 import {
   PatchFileTabs,
@@ -12,15 +12,16 @@ import {
   useParams,
 } from "react-router-dom"
 
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const routes = ["/patches/:patchId"]
 
 export default function PatchesPage() {
-  const {selectedPatchFileVersion, setSelectedPatchFileVersion} =
+  const { selectedPatchFileVersion, setSelectedPatchFileVersion } =
     useCustomizePatchInformationStore((state) => state)
 
-  const {pathname} = useLocation()
+  const { pathname } = useLocation()
   const params = useParams()
   const navigate = useNavigate()
 
@@ -56,39 +57,44 @@ export default function PatchesPage() {
             )
           }}
         >
-          <TabsList>
-            <TabsTrigger value="All">All</TabsTrigger>
-            <TabsTrigger value="Base">Base</TabsTrigger>
-            <TabsTrigger value="Patch1">Patch 1</TabsTrigger>
-            <TabsTrigger value="Patch2">Patch 2</TabsTrigger>
-            <TabsTrigger value="Patch3">Patch 3</TabsTrigger>
-            <TabsTrigger value="Patch4">Patch 4</TabsTrigger>
-            <TabsTrigger value="Patch5">Patch 5</TabsTrigger>
-            <TabsTrigger value="Patch6">Patch 6</TabsTrigger>
-          </TabsList>
+          <ScrollArea>
+            <div className="relative h-10 w-full">
+              <TabsList className="absolute flex h-10">
+                <TabsTrigger value="All">All</TabsTrigger>
+                <TabsTrigger value="Base">Base</TabsTrigger>
+                <TabsTrigger value="Patch1">Patch 1</TabsTrigger>
+                <TabsTrigger value="Patch2">Patch 2</TabsTrigger>
+                <TabsTrigger value="Patch3">Patch 3</TabsTrigger>
+                <TabsTrigger value="Patch4">Patch 4</TabsTrigger>
+                <TabsTrigger value="Patch5">Patch 5</TabsTrigger>
+                <TabsTrigger value="Patch6">Patch 6</TabsTrigger>
+              </TabsList>
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
           <TabsContent value="All" className="space-y-4">
-            <PatchInformation/>
+            <PatchInformation />
           </TabsContent>
           <TabsContent value="Base" className="space-y-4">
-            <PatchInformation patchId={"Base"}/>
+            <PatchInformation patchId={"Base"} />
           </TabsContent>
           <TabsContent value="Patch1" className="space-y-4">
-            <PatchInformation patchId={"Patch1"}/>
+            <PatchInformation patchId={"Patch1"} />
           </TabsContent>
           <TabsContent value="Patch2" className="space-y-4">
-            <PatchInformation patchId={"Patch2"}/>
+            <PatchInformation patchId={"Patch2"} />
           </TabsContent>
           <TabsContent value="Patch3" className="space-y-4">
-            <PatchInformation patchId={"Patch3"}/>
+            <PatchInformation patchId={"Patch3"} />
           </TabsContent>
           <TabsContent value="Patch4" className="space-y-4">
-            <PatchInformation patchId={"Patch4"}/>
+            <PatchInformation patchId={"Patch4"} />
           </TabsContent>
           <TabsContent value="Patch5" className="space-y-4">
-            <PatchInformation patchId={"Patch5"}/>
+            <PatchInformation patchId={"Patch5"} />
           </TabsContent>
           <TabsContent value="Patch6" className="space-y-4">
-            <PatchInformation patchId={"Patch6"}/>
+            <PatchInformation patchId={"Patch6"} />
           </TabsContent>
         </Tabs>
       </div>

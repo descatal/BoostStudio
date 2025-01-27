@@ -18,7 +18,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   initialMode?: "hex" | "dec"
-  initialValue?: number | undefined
+  initialValue?: number | undefined | null
   readonly?: boolean
   onHashChanged?: (value: number | undefined) => void
 }
