@@ -11,6 +11,7 @@ public record GetPatchFilesSummaryWithPaginationQuery(
     int PerPage = 10,
     PatchFileVersion[]? Versions = null,
     uint[]? UnitIds = null,
+    uint[]? AssetFileHashes = null,
     AssetFileType[]? AssetFileTypes = null
 ) : IRequest<PaginatedList<PatchFileSummaryVm>>;
 
@@ -32,6 +33,9 @@ public class GetPatchFilesSummaryWithPaginationQueryHandler(
                     entity.AssetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId))
                 );
         }
+
+        if (request.AssetFileHashes?.Length > 0)
+            query = query.Where(entity => request.AssetFileHashes.Any(hash => hash == entity.AssetFileHash));
 
         if (request.AssetFileTypes?.Length > 0)
         {

@@ -21,16 +21,13 @@ public record PatchFileDto
     public uint? AssetFileHash { get; init; }
 }
 
-public record PathInfoDto(
-    string Path, 
-    uint? Order = null
-);
+public record PathInfoDto(string Path, uint? Order = null);
 
 public record FileInfoDto(
-    PatchFileVersion Version, 
-    ulong Size1, 
-    ulong Size2, 
-    ulong Size3, 
+    PatchFileVersion Version,
+    ulong Size1,
+    ulong Size2,
+    ulong Size3,
     ulong Size4
 );
 

@@ -2,6 +2,7 @@ using BoostStudio.Infrastructure.Data;
 using BoostStudio.Web.Constants;
 using Scalar.AspNetCore;
 using Serilog;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -28,6 +29,7 @@ try
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
+    app.MapOpenApi();
     if (!app.Environment.IsDevelopment())
     {
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -39,17 +41,28 @@ try
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader());
-    }
 
-    app.MapFallback(context =>
-    {
-        context.Response.Redirect("/openapi");
-        return Task.CompletedTask;
-    });
+        app.UseSwaggerUI(opts =>
+        {
+            opts.DisplayOperationId();
+            opts.RoutePrefix = "openapi";
+            opts.ConfigObject.Urls = [new UrlDescriptor
+            {
+                Name = "exvs",
+                Url = "/openapi/exvs.json"
+            }];
+        });
+
+        app.MapFallback(context =>
+        {
+            context.Response.Redirect("/openapi");
+            return Task.CompletedTask;
+        });
+    }
 
     await app.InitialiseDatabaseAsync();
 
-    app.UseHealthChecks("/health");
+    app.UseHealthChecks("/healthz");
     app.UseHttpsRedirection();
     
     app.UseWhen(
@@ -65,40 +78,16 @@ try
             ServeUnknownFileTypes = true
         }));
     
-    app.MapOpenApi();
     app.MapScalarApiReference(opt =>
     {
         opt.Theme = ScalarTheme.Mars;
-    });
-
-    // app.UseSwagger(opts => opts.RouteTemplate = "openapi/{documentName}.{extension:regex(^(json|ya?ml)$)}");
-    app.UseSwaggerUI(opts =>
-    {
-        opts.DisplayOperationId();
-
-        opts.ShowCommonExtensions();
-
-        opts.RoutePrefix = "openapi";
-        opts.SwaggerEndpoint($"{DefinitionNames.Exvs}.json", $"{DefinitionNames.Exvs} API");
-        opts.SwaggerEndpoint($"{DefinitionNames.Exvs2}.json", $"{DefinitionNames.Exvs2} API");
-    });
-
-    app.UseReDoc(options =>
-    {
-        options.RoutePrefix = "redoc";
-        options.SpecUrl = $"/openapi/{DefinitionNames.Exvs}.json";
-    });
-    app.UseReDoc(options =>
-    {
-        options.RoutePrefix = "redoc";
-        options.SpecUrl = $"/openapi/{DefinitionNames.Exvs2}.json";
     });
 
     app.UseExceptionHandler(_ => {});
 
     app.MapEndpoints();
 
-    app.Run();
+    await app.RunAsync();
 }
 catch (Exception ex)
 {
