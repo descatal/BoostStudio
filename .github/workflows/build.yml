@@ -72,7 +72,7 @@ jobs:
 
     - name: Upload website artifacts (linux-x64)
       if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BoostStudio.Web-linux-x64
         path: ./src/Core/Presentation/WebApi/publish/linux-x64
@@ -86,7 +86,7 @@ jobs:
 
     - name: Upload console artifacts (win-x64)
       if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BoostStudio.Console-win-x64
         path: ./src/Core/Presentation/Console/publish/win-x64
@@ -100,7 +100,7 @@ jobs:
 
     - name: Upload console artifacts (linux-x64)
       if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BoostStudio.Console-linux-x64
         path: ./src/Core/Presentation/Console/publish/linux-x64
