@@ -1,0 +1,33 @@
+<Project>
+    <!-- https://github.com/dotnet/sdk/issues/44516 -->
+    <!-- Cant be Project Sdk so we can control when things are imported -->
+    <Import Project="Sdk.props" Sdk="Microsoft.VisualStudio.JavaScript.SDK" Version="1.0.1910670"/>
+
+    <PropertyGroup>
+        <NpmInstallCheck>$(PackageJsonDirectory)pnpm-lock.yaml</NpmInstallCheck>
+
+        <StartupCommand>pnpm dev</StartupCommand>
+        <JavaScriptTestRoot>src\</JavaScriptTestRoot>
+        <JavaScriptTestFramework>Jest</JavaScriptTestFramework>
+        <!-- Allows the build (or compile) script located on package.json to run on Build -->
+        <ShouldRunBuildScript>false</ShouldRunBuildScript>
+        <!-- Folder where production build objects will be placed -->
+        <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
+    </PropertyGroup>
+
+    <!-- Must be after property group so that the asset file will be built -->
+    <Import Project="Sdk.targets" Sdk="Microsoft.VisualStudio.JavaScript.SDK" Version="1.0.1910670"/>
+
+    <Target Name="RunNpmInstall" Condition=" $(ShouldRunNpmInstall) == 'true' " DependsOnTargets="PreNpmInstallCheck" Inputs="$(PackageJsonDirectory)\package.json" Outputs="$(NpmInstallCheck)">
+        <Exec Command="node --version" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCodeNpmVersion"/>
+        </Exec>
+        <Error Condition="'$(ErrorCodeNpmVersion)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE."/>
+        <Message Importance="high" Text="Restoring dependencies using 'pnpm'. This may take several minutes..."/>
+        <Exec WorkingDirectory="$(PackageJsonDirectory)" Command="pnpm install">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCodeNpmInstall"/>
+        </Exec>
+        <Touch Files="$(NpmInstallCheck)" Condition="'$(ErrorCodeNpmInstall)' == '0'" AlwaysCreate="true"/>
+    </Target>
+
+</Project>

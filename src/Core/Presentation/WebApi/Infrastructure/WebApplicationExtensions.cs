@@ -5,46 +5,50 @@ namespace BoostStudio.Web.Infrastructure;
 
 public static class WebApplicationExtensions
 {
-    public static RouteGroupBuilder MapGroup(this WebApplication app, EndpointGroupBase group, string? areaName = null) 
-        => MapSubgroup(app, group, "", areaName: areaName);
-    
+    public static RouteGroupBuilder MapGroup(
+        this WebApplication app,
+        EndpointGroupBase group,
+        string? areaName = null
+    ) => MapSubgroup(app, group, "", areaName: areaName);
+
     public static RouteGroupBuilder MapSubgroup(
-        this WebApplication app, 
-        EndpointGroupBase endpointGroup, 
-        string customTagName, 
+        this WebApplication app,
+        EndpointGroupBase endpointGroup,
+        string customTagName,
         string? areaName = null,
-        params string[] additionalDirs)
+        params string[] additionalDirs
+    )
     {
         var endpointGroupName = endpointGroup.GetType().Name;
-        
+
         var tagName = string.IsNullOrWhiteSpace(customTagName) ? endpointGroupName : customTagName;
 
         var filteredDirs = additionalDirs
-            // order is important, should be ApiRoot/rootDir/additionalDirs/endpointGroupName
             .Prepend(Constants.Endpoints.ApiRoot)
             .Append(endpointGroupName)
-            // Remove empty or null strings
             .Where(dir => !string.IsNullOrWhiteSpace(dir))
             .Select(dir => dir.Trim())
             .Select(Slugify)
             .ToList();
-        
-        var routeGroup = app
-            .MapGroup(string.Join('/', filteredDirs));
-            
+
+        var routeGroup = app.MapGroup(string.Join('/', filteredDirs));
+
         if (!string.IsNullOrWhiteSpace(areaName))
             routeGroup.WithGroupName(areaName);
-            
-        return routeGroup
-            .WithTags(tagName)
-            .WithOpenApi();
+
+        return routeGroup.WithTags(tagName).WithOpenApi();
     }
-    
-    private static string Slugify(string input) => Regex.Replace(input,
-        "([a-z])([A-Z])",
-        "$1-$2",
-        RegexOptions.CultureInvariant,
-        TimeSpan.FromMilliseconds(100)).ToLowerInvariant();
+
+    private static string Slugify(string input) =>
+        Regex
+            .Replace(
+                input,
+                "([a-z])([A-Z])",
+                "$1-$2",
+                RegexOptions.CultureInvariant,
+                TimeSpan.FromMilliseconds(100)
+            )
+            .ToLowerInvariant();
 
     public static WebApplication MapEndpoints(this WebApplication app)
     {
@@ -52,7 +56,9 @@ public static class WebApplicationExtensions
 
         var assembly = Assembly.GetExecutingAssembly();
 
-        var endpointGroupTypes = assembly.GetExportedTypes().Where(t => t.IsSubclassOf(endpointGroupType));
+        var endpointGroupTypes = assembly
+            .GetExportedTypes()
+            .Where(t => t.IsSubclassOf(endpointGroupType));
 
         foreach (var type in endpointGroupTypes)
         {

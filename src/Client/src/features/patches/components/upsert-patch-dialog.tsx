@@ -11,7 +11,6 @@ import { Loader } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 import { useMediaQuery } from "@/hooks/use-media-query"
-import { AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import {
   Drawer,
@@ -23,6 +22,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer"
+import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
   SheetClose,
@@ -43,11 +43,11 @@ import {
 
 interface UpsertPatchDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
-  patchFile: PatchFileSummaryVm
+  patchFile?: PatchFileSummaryVm | undefined
   triggerButton?: React.ReactElement | undefined
 }
 
-const UpdatePatchDialog = ({
+const UpsertPatchDialog = ({
   triggerButton,
   patchFile,
   ...props
@@ -112,29 +112,32 @@ const UpdatePatchDialog = ({
         <SheetTrigger asChild>{triggerButton ?? <></>}</SheetTrigger>
         <SheetContent className="flex flex-col gap-6 sm:max-w-md">
           <SheetHeader className="text-left">
-            <SheetTitle>Update patch file details</SheetTitle>
+            <SheetTitle>{patchFile ? "Update" : "Create"}</SheetTitle>
             <SheetDescription>
-              Update the patch file details and save the changes
+              {patchFile ? "Update existing" : "Create new"} patch file details
+              and save the changes
             </SheetDescription>
           </SheetHeader>
+          <Separator />
           <PatchFileForm form={form} onSubmit={handleFormSubmit}>
-            <SheetFooter className="gap-2 pt-2 sm:space-x-0">
-              <SheetClose asChild>
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
-              </SheetClose>
-              <Button disabled={updateTblPatchFileMutation.isPending}>
-                {updateTblPatchFileMutation.isPending && (
-                  <Loader
-                    className="mr-2 size-4 animate-spin"
-                    aria-hidden="true"
-                  />
-                )}
-                Save
-              </Button>
-            </SheetFooter>
+            <></>
           </PatchFileForm>
+          <SheetFooter className="gap-2 pt-2 sm:space-x-0">
+            <SheetClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </SheetClose>
+            <Button disabled={updateTblPatchFileMutation.isPending}>
+              {updateTblPatchFileMutation.isPending && (
+                <Loader
+                  className="mr-2 size-4 animate-spin"
+                  aria-hidden="true"
+                />
+              )}
+              Save
+            </Button>
+          </SheetFooter>
         </SheetContent>
       </Sheet>
     )
@@ -150,27 +153,26 @@ const UpdatePatchDialog = ({
             Update the patch file details and save the changes
           </DrawerDescription>
         </DrawerHeader>
+        <Separator />
         <PatchFileForm form={form} onSubmit={handleFormSubmit}>
-          <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
-            <DrawerClose>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DrawerClose>
-            <Button disabled={updateTblPatchFileMutation.isPending}>
-              {updateTblPatchFileMutation.isPending && (
-                <Loader
-                  className="mr-2 size-4 animate-spin"
-                  aria-hidden="true"
-                />
-              )}
-              Save
-            </Button>
-          </DrawerFooter>
+          <></>
         </PatchFileForm>
+        <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
+          <DrawerClose>
+            <Button type="button" variant="outline">
+              Cancel
+            </Button>
+          </DrawerClose>
+          <Button disabled={updateTblPatchFileMutation.isPending}>
+            {updateTblPatchFileMutation.isPending && (
+              <Loader className="mr-2 size-4 animate-spin" aria-hidden="true" />
+            )}
+            Save
+          </Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
 }
 
-export default UpdatePatchDialog
+export default UpsertPatchDialog

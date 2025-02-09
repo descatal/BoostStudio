@@ -2,7 +2,7 @@
 
 import React from "react"
 import { type PatchFileSummaryVm } from "@/api/exvs"
-import UpdatePatchDialog from "@/features/patches/components/update-patch-dialog"
+import UpsertPatchDialog from "@/features/patches/components/upsert-patch-dialog"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { ColumnDef } from "@tanstack/react-table"
 
@@ -107,7 +107,7 @@ export const patchFileColumns: ColumnDef<PatchFileSummaryVm>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               {data.id ? (
                 <>
-                  <UpdatePatchDialog
+                  <UpsertPatchDialog
                     triggerButton={
                       <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                         Edit
@@ -122,71 +122,6 @@ export const patchFileColumns: ColumnDef<PatchFileSummaryVm>[] = [
               )}
             </DropdownMenuContent>
           </DropdownMenu>
-
-          {/*<PatchFileDialog*/}
-          {/*  open={showEditPatchFileDialog}*/}
-          {/*  onOpenChange={setShowEditPatchFileDialog}*/}
-          {/*  // @ts-ignore*/}
-          {/*  existingPatchFile={data}*/}
-          {/*  onSuccess={async () => {*/}
-          {/*    await table.options.meta?.fetchData()*/}
-          {/*  }}*/}
-          {/*/>*/}
-          {/*<AlertDialog>*/}
-          {/*  <DropdownMenu>*/}
-          {/*    <DropdownMenuTrigger asChild>*/}
-          {/*      <Button*/}
-          {/*        aria-label="Open menu"*/}
-          {/*        variant="ghost"*/}
-          {/*        className="flex size-8 p-0 data-[state=open]:bg-muted"*/}
-          {/*      >*/}
-          {/*        <DotsHorizontalIcon className="size-4" aria-hidden="true" />*/}
-          {/*      </Button>*/}
-          {/*    </DropdownMenuTrigger>*/}
-          {/*    <DropdownMenuContent align="end" className="w-40">*/}
-          {/*      <DropdownMenuLabel>Actions</DropdownMenuLabel>*/}
-          {/*      {data.id ? (*/}
-          {/*        <>*/}
-          {/*          <DropdownMenuItem*/}
-          {/*            onSelect={() => setShowEditPatchFileDialog(true)}*/}
-          {/*          >*/}
-          {/*            Edit*/}
-          {/*          </DropdownMenuItem>*/}
-          {/*          <AlertDialogTrigger asChild>*/}
-          {/*            <DropdownMenuItem>Delete</DropdownMenuItem>*/}
-          {/*          </AlertDialogTrigger>*/}
-          {/*        </>*/}
-          {/*      ) : (*/}
-          {/*        <></>*/}
-          {/*      )}*/}
-          {/*    </DropdownMenuContent>*/}
-          {/*  </DropdownMenu>*/}
-          {/*  <AlertDialogContent>*/}
-          {/*    <AlertDialogHeader>*/}
-          {/*      <AlertDialogTitle>Are you sure?</AlertDialogTitle>*/}
-          {/*      <AlertDialogDescription>*/}
-          {/*        This will permanently delete this entry from the database.*/}
-          {/*      </AlertDialogDescription>*/}
-          {/*    </AlertDialogHeader>*/}
-          {/*    <AlertDialogFooter>*/}
-          {/*      <AlertDialogCancel>Cancel</AlertDialogCancel>*/}
-          {/*      <AlertDialogAction*/}
-          {/*        onClick={async () => {*/}
-          {/*          if (!data.id) return*/}
-
-          {/*          await deletePatchFiles({ id: data.id })*/}
-          {/*          await table.options.meta?.fetchData()*/}
-
-          {/*          toast({*/}
-          {/*            title: "Entry Deleted!",*/}
-          {/*          })*/}
-          {/*        }}*/}
-          {/*      >*/}
-          {/*        Confirm*/}
-          {/*      </AlertDialogAction>*/}
-          {/*    </AlertDialogFooter>*/}
-          {/*  </AlertDialogContent>*/}
-          {/*</AlertDialog>*/}
         </>
       )
     },

@@ -74,7 +74,6 @@ export function PatchFileForm({
           className
         )}
       >
-        <Separator />
         <FormField
           control={form.control}
           name="tblId"
@@ -105,7 +104,6 @@ export function PatchFileForm({
             </FormItem>
           )}
         />
-        <Separator />
         <div className={"flex-row space-y-5"}>
           <Accordion type={"multiple"} className={"w-full"}>
             <AccordionItem value="path">
@@ -131,7 +129,6 @@ export function PatchFileForm({
                       </div>
                     </div>
                   </CardHeader>
-                  <Separator />
                   <CardContent>
                     <div className={`mt-4 space-y-3`}>
                       <FormField
@@ -201,7 +198,6 @@ export function PatchFileForm({
                       </div>
                     </div>
                   </CardHeader>
-                  <Separator />
                   <CardContent>
                     <div className={`mt-4 space-y-3`}>
                       <FormField
@@ -318,7 +314,7 @@ export function PatchFileForm({
                                         </FormControl>
                                       </FormItem>
                                     )}
-                                  ></FormField>
+                                  />
                                   <FormField
                                     control={form.control}
                                     name={"fileInfo.size2"}
@@ -337,7 +333,7 @@ export function PatchFileForm({
                                         </FormControl>
                                       </FormItem>
                                     )}
-                                  ></FormField>
+                                  />
                                   <FormField
                                     control={form.control}
                                     name={"fileInfo.size3"}
@@ -356,7 +352,7 @@ export function PatchFileForm({
                                         </FormControl>
                                       </FormItem>
                                     )}
-                                  ></FormField>
+                                  />
                                   <FormField
                                     control={form.control}
                                     name={"fileInfo.size4"}
@@ -375,7 +371,7 @@ export function PatchFileForm({
                                         </FormControl>
                                       </FormItem>
                                     )}
-                                  ></FormField>
+                                  />
                                 </div>
                               </CardContent>
                             </Card>
@@ -389,7 +385,6 @@ export function PatchFileForm({
             </AccordionItem>
           </Accordion>
         </div>
-        <Separator />
         {children}
       </form>
     </Form>
