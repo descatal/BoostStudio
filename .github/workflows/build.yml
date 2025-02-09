@@ -58,7 +58,7 @@ jobs:
 
     - name: Upload website artifacts (win-x64)
       if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: BoostStudio.Web-win-x64
         path: ./src/Core/Presentation/WebApi/publish/win-x64
