@@ -21,103 +21,106 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix: 
-        os: [windows-latest, ubuntu-latest]
+      matrix:
+        os: [ windows-latest, ubuntu-latest ]
 
     steps:
-    - uses: actions/checkout@v3
-      name: Checkout code
+      - uses: actions/checkout@v3
+        name: Checkout code
 
-    - name: Cache NuGet packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
-    - uses: pnpm/action-setup@v4
-      name: Install pnpm
-      with:
-        version: 10
-        run_install: false
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        working-directory: ./src/Client
+        with:
+          version: 10
+          run_install: false
 
-    - name: Install Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'pnpm'
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        working-directory: ./src/Client
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
-    - name: Install dependencies
-      run: pnpm install
+      - name: Install dependencies
+        working-directory: ./src/Client
+        run: pnpm install
 
-    - name: Install .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0.x'
+      - name: Install .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
 
-    - name: Restore solution
-      run: dotnet restore
+      - name: Restore solution
+        run: dotnet restore
 
-    - name: Build solution
-      run: dotnet build --no-restore --configuration Release
-      
-    - name: Test solution
-      run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName!~AcceptanceTests"
+      - name: Build solution
+        run: dotnet build --no-restore --configuration Release
 
-    - name: Publish website (win-x64)
-      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-      run: |
-        dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
-      working-directory: ./src/Core/Presentation/WebApi
+      - name: Test solution
+        run: dotnet test --no-build --configuration Release --filter "FullyQualifiedName!~AcceptanceTests"
 
-    - name: Upload website artifacts (win-x64)
-      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: BoostStudio.Web-win-x64
-        path: ./src/Core/Presentation/WebApi/publish/win-x64
-        if-no-files-found: error
+      - name: Publish website (win-x64)
+        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
+        run: |
+          dotnet publish --configuration Release --runtime win-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/win-x64
+        working-directory: ./src/Core/Presentation/WebApi
 
-    - name: Publish website (linux-x64)
-      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-      run: |
-        dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
-      working-directory: ./src/Core/Presentation/WebApi
+      - name: Upload website artifacts (win-x64)
+        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoostStudio.Web-win-x64
+          path: ./src/Core/Presentation/WebApi/publish/win-x64
+          if-no-files-found: error
 
-    - name: Upload website artifacts (linux-x64)
-      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: BoostStudio.Web-linux-x64
-        path: ./src/Core/Presentation/WebApi/publish/linux-x64
-        if-no-files-found: error
-        
-    - name: Publish console (win-x64)
-      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-      run: |
-        dotnet publish --configuration Console --runtime win-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false --output ./publish/win-x64
-      working-directory: ./src/Core/Presentation/Console
+      - name: Publish website (linux-x64)
+        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+        run: |
+          dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true --output ./publish/linux-x64
+        working-directory: ./src/Core/Presentation/WebApi
 
-    - name: Upload console artifacts (win-x64)
-      if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: BoostStudio.Console-win-x64
-        path: ./src/Core/Presentation/Console/publish/win-x64
-        if-no-files-found: error
-        
-    - name: Publish console (linux-x64)
-      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-      run: |
-        dotnet publish --configuration Console --runtime linux-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false --output ./publish/linux-x64
-      working-directory: ./src/Core/Presentation/Console
+      - name: Upload website artifacts (linux-x64)
+        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoostStudio.Web-linux-x64
+          path: ./src/Core/Presentation/WebApi/publish/linux-x64
+          if-no-files-found: error
 
-    - name: Upload console artifacts (linux-x64)
-      if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: BoostStudio.Console-linux-x64
-        path: ./src/Core/Presentation/Console/publish/linux-x64
-        if-no-files-found: error
+      - name: Publish console (win-x64)
+        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
+        run: |
+          dotnet publish --configuration Console --runtime win-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false --output ./publish/win-x64
+        working-directory: ./src/Core/Presentation/Console
+
+      - name: Upload console artifacts (win-x64)
+        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoostStudio.Console-win-x64
+          path: ./src/Core/Presentation/Console/publish/win-x64
+          if-no-files-found: error
+
+      - name: Publish console (linux-x64)
+        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+        run: |
+          dotnet publish --configuration Console --runtime linux-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false --output ./publish/linux-x64
+        working-directory: ./src/Core/Presentation/Console
+
+      - name: Upload console artifacts (linux-x64)
+        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoostStudio.Console-linux-x64
+          path: ./src/Core/Presentation/Console/publish/linux-x64
+          if-no-files-found: error
 
