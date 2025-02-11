@@ -1,8 +1,8 @@
+import { tblApi } from "@/api/api"
 import {
   GetApiPatchFilesRequest,
   GetApiPatchFilesSummaryRequest,
 } from "@/api/exvs"
-import { tblApi } from "@/features/api"
 import { keepPreviousData, queryOptions, useQuery } from "@tanstack/react-query"
 
 export const getTblPatches = (params: GetApiPatchFilesSummaryRequest) => {

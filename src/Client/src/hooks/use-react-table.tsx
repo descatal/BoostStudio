@@ -1,19 +1,25 @@
-import {Input} from "@/components/ui/input";
+import * as React from "react"
+import { useEffect, useState } from "react"
 import {
-  ColumnDef, ColumnFiltersState,
+  ColumnDef,
+  ColumnFiltersState,
   getCoreRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
-  getSortedRowModel, OnChangeFn, PaginationState, RowData, SortingState,
+  getSortedRowModel,
+  OnChangeFn,
+  PaginationState,
+  RowData,
+  SortingState,
   Table,
   useReactTable,
-  VisibilityState
-} from "@tanstack/react-table";
-import * as React from "react";
-import _ from "lodash";
-import {useEffect, useState} from "react";
+  VisibilityState,
+} from "@tanstack/react-table"
 
-declare module '@tanstack/react-table' {
+import { isEqual } from "@/lib/utils"
+import { Input } from "@/components/ui/input"
+
+declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
     modifiedRows: number[]
     fetchData: () => Promise<void>
@@ -22,7 +28,7 @@ declare module '@tanstack/react-table' {
   }
 }
 
-declare module '@tanstack/react-table' {
+declare module "@tanstack/react-table" {
   interface ColumnMeta<TData extends RowData, TValue> {
     isKey?: boolean | undefined
     isAction?: boolean | undefined
@@ -31,44 +37,43 @@ declare module '@tanstack/react-table' {
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[],
-  setData: OnChangeFn<TData[]>,
-  rowCount: number,
-  fetchData: () => Promise<void> 
+  data: TData[]
+  setData: OnChangeFn<TData[]>
+  rowCount: number
+  fetchData: () => Promise<void>
   saveData: () => Promise<void>
 }
 
-export default function useCustomReactTable<TData, TValue>(
-  {
-    columns,
-    data,
-    setData,
-    rowCount,
-    fetchData,
-    saveData,
-  }: DataTableProps<TData, TValue>
-): Table<TData> {
+export default function useCustomReactTable<TData, TValue>({
+  columns,
+  data,
+  setData,
+  rowCount,
+  fetchData,
+  saveData,
+}: DataTableProps<TData, TValue>): Table<TData> {
   const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]) // can set initial column filter state here
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
-  });
+  })
   const [sorting, setSorting] = useState<SortingState>([])
   const [modifiedRows, setModifiedRows] = useState<number[]>([])
 
   useEffect(() => {
     fetchData().catch()
-  }, [pagination, sorting, columnFilters]);
+  }, [pagination, sorting, columnFilters])
 
   useEffect(() => {
     setPagination({ pageIndex: 0, pageSize: 10 })
   }, [columnFilters])
-  
+
   // Give our default column cell renderer editing superpowers!
   const defaultColumn: Partial<ColumnDef<TData>> = {
-    cell: ({getValue, row: {index}, column: {id}, table}) => {
+    cell: ({ getValue, row: { index }, column: { id }, table }) => {
       const initialValue = getValue()
       // We need to keep and update the state of the cell normally
       const [value, setValue] = React.useState(initialValue)
@@ -85,9 +90,9 @@ export default function useCustomReactTable<TData, TValue>(
 
       return (
         <Input
-          className={`text-center border-hidden w-full`}
+          className={`w-full border-hidden text-center`}
           value={value as string}
-          onChange={e => setValue(e.target.value)}
+          onChange={(e) => setValue(e.target.value)}
           onBlur={onBlur}
         />
       )
@@ -103,7 +108,7 @@ export default function useCustomReactTable<TData, TValue>(
       columnVisibility,
       rowSelection,
       columnFilters,
-      pagination
+      pagination,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -115,12 +120,9 @@ export default function useCustomReactTable<TData, TValue>(
     manualFiltering: true,
     rowCount: rowCount,
     onPaginationChange: setPagination, //update the pagination state when internal APIs mutate the pagination state
-    getSortedRowModel:
-      getSortedRowModel(),
-    getFacetedRowModel:
-      getFacetedRowModel(),
-    getFacetedUniqueValues:
-      getFacetedUniqueValues(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     meta: {
       modifiedRows: modifiedRows,
       fetchData: async () => {
@@ -132,13 +134,16 @@ export default function useCustomReactTable<TData, TValue>(
         await saveData()
       },
       updateData: (rowIndex, columnId, value) => {
-        setData(old =>
+        setData((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {
-              const oldValue = {...old[rowIndex]}
-              const newValue = {...old[rowIndex], [columnId]: value}
-              
-              if (!_.isEqual(oldValue, newValue) && modifiedRows.indexOf(index) === -1) {
+              const oldValue = { ...old[rowIndex] }
+              const newValue = { ...old[rowIndex], [columnId]: value }
+
+              if (
+                !isEqual(oldValue, newValue) &&
+                modifiedRows.indexOf(index) === -1
+              ) {
                 modifiedRows.push(rowIndex)
                 setModifiedRows(modifiedRows)
               }
@@ -154,5 +159,5 @@ export default function useCustomReactTable<TData, TValue>(
         )
       },
     },
-  });
+  })
 }

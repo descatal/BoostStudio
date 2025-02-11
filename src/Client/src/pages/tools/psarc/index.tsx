@@ -4,8 +4,6 @@ import {
   packPsarcByPatchFiles,
   unpackPsarcByPatchFiles,
 } from "@/api/wrapper/psarc-api"
-import UnitSwitcher from "@/pages/units/customize/components/unit-switcher"
-import { ReloadIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -160,7 +158,7 @@ const PsarcTools = () => {
               <Button disabled={isPackPending} onClick={handlePackPsarcSubmit}>
                 {isPackPending && (
                   <Icons.spinner
-                    className="size-4 mr-2 animate-spin"
+                    className="mr-2 size-4 animate-spin"
                     aria-hidden="true"
                   />
                 )}
@@ -214,7 +212,7 @@ const PsarcTools = () => {
               >
                 {isUnpackPending && (
                   <Icons.spinner
-                    className="size-4 mr-2 animate-spin"
+                    className="mr-2 size-4 animate-spin"
                     aria-hidden="true"
                   />
                 )}

@@ -1,24 +1,17 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useEffect } from "react";
-import { UnitDto } from "@/api/exvs";
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
-import { DataTableFilterField, DataTableInputFilterField } from "@/types";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import type { Table } from "@tanstack/react-table";
+import * as React from "react"
+import { UnitSummaryVm } from "@/api/exvs"
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
+import { DataTableFilterField } from "@/types"
+import { Cross2Icon } from "@radix-ui/react-icons"
+import type { Table } from "@tanstack/react-table"
 
-
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
-
-
-
-
 
 interface DataTableToolbarProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -35,7 +28,7 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
-  const [selectedUnits, setSelectedUnits] = React.useState<UnitDto[]>([])
+  const [selectedUnits, setSelectedUnits] = React.useState<UnitSummaryVm[]>([])
 
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns, unitFilterColumns } =
@@ -74,7 +67,7 @@ export function DataTableToolbar<TData>({
                   key={String(column.value)}
                   selectedUnits={
                     (table.getColumn(String(column.value))?.getFilterValue() as
-                      | UnitDto[]
+                      | UnitSummaryVm[]
                       | undefined) ?? []
                   }
                   setSelectedUnits={(unitDto) => {
@@ -137,7 +130,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
           >
             Reset
-            <Cross2Icon className="size-4 ml-2" aria-hidden="true" />
+            <Cross2Icon className="ml-2 size-4" aria-hidden="true" />
           </Button>
         )}
       </div>

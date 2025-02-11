@@ -67,25 +67,27 @@ const CreateAmmoSlotSheet = ({
   })
 
   function onSubmit(input: CreateAmmoSlotSchema) {
-    startCreateTransition(async () => {
-      const id = await createUnitAmmoSlot({
-        ...input,
-        ammoHash: Number(input.ammoHash),
-      })
-
-      ammoSlots[index] = {
-        id: id,
-        ammoHash: input.ammoHash,
-        slotOrder: input.slotOrder,
-      }
-      setAmmoSlots(ammoSlots)
-
-      form.reset()
-      props.onOpenChange?.(false)
-      toast({
-        title: `Ammo Slot ${index + 1} Created!`,
-      })
-    })
+    // startCreateTransition(async () => {
+    //   const id = await createUnitAmmoSlot({
+    //     createUnitAmmoSlotCommand: {
+    //       ...input,
+    //       ammoHash: Number(input.ammoHash),
+    //     },
+    //   })
+    //
+    //   ammoSlots[index] = {
+    //     id: id,
+    //     ammoHash: input.ammoHash,
+    //     slotOrder: input.slotOrder,
+    //   }
+    //   setAmmoSlots(ammoSlots)
+    //
+    //   form.reset()
+    //   props.onOpenChange?.(false)
+    //   toast({
+    //     title: `Ammo Slot ${index + 1} Created!`,
+    //   })
+    // })
   }
 
   return (
@@ -145,7 +147,7 @@ const CreateAmmoSlotSheet = ({
                 <Button disabled={isCreatePending}>
                   {isCreatePending && (
                     <ReloadIcon
-                      className="size-4 mr-2 animate-spin"
+                      className="mr-2 size-4 animate-spin"
                       aria-hidden="true"
                     />
                   )}

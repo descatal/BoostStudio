@@ -1,7 +1,7 @@
-﻿import {Configuration} from "@/api/exvs";
+﻿import { Configuration } from "@/api/exvs"
 
-export function createOpenApiConfiguration(){
+export function createOpenApiConfiguration() {
   return new Configuration({
-    basePath: 'https://localhost:5001',
-  });
+    basePath: import.meta.env.VITE_SERVER_URL ?? "",
+  })
 }

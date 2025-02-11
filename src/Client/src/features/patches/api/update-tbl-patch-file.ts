@@ -1,4 +1,4 @@
-import { tblApi } from "@/features/api"
+import { tblApi } from "@/api/api"
 import { UpdatePatchFileSchema } from "@/features/patches/libs/validations"
 import { useMutation } from "@tanstack/react-query"
 

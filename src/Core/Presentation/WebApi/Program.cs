@@ -6,7 +6,10 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File(Path.Combine(AppContext.BaseDirectory, "logs/log.txt"), rollingInterval: RollingInterval.Day)
+    .WriteTo.File(
+        Path.Combine(AppContext.BaseDirectory, "logs/log.txt"),
+        rollingInterval: RollingInterval.Day
+    )
     .CreateLogger();
 
 try
@@ -37,53 +40,41 @@ try
     }
     else
     {
-        app.UseCors(corsBuilder => corsBuilder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
+        app.UseCors(corsBuilder => corsBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
         app.UseSwaggerUI(opts =>
         {
             opts.DisplayOperationId();
             opts.RoutePrefix = "openapi";
-            opts.ConfigObject.Urls = [new UrlDescriptor
-            {
-                Name = "exvs",
-                Url = "/openapi/exvs.json"
-            }];
-        });
-
-        app.MapFallback(context =>
-        {
-            context.Response.Redirect("/openapi");
-            return Task.CompletedTask;
+            opts.ConfigObject.Urls =
+            [
+                new UrlDescriptor { Name = "exvs", Url = "/openapi/exvs.json" },
+            ];
         });
     }
+
+    app.MapFallbackToFile("index.html");
 
     await app.InitialiseDatabaseAsync();
 
     app.UseHealthChecks("/healthz");
     app.UseHttpsRedirection();
-    
+
     app.UseWhen(
         context =>
         {
             var path = context.Request.Path.Value?.ToLower().Trim();
-            return
-                string.IsNullOrWhiteSpace(path) ||
-                path.StartsWith("/assets");
+            return string.IsNullOrWhiteSpace(path) || path.StartsWith("/assets");
         },
-        config => config.UseStaticFiles(new StaticFileOptions
-        {
-            ServeUnknownFileTypes = true
-        }));
-    
+        config => config.UseStaticFiles(new StaticFileOptions { ServeUnknownFileTypes = true })
+    );
+
     app.MapScalarApiReference(opt =>
     {
         opt.Theme = ScalarTheme.Mars;
     });
 
-    app.UseExceptionHandler(_ => {});
+    app.UseExceptionHandler(_ => { });
 
     app.MapEndpoints();
 

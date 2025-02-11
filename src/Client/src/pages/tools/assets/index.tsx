@@ -1,5 +1,5 @@
 ﻿import React from "react"
-import { AssetFileVm, UnitDto } from "@/api/exvs"
+import { AssetFileVm, UnitSummaryVm } from "@/api/exvs"
 import { packFhmAssets, unpackFhmAssets } from "@/api/wrapper/fhm-api"
 import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
 
@@ -17,7 +17,7 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 interface AssetToolsProps {
-  units?: UnitDto[] | undefined
+  units?: UnitSummaryVm[] | undefined
 }
 
 const AssetTools = ({ units }: AssetToolsProps) => {
@@ -126,7 +126,7 @@ const AssetTools = ({ units }: AssetToolsProps) => {
               >
                 {isPackPending && (
                   <Icons.spinner
-                    className="size-4 mr-2 animate-spin"
+                    className="mr-2 size-4 animate-spin"
                     aria-hidden="true"
                   />
                 )}
@@ -162,7 +162,7 @@ const AssetTools = ({ units }: AssetToolsProps) => {
               >
                 {isUnpackPending && (
                   <Icons.spinner
-                    className="size-4 mr-2 animate-spin"
+                    className="mr-2 size-4 animate-spin"
                     aria-hidden="true"
                   />
                 )}

@@ -18,10 +18,10 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table"
-import _ from "lodash"
 import { useSearchParams } from "react-router-dom"
 import { z } from "zod"
 
+import { isEqual } from "@/lib/utils"
 import { useDebounce } from "@/hooks/use-debounce"
 import { Input } from "@/components/ui/input"
 
@@ -444,7 +444,7 @@ export function useDataTable<TData, TValue>({
               const newValue = { ...old[rowIndex], [columnId]: value }
 
               if (
-                !_.isEqual(oldValue, newValue) &&
+                !isEqual(oldValue, newValue) &&
                 modifiedRows.indexOf(index) === -1
               ) {
                 modifiedRows.push(rowIndex)

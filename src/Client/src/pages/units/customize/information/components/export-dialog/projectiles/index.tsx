@@ -1,28 +1,34 @@
 ﻿import React from "react"
-import {UnitDto} from "@/api/exvs"
+import { UnitSummaryVm } from "@/api/exvs"
+import { exportProjectiles } from "@/api/wrapper/projectile-api"
+import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
+import { ArrowBigDownDash } from "lucide-react"
 
-import {Button} from "@/components/ui/button"
-import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
-import {Separator} from "@/components/ui/separator"
-import {toast} from "@/components/ui/use-toast"
-import {Icons} from "@/components/icons"
-import {ArrowBigDownDash} from "lucide-react";
-import {Switch} from "@/components/ui/switch";
-import {Label} from "@/components/ui/label";
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
-import {exportProjectiles} from "@/api/wrapper/projectile-api";
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
+import { toast } from "@/components/ui/use-toast"
+import { Icons } from "@/components/icons"
 
 interface ProjectileExportProps {
-  units?: UnitDto[] | undefined
+  units?: UnitSummaryVm[] | undefined
   onExport: () => void
 }
 
-const ProjectileExport = ({units, onExport}: ProjectileExportProps) => {
+const ProjectileExport = ({ units, onExport }: ProjectileExportProps) => {
   const [isExportPending, setIsExportPending] = React.useState(false)
   const [hotReload, setHotReload] = React.useState(true)
 
   const [selectedExportUnits, setSelectedExportUnits] =
-    React.useState<UnitDto[]>()
+    React.useState<UnitSummaryVm[]>()
 
   React.useEffect(() => {
     if (units) {
@@ -36,7 +42,7 @@ const ProjectileExport = ({units, onExport}: ProjectileExportProps) => {
         exportUnitProjectileCommand: {
           unitIds: selectedExportUnits?.map((x) => x.unitId!),
           replaceWorking: true,
-          hotReload: hotReload
+          hotReload: hotReload,
         },
       })
 
@@ -75,16 +81,16 @@ const ProjectileExport = ({units, onExport}: ProjectileExportProps) => {
             />
           </div>
           <div className="flex items-center space-x-4 rounded-md border p-4">
-            <ArrowBigDownDash/>
+            <ArrowBigDownDash />
             <div className="flex-1 space-y-1">
               <p className="text-sm font-medium leading-none">Hot Reload</p>
               <p className="text-sm text-muted-foreground">
                 Patch the compiled projectiles binary to running RPCS3.
               </p>
             </div>
-            <Switch checked={hotReload} onCheckedChange={setHotReload}/>
+            <Switch checked={hotReload} onCheckedChange={setHotReload} />
           </div>
-          <Separator/>
+          <Separator />
           <Button
             disabled={isExportPending}
             onClick={async () => {
@@ -95,7 +101,7 @@ const ProjectileExport = ({units, onExport}: ProjectileExportProps) => {
           >
             {isExportPending && (
               <Icons.spinner
-                className="size-4 mr-2 animate-spin"
+                className="mr-2 size-4 animate-spin"
                 aria-hidden="true"
               />
             )}

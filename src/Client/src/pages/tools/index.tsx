@@ -1,23 +1,8 @@
 ﻿import * as React from "react"
-import { AssetFileVm, UnitDto } from "@/api/exvs"
-import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
-import {
-  CommonAssetFileOptionsType,
-  UnitAssetFileOptionsType,
-} from "@/lib/constants"
 import { IconBrowserCheck, IconUser } from "@tabler/icons-react"
 import { Link, Outlet, useLocation } from "react-router-dom"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 
 const sidebarNavItems = [
   {

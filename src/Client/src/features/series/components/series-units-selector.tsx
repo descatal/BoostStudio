@@ -1,12 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { useCallback, useEffect, useState } from "react"
-import {BASE_PATH, UnitSummaryVm} from "@/api/exvs"
-import { fetchUnits } from "@/api/wrapper/units-api"
+import { BASE_PATH, UnitSummaryVm } from "@/api/exvs"
+import { useSeriesUnits } from "@/features/series/api/get-series"
 import { CaretSortIcon } from "@radix-ui/react-icons"
 import { GoPlus } from "react-icons/go"
-import _ from "lodash";
 
 import { cn } from "@/lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -17,13 +15,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import VirtualizedCommand from "@/components/virtualized-command"
-import {useSeriesUnits} from "@/features/series/api/get-series";
 
-type UnitGroup = {
-  id: number
-  label: string
-  units: UnitSummaryVm[]
-}
+// type UnitGroup = {
+//   id: number
+//   label: string
+//   units: UnitSummaryVm[]
+// }
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -42,10 +39,11 @@ export default function SeriesUnitsSelector({
 }: UnitSwitcherProps) {
   const [open, setOpen] = React.useState(false)
 
-  const seriesUnitsQuery = useSeriesUnits();
-  const seriesUnits = seriesUnitsQuery.data?.items
-    .filter(x => x.units)
-    .flatMap(x => x.units!) ?? [];
+  const seriesUnitsQuery = useSeriesUnits()
+  const seriesUnits =
+    seriesUnitsQuery.data?.items
+      .filter((x) => x.units)
+      .flatMap((x) => x.units!) ?? []
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -55,7 +53,7 @@ export default function SeriesUnitsSelector({
           role="combobox"
           aria-expanded={open}
           aria-label="Select a unit"
-          placeholder={"Select a unit"}
+          // placeholder={"Select a unit"}
           className={cn("w-full justify-between", className)}
         >
           <Avatar className="mr-2 h-5 w-5">
@@ -68,7 +66,9 @@ export default function SeriesUnitsSelector({
               alt={selectedUnits ? (selectedUnits[0]?.nameEnglish ?? "") : ""}
             />
             <AvatarFallback>
-              {selectedUnits ? (selectedUnits[0]?.nameEnglish?.charAt(0) ?? "G") : "G"}
+              {selectedUnits
+                ? (selectedUnits[0]?.nameEnglish?.charAt(0) ?? "G")
+                : "G"}
             </AvatarFallback>
           </Avatar>
           {selectedUnits ? (

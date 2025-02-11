@@ -1,5 +1,5 @@
+import { tblApi } from "@/api/api"
 import { type ExportTblCommand } from "@/api/exvs"
-import { tblApi } from "@/features/api"
 import { useMutation } from "@tanstack/react-query"
 
 import { MutationConfig } from "@/lib/react-query"

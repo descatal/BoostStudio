@@ -77,26 +77,26 @@ const UpdateAmmoSlotSheet = ({
   }, [ammoSlots])
 
   function onSubmit(input: UpdateAmmoSlotSchema) {
-    startUpdateTransition(async () => {
-      await updateUnitAmmoSlot({
-        id: input.id,
-        updateUnitAmmoSlotCommand: input,
-      })
-
-      ammoSlots[index] = {
-        id: input.id,
-        ammoHash: input.ammoHash,
-        slotOrder: input.slotOrder,
-      }
-      setAmmoSlots(ammoSlots)
-
-      form.reset()
-      setOpenBool(false)
-      props.onOpenChange?.(false)
-      toast({
-        title: `Ammo Slot ${(ammoSlot.slotOrder ?? 0) + 1} Updated!`,
-      })
-    })
+    // startUpdateTransition(async () => {
+    //   await updateUnitAmmoSlot({
+    //     id: input.id,
+    //     updateUnitAmmoSlotCommand: input,
+    //   })
+    //
+    //   ammoSlots[index] = {
+    //     id: input.id,
+    //     ammoHash: input.ammoHash,
+    //     slotOrder: input.slotOrder,
+    //   }
+    //   setAmmoSlots(ammoSlots)
+    //
+    //   form.reset()
+    //   setOpenBool(false)
+    //   props.onOpenChange?.(false)
+    //   toast({
+    //     title: `Ammo Slot ${(ammoSlot.slotOrder ?? 0) + 1} Updated!`,
+    //   })
+    // })
   }
 
   return (
@@ -156,7 +156,7 @@ const UpdateAmmoSlotSheet = ({
                 <Button disabled={isUpdatePending}>
                   {isUpdatePending && (
                     <ReloadIcon
-                      className="size-4 mr-2 animate-spin"
+                      className="mr-2 size-4 animate-spin"
                       aria-hidden="true"
                     />
                   )}

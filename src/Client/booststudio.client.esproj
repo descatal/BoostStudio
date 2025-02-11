@@ -30,4 +30,25 @@
         <Touch Files="$(NpmInstallCheck)" Condition="'$(ErrorCodeNpmInstall)' == '0'" AlwaysCreate="true"/>
     </Target>
 
+    <Target Name="EvaluateNPMScripts">
+        <!--
+        For each ITaskItem coming from the target we iterate through it and assign to the correct MSBuild property. The order determines the priority
+        eg. if a package.json has a "start" and a "serve" script, the "start" script will be assigned to StartupCommand.
+        -->
+        <PropertyGroup>
+            <BuildCommand Condition="'$(BuildCommand)' == '' AND '$(PackageJsonScriptsBuild)' != ''">pnpm build</BuildCommand>
+            <BuildCommand Condition="'$(BuildCommand)' == '' AND '$(PackageJsonScriptsCompile)' != ''">pnpm compile</BuildCommand>
+
+            <StartupCommand Condition="'$(StartupCommand)' == '' AND '$(PackageJsonScriptsStart)' != ''">pnpm start</StartupCommand>
+            <StartupCommand Condition="'$(StartupCommand)' == '' AND '$(PackageJsonScriptsServe)' != ''">pnpm serve</StartupCommand>
+            <StartupCommand Condition="'$(StartupCommand)' == '' AND '$(PackageJsonScriptsDev)' != ''">pnpm dev</StartupCommand>
+
+            <TestCommand Condition="'$(TestCommand)' == '' AND '$(PackageJsonScriptsTest)' != ''">pnpm test</TestCommand>
+
+            <CleanCommand Condition="'$(CleanCommand)' == '' AND '$(PackageJsonScriptsClean)' != ''">pnpm clean</CleanCommand>
+
+            <PublishCommand Condition="'$(PublishCommand)' == '' AND '$(PackageJsonScriptsPublish)' != ''">pnpm publish</PublishCommand>
+        </PropertyGroup>
+    </Target>
+
 </Project>
