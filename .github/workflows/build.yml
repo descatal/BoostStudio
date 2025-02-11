@@ -45,6 +45,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
+          cache-dependency-path: ./src/Client
           node-version: 20
           cache: 'pnpm'
 
