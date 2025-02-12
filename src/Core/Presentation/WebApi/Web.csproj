@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+    <OpenApiGenerateDocuments Condition=" $(Configuration) == 'DEBUG' ">true</OpenApiGenerateDocuments>
     <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../../../Client/src/api</OpenApiDocumentsDirectory>
     <OpenApiGenerateDocumentsOptions>--file-name booststudio</OpenApiGenerateDocumentsOptions>
   </PropertyGroup>
