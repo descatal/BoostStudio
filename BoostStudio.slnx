@@ -37,24 +37,20 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests\Application.FunctionalTests\Application.FunctionalTests.csproj">
-      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
-      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
       <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
     </Project>
     <Project Path="tests\Application.UnitTests\Application.UnitTests.csproj">
-      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
-      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
       <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
     </Project>
     <Project Path="tests\Domain.UnitTests\Domain.UnitTests.csproj">
-      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
-      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
       <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
     </Project>
     <Project Path="tests\Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj">
-      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
-      <Configuration Solution="Release|Any CPU" Project="Release|Any CPU|NoBuild" />
       <Configuration Solution="Console|Any CPU" Project="Console|Any CPU|NoBuild" />
+      <Configuration Solution="Debug|Any CPU" Project="Debug|Any CPU|NoBuild" />
     </Project>
   </Folder>
 </Solution>

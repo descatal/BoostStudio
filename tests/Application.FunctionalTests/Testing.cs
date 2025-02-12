@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -17,7 +17,7 @@ public partial class Testing
         _factory = new CustomWebApplicationFactory();
 
         _scopeFactory = _factory.Services.GetRequiredService<IServiceScopeFactory>();
-        
+
         return Task.CompletedTask;
     }
 
@@ -38,7 +38,7 @@ public partial class Testing
 
         await mediator.Send(request);
     }
-    
+
     public static Task ResetState()
     {
         return Task.CompletedTask;

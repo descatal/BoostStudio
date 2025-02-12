@@ -13,6 +13,8 @@
         <ShouldRunBuildScript>false</ShouldRunBuildScript>
         <!-- Folder where production build objects will be placed -->
         <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
+        <Configurations>Debug</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <!-- Must be after property group so that the asset file will be built -->
