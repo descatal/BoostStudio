@@ -2,44 +2,55 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using BoostStudio.Application.Common.Interfaces.Formats.AudioFormats;
-using FFMpegCore;
-using FFMpegCore.Pipes;
+
+// using FFMpegCore;
+// using FFMpegCore.Pipes;
 
 namespace BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 
 public partial class Riff : IRiff
 {
     public async Task<byte[]> RiffToPcmAsync(
-        byte[] riffBinary, 
-        CancellationToken cancellationToken = default)
+        byte[] riffBinary,
+        CancellationToken cancellationToken = default
+    )
     {
         using var riffStream = new MemoryStream(riffBinary);
         using var pcmStream = new MemoryStream();
-                
+
         // Convert wav to PCM file
-        await FFMpegArguments
-            .FromPipeInput(new StreamPipeSource(riffStream))
-            .OutputToPipe(new StreamPipeSink(pcmStream), opts => opts
-                .ForceFormat("s16le")
-                .WithAudioCodec("pcm_s16le"))
-            .ProcessAsynchronously();
+        // await FFMpegArguments
+        //     .FromPipeInput(new StreamPipeSource(riffStream))
+        //     .OutputToPipe(new StreamPipeSink(pcmStream), opts => opts
+        //         .ForceFormat("s16le")
+        //         .WithAudioCodec("pcm_s16le"))
+        //     .ProcessAsynchronously();
 
         return pcmStream.ToArray();
     }
-    
-    public async Task<uint?> GetSampleSizeAsync(byte[] riffBinary, CancellationToken cancellationToken)
+
+    public async Task<uint?> GetSampleSizeAsync(
+        byte[] riffBinary,
+        CancellationToken cancellationToken
+    )
     {
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
-        
+
         try
         {
             var riffFilePath = Path.Combine(workingDirectory, "input.wav");
             await File.WriteAllBytesAsync(riffFilePath, riffBinary, cancellationToken);
-            
-            var vgmstreamCliPath = Path.Combine(Path.GetTempPath(), "BoostStudio", "Resources", "vgmstream", "vgmstream-cli.exe");
+
+            var vgmstreamCliPath = Path.Combine(
+                Path.GetTempPath(),
+                "BoostStudio",
+                "Resources",
+                "vgmstream",
+                "vgmstream-cli.exe"
+            );
             var arguments = $"-m \"{riffFilePath}\"";
-        
+
             // Execute process
             using var psarcProcess = new Process();
             psarcProcess.StartInfo = new ProcessStartInfo
@@ -57,13 +68,13 @@ public partial class Riff : IRiff
             var stdErr = psarcProcess.StandardError;
 
             var standardOutput = new StringBuilder();
-            while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
+            while (await stdOut.ReadLineAsync(cancellationToken) is { } outputLine)
                 standardOutput.Append(outputLine);
 
             var errorOutput = new StringBuilder();
-            while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
+            while (await stdErr.ReadLineAsync(cancellationToken) is { } outputLine)
                 errorOutput.Append(outputLine);
-        
+
             await psarcProcess.WaitForExitAsync(cancellationToken);
 
             if (psarcProcess.ExitCode != 0)
@@ -82,7 +93,7 @@ public partial class Riff : IRiff
             Directory.Delete(workingDirectory, true);
         }
     }
-    
+
     [GeneratedRegex(@"stream total samples: (\d+)")]
     private static partial Regex TotalSampleRegex();
 }

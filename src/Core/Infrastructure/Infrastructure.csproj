@@ -111,9 +111,5 @@
     <EmbeddedResource Include="Resources\nus3audio\nus3audio.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <None Remove="Resources\ffmpeg\ffmpeg.exe" />
-    <EmbeddedResource Include="Resources\ffmpeg\ffmpeg.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>
