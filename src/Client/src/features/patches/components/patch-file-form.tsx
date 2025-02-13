@@ -39,7 +39,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
 import { HashInput } from "@/components/custom/hash-input"
 
 interface PatchFileFormProps

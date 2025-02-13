@@ -93,7 +93,7 @@ const UpsertPatchDialog = ({
         },
   })
 
-  const isDesktop = useMediaQuery("(min-width: 768px)")
+  const isDesktop = useMediaQuery("(min-width: 640px)")
 
   const handleFormSubmit = (
     values: CreatePatchFileSchema | UpdatePatchFileSchema
@@ -120,24 +120,23 @@ const UpsertPatchDialog = ({
           </SheetHeader>
           <Separator />
           <PatchFileForm form={form} onSubmit={handleFormSubmit}>
-            <></>
-          </PatchFileForm>
-          <SheetFooter className="gap-2 pt-2 sm:space-x-0">
-            <SheetClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
+            <SheetFooter className="gap-2 pt-2 sm:space-x-0">
+              <SheetClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </SheetClose>
+              <Button disabled={updateTblPatchFileMutation.isPending}>
+                {updateTblPatchFileMutation.isPending && (
+                  <Loader
+                    className="mr-2 size-4 animate-spin"
+                    aria-hidden="true"
+                  />
+                )}
+                Save
               </Button>
-            </SheetClose>
-            <Button disabled={updateTblPatchFileMutation.isPending}>
-              {updateTblPatchFileMutation.isPending && (
-                <Loader
-                  className="mr-2 size-4 animate-spin"
-                  aria-hidden="true"
-                />
-              )}
-              Save
-            </Button>
-          </SheetFooter>
+            </SheetFooter>
+          </PatchFileForm>
         </SheetContent>
       </Sheet>
     )
@@ -145,7 +144,9 @@ const UpsertPatchDialog = ({
 
   return (
     <Drawer {...props}>
-      <DrawerTrigger asChild>{triggerButton ?? <></>}</DrawerTrigger>
+      <DrawerTrigger asChild autoFocus={props.open}>
+        {triggerButton ?? <></>}
+      </DrawerTrigger>
       <DrawerContent className="flex flex-col gap-6 sm:max-w-md">
         <DrawerHeader className="text-left">
           <DrawerTitle>Update patch file details</DrawerTitle>
@@ -155,21 +156,26 @@ const UpsertPatchDialog = ({
         </DrawerHeader>
         <Separator />
         <PatchFileForm form={form} onSubmit={handleFormSubmit}>
-          <></>
-        </PatchFileForm>
-        <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
-          <DrawerClose>
-            <Button type="button" variant="outline">
-              Cancel
+          <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
+            <DrawerClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DrawerClose>
+            <Button
+              type={"submit"}
+              disabled={updateTblPatchFileMutation.isPending}
+            >
+              {updateTblPatchFileMutation.isPending && (
+                <Loader
+                  className="mr-2 size-4 animate-spin"
+                  aria-hidden="true"
+                />
+              )}
+              Save
             </Button>
-          </DrawerClose>
-          <Button disabled={updateTblPatchFileMutation.isPending}>
-            {updateTblPatchFileMutation.isPending && (
-              <Loader className="mr-2 size-4 animate-spin" aria-hidden="true" />
-            )}
-            Save
-          </Button>
-        </DrawerFooter>
+          </DrawerFooter>
+        </PatchFileForm>
       </DrawerContent>
     </Drawer>
   )
