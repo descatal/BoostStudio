@@ -1,5 +1,5 @@
-import {createStore} from 'zustand'
-import {BASE_PATH, Configuration, UnitsApi} from "@/api/exvs";
+import { BASE_PATH, Configuration, UnitsApi } from "@/api/exvs"
+import { createStore } from "zustand"
 
 const openApiConfiguration = new Configuration({
   basePath: BASE_PATH,
@@ -9,9 +9,7 @@ export interface AppProps {
   unitsApi: UnitsApi
 }
 
-export interface AppState extends AppProps {
-
-}
+export interface AppState extends AppProps {}
 
 export type AppStore = ReturnType<typeof createAppStore>
 

@@ -1,102 +1,102 @@
-﻿import React, { useCallback, useEffect, useState } from "react"
-import { GetApiStats200Response } from "@/api/exvs/models/GetApiStats200Response"
-import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner"
-import { GetApiUnitStats200ResponseItemsInner } from "@/api/exvs/models/GetApiUnitStats200ResponseItemsInner"
-import { UnitAmmoSlotDto } from "@/api/exvs/models/UnitAmmoSlotDto"
-import { fetchAmmoOptions } from "@/api/wrapper/ammo-api"
+﻿import React, { useCallback, useEffect, useState } from "react";
+import { GetApiStats200Response } from "@/api/exvs/models/GetApiStats200Response";
+import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner";
+import { GetApiUnitStats200ResponseItemsInner } from "@/api/exvs/models/GetApiUnitStats200ResponseItemsInner";
+import { UnitAmmoSlotDto } from "@/api/exvs/models/UnitAmmoSlotDto";
+import { fetchAmmoOptions } from "@/api/wrapper/ammo-api";
 import {
   fetchStats,
   fetchUnitStatsByUnitId,
   updateStats,
-} from "@/api/wrapper/stats-api"
+} from "@/api/wrapper/stats-api";
 
-import { useDataTable } from "@/hooks/use-react-table-2"
+import { useDataTable } from "@/hooks/use-react-table-2";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { DataTable } from "@/components/data-table/data-table"
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
+} from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
+import { DataTable } from "@/components/data-table/data-table";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
-import AmmoSlots from "./components/ammo-slots"
-import { statGroupColumns } from "./components/data-table/stat-group-data-table-columns"
-import { StatGroupDataTableToolbar } from "./components/data-table/stat-group-data-table-toolbar"
+import AmmoSlots from "./components/ammo-slots";
+import { statGroupColumns } from "../../../../../../../features/stats/tables/stat-group-data-table-columns";
+import { StatGroupDataTableToolbar } from "../../../../../../../features/stats/tables/stat-group-data-table-toolbar";
 
 const Stats = ({ unitId }: { unitId: number }) => {
-  const [statsResponse, setStatsResponse] = useState<GetApiStats200Response>()
-  const [stats, setStats] = useState<GetApiStats200ResponseItemsInner[]>([])
+  const [statsResponse, setStatsResponse] = useState<GetApiStats200Response>();
+  const [stats, setStats] = useState<GetApiStats200ResponseItemsInner[]>([]);
 
   const [unitStatsResponse, setUnitStatsResponse] =
-    useState<GetApiUnitStats200ResponseItemsInner>()
-  const [ammoSlots, setAmmoSlots] = useState<UnitAmmoSlotDto[]>([])
+    useState<GetApiUnitStats200ResponseItemsInner>();
+  const [ammoSlots, setAmmoSlots] = useState<UnitAmmoSlotDto[]>([]);
 
-  const [ammoOptions, setAmmoOptions] = useState<number[]>([])
+  const [ammoOptions, setAmmoOptions] = useState<number[]>([]);
 
   const getUnitStats = useCallback(async () => {
     const response = await fetchUnitStatsByUnitId({
       unitId: unitId,
-    })
-    setUnitStatsResponse(response)
-  }, [unitId])
+    });
+    setUnitStatsResponse(response);
+  }, [unitId]);
 
   const getAmmoOptionsData = useCallback(async () => {
-    const ammoOptions = await fetchAmmoOptions([unitId])
-    setAmmoOptions(ammoOptions)
-  }, [])
+    const ammoOptions = await fetchAmmoOptions([unitId]);
+    setAmmoOptions(ammoOptions);
+  }, []);
 
   const getData = useCallback(async () => {
-    const pagination = table.getState().pagination
+    const pagination = table.getState().pagination;
     const apiUnitStats200Response = await fetchStats({
       unitIds: [unitId],
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
-    })
-    setStatsResponse(apiUnitStats200Response)
-  }, [unitId])
+    });
+    setStatsResponse(apiUnitStats200Response);
+  }, [unitId]);
 
   const saveData = useCallback(async () => {
-    const modifiedRows = table.options.meta?.modifiedRows ?? []
+    const modifiedRows = table.options.meta?.modifiedRows ?? [];
     const modifiedEntities = modifiedRows.map((rowIndex, index) => {
-      return table.getRow(rowIndex.toString()).original
-    })
+      return table.getRow(rowIndex.toString()).original;
+    });
 
     for (const entity of modifiedEntities) {
-      if (!entity.id) continue
+      if (!entity.id) continue;
       await updateStats({
         id: entity.id!,
         updateStatCommand: {
           ...entity,
           id: entity.id!,
         },
-      })
+      });
     }
 
     toast({
       title: "Saved!",
       description: "Save operation successful.",
-    })
-    await getData()
-  }, [])
+    });
+    await getData();
+  }, []);
 
   useEffect(() => {
-    let statGroups = statsResponse?.items ?? []
-    statGroups = statGroups.sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-    setStats(statGroups)
-  }, [statsResponse])
+    let statGroups = statsResponse?.items ?? [];
+    statGroups = statGroups.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    setStats(statGroups);
+  }, [statsResponse]);
 
   useEffect(() => {
-    setAmmoSlots(unitStatsResponse?.ammoSlots ?? [])
-  }, [unitStatsResponse])
+    setAmmoSlots(unitStatsResponse?.ammoSlots ?? []);
+  }, [unitStatsResponse]);
 
   useEffect(() => {
-    getUnitStats().catch((e) => console.error(e))
-    getData().catch((e) => console.error(e))
-    getAmmoOptionsData().catch((e) => console.error(e))
-  }, [unitId])
+    getUnitStats().catch((e) => console.error(e));
+    getData().catch((e) => console.error(e));
+    getAmmoOptionsData().catch((e) => console.error(e));
+  }, [unitId]);
 
   const { table } = useDataTable({
     data: stats,
@@ -105,7 +105,7 @@ const Stats = ({ unitId }: { unitId: number }) => {
     pageCount: statsResponse?.totalPages ?? 0,
     fetchData: getData,
     saveData: saveData,
-  })
+  });
 
   return (
     <>
@@ -151,7 +151,7 @@ const Stats = ({ unitId }: { unitId: number }) => {
         </Card>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Stats
+export default Stats;

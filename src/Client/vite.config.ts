@@ -2,7 +2,8 @@ import child_process from "child_process"
 import fs from "fs"
 import path from "path"
 import { env } from "process"
-import react from "@vitejs/plugin-react-swc"
+import TanStackRouterVite from "@tanstack/router-plugin/vite"
+import viteReact from "@vitejs/plugin-react-swc"
 import { defineConfig } from "vite"
 
 const baseFolder =
@@ -54,7 +55,11 @@ export default defineConfig({
       "@tabler/icons-react": "@tabler/icons-react/dist/esm/icons/index.mjs",
     },
   },
-  plugins: [react()],
+  plugins: [
+    TanStackRouterVite({ autoCodeSplitting: true }),
+    viteReact(),
+    // ...,
+  ],
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors
   clearScreen: false,

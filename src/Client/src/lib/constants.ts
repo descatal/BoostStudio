@@ -27,17 +27,20 @@
   LoadingTargetPilotCostume1Sprite: "LoadingTargetPilotCostume1Sprite",
   LoadingTargetPilotCostume2Sprite: "LoadingTargetPilotCostume2Sprite",
   LoadingTargetPilotCostume3Sprite: "LoadingTargetPilotCostume3Sprite",
-  InGameSortieAndAwakeningPilotCostume1Sprite: "InGameSortieAndAwakeningPilotCostume1Sprite",
-  InGameSortieAndAwakeningPilotCostume2Sprite: "InGameSortieAndAwakeningPilotCostume2Sprite",
-  InGameSortieAndAwakeningPilotCostume3Sprite: "InGameSortieAndAwakeningPilotCostume3Sprite",
+  InGameSortieAndAwakeningPilotCostume1Sprite:
+    "InGameSortieAndAwakeningPilotCostume1Sprite",
+  InGameSortieAndAwakeningPilotCostume2Sprite:
+    "InGameSortieAndAwakeningPilotCostume2Sprite",
+  InGameSortieAndAwakeningPilotCostume3Sprite:
+    "InGameSortieAndAwakeningPilotCostume3Sprite",
   ResultSmallUnitSprite: "ResultSmallUnitSprite",
   FigurineSprite: "FigurineSprite",
   LoadingTargetUnitSmallSprite: "LoadingTargetUnitSmallSprite",
   CatalogStorePilotCostume2Sprite: "CatalogStorePilotCostume2Sprite",
   CatalogStorePilotCostume3Sprite: "CatalogStorePilotCostume3Sprite",
-} as const
+} as const;
 export type UnitAssetFileOptionsType =
-  (typeof UnitAssetFileOptions)[keyof typeof UnitAssetFileOptions]
+  (typeof UnitAssetFileOptions)[keyof typeof UnitAssetFileOptions];
 
 export const CommonAssetFileOptions = {
   Hitboxes: "Hitboxes",
@@ -56,24 +59,36 @@ export const CommonAssetFileOptions = {
   TextStrings: "TextStrings",
   SeriesLogoSprites: "SeriesLogoSprites",
   SeriesLogoSprites2: "SeriesLogoSprites2",
-} as const
+} as const;
 export type CommonAssetFileOptionsType =
-  (typeof CommonAssetFileOptions)[keyof typeof CommonAssetFileOptions]
+  (typeof CommonAssetFileOptions)[keyof typeof CommonAssetFileOptions];
 
 export const SeriesFileOptions = {
-  Movie: "Movie"
-} as const
+  Movie: "Movie",
+} as const;
 export type SeriesFileOptionsType =
-  (typeof SeriesFileOptions)[keyof typeof SeriesFileOptions]
-
+  (typeof SeriesFileOptions)[keyof typeof SeriesFileOptions];
 
 export const CombinedAssetFileOptions = {
   ...UnitAssetFileOptions,
   ...SeriesFileOptions,
   ...CommonAssetFileOptions,
-}
+};
 
 export type AssetFileType =
   | UnitAssetFileOptionsType
   | SeriesFileOptionsType
-  | CommonAssetFileOptionsType
+  | CommonAssetFileOptionsType;
+
+export const UnitCustomizableSections = {
+  Info: "info",
+  Script: "script",
+  Assets: "assets",
+} as const;
+
+export const UnitCustomizableInfoSections = {
+  Stats: "stats",
+  Ammo: "ammo",
+  Projectiles: "projectiles",
+  Hitboxes: "hitboxes",
+} as const;

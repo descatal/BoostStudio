@@ -1,24 +1,24 @@
-import React, {useState} from "react"
-import {UnitSummaryVm} from "@/api/exvs"
-import {Link} from "react-router-dom"
+import React, { useState } from "react";
+import { UnitSummaryVm } from "@/api/exvs";
+import { Link } from "@tanstack/react-router";
 
-import {Button} from "@/components/ui/button"
-import {Input} from "@/components/ui/input"
-import {Separator} from "@/components/ui/separator"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
-import UnitCard from "./components/unit-card"
-import {useDebounce} from "@uidotdev/usehooks"
-import {useSeriesUnits} from "@/features/series/api/get-series";
+import UnitCard from "./components/unit-card";
+import { useDebounce } from "@uidotdev/usehooks";
+import { useSeriesUnits } from "@/features/series/api/get-series";
 import TopBar from "@/components/custom/top-bar";
 
 const UnitsPage = () => {
   // const unitsApi = useAppContext((s) => s.unitsApi)
 
-  const [search, setSearch] = useState("")
-  const debouncedSearchParam = useDebounce(search, 1000)
+  const [search, setSearch] = useState("");
+  const debouncedSearchParam = useDebounce(search, 1000);
   const [selectedUnit, setSelectedUnit] = useState<UnitSummaryVm | undefined>(
-    undefined
-  )
+    undefined,
+  );
 
   const seriesUnitsQuery = useSeriesUnits();
   const seriesUnits = seriesUnitsQuery.data?.items;
@@ -46,7 +46,7 @@ const UnitsPage = () => {
         <Input
           placeholder={"Search units"}
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
           className={"m-2 h-8 w-[300px]"}
         />
         {selectedUnit && (
@@ -55,25 +55,29 @@ const UnitsPage = () => {
           </Link>
         )}
       </TopBar>
-      {seriesUnits && seriesUnits.map((vm) => (
-        <div className={"flex flex-col items-center p-4"}>
-          {vm.nameEnglish ?? "Unknown"}
-          <div className={"grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6"}>
-            {
-              vm.units && vm.units.map((unit) => (
-                <UnitCard
-                  className={"cursor-pointer"}
-                  onClick={() => setSelectedUnit(unit)}
-                  key={unit.unitId}
-                  unit={unit}
-                  selected={selectedUnit?.unitId === unit.unitId}
-                />
-              ))
-            }
+      {seriesUnits &&
+        seriesUnits.map((vm) => (
+          <div className={"flex flex-col items-center p-4"}>
+            {vm.nameEnglish ?? "Unknown"}
+            <div
+              className={
+                "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6"
+              }
+            >
+              {vm.units &&
+                vm.units.map((unit) => (
+                  <UnitCard
+                    className={"cursor-pointer"}
+                    onClick={() => setSelectedUnit(unit)}
+                    key={unit.unitId}
+                    unit={unit}
+                    selected={selectedUnit?.unitId === unit.unitId}
+                  />
+                ))}
+            </div>
+            <Separator />
           </div>
-          <Separator/>
-        </div>
-      ))}
+        ))}
       {/*{groupedData && Object.keys(groupedData)?.map((seriesSlugName) => (*/}
       {/*  <>*/}
       {/*    {groupedData[seriesSlugName] ? groupedData[seriesSlugName]![0].series?.nameEnglish ?? "Unknown" : "Unknown"}*/}
@@ -94,7 +98,7 @@ const UnitsPage = () => {
       {/*  </>*/}
       {/*))}*/}
     </div>
-  )
-}
+  );
+};
 
-export default UnitsPage
+export default UnitsPage;

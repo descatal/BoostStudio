@@ -1,10 +1,12 @@
 import React, { useCallback } from "react"
 import { UpsertConfigCommand } from "@/api/exvs"
 import { upsertConfig } from "@/api/wrapper/config-api"
+import { fieldConfig, ZodProvider } from "@autoform/zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { AutoForm } from "@/components/ui/autoform"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -110,9 +112,7 @@ const ConfigForm = ({
             />
           </CardContent>
           <CardFooter className="border-t px-6 py-4">
-            <Button>
-              Save
-            </Button>
+            <Button>Save</Button>
           </CardFooter>
         </Card>
       </form>

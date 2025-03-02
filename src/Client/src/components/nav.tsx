@@ -1,17 +1,17 @@
-import React from "react"
-import { SideLink } from "@/data/sidelinks"
-import { IconChevronDown } from "@tabler/icons-react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { SideLink } from "@/data/sidelinks";
+import { IconChevronDown } from "@tabler/icons-react";
+import { Link } from "@tanstack/react-router";
 
-import { cn } from "@/lib/utils"
-import useCheckActiveNav from "@/hooks/use-check-active-nav"
+import { cn } from "@/lib/utils";
+import useCheckActiveNav from "@/hooks/use-check-active-nav";
 
-import { Button, buttonVariants } from "./custom/button"
+import { Button, buttonVariants } from "./custom/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "./ui/collapsible"
+} from "./ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,18 +19,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
+} from "./ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/tooltip"
+} from "./ui/tooltip";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
-  isCollapsed: boolean
-  links: SideLink[]
-  closeNav: () => void
+  isCollapsed: boolean;
+  links: SideLink[];
+  closeNav: () => void;
 }
 
 export default function Nav({
@@ -40,7 +40,7 @@ export default function Nav({
   closeNav,
 }: NavProps) {
   const renderLink = ({ sub, ...rest }: SideLink) => {
-    const key = `${rest.title}-${rest.href}`
+    const key = `${rest.title}-${rest.href}`;
     if (isCollapsed && sub)
       return (
         <NavLinkIconDropdown
@@ -49,24 +49,24 @@ export default function Nav({
           key={key}
           closeNav={closeNav}
         />
-      )
+      );
 
     if (isCollapsed)
-      return <NavLinkIcon {...rest} key={key} closeNav={closeNav} />
+      return <NavLinkIcon {...rest} key={key} closeNav={closeNav} />;
 
     if (sub)
       return (
         <NavLinkDropdown {...rest} sub={sub} key={key} closeNav={closeNav} />
-      )
+      );
 
-    return <NavLink {...rest} key={key} closeNav={closeNav} />
-  }
+    return <NavLink {...rest} key={key} closeNav={closeNav} />;
+  };
   return (
     <div
       data-collapsed={isCollapsed}
       className={cn(
         "group border-b bg-background py-2 transition-[max-height,padding] duration-500 data-[collapsed=true]:py-2 md:border-none",
-        className
+        className,
       )}
     >
       <TooltipProvider delayDuration={0}>
@@ -75,12 +75,12 @@ export default function Nav({
         </nav>
       </TooltipProvider>
     </div>
-  )
+  );
 }
 
 interface NavLinkProps extends SideLink {
-  subLink?: boolean
-  closeNav: () => void
+  subLink?: boolean;
+  closeNav: () => void;
 }
 
 function NavLink({
@@ -91,7 +91,7 @@ function NavLink({
   closeNav,
   subLink = false,
 }: NavLinkProps) {
-  const { checkActiveNav } = useCheckActiveNav()
+  const { checkActiveNav } = useCheckActiveNav();
   return (
     <Link
       to={href}
@@ -102,7 +102,7 @@ function NavLink({
           size: "sm",
         }),
         "text-wrap h-12 justify-start rounded-none px-6",
-        subLink && "h-10 w-full border-l border-l-slate-500 px-2"
+        subLink && "h-10 w-full border-l border-l-slate-500 px-2",
       )}
       aria-current={checkActiveNav(href) ? "page" : undefined}
     >
@@ -114,22 +114,22 @@ function NavLink({
         </div>
       )}
     </Link>
-  )
+  );
 }
 
 function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
-  const { checkActiveNav } = useCheckActiveNav()
+  const { checkActiveNav } = useCheckActiveNav();
 
   /* Open collapsible by default
    * if one of child element is active */
-  const isChildActive = !!sub?.find((s) => checkActiveNav(s.href))
+  const isChildActive = !!sub?.find((s) => checkActiveNav(s.href));
 
   return (
     <Collapsible defaultOpen={isChildActive}>
       <CollapsibleTrigger
         className={cn(
           buttonVariants({ variant: "ghost", size: "sm" }),
-          "group h-12 w-full justify-start rounded-none px-6"
+          "group h-12 w-full justify-start rounded-none px-6",
         )}
       >
         <div className="mr-2">{icon}</div>
@@ -141,7 +141,7 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
         )}
         <span
           className={cn(
-            'ml-auto transition-all group-data-[state="open"]:-rotate-180'
+            'ml-auto transition-all group-data-[state="open"]:-rotate-180',
           )}
         >
           <IconChevronDown stroke={1} />
@@ -157,11 +157,11 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
         </ul>
       </CollapsibleContent>
     </Collapsible>
-  )
+  );
 }
 
 function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
-  const { checkActiveNav } = useCheckActiveNav()
+  const { checkActiveNav } = useCheckActiveNav();
   return (
     <Tooltip delayDuration={0}>
       <TooltipTrigger asChild>
@@ -172,7 +172,7 @@ function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
               variant: checkActiveNav(href) ? "secondary" : "ghost",
               size: "icon",
             }),
-            "h-12 w-12"
+            "h-12 w-12",
           )}
         >
           {icon}
@@ -186,15 +186,15 @@ function NavLinkIcon({ title, icon, label, href }: NavLinkProps) {
         )}
       </TooltipContent>
     </Tooltip>
-  )
+  );
 }
 
 function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
-  const { checkActiveNav } = useCheckActiveNav()
+  const { checkActiveNav } = useCheckActiveNav();
 
   /* Open collapsible by default
    * if one of child element is active */
-  const isChildActive = !!sub?.find((s) => checkActiveNav(s.href))
+  const isChildActive = !!sub?.find((s) => checkActiveNav(s.href));
 
   return (
     <DropdownMenu>
@@ -239,5 +239,5 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
         ))}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

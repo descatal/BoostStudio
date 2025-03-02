@@ -1,16 +1,16 @@
-import React from "react"
-import { useUnitsStore } from "@/pages/units/libs/store"
-import { Link, useLocation, useParams } from "react-router-dom"
+import React from "react";
+import { useUnitsStore } from "@/pages/units/libs/store";
+import { Link, useLocation, useParams } from "@tanstack/react-router";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface MainNavProps extends React.HTMLAttributes<HTMLElement> {}
 
 export function CustomizeUnitNav({ className, ...props }: MainNavProps) {
-  const params = useParams()
-  const unitId = Number(params.unitId)
+  const params = useParams();
+  const unitId = Number(params.unitId);
 
-  const { customizeSection } = useUnitsStore((state) => state)
+  const { customizeSection } = useUnitsStore((state) => state);
 
   return (
     <nav
@@ -42,5 +42,5 @@ export function CustomizeUnitNav({ className, ...props }: MainNavProps) {
       {/*  Misc*/}
       {/*</a>*/}
     </nav>
-  )
+  );
 }

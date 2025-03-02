@@ -1,18 +1,18 @@
-import { createBrowserRouter, Navigate } from "react-router-dom"
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
-import App from "./App"
-import GeneralError from "./pages/errors/general-error"
-import MaintenanceError from "./pages/errors/maintenance-error"
-import NotFoundError from "./pages/errors/not-found-error"
-import UnauthorisedError from "./pages/errors/unauthorised-error"
+import App from "./App";
+import GeneralError from "./pages/errors/general-error";
+import MaintenanceError from "./pages/errors/maintenance-error";
+import NotFoundError from "./pages/errors/not-found-error";
+import UnauthorisedError from "./pages/errors/unauthorised-error";
 
 const router = createBrowserRouter([
   // Main routes
   {
     path: "/",
     lazy: async () => {
-      const AppShell = await import("./components/app-shell")
-      return { Component: AppShell.default }
+      const AppShell = await import("./components/app-shell");
+      return { Component: AppShell.default };
     },
     errorElement: <GeneralError />,
     children: [
@@ -80,7 +80,7 @@ const router = createBrowserRouter([
           {
             path: ":patchId",
             lazy: async () => ({
-              Component: (await import("./pages/patches")).default,
+              // Component: (await import("./routes/patches")).default,
             }),
           },
         ],
@@ -151,6 +151,6 @@ const router = createBrowserRouter([
 
   // Fallback 404 route
   { path: "*", Component: NotFoundError },
-])
+]);
 
-export default router
+export default router;

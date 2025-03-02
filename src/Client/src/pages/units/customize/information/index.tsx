@@ -1,48 +1,42 @@
-import React, { useEffect } from "react"
-import ExportDialog from "@/pages/units/customize/information/components/export-dialog"
-import { useExportDialogStore } from "@/pages/units/customize/information/components/export-dialog/libs/store"
+import React, { useEffect } from "react";
+import ExportDialog from "@/pages/units/customize/information/components/export-dialog";
+import { useExportDialogStore } from "@/pages/units/customize/information/components/export-dialog/libs/store";
 import {
   InformationTabModes,
   useCustomizeInformationUnitStore,
-} from "@/pages/units/customize/information/libs/store"
-import { useUnitsStore } from "@/pages/units/libs/store"
-import {
-  generatePath,
-  matchPath,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom"
+} from "@/pages/units/customize/information/libs/store";
+import { useUnitsStore } from "@/pages/units/libs/store";
+import { useLocation, useNavigate, useParams } from "@tanstack/react-router";
 
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import Ammo from "./components/tabs/ammo"
-import Hitboxes from "./components/tabs/hitboxes"
-import Projectiles from "./components/tabs/projectiles"
-import Stats from "./components/tabs/stats"
+import Ammo from "./components/tabs/ammo";
+import Hitboxes from "./components/tabs/hitboxes";
+import Projectiles from "./components/tabs/projectiles";
+import Stats from "./components/tabs/stats";
 
-const routes = ["/units/:unitId/customize/info/:infoTab"]
+const routes = ["/units/:unitId/customize/info/:infoTab"];
 
 export default function UnitInformation() {
   const setOpenExportDialog = useExportDialogStore(
-    (state) => state.setOpenExportDialog
-  )
+    (state) => state.setOpenExportDialog,
+  );
   const { selectedInformationTab, setSelectedInformationTab } =
-    useCustomizeInformationUnitStore((state) => state)
-  const { selectedUnits } = useUnitsStore((state) => state)
+    useCustomizeInformationUnitStore((state) => state);
+  const { selectedUnits } = useUnitsStore((state) => state);
 
-  const { pathname } = useLocation()
-  const params = useParams()
-  const navigate = useNavigate()
+  const { pathname } = useLocation();
+  const params = useParams();
+  const navigate = useNavigate();
 
-  const pathPattern = routes.find((pattern) => matchPath(pattern, pathname))
+  const pathPattern = routes.find((pattern) => matchPath(pattern, pathname));
 
   useEffect(() => {
     setSelectedInformationTab(
-      (params.infoTab as InformationTabModes) ?? "stats"
-    )
-  }, [params.infoTab])
+      (params.infoTab as InformationTabModes) ?? "stats",
+    );
+  }, [params.infoTab]);
 
   return (
     <>
@@ -57,14 +51,14 @@ export default function UnitInformation() {
               <div className="flex items-center space-x-2">
                 <Button
                   onClick={() => {
-                    setOpenExportDialog(true)
+                    setOpenExportDialog(true);
                   }}
                 >
                   Import
                 </Button>
                 <Button
                   onClick={() => {
-                    setOpenExportDialog(true)
+                    setOpenExportDialog(true);
                   }}
                 >
                   Export
@@ -79,19 +73,19 @@ export default function UnitInformation() {
               className="space-y-4"
               value={selectedInformationTab}
               onValueChange={(value: string) => {
-                if (!pathPattern) return
+                if (!pathPattern) return;
                 const newPath = generatePath(pathPattern, {
                   ...params,
                   infoTab: value,
-                })
+                });
                 navigate(
                   {
                     pathname: `${newPath}`,
                   },
                   {
                     replace: true,
-                  }
-                )
+                  },
+                );
               }}
             >
               <TabsList>
@@ -117,5 +111,5 @@ export default function UnitInformation() {
         </div>
       )}
     </>
-  )
+  );
 }

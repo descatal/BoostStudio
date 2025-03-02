@@ -3,57 +3,62 @@ import type { UnitAmmoSlotDto } from "@/api/exvs";
 import { deleteUnitAmmoSlot } from "@/api/wrapper/stats-api";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams } from "@tanstack/react-router";
 
-
-
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 
-
-
 import CreateAmmoSlotSheet from "./components/create-ammo-slot-sheet";
 import UpdateAmmoSlotSheet from "./components/update-ammo-slot-sheet";
-import { AmmoSlotContext, AmmoSlotContextType } from "./types"
-
+import { AmmoSlotContext, AmmoSlotContextType } from "./types";
 
 const AmmoSlots = ({
   unitId,
   ammoSlots,
   ammoOptions,
 }: {
-  unitId: number
-  ammoSlots: UnitAmmoSlotDto[]
-  ammoOptions: number[]
+  unitId: number;
+  ammoSlots: UnitAmmoSlotDto[];
+  ammoOptions: number[];
 }) => {
   const [ammoSlotsData, setAmmoSlotsData] =
-    useState<UnitAmmoSlotDto[]>(ammoSlots)
+    useState<UnitAmmoSlotDto[]>(ammoSlots);
   const setAmmoSlots = (data: UnitAmmoSlotDto[]) => {
-    setAmmoSlotsData([...data])
-  }
-  const params = useParams()
+    setAmmoSlotsData([...data]);
+  };
+  const params = useParams();
 
   useEffect(() => {
-    setAmmoSlotsData(ammoSlots)
-  }, [ammoSlots])
+    setAmmoSlotsData(ammoSlots);
+  }, [ammoSlots]);
 
   const deleteAmmoSlot = async (index: number) => {
-    const id = ammoSlotsData[index].id
+    const id = ammoSlotsData[index].id;
 
     if (id) {
-      await deleteUnitAmmoSlot(id)
+      await deleteUnitAmmoSlot(id);
       const updatedAmmoSlotsData = ammoSlotsData.filter(
-        (item) => item.id !== id
-      )
-      setAmmoSlotsData(updatedAmmoSlotsData)
+        (item) => item.id !== id,
+      );
+      setAmmoSlotsData(updatedAmmoSlotsData);
 
       toast({
         title: `Ammo Slot ${index + 1} Deleted!`,
-      })
+      });
     }
-  }
+  };
 
   return (
     <AmmoSlotContext.Provider
@@ -137,11 +142,11 @@ const AmmoSlots = ({
                 </CardContent>
               </Card>
             </div>
-          )
+          ),
         )}
       </div>
     </AmmoSlotContext.Provider>
-  )
-}
+  );
+};
 
-export default AmmoSlots
+export default AmmoSlots;
