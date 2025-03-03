@@ -1,6 +1,8 @@
 import {
   AmmoApi,
   Configuration,
+  HitboxesApi,
+  ProjectilesApi,
   SeriesApi,
   StatsApi,
   TblApi,
@@ -16,3 +18,5 @@ export const seriesApi = new SeriesApi(BASE_CONFIG);
 export const unitsApi = new UnitsApi(BASE_CONFIG);
 export const statsApi = new StatsApi(BASE_CONFIG);
 export const ammoApi = new AmmoApi(BASE_CONFIG);
+export const hitboxesApi = new HitboxesApi(BASE_CONFIG);
+export const projectilesApi = new ProjectilesApi(BASE_CONFIG);

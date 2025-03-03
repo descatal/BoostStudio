@@ -9,7 +9,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { AmmoDto, CreateAmmoCommand, UpdateAmmoCommand } from "@/api/exvs";
+import {
+  CreateProjectileCommand,
+  ProjectileDto,
+  UpdateProjectileByIdCommand,
+} from "@/api/exvs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -24,37 +28,39 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useCreateAmmoMutation } from "@/features/ammo/api/create-ammo";
-import { useUpdateAmmoMutation } from "@/features/ammo/api/update-ammo";
-import AmmoForm from "@/features/ammo/components/ammo-form";
+import { useApiCreateProjectilesMutation } from "@/features/projectiles/api/create-projectiles";
+import { useApiUpdateProjectilesMutation } from "@/features/projectiles/api/update-projectiles";
+import ProjectileForm from "@/features/projectiles/components/projectile-form";
 
-interface UpsertAmmoDialogProps
+interface UpsertProjectileDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
-  data?: AmmoDto | undefined;
+  data?: ProjectileDto | undefined;
   triggerButton?: React.ReactElement | undefined;
 }
 
-const UpsertAmmoDialog = ({
+const UpsertProjectileDialog = ({
   data,
   triggerButton,
   ...props
-}: UpsertAmmoDialogProps) => {
+}: UpsertProjectileDialogProps) => {
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useCreateAmmoMutation({
+  const createMutation = useApiCreateProjectilesMutation({
     onSuccess: () => setOpen(false),
   });
-  const updateMutation = useUpdateAmmoMutation({
+  const updateMutation = useApiUpdateProjectilesMutation({
     onSuccess: () => setOpen(false),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  const handleSubmit = (upsertData: CreateAmmoCommand | UpdateAmmoCommand) => {
+  const handleSubmit = (
+    upsertData: CreateProjectileCommand | UpdateProjectileByIdCommand,
+  ) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateAmmoCommand)
-      : createMutation.mutate(upsertData as UpdateAmmoCommand);
+      ? updateMutation.mutate(upsertData as UpdateProjectileByIdCommand)
+      : createMutation.mutate(upsertData as CreateProjectileCommand);
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");
@@ -67,12 +73,11 @@ const UpsertAmmoDialog = ({
           <SheetHeader className="text-left">
             <SheetTitle>{data ? "Update" : "Create"}</SheetTitle>
             <SheetDescription>
-              {data ? "Update existing" : "Create new"} ammo details and save
-              the changes
+              {data ? "Update existing" : "Create new"} entry
             </SheetDescription>
           </SheetHeader>
           <Separator />
-          <AmmoForm data={data} onSubmit={handleSubmit}>
+          <ProjectileForm data={data} onSubmit={handleSubmit}>
             <SheetFooter className="gap-2 pt-2 sm:space-x-0">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
@@ -89,7 +94,7 @@ const UpsertAmmoDialog = ({
                 Save
               </Button>
             </SheetFooter>
-          </AmmoForm>
+          </ProjectileForm>
         </SheetContent>
       </Sheet>
     );
@@ -108,7 +113,7 @@ const UpsertAmmoDialog = ({
           </DrawerDescription>
         </DrawerHeader>
         <Separator />
-        <AmmoForm data={data} onSubmit={handleSubmit}>
+        <ProjectileForm data={data} onSubmit={handleSubmit}>
           <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
             <DrawerClose asChild>
               <Button type="button" variant="outline">
@@ -125,10 +130,10 @@ const UpsertAmmoDialog = ({
               Save
             </Button>
           </DrawerFooter>
-        </AmmoForm>
+        </ProjectileForm>
       </DrawerContent>
     </Drawer>
   );
 };
 
-export default UpsertAmmoDialog;
+export default UpsertProjectileDialog;

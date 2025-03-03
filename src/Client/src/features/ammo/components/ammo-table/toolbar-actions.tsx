@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import UpsertAmmoDialog from "@/features/ammo/components/dialogs/upsert-ammo-dialog";
+import UpsertAmmoDialog from "@/features/ammo/components/upsert-ammo-dialog";
 
 type AmmoTableToolbarActionsProps = {};
 

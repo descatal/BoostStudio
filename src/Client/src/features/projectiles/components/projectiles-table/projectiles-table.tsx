@@ -1,28 +1,27 @@
 import React from "react";
 import { useApiSeriesUnits } from "@/features/series/api/get-series";
 import { DataTableFilterField } from "@/types/index2";
+import { ProjectileDto } from "@/api/exvs";
 import { useDataTable } from "@/hooks/use-react-table-3";
 import { DataTable } from "@/components/data-table-2/data-table";
 import { DataTableToolbar } from "@/components/data-table-2/data-table-toolbar";
-import { loadPaginatedAmmoSearchParams } from "@/loaders/ammo-search-params";
-import { useApiAmmo } from "@/features/ammo/api/get-ammo";
-import { ammoTableColumns } from "@/features/ammo/components/ammo-table/columns";
-import { AmmoDto } from "@/api/exvs";
-import { AmmoTableToolbarActions } from "@/features/ammo/components/ammo-table/toolbar-actions";
+import { loadPaginatedProjectilesSearchParams } from "@/loaders/projectiles-search-params";
+import { useApiProjectiles } from "@/features/projectiles/api/get-projectiles";
+import { projectileTableColumns } from "@/features/projectiles/components/projectiles-table/columns";
+import { ProjectilesTableToolbarActions } from "@/features/projectiles/components/projectiles-table/toolbar-actions";
 
-type AmmoTableProps = {
+interface ProjectilesTableProps {
   unitId?: number | undefined;
-};
+}
 
-const AmmoTable = ({ unitId }: AmmoTableProps) => {
-  const { page, perPage, hashes, unitIds } = loadPaginatedAmmoSearchParams(
-    location.search,
-  );
+const ProjectilesTable = ({ unitId }: ProjectilesTableProps) => {
+  const { page, perPage, hashes, unitIds } =
+    loadPaginatedProjectilesSearchParams(location.search);
 
-  const paginatedData = useApiAmmo({
+  const paginatedData = useApiProjectiles({
     page: page,
     perPage: perPage,
-    hash: hashes?.map((x) => parseInt(x, 16)) ?? undefined,
+    hashes: hashes?.map((x) => parseInt(x, 16)) ?? undefined,
     unitIds: unitId ? [unitId] : (unitIds ?? undefined),
   })?.data;
 
@@ -31,7 +30,7 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
       ?.data?.items.filter((vm) => vm.units)
       .flatMap((vm) => vm.units!) ?? [];
 
-  const baseFilterFields: DataTableFilterField<AmmoDto>[] = [
+  const baseFilterFields: DataTableFilterField<ProjectileDto>[] = [
     {
       id: "hash",
       label: "Hash",
@@ -54,7 +53,7 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
 
   const { table } = useDataTable({
     data: paginatedData?.items ?? [],
-    columns: ammoTableColumns,
+    columns: projectileTableColumns,
     filterFields: filterFields,
     initialState: {
       columnPinning: { right: ["actions"], left: ["hash"] },
@@ -66,10 +65,10 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table} filterFields={filterFields}>
-        <AmmoTableToolbarActions />
+        <ProjectilesTableToolbarActions />
       </DataTableToolbar>
     </DataTable>
   );
 };
 
-export default AmmoTable;
+export default ProjectilesTable;

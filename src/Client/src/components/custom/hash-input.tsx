@@ -1,26 +1,24 @@
-﻿import * as React from "react"
-import { useEffect } from "react"
-import { SiHexo } from "react-icons/si"
+﻿import * as React from "react";
+import { useEffect } from "react";
+import { SiHexo } from "react-icons/si";
 
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import { CopyButton } from "@/components/custom/copy-button"
-import { IconInput } from "@/components/custom/icon-input"
-
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
+} from "@/components/ui/popover";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { CopyButton } from "@/components/custom/copy-button";
+import { IconInput } from "@/components/custom/icon-input";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  initialMode?: "hex" | "dec"
-  initialValue?: number | undefined | null
-  readonly?: boolean
-  onHashChanged?: (value: number | undefined) => void
+  initialMode?: "hex" | "dec";
+  initialValue?: number | undefined | null;
+  readonly?: boolean;
+  onHashChanged?: (value: number | undefined) => void;
 }
 
 const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
@@ -34,34 +32,34 @@ const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
       onHashChanged,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const [mode, setMode] = React.useState<"hex" | "dec">("hex")
-    const [parsedValue, setParsedValue] = React.useState<number | undefined>()
+    const [mode, setMode] = React.useState<"hex" | "dec">("hex");
+    const [parsedValue, setParsedValue] = React.useState<number | undefined>();
 
-    const hexadecimalValue = parsedValue?.toString(16)?.toUpperCase() ?? ""
-    const decimalValue = parsedValue?.toString() ?? ""
+    const hexadecimalValue = parsedValue?.toString(16)?.toUpperCase() ?? "";
+    const decimalValue = parsedValue?.toString() ?? "";
 
     function handleInputChange(value: string | undefined) {
       const parsedValue = value
         ? parseInt(value as string, mode === "hex" ? 16 : 10)
-        : undefined
-      setParsedValue(parsedValue)
+        : undefined;
+      setParsedValue(parsedValue);
     }
 
     // still a bug where if the value did not change it will not update
     useEffect(() => {
       // passed in props value must be parsed as decimal number first
-      handleInputChange(initialValue?.toString(mode === "hex" ? 16 : 10))
-    }, [initialValue])
+      handleInputChange(initialValue?.toString(mode === "hex" ? 16 : 10));
+    }, [initialValue]);
 
     useEffect(() => {
-      if (onHashChanged) onHashChanged(parsedValue)
-    }, [parsedValue])
+      if (onHashChanged) onHashChanged(parsedValue);
+    }, [parsedValue]);
 
     useEffect(() => {
-      setMode(initialMode ?? "hex")
-    }, [])
+      setMode(initialMode ?? "hex");
+    }, []);
 
     return (
       <Popover>
@@ -76,7 +74,7 @@ const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
               {...props}
               value={mode === "hex" ? hexadecimalValue : decimalValue}
               onChange={(e) => {
-                handleInputChange(e.target.value)
+                handleInputChange(e.target.value);
               }}
               startIcon={SiHexo}
             />
@@ -89,7 +87,7 @@ const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
               <ToggleGroup
                 value={mode}
                 onValueChange={(e) => {
-                  setMode(e as "hex" | "dec")
+                  setMode(e as "hex" | "dec");
                 }}
                 type="single"
                 defaultValue="h"
@@ -118,9 +116,9 @@ const HashInput = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         </PopoverContent>
       </Popover>
-    )
-  }
-)
-HashInput.displayName = "Input"
+    );
+  },
+);
+HashInput.displayName = "Input";
 
-export { HashInput }
+export { HashInput };

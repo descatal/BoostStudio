@@ -82,7 +82,7 @@ export type AssetFileType =
 
 export const UnitCustomizableSections = {
   Info: "info",
-  Script: "script",
+  Scripts: "scripts",
   Assets: "assets",
 } as const;
 

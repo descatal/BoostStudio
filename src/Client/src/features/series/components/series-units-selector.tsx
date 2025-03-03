@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { BASE_PATH, UnitSummaryVm } from "@/api/exvs"
-import { useSeriesUnits } from "@/features/series/api/get-series"
-import { CaretSortIcon } from "@radix-ui/react-icons"
-import { GoPlus } from "react-icons/go"
+import * as React from "react";
+import { BASE_PATH, UnitSummaryVm } from "@/api/exvs";
+import { useApiSeriesUnits } from "@/features/series/api/get-series";
+import { CaretSortIcon } from "@radix-ui/react-icons";
+import { GoPlus } from "react-icons/go";
 
-import { cn } from "@/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import VirtualizedCommand from "@/components/virtualized-command"
+} from "@/components/ui/popover";
+import VirtualizedCommand from "@/components/virtualized-command";
 
 // type UnitGroup = {
 //   id: number
@@ -22,12 +22,14 @@ import VirtualizedCommand from "@/components/virtualized-command"
 //   units: UnitSummaryVm[]
 // }
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<
+  typeof PopoverTrigger
+>;
 
 interface UnitSwitcherProps extends PopoverTriggerProps {
-  selectedUnits: UnitSummaryVm[] | undefined
-  setSelectedUnits: (selectedUnits: UnitSummaryVm[] | undefined) => void
-  multipleSelect?: boolean | undefined
+  selectedUnits: UnitSummaryVm[] | undefined;
+  setSelectedUnits: (selectedUnits: UnitSummaryVm[] | undefined) => void;
+  multipleSelect?: boolean | undefined;
 }
 
 export default function SeriesUnitsSelector({
@@ -37,13 +39,13 @@ export default function SeriesUnitsSelector({
   multipleSelect = false,
   ...props
 }: UnitSwitcherProps) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
-  const seriesUnitsQuery = useSeriesUnits()
+  const seriesUnitsQuery = useApiSeriesUnits();
   const seriesUnits =
     seriesUnitsQuery.data?.items
       .filter((x) => x.units)
-      .flatMap((x) => x.units!) ?? []
+      .flatMap((x) => x.units!) ?? [];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -131,11 +133,11 @@ export default function SeriesUnitsSelector({
           }
           onSelectOptions={(options) => {
             const units = seriesUnits?.filter((x) =>
-              options.some((option) => option === x.unitId?.toString())
-            )
-            setSelectedUnits(units)
+              options.some((option) => option === x.unitId?.toString()),
+            );
+            setSelectedUnits(units);
 
-            if (!multipleSelect) setOpen(false)
+            if (!multipleSelect) setOpen(false);
           }}
           multipleSelect={multipleSelect}
         />
@@ -239,5 +241,5 @@ export default function SeriesUnitsSelector({
         {/*</Command>*/}
       </PopoverContent>
     </Popover>
-  )
+  );
 }

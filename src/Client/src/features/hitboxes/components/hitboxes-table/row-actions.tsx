@@ -8,14 +8,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { AmmoDto } from "@/api/exvs";
-import UpsertAmmoDialog from "@/features/ammo/components/upsert-ammo-dialog";
+import { HitboxDto } from "@/api/exvs";
+import UpsertHitboxDialog from "@/features/hitboxes/components/upsert-hitbox-dialog";
 
-type AmmoTableRowActionsProps = {
-  data: AmmoDto;
+type HitboxesTableRowActionsProps = {
+  data: HitboxDto;
 };
 
-const AmmoTableRowActions = ({ data }: AmmoTableRowActionsProps) => {
+const HitboxesTableRowActions = ({ data }: HitboxesTableRowActionsProps) => {
   return (
     <>
       <DropdownMenu>
@@ -31,7 +31,7 @@ const AmmoTableRowActions = ({ data }: AmmoTableRowActionsProps) => {
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           {data.hash && (
-            <UpsertAmmoDialog
+            <UpsertHitboxDialog
               data={data}
               triggerButton={
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
@@ -46,4 +46,4 @@ const AmmoTableRowActions = ({ data }: AmmoTableRowActionsProps) => {
   );
 };
 
-export default AmmoTableRowActions;
+export default HitboxesTableRowActions;

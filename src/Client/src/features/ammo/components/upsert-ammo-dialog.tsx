@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { CreateStatCommand, StatDto } from "@/api/exvs";
+import { AmmoDto, CreateAmmoCommand, UpdateAmmoCommand } from "@/api/exvs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -24,38 +24,37 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import StatsGroupForm from "@/features/stats/components/stats-group-form";
-import { useUpdateStatsMutation } from "@/features/stats/api/update-stats";
-import { UpdateStatCommand } from "@/api/exvs/zod";
-import { useCreateStatsMutation } from "@/features/stats/api/create-stats";
+import { useCreateAmmoMutation } from "@/features/ammo/api/create-ammo";
+import { useUpdateAmmoMutation } from "@/features/ammo/api/update-ammo";
+import AmmoForm from "@/features/ammo/components/ammo-form";
 
-interface UpsertStatsGroupDialogProps
+interface UpsertAmmoDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
-  data?: StatDto | undefined;
+  data?: AmmoDto | undefined;
   triggerButton?: React.ReactElement | undefined;
 }
 
-const UpsertStatsGroupDialog = ({
+const UpsertAmmoDialog = ({
   data,
   triggerButton,
   ...props
-}: UpsertStatsGroupDialogProps) => {
+}: UpsertAmmoDialogProps) => {
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useCreateStatsMutation({
+  const createMutation = useCreateAmmoMutation({
     onSuccess: () => setOpen(false),
   });
-  const updateMutation = useUpdateStatsMutation({
+  const updateMutation = useUpdateAmmoMutation({
     onSuccess: () => setOpen(false),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  const handleSubmit = (upsertData: CreateStatCommand | UpdateStatCommand) => {
+  const handleSubmit = (upsertData: CreateAmmoCommand | UpdateAmmoCommand) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateStatCommand)
-      : createMutation.mutate(upsertData as CreateStatCommand);
+      ? updateMutation.mutate(upsertData as UpdateAmmoCommand)
+      : createMutation.mutate(upsertData as CreateAmmoCommand);
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");
@@ -68,11 +67,11 @@ const UpsertStatsGroupDialog = ({
           <SheetHeader className="text-left">
             <SheetTitle>{data ? "Update" : "Create"}</SheetTitle>
             <SheetDescription>
-              {data ? "Update existing" : "Create new"} stats group entry
+              {data ? "Update existing" : "Create new"} ammo entry
             </SheetDescription>
           </SheetHeader>
           <Separator />
-          <StatsGroupForm data={data} onSubmit={handleSubmit}>
+          <AmmoForm data={data} onSubmit={handleSubmit}>
             <SheetFooter className="gap-2 pt-2 sm:space-x-0">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
@@ -89,7 +88,7 @@ const UpsertStatsGroupDialog = ({
                 Save
               </Button>
             </SheetFooter>
-          </StatsGroupForm>
+          </AmmoForm>
         </SheetContent>
       </Sheet>
     );
@@ -108,7 +107,7 @@ const UpsertStatsGroupDialog = ({
           </DrawerDescription>
         </DrawerHeader>
         <Separator />
-        <StatsGroupForm data={data} onSubmit={handleSubmit}>
+        <AmmoForm data={data} onSubmit={handleSubmit}>
           <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
             <DrawerClose asChild>
               <Button type="button" variant="outline">
@@ -125,10 +124,10 @@ const UpsertStatsGroupDialog = ({
               Save
             </Button>
           </DrawerFooter>
-        </StatsGroupForm>
+        </AmmoForm>
       </DrawerContent>
     </Drawer>
   );
 };
 
-export default UpsertStatsGroupDialog;
+export default UpsertAmmoDialog;

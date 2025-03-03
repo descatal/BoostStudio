@@ -1,21 +1,13 @@
-import { seriesApi } from "@/api/api"
-import { queryOptions, useQuery } from "@tanstack/react-query"
+import { seriesApi } from "@/api/api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { GetApiSeriesUnitsRequest } from "@/api/exvs";
 
-export const getSeriesUnits = () => {
-  return seriesApi.getApiSeriesUnits({
-    listAll: true,
-  })
-}
-
-export const getSeriesUnitsQueryOptions = () => {
-  return queryOptions({
-    queryKey: ["series-units"],
-    queryFn: () => getSeriesUnits(),
-  })
-}
-
-export const useSeriesUnits = () => {
+export const useApiSeriesUnits = (
+  options?: GetApiSeriesUnitsRequest | undefined,
+) => {
   return useQuery({
-    ...getSeriesUnitsQueryOptions(),
-  })
-}
+    queryKey: ["getApiSeriesUnits", options],
+    queryFn: () => seriesApi.getApiSeriesUnits(options),
+    placeholderData: keepPreviousData,
+  });
+};

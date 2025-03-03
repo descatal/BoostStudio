@@ -1,11 +1,12 @@
-import { CellContext, ColumnDef } from "@tanstack/react-table";
-import { AmmoDto, HitboxDto } from "@/api/exvs";
-import { AmmoDto as ZodAmmoDto } from "@/api/exvs/zod";
-import AmmoTableRowActions from "@/features/ammo/components/ammo-table/row-actions";
-import { HashInput } from "@/components/custom/hash-input";
+import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
+// import { HitboxTableVm } from "@/features/hitboxes/components/hitboxes-table/hitboxes-table";
+import { HashInput } from "@/components/custom/hash-input";
+import HitboxesTableRowActions from "@/features/hitboxes/components/hitboxes-table/row-actions";
+import { HitboxDto } from "@/api/exvs";
+import { HitboxDto as ZodHitboxDto } from "@/api/exvs/zod";
 
-const customTableRows: ColumnDef<AmmoDto>[] = [
+const customTableRows: ColumnDef<HitboxDto>[] = [
   {
     accessorKey: "hash",
     header: "hash",
@@ -25,10 +26,10 @@ const allCustomTableRowKeys = customTableRows.map(
   (x) => x.accessorKey, // for some reason ts can't get this type
 );
 
-export const ammoTableColumns: ColumnDef<AmmoDto>[] = [
+export const hitboxTableColumns: ColumnDef<HitboxDto>[] = [
   ...customTableRows,
   // map everything else
-  ...Object.keys(ZodAmmoDto.shape)
+  ...Object.keys(ZodHitboxDto.shape)
     .filter((key) => !allCustomTableRowKeys.includes(key))
     .map((x) => ({
       accessorKey: x,
@@ -39,7 +40,7 @@ export const ammoTableColumns: ColumnDef<AmmoDto>[] = [
     size: 40,
     cell: ({ row }) => {
       if (!row.original.hash) return;
-      return <AmmoTableRowActions data={row.original} />;
+      return <HitboxesTableRowActions data={row.original} />;
     },
   },
 ];

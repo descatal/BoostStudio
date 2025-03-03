@@ -9,7 +9,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { CreateStatCommand, StatDto } from "@/api/exvs";
+import {
+  CreateHitboxCommand,
+  HitboxDto,
+  UpdateHitboxCommand,
+} from "@/api/exvs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -24,38 +28,39 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import StatsGroupForm from "@/features/stats/components/stats-group-form";
-import { useUpdateStatsMutation } from "@/features/stats/api/update-stats";
-import { UpdateStatCommand } from "@/api/exvs/zod";
-import { useCreateStatsMutation } from "@/features/stats/api/create-stats";
+import { useApiCreateHitboxesMutation } from "@/features/hitboxes/api/create-hitboxes";
+import { useApiUpdateHitboxesMutation } from "@/features/hitboxes/api/update-hitboxes";
+import HitboxForm from "@/features/hitboxes/components/hitbox-form";
 
-interface UpsertStatsGroupDialogProps
+interface UpsertHitboxDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
-  data?: StatDto | undefined;
+  data?: HitboxDto | undefined;
   triggerButton?: React.ReactElement | undefined;
 }
 
-const UpsertStatsGroupDialog = ({
+const UpsertHitboxDialog = ({
   data,
   triggerButton,
   ...props
-}: UpsertStatsGroupDialogProps) => {
+}: UpsertHitboxDialogProps) => {
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useCreateStatsMutation({
+  const createMutation = useApiCreateHitboxesMutation({
     onSuccess: () => setOpen(false),
   });
-  const updateMutation = useUpdateStatsMutation({
+  const updateMutation = useApiUpdateHitboxesMutation({
     onSuccess: () => setOpen(false),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
-  const handleSubmit = (upsertData: CreateStatCommand | UpdateStatCommand) => {
+  const handleSubmit = (
+    upsertData: CreateHitboxCommand | UpdateHitboxCommand,
+  ) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateStatCommand)
-      : createMutation.mutate(upsertData as CreateStatCommand);
+      ? updateMutation.mutate(upsertData as UpdateHitboxCommand)
+      : createMutation.mutate(upsertData as CreateHitboxCommand);
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");
@@ -68,11 +73,11 @@ const UpsertStatsGroupDialog = ({
           <SheetHeader className="text-left">
             <SheetTitle>{data ? "Update" : "Create"}</SheetTitle>
             <SheetDescription>
-              {data ? "Update existing" : "Create new"} stats group entry
+              {data ? "Update existing" : "Create new"} hitbox entry
             </SheetDescription>
           </SheetHeader>
           <Separator />
-          <StatsGroupForm data={data} onSubmit={handleSubmit}>
+          <HitboxForm data={data} onSubmit={handleSubmit}>
             <SheetFooter className="gap-2 pt-2 sm:space-x-0">
               <SheetClose asChild>
                 <Button type="button" variant="outline">
@@ -89,7 +94,7 @@ const UpsertStatsGroupDialog = ({
                 Save
               </Button>
             </SheetFooter>
-          </StatsGroupForm>
+          </HitboxForm>
         </SheetContent>
       </Sheet>
     );
@@ -108,7 +113,7 @@ const UpsertStatsGroupDialog = ({
           </DrawerDescription>
         </DrawerHeader>
         <Separator />
-        <StatsGroupForm data={data} onSubmit={handleSubmit}>
+        <HitboxForm data={data} onSubmit={handleSubmit}>
           <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
             <DrawerClose asChild>
               <Button type="button" variant="outline">
@@ -125,10 +130,10 @@ const UpsertStatsGroupDialog = ({
               Save
             </Button>
           </DrawerFooter>
-        </StatsGroupForm>
+        </HitboxForm>
       </DrawerContent>
     </Drawer>
   );
 };
 
-export default UpsertStatsGroupDialog;
+export default UpsertHitboxDialog;
