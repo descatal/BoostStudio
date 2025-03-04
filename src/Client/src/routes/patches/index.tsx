@@ -1,6 +1,5 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
-import { PatchFileTabs } from "@/pages/patches/libs/store";
-import { PatchFileVersion } from "@/api/exvs";
+import { PatchFileTabs } from "@/features/patches/libs/constants";
 
 export const Route = createFileRoute("/patches/")({
   component: RouteComponent,
@@ -11,7 +10,7 @@ function RouteComponent() {
   return (
     <Navigate
       to="/patches/$patchId"
-      params={{ patchId: patchId ?? PatchFileVersion.Patch6 }}
+      params={{ patchId: patchId ?? PatchFileTabs.Patch6 }}
     />
   );
 }

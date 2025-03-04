@@ -1,7 +1,7 @@
 import React from "react";
 import { DataTable } from "@/components/data-table-2/data-table";
 import { DataTableToolbar } from "@/components/data-table-2/data-table-toolbar";
-import { PatchFilesListToolbarActions } from "@/features/patches/components/patch-files-list/toolbar-actions";
+import { PatchFilesListToolbarActions } from "@/features/patches/components/patch-files-table/toolbar-actions";
 import { loadPaginatedPatchesSearchParams } from "@/loaders/patches-search-params";
 import { useTblPatchFiles } from "@/features/patches/api/get-tbl-patches";
 import { useApiSeriesUnits } from "@/features/series/api/get-series";
@@ -13,13 +13,13 @@ import {
 } from "@/api/exvs";
 import { toSentenceCase } from "@/lib/utils";
 import { useDataTable } from "@/hooks/use-react-table-3";
-import { patchFilesListColumns } from "@/features/patches/components/patch-files-list/columns";
+import { patchFilesListColumns } from "@/features/patches/components/patch-files-table/columns";
 
-type PatchFilesListProps = {
+type PatchFilesTableProps = {
   patchId?: PatchFileVersion | undefined;
 };
 
-const PatchFilesList = ({ patchId }: PatchFilesListProps) => {
+const PatchFilesTable = ({ patchId }: PatchFilesTableProps) => {
   const { page, perPage, assetFileHashes, fileTypes } =
     loadPaginatedPatchesSearchParams(location.search);
 
@@ -82,4 +82,4 @@ const PatchFilesList = ({ patchId }: PatchFilesListProps) => {
   );
 };
 
-export default PatchFilesList;
+export default PatchFilesTable;

@@ -1,14 +1,13 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { PatchFileTabs } from "@/pages/patches/libs/store";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Header } from "@/components/layout/header";
 import { Main } from "@/components/layout/main";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { TabsLinkTrigger } from "@/components/tabs-link-trigger";
-import { PatchFileVersion } from "@/api/exvs";
 import { Search } from "@/components/search";
 import { ThemeSwitch } from "@/components/theme-switch";
 import React from "react";
+import { PatchFileTabs } from "@/features/patches/libs/constants";
 
 export const Route = createFileRoute("/patches")({
   component: RouteComponent,
@@ -35,7 +34,7 @@ function RouteComponent() {
           <ScrollArea>
             <div className="relative h-10 w-full">
               <TabsList className="absolute flex h-10">
-                {Object.values(PatchFileVersion).map((patch) => (
+                {Object.keys(PatchFileTabs).map((patch) => (
                   <TabsLinkTrigger key={patch} href={patch}>
                     {patch}
                   </TabsLinkTrigger>
@@ -44,7 +43,7 @@ function RouteComponent() {
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
-          {Object.values(PatchFileVersion).map((patch) => (
+          {Object.values(PatchFileTabs).map((patch) => (
             <TabsContent key={patch} value={patch}>
               <Outlet />
             </TabsContent>

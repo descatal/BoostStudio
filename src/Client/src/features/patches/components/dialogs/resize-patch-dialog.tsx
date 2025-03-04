@@ -1,15 +1,15 @@
-import React from "react"
-import { useExportTbl } from "@/features/patches/api/export-tbl"
-import { useResizeTblPatches } from "@/features/patches/api/resize-tbl-patches"
-import { PatchFileTabs, PatchIdNameMap } from "@/pages/patches/libs/store"
+import React from "react";
+import { useResizeTblPatches } from "@/features/patches/api/resize-tbl-patches";
 
-import { Button } from "@/components/ui/button"
-import { toast } from "@/components/ui/use-toast"
-import ConfirmationDialog from "@/components/custom/confirmation-dialog"
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import ConfirmationDialog from "@/components/custom/confirmation-dialog";
+import { PatchIdNameMap } from "@/features/patches/libs/constants";
+import { PatchFileVersion } from "@/api/exvs";
 
 type ResizeDialogProps = {
-  patchId: PatchFileTabs | undefined
-}
+  patchId?: PatchFileVersion | undefined;
+};
 
 const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
   const resizePatchesMutation = useResizeTblPatches({
@@ -17,10 +17,10 @@ const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
       onSuccess: () => {
         toast({
           title: "Resize success!",
-        })
+        });
       },
     },
-  })
+  });
 
   return (
     <ConfirmationDialog
@@ -34,15 +34,15 @@ const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
           type="button"
           onClick={() => {
             resizePatchesMutation.mutate({
-              versions: !patchId || patchId === "All" ? undefined : [patchId],
-            })
+              versions: !patchId ? undefined : [patchId],
+            });
           }}
         >
           Resize
         </Button>
       }
     />
-  )
-}
+  );
+};
 
-export default ResizePatchDialog
+export default ResizePatchDialog;

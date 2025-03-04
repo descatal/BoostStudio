@@ -1,14 +1,15 @@
-import React from "react"
-import { useExportTbl } from "@/features/patches/api/export-tbl"
-import { PatchFileTabs, PatchIdNameMap } from "@/pages/patches/libs/store"
+import React from "react";
+import { useExportTbl } from "@/features/patches/api/export-tbl";
 
-import { Button } from "@/components/ui/button"
-import { toast } from "@/components/ui/use-toast"
-import ConfirmationDialog from "@/components/custom/confirmation-dialog"
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import ConfirmationDialog from "@/components/custom/confirmation-dialog";
+import { PatchIdNameMap } from "@/features/patches/libs/constants";
+import { PatchFileVersion } from "@/api/exvs";
 
 type ResizeDialogProps = {
-  patchId: PatchFileTabs | undefined
-}
+  patchId: PatchFileVersion | undefined;
+};
 
 const ExportTblDialog = ({ patchId }: ResizeDialogProps) => {
   const exportTblMutation = useExportTbl({
@@ -16,10 +17,10 @@ const ExportTblDialog = ({ patchId }: ResizeDialogProps) => {
       onSuccess: () => {
         toast({
           title: "Export success!",
-        })
+        });
       },
     },
-  })
+  });
 
   return (
     <ConfirmationDialog
@@ -32,19 +33,19 @@ const ExportTblDialog = ({ patchId }: ResizeDialogProps) => {
         <Button
           type="button"
           onClick={() => {
-            if (!patchId || patchId === "All") return
+            if (!patchId) return;
 
             exportTblMutation.mutate({
               versions: [patchId],
               replaceStaging: true,
-            })
+            });
           }}
         >
           Confirm
         </Button>
       }
     />
-  )
-}
+  );
+};
 
-export default ExportTblDialog
+export default ExportTblDialog;

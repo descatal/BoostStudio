@@ -6,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 import { HashInput } from "@/components/custom/hash-input";
-import PatchFilesListRowActions from "@/features/patches/components/patch-files-list/row-actions";
+import PatchFilesListRowActions from "@/features/patches/components/patch-files-table/row-actions";
 
 export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
   {

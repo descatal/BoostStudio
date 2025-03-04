@@ -1,13 +1,10 @@
-﻿"use client";
-
-import * as React from "react";
+﻿import * as React from "react";
 import { PatchFileVersion } from "@/api/exvs";
 import {
   CreatePatchFileSchema,
   UpdatePatchFileSchema,
 } from "@/features/patches/libs/validations";
 import { SearchAssetFilePopover } from "@/pages/patches/components/tabs/components/dialog/search-asset-file-popover";
-import { PatchIdNameMap } from "@/pages/patches/libs/store";
 import { type UseFormReturn } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
@@ -40,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { HashInput } from "@/components/custom/hash-input";
+import { PatchIdNameMap } from "@/features/patches/libs/constants";
 
 interface PatchFilesFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {

@@ -1,11 +1,7 @@
 import React from "react";
-import { PatchFileSummaryVm } from "@/api/exvs";
+import { PatchFileSummaryVm, PatchFileVersion } from "@/api/exvs";
 import { useUpdateTblPatchFile } from "@/features/patches/api/update-tbl-patch-file";
 import { PatchFilesForm } from "@/features/patches/components/patch-files-form";
-import {
-  PatchIdNameMap,
-  useCustomizePatchInformationStore,
-} from "@/pages/patches/libs/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
@@ -40,6 +36,7 @@ import {
   UpdatePatchFileSchema,
   updatePatchFileSchema,
 } from "../../libs/validations";
+import { PatchIdNameMap } from "@/features/patches/libs/constants";
 
 interface UpsertPatchDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -52,17 +49,14 @@ const UpsertPatchDialog = ({
   patchFile,
   ...props
 }: UpsertPatchDialogProps) => {
-  const { selectedPatchFileVersion } = useCustomizePatchInformationStore(
-    (state) => state,
-  );
-
-  const patchName = PatchIdNameMap[selectedPatchFileVersion];
-
   const updateTblPatchFileMutation = useUpdateTblPatchFile({
     mutationConfig: {
       onSuccess: () => {},
     },
   });
+
+  const selectedPatchFileVersion = patchFile?.tblId ?? PatchFileVersion.Base;
+  const patchName = PatchIdNameMap[selectedPatchFileVersion];
 
   const form = useForm<CreatePatchFileSchema | UpdatePatchFileSchema>({
     resolver: patchFile
@@ -71,15 +65,9 @@ const UpsertPatchDialog = ({
     defaultValues: patchFile
       ? patchFile
       : {
-          tblId:
-            selectedPatchFileVersion === "All"
-              ? undefined
-              : selectedPatchFileVersion,
+          tblId: selectedPatchFileVersion,
           fileInfo: {
-            version:
-              selectedPatchFileVersion === "All"
-                ? undefined
-                : selectedPatchFileVersion,
+            version: selectedPatchFileVersion,
             size1: 0,
             size2: 0,
             size3: 0,
