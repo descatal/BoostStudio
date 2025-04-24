@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { ProjectileDto } from './ProjectileDto';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    ProjectileDtoFromJSON,
-    ProjectileDtoFromJSONTyped,
-    ProjectileDtoToJSON,
-} from './ProjectileDto';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { ProjectileDto } from "./ProjectileDto";
+import { ProjectileDtoFromJSON, ProjectileDtoToJSON } from "./ProjectileDto";
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface UnitProjectileDto {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UnitProjectileDto
      */
-    unitId?: number;
+    unitId?: GetApiAmmoHashParameterInner;
     /**
      * 
      * @type {Array<ProjectileDto>}
@@ -57,7 +57,7 @@ export function UnitProjectileDtoFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'unitId': json['unitId'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unitId']),
         'projectiles': json['projectiles'] == null ? undefined : ((json['projectiles'] as Array<any>).map(ProjectileDtoFromJSON)),
     };
 }
@@ -68,7 +68,7 @@ export function UnitProjectileDtoToJSON(value?: UnitProjectileDto | null): any {
     }
     return {
         
-        'unitId': value['unitId'],
+        'unitId': GetApiAmmoHashParameterInnerToJSON(value['unitId']),
         'projectiles': value['projectiles'] == null ? undefined : ((value['projectiles'] as Array<any>).map(ProjectileDtoToJSON)),
     };
 }

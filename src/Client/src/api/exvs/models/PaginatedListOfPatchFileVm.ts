@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PatchFileVm } from './PatchFileVm';
-import {
-    PatchFileVmFromJSON,
-    PatchFileVmFromJSONTyped,
-    PatchFileVmToJSON,
-} from './PatchFileVm';
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
+import type { PatchFileVm } from "./PatchFileVm";
+import { PatchFileVmFromJSON, PatchFileVmToJSON } from "./PatchFileVm";
 
 /**
  * 
@@ -34,22 +31,22 @@ export interface PaginatedListOfPatchFileVm {
     items: Array<PatchFileVm>;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfPatchFileVm
      */
-    pageNumber: number;
+    pageNumber: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfPatchFileVm
      */
-    totalPages?: number;
+    totalPages?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfPatchFileVm
      */
-    totalCount: number;
+    totalCount: AmmoDtoOrder;
     /**
      * 
      * @type {boolean}
@@ -85,9 +82,9 @@ export function PaginatedListOfPatchFileVmFromJSONTyped(json: any, ignoreDiscrim
     return {
         
         'items': ((json['items'] as Array<any>).map(PatchFileVmFromJSON)),
-        'pageNumber': json['pageNumber'],
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
-        'totalCount': json['totalCount'],
+        'pageNumber': AmmoDtoOrderFromJSON(json['pageNumber']),
+        'totalPages': json['totalPages'] == null ? undefined : AmmoDtoOrderFromJSON(json['totalPages']),
+        'totalCount': AmmoDtoOrderFromJSON(json['totalCount']),
         'hasPreviousPage': json['hasPreviousPage'] == null ? undefined : json['hasPreviousPage'],
         'hasNextPage': json['hasNextPage'] == null ? undefined : json['hasNextPage'],
     };
@@ -100,9 +97,9 @@ export function PaginatedListOfPatchFileVmToJSON(value?: PaginatedListOfPatchFil
     return {
         
         'items': ((value['items'] as Array<any>).map(PatchFileVmToJSON)),
-        'pageNumber': value['pageNumber'],
-        'totalPages': value['totalPages'],
-        'totalCount': value['totalCount'],
+        'pageNumber': AmmoDtoOrderToJSON(value['pageNumber']),
+        'totalPages': AmmoDtoOrderToJSON(value['totalPages']),
+        'totalCount': AmmoDtoOrderToJSON(value['totalCount']),
         'hasPreviousPage': value['hasPreviousPage'],
         'hasNextPage': value['hasNextPage'],
     };

@@ -1,40 +1,40 @@
-﻿import React from "react"
-import { UnitSummaryVm } from "@/api/exvs"
-import { exportProjectiles } from "@/api/wrapper/projectile-api"
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
-import { ArrowBigDownDash } from "lucide-react"
+﻿import React from "react";
+import { UnitSummaryVm } from "@/api/exvs";
+import { exportProjectiles } from "@/api/wrapper/projectile-api";
+import UnitsSelector from "@/features/units/components/units-selector";
+import { ArrowBigDownDash } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/icons";
 
 interface ProjectileExportProps {
-  units?: UnitSummaryVm[] | undefined
-  onExport: () => void
+  units?: UnitSummaryVm[] | undefined;
+  onExport: () => void;
 }
 
 const ProjectileExport = ({ units, onExport }: ProjectileExportProps) => {
-  const [isExportPending, setIsExportPending] = React.useState(false)
-  const [hotReload, setHotReload] = React.useState(true)
+  const [isExportPending, setIsExportPending] = React.useState(false);
+  const [hotReload, setHotReload] = React.useState(true);
 
   const [selectedExportUnits, setSelectedExportUnits] =
-    React.useState<UnitSummaryVm[]>()
+    React.useState<UnitSummaryVm[]>();
 
   React.useEffect(() => {
     if (units) {
-      setSelectedExportUnits(units)
+      setSelectedExportUnits(units);
     }
-  }, [units])
+  }, [units]);
 
   const handleExport = async () => {
     try {
@@ -44,22 +44,22 @@ const ProjectileExport = ({ units, onExport }: ProjectileExportProps) => {
           replaceWorking: true,
           hotReload: hotReload,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully exported projectiles binary to working directory!`,
-      })
+      });
 
-      onExport()
+      onExport();
     } catch (e) {
       toast({
         title: `Error`,
         description: `Export failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <Card>
@@ -73,7 +73,7 @@ const ProjectileExport = ({ units, onExport }: ProjectileExportProps) => {
         <div className="grid gap-4">
           <div className={"space-y-2"}>
             <Label>Units</Label>
-            <SeriesUnitsSelector
+            <UnitsSelector
               disabled={!!units}
               multipleSelect={true}
               selectedUnits={selectedExportUnits}
@@ -94,9 +94,9 @@ const ProjectileExport = ({ units, onExport }: ProjectileExportProps) => {
           <Button
             disabled={isExportPending}
             onClick={async () => {
-              setIsExportPending(true)
-              await handleExport()
-              setIsExportPending(false)
+              setIsExportPending(true);
+              await handleExport();
+              setIsExportPending(false);
             }}
           >
             {isExportPending && (
@@ -110,7 +110,7 @@ const ProjectileExport = ({ units, onExport }: ProjectileExportProps) => {
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default ProjectileExport
+export default ProjectileExport;

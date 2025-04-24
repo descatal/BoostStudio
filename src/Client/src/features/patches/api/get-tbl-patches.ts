@@ -1,11 +1,31 @@
 import { tblApi } from "@/api/api";
 import { GetApiPatchFilesSummaryRequest } from "@/api/exvs";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { QueryConfig } from "@/lib/react-query";
 
-export const useTblPatchFiles = (options: GetApiPatchFilesSummaryRequest) => {
+function getPatchFilesSummary(options: GetApiPatchFilesSummaryRequest) {
+  return tblApi.getApiPatchFilesSummary(options);
+}
+
+export const getPatchFilesSummaryOptions = (
+  request: GetApiPatchFilesSummaryRequest,
+) => {
+  return queryOptions({
+    queryKey: ["getPatchFilesSummary", request],
+    queryFn: () => getPatchFilesSummary(request),
+  });
+};
+
+type UseTblByIdOptions = {
+  queryConfig?: QueryConfig<typeof getPatchFilesSummary>;
+} & GetApiPatchFilesSummaryRequest;
+
+export const useTblPatchFiles = ({
+  queryConfig,
+  ...options
+}: UseTblByIdOptions = {}) => {
   return useQuery({
-    queryKey: ["getApiPatchFilesSummary", options],
-    queryFn: () => tblApi.getApiPatchFilesSummary(options),
-    placeholderData: keepPreviousData,
+    ...getPatchFilesSummaryOptions(options),
+    ...queryConfig,
   });
 };

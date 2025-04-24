@@ -12,25 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PathInfoDto } from './PathInfoDto';
-import {
-    PathInfoDtoFromJSON,
-    PathInfoDtoFromJSONTyped,
-    PathInfoDtoToJSON,
-} from './PathInfoDto';
-import type { PatchFileVersion } from './PatchFileVersion';
-import {
-    PatchFileVersionFromJSON,
-    PatchFileVersionFromJSONTyped,
-    PatchFileVersionToJSON,
-} from './PatchFileVersion';
-import type { FileInfoDto } from './FileInfoDto';
-import {
-    FileInfoDtoFromJSON,
-    FileInfoDtoFromJSONTyped,
-    FileInfoDtoToJSON,
-} from './FileInfoDto';
+import type { Null } from "./Null";
+import { NullFromJSON, NullToJSON } from "./Null";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+import type { PatchFileVersion } from "./PatchFileVersion";
+import { PatchFileVersionFromJSON, PatchFileVersionToJSON } from "./PatchFileVersion";
 
 /**
  * 
@@ -52,22 +39,22 @@ export interface PatchFileVm {
     tblId: PatchFileVersion;
     /**
      * 
-     * @type {PathInfoDto}
+     * @type {Null}
      * @memberof PatchFileVm
      */
-    pathInfo?: PathInfoDto | null;
+    pathInfo?: Null;
     /**
      * 
-     * @type {FileInfoDto}
+     * @type {Null}
      * @memberof PatchFileVm
      */
-    fileInfo?: FileInfoDto | null;
+    fileInfo?: Null;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof PatchFileVm
      */
-    assetFileHash?: number | null;
+    assetFileHash?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -91,9 +78,9 @@ export function PatchFileVmFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'id': json['id'],
         'tblId': PatchFileVersionFromJSON(json['tblId']),
-        'pathInfo': json['pathInfo'] == null ? undefined : PathInfoDtoFromJSON(json['pathInfo']),
-        'fileInfo': json['fileInfo'] == null ? undefined : FileInfoDtoFromJSON(json['fileInfo']),
-        'assetFileHash': json['assetFileHash'] == null ? undefined : json['assetFileHash'],
+        'pathInfo': json['pathInfo'] == null ? undefined : NullFromJSON(json['pathInfo']),
+        'fileInfo': json['fileInfo'] == null ? undefined : NullFromJSON(json['fileInfo']),
+        'assetFileHash': json['assetFileHash'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['assetFileHash']),
     };
 }
 
@@ -105,9 +92,9 @@ export function PatchFileVmToJSON(value?: PatchFileVm | null): any {
         
         'id': value['id'],
         'tblId': PatchFileVersionToJSON(value['tblId']),
-        'pathInfo': PathInfoDtoToJSON(value['pathInfo']),
-        'fileInfo': FileInfoDtoToJSON(value['fileInfo']),
-        'assetFileHash': value['assetFileHash'],
+        'pathInfo': NullToJSON(value['pathInfo']),
+        'fileInfo': NullToJSON(value['fileInfo']),
+        'assetFileHash': AmmoDtoUnitIdToJSON(value['assetFileHash']),
     };
 }
 

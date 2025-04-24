@@ -1,34 +1,40 @@
-﻿import React from "react"
-import {UnitSummaryVm} from "@/api/exvs"
+﻿import React from "react";
+import { UnitSummaryVm } from "@/api/exvs";
 
-import {Button} from "@/components/ui/button"
-import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
-import {Separator} from "@/components/ui/separator"
-import {toast} from "@/components/ui/use-toast"
-import {Icons} from "@/components/icons"
-import {ArrowBigDownDash} from "lucide-react";
-import {Switch} from "@/components/ui/switch";
-import {exportHitboxes} from "@/api/wrapper/hitbox-api";
-import {Label} from "@/components/ui/label";
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/icons";
+import { ArrowBigDownDash } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { exportHitboxes } from "@/api/wrapper/hitbox-api";
+import { Label } from "@/components/ui/label";
+import UnitsSelector from "@/features/units/components/units-selector";
 
 interface HitboxExportProps {
-  units?: UnitSummaryVm[] | undefined
-  onExport: () => void
+  units?: UnitSummaryVm[] | undefined;
+  onExport: () => void;
 }
 
-const HitboxExport = ({units, onExport}: HitboxExportProps) => {
-  const [isExportPending, setIsExportPending] = React.useState(false)
-  const [hotReload, setHotReload] = React.useState(true)
+const HitboxExport = ({ units, onExport }: HitboxExportProps) => {
+  const [isExportPending, setIsExportPending] = React.useState(false);
+  const [hotReload, setHotReload] = React.useState(true);
 
   const [selectedExportUnits, setSelectedExportUnits] =
-    React.useState<UnitSummaryVm[]>()
+    React.useState<UnitSummaryVm[]>();
 
   React.useEffect(() => {
     if (units) {
-      setSelectedExportUnits(units)
+      setSelectedExportUnits(units);
     }
-  }, [units])
+  }, [units]);
 
   const handleExport = async () => {
     try {
@@ -36,24 +42,24 @@ const HitboxExport = ({units, onExport}: HitboxExportProps) => {
         exportHitboxGroupCommand: {
           unitIds: selectedExportUnits?.map((x) => x.unitId!),
           replaceWorking: true,
-          hotReload: hotReload
+          hotReload: hotReload,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully exported hitbox binary to working directory!`,
-      })
+      });
 
-      onExport()
+      onExport();
     } catch (e) {
       toast({
         title: `Error`,
         description: `Export failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <Card>
@@ -67,7 +73,7 @@ const HitboxExport = ({units, onExport}: HitboxExportProps) => {
         <div className="grid gap-4">
           <div className={"space-y-2"}>
             <Label>Units</Label>
-            <SeriesUnitsSelector
+            <UnitsSelector
               disabled={!!units}
               multipleSelect={true}
               selectedUnits={selectedExportUnits}
@@ -75,22 +81,22 @@ const HitboxExport = ({units, onExport}: HitboxExportProps) => {
             />
           </div>
           <div className="flex items-center space-x-4 rounded-md border p-4">
-            <ArrowBigDownDash/>
+            <ArrowBigDownDash />
             <div className="flex-1 space-y-1">
               <p className="text-sm font-medium leading-none">Hot Reload</p>
               <p className="text-sm text-muted-foreground">
                 Patch the compiled hitboxes binary to running RPCS3.
               </p>
             </div>
-            <Switch checked={hotReload} onCheckedChange={setHotReload}/>
+            <Switch checked={hotReload} onCheckedChange={setHotReload} />
           </div>
-          <Separator/>
+          <Separator />
           <Button
             disabled={isExportPending}
             onClick={async () => {
-              setIsExportPending(true)
-              await handleExport()
-              setIsExportPending(false)
+              setIsExportPending(true);
+              await handleExport();
+              setIsExportPending(false);
             }}
           >
             {isExportPending && (
@@ -104,7 +110,7 @@ const HitboxExport = ({units, onExport}: HitboxExportProps) => {
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default HitboxExport
+export default HitboxExport;

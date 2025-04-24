@@ -648,8 +648,8 @@ export const HitboxDto = z.object({
 
 export type HitboxGroupDto = z.infer<typeof HitboxGroupDto>;
 export const HitboxGroupDto = z.object({
-  unitIds: z.array(z.coerce.number()).optional(),
   hash: z.coerce.number().optional(),
+  unitIds: z.array(z.coerce.number()).optional(),
   hitboxes: z.array(HitboxDto).optional(),
 });
 
@@ -2181,6 +2181,20 @@ export const post_Post__api__psarc__unpack__patch__files = {
   response: z.unknown(),
 };
 
+export type get_Get__api__scex__decompiled__by__unitId =
+  typeof get_Get__api__scex__decompiled__by__unitId;
+export const get_Get__api__scex__decompiled__by__unitId = {
+  method: z.literal("GET"),
+  path: z.literal("/api/scex/decompiled/{unitId}"),
+  requestFormat: z.literal("json"),
+  parameters: z.object({
+    path: z.object({
+      unitId: z.coerce.number(),
+    }),
+  }),
+  response: z.unknown(),
+};
+
 export type post_Post__api__scex__compile__path =
   typeof post_Post__api__scex__compile__path;
 export const post_Post__api__scex__compile__path = {
@@ -2781,6 +2795,7 @@ export const get_Get__api__series__units = {
     query: z.object({
       Page: z.coerce.number().optional(),
       PerPage: z.coerce.number().optional(),
+      UnitIds: z.array(z.coerce.number()).optional(),
       ListAll: z.boolean().optional(),
     }),
   }),
@@ -3258,6 +3273,7 @@ export const EndpointByMethod = {
     "/api/configs/{key}": get_Get__api__configs__by__key,
     "/api/fhm/pack-path": get_Get__api__fhm__pack__path,
     "/api/fhm/unpack-path": get_Get__api__fhm__unpack__path,
+    "/api/scex/decompiled/{unitId}": get_Get__api__scex__decompiled__by__unitId,
     "/api/units": get_Get__api__units,
     "/api/units/{unitId}": get_Get__api__units__by__unitId,
     "/api/units/{unitId}/playable-characters":

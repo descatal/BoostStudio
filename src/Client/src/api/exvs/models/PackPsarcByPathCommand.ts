@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { NullableOfCompressionType } from './NullableOfCompressionType';
+import type { NullableOfCompressionType } from "./NullableOfCompressionType";
+import { NullableOfCompressionTypeFromJSON, NullableOfCompressionTypeToJSON } from "./NullableOfCompressionType";
+import type { PackPsarcByPathCommandCompressionLevel } from "./PackPsarcByPathCommandCompressionLevel";
 import {
-    NullableOfCompressionTypeFromJSON,
-    NullableOfCompressionTypeFromJSONTyped,
-    NullableOfCompressionTypeToJSON,
-} from './NullableOfCompressionType';
+  PackPsarcByPathCommandCompressionLevelFromJSON,
+  PackPsarcByPathCommandCompressionLevelToJSON
+} from "./PackPsarcByPathCommandCompressionLevel";
 
 /**
  * 
@@ -49,13 +49,13 @@ export interface PackPsarcByPathCommand {
      * @type {NullableOfCompressionType}
      * @memberof PackPsarcByPathCommand
      */
-    compressionType?: NullableOfCompressionType | null;
+    compressionType?: NullableOfCompressionType;
     /**
      * 
-     * @type {number}
+     * @type {PackPsarcByPathCommandCompressionLevel}
      * @memberof PackPsarcByPathCommand
      */
-    compressionLevel?: number | null;
+    compressionLevel?: PackPsarcByPathCommandCompressionLevel | null;
 }
 
 /**
@@ -81,7 +81,7 @@ export function PackPsarcByPathCommandFromJSONTyped(json: any, ignoreDiscriminat
         'destinationPath': json['destinationPath'],
         'filename': json['filename'] == null ? undefined : json['filename'],
         'compressionType': json['compressionType'] == null ? undefined : NullableOfCompressionTypeFromJSON(json['compressionType']),
-        'compressionLevel': json['compressionLevel'] == null ? undefined : json['compressionLevel'],
+        'compressionLevel': json['compressionLevel'] == null ? undefined : PackPsarcByPathCommandCompressionLevelFromJSON(json['compressionLevel']),
     };
 }
 
@@ -95,7 +95,7 @@ export function PackPsarcByPathCommandToJSON(value?: PackPsarcByPathCommand | nu
         'destinationPath': value['destinationPath'],
         'filename': value['filename'],
         'compressionType': NullableOfCompressionTypeToJSON(value['compressionType']),
-        'compressionLevel': value['compressionLevel'],
+        'compressionLevel': PackPsarcByPathCommandCompressionLevelToJSON(value['compressionLevel']),
     };
 }
 

@@ -1,46 +1,46 @@
-﻿import React from "react"
-import { UnitSummaryVm } from "@/api/exvs"
-import { compileScexUnits, decompileScexUnits } from "@/api/wrapper/scex-api"
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
-import { ArrowBigDownDash } from "lucide-react"
+﻿import React from "react";
+import { UnitSummaryVm } from "@/api/exvs";
+import { compileScexUnits, decompileScexUnits } from "@/api/wrapper/scex-api";
+import UnitsSelector from "@/features/units/components/units-selector";
+import { ArrowBigDownDash } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/icons";
 
 interface ScriptToolsProps {
-  units?: UnitSummaryVm[] | undefined
+  units?: UnitSummaryVm[] | undefined;
 }
 
 const ScriptTools = ({ units }: ScriptToolsProps) => {
-  const [isCompilePending, setIsCompilePending] = React.useState(false)
-  const [isDecompilePending, setIsDecompilePending] = React.useState(false)
+  const [isCompilePending, setIsCompilePending] = React.useState(false);
+  const [isDecompilePending, setIsDecompilePending] = React.useState(false);
 
-  const [hotReload, setHotReload] = React.useState(false)
+  const [hotReload, setHotReload] = React.useState(false);
 
   const [selectedCompileUnits, setSelectedCompileUnits] =
-    React.useState<UnitSummaryVm[]>()
+    React.useState<UnitSummaryVm[]>();
 
   const [selectedDecompileUnits, setSelectedDecompileUnits] =
-    React.useState<UnitSummaryVm[]>()
+    React.useState<UnitSummaryVm[]>();
 
   React.useEffect(() => {
     if (units) {
-      setSelectedCompileUnits(units)
-      setSelectedDecompileUnits(units)
+      setSelectedCompileUnits(units);
+      setSelectedDecompileUnits(units);
     }
-  }, [units])
+  }, [units]);
 
   const compileUnitScripts = async () => {
     if (!selectedCompileUnits) {
@@ -48,8 +48,8 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
         title: `Error`,
         description: `Please select at least one unit!`,
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -59,20 +59,20 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
           replaceWorking: true,
           hotReload: hotReload ?? false,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully compiled scripts to working directory!`,
-      })
+      });
     } catch (e) {
       toast({
         title: `Error`,
         description: `Compilation failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const decompileUnitScripts = async () => {
     if (!selectedDecompileUnits) {
@@ -80,8 +80,8 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
         title: `Error`,
         description: `Please select at least one asset!`,
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -90,20 +90,20 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
           unitIds: selectedDecompileUnits.map((x) => x.unitId ?? 0),
           replaceScript: true,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully decompiled scripts to script directory!`,
-      })
+      });
     } catch (e) {
       toast({
         title: `Error`,
         description: `Decompilation failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <Tabs defaultValue={"compile"}>
@@ -124,7 +124,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
             <div className="grid gap-4">
               <div className={"space-y-2"}>
                 <Label>Units</Label>
-                <SeriesUnitsSelector
+                <UnitsSelector
                   disabled={!!units}
                   multipleSelect={true}
                   selectedUnits={selectedCompileUnits}
@@ -145,9 +145,9 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
               <Button
                 disabled={isCompilePending}
                 onClick={async () => {
-                  setIsCompilePending(true)
-                  await compileUnitScripts()
-                  setIsCompilePending(false)
+                  setIsCompilePending(true);
+                  await compileUnitScripts();
+                  setIsCompilePending(false);
                 }}
               >
                 {isCompilePending && (
@@ -175,7 +175,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
             <div className="grid gap-6">
               <div className={"space-y-2"}>
                 <Label>Units</Label>
-                <SeriesUnitsSelector
+                <UnitsSelector
                   disabled={!!units}
                   multipleSelect={true}
                   selectedUnits={selectedDecompileUnits}
@@ -186,9 +186,9 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
               <Button
                 disabled={isDecompilePending}
                 onClick={async () => {
-                  setIsDecompilePending(true)
-                  await decompileUnitScripts()
-                  setIsDecompilePending(false)
+                  setIsDecompilePending(true);
+                  await decompileUnitScripts();
+                  setIsDecompilePending(false);
                 }}
               >
                 {isDecompilePending && (
@@ -204,7 +204,7 @@ const ScriptTools = ({ units }: ScriptToolsProps) => {
         </Card>
       </TabsContent>
     </Tabs>
-  )
-}
+  );
+};
 
-export default ScriptTools
+export default ScriptTools;

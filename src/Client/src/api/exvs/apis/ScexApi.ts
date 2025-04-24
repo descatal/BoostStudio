@@ -13,26 +13,26 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   CompileScexByPathCommand,
   CompileScexByUnitsCommand,
   DecompileScexByPathCommand,
   DecompileScexByUnitsCommand,
+  GetApiAmmoHashParameterInner,
   HotReloadScex,
-} from '../models/index';
+} from "../models/index";
 import {
-    CompileScexByPathCommandFromJSON,
-    CompileScexByPathCommandToJSON,
-    CompileScexByUnitsCommandFromJSON,
-    CompileScexByUnitsCommandToJSON,
-    DecompileScexByPathCommandFromJSON,
-    DecompileScexByPathCommandToJSON,
-    DecompileScexByUnitsCommandFromJSON,
-    DecompileScexByUnitsCommandToJSON,
-    HotReloadScexFromJSON,
-    HotReloadScexToJSON,
-} from '../models/index';
+  CompileScexByPathCommandToJSON,
+  CompileScexByUnitsCommandToJSON,
+  DecompileScexByPathCommandToJSON,
+  DecompileScexByUnitsCommandToJSON,
+  HotReloadScexToJSON,
+} from "../models/index";
+
+export interface GetApiScexDecompiledByUnitIdRequest {
+  unitId: GetApiAmmoHashParameterInner;
+}
 
 export interface PostApiScexCompilePathRequest {
     compileScexByPathCommand: CompileScexByPathCommand;
@@ -58,6 +58,41 @@ export interface PostApiScexHotReloadPathRequest {
  * 
  */
 export class ScexApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async getApiScexDecompiledByUnitIdRaw(requestParameters: GetApiScexDecompiledByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<string>> {
+        if (requestParameters['unitId'] == null) {
+            throw new runtime.RequiredError(
+                'unitId',
+                'Required parameter "unitId" was null or undefined when calling getApiScexDecompiledByUnitId().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/scex/decompiled/{unitId}`.replace(`{${"unitId"}}`, encodeURIComponent(String(requestParameters['unitId']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<string>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     */
+    async getApiScexDecompiledByUnitId(requestParameters: GetApiScexDecompiledByUnitIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<string> {
+        const response = await this.getApiScexDecompiledByUnitIdRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */

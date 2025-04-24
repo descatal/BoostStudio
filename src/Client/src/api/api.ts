@@ -1,8 +1,11 @@
 import {
   AmmoApi,
+  AssetsApi,
   Configuration,
+  FhmApi,
   HitboxesApi,
   ProjectilesApi,
+  ScexApi,
   SeriesApi,
   StatsApi,
   TblApi,
@@ -20,3 +23,6 @@ export const statsApi = new StatsApi(BASE_CONFIG);
 export const ammoApi = new AmmoApi(BASE_CONFIG);
 export const hitboxesApi = new HitboxesApi(BASE_CONFIG);
 export const projectilesApi = new ProjectilesApi(BASE_CONFIG);
+export const scexApi = new ScexApi(BASE_CONFIG);
+export const assetsApi = new AssetsApi(BASE_CONFIG);
+export const fhmApi = new FhmApi(BASE_CONFIG);

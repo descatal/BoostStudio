@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PatchFileMetadataDto } from './PatchFileMetadataDto';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    PatchFileMetadataDtoFromJSON,
-    PatchFileMetadataDtoFromJSONTyped,
-    PatchFileMetadataDtoToJSON,
-} from './PatchFileMetadataDto';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { PatchFileMetadataDto } from "./PatchFileMetadataDto";
+import { PatchFileMetadataDtoFromJSON, PatchFileMetadataDtoToJSON } from "./PatchFileMetadataDto";
 
 /**
  * 
@@ -28,10 +28,10 @@ import {
 export interface TblDto {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof TblDto
      */
-    cumulativeFileInfoCount: number;
+    cumulativeFileInfoCount: GetApiAmmoHashParameterInner;
     /**
      * 
      * @type {Array<PatchFileMetadataDto>}
@@ -43,7 +43,7 @@ export interface TblDto {
      * @type {Array<string>}
      * @memberof TblDto
      */
-    pathOrder?: Array<string> | null;
+    pathOrder?: Array<string>;
 }
 
 /**
@@ -65,7 +65,7 @@ export function TblDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tb
     }
     return {
         
-        'cumulativeFileInfoCount': json['cumulativeFileInfoCount'],
+        'cumulativeFileInfoCount': GetApiAmmoHashParameterInnerFromJSON(json['cumulativeFileInfoCount']),
         'fileMetadata': ((json['fileMetadata'] as Array<any>).map(PatchFileMetadataDtoFromJSON)),
         'pathOrder': json['pathOrder'] == null ? undefined : json['pathOrder'],
     };
@@ -77,7 +77,7 @@ export function TblDtoToJSON(value?: TblDto | null): any {
     }
     return {
         
-        'cumulativeFileInfoCount': value['cumulativeFileInfoCount'],
+        'cumulativeFileInfoCount': GetApiAmmoHashParameterInnerToJSON(value['cumulativeFileInfoCount']),
         'fileMetadata': ((value['fileMetadata'] as Array<any>).map(PatchFileMetadataDtoToJSON)),
         'pathOrder': value['pathOrder'],
     };

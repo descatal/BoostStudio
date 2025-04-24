@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,16 +26,16 @@ import { mapValues } from '../runtime';
 export interface UpdateHitboxGroupCommand {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateHitboxGroupCommand
      */
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof UpdateHitboxGroupCommand
      */
-    unitIds?: Array<number> | null;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
 }
 
 /**
@@ -51,8 +56,8 @@ export function UpdateHitboxGroupCommandFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'hash': json['hash'],
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'hash': GetApiAmmoHashParameterInnerFromJSON(json['hash']),
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
     };
 }
 
@@ -62,8 +67,8 @@ export function UpdateHitboxGroupCommandToJSON(value?: UpdateHitboxGroupCommand 
     }
     return {
         
-        'hash': value['hash'],
-        'unitIds': value['unitIds'],
+        'hash': GetApiAmmoHashParameterInnerToJSON(value['hash']),
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
     };
 }
 

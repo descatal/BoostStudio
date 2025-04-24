@@ -13,71 +13,64 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   CreateHitboxCommand,
   CreateHitboxGroupCommand,
   ExportHitboxGroupByPathCommand,
   ExportHitboxGroupCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   HitboxDto,
   HitboxGroupDto,
   PaginatedListOfHitboxDto,
   PaginatedListOfHitboxGroupDto,
   UpdateHitboxCommand,
   UpdateHitboxGroupCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    CreateHitboxCommandFromJSON,
-    CreateHitboxCommandToJSON,
-    CreateHitboxGroupCommandFromJSON,
-    CreateHitboxGroupCommandToJSON,
-    ExportHitboxGroupByPathCommandFromJSON,
-    ExportHitboxGroupByPathCommandToJSON,
-    ExportHitboxGroupCommandFromJSON,
-    ExportHitboxGroupCommandToJSON,
-    HitboxDtoFromJSON,
-    HitboxDtoToJSON,
-    HitboxGroupDtoFromJSON,
-    HitboxGroupDtoToJSON,
-    PaginatedListOfHitboxDtoFromJSON,
-    PaginatedListOfHitboxDtoToJSON,
-    PaginatedListOfHitboxGroupDtoFromJSON,
-    PaginatedListOfHitboxGroupDtoToJSON,
-    UpdateHitboxCommandFromJSON,
-    UpdateHitboxCommandToJSON,
-    UpdateHitboxGroupCommandFromJSON,
-    UpdateHitboxGroupCommandToJSON,
-} from '../models/index';
+  CreateHitboxCommandToJSON,
+  CreateHitboxGroupCommandToJSON,
+  ExportHitboxGroupByPathCommandToJSON,
+  ExportHitboxGroupCommandToJSON,
+  HitboxDtoFromJSON,
+  HitboxGroupDtoFromJSON,
+  PaginatedListOfHitboxDtoFromJSON,
+  PaginatedListOfHitboxGroupDtoFromJSON,
+  UpdateHitboxCommandToJSON,
+  UpdateHitboxGroupCommandToJSON,
+} from "../models/index";
 
 export interface DeleteApiHitboxesByHashRequest {
-    hash: number;
+  hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiHitboxGroupsRequest {
-    page?: number;
-    perPage?: number;
-    hashes?: Array<number>;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    hashes?: Array<GetApiAmmoHashParameterInner>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
 }
 
 export interface GetApiHitboxGroupsHashByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiHitboxGroupsUnitIdByUnitIdRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiHitboxesRequest {
-    page?: number;
-    perPage?: number;
-    hashes?: Array<number>;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    hashes?: Array<GetApiAmmoHashParameterInner>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     search?: string;
 }
 
 export interface GetApiHitboxesByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
 }
 
 export interface PostApiHitboxGroupsRequest {
@@ -85,7 +78,7 @@ export interface PostApiHitboxGroupsRequest {
 }
 
 export interface PostApiHitboxGroupsByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     updateHitboxGroupCommand: UpdateHitboxGroupCommand;
 }
 
@@ -99,7 +92,7 @@ export interface PostApiHitboxGroupsExportPathRequest {
 
 export interface PostApiHitboxGroupsImportRequest {
     file: Blob;
-    unitId?: number;
+    unitId?: GetApiAmmoHashParameterInner;
 }
 
 export interface PostApiHitboxGroupsImportPathRequest {
@@ -111,7 +104,7 @@ export interface PostApiHitboxesRequest {
 }
 
 export interface PostApiHitboxesByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     updateHitboxCommand: UpdateHitboxCommand;
 }
 

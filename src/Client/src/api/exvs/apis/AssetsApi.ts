@@ -13,40 +13,37 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   AssetFileType,
   AssetFileVm,
   CreateAssetFileCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   PaginatedListOfAssetFileVm,
   UpdateAssetFileByHashCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    AssetFileTypeFromJSON,
-    AssetFileTypeToJSON,
-    AssetFileVmFromJSON,
-    AssetFileVmToJSON,
-    CreateAssetFileCommandFromJSON,
-    CreateAssetFileCommandToJSON,
-    PaginatedListOfAssetFileVmFromJSON,
-    PaginatedListOfAssetFileVmToJSON,
-    UpdateAssetFileByHashCommandFromJSON,
-    UpdateAssetFileByHashCommandToJSON,
-} from '../models/index';
+  AssetFileVmFromJSON,
+  CreateAssetFileCommandToJSON,
+  PaginatedListOfAssetFileVmFromJSON,
+  UpdateAssetFileByHashCommandToJSON,
+} from "../models/index";
 
 export interface DeleteApiAssetsByHashRequest {
-    hash: number;
+  hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiAssetsRequest {
-    page?: number;
-    perPage?: number;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     assetFileTypes?: Array<AssetFileType>;
 }
 
 export interface GetApiAssetsByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
 }
 
 export interface PostApiAssetsRequest {
@@ -54,7 +51,7 @@ export interface PostApiAssetsRequest {
 }
 
 export interface PostApiAssetsByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     updateAssetFileByHashCommand: UpdateAssetFileByHashCommand;
 }
 

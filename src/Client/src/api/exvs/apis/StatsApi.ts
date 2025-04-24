@@ -13,12 +13,15 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   CreateStatCommand,
   CreateUnitAmmoSlotCommand,
   ExportUnitStatByPathCommand,
   ExportUnitStatCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   PaginatedListOfStatDto,
   PaginatedListOfUnitStatDto,
   StatDto,
@@ -26,34 +29,23 @@ import type {
   UnitStatDto,
   UpdateStatCommand,
   UpdateUnitAmmoSlotCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    CreateStatCommandFromJSON,
-    CreateStatCommandToJSON,
-    CreateUnitAmmoSlotCommandFromJSON,
-    CreateUnitAmmoSlotCommandToJSON,
-    ExportUnitStatByPathCommandFromJSON,
-    ExportUnitStatByPathCommandToJSON,
-    ExportUnitStatCommandFromJSON,
-    ExportUnitStatCommandToJSON,
-    PaginatedListOfStatDtoFromJSON,
-    PaginatedListOfStatDtoToJSON,
-    PaginatedListOfUnitStatDtoFromJSON,
-    PaginatedListOfUnitStatDtoToJSON,
-    StatDtoFromJSON,
-    StatDtoToJSON,
-    UnitAmmoSlotDtoFromJSON,
-    UnitAmmoSlotDtoToJSON,
-    UnitStatDtoFromJSON,
-    UnitStatDtoToJSON,
-    UpdateStatCommandFromJSON,
-    UpdateStatCommandToJSON,
-    UpdateUnitAmmoSlotCommandFromJSON,
-    UpdateUnitAmmoSlotCommandToJSON,
-} from '../models/index';
+  CreateStatCommandToJSON,
+  CreateUnitAmmoSlotCommandToJSON,
+  ExportUnitStatByPathCommandToJSON,
+  ExportUnitStatCommandToJSON,
+  PaginatedListOfStatDtoFromJSON,
+  PaginatedListOfUnitStatDtoFromJSON,
+  StatDtoFromJSON,
+  UnitAmmoSlotDtoFromJSON,
+  UnitStatDtoFromJSON,
+  UpdateStatCommandToJSON,
+  UpdateUnitAmmoSlotCommandToJSON,
+} from "../models/index";
 
 export interface DeleteApiStatsByIdRequest {
-    id: string;
+  id: string;
 }
 
 export interface DeleteApiUnitStatsAmmoSlotByIdRequest {
@@ -61,10 +53,10 @@ export interface DeleteApiUnitStatsAmmoSlotByIdRequest {
 }
 
 export interface GetApiStatsRequest {
-    page?: number;
-    perPage?: number;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
     ids?: Array<string>;
-    unitIds?: Array<number>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
 }
 
 export interface GetApiStatsByIdRequest {
@@ -72,17 +64,17 @@ export interface GetApiStatsByIdRequest {
 }
 
 export interface GetApiUnitStatsRequest {
-    page?: number;
-    perPage?: number;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
 }
 
 export interface GetApiUnitStatsAmmoSlotByUnitIdRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiUnitStatsByUnitIdRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
 }
 
 export interface PostApiStatsRequest {

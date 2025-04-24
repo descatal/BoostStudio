@@ -12,7 +12,17 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { CreateHitboxCommandDamageCorrection } from "./CreateHitboxCommandDamageCorrection";
+import {
+  CreateHitboxCommandDamageCorrectionFromJSON,
+  CreateHitboxCommandDamageCorrectionToJSON
+} from "./CreateHitboxCommandDamageCorrection";
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,190 +31,190 @@ import { mapValues } from '../runtime';
 export interface HitboxDto {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    hash?: number;
+    hash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    hitboxType?: number;
+    hitboxType?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    damage?: number;
+    damage?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk8?: number;
+    unk8?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    downValueThreshold?: number;
+    downValueThreshold?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    yorukeValueThreshold?: number;
+    yorukeValueThreshold?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk20?: number;
+    unk20?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk24?: number;
+    unk24?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof HitboxDto
      */
-    damageCorrection?: number;
+    damageCorrection?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    specialEffect?: number;
+    specialEffect?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    hitEffect?: number;
+    hitEffect?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    flyDirection1?: number;
+    flyDirection1?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    flyDirection2?: number;
+    flyDirection2?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    flyDirection3?: number;
+    flyDirection3?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    enemyCameraShakeMultiplier?: number;
+    enemyCameraShakeMultiplier?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    playerCameraShakeMultiplier?: number;
+    playerCameraShakeMultiplier?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk56?: number;
+    unk56?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    knockUpAngle?: number;
+    knockUpAngle?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    knockUpRange?: number;
+    knockUpRange?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk68?: number;
+    unk68?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    multipleHitIntervalFrame?: number;
+    multipleHitIntervalFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    multipleHitCount?: number;
+    multipleHitCount?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    enemyStunDuration?: number;
+    enemyStunDuration?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    playerStunDuration?: number;
+    playerStunDuration?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    hitVisualEffect?: number;
+    hitVisualEffect?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof HitboxDto
      */
-    hitVisualEffectSizeMultiplier?: number;
+    hitVisualEffectSizeMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    hitSoundEffectHash?: number;
+    hitSoundEffectHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk100?: number;
+    unk100?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    friendlyDamageFlag?: number;
+    friendlyDamageFlag?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    unk108?: number;
+    unk108?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxDto
      */
-    hitboxGroupHash?: number;
+    hitboxGroupHash?: GetApiAmmoHashParameterInner;
 }
 
 /**
@@ -224,37 +234,37 @@ export function HitboxDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'hash': json['hash'] == null ? undefined : json['hash'],
-        'hitboxType': json['hitboxType'] == null ? undefined : json['hitboxType'],
-        'damage': json['damage'] == null ? undefined : json['damage'],
-        'unk8': json['unk8'] == null ? undefined : json['unk8'],
-        'downValueThreshold': json['downValueThreshold'] == null ? undefined : json['downValueThreshold'],
-        'yorukeValueThreshold': json['yorukeValueThreshold'] == null ? undefined : json['yorukeValueThreshold'],
-        'unk20': json['unk20'] == null ? undefined : json['unk20'],
-        'unk24': json['unk24'] == null ? undefined : json['unk24'],
-        'damageCorrection': json['damageCorrection'] == null ? undefined : json['damageCorrection'],
-        'specialEffect': json['specialEffect'] == null ? undefined : json['specialEffect'],
-        'hitEffect': json['hitEffect'] == null ? undefined : json['hitEffect'],
-        'flyDirection1': json['flyDirection1'] == null ? undefined : json['flyDirection1'],
-        'flyDirection2': json['flyDirection2'] == null ? undefined : json['flyDirection2'],
-        'flyDirection3': json['flyDirection3'] == null ? undefined : json['flyDirection3'],
-        'enemyCameraShakeMultiplier': json['enemyCameraShakeMultiplier'] == null ? undefined : json['enemyCameraShakeMultiplier'],
-        'playerCameraShakeMultiplier': json['playerCameraShakeMultiplier'] == null ? undefined : json['playerCameraShakeMultiplier'],
-        'unk56': json['unk56'] == null ? undefined : json['unk56'],
-        'knockUpAngle': json['knockUpAngle'] == null ? undefined : json['knockUpAngle'],
-        'knockUpRange': json['knockUpRange'] == null ? undefined : json['knockUpRange'],
-        'unk68': json['unk68'] == null ? undefined : json['unk68'],
-        'multipleHitIntervalFrame': json['multipleHitIntervalFrame'] == null ? undefined : json['multipleHitIntervalFrame'],
-        'multipleHitCount': json['multipleHitCount'] == null ? undefined : json['multipleHitCount'],
-        'enemyStunDuration': json['enemyStunDuration'] == null ? undefined : json['enemyStunDuration'],
-        'playerStunDuration': json['playerStunDuration'] == null ? undefined : json['playerStunDuration'],
-        'hitVisualEffect': json['hitVisualEffect'] == null ? undefined : json['hitVisualEffect'],
-        'hitVisualEffectSizeMultiplier': json['hitVisualEffectSizeMultiplier'] == null ? undefined : json['hitVisualEffectSizeMultiplier'],
-        'hitSoundEffectHash': json['hitSoundEffectHash'] == null ? undefined : json['hitSoundEffectHash'],
-        'unk100': json['unk100'] == null ? undefined : json['unk100'],
-        'friendlyDamageFlag': json['friendlyDamageFlag'] == null ? undefined : json['friendlyDamageFlag'],
-        'unk108': json['unk108'] == null ? undefined : json['unk108'],
-        'hitboxGroupHash': json['hitboxGroupHash'] == null ? undefined : json['hitboxGroupHash'],
+        'hash': json['hash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hash']),
+        'hitboxType': json['hitboxType'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hitboxType']),
+        'damage': json['damage'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['damage']),
+        'unk8': json['unk8'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk8']),
+        'downValueThreshold': json['downValueThreshold'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['downValueThreshold']),
+        'yorukeValueThreshold': json['yorukeValueThreshold'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['yorukeValueThreshold']),
+        'unk20': json['unk20'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk20']),
+        'unk24': json['unk24'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk24']),
+        'damageCorrection': json['damageCorrection'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['damageCorrection']),
+        'specialEffect': json['specialEffect'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['specialEffect']),
+        'hitEffect': json['hitEffect'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hitEffect']),
+        'flyDirection1': json['flyDirection1'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['flyDirection1']),
+        'flyDirection2': json['flyDirection2'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['flyDirection2']),
+        'flyDirection3': json['flyDirection3'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['flyDirection3']),
+        'enemyCameraShakeMultiplier': json['enemyCameraShakeMultiplier'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['enemyCameraShakeMultiplier']),
+        'playerCameraShakeMultiplier': json['playerCameraShakeMultiplier'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['playerCameraShakeMultiplier']),
+        'unk56': json['unk56'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk56']),
+        'knockUpAngle': json['knockUpAngle'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['knockUpAngle']),
+        'knockUpRange': json['knockUpRange'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['knockUpRange']),
+        'unk68': json['unk68'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk68']),
+        'multipleHitIntervalFrame': json['multipleHitIntervalFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['multipleHitIntervalFrame']),
+        'multipleHitCount': json['multipleHitCount'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['multipleHitCount']),
+        'enemyStunDuration': json['enemyStunDuration'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['enemyStunDuration']),
+        'playerStunDuration': json['playerStunDuration'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['playerStunDuration']),
+        'hitVisualEffect': json['hitVisualEffect'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hitVisualEffect']),
+        'hitVisualEffectSizeMultiplier': json['hitVisualEffectSizeMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['hitVisualEffectSizeMultiplier']),
+        'hitSoundEffectHash': json['hitSoundEffectHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hitSoundEffectHash']),
+        'unk100': json['unk100'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk100']),
+        'friendlyDamageFlag': json['friendlyDamageFlag'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['friendlyDamageFlag']),
+        'unk108': json['unk108'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk108']),
+        'hitboxGroupHash': json['hitboxGroupHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hitboxGroupHash']),
     };
 }
 
@@ -264,37 +274,37 @@ export function HitboxDtoToJSON(value?: HitboxDto | null): any {
     }
     return {
         
-        'hash': value['hash'],
-        'hitboxType': value['hitboxType'],
-        'damage': value['damage'],
-        'unk8': value['unk8'],
-        'downValueThreshold': value['downValueThreshold'],
-        'yorukeValueThreshold': value['yorukeValueThreshold'],
-        'unk20': value['unk20'],
-        'unk24': value['unk24'],
-        'damageCorrection': value['damageCorrection'],
-        'specialEffect': value['specialEffect'],
-        'hitEffect': value['hitEffect'],
-        'flyDirection1': value['flyDirection1'],
-        'flyDirection2': value['flyDirection2'],
-        'flyDirection3': value['flyDirection3'],
-        'enemyCameraShakeMultiplier': value['enemyCameraShakeMultiplier'],
-        'playerCameraShakeMultiplier': value['playerCameraShakeMultiplier'],
-        'unk56': value['unk56'],
-        'knockUpAngle': value['knockUpAngle'],
-        'knockUpRange': value['knockUpRange'],
-        'unk68': value['unk68'],
-        'multipleHitIntervalFrame': value['multipleHitIntervalFrame'],
-        'multipleHitCount': value['multipleHitCount'],
-        'enemyStunDuration': value['enemyStunDuration'],
-        'playerStunDuration': value['playerStunDuration'],
-        'hitVisualEffect': value['hitVisualEffect'],
-        'hitVisualEffectSizeMultiplier': value['hitVisualEffectSizeMultiplier'],
-        'hitSoundEffectHash': value['hitSoundEffectHash'],
-        'unk100': value['unk100'],
-        'friendlyDamageFlag': value['friendlyDamageFlag'],
-        'unk108': value['unk108'],
-        'hitboxGroupHash': value['hitboxGroupHash'],
+        'hash': GetApiAmmoHashParameterInnerToJSON(value['hash']),
+        'hitboxType': GetApiAmmoHashParameterInnerToJSON(value['hitboxType']),
+        'damage': GetApiAmmoHashParameterInnerToJSON(value['damage']),
+        'unk8': GetApiAmmoHashParameterInnerToJSON(value['unk8']),
+        'downValueThreshold': GetApiAmmoHashParameterInnerToJSON(value['downValueThreshold']),
+        'yorukeValueThreshold': GetApiAmmoHashParameterInnerToJSON(value['yorukeValueThreshold']),
+        'unk20': GetApiAmmoHashParameterInnerToJSON(value['unk20']),
+        'unk24': GetApiAmmoHashParameterInnerToJSON(value['unk24']),
+        'damageCorrection': CreateHitboxCommandDamageCorrectionToJSON(value['damageCorrection']),
+        'specialEffect': GetApiAmmoHashParameterInnerToJSON(value['specialEffect']),
+        'hitEffect': GetApiAmmoHashParameterInnerToJSON(value['hitEffect']),
+        'flyDirection1': GetApiAmmoHashParameterInnerToJSON(value['flyDirection1']),
+        'flyDirection2': GetApiAmmoHashParameterInnerToJSON(value['flyDirection2']),
+        'flyDirection3': GetApiAmmoHashParameterInnerToJSON(value['flyDirection3']),
+        'enemyCameraShakeMultiplier': GetApiAmmoHashParameterInnerToJSON(value['enemyCameraShakeMultiplier']),
+        'playerCameraShakeMultiplier': GetApiAmmoHashParameterInnerToJSON(value['playerCameraShakeMultiplier']),
+        'unk56': GetApiAmmoHashParameterInnerToJSON(value['unk56']),
+        'knockUpAngle': GetApiAmmoHashParameterInnerToJSON(value['knockUpAngle']),
+        'knockUpRange': GetApiAmmoHashParameterInnerToJSON(value['knockUpRange']),
+        'unk68': GetApiAmmoHashParameterInnerToJSON(value['unk68']),
+        'multipleHitIntervalFrame': GetApiAmmoHashParameterInnerToJSON(value['multipleHitIntervalFrame']),
+        'multipleHitCount': GetApiAmmoHashParameterInnerToJSON(value['multipleHitCount']),
+        'enemyStunDuration': GetApiAmmoHashParameterInnerToJSON(value['enemyStunDuration']),
+        'playerStunDuration': GetApiAmmoHashParameterInnerToJSON(value['playerStunDuration']),
+        'hitVisualEffect': GetApiAmmoHashParameterInnerToJSON(value['hitVisualEffect']),
+        'hitVisualEffectSizeMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['hitVisualEffectSizeMultiplier']),
+        'hitSoundEffectHash': GetApiAmmoHashParameterInnerToJSON(value['hitSoundEffectHash']),
+        'unk100': GetApiAmmoHashParameterInnerToJSON(value['unk100']),
+        'friendlyDamageFlag': GetApiAmmoHashParameterInnerToJSON(value['friendlyDamageFlag']),
+        'unk108': GetApiAmmoHashParameterInnerToJSON(value['unk108']),
+        'hitboxGroupHash': GetApiAmmoHashParameterInnerToJSON(value['hitboxGroupHash']),
     };
 }
 

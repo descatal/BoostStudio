@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,16 +26,16 @@ import { mapValues } from '../runtime';
 export interface ExportHitboxGroupByPathCommand {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof ExportHitboxGroupByPathCommand
      */
-    hashes?: Array<number> | null;
+    hashes?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof ExportHitboxGroupByPathCommand
      */
-    unitIds?: Array<number> | null;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {string}
@@ -56,8 +61,8 @@ export function ExportHitboxGroupByPathCommandFromJSONTyped(json: any, ignoreDis
     }
     return {
         
-        'hashes': json['hashes'] == null ? undefined : json['hashes'],
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'hashes': json['hashes'] == null ? undefined : ((json['hashes'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'outputPath': json['outputPath'] == null ? undefined : json['outputPath'],
     };
 }
@@ -68,8 +73,8 @@ export function ExportHitboxGroupByPathCommandToJSON(value?: ExportHitboxGroupBy
     }
     return {
         
-        'hashes': value['hashes'],
-        'unitIds': value['unitIds'],
+        'hashes': value['hashes'] == null ? undefined : ((value['hashes'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'outputPath': value['outputPath'],
     };
 }

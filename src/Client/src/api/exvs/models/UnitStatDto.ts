@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { UnitAmmoSlotDto } from './UnitAmmoSlotDto';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    UnitAmmoSlotDtoFromJSON,
-    UnitAmmoSlotDtoFromJSONTyped,
-    UnitAmmoSlotDtoToJSON,
-} from './UnitAmmoSlotDto';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { UnitAmmoSlotDto } from "./UnitAmmoSlotDto";
+import { UnitAmmoSlotDtoFromJSON, UnitAmmoSlotDtoToJSON } from "./UnitAmmoSlotDto";
 
 /**
  * 
@@ -34,10 +34,10 @@ export interface UnitStatDto {
     id?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UnitStatDto
      */
-    unitId?: number;
+    unitId?: GetApiAmmoHashParameterInner;
     /**
      * 
      * @type {Array<UnitAmmoSlotDto>}
@@ -64,7 +64,7 @@ export function UnitStatDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'id': json['id'] == null ? undefined : json['id'],
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'unitId': json['unitId'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unitId']),
         'ammoSlots': json['ammoSlots'] == null ? undefined : ((json['ammoSlots'] as Array<any>).map(UnitAmmoSlotDtoFromJSON)),
     };
 }
@@ -76,7 +76,7 @@ export function UnitStatDtoToJSON(value?: UnitStatDto | null): any {
     return {
         
         'id': value['id'],
-        'unitId': value['unitId'],
+        'unitId': GetApiAmmoHashParameterInnerToJSON(value['unitId']),
         'ammoSlots': value['ammoSlots'] == null ? undefined : ((value['ammoSlots'] as Array<any>).map(UnitAmmoSlotDtoToJSON)),
     };
 }

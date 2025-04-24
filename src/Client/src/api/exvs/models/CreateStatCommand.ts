@@ -12,7 +12,16 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { CreateHitboxCommandDamageCorrection } from "./CreateHitboxCommandDamageCorrection";
+import {
+  CreateHitboxCommandDamageCorrectionFromJSON,
+  CreateHitboxCommandDamageCorrectionToJSON
+} from "./CreateHitboxCommandDamageCorrection";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
+
 /**
  * 
  * @export
@@ -21,910 +30,910 @@ import { mapValues } from '../runtime';
 export interface CreateStatCommand {
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unitCost?: number;
+    unitCost?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unitCost2?: number;
+    unitCost2?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    maxHp?: number;
+    maxHp?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    downValueThreshold?: number;
+    downValueThreshold?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    yorukeValueThreshold?: number;
+    yorukeValueThreshold?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk20?: number;
+    unk20?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk24?: number;
+    unk24?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk28?: number;
+    unk28?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    maxBoost?: number;
+    maxBoost?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk36?: number;
+    unk36?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk40?: number;
+    unk40?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk44?: number;
+    unk44?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    gravityMultiplierAir?: number;
+    gravityMultiplierAir?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    gravityMultiplierLand?: number;
+    gravityMultiplierLand?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk56?: number;
+    unk56?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk60?: number;
+    unk60?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk64?: number;
+    unk64?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk68?: number;
+    unk68?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk72?: number;
+    unk72?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk76?: number;
+    unk76?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk80?: number;
+    unk80?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    cameraZoomMultiplier?: number;
+    cameraZoomMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk88?: number;
+    unk88?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk92?: number;
+    unk92?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk96?: number;
+    unk96?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk100?: number;
+    unk100?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk104?: number;
+    unk104?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk108?: number;
+    unk108?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    sizeMultiplier?: number;
+    sizeMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk116?: number;
+    unk116?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk120?: number;
+    unk120?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk124?: number;
+    unk124?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk128?: number;
+    unk128?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk132?: number;
+    unk132?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk136?: number;
+    unk136?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk140?: number;
+    unk140?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk144?: number;
+    unk144?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk148?: number;
+    unk148?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk152?: number;
+    unk152?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk156?: number;
+    unk156?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk160?: number;
+    unk160?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk164?: number;
+    unk164?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk168?: number;
+    unk168?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk172?: number;
+    unk172?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk176?: number;
+    unk176?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk180?: number;
+    unk180?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk184?: number;
+    unk184?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    redLockRangeMelee?: number;
+    redLockRangeMelee?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    redLockRange?: number;
+    redLockRange?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk196?: number;
+    unk196?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk200?: number;
+    unk200?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk204?: number;
+    unk204?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk208?: number;
+    unk208?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostReplenish?: number;
+    boostReplenish?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk216?: number;
+    unk216?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostInitialConsumption?: number;
+    boostInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostFuwaInitialConsumption?: number;
+    boostFuwaInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostFlyConsumption?: number;
+    boostFlyConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostGroundStepInitialConsumption?: number;
+    boostGroundStepInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostGroundStepConsumption?: number;
+    boostGroundStepConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostAirStepInitialConsumption?: number;
+    boostAirStepInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostAirStepConsumption?: number;
+    boostAirStepConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostBdInitialConsumption?: number;
+    boostBdInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostBdConsumption?: number;
+    boostBdConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk256?: number;
+    unk256?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk260?: number;
+    unk260?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk264?: number;
+    unk264?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk268?: number;
+    unk268?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostTransformInitialConsumption?: number;
+    boostTransformInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostTransformConsumption?: number;
+    boostTransformConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostNonVernierActionConsumption?: number;
+    boostNonVernierActionConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostPostActionConsumption?: number;
+    boostPostActionConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    boostRainbowStepInitialConsumption?: number;
+    boostRainbowStepInitialConsumption?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk292?: number;
+    unk292?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk296?: number;
+    unk296?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk300?: number;
+    unk300?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk304?: number;
+    unk304?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk308?: number;
+    unk308?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk312?: number;
+    unk312?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk316?: number;
+    unk316?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk320?: number;
+    unk320?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk324?: number;
+    unk324?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk328?: number;
+    unk328?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk332?: number;
+    unk332?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstRedLockMelee?: number;
+    assaultBurstRedLockMelee?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstRedLock?: number;
+    assaultBurstRedLock?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstDamageDealtMultiplier?: number;
+    assaultBurstDamageDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstDamageTakenMultiplier?: number;
+    assaultBurstDamageTakenMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstMobilityMultiplier?: number;
+    assaultBurstMobilityMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstDownValueDealtMultiplier?: number;
+    assaultBurstDownValueDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstBoostConsumptionMultiplier?: number;
+    assaultBurstBoostConsumptionMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk364?: number;
+    unk364?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk368?: number;
+    unk368?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstDamageDealtBurstGaugeIncreaseMultiplier?: number;
+    assaultBurstDamageDealtBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    assaultBurstDamageTakenBurstGaugeIncreaseMultiplier?: number;
+    assaultBurstDamageTakenBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk380?: number;
+    unk380?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk384?: number;
+    unk384?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk388?: number;
+    unk388?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk392?: number;
+    unk392?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk396?: number;
+    unk396?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstRedLockMelee?: number;
+    blastBurstRedLockMelee?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstRedLock?: number;
+    blastBurstRedLock?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstDamageDealtMultiplier?: number;
+    blastBurstDamageDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstDamageTakenMultiplier?: number;
+    blastBurstDamageTakenMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstMobilityMultiplier?: number;
+    blastBurstMobilityMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstDownValueDealtMultiplier?: number;
+    blastBurstDownValueDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstBoostConsumptionMultiplier?: number;
+    blastBurstBoostConsumptionMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk428?: number;
+    unk428?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk432?: number;
+    unk432?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstDamageDealtBurstGaugeIncreaseMultiplier?: number;
+    blastBurstDamageDealtBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    blastBurstDamageTakenBurstGaugeIncreaseMultiplier?: number;
+    blastBurstDamageTakenBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk444?: number;
+    unk444?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk448?: number;
+    unk448?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk452?: number;
+    unk452?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk456?: number;
+    unk456?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk460?: number;
+    unk460?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstRedLockMelee?: number;
+    thirdBurstRedLockMelee?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstRedLock?: number;
+    thirdBurstRedLock?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstDamageDealtMultiplier?: number;
+    thirdBurstDamageDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstDamageTakenMultiplier?: number;
+    thirdBurstDamageTakenMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstMobilityMultiplier?: number;
+    thirdBurstMobilityMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstDownValueDealtMultiplier?: number;
+    thirdBurstDownValueDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstBoostConsumptionMultiplier?: number;
+    thirdBurstBoostConsumptionMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk492?: number;
+    unk492?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk496?: number;
+    unk496?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstDamageDealtBurstGaugeIncreaseMultiplier?: number;
+    thirdBurstDamageDealtBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    thirdBurstDamageTakenBurstGaugeIncreaseMultiplier?: number;
+    thirdBurstDamageTakenBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk508?: number;
+    unk508?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk512?: number;
+    unk512?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk516?: number;
+    unk516?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk520?: number;
+    unk520?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk524?: number;
+    unk524?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstRedLockMelee?: number;
+    fourthBurstRedLockMelee?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstRedLock?: number;
+    fourthBurstRedLock?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstDamageDealtMultiplier?: number;
+    fourthBurstDamageDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstDamageTakenMultiplier?: number;
+    fourthBurstDamageTakenMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstMobilityMultiplier?: number;
+    fourthBurstMobilityMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstDownValueDealtMultiplier?: number;
+    fourthBurstDownValueDealtMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstBoostConsumptionMultiplier?: number;
+    fourthBurstBoostConsumptionMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk572?: number;
+    unk572?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk576?: number;
+    unk576?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstDamageDealtBurstGaugeIncreaseMultiplier?: number;
+    fourthBurstDamageDealtBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    fourthBurstDamageTakenBurstGaugeIncreaseMultiplier?: number;
+    fourthBurstDamageTakenBurstGaugeIncreaseMultiplier?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk588?: number;
+    unk588?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk592?: number;
+    unk592?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk596?: number;
+    unk596?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk600?: number;
+    unk600?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof CreateStatCommand
      */
-    unk604?: number;
+    unk604?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    unk608?: number;
+    unk608?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateStatCommand
      */
-    order?: number;
+    order?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof CreateStatCommand
      */
-    unitId?: number | null;
+    unitId?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -944,157 +953,157 @@ export function CreateStatCommandFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'unitCost': json['unitCost'] == null ? undefined : json['unitCost'],
-        'unitCost2': json['unitCost2'] == null ? undefined : json['unitCost2'],
-        'maxHp': json['maxHp'] == null ? undefined : json['maxHp'],
-        'downValueThreshold': json['downValueThreshold'] == null ? undefined : json['downValueThreshold'],
-        'yorukeValueThreshold': json['yorukeValueThreshold'] == null ? undefined : json['yorukeValueThreshold'],
-        'unk20': json['unk20'] == null ? undefined : json['unk20'],
-        'unk24': json['unk24'] == null ? undefined : json['unk24'],
-        'unk28': json['unk28'] == null ? undefined : json['unk28'],
-        'maxBoost': json['maxBoost'] == null ? undefined : json['maxBoost'],
-        'unk36': json['unk36'] == null ? undefined : json['unk36'],
-        'unk40': json['unk40'] == null ? undefined : json['unk40'],
-        'unk44': json['unk44'] == null ? undefined : json['unk44'],
-        'gravityMultiplierAir': json['gravityMultiplierAir'] == null ? undefined : json['gravityMultiplierAir'],
-        'gravityMultiplierLand': json['gravityMultiplierLand'] == null ? undefined : json['gravityMultiplierLand'],
-        'unk56': json['unk56'] == null ? undefined : json['unk56'],
-        'unk60': json['unk60'] == null ? undefined : json['unk60'],
-        'unk64': json['unk64'] == null ? undefined : json['unk64'],
-        'unk68': json['unk68'] == null ? undefined : json['unk68'],
-        'unk72': json['unk72'] == null ? undefined : json['unk72'],
-        'unk76': json['unk76'] == null ? undefined : json['unk76'],
-        'unk80': json['unk80'] == null ? undefined : json['unk80'],
-        'cameraZoomMultiplier': json['cameraZoomMultiplier'] == null ? undefined : json['cameraZoomMultiplier'],
-        'unk88': json['unk88'] == null ? undefined : json['unk88'],
-        'unk92': json['unk92'] == null ? undefined : json['unk92'],
-        'unk96': json['unk96'] == null ? undefined : json['unk96'],
-        'unk100': json['unk100'] == null ? undefined : json['unk100'],
-        'unk104': json['unk104'] == null ? undefined : json['unk104'],
-        'unk108': json['unk108'] == null ? undefined : json['unk108'],
-        'sizeMultiplier': json['sizeMultiplier'] == null ? undefined : json['sizeMultiplier'],
-        'unk116': json['unk116'] == null ? undefined : json['unk116'],
-        'unk120': json['unk120'] == null ? undefined : json['unk120'],
-        'unk124': json['unk124'] == null ? undefined : json['unk124'],
-        'unk128': json['unk128'] == null ? undefined : json['unk128'],
-        'unk132': json['unk132'] == null ? undefined : json['unk132'],
-        'unk136': json['unk136'] == null ? undefined : json['unk136'],
-        'unk140': json['unk140'] == null ? undefined : json['unk140'],
-        'unk144': json['unk144'] == null ? undefined : json['unk144'],
-        'unk148': json['unk148'] == null ? undefined : json['unk148'],
-        'unk152': json['unk152'] == null ? undefined : json['unk152'],
-        'unk156': json['unk156'] == null ? undefined : json['unk156'],
-        'unk160': json['unk160'] == null ? undefined : json['unk160'],
-        'unk164': json['unk164'] == null ? undefined : json['unk164'],
-        'unk168': json['unk168'] == null ? undefined : json['unk168'],
-        'unk172': json['unk172'] == null ? undefined : json['unk172'],
-        'unk176': json['unk176'] == null ? undefined : json['unk176'],
-        'unk180': json['unk180'] == null ? undefined : json['unk180'],
-        'unk184': json['unk184'] == null ? undefined : json['unk184'],
-        'redLockRangeMelee': json['redLockRangeMelee'] == null ? undefined : json['redLockRangeMelee'],
-        'redLockRange': json['redLockRange'] == null ? undefined : json['redLockRange'],
-        'unk196': json['unk196'] == null ? undefined : json['unk196'],
-        'unk200': json['unk200'] == null ? undefined : json['unk200'],
-        'unk204': json['unk204'] == null ? undefined : json['unk204'],
-        'unk208': json['unk208'] == null ? undefined : json['unk208'],
-        'boostReplenish': json['boostReplenish'] == null ? undefined : json['boostReplenish'],
-        'unk216': json['unk216'] == null ? undefined : json['unk216'],
-        'boostInitialConsumption': json['boostInitialConsumption'] == null ? undefined : json['boostInitialConsumption'],
-        'boostFuwaInitialConsumption': json['boostFuwaInitialConsumption'] == null ? undefined : json['boostFuwaInitialConsumption'],
-        'boostFlyConsumption': json['boostFlyConsumption'] == null ? undefined : json['boostFlyConsumption'],
-        'boostGroundStepInitialConsumption': json['boostGroundStepInitialConsumption'] == null ? undefined : json['boostGroundStepInitialConsumption'],
-        'boostGroundStepConsumption': json['boostGroundStepConsumption'] == null ? undefined : json['boostGroundStepConsumption'],
-        'boostAirStepInitialConsumption': json['boostAirStepInitialConsumption'] == null ? undefined : json['boostAirStepInitialConsumption'],
-        'boostAirStepConsumption': json['boostAirStepConsumption'] == null ? undefined : json['boostAirStepConsumption'],
-        'boostBdInitialConsumption': json['boostBdInitialConsumption'] == null ? undefined : json['boostBdInitialConsumption'],
-        'boostBdConsumption': json['boostBdConsumption'] == null ? undefined : json['boostBdConsumption'],
-        'unk256': json['unk256'] == null ? undefined : json['unk256'],
-        'unk260': json['unk260'] == null ? undefined : json['unk260'],
-        'unk264': json['unk264'] == null ? undefined : json['unk264'],
-        'unk268': json['unk268'] == null ? undefined : json['unk268'],
-        'boostTransformInitialConsumption': json['boostTransformInitialConsumption'] == null ? undefined : json['boostTransformInitialConsumption'],
-        'boostTransformConsumption': json['boostTransformConsumption'] == null ? undefined : json['boostTransformConsumption'],
-        'boostNonVernierActionConsumption': json['boostNonVernierActionConsumption'] == null ? undefined : json['boostNonVernierActionConsumption'],
-        'boostPostActionConsumption': json['boostPostActionConsumption'] == null ? undefined : json['boostPostActionConsumption'],
-        'boostRainbowStepInitialConsumption': json['boostRainbowStepInitialConsumption'] == null ? undefined : json['boostRainbowStepInitialConsumption'],
-        'unk292': json['unk292'] == null ? undefined : json['unk292'],
-        'unk296': json['unk296'] == null ? undefined : json['unk296'],
-        'unk300': json['unk300'] == null ? undefined : json['unk300'],
-        'unk304': json['unk304'] == null ? undefined : json['unk304'],
-        'unk308': json['unk308'] == null ? undefined : json['unk308'],
-        'unk312': json['unk312'] == null ? undefined : json['unk312'],
-        'unk316': json['unk316'] == null ? undefined : json['unk316'],
-        'unk320': json['unk320'] == null ? undefined : json['unk320'],
-        'unk324': json['unk324'] == null ? undefined : json['unk324'],
-        'unk328': json['unk328'] == null ? undefined : json['unk328'],
-        'unk332': json['unk332'] == null ? undefined : json['unk332'],
-        'assaultBurstRedLockMelee': json['assaultBurstRedLockMelee'] == null ? undefined : json['assaultBurstRedLockMelee'],
-        'assaultBurstRedLock': json['assaultBurstRedLock'] == null ? undefined : json['assaultBurstRedLock'],
-        'assaultBurstDamageDealtMultiplier': json['assaultBurstDamageDealtMultiplier'] == null ? undefined : json['assaultBurstDamageDealtMultiplier'],
-        'assaultBurstDamageTakenMultiplier': json['assaultBurstDamageTakenMultiplier'] == null ? undefined : json['assaultBurstDamageTakenMultiplier'],
-        'assaultBurstMobilityMultiplier': json['assaultBurstMobilityMultiplier'] == null ? undefined : json['assaultBurstMobilityMultiplier'],
-        'assaultBurstDownValueDealtMultiplier': json['assaultBurstDownValueDealtMultiplier'] == null ? undefined : json['assaultBurstDownValueDealtMultiplier'],
-        'assaultBurstBoostConsumptionMultiplier': json['assaultBurstBoostConsumptionMultiplier'] == null ? undefined : json['assaultBurstBoostConsumptionMultiplier'],
-        'unk364': json['unk364'] == null ? undefined : json['unk364'],
-        'unk368': json['unk368'] == null ? undefined : json['unk368'],
-        'assaultBurstDamageDealtBurstGaugeIncreaseMultiplier': json['assaultBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : json['assaultBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'assaultBurstDamageTakenBurstGaugeIncreaseMultiplier': json['assaultBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : json['assaultBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk380': json['unk380'] == null ? undefined : json['unk380'],
-        'unk384': json['unk384'] == null ? undefined : json['unk384'],
-        'unk388': json['unk388'] == null ? undefined : json['unk388'],
-        'unk392': json['unk392'] == null ? undefined : json['unk392'],
-        'unk396': json['unk396'] == null ? undefined : json['unk396'],
-        'blastBurstRedLockMelee': json['blastBurstRedLockMelee'] == null ? undefined : json['blastBurstRedLockMelee'],
-        'blastBurstRedLock': json['blastBurstRedLock'] == null ? undefined : json['blastBurstRedLock'],
-        'blastBurstDamageDealtMultiplier': json['blastBurstDamageDealtMultiplier'] == null ? undefined : json['blastBurstDamageDealtMultiplier'],
-        'blastBurstDamageTakenMultiplier': json['blastBurstDamageTakenMultiplier'] == null ? undefined : json['blastBurstDamageTakenMultiplier'],
-        'blastBurstMobilityMultiplier': json['blastBurstMobilityMultiplier'] == null ? undefined : json['blastBurstMobilityMultiplier'],
-        'blastBurstDownValueDealtMultiplier': json['blastBurstDownValueDealtMultiplier'] == null ? undefined : json['blastBurstDownValueDealtMultiplier'],
-        'blastBurstBoostConsumptionMultiplier': json['blastBurstBoostConsumptionMultiplier'] == null ? undefined : json['blastBurstBoostConsumptionMultiplier'],
-        'unk428': json['unk428'] == null ? undefined : json['unk428'],
-        'unk432': json['unk432'] == null ? undefined : json['unk432'],
-        'blastBurstDamageDealtBurstGaugeIncreaseMultiplier': json['blastBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : json['blastBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'blastBurstDamageTakenBurstGaugeIncreaseMultiplier': json['blastBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : json['blastBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk444': json['unk444'] == null ? undefined : json['unk444'],
-        'unk448': json['unk448'] == null ? undefined : json['unk448'],
-        'unk452': json['unk452'] == null ? undefined : json['unk452'],
-        'unk456': json['unk456'] == null ? undefined : json['unk456'],
-        'unk460': json['unk460'] == null ? undefined : json['unk460'],
-        'thirdBurstRedLockMelee': json['thirdBurstRedLockMelee'] == null ? undefined : json['thirdBurstRedLockMelee'],
-        'thirdBurstRedLock': json['thirdBurstRedLock'] == null ? undefined : json['thirdBurstRedLock'],
-        'thirdBurstDamageDealtMultiplier': json['thirdBurstDamageDealtMultiplier'] == null ? undefined : json['thirdBurstDamageDealtMultiplier'],
-        'thirdBurstDamageTakenMultiplier': json['thirdBurstDamageTakenMultiplier'] == null ? undefined : json['thirdBurstDamageTakenMultiplier'],
-        'thirdBurstMobilityMultiplier': json['thirdBurstMobilityMultiplier'] == null ? undefined : json['thirdBurstMobilityMultiplier'],
-        'thirdBurstDownValueDealtMultiplier': json['thirdBurstDownValueDealtMultiplier'] == null ? undefined : json['thirdBurstDownValueDealtMultiplier'],
-        'thirdBurstBoostConsumptionMultiplier': json['thirdBurstBoostConsumptionMultiplier'] == null ? undefined : json['thirdBurstBoostConsumptionMultiplier'],
-        'unk492': json['unk492'] == null ? undefined : json['unk492'],
-        'unk496': json['unk496'] == null ? undefined : json['unk496'],
-        'thirdBurstDamageDealtBurstGaugeIncreaseMultiplier': json['thirdBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : json['thirdBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'thirdBurstDamageTakenBurstGaugeIncreaseMultiplier': json['thirdBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : json['thirdBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk508': json['unk508'] == null ? undefined : json['unk508'],
-        'unk512': json['unk512'] == null ? undefined : json['unk512'],
-        'unk516': json['unk516'] == null ? undefined : json['unk516'],
-        'unk520': json['unk520'] == null ? undefined : json['unk520'],
-        'unk524': json['unk524'] == null ? undefined : json['unk524'],
-        'fourthBurstRedLockMelee': json['fourthBurstRedLockMelee'] == null ? undefined : json['fourthBurstRedLockMelee'],
-        'fourthBurstRedLock': json['fourthBurstRedLock'] == null ? undefined : json['fourthBurstRedLock'],
-        'fourthBurstDamageDealtMultiplier': json['fourthBurstDamageDealtMultiplier'] == null ? undefined : json['fourthBurstDamageDealtMultiplier'],
-        'fourthBurstDamageTakenMultiplier': json['fourthBurstDamageTakenMultiplier'] == null ? undefined : json['fourthBurstDamageTakenMultiplier'],
-        'fourthBurstMobilityMultiplier': json['fourthBurstMobilityMultiplier'] == null ? undefined : json['fourthBurstMobilityMultiplier'],
-        'fourthBurstDownValueDealtMultiplier': json['fourthBurstDownValueDealtMultiplier'] == null ? undefined : json['fourthBurstDownValueDealtMultiplier'],
-        'fourthBurstBoostConsumptionMultiplier': json['fourthBurstBoostConsumptionMultiplier'] == null ? undefined : json['fourthBurstBoostConsumptionMultiplier'],
-        'unk572': json['unk572'] == null ? undefined : json['unk572'],
-        'unk576': json['unk576'] == null ? undefined : json['unk576'],
-        'fourthBurstDamageDealtBurstGaugeIncreaseMultiplier': json['fourthBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : json['fourthBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'fourthBurstDamageTakenBurstGaugeIncreaseMultiplier': json['fourthBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : json['fourthBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk588': json['unk588'] == null ? undefined : json['unk588'],
-        'unk592': json['unk592'] == null ? undefined : json['unk592'],
-        'unk596': json['unk596'] == null ? undefined : json['unk596'],
-        'unk600': json['unk600'] == null ? undefined : json['unk600'],
-        'unk604': json['unk604'] == null ? undefined : json['unk604'],
-        'unk608': json['unk608'] == null ? undefined : json['unk608'],
-        'order': json['order'] == null ? undefined : json['order'],
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'unitCost': json['unitCost'] == null ? undefined : AmmoDtoOrderFromJSON(json['unitCost']),
+        'unitCost2': json['unitCost2'] == null ? undefined : AmmoDtoOrderFromJSON(json['unitCost2']),
+        'maxHp': json['maxHp'] == null ? undefined : AmmoDtoOrderFromJSON(json['maxHp']),
+        'downValueThreshold': json['downValueThreshold'] == null ? undefined : AmmoDtoOrderFromJSON(json['downValueThreshold']),
+        'yorukeValueThreshold': json['yorukeValueThreshold'] == null ? undefined : AmmoDtoOrderFromJSON(json['yorukeValueThreshold']),
+        'unk20': json['unk20'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk20']),
+        'unk24': json['unk24'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk24']),
+        'unk28': json['unk28'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk28']),
+        'maxBoost': json['maxBoost'] == null ? undefined : AmmoDtoOrderFromJSON(json['maxBoost']),
+        'unk36': json['unk36'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk36']),
+        'unk40': json['unk40'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk40']),
+        'unk44': json['unk44'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk44']),
+        'gravityMultiplierAir': json['gravityMultiplierAir'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['gravityMultiplierAir']),
+        'gravityMultiplierLand': json['gravityMultiplierLand'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['gravityMultiplierLand']),
+        'unk56': json['unk56'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk56']),
+        'unk60': json['unk60'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk60']),
+        'unk64': json['unk64'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk64']),
+        'unk68': json['unk68'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk68']),
+        'unk72': json['unk72'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk72']),
+        'unk76': json['unk76'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk76']),
+        'unk80': json['unk80'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk80']),
+        'cameraZoomMultiplier': json['cameraZoomMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['cameraZoomMultiplier']),
+        'unk88': json['unk88'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk88']),
+        'unk92': json['unk92'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk92']),
+        'unk96': json['unk96'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk96']),
+        'unk100': json['unk100'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk100']),
+        'unk104': json['unk104'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk104']),
+        'unk108': json['unk108'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk108']),
+        'sizeMultiplier': json['sizeMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['sizeMultiplier']),
+        'unk116': json['unk116'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk116']),
+        'unk120': json['unk120'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk120']),
+        'unk124': json['unk124'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk124']),
+        'unk128': json['unk128'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk128']),
+        'unk132': json['unk132'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk132']),
+        'unk136': json['unk136'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk136']),
+        'unk140': json['unk140'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk140']),
+        'unk144': json['unk144'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk144']),
+        'unk148': json['unk148'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk148']),
+        'unk152': json['unk152'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk152']),
+        'unk156': json['unk156'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk156']),
+        'unk160': json['unk160'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk160']),
+        'unk164': json['unk164'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk164']),
+        'unk168': json['unk168'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk168']),
+        'unk172': json['unk172'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk172']),
+        'unk176': json['unk176'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk176']),
+        'unk180': json['unk180'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk180']),
+        'unk184': json['unk184'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk184']),
+        'redLockRangeMelee': json['redLockRangeMelee'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['redLockRangeMelee']),
+        'redLockRange': json['redLockRange'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['redLockRange']),
+        'unk196': json['unk196'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk196']),
+        'unk200': json['unk200'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk200']),
+        'unk204': json['unk204'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk204']),
+        'unk208': json['unk208'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk208']),
+        'boostReplenish': json['boostReplenish'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostReplenish']),
+        'unk216': json['unk216'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk216']),
+        'boostInitialConsumption': json['boostInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostInitialConsumption']),
+        'boostFuwaInitialConsumption': json['boostFuwaInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostFuwaInitialConsumption']),
+        'boostFlyConsumption': json['boostFlyConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostFlyConsumption']),
+        'boostGroundStepInitialConsumption': json['boostGroundStepInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostGroundStepInitialConsumption']),
+        'boostGroundStepConsumption': json['boostGroundStepConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostGroundStepConsumption']),
+        'boostAirStepInitialConsumption': json['boostAirStepInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostAirStepInitialConsumption']),
+        'boostAirStepConsumption': json['boostAirStepConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostAirStepConsumption']),
+        'boostBdInitialConsumption': json['boostBdInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostBdInitialConsumption']),
+        'boostBdConsumption': json['boostBdConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostBdConsumption']),
+        'unk256': json['unk256'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk256']),
+        'unk260': json['unk260'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk260']),
+        'unk264': json['unk264'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk264']),
+        'unk268': json['unk268'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk268']),
+        'boostTransformInitialConsumption': json['boostTransformInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostTransformInitialConsumption']),
+        'boostTransformConsumption': json['boostTransformConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostTransformConsumption']),
+        'boostNonVernierActionConsumption': json['boostNonVernierActionConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostNonVernierActionConsumption']),
+        'boostPostActionConsumption': json['boostPostActionConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostPostActionConsumption']),
+        'boostRainbowStepInitialConsumption': json['boostRainbowStepInitialConsumption'] == null ? undefined : AmmoDtoOrderFromJSON(json['boostRainbowStepInitialConsumption']),
+        'unk292': json['unk292'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk292']),
+        'unk296': json['unk296'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk296']),
+        'unk300': json['unk300'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk300']),
+        'unk304': json['unk304'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk304']),
+        'unk308': json['unk308'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk308']),
+        'unk312': json['unk312'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk312']),
+        'unk316': json['unk316'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk316']),
+        'unk320': json['unk320'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk320']),
+        'unk324': json['unk324'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk324']),
+        'unk328': json['unk328'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk328']),
+        'unk332': json['unk332'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk332']),
+        'assaultBurstRedLockMelee': json['assaultBurstRedLockMelee'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstRedLockMelee']),
+        'assaultBurstRedLock': json['assaultBurstRedLock'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstRedLock']),
+        'assaultBurstDamageDealtMultiplier': json['assaultBurstDamageDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstDamageDealtMultiplier']),
+        'assaultBurstDamageTakenMultiplier': json['assaultBurstDamageTakenMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstDamageTakenMultiplier']),
+        'assaultBurstMobilityMultiplier': json['assaultBurstMobilityMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstMobilityMultiplier']),
+        'assaultBurstDownValueDealtMultiplier': json['assaultBurstDownValueDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstDownValueDealtMultiplier']),
+        'assaultBurstBoostConsumptionMultiplier': json['assaultBurstBoostConsumptionMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstBoostConsumptionMultiplier']),
+        'unk364': json['unk364'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk364']),
+        'unk368': json['unk368'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk368']),
+        'assaultBurstDamageDealtBurstGaugeIncreaseMultiplier': json['assaultBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'assaultBurstDamageTakenBurstGaugeIncreaseMultiplier': json['assaultBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['assaultBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk380': json['unk380'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk380']),
+        'unk384': json['unk384'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk384']),
+        'unk388': json['unk388'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk388']),
+        'unk392': json['unk392'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk392']),
+        'unk396': json['unk396'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk396']),
+        'blastBurstRedLockMelee': json['blastBurstRedLockMelee'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstRedLockMelee']),
+        'blastBurstRedLock': json['blastBurstRedLock'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstRedLock']),
+        'blastBurstDamageDealtMultiplier': json['blastBurstDamageDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstDamageDealtMultiplier']),
+        'blastBurstDamageTakenMultiplier': json['blastBurstDamageTakenMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstDamageTakenMultiplier']),
+        'blastBurstMobilityMultiplier': json['blastBurstMobilityMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstMobilityMultiplier']),
+        'blastBurstDownValueDealtMultiplier': json['blastBurstDownValueDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstDownValueDealtMultiplier']),
+        'blastBurstBoostConsumptionMultiplier': json['blastBurstBoostConsumptionMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstBoostConsumptionMultiplier']),
+        'unk428': json['unk428'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk428']),
+        'unk432': json['unk432'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk432']),
+        'blastBurstDamageDealtBurstGaugeIncreaseMultiplier': json['blastBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'blastBurstDamageTakenBurstGaugeIncreaseMultiplier': json['blastBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['blastBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk444': json['unk444'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk444']),
+        'unk448': json['unk448'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk448']),
+        'unk452': json['unk452'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk452']),
+        'unk456': json['unk456'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk456']),
+        'unk460': json['unk460'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk460']),
+        'thirdBurstRedLockMelee': json['thirdBurstRedLockMelee'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstRedLockMelee']),
+        'thirdBurstRedLock': json['thirdBurstRedLock'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstRedLock']),
+        'thirdBurstDamageDealtMultiplier': json['thirdBurstDamageDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstDamageDealtMultiplier']),
+        'thirdBurstDamageTakenMultiplier': json['thirdBurstDamageTakenMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstDamageTakenMultiplier']),
+        'thirdBurstMobilityMultiplier': json['thirdBurstMobilityMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstMobilityMultiplier']),
+        'thirdBurstDownValueDealtMultiplier': json['thirdBurstDownValueDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstDownValueDealtMultiplier']),
+        'thirdBurstBoostConsumptionMultiplier': json['thirdBurstBoostConsumptionMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstBoostConsumptionMultiplier']),
+        'unk492': json['unk492'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk492']),
+        'unk496': json['unk496'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk496']),
+        'thirdBurstDamageDealtBurstGaugeIncreaseMultiplier': json['thirdBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'thirdBurstDamageTakenBurstGaugeIncreaseMultiplier': json['thirdBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['thirdBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk508': json['unk508'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk508']),
+        'unk512': json['unk512'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk512']),
+        'unk516': json['unk516'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk516']),
+        'unk520': json['unk520'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk520']),
+        'unk524': json['unk524'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk524']),
+        'fourthBurstRedLockMelee': json['fourthBurstRedLockMelee'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstRedLockMelee']),
+        'fourthBurstRedLock': json['fourthBurstRedLock'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstRedLock']),
+        'fourthBurstDamageDealtMultiplier': json['fourthBurstDamageDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstDamageDealtMultiplier']),
+        'fourthBurstDamageTakenMultiplier': json['fourthBurstDamageTakenMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstDamageTakenMultiplier']),
+        'fourthBurstMobilityMultiplier': json['fourthBurstMobilityMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstMobilityMultiplier']),
+        'fourthBurstDownValueDealtMultiplier': json['fourthBurstDownValueDealtMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstDownValueDealtMultiplier']),
+        'fourthBurstBoostConsumptionMultiplier': json['fourthBurstBoostConsumptionMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstBoostConsumptionMultiplier']),
+        'unk572': json['unk572'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk572']),
+        'unk576': json['unk576'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk576']),
+        'fourthBurstDamageDealtBurstGaugeIncreaseMultiplier': json['fourthBurstDamageDealtBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'fourthBurstDamageTakenBurstGaugeIncreaseMultiplier': json['fourthBurstDamageTakenBurstGaugeIncreaseMultiplier'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['fourthBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk588': json['unk588'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk588']),
+        'unk592': json['unk592'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk592']),
+        'unk596': json['unk596'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk596']),
+        'unk600': json['unk600'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk600']),
+        'unk604': json['unk604'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk604']),
+        'unk608': json['unk608'] == null ? undefined : AmmoDtoOrderFromJSON(json['unk608']),
+        'order': json['order'] == null ? undefined : AmmoDtoOrderFromJSON(json['order']),
+        'unitId': json['unitId'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['unitId']),
     };
 }
 
@@ -1104,157 +1113,157 @@ export function CreateStatCommandToJSON(value?: CreateStatCommand | null): any {
     }
     return {
         
-        'unitCost': value['unitCost'],
-        'unitCost2': value['unitCost2'],
-        'maxHp': value['maxHp'],
-        'downValueThreshold': value['downValueThreshold'],
-        'yorukeValueThreshold': value['yorukeValueThreshold'],
-        'unk20': value['unk20'],
-        'unk24': value['unk24'],
-        'unk28': value['unk28'],
-        'maxBoost': value['maxBoost'],
-        'unk36': value['unk36'],
-        'unk40': value['unk40'],
-        'unk44': value['unk44'],
-        'gravityMultiplierAir': value['gravityMultiplierAir'],
-        'gravityMultiplierLand': value['gravityMultiplierLand'],
-        'unk56': value['unk56'],
-        'unk60': value['unk60'],
-        'unk64': value['unk64'],
-        'unk68': value['unk68'],
-        'unk72': value['unk72'],
-        'unk76': value['unk76'],
-        'unk80': value['unk80'],
-        'cameraZoomMultiplier': value['cameraZoomMultiplier'],
-        'unk88': value['unk88'],
-        'unk92': value['unk92'],
-        'unk96': value['unk96'],
-        'unk100': value['unk100'],
-        'unk104': value['unk104'],
-        'unk108': value['unk108'],
-        'sizeMultiplier': value['sizeMultiplier'],
-        'unk116': value['unk116'],
-        'unk120': value['unk120'],
-        'unk124': value['unk124'],
-        'unk128': value['unk128'],
-        'unk132': value['unk132'],
-        'unk136': value['unk136'],
-        'unk140': value['unk140'],
-        'unk144': value['unk144'],
-        'unk148': value['unk148'],
-        'unk152': value['unk152'],
-        'unk156': value['unk156'],
-        'unk160': value['unk160'],
-        'unk164': value['unk164'],
-        'unk168': value['unk168'],
-        'unk172': value['unk172'],
-        'unk176': value['unk176'],
-        'unk180': value['unk180'],
-        'unk184': value['unk184'],
-        'redLockRangeMelee': value['redLockRangeMelee'],
-        'redLockRange': value['redLockRange'],
-        'unk196': value['unk196'],
-        'unk200': value['unk200'],
-        'unk204': value['unk204'],
-        'unk208': value['unk208'],
-        'boostReplenish': value['boostReplenish'],
-        'unk216': value['unk216'],
-        'boostInitialConsumption': value['boostInitialConsumption'],
-        'boostFuwaInitialConsumption': value['boostFuwaInitialConsumption'],
-        'boostFlyConsumption': value['boostFlyConsumption'],
-        'boostGroundStepInitialConsumption': value['boostGroundStepInitialConsumption'],
-        'boostGroundStepConsumption': value['boostGroundStepConsumption'],
-        'boostAirStepInitialConsumption': value['boostAirStepInitialConsumption'],
-        'boostAirStepConsumption': value['boostAirStepConsumption'],
-        'boostBdInitialConsumption': value['boostBdInitialConsumption'],
-        'boostBdConsumption': value['boostBdConsumption'],
-        'unk256': value['unk256'],
-        'unk260': value['unk260'],
-        'unk264': value['unk264'],
-        'unk268': value['unk268'],
-        'boostTransformInitialConsumption': value['boostTransformInitialConsumption'],
-        'boostTransformConsumption': value['boostTransformConsumption'],
-        'boostNonVernierActionConsumption': value['boostNonVernierActionConsumption'],
-        'boostPostActionConsumption': value['boostPostActionConsumption'],
-        'boostRainbowStepInitialConsumption': value['boostRainbowStepInitialConsumption'],
-        'unk292': value['unk292'],
-        'unk296': value['unk296'],
-        'unk300': value['unk300'],
-        'unk304': value['unk304'],
-        'unk308': value['unk308'],
-        'unk312': value['unk312'],
-        'unk316': value['unk316'],
-        'unk320': value['unk320'],
-        'unk324': value['unk324'],
-        'unk328': value['unk328'],
-        'unk332': value['unk332'],
-        'assaultBurstRedLockMelee': value['assaultBurstRedLockMelee'],
-        'assaultBurstRedLock': value['assaultBurstRedLock'],
-        'assaultBurstDamageDealtMultiplier': value['assaultBurstDamageDealtMultiplier'],
-        'assaultBurstDamageTakenMultiplier': value['assaultBurstDamageTakenMultiplier'],
-        'assaultBurstMobilityMultiplier': value['assaultBurstMobilityMultiplier'],
-        'assaultBurstDownValueDealtMultiplier': value['assaultBurstDownValueDealtMultiplier'],
-        'assaultBurstBoostConsumptionMultiplier': value['assaultBurstBoostConsumptionMultiplier'],
-        'unk364': value['unk364'],
-        'unk368': value['unk368'],
-        'assaultBurstDamageDealtBurstGaugeIncreaseMultiplier': value['assaultBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'assaultBurstDamageTakenBurstGaugeIncreaseMultiplier': value['assaultBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk380': value['unk380'],
-        'unk384': value['unk384'],
-        'unk388': value['unk388'],
-        'unk392': value['unk392'],
-        'unk396': value['unk396'],
-        'blastBurstRedLockMelee': value['blastBurstRedLockMelee'],
-        'blastBurstRedLock': value['blastBurstRedLock'],
-        'blastBurstDamageDealtMultiplier': value['blastBurstDamageDealtMultiplier'],
-        'blastBurstDamageTakenMultiplier': value['blastBurstDamageTakenMultiplier'],
-        'blastBurstMobilityMultiplier': value['blastBurstMobilityMultiplier'],
-        'blastBurstDownValueDealtMultiplier': value['blastBurstDownValueDealtMultiplier'],
-        'blastBurstBoostConsumptionMultiplier': value['blastBurstBoostConsumptionMultiplier'],
-        'unk428': value['unk428'],
-        'unk432': value['unk432'],
-        'blastBurstDamageDealtBurstGaugeIncreaseMultiplier': value['blastBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'blastBurstDamageTakenBurstGaugeIncreaseMultiplier': value['blastBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk444': value['unk444'],
-        'unk448': value['unk448'],
-        'unk452': value['unk452'],
-        'unk456': value['unk456'],
-        'unk460': value['unk460'],
-        'thirdBurstRedLockMelee': value['thirdBurstRedLockMelee'],
-        'thirdBurstRedLock': value['thirdBurstRedLock'],
-        'thirdBurstDamageDealtMultiplier': value['thirdBurstDamageDealtMultiplier'],
-        'thirdBurstDamageTakenMultiplier': value['thirdBurstDamageTakenMultiplier'],
-        'thirdBurstMobilityMultiplier': value['thirdBurstMobilityMultiplier'],
-        'thirdBurstDownValueDealtMultiplier': value['thirdBurstDownValueDealtMultiplier'],
-        'thirdBurstBoostConsumptionMultiplier': value['thirdBurstBoostConsumptionMultiplier'],
-        'unk492': value['unk492'],
-        'unk496': value['unk496'],
-        'thirdBurstDamageDealtBurstGaugeIncreaseMultiplier': value['thirdBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'thirdBurstDamageTakenBurstGaugeIncreaseMultiplier': value['thirdBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk508': value['unk508'],
-        'unk512': value['unk512'],
-        'unk516': value['unk516'],
-        'unk520': value['unk520'],
-        'unk524': value['unk524'],
-        'fourthBurstRedLockMelee': value['fourthBurstRedLockMelee'],
-        'fourthBurstRedLock': value['fourthBurstRedLock'],
-        'fourthBurstDamageDealtMultiplier': value['fourthBurstDamageDealtMultiplier'],
-        'fourthBurstDamageTakenMultiplier': value['fourthBurstDamageTakenMultiplier'],
-        'fourthBurstMobilityMultiplier': value['fourthBurstMobilityMultiplier'],
-        'fourthBurstDownValueDealtMultiplier': value['fourthBurstDownValueDealtMultiplier'],
-        'fourthBurstBoostConsumptionMultiplier': value['fourthBurstBoostConsumptionMultiplier'],
-        'unk572': value['unk572'],
-        'unk576': value['unk576'],
-        'fourthBurstDamageDealtBurstGaugeIncreaseMultiplier': value['fourthBurstDamageDealtBurstGaugeIncreaseMultiplier'],
-        'fourthBurstDamageTakenBurstGaugeIncreaseMultiplier': value['fourthBurstDamageTakenBurstGaugeIncreaseMultiplier'],
-        'unk588': value['unk588'],
-        'unk592': value['unk592'],
-        'unk596': value['unk596'],
-        'unk600': value['unk600'],
-        'unk604': value['unk604'],
-        'unk608': value['unk608'],
-        'order': value['order'],
-        'unitId': value['unitId'],
+        'unitCost': AmmoDtoOrderToJSON(value['unitCost']),
+        'unitCost2': AmmoDtoOrderToJSON(value['unitCost2']),
+        'maxHp': AmmoDtoOrderToJSON(value['maxHp']),
+        'downValueThreshold': AmmoDtoOrderToJSON(value['downValueThreshold']),
+        'yorukeValueThreshold': AmmoDtoOrderToJSON(value['yorukeValueThreshold']),
+        'unk20': AmmoDtoOrderToJSON(value['unk20']),
+        'unk24': AmmoDtoOrderToJSON(value['unk24']),
+        'unk28': AmmoDtoOrderToJSON(value['unk28']),
+        'maxBoost': AmmoDtoOrderToJSON(value['maxBoost']),
+        'unk36': CreateHitboxCommandDamageCorrectionToJSON(value['unk36']),
+        'unk40': CreateHitboxCommandDamageCorrectionToJSON(value['unk40']),
+        'unk44': AmmoDtoOrderToJSON(value['unk44']),
+        'gravityMultiplierAir': CreateHitboxCommandDamageCorrectionToJSON(value['gravityMultiplierAir']),
+        'gravityMultiplierLand': CreateHitboxCommandDamageCorrectionToJSON(value['gravityMultiplierLand']),
+        'unk56': CreateHitboxCommandDamageCorrectionToJSON(value['unk56']),
+        'unk60': CreateHitboxCommandDamageCorrectionToJSON(value['unk60']),
+        'unk64': CreateHitboxCommandDamageCorrectionToJSON(value['unk64']),
+        'unk68': CreateHitboxCommandDamageCorrectionToJSON(value['unk68']),
+        'unk72': CreateHitboxCommandDamageCorrectionToJSON(value['unk72']),
+        'unk76': CreateHitboxCommandDamageCorrectionToJSON(value['unk76']),
+        'unk80': CreateHitboxCommandDamageCorrectionToJSON(value['unk80']),
+        'cameraZoomMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['cameraZoomMultiplier']),
+        'unk88': CreateHitboxCommandDamageCorrectionToJSON(value['unk88']),
+        'unk92': CreateHitboxCommandDamageCorrectionToJSON(value['unk92']),
+        'unk96': CreateHitboxCommandDamageCorrectionToJSON(value['unk96']),
+        'unk100': CreateHitboxCommandDamageCorrectionToJSON(value['unk100']),
+        'unk104': CreateHitboxCommandDamageCorrectionToJSON(value['unk104']),
+        'unk108': CreateHitboxCommandDamageCorrectionToJSON(value['unk108']),
+        'sizeMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['sizeMultiplier']),
+        'unk116': CreateHitboxCommandDamageCorrectionToJSON(value['unk116']),
+        'unk120': CreateHitboxCommandDamageCorrectionToJSON(value['unk120']),
+        'unk124': CreateHitboxCommandDamageCorrectionToJSON(value['unk124']),
+        'unk128': CreateHitboxCommandDamageCorrectionToJSON(value['unk128']),
+        'unk132': CreateHitboxCommandDamageCorrectionToJSON(value['unk132']),
+        'unk136': CreateHitboxCommandDamageCorrectionToJSON(value['unk136']),
+        'unk140': CreateHitboxCommandDamageCorrectionToJSON(value['unk140']),
+        'unk144': CreateHitboxCommandDamageCorrectionToJSON(value['unk144']),
+        'unk148': CreateHitboxCommandDamageCorrectionToJSON(value['unk148']),
+        'unk152': CreateHitboxCommandDamageCorrectionToJSON(value['unk152']),
+        'unk156': CreateHitboxCommandDamageCorrectionToJSON(value['unk156']),
+        'unk160': CreateHitboxCommandDamageCorrectionToJSON(value['unk160']),
+        'unk164': CreateHitboxCommandDamageCorrectionToJSON(value['unk164']),
+        'unk168': CreateHitboxCommandDamageCorrectionToJSON(value['unk168']),
+        'unk172': CreateHitboxCommandDamageCorrectionToJSON(value['unk172']),
+        'unk176': CreateHitboxCommandDamageCorrectionToJSON(value['unk176']),
+        'unk180': CreateHitboxCommandDamageCorrectionToJSON(value['unk180']),
+        'unk184': CreateHitboxCommandDamageCorrectionToJSON(value['unk184']),
+        'redLockRangeMelee': CreateHitboxCommandDamageCorrectionToJSON(value['redLockRangeMelee']),
+        'redLockRange': CreateHitboxCommandDamageCorrectionToJSON(value['redLockRange']),
+        'unk196': CreateHitboxCommandDamageCorrectionToJSON(value['unk196']),
+        'unk200': CreateHitboxCommandDamageCorrectionToJSON(value['unk200']),
+        'unk204': AmmoDtoOrderToJSON(value['unk204']),
+        'unk208': AmmoDtoOrderToJSON(value['unk208']),
+        'boostReplenish': AmmoDtoOrderToJSON(value['boostReplenish']),
+        'unk216': AmmoDtoOrderToJSON(value['unk216']),
+        'boostInitialConsumption': AmmoDtoOrderToJSON(value['boostInitialConsumption']),
+        'boostFuwaInitialConsumption': AmmoDtoOrderToJSON(value['boostFuwaInitialConsumption']),
+        'boostFlyConsumption': AmmoDtoOrderToJSON(value['boostFlyConsumption']),
+        'boostGroundStepInitialConsumption': AmmoDtoOrderToJSON(value['boostGroundStepInitialConsumption']),
+        'boostGroundStepConsumption': AmmoDtoOrderToJSON(value['boostGroundStepConsumption']),
+        'boostAirStepInitialConsumption': AmmoDtoOrderToJSON(value['boostAirStepInitialConsumption']),
+        'boostAirStepConsumption': AmmoDtoOrderToJSON(value['boostAirStepConsumption']),
+        'boostBdInitialConsumption': AmmoDtoOrderToJSON(value['boostBdInitialConsumption']),
+        'boostBdConsumption': AmmoDtoOrderToJSON(value['boostBdConsumption']),
+        'unk256': AmmoDtoOrderToJSON(value['unk256']),
+        'unk260': AmmoDtoOrderToJSON(value['unk260']),
+        'unk264': AmmoDtoOrderToJSON(value['unk264']),
+        'unk268': AmmoDtoOrderToJSON(value['unk268']),
+        'boostTransformInitialConsumption': AmmoDtoOrderToJSON(value['boostTransformInitialConsumption']),
+        'boostTransformConsumption': AmmoDtoOrderToJSON(value['boostTransformConsumption']),
+        'boostNonVernierActionConsumption': AmmoDtoOrderToJSON(value['boostNonVernierActionConsumption']),
+        'boostPostActionConsumption': AmmoDtoOrderToJSON(value['boostPostActionConsumption']),
+        'boostRainbowStepInitialConsumption': AmmoDtoOrderToJSON(value['boostRainbowStepInitialConsumption']),
+        'unk292': AmmoDtoOrderToJSON(value['unk292']),
+        'unk296': AmmoDtoOrderToJSON(value['unk296']),
+        'unk300': AmmoDtoOrderToJSON(value['unk300']),
+        'unk304': AmmoDtoOrderToJSON(value['unk304']),
+        'unk308': AmmoDtoOrderToJSON(value['unk308']),
+        'unk312': AmmoDtoOrderToJSON(value['unk312']),
+        'unk316': AmmoDtoOrderToJSON(value['unk316']),
+        'unk320': AmmoDtoOrderToJSON(value['unk320']),
+        'unk324': AmmoDtoOrderToJSON(value['unk324']),
+        'unk328': AmmoDtoOrderToJSON(value['unk328']),
+        'unk332': AmmoDtoOrderToJSON(value['unk332']),
+        'assaultBurstRedLockMelee': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstRedLockMelee']),
+        'assaultBurstRedLock': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstRedLock']),
+        'assaultBurstDamageDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstDamageDealtMultiplier']),
+        'assaultBurstDamageTakenMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstDamageTakenMultiplier']),
+        'assaultBurstMobilityMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstMobilityMultiplier']),
+        'assaultBurstDownValueDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstDownValueDealtMultiplier']),
+        'assaultBurstBoostConsumptionMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstBoostConsumptionMultiplier']),
+        'unk364': AmmoDtoOrderToJSON(value['unk364']),
+        'unk368': AmmoDtoOrderToJSON(value['unk368']),
+        'assaultBurstDamageDealtBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'assaultBurstDamageTakenBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['assaultBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk380': AmmoDtoOrderToJSON(value['unk380']),
+        'unk384': CreateHitboxCommandDamageCorrectionToJSON(value['unk384']),
+        'unk388': CreateHitboxCommandDamageCorrectionToJSON(value['unk388']),
+        'unk392': CreateHitboxCommandDamageCorrectionToJSON(value['unk392']),
+        'unk396': CreateHitboxCommandDamageCorrectionToJSON(value['unk396']),
+        'blastBurstRedLockMelee': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstRedLockMelee']),
+        'blastBurstRedLock': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstRedLock']),
+        'blastBurstDamageDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstDamageDealtMultiplier']),
+        'blastBurstDamageTakenMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstDamageTakenMultiplier']),
+        'blastBurstMobilityMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstMobilityMultiplier']),
+        'blastBurstDownValueDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstDownValueDealtMultiplier']),
+        'blastBurstBoostConsumptionMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstBoostConsumptionMultiplier']),
+        'unk428': AmmoDtoOrderToJSON(value['unk428']),
+        'unk432': AmmoDtoOrderToJSON(value['unk432']),
+        'blastBurstDamageDealtBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'blastBurstDamageTakenBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['blastBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk444': AmmoDtoOrderToJSON(value['unk444']),
+        'unk448': CreateHitboxCommandDamageCorrectionToJSON(value['unk448']),
+        'unk452': CreateHitboxCommandDamageCorrectionToJSON(value['unk452']),
+        'unk456': CreateHitboxCommandDamageCorrectionToJSON(value['unk456']),
+        'unk460': CreateHitboxCommandDamageCorrectionToJSON(value['unk460']),
+        'thirdBurstRedLockMelee': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstRedLockMelee']),
+        'thirdBurstRedLock': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstRedLock']),
+        'thirdBurstDamageDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstDamageDealtMultiplier']),
+        'thirdBurstDamageTakenMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstDamageTakenMultiplier']),
+        'thirdBurstMobilityMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstMobilityMultiplier']),
+        'thirdBurstDownValueDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstDownValueDealtMultiplier']),
+        'thirdBurstBoostConsumptionMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstBoostConsumptionMultiplier']),
+        'unk492': AmmoDtoOrderToJSON(value['unk492']),
+        'unk496': AmmoDtoOrderToJSON(value['unk496']),
+        'thirdBurstDamageDealtBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'thirdBurstDamageTakenBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['thirdBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk508': AmmoDtoOrderToJSON(value['unk508']),
+        'unk512': CreateHitboxCommandDamageCorrectionToJSON(value['unk512']),
+        'unk516': CreateHitboxCommandDamageCorrectionToJSON(value['unk516']),
+        'unk520': CreateHitboxCommandDamageCorrectionToJSON(value['unk520']),
+        'unk524': CreateHitboxCommandDamageCorrectionToJSON(value['unk524']),
+        'fourthBurstRedLockMelee': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstRedLockMelee']),
+        'fourthBurstRedLock': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstRedLock']),
+        'fourthBurstDamageDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstDamageDealtMultiplier']),
+        'fourthBurstDamageTakenMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstDamageTakenMultiplier']),
+        'fourthBurstMobilityMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstMobilityMultiplier']),
+        'fourthBurstDownValueDealtMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstDownValueDealtMultiplier']),
+        'fourthBurstBoostConsumptionMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstBoostConsumptionMultiplier']),
+        'unk572': AmmoDtoOrderToJSON(value['unk572']),
+        'unk576': AmmoDtoOrderToJSON(value['unk576']),
+        'fourthBurstDamageDealtBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstDamageDealtBurstGaugeIncreaseMultiplier']),
+        'fourthBurstDamageTakenBurstGaugeIncreaseMultiplier': CreateHitboxCommandDamageCorrectionToJSON(value['fourthBurstDamageTakenBurstGaugeIncreaseMultiplier']),
+        'unk588': AmmoDtoOrderToJSON(value['unk588']),
+        'unk592': CreateHitboxCommandDamageCorrectionToJSON(value['unk592']),
+        'unk596': CreateHitboxCommandDamageCorrectionToJSON(value['unk596']),
+        'unk600': CreateHitboxCommandDamageCorrectionToJSON(value['unk600']),
+        'unk604': CreateHitboxCommandDamageCorrectionToJSON(value['unk604']),
+        'unk608': AmmoDtoOrderToJSON(value['unk608']),
+        'order': AmmoDtoOrderToJSON(value['order']),
+        'unitId': AmmoDtoUnitIdToJSON(value['unitId']),
     };
 }
 

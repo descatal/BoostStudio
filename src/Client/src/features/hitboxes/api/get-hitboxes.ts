@@ -1,11 +1,29 @@
 import { GetApiHitboxesRequest } from "@/api/exvs";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { hitboxesApi } from "@/api/api";
+import { QueryConfig } from "@/lib/react-query";
 
-export const useApiHitboxes = (options: GetApiHitboxesRequest) => {
+function getHitboxes(options: GetApiHitboxesRequest) {
+  return hitboxesApi.getApiHitboxes(options);
+}
+
+export const getHitboxesOptions = (request: GetApiHitboxesRequest) => {
+  return queryOptions({
+    queryKey: ["getHitboxes", request],
+    queryFn: () => getHitboxes(request),
+  });
+};
+
+type UseApiHitboxesOptions = {
+  queryConfig?: QueryConfig<typeof getHitboxes>;
+} & GetApiHitboxesRequest;
+
+export const useHitboxes = ({
+  queryConfig,
+  ...options
+}: UseApiHitboxesOptions = {}) => {
   return useQuery({
-    queryKey: ["getApiHitboxes", options],
-    queryFn: () => hitboxesApi.getApiHitboxes(options),
-    placeholderData: keepPreviousData,
+    ...getHitboxesOptions(options),
+    ...queryConfig,
   });
 };

@@ -13,45 +13,49 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   BulkCreateUnitCommand,
   CreateUnitCommand,
   ExportPlayableCharactersCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
+  GetUnitSummaryQueryIncludes,
+  LanguageSettings,
+  PaginatedListOfUnitSummaryVm,
   PlayableCharacterDto,
   UnitSummaryVm,
   UpdateUnitCommand,
   UpsertPlayableCharactersCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    BulkCreateUnitCommandFromJSON,
-    BulkCreateUnitCommandToJSON,
-    CreateUnitCommandFromJSON,
-    CreateUnitCommandToJSON,
-    ExportPlayableCharactersCommandFromJSON,
-    ExportPlayableCharactersCommandToJSON,
-    PlayableCharacterDtoFromJSON,
-    PlayableCharacterDtoToJSON,
-    UnitSummaryVmFromJSON,
-    UnitSummaryVmToJSON,
-    UpdateUnitCommandFromJSON,
-    UpdateUnitCommandToJSON,
-    UpsertPlayableCharactersCommandFromJSON,
-    UpsertPlayableCharactersCommandToJSON,
-} from '../models/index';
+  BulkCreateUnitCommandToJSON,
+  CreateUnitCommandToJSON,
+  ExportPlayableCharactersCommandToJSON,
+  PaginatedListOfUnitSummaryVmFromJSON,
+  PlayableCharacterDtoFromJSON,
+  UnitSummaryVmFromJSON,
+  UpdateUnitCommandToJSON,
+  UpsertPlayableCharactersCommandToJSON,
+} from "../models/index";
 
 export interface GetApiUnitsRequest {
-    search?: string;
-    unitIds?: Array<number>;
-    languages?: Array<GetApiUnitsLanguagesEnum>;
+  page?: GetApiAmmoPageParameter;
+  perPage?: GetApiAmmoPerPageParameter;
+  listAll?: boolean;
+  search?: string;
+  unitIds?: Array<GetApiAmmoHashParameterInner>;
+  languages?: Array<LanguageSettings>;
+  includes?: Array<GetUnitSummaryQueryIncludes>;
 }
 
 export interface GetApiUnitsByUnitIdRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiUnitsByUnitIdPlayableCharactersRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
 }
 
 export interface PostApiUnitsRequest {
@@ -63,12 +67,12 @@ export interface PostApiUnitsBulkRequest {
 }
 
 export interface PostApiUnitsByUnitIdRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
     updateUnitCommand: UpdateUnitCommand;
 }
 
 export interface PostApiUnitsByUnitIdPlayableCharactersRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
     upsertPlayableCharactersCommand: UpsertPlayableCharactersCommand;
 }
 
@@ -87,8 +91,20 @@ export class UnitsApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiUnitsRaw(requestParameters: GetApiUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UnitSummaryVm>>> {
+    async getApiUnitsRaw(requestParameters: GetApiUnitsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PaginatedListOfUnitSummaryVm>> {
         const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['Page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['perPage'] != null) {
+            queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['listAll'] != null) {
+            queryParameters['ListAll'] = requestParameters['listAll'];
+        }
 
         if (requestParameters['search'] != null) {
             queryParameters['Search'] = requestParameters['search'];
@@ -102,6 +118,10 @@ export class UnitsApi extends runtime.BaseAPI {
             queryParameters['Languages'] = requestParameters['languages'];
         }
 
+        if (requestParameters['includes'] != null) {
+            queryParameters['Includes'] = requestParameters['includes'];
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -111,12 +131,12 @@ export class UnitsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UnitSummaryVmFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PaginatedListOfUnitSummaryVmFromJSON(jsonValue));
     }
 
     /**
      */
-    async getApiUnits(requestParameters: GetApiUnitsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UnitSummaryVm>> {
+    async getApiUnits(requestParameters: GetApiUnitsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedListOfUnitSummaryVm> {
         const response = await this.getApiUnitsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -414,13 +434,3 @@ export class UnitsApi extends runtime.BaseAPI {
     }
 
 }
-
-/**
- * @export
- */
-export const GetApiUnitsLanguagesEnum = {
-    English: 'English',
-    Japanese: 'Japanese',
-    Chinese: 'Chinese'
-} as const;
-export type GetApiUnitsLanguagesEnum = typeof GetApiUnitsLanguagesEnum[keyof typeof GetApiUnitsLanguagesEnum];

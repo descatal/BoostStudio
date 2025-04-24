@@ -12,13 +12,13 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { HitboxDto } from './HitboxDto';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    HitboxDtoFromJSON,
-    HitboxDtoFromJSONTyped,
-    HitboxDtoToJSON,
-} from './HitboxDto';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { HitboxDto } from "./HitboxDto";
+import { HitboxDtoFromJSON, HitboxDtoToJSON } from "./HitboxDto";
 
 /**
  * 
@@ -28,16 +28,16 @@ import {
 export interface HitboxGroupDto {
     /**
      * 
-     * @type {Array<number>}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof HitboxGroupDto
      */
-    unitIds?: Array<number>;
+    hash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof HitboxGroupDto
      */
-    hash?: number;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {Array<HitboxDto>}
@@ -63,8 +63,8 @@ export function HitboxGroupDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
-        'hash': json['hash'] == null ? undefined : json['hash'],
+        'hash': json['hash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['hash']),
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'hitboxes': json['hitboxes'] == null ? undefined : ((json['hitboxes'] as Array<any>).map(HitboxDtoFromJSON)),
     };
 }
@@ -75,8 +75,8 @@ export function HitboxGroupDtoToJSON(value?: HitboxGroupDto | null): any {
     }
     return {
         
-        'unitIds': value['unitIds'],
-        'hash': value['hash'],
+        'hash': GetApiAmmoHashParameterInnerToJSON(value['hash']),
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'hitboxes': value['hitboxes'] == null ? undefined : ((value['hitboxes'] as Array<any>).map(HitboxDtoToJSON)),
     };
 }

@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PlayableSeriesDetailsDto } from './PlayableSeriesDetailsDto';
-import {
-    PlayableSeriesDetailsDtoFromJSON,
-    PlayableSeriesDetailsDtoFromJSONTyped,
-    PlayableSeriesDetailsDtoToJSON,
-} from './PlayableSeriesDetailsDto';
+import type { Null } from "./Null";
+import { NullFromJSON, NullToJSON } from "./Null";
+import type { CreateSeriesCommandId } from "./CreateSeriesCommandId";
+import { CreateSeriesCommandIdFromJSON, CreateSeriesCommandIdToJSON } from "./CreateSeriesCommandId";
 
 /**
  * 
@@ -28,16 +25,16 @@ import {
 export interface CreateSeriesCommand {
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof CreateSeriesCommand
      */
-    id?: number;
+    id?: CreateSeriesCommandId;
     /**
      * 
-     * @type {PlayableSeriesDetailsDto}
+     * @type {Null}
      * @memberof CreateSeriesCommand
      */
-    playableSeries?: PlayableSeriesDetailsDto | null;
+    playableSeries?: Null;
     /**
      * 
      * @type {string}
@@ -81,8 +78,8 @@ export function CreateSeriesCommandFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'id': json['id'] == null ? undefined : json['id'],
-        'playableSeries': json['playableSeries'] == null ? undefined : PlayableSeriesDetailsDtoFromJSON(json['playableSeries']),
+        'id': json['id'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['id']),
+        'playableSeries': json['playableSeries'] == null ? undefined : NullFromJSON(json['playableSeries']),
         'slugName': json['slugName'] == null ? undefined : json['slugName'],
         'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
@@ -96,8 +93,8 @@ export function CreateSeriesCommandToJSON(value?: CreateSeriesCommand | null): a
     }
     return {
         
-        'id': value['id'],
-        'playableSeries': PlayableSeriesDetailsDtoToJSON(value['playableSeries']),
+        'id': CreateSeriesCommandIdToJSON(value['id']),
+        'playableSeries': NullToJSON(value['playableSeries']),
         'slugName': value['slugName'],
         'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],

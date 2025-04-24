@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { UnitSummaryVm } from './UnitSummaryVm';
-import {
-    UnitSummaryVmFromJSON,
-    UnitSummaryVmFromJSONTyped,
-    UnitSummaryVmToJSON,
-} from './UnitSummaryVm';
+import type { UnitSummaryVm } from "./UnitSummaryVm";
+import { UnitSummaryVmFromJSON, UnitSummaryVmToJSON } from "./UnitSummaryVm";
+import type { CreateSeriesCommandId } from "./CreateSeriesCommandId";
+import { CreateSeriesCommandIdFromJSON, CreateSeriesCommandIdToJSON } from "./CreateSeriesCommandId";
 
 /**
  * 
@@ -34,10 +31,10 @@ export interface SeriesUnitsVm {
     units?: Array<UnitSummaryVm>;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof SeriesUnitsVm
      */
-    id?: number;
+    id?: CreateSeriesCommandId;
     /**
      * 
      * @type {string}
@@ -82,7 +79,7 @@ export function SeriesUnitsVmFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'units': json['units'] == null ? undefined : ((json['units'] as Array<any>).map(UnitSummaryVmFromJSON)),
-        'id': json['id'] == null ? undefined : json['id'],
+        'id': json['id'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['id']),
         'slugName': json['slugName'] == null ? undefined : json['slugName'],
         'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
@@ -97,7 +94,7 @@ export function SeriesUnitsVmToJSON(value?: SeriesUnitsVm | null): any {
     return {
         
         'units': value['units'] == null ? undefined : ((value['units'] as Array<any>).map(UnitSummaryVmToJSON)),
-        'id': value['id'],
+        'id': CreateSeriesCommandIdToJSON(value['id']),
         'slugName': value['slugName'],
         'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],

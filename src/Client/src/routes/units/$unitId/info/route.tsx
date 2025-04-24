@@ -14,7 +14,9 @@ export const Route = createFileRoute("/units/$unitId/info")({
 
 function RouteComponent() {
   const { unitId }: { unitId: number } = Route.useParams();
-  const { data } = useUnitById(unitId);
+  const { data } = useUnitById({
+    unitId: unitId,
+  });
 
   const matchRoute = useMatchRoute();
   const matchedSection =

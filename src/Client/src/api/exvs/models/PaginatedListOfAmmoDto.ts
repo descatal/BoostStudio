@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { AmmoDto } from './AmmoDto';
-import {
-    AmmoDtoFromJSON,
-    AmmoDtoFromJSONTyped,
-    AmmoDtoToJSON,
-} from './AmmoDto';
+import type { AmmoDto } from "./AmmoDto";
+import { AmmoDtoFromJSON, AmmoDtoToJSON } from "./AmmoDto";
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
 
 /**
  * 
@@ -34,22 +31,22 @@ export interface PaginatedListOfAmmoDto {
     items: Array<AmmoDto>;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfAmmoDto
      */
-    pageNumber: number;
+    pageNumber: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfAmmoDto
      */
-    totalPages?: number;
+    totalPages?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfAmmoDto
      */
-    totalCount: number;
+    totalCount: AmmoDtoOrder;
     /**
      * 
      * @type {boolean}
@@ -85,9 +82,9 @@ export function PaginatedListOfAmmoDtoFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'items': ((json['items'] as Array<any>).map(AmmoDtoFromJSON)),
-        'pageNumber': json['pageNumber'],
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
-        'totalCount': json['totalCount'],
+        'pageNumber': AmmoDtoOrderFromJSON(json['pageNumber']),
+        'totalPages': json['totalPages'] == null ? undefined : AmmoDtoOrderFromJSON(json['totalPages']),
+        'totalCount': AmmoDtoOrderFromJSON(json['totalCount']),
         'hasPreviousPage': json['hasPreviousPage'] == null ? undefined : json['hasPreviousPage'],
         'hasNextPage': json['hasNextPage'] == null ? undefined : json['hasNextPage'],
     };
@@ -100,9 +97,9 @@ export function PaginatedListOfAmmoDtoToJSON(value?: PaginatedListOfAmmoDto | nu
     return {
         
         'items': ((value['items'] as Array<any>).map(AmmoDtoToJSON)),
-        'pageNumber': value['pageNumber'],
-        'totalPages': value['totalPages'],
-        'totalCount': value['totalCount'],
+        'pageNumber': AmmoDtoOrderToJSON(value['pageNumber']),
+        'totalPages': AmmoDtoOrderToJSON(value['totalPages']),
+        'totalCount': AmmoDtoOrderToJSON(value['totalCount']),
         'hasPreviousPage': value['hasPreviousPage'],
         'hasNextPage': value['hasNextPage'],
     };

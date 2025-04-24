@@ -1,16 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Header } from "@/components/layout/header";
-import { Search } from "@/components/search";
-import { ThemeSwitch } from "@/components/theme-switch";
 import { Main } from "@/components/layout/main";
 import { UnitSummaryVm } from "@/api/exvs";
 import React, { useState } from "react";
-import { useApiSeriesUnits } from "@/features/series/api/get-series";
+import { useSeriesUnits } from "@/features/series/api/get-series";
 import UnitCard from "@/pages/units/components/unit-card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { UnitCustomizableSections } from "@/lib/constants";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const Route = createFileRoute("/units/")({
@@ -23,7 +19,7 @@ function RouteComponent() {
   );
   const [search, setSearch] = useState("");
 
-  const seriesUnitsQuery = useApiSeriesUnits({
+  const seriesUnitsQuery = useSeriesUnits({
     listAll: true,
   });
   const seriesUnits = seriesUnitsQuery.data?.items;
@@ -43,24 +39,6 @@ function RouteComponent() {
 
   return (
     <>
-      {/* ===== Top Heading ===== */}
-      <Header>
-        {Object.entries(UnitCustomizableSections).map(([label, path]) => (
-          <Link
-            key={path}
-            className={`text-muted-foreground text-sm font-medium transition-colors hover:text-primary`}
-            to={`/units/${path}`}
-            activeProps={{ className: "text-primary" }}
-          >
-            {label}
-          </Link>
-        ))}
-        <div className="ml-auto flex items-center space-x-4">
-          <Search />
-          <ThemeSwitch />
-        </div>
-      </Header>
-
       <Main fixed>
         <div className="flex-col md:flex">
           <div className="flex-1 space-y-4 p-8 pt-6">

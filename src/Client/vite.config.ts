@@ -1,44 +1,41 @@
-import child_process from "child_process"
-import fs from "fs"
-import path from "path"
-import { env } from "process"
-import TanStackRouterVite from "@tanstack/router-plugin/vite"
-import viteReact from "@vitejs/plugin-react-swc"
-import { defineConfig } from "vite"
+import path from "path";
+import TanStackRouterVite from "@tanstack/router-plugin/vite";
+import viteReact from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
 
-const baseFolder =
-  env.APPDATA !== undefined && env.APPDATA !== ""
-    ? `${env.APPDATA}/ASP.NET/https`
-    : `${env.HOME}/.aspnet/https`
-
-const certificateName = "booststudio.client"
-const certFilePath = path.join(baseFolder, `${certificateName}.pem`)
-const keyFilePath = path.join(baseFolder, `${certificateName}.key`)
-
-if (!fs.existsSync(baseFolder)) {
-  fs.mkdirSync(baseFolder, { recursive: true })
-}
-
-if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
-  if (
-    0 !==
-    child_process.spawnSync(
-      "dotnet",
-      [
-        "dev-certs",
-        "https",
-        "--export-path",
-        certFilePath,
-        "--format",
-        "Pem",
-        "--no-password",
-      ],
-      { stdio: "inherit" }
-    ).status
-  ) {
-    throw new Error("Could not create certificate.")
-  }
-}
+// const baseFolder =
+//   env.APPDATA !== undefined && env.APPDATA !== ""
+//     ? `${env.APPDATA}/ASP.NET/https`
+//     : `${env.HOME}/.aspnet/https`;
+//
+// const certificateName = "booststudio.client";
+// const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
+// const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
+//
+// if (!fs.existsSync(baseFolder)) {
+//   fs.mkdirSync(baseFolder, { recursive: true });
+// }
+//
+// if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
+//   if (
+//     0 !==
+//     child_process.spawnSync(
+//       "dotnet",
+//       [
+//         "dev-certs",
+//         "https",
+//         "--export-path",
+//         certFilePath,
+//         "--format",
+//         "Pem",
+//         "--no-password",
+//       ],
+//       { stdio: "inherit" },
+//     ).status
+//   ) {
+//     throw new Error("Could not create certificate.");
+//   }
+// }
 
 // const target = env.ASPNETCORE_HTTPS_PORT
 //   ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
@@ -55,11 +52,7 @@ export default defineConfig({
       "@tabler/icons-react": "@tabler/icons-react/dist/esm/icons/index.mjs",
     },
   },
-  plugins: [
-    TanStackRouterVite({ autoCodeSplitting: true }),
-    viteReact(),
-    // ...,
-  ],
+  plugins: [TanStackRouterVite({ autoCodeSplitting: true }), viteReact()],
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors
   clearScreen: false,
@@ -73,10 +66,10 @@ export default defineConfig({
     //     secure: false,
     //   },
     // },
-    https: {
-      key: fs.readFileSync(keyFilePath),
-      cert: fs.readFileSync(certFilePath),
-    },
+    // https: {
+    //   key: fs.readFileSync(keyFilePath),
+    //   cert: fs.readFileSync(certFilePath),
+    // },
   },
   // to make use of `TAURI_DEBUG` and other env variables
   // https://tauri.studio/v1/api/config#buildconfig.beforedevcommand
@@ -89,4 +82,4 @@ export default defineConfig({
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
   },
-})
+});

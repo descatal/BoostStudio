@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { ProjectileDto } from './ProjectileDto';
-import {
-    ProjectileDtoFromJSON,
-    ProjectileDtoFromJSONTyped,
-    ProjectileDtoToJSON,
-} from './ProjectileDto';
+import type { ProjectileDto } from "./ProjectileDto";
+import { ProjectileDtoFromJSON, ProjectileDtoToJSON } from "./ProjectileDto";
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
 
 /**
  * 
@@ -34,22 +31,22 @@ export interface PaginatedListOfProjectileDto {
     items: Array<ProjectileDto>;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfProjectileDto
      */
-    pageNumber: number;
+    pageNumber: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfProjectileDto
      */
-    totalPages?: number;
+    totalPages?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfProjectileDto
      */
-    totalCount: number;
+    totalCount: AmmoDtoOrder;
     /**
      * 
      * @type {boolean}
@@ -85,9 +82,9 @@ export function PaginatedListOfProjectileDtoFromJSONTyped(json: any, ignoreDiscr
     return {
         
         'items': ((json['items'] as Array<any>).map(ProjectileDtoFromJSON)),
-        'pageNumber': json['pageNumber'],
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
-        'totalCount': json['totalCount'],
+        'pageNumber': AmmoDtoOrderFromJSON(json['pageNumber']),
+        'totalPages': json['totalPages'] == null ? undefined : AmmoDtoOrderFromJSON(json['totalPages']),
+        'totalCount': AmmoDtoOrderFromJSON(json['totalCount']),
         'hasPreviousPage': json['hasPreviousPage'] == null ? undefined : json['hasPreviousPage'],
         'hasNextPage': json['hasNextPage'] == null ? undefined : json['hasNextPage'],
     };
@@ -100,9 +97,9 @@ export function PaginatedListOfProjectileDtoToJSON(value?: PaginatedListOfProjec
     return {
         
         'items': ((value['items'] as Array<any>).map(ProjectileDtoToJSON)),
-        'pageNumber': value['pageNumber'],
-        'totalPages': value['totalPages'],
-        'totalCount': value['totalCount'],
+        'pageNumber': AmmoDtoOrderToJSON(value['pageNumber']),
+        'totalPages': AmmoDtoOrderToJSON(value['totalPages']),
+        'totalCount': AmmoDtoOrderToJSON(value['totalCount']),
         'hasPreviousPage': value['hasPreviousPage'],
         'hasNextPage': value['hasNextPage'],
     };

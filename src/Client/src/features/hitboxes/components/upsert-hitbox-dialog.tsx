@@ -28,8 +28,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useApiCreateHitboxesMutation } from "@/features/hitboxes/api/create-hitboxes";
-import { useApiUpdateHitboxesMutation } from "@/features/hitboxes/api/update-hitboxes";
+import { useCreateHitboxes } from "@/features/hitboxes/api/create-hitboxes";
+import { useUpdateHitboxes } from "@/features/hitboxes/api/update-hitboxes";
 import HitboxForm from "@/features/hitboxes/components/hitbox-form";
 
 interface UpsertHitboxDialogProps
@@ -46,20 +46,22 @@ const UpsertHitboxDialog = ({
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useApiCreateHitboxesMutation({
-    onSuccess: () => setOpen(false),
+  const createMutation = useCreateHitboxes({
+    mutationConfig: { onSuccess: () => setOpen(false) },
   });
-  const updateMutation = useApiUpdateHitboxesMutation({
-    onSuccess: () => setOpen(false),
+  const updateHitboxes = useUpdateHitboxes({
+    mutationConfig: {
+      onSuccess: () => setOpen(false),
+    },
   });
 
-  const isPending = createMutation.isPending || updateMutation.isPending;
+  const isPending = createMutation.isPending || updateHitboxes.isPending;
 
   const handleSubmit = (
     upsertData: CreateHitboxCommand | UpdateHitboxCommand,
   ) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateHitboxCommand)
+      ? updateHitboxes.mutate(upsertData as UpdateHitboxCommand)
       : createMutation.mutate(upsertData as CreateHitboxCommand);
   };
 

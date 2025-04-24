@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 
 import UnitCard from "./components/unit-card";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useApiSeriesUnits } from "@/features/series/api/get-series";
+import { useSeriesUnits } from "@/features/series/api/get-series";
 import TopBar from "@/components/custom/top-bar";
 
 const UnitsPage = () => {
@@ -20,7 +20,7 @@ const UnitsPage = () => {
     undefined,
   );
 
-  const seriesUnitsQuery = useApiSeriesUnits();
+  const seriesUnitsQuery = useSeriesUnits();
   const seriesUnits = seriesUnitsQuery.data?.items;
 
   // const query = useQuery({

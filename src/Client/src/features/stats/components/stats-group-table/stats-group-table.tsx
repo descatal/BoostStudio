@@ -1,5 +1,5 @@
 import React from "react";
-import { useApiSeriesUnits } from "@/features/series/api/get-series";
+import { useSeriesUnits } from "@/features/series/api/get-series";
 import { DataTableFilterField } from "@/types/index2";
 import { StatDto } from "@/api/exvs";
 import { useDataTable } from "@/hooks/use-react-table-3";
@@ -27,7 +27,7 @@ const StatsGroupTable = ({ unitId }: StatsGroupTableProps) => {
   })?.data;
 
   const seriesUnits =
-    useApiSeriesUnits()
+    useSeriesUnits()
       ?.data?.items.filter((vm) => vm.units)
       .flatMap((vm) => vm.units!) ?? [];
 

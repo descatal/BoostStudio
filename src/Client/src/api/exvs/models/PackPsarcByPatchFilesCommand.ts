@@ -12,13 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PatchFileVersion } from './PatchFileVersion';
-import {
-    PatchFileVersionFromJSON,
-    PatchFileVersionFromJSONTyped,
-    PatchFileVersionToJSON,
-} from './PatchFileVersion';
+import type { PatchFileVersion } from "./PatchFileVersion";
+import { PatchFileVersionFromJSON, PatchFileVersionToJSON } from "./PatchFileVersion";
 
 /**
  * 
@@ -31,7 +26,7 @@ export interface PackPsarcByPatchFilesCommand {
      * @type {Array<PatchFileVersion>}
      * @memberof PackPsarcByPatchFilesCommand
      */
-    patchFileVersions?: Array<PatchFileVersion> | null;
+    patchFileVersions?: Array<PatchFileVersion>;
 }
 
 /**

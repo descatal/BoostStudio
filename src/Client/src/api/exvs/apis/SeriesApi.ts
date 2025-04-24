@@ -13,33 +13,33 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   CreateSeriesCommand,
   ExportPlayableSeriesCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   PaginatedListOfSeriesDto,
   PaginatedListOfSeriesUnitsVm,
-} from '../models/index';
+} from "../models/index";
 import {
-    CreateSeriesCommandFromJSON,
-    CreateSeriesCommandToJSON,
-    ExportPlayableSeriesCommandFromJSON,
-    ExportPlayableSeriesCommandToJSON,
-    PaginatedListOfSeriesDtoFromJSON,
-    PaginatedListOfSeriesDtoToJSON,
-    PaginatedListOfSeriesUnitsVmFromJSON,
-    PaginatedListOfSeriesUnitsVmToJSON,
-} from '../models/index';
+  CreateSeriesCommandToJSON,
+  ExportPlayableSeriesCommandToJSON,
+  PaginatedListOfSeriesDtoFromJSON,
+  PaginatedListOfSeriesUnitsVmFromJSON,
+} from "../models/index";
 
 export interface GetApiSeriesRequest {
-    page?: number;
-    perPage?: number;
-    search?: Array<string>;
+  page?: GetApiAmmoPageParameter;
+  perPage?: GetApiAmmoPerPageParameter;
+  search?: Array<string>;
 }
 
 export interface GetApiSeriesUnitsRequest {
-    page?: number;
-    perPage?: number;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     listAll?: boolean;
 }
 
@@ -107,6 +107,10 @@ export class SeriesApi extends runtime.BaseAPI {
 
         if (requestParameters['perPage'] != null) {
             queryParameters['PerPage'] = requestParameters['perPage'];
+        }
+
+        if (requestParameters['unitIds'] != null) {
+            queryParameters['UnitIds'] = requestParameters['unitIds'];
         }
 
         if (requestParameters['listAll'] != null) {

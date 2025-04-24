@@ -13,48 +13,46 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   AmmoDto,
   CreateAmmoCommand,
   ExportAmmoByPathCommand,
   ExportAmmoCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   PaginatedListOfAmmoDto,
   UpdateAmmoCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    AmmoDtoFromJSON,
-    AmmoDtoToJSON,
-    CreateAmmoCommandFromJSON,
-    CreateAmmoCommandToJSON,
-    ExportAmmoByPathCommandFromJSON,
-    ExportAmmoByPathCommandToJSON,
-    ExportAmmoCommandFromJSON,
-    ExportAmmoCommandToJSON,
-    PaginatedListOfAmmoDtoFromJSON,
-    PaginatedListOfAmmoDtoToJSON,
-    UpdateAmmoCommandFromJSON,
-    UpdateAmmoCommandToJSON,
-} from '../models/index';
+  AmmoDtoFromJSON,
+  CreateAmmoCommandToJSON,
+  ExportAmmoByPathCommandToJSON,
+  ExportAmmoCommandToJSON,
+  GetApiAmmoHashParameterInnerFromJSON,
+  PaginatedListOfAmmoDtoFromJSON,
+  UpdateAmmoCommandToJSON,
+} from "../models/index";
 
 export interface DeleteApiAmmoByHashRequest {
-    hash: number;
+  hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiAmmoRequest {
-    page?: number;
-    perPage?: number;
-    hash?: Array<number>;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    hash?: Array<GetApiAmmoHashParameterInner>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     search?: string;
 }
 
 export interface GetApiAmmoByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiAmmoOptionsRequest {
-    unitIds?: Array<number>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
 }
 
 export interface PostApiAmmoRequest {
@@ -62,7 +60,7 @@ export interface PostApiAmmoRequest {
 }
 
 export interface PostApiAmmoByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     updateAmmoCommand: UpdateAmmoCommand;
 }
 
@@ -190,7 +188,7 @@ export class AmmoApi extends runtime.BaseAPI {
 
     /**
      */
-    async getApiAmmoOptionsRaw(requestParameters: GetApiAmmoOptionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<number>>> {
+    async getApiAmmoOptionsRaw(requestParameters: GetApiAmmoOptionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<GetApiAmmoHashParameterInner>>> {
         const queryParameters: any = {};
 
         if (requestParameters['unitIds'] != null) {
@@ -206,12 +204,12 @@ export class AmmoApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse<any>(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(GetApiAmmoHashParameterInnerFromJSON));
     }
 
     /**
      */
-    async getApiAmmoOptions(requestParameters: GetApiAmmoOptionsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<number>> {
+    async getApiAmmoOptions(requestParameters: GetApiAmmoOptionsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<GetApiAmmoHashParameterInner>> {
         const response = await this.getApiAmmoOptionsRaw(requestParameters, initOverrides);
         return await response.value();
     }

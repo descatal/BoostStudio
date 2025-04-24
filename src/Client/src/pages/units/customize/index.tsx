@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { UnitSummaryVm } from "@/api/exvs";
 import { fetchUnitById } from "@/api/wrapper/units-api";
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector";
+import UnitsSelector from "@/features/units/components/units-selector";
 import { CustomizeUnitNav } from "@/pages/units/customize/components/customize-unit-nav";
 import { CustomizeSections, useUnitsStore } from "@/pages/units/libs/store";
 import {
@@ -61,7 +61,7 @@ const CustomizeUnitPage = () => {
       {unitId && (
         <div className="flex-col md:flex">
           <TopBar>
-            <SeriesUnitsSelector
+            <UnitsSelector
               selectedUnits={selectedUnits}
               setSelectedUnits={(
                 selectedUnits: UnitSummaryVm[] | undefined,

@@ -12,19 +12,15 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { AssetFileType } from './AssetFileType';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    AssetFileTypeFromJSON,
-    AssetFileTypeFromJSONTyped,
-    AssetFileTypeToJSON,
-} from './AssetFileType';
-import type { PatchFileVersion } from './PatchFileVersion';
-import {
-    PatchFileVersionFromJSON,
-    PatchFileVersionFromJSONTyped,
-    PatchFileVersionToJSON,
-} from './PatchFileVersion';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AssetFileType } from "./AssetFileType";
+import { AssetFileTypeFromJSON, AssetFileTypeToJSON } from "./AssetFileType";
+import type { PatchFileVersion } from "./PatchFileVersion";
+import { PatchFileVersionFromJSON, PatchFileVersionToJSON } from "./PatchFileVersion";
 
 /**
  * 
@@ -34,28 +30,28 @@ import {
 export interface PackFhmAssetCommand {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof PackFhmAssetCommand
      */
-    assetFileHashes?: Array<number> | null;
+    assetFileHashes?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {Array<AssetFileType>}
      * @memberof PackFhmAssetCommand
      */
-    assetFileTypes?: Array<AssetFileType> | null;
+    assetFileTypes?: Array<AssetFileType>;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof PackFhmAssetCommand
      */
-    unitIds?: Array<number> | null;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {Array<PatchFileVersion>}
      * @memberof PackFhmAssetCommand
      */
-    patchFileVersions?: Array<PatchFileVersion> | null;
+    patchFileVersions?: Array<PatchFileVersion>;
     /**
      * 
      * @type {boolean}
@@ -81,9 +77,9 @@ export function PackFhmAssetCommandFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'assetFileHashes': json['assetFileHashes'] == null ? undefined : json['assetFileHashes'],
+        'assetFileHashes': json['assetFileHashes'] == null ? undefined : ((json['assetFileHashes'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'assetFileTypes': json['assetFileTypes'] == null ? undefined : ((json['assetFileTypes'] as Array<any>).map(AssetFileTypeFromJSON)),
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'patchFileVersions': json['patchFileVersions'] == null ? undefined : ((json['patchFileVersions'] as Array<any>).map(PatchFileVersionFromJSON)),
         'replaceStaging': json['replaceStaging'] == null ? undefined : json['replaceStaging'],
     };
@@ -95,9 +91,9 @@ export function PackFhmAssetCommandToJSON(value?: PackFhmAssetCommand | null): a
     }
     return {
         
-        'assetFileHashes': value['assetFileHashes'],
+        'assetFileHashes': value['assetFileHashes'] == null ? undefined : ((value['assetFileHashes'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'assetFileTypes': value['assetFileTypes'] == null ? undefined : ((value['assetFileTypes'] as Array<any>).map(AssetFileTypeToJSON)),
-        'unitIds': value['unitIds'],
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'patchFileVersions': value['patchFileVersions'] == null ? undefined : ((value['patchFileVersions'] as Array<any>).map(PatchFileVersionToJSON)),
         'replaceStaging': value['replaceStaging'],
     };

@@ -12,13 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PatchFileVersion } from './PatchFileVersion';
-import {
-    PatchFileVersionFromJSON,
-    PatchFileVersionFromJSONTyped,
-    PatchFileVersionToJSON,
-} from './PatchFileVersion';
+import type { PatchFileVersion } from "./PatchFileVersion";
+import { PatchFileVersionFromJSON, PatchFileVersionToJSON } from "./PatchFileVersion";
 
 /**
  * 
@@ -31,7 +26,7 @@ export interface ExportTblCommand {
      * @type {Array<PatchFileVersion>}
      * @memberof ExportTblCommand
      */
-    versions?: Array<PatchFileVersion> | null;
+    versions?: Array<PatchFileVersion>;
     /**
      * 
      * @type {boolean}

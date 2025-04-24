@@ -1,0 +1,11 @@
+﻿services:
+  boost-studio-client:
+    build:
+      context: .
+    ports:
+      - "1447:1420"
+      - "9229:9229"
+#    environment:
+#      NODE_ENV: production
+#    volumes:
+#      - ./src:/usr/src/app/src

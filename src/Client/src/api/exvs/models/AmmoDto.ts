@@ -12,7 +12,18 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
+import type { AmmoDtoHash } from "./AmmoDtoHash";
+import { AmmoDtoHashFromJSON, AmmoDtoHashToJSON } from "./AmmoDtoHash";
+
 /**
  * 
  * @export
@@ -21,220 +32,220 @@ import { mapValues } from '../runtime';
 export interface AmmoDto {
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoHash}
      * @memberof AmmoDto
      */
-    hash?: number;
+    hash?: AmmoDtoHash;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    ammoType?: number;
+    ammoType?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    maxAmmo?: number;
+    maxAmmo?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    initialAmmo?: number;
+    initialAmmo?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    timedDurationFrame?: number;
+    timedDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk16?: number;
+    unk16?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    reloadType?: number;
+    reloadType?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    cooldownDurationFrame?: number;
+    cooldownDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    reloadDurationFrame?: number;
+    reloadDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    assaultBurstReloadDurationFrame?: number;
+    assaultBurstReloadDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    blastBurstReloadDurationFrame?: number;
+    blastBurstReloadDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk40?: number;
+    unk40?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk44?: number;
+    unk44?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveUnk48?: number;
+    inactiveUnk48?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveCooldownDurationFrame?: number;
+    inactiveCooldownDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveReloadDurationFrame?: number;
+    inactiveReloadDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveAssaultBurstReloadDurationFrame?: number;
+    inactiveAssaultBurstReloadDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveBlastBurstReloadDurationFrame?: number;
+    inactiveBlastBurstReloadDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveUnk68?: number;
+    inactiveUnk68?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    inactiveUnk72?: number;
+    inactiveUnk72?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    burstReplenish?: number;
+    burstReplenish?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk80?: number;
+    unk80?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk84?: number;
+    unk84?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk88?: number;
+    unk88?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    chargeInput?: number;
+    chargeInput?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    chargeDurationFrame?: number;
+    chargeDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    assaultBurstChargeDurationFrame?: number;
+    assaultBurstChargeDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    blastBurstChargeDurationFrame?: number;
+    blastBurstChargeDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk108?: number;
+    unk108?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk112?: number;
+    unk112?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    releaseChargeLingerDurationFrame?: number;
+    releaseChargeLingerDurationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    maxChargeLevel?: number;
+    maxChargeLevel?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk124?: number;
+    unk124?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AmmoDto
      */
-    unk128?: number;
+    unk128?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof AmmoDto
      */
-    order?: number;
+    order?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof AmmoDto
      */
-    unitId?: number | null;
+    unitId?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -254,42 +265,42 @@ export function AmmoDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): A
     }
     return {
         
-        'hash': json['hash'] == null ? undefined : json['hash'],
-        'ammoType': json['ammoType'] == null ? undefined : json['ammoType'],
-        'maxAmmo': json['maxAmmo'] == null ? undefined : json['maxAmmo'],
-        'initialAmmo': json['initialAmmo'] == null ? undefined : json['initialAmmo'],
-        'timedDurationFrame': json['timedDurationFrame'] == null ? undefined : json['timedDurationFrame'],
-        'unk16': json['unk16'] == null ? undefined : json['unk16'],
-        'reloadType': json['reloadType'] == null ? undefined : json['reloadType'],
-        'cooldownDurationFrame': json['cooldownDurationFrame'] == null ? undefined : json['cooldownDurationFrame'],
-        'reloadDurationFrame': json['reloadDurationFrame'] == null ? undefined : json['reloadDurationFrame'],
-        'assaultBurstReloadDurationFrame': json['assaultBurstReloadDurationFrame'] == null ? undefined : json['assaultBurstReloadDurationFrame'],
-        'blastBurstReloadDurationFrame': json['blastBurstReloadDurationFrame'] == null ? undefined : json['blastBurstReloadDurationFrame'],
-        'unk40': json['unk40'] == null ? undefined : json['unk40'],
-        'unk44': json['unk44'] == null ? undefined : json['unk44'],
-        'inactiveUnk48': json['inactiveUnk48'] == null ? undefined : json['inactiveUnk48'],
-        'inactiveCooldownDurationFrame': json['inactiveCooldownDurationFrame'] == null ? undefined : json['inactiveCooldownDurationFrame'],
-        'inactiveReloadDurationFrame': json['inactiveReloadDurationFrame'] == null ? undefined : json['inactiveReloadDurationFrame'],
-        'inactiveAssaultBurstReloadDurationFrame': json['inactiveAssaultBurstReloadDurationFrame'] == null ? undefined : json['inactiveAssaultBurstReloadDurationFrame'],
-        'inactiveBlastBurstReloadDurationFrame': json['inactiveBlastBurstReloadDurationFrame'] == null ? undefined : json['inactiveBlastBurstReloadDurationFrame'],
-        'inactiveUnk68': json['inactiveUnk68'] == null ? undefined : json['inactiveUnk68'],
-        'inactiveUnk72': json['inactiveUnk72'] == null ? undefined : json['inactiveUnk72'],
-        'burstReplenish': json['burstReplenish'] == null ? undefined : json['burstReplenish'],
-        'unk80': json['unk80'] == null ? undefined : json['unk80'],
-        'unk84': json['unk84'] == null ? undefined : json['unk84'],
-        'unk88': json['unk88'] == null ? undefined : json['unk88'],
-        'chargeInput': json['chargeInput'] == null ? undefined : json['chargeInput'],
-        'chargeDurationFrame': json['chargeDurationFrame'] == null ? undefined : json['chargeDurationFrame'],
-        'assaultBurstChargeDurationFrame': json['assaultBurstChargeDurationFrame'] == null ? undefined : json['assaultBurstChargeDurationFrame'],
-        'blastBurstChargeDurationFrame': json['blastBurstChargeDurationFrame'] == null ? undefined : json['blastBurstChargeDurationFrame'],
-        'unk108': json['unk108'] == null ? undefined : json['unk108'],
-        'unk112': json['unk112'] == null ? undefined : json['unk112'],
-        'releaseChargeLingerDurationFrame': json['releaseChargeLingerDurationFrame'] == null ? undefined : json['releaseChargeLingerDurationFrame'],
-        'maxChargeLevel': json['maxChargeLevel'] == null ? undefined : json['maxChargeLevel'],
-        'unk124': json['unk124'] == null ? undefined : json['unk124'],
-        'unk128': json['unk128'] == null ? undefined : json['unk128'],
-        'order': json['order'] == null ? undefined : json['order'],
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'hash': json['hash'] == null ? undefined : AmmoDtoHashFromJSON(json['hash']),
+        'ammoType': json['ammoType'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['ammoType']),
+        'maxAmmo': json['maxAmmo'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['maxAmmo']),
+        'initialAmmo': json['initialAmmo'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['initialAmmo']),
+        'timedDurationFrame': json['timedDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['timedDurationFrame']),
+        'unk16': json['unk16'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk16']),
+        'reloadType': json['reloadType'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reloadType']),
+        'cooldownDurationFrame': json['cooldownDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['cooldownDurationFrame']),
+        'reloadDurationFrame': json['reloadDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reloadDurationFrame']),
+        'assaultBurstReloadDurationFrame': json['assaultBurstReloadDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['assaultBurstReloadDurationFrame']),
+        'blastBurstReloadDurationFrame': json['blastBurstReloadDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['blastBurstReloadDurationFrame']),
+        'unk40': json['unk40'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk40']),
+        'unk44': json['unk44'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk44']),
+        'inactiveUnk48': json['inactiveUnk48'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveUnk48']),
+        'inactiveCooldownDurationFrame': json['inactiveCooldownDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveCooldownDurationFrame']),
+        'inactiveReloadDurationFrame': json['inactiveReloadDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveReloadDurationFrame']),
+        'inactiveAssaultBurstReloadDurationFrame': json['inactiveAssaultBurstReloadDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveAssaultBurstReloadDurationFrame']),
+        'inactiveBlastBurstReloadDurationFrame': json['inactiveBlastBurstReloadDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveBlastBurstReloadDurationFrame']),
+        'inactiveUnk68': json['inactiveUnk68'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveUnk68']),
+        'inactiveUnk72': json['inactiveUnk72'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inactiveUnk72']),
+        'burstReplenish': json['burstReplenish'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['burstReplenish']),
+        'unk80': json['unk80'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk80']),
+        'unk84': json['unk84'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk84']),
+        'unk88': json['unk88'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk88']),
+        'chargeInput': json['chargeInput'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['chargeInput']),
+        'chargeDurationFrame': json['chargeDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['chargeDurationFrame']),
+        'assaultBurstChargeDurationFrame': json['assaultBurstChargeDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['assaultBurstChargeDurationFrame']),
+        'blastBurstChargeDurationFrame': json['blastBurstChargeDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['blastBurstChargeDurationFrame']),
+        'unk108': json['unk108'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk108']),
+        'unk112': json['unk112'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk112']),
+        'releaseChargeLingerDurationFrame': json['releaseChargeLingerDurationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['releaseChargeLingerDurationFrame']),
+        'maxChargeLevel': json['maxChargeLevel'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['maxChargeLevel']),
+        'unk124': json['unk124'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk124']),
+        'unk128': json['unk128'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk128']),
+        'order': json['order'] == null ? undefined : AmmoDtoOrderFromJSON(json['order']),
+        'unitId': json['unitId'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['unitId']),
     };
 }
 
@@ -299,42 +310,42 @@ export function AmmoDtoToJSON(value?: AmmoDto | null): any {
     }
     return {
         
-        'hash': value['hash'],
-        'ammoType': value['ammoType'],
-        'maxAmmo': value['maxAmmo'],
-        'initialAmmo': value['initialAmmo'],
-        'timedDurationFrame': value['timedDurationFrame'],
-        'unk16': value['unk16'],
-        'reloadType': value['reloadType'],
-        'cooldownDurationFrame': value['cooldownDurationFrame'],
-        'reloadDurationFrame': value['reloadDurationFrame'],
-        'assaultBurstReloadDurationFrame': value['assaultBurstReloadDurationFrame'],
-        'blastBurstReloadDurationFrame': value['blastBurstReloadDurationFrame'],
-        'unk40': value['unk40'],
-        'unk44': value['unk44'],
-        'inactiveUnk48': value['inactiveUnk48'],
-        'inactiveCooldownDurationFrame': value['inactiveCooldownDurationFrame'],
-        'inactiveReloadDurationFrame': value['inactiveReloadDurationFrame'],
-        'inactiveAssaultBurstReloadDurationFrame': value['inactiveAssaultBurstReloadDurationFrame'],
-        'inactiveBlastBurstReloadDurationFrame': value['inactiveBlastBurstReloadDurationFrame'],
-        'inactiveUnk68': value['inactiveUnk68'],
-        'inactiveUnk72': value['inactiveUnk72'],
-        'burstReplenish': value['burstReplenish'],
-        'unk80': value['unk80'],
-        'unk84': value['unk84'],
-        'unk88': value['unk88'],
-        'chargeInput': value['chargeInput'],
-        'chargeDurationFrame': value['chargeDurationFrame'],
-        'assaultBurstChargeDurationFrame': value['assaultBurstChargeDurationFrame'],
-        'blastBurstChargeDurationFrame': value['blastBurstChargeDurationFrame'],
-        'unk108': value['unk108'],
-        'unk112': value['unk112'],
-        'releaseChargeLingerDurationFrame': value['releaseChargeLingerDurationFrame'],
-        'maxChargeLevel': value['maxChargeLevel'],
-        'unk124': value['unk124'],
-        'unk128': value['unk128'],
-        'order': value['order'],
-        'unitId': value['unitId'],
+        'hash': AmmoDtoHashToJSON(value['hash']),
+        'ammoType': GetApiAmmoHashParameterInnerToJSON(value['ammoType']),
+        'maxAmmo': GetApiAmmoHashParameterInnerToJSON(value['maxAmmo']),
+        'initialAmmo': GetApiAmmoHashParameterInnerToJSON(value['initialAmmo']),
+        'timedDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['timedDurationFrame']),
+        'unk16': GetApiAmmoHashParameterInnerToJSON(value['unk16']),
+        'reloadType': GetApiAmmoHashParameterInnerToJSON(value['reloadType']),
+        'cooldownDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['cooldownDurationFrame']),
+        'reloadDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['reloadDurationFrame']),
+        'assaultBurstReloadDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['assaultBurstReloadDurationFrame']),
+        'blastBurstReloadDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['blastBurstReloadDurationFrame']),
+        'unk40': GetApiAmmoHashParameterInnerToJSON(value['unk40']),
+        'unk44': GetApiAmmoHashParameterInnerToJSON(value['unk44']),
+        'inactiveUnk48': GetApiAmmoHashParameterInnerToJSON(value['inactiveUnk48']),
+        'inactiveCooldownDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['inactiveCooldownDurationFrame']),
+        'inactiveReloadDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['inactiveReloadDurationFrame']),
+        'inactiveAssaultBurstReloadDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['inactiveAssaultBurstReloadDurationFrame']),
+        'inactiveBlastBurstReloadDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['inactiveBlastBurstReloadDurationFrame']),
+        'inactiveUnk68': GetApiAmmoHashParameterInnerToJSON(value['inactiveUnk68']),
+        'inactiveUnk72': GetApiAmmoHashParameterInnerToJSON(value['inactiveUnk72']),
+        'burstReplenish': GetApiAmmoHashParameterInnerToJSON(value['burstReplenish']),
+        'unk80': GetApiAmmoHashParameterInnerToJSON(value['unk80']),
+        'unk84': GetApiAmmoHashParameterInnerToJSON(value['unk84']),
+        'unk88': GetApiAmmoHashParameterInnerToJSON(value['unk88']),
+        'chargeInput': GetApiAmmoHashParameterInnerToJSON(value['chargeInput']),
+        'chargeDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['chargeDurationFrame']),
+        'assaultBurstChargeDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['assaultBurstChargeDurationFrame']),
+        'blastBurstChargeDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['blastBurstChargeDurationFrame']),
+        'unk108': GetApiAmmoHashParameterInnerToJSON(value['unk108']),
+        'unk112': GetApiAmmoHashParameterInnerToJSON(value['unk112']),
+        'releaseChargeLingerDurationFrame': GetApiAmmoHashParameterInnerToJSON(value['releaseChargeLingerDurationFrame']),
+        'maxChargeLevel': GetApiAmmoHashParameterInnerToJSON(value['maxChargeLevel']),
+        'unk124': GetApiAmmoHashParameterInnerToJSON(value['unk124']),
+        'unk128': GetApiAmmoHashParameterInnerToJSON(value['unk128']),
+        'order': AmmoDtoOrderToJSON(value['order']),
+        'unitId': AmmoDtoUnitIdToJSON(value['unitId']),
     };
 }
 

@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { SeriesDto } from './SeriesDto';
-import {
-    SeriesDtoFromJSON,
-    SeriesDtoFromJSONTyped,
-    SeriesDtoToJSON,
-} from './SeriesDto';
+import type { SeriesDto } from "./SeriesDto";
+import { SeriesDtoFromJSON, SeriesDtoToJSON } from "./SeriesDto";
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
 
 /**
  * 
@@ -34,22 +31,22 @@ export interface PaginatedListOfSeriesDto {
     items: Array<SeriesDto>;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfSeriesDto
      */
-    pageNumber: number;
+    pageNumber: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfSeriesDto
      */
-    totalPages?: number;
+    totalPages?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfSeriesDto
      */
-    totalCount: number;
+    totalCount: AmmoDtoOrder;
     /**
      * 
      * @type {boolean}
@@ -85,9 +82,9 @@ export function PaginatedListOfSeriesDtoFromJSONTyped(json: any, ignoreDiscrimin
     return {
         
         'items': ((json['items'] as Array<any>).map(SeriesDtoFromJSON)),
-        'pageNumber': json['pageNumber'],
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
-        'totalCount': json['totalCount'],
+        'pageNumber': AmmoDtoOrderFromJSON(json['pageNumber']),
+        'totalPages': json['totalPages'] == null ? undefined : AmmoDtoOrderFromJSON(json['totalPages']),
+        'totalCount': AmmoDtoOrderFromJSON(json['totalCount']),
         'hasPreviousPage': json['hasPreviousPage'] == null ? undefined : json['hasPreviousPage'],
         'hasNextPage': json['hasNextPage'] == null ? undefined : json['hasNextPage'],
     };
@@ -100,9 +97,9 @@ export function PaginatedListOfSeriesDtoToJSON(value?: PaginatedListOfSeriesDto 
     return {
         
         'items': ((value['items'] as Array<any>).map(SeriesDtoToJSON)),
-        'pageNumber': value['pageNumber'],
-        'totalPages': value['totalPages'],
-        'totalCount': value['totalCount'],
+        'pageNumber': AmmoDtoOrderToJSON(value['pageNumber']),
+        'totalPages': AmmoDtoOrderToJSON(value['totalPages']),
+        'totalCount': AmmoDtoOrderToJSON(value['totalCount']),
         'hasPreviousPage': value['hasPreviousPage'],
         'hasNextPage': value['hasNextPage'],
     };

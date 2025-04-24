@@ -12,19 +12,15 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { AssetFileType } from './AssetFileType';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    AssetFileTypeFromJSON,
-    AssetFileTypeFromJSONTyped,
-    AssetFileTypeToJSON,
-} from './AssetFileType';
-import type { PatchFileVersion } from './PatchFileVersion';
-import {
-    PatchFileVersionFromJSON,
-    PatchFileVersionFromJSONTyped,
-    PatchFileVersionToJSON,
-} from './PatchFileVersion';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AssetFileType } from "./AssetFileType";
+import { AssetFileTypeFromJSON, AssetFileTypeToJSON } from "./AssetFileType";
+import type { PatchFileVersion } from "./PatchFileVersion";
+import { PatchFileVersionFromJSON, PatchFileVersionToJSON } from "./PatchFileVersion";
 
 /**
  * 
@@ -37,25 +33,25 @@ export interface ResizePatchFileCommand {
      * @type {Array<string>}
      * @memberof ResizePatchFileCommand
      */
-    ids?: Array<string> | null;
+    ids?: Array<string>;
     /**
      * 
      * @type {Array<PatchFileVersion>}
      * @memberof ResizePatchFileCommand
      */
-    versions?: Array<PatchFileVersion> | null;
+    versions?: Array<PatchFileVersion>;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof ResizePatchFileCommand
      */
-    unitIds?: Array<number> | null;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {Array<AssetFileType>}
      * @memberof ResizePatchFileCommand
      */
-    assetFileTypes?: Array<AssetFileType> | null;
+    assetFileTypes?: Array<AssetFileType>;
 }
 
 /**
@@ -77,7 +73,7 @@ export function ResizePatchFileCommandFromJSONTyped(json: any, ignoreDiscriminat
         
         'ids': json['ids'] == null ? undefined : json['ids'],
         'versions': json['versions'] == null ? undefined : ((json['versions'] as Array<any>).map(PatchFileVersionFromJSON)),
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'assetFileTypes': json['assetFileTypes'] == null ? undefined : ((json['assetFileTypes'] as Array<any>).map(AssetFileTypeFromJSON)),
     };
 }
@@ -90,7 +86,7 @@ export function ResizePatchFileCommandToJSON(value?: ResizePatchFileCommand | nu
         
         'ids': value['ids'],
         'versions': value['versions'] == null ? undefined : ((value['versions'] as Array<any>).map(PatchFileVersionToJSON)),
-        'unitIds': value['unitIds'],
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'assetFileTypes': value['assetFileTypes'] == null ? undefined : ((value['assetFileTypes'] as Array<any>).map(AssetFileTypeToJSON)),
     };
 }

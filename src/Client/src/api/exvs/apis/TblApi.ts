@@ -13,11 +13,14 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   AssetFileType,
   CreatePatchFileCommand,
   ExportTblCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   PaginatedListOfPatchFileSummaryVm,
   PaginatedListOfPatchFileVm,
   PatchFileVersion,
@@ -27,44 +30,30 @@ import type {
   TblDto,
   TblVm,
   UpdatePatchFileByIdCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    AssetFileTypeFromJSON,
-    AssetFileTypeToJSON,
-    CreatePatchFileCommandFromJSON,
-    CreatePatchFileCommandToJSON,
-    ExportTblCommandFromJSON,
-    ExportTblCommandToJSON,
-    PaginatedListOfPatchFileSummaryVmFromJSON,
-    PaginatedListOfPatchFileSummaryVmToJSON,
-    PaginatedListOfPatchFileVmFromJSON,
-    PaginatedListOfPatchFileVmToJSON,
-    PatchFileVersionFromJSON,
-    PatchFileVersionToJSON,
-    PatchFileVmFromJSON,
-    PatchFileVmToJSON,
-    ResizePatchFileCommandFromJSON,
-    ResizePatchFileCommandToJSON,
-    SerializeTblFromJSON,
-    SerializeTblToJSON,
-    TblDtoFromJSON,
-    TblDtoToJSON,
-    TblVmFromJSON,
-    TblVmToJSON,
-    UpdatePatchFileByIdCommandFromJSON,
-    UpdatePatchFileByIdCommandToJSON,
-} from '../models/index';
+  CreatePatchFileCommandToJSON,
+  ExportTblCommandToJSON,
+  PaginatedListOfPatchFileSummaryVmFromJSON,
+  PaginatedListOfPatchFileVmFromJSON,
+  PatchFileVmFromJSON,
+  ResizePatchFileCommandToJSON,
+  SerializeTblToJSON,
+  TblDtoFromJSON,
+  TblVmFromJSON,
+  UpdatePatchFileByIdCommandToJSON,
+} from "../models/index";
 
 export interface DeleteApiPatchFilesByIdRequest {
-    id: string;
+  id: string;
 }
 
 export interface GetApiPatchFilesRequest {
-    page?: number;
-    perPage?: number;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
     search?: string;
     versions?: Array<PatchFileVersion>;
-    unitIds?: Array<number>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
 }
 
 export interface GetApiPatchFilesByIdRequest {
@@ -72,11 +61,11 @@ export interface GetApiPatchFilesByIdRequest {
 }
 
 export interface GetApiPatchFilesSummaryRequest {
-    page?: number;
-    perPage?: number;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
     versions?: Array<PatchFileVersion>;
-    unitIds?: Array<number>;
-    assetFileHashes?: Array<number>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
+    assetFileHashes?: Array<GetApiAmmoHashParameterInner>;
     assetFileTypes?: Array<AssetFileType>;
 }
 

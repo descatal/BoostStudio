@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { UnitSummaryVm } from "@/api/exvs"
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
-import { DataTableFilterField } from "@/types"
-import { Cross2Icon } from "@radix-ui/react-icons"
-import type { Table } from "@tanstack/react-table"
+import * as React from "react";
+import { UnitSummaryVm } from "@/api/exvs";
+import UnitsSelector from "@/features/units/components/units-selector";
+import { DataTableFilterField } from "@/types";
+import { Cross2Icon } from "@radix-ui/react-icons";
+import type { Table } from "@tanstack/react-table";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
-import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter";
+import { DataTableViewOptions } from "@/components/data-table/data-table-view-options";
 
 interface DataTableToolbarProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {
-  table: Table<TData>
-  filterFields?: DataTableFilterField<TData>[]
+  table: Table<TData>;
+  filterFields?: DataTableFilterField<TData>[];
 }
 
 export function DataTableToolbar<TData>({
@@ -26,42 +26,42 @@ export function DataTableToolbar<TData>({
   className,
   ...props
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.getState().columnFilters.length > 0;
 
-  const [selectedUnits, setSelectedUnits] = React.useState<UnitSummaryVm[]>([])
+  const [selectedUnits, setSelectedUnits] = React.useState<UnitSummaryVm[]>([]);
 
   // Memoize computation of searchableColumns and filterableColumns
   const { searchableColumns, filterableColumns, unitFilterColumns } =
     React.useMemo(() => {
       return {
         searchableColumns: filterFields.filter(
-          (field) => field.type === "input"
+          (field) => field.type === "input",
         ),
         filterableColumns: filterFields.filter(
-          (field) => field.type === "select"
+          (field) => field.type === "select",
         ),
         unitFilterColumns: filterFields.filter(
-          (field) => field.type === "unit"
+          (field) => field.type === "unit",
         ),
-      }
-    }, [filterFields])
+      };
+    }, [filterFields]);
 
   return (
     <div
       className={cn(
         "flex w-full items-center justify-between space-x-2 overflow-auto p-1",
-        className
+        className,
       )}
       {...props}
     >
       <div className="flex flex-1 items-center space-x-2">
         {unitFilterColumns.length > 0 &&
           unitFilterColumns.map((column) => {
-            if (!(column.type === "unit")) return
+            if (!(column.type === "unit")) return;
 
             return (
               table.getColumn(column.value ? String(column.value) : "") && (
-                <SeriesUnitsSelector
+                <UnitsSelector
                   multipleSelect={true}
                   className={"w-fit"}
                   key={String(column.value)}
@@ -74,16 +74,16 @@ export function DataTableToolbar<TData>({
                     table
                       .getColumn(String(column.value))
                       ?.setFilterValue(
-                        !unitDto || unitDto.length <= 0 ? undefined : unitDto
-                      )
+                        !unitDto || unitDto.length <= 0 ? undefined : unitDto,
+                      );
                   }}
                 />
               )
-            )
+            );
           })}
         {searchableColumns.length > 0 &&
           searchableColumns.map((column) => {
-            if (!(column.type === "input")) return
+            if (!(column.type === "input")) return;
 
             return (
               table.getColumn(column.value ? String(column.value) : "") && (
@@ -103,24 +103,24 @@ export function DataTableToolbar<TData>({
                   className="h-8 w-40 lg:w-64"
                 />
               )
-            )
+            );
           })}
         {filterableColumns.length > 0 &&
           filterableColumns.map((column) => {
-            if (!(column.type === "select")) return
+            if (!(column.type === "select")) return;
 
             return (
               table.getColumn(column.value ? String(column.value) : "") && (
                 <DataTableFacetedFilter
                   key={String(column.value)}
                   column={table.getColumn(
-                    column.value ? String(column.value) : ""
+                    column.value ? String(column.value) : "",
                   )}
                   title={column.label}
                   options={column.options ?? []}
                 />
               )
-            )
+            );
           })}
         {isFiltered && (
           <Button
@@ -139,5 +139,5 @@ export function DataTableToolbar<TData>({
         <DataTableViewOptions table={table} />
       </div>
     </div>
-  )
+  );
 }

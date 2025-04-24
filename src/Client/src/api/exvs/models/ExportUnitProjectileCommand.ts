@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,10 +26,10 @@ import { mapValues } from '../runtime';
 export interface ExportUnitProjectileCommand {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof ExportUnitProjectileCommand
      */
-    unitIds?: Array<number> | null;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {boolean}
@@ -56,7 +61,7 @@ export function ExportUnitProjectileCommandFromJSONTyped(json: any, ignoreDiscri
     }
     return {
         
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'replaceWorking': json['replaceWorking'] == null ? undefined : json['replaceWorking'],
         'hotReload': json['hotReload'] == null ? undefined : json['hotReload'],
     };
@@ -68,7 +73,7 @@ export function ExportUnitProjectileCommandToJSON(value?: ExportUnitProjectileCo
     }
     return {
         
-        'unitIds': value['unitIds'],
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'replaceWorking': value['replaceWorking'],
         'hotReload': value['hotReload'],
     };

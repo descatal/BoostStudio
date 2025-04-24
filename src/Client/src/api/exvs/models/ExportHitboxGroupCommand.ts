@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,16 +26,16 @@ import { mapValues } from '../runtime';
 export interface ExportHitboxGroupCommand {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof ExportHitboxGroupCommand
      */
-    hashes?: Array<number> | null;
+    hashes?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof ExportHitboxGroupCommand
      */
-    unitIds?: Array<number> | null;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {boolean}
@@ -62,8 +67,8 @@ export function ExportHitboxGroupCommandFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
-        'hashes': json['hashes'] == null ? undefined : json['hashes'],
-        'unitIds': json['unitIds'] == null ? undefined : json['unitIds'],
+        'hashes': json['hashes'] == null ? undefined : ((json['hashes'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
+        'unitIds': json['unitIds'] == null ? undefined : ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'replaceWorking': json['replaceWorking'] == null ? undefined : json['replaceWorking'],
         'hotReload': json['hotReload'] == null ? undefined : json['hotReload'],
     };
@@ -75,8 +80,8 @@ export function ExportHitboxGroupCommandToJSON(value?: ExportHitboxGroupCommand 
     }
     return {
         
-        'hashes': value['hashes'],
-        'unitIds': value['unitIds'],
+        'hashes': value['hashes'] == null ? undefined : ((value['hashes'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
+        'unitIds': value['unitIds'] == null ? undefined : ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'replaceWorking': value['replaceWorking'],
         'hotReload': value['hotReload'],
     };

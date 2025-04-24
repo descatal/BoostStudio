@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,10 +26,10 @@ import { mapValues } from '../runtime';
 export interface CompileScexByUnitsCommand {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof CompileScexByUnitsCommand
      */
-    unitIds: Array<number>;
+    unitIds: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {boolean}
@@ -57,7 +62,7 @@ export function CompileScexByUnitsCommandFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'unitIds': json['unitIds'],
+        'unitIds': ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'replaceWorking': json['replaceWorking'] == null ? undefined : json['replaceWorking'],
         'hotReload': json['hotReload'] == null ? undefined : json['hotReload'],
     };
@@ -69,7 +74,7 @@ export function CompileScexByUnitsCommandToJSON(value?: CompileScexByUnitsComman
     }
     return {
         
-        'unitIds': value['unitIds'],
+        'unitIds': ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'replaceWorking': value['replaceWorking'],
         'hotReload': value['hotReload'],
     };

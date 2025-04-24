@@ -12,13 +12,10 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { SeriesUnitsVm } from './SeriesUnitsVm';
-import {
-    SeriesUnitsVmFromJSON,
-    SeriesUnitsVmFromJSONTyped,
-    SeriesUnitsVmToJSON,
-} from './SeriesUnitsVm';
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
+import type { SeriesUnitsVm } from "./SeriesUnitsVm";
+import { SeriesUnitsVmFromJSON, SeriesUnitsVmToJSON } from "./SeriesUnitsVm";
 
 /**
  * 
@@ -34,22 +31,22 @@ export interface PaginatedListOfSeriesUnitsVm {
     items: Array<SeriesUnitsVm>;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfSeriesUnitsVm
      */
-    pageNumber: number;
+    pageNumber: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfSeriesUnitsVm
      */
-    totalPages?: number;
+    totalPages?: AmmoDtoOrder;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof PaginatedListOfSeriesUnitsVm
      */
-    totalCount: number;
+    totalCount: AmmoDtoOrder;
     /**
      * 
      * @type {boolean}
@@ -85,9 +82,9 @@ export function PaginatedListOfSeriesUnitsVmFromJSONTyped(json: any, ignoreDiscr
     return {
         
         'items': ((json['items'] as Array<any>).map(SeriesUnitsVmFromJSON)),
-        'pageNumber': json['pageNumber'],
-        'totalPages': json['totalPages'] == null ? undefined : json['totalPages'],
-        'totalCount': json['totalCount'],
+        'pageNumber': AmmoDtoOrderFromJSON(json['pageNumber']),
+        'totalPages': json['totalPages'] == null ? undefined : AmmoDtoOrderFromJSON(json['totalPages']),
+        'totalCount': AmmoDtoOrderFromJSON(json['totalCount']),
         'hasPreviousPage': json['hasPreviousPage'] == null ? undefined : json['hasPreviousPage'],
         'hasNextPage': json['hasNextPage'] == null ? undefined : json['hasNextPage'],
     };
@@ -100,9 +97,9 @@ export function PaginatedListOfSeriesUnitsVmToJSON(value?: PaginatedListOfSeries
     return {
         
         'items': ((value['items'] as Array<any>).map(SeriesUnitsVmToJSON)),
-        'pageNumber': value['pageNumber'],
-        'totalPages': value['totalPages'],
-        'totalCount': value['totalCount'],
+        'pageNumber': AmmoDtoOrderToJSON(value['pageNumber']),
+        'totalPages': AmmoDtoOrderToJSON(value['totalPages']),
+        'totalCount': AmmoDtoOrderToJSON(value['totalCount']),
         'hasPreviousPage': value['hasPreviousPage'],
         'hasNextPage': value['hasNextPage'],
     };

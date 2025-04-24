@@ -1,24 +1,41 @@
-import { BASE_PATH, Configuration, UnitsApi } from "@/api/exvs"
-import { createStore } from "zustand"
+import { createStore } from "zustand";
 
-const openApiConfiguration = new Configuration({
-  basePath: BASE_PATH,
-})
-
-export interface AppProps {
-  unitsApi: UnitsApi
+interface LinkProps {
+  label: string;
+  path: string;
 }
 
-export interface AppState extends AppProps {}
+export interface AppProps {
+  topbarLinks: LinkProps[];
+  topbarShowSearch: boolean;
+  topbarShowTheme: boolean;
+}
 
-export type AppStore = ReturnType<typeof createAppStore>
+export interface AppState extends AppProps {
+  setTopbarLinks: (links: LinkProps[]) => void;
+  setTopbarShowTheme: (show: boolean) => void;
+  setTopbarShowSearch: (show: boolean) => void;
+}
+
+export type AppStore = ReturnType<typeof createAppStore>;
 
 export const createAppStore = (initProps?: Partial<AppProps>) => {
   const DEFAULT_PROPS: AppProps = {
-    unitsApi: new UnitsApi(openApiConfiguration),
-  }
+    topbarLinks: [],
+    topbarShowSearch: true,
+    topbarShowTheme: true,
+  };
   return createStore<AppState>()((set) => ({
     ...DEFAULT_PROPS,
     ...initProps,
-  }))
-}
+    setTopbarLinks: (links: LinkProps[]) => {
+      set(() => ({ topbarLinks: links }));
+    },
+    setTopbarShowTheme: (show: boolean) => {
+      set(() => ({ topbarShowSearch: show }));
+    },
+    setTopbarShowSearch: (show: boolean) => {
+      set(() => ({ topbarShowTheme: show }));
+    },
+  }));
+};

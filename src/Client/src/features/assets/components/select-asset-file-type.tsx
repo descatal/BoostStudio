@@ -1,4 +1,4 @@
-﻿import React from "react"
+﻿import React from "react";
 
 import {
   Select,
@@ -7,21 +7,20 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 import {
   AssetFileType,
   CombinedAssetFileOptions,
   CommonAssetFileOptions,
   UnitAssetFileOptions,
-  UnitAssetFileOptionsType,
-} from "../../../../lib/constants"
+} from "@/lib/constants";
 
 interface SelectAssetFileTypeProps
   extends React.ComponentPropsWithRef<typeof Select> {
-  type: "combined" | "unit" | "common"
-  selectedUnitAssetFileType: AssetFileType
-  setSelectedUnitAssetFileType: (type: AssetFileType) => void
+  type: "combined" | "unit" | "common";
+  selectedUnitAssetFileType: AssetFileType;
+  setSelectedUnitAssetFileType: (type: AssetFileType) => void;
 }
 
 const SelectAssetFileType = ({
@@ -35,7 +34,7 @@ const SelectAssetFileType = ({
       ? UnitAssetFileOptions
       : type === "common"
         ? CommonAssetFileOptions
-        : CombinedAssetFileOptions
+        : CombinedAssetFileOptions;
 
   return (
     <Select
@@ -56,7 +55,7 @@ const SelectAssetFileType = ({
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
-}
+  );
+};
 
-export default SelectAssetFileType
+export default SelectAssetFileType;

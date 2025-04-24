@@ -1,17 +1,37 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function formatDate(input: string | number): string {
-  const date = new Date(input)
+  const date = new Date(input);
   return date.toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
-  })
+  });
+}
+
+export function formatBytes(
+  bytes: number,
+  opts: {
+    decimals?: number;
+    sizeType?: "accurate" | "normal";
+  } = {},
+) {
+  const { decimals = 0, sizeType = "normal" } = opts;
+
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+  const accurateSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"];
+  if (bytes === 0) return "0 Byte";
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
+    sizeType === "accurate"
+      ? (accurateSizes[i] ?? "Bytes")
+      : (sizes[i] ?? "Bytes")
+  }`;
 }
 
 export function toSentenceCase(str: string) {
@@ -21,11 +41,11 @@ export function toSentenceCase(str: string) {
     .toLowerCase()
     .replace(/^\w/, (c) => c.toUpperCase())
     .replace(/\s+/g, " ")
-    .trim()
+    .trim();
 }
 
 export function absoluteUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }
 
 /**
@@ -35,26 +55,26 @@ export function absoluteUrl(path: string) {
 export function composeEventHandlers<E>(
   originalEventHandler?: (event: E) => void,
   ourEventHandler?: (event: E) => void,
-  { checkForDefaultPrevented = true } = {}
+  { checkForDefaultPrevented = true } = {},
 ) {
   return function handleEvent(event: E) {
-    originalEventHandler?.(event)
+    originalEventHandler?.(event);
 
     if (
       checkForDefaultPrevented === false ||
       !(event as unknown as Event).defaultPrevented
     ) {
-      return ourEventHandler?.(event)
+      return ourEventHandler?.(event);
     }
-  }
+  };
 }
 
 export function isEqual(x: any, y: any): boolean {
   const ok = Object.keys,
     tx = typeof x,
-    ty = typeof y
+    ty = typeof y;
   return x && y && tx === "object" && tx === ty
     ? ok(x).length === ok(y).length &&
         ok(x).every((key) => isEqual(x[key], y[key]))
-    : x === y
+    : x === y;
 }

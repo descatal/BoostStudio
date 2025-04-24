@@ -12,13 +12,15 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { AssetFileType } from './AssetFileType';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
 import {
-    AssetFileTypeFromJSON,
-    AssetFileTypeFromJSONTyped,
-    AssetFileTypeToJSON,
-} from './AssetFileType';
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+import type { AssetFileType } from "./AssetFileType";
+import { AssetFileTypeFromJSON, AssetFileTypeToJSON } from "./AssetFileType";
 
 /**
  * 
@@ -28,16 +30,16 @@ import {
 export interface AssetFileVm {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AssetFileVm
      */
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof AssetFileVm
      */
-    order?: number;
+    order?: GetApiAmmoHashParameterInner;
     /**
      * 
      * @type {Array<AssetFileType>}
@@ -46,10 +48,10 @@ export interface AssetFileVm {
     fileType?: Array<AssetFileType>;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof AssetFileVm
      */
-    gameUnitId?: number | null;
+    gameUnitId?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -70,10 +72,10 @@ export function AssetFileVmFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'hash': json['hash'],
-        'order': json['order'] == null ? undefined : json['order'],
+        'hash': GetApiAmmoHashParameterInnerFromJSON(json['hash']),
+        'order': json['order'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['order']),
         'fileType': json['fileType'] == null ? undefined : ((json['fileType'] as Array<any>).map(AssetFileTypeFromJSON)),
-        'gameUnitId': json['gameUnitId'] == null ? undefined : json['gameUnitId'],
+        'gameUnitId': json['gameUnitId'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['gameUnitId']),
     };
 }
 
@@ -83,10 +85,10 @@ export function AssetFileVmToJSON(value?: AssetFileVm | null): any {
     }
     return {
         
-        'hash': value['hash'],
-        'order': value['order'],
+        'hash': GetApiAmmoHashParameterInnerToJSON(value['hash']),
+        'order': GetApiAmmoHashParameterInnerToJSON(value['order']),
         'fileType': value['fileType'] == null ? undefined : ((value['fileType'] as Array<any>).map(AssetFileTypeToJSON)),
-        'gameUnitId': value['gameUnitId'],
+        'gameUnitId': AmmoDtoUnitIdToJSON(value['gameUnitId']),
     };
 }
 

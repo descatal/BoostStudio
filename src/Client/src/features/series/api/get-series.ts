@@ -1,13 +1,29 @@
 import { seriesApi } from "@/api/api";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 import { GetApiSeriesUnitsRequest } from "@/api/exvs";
+import { QueryConfig } from "@/lib/react-query";
 
-export const useApiSeriesUnits = (
-  options?: GetApiSeriesUnitsRequest | undefined,
-) => {
+function getSeriesUnits(options: GetApiSeriesUnitsRequest) {
+  return seriesApi.getApiSeriesUnits(options);
+}
+
+export const getTblByIdOptions = (request: GetApiSeriesUnitsRequest) => {
+  return queryOptions({
+    queryKey: ["getSeriesUnits", request],
+    queryFn: () => getSeriesUnits(request),
+  });
+};
+
+type UseTblByIdOptions = {
+  queryConfig?: QueryConfig<typeof getSeriesUnits> | undefined;
+} & GetApiSeriesUnitsRequest;
+
+export const useSeriesUnits = ({
+  queryConfig,
+  ...options
+}: UseTblByIdOptions = {}) => {
   return useQuery({
-    queryKey: ["getApiSeriesUnits", options],
-    queryFn: () => seriesApi.getApiSeriesUnits(options),
-    placeholderData: keepPreviousData,
+    ...getTblByIdOptions(options),
+    ...queryConfig,
   });
 };

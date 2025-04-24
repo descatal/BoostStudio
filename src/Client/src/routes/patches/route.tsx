@@ -18,14 +18,6 @@ function RouteComponent() {
 
   return (
     <>
-      {/* ===== Top Heading ===== */}
-      <Header>
-        <div className="ml-auto flex items-center space-x-4">
-          <Search />
-          <ThemeSwitch />
-        </div>
-      </Header>
-
       <Main fixed>
         <div className="mb-2 flex items-center justify-between space-y-2">
           <h1 className="text-2xl font-bold tracking-tight">Patches</h1>

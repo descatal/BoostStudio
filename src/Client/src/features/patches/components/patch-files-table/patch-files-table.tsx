@@ -4,7 +4,7 @@ import { DataTableToolbar } from "@/components/data-table-2/data-table-toolbar";
 import { PatchFilesListToolbarActions } from "@/features/patches/components/patch-files-table/toolbar-actions";
 import { loadPaginatedPatchesSearchParams } from "@/loaders/patches-search-params";
 import { useTblPatchFiles } from "@/features/patches/api/get-tbl-patches";
-import { useApiSeriesUnits } from "@/features/series/api/get-series";
+import { useSeriesUnits } from "@/features/series/api/get-series";
 import { DataTableFilterField } from "@/types/index2";
 import {
   AssetFileType,
@@ -32,7 +32,7 @@ const PatchFilesTable = ({ patchId }: PatchFilesTableProps) => {
   })?.data;
 
   const seriesUnits =
-    useApiSeriesUnits()
+    useSeriesUnits()
       ?.data?.items.filter((vm) => vm.units)
       .flatMap((vm) => vm.units!) ?? [];
 

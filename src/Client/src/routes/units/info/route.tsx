@@ -1,10 +1,5 @@
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  useMatchRoute,
-} from "@tanstack/react-router";
-import React from "react";
+import { createFileRoute, Outlet, useMatchRoute } from "@tanstack/react-router";
+import React, { useEffect } from "react";
 import {
   UnitCustomizableInfoSections,
   UnitCustomizableSections,
@@ -13,9 +8,7 @@ import ExportDialog from "@/pages/units/customize/information/components/export-
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { TabsLinkTrigger } from "@/components/tabs-link-trigger";
-import { Header } from "@/components/layout/header";
-import { Search } from "@/components/search";
-import { ThemeSwitch } from "@/components/theme-switch";
+import { useAppContext } from "@/providers/app-store-provider";
 
 export const Route = createFileRoute("/units/info")({
   component: RouteComponent,
@@ -31,24 +24,6 @@ function RouteComponent() {
   return (
     <>
       <ExportDialog />
-
-      {/* ===== Top Heading ===== */}
-      <Header>
-        {Object.entries(UnitCustomizableSections).map(([label, path]) => (
-          <Link
-            key={path}
-            className={`text-muted-foreground text-sm font-medium transition-colors hover:text-primary`}
-            to={`/units/${path}`}
-            activeProps={{ className: "text-primary" }}
-          >
-            {label}
-          </Link>
-        ))}
-        <div className="ml-auto flex items-center space-x-4">
-          <Search />
-          <ThemeSwitch />
-        </div>
-      </Header>
       <div className="flex-col md:flex">
         <div className="flex-1 space-y-4 p-8 pt-6">
           <Tabs className="space-y-4" value={matchedSection}>

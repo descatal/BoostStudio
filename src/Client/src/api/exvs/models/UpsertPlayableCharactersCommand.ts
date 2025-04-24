@@ -12,7 +12,16 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { CreateSeriesCommandId } from "./CreateSeriesCommandId";
+import { CreateSeriesCommandIdFromJSON, CreateSeriesCommandIdToJSON } from "./CreateSeriesCommandId";
+import type { PlayableCharacterDtoUnk2 } from "./PlayableCharacterDtoUnk2";
+import { PlayableCharacterDtoUnk2FromJSON, PlayableCharacterDtoUnk2ToJSON } from "./PlayableCharacterDtoUnk2";
+
 /**
  * 
  * @export
@@ -21,28 +30,28 @@ import { mapValues } from '../runtime';
 export interface UpsertPlayableCharactersCommand {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unitIndex?: number;
+    unitIndex?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    seriesId?: number;
+    seriesId?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {PlayableCharacterDtoUnk2}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk2?: number;
+    unk2?: PlayableCharacterDtoUnk2;
     /**
      * 
      * @type {string}
@@ -63,58 +72,58 @@ export interface UpsertPlayableCharactersCommand {
     pString?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unitSelectOrderInSeries?: number;
+    unitSelectOrderInSeries?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    arcadeSmallSpriteIndex?: number;
+    arcadeSmallSpriteIndex?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    arcadeUnitNameSpriteIndex?: number;
+    arcadeUnitNameSpriteIndex?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk27?: number;
+    unk27?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk112?: number;
+    unk112?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {CreateSeriesCommandId}
      * @memberof UpsertPlayableCharactersCommand
      */
-    figurineSpriteIndex?: number;
+    figurineSpriteIndex?: CreateSeriesCommandId;
     /**
      * 
-     * @type {number}
+     * @type {PlayableCharacterDtoUnk2}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk114?: number;
+    unk114?: PlayableCharacterDtoUnk2;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk124?: number;
+    unk124?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk128?: number;
+    unk128?: GetApiAmmoHashParameterInner;
     /**
      * 
      * @type {string}
@@ -141,160 +150,160 @@ export interface UpsertPlayableCharactersCommand {
     catalogStorePilotCostume3String?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    unk156?: number;
+    unk156?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    arcadeSelectionCostume1SpriteAssetHash?: number;
+    arcadeSelectionCostume1SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    arcadeSelectionCostume2SpriteAssetHash?: number;
+    arcadeSelectionCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    arcadeSelectionCostume3SpriteAssetHash?: number;
+    arcadeSelectionCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingLeftCostume1SpriteAssetHash?: number;
+    loadingLeftCostume1SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingLeftCostume2SpriteAssetHash?: number;
+    loadingLeftCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingLeftCostume3SpriteAssetHash?: number;
+    loadingLeftCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingRightCostume1SpriteAssetHash?: number;
+    loadingRightCostume1SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingRightCostume2SpriteAssetHash?: number;
+    loadingRightCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingRightCostume3SpriteAssetHash?: number;
+    loadingRightCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    genericSelectionCostume1SpriteAssetHash?: number;
+    genericSelectionCostume1SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    genericSelectionCostume2SpriteAssetHash?: number;
+    genericSelectionCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    genericSelectionCostume3SpriteAssetHash?: number;
+    genericSelectionCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingTargetUnitSpriteAssetHash?: number;
+    loadingTargetUnitSpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingTargetPilotCostume1SpriteAssetHash?: number;
+    loadingTargetPilotCostume1SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingTargetPilotCostume2SpriteAssetHash?: number;
+    loadingTargetPilotCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingTargetPilotCostume3SpriteAssetHash?: number;
+    loadingTargetPilotCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    inGameSortieAndAwakeningPilotCostume1SpriteAssetHash?: number;
+    inGameSortieAndAwakeningPilotCostume1SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    inGameSortieAndAwakeningPilotCostume2SpriteAssetHash?: number;
+    inGameSortieAndAwakeningPilotCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    inGameSortieAndAwakeningPilotCostume3SpriteAssetHash?: number;
+    inGameSortieAndAwakeningPilotCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    spriteFramesAssetHash?: number;
+    spriteFramesAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    resultSmallUnitSpriteAssetHash?: number;
+    resultSmallUnitSpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    figurineSpriteAssetHash?: number;
+    figurineSpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    loadingTargetUnitSmallSpriteAssetHash?: number;
+    loadingTargetUnitSmallSpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    catalogStorePilotCostume2SpriteAssetHash?: number;
+    catalogStorePilotCostume2SpriteAssetHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpsertPlayableCharactersCommand
      */
-    catalogStorePilotCostume3SpriteAssetHash?: number;
+    catalogStorePilotCostume3SpriteAssetHash?: GetApiAmmoHashParameterInner;
 }
 
 /**
@@ -315,52 +324,52 @@ export function UpsertPlayableCharactersCommandFromJSONTyped(json: any, ignoreDi
     }
     return {
         
-        'unitId': json['unitId'],
-        'unitIndex': json['unitIndex'] == null ? undefined : json['unitIndex'],
-        'seriesId': json['seriesId'] == null ? undefined : json['seriesId'],
-        'unk2': json['unk2'] == null ? undefined : json['unk2'],
+        'unitId': GetApiAmmoHashParameterInnerFromJSON(json['unitId']),
+        'unitIndex': json['unitIndex'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['unitIndex']),
+        'seriesId': json['seriesId'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['seriesId']),
+        'unk2': json['unk2'] == null ? undefined : PlayableCharacterDtoUnk2FromJSON(json['unk2']),
         'fString': json['fString'] == null ? undefined : json['fString'],
         'fOutString': json['fOutString'] == null ? undefined : json['fOutString'],
         'pString': json['pString'] == null ? undefined : json['pString'],
-        'unitSelectOrderInSeries': json['unitSelectOrderInSeries'] == null ? undefined : json['unitSelectOrderInSeries'],
-        'arcadeSmallSpriteIndex': json['arcadeSmallSpriteIndex'] == null ? undefined : json['arcadeSmallSpriteIndex'],
-        'arcadeUnitNameSpriteIndex': json['arcadeUnitNameSpriteIndex'] == null ? undefined : json['arcadeUnitNameSpriteIndex'],
-        'unk27': json['unk27'] == null ? undefined : json['unk27'],
-        'unk112': json['unk112'] == null ? undefined : json['unk112'],
-        'figurineSpriteIndex': json['figurineSpriteIndex'] == null ? undefined : json['figurineSpriteIndex'],
-        'unk114': json['unk114'] == null ? undefined : json['unk114'],
-        'unk124': json['unk124'] == null ? undefined : json['unk124'],
-        'unk128': json['unk128'] == null ? undefined : json['unk128'],
+        'unitSelectOrderInSeries': json['unitSelectOrderInSeries'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['unitSelectOrderInSeries']),
+        'arcadeSmallSpriteIndex': json['arcadeSmallSpriteIndex'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['arcadeSmallSpriteIndex']),
+        'arcadeUnitNameSpriteIndex': json['arcadeUnitNameSpriteIndex'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['arcadeUnitNameSpriteIndex']),
+        'unk27': json['unk27'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['unk27']),
+        'unk112': json['unk112'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['unk112']),
+        'figurineSpriteIndex': json['figurineSpriteIndex'] == null ? undefined : CreateSeriesCommandIdFromJSON(json['figurineSpriteIndex']),
+        'unk114': json['unk114'] == null ? undefined : PlayableCharacterDtoUnk2FromJSON(json['unk114']),
+        'unk124': json['unk124'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk124']),
+        'unk128': json['unk128'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk128']),
         'catalogStorePilotCostume2TString': json['catalogStorePilotCostume2TString'] == null ? undefined : json['catalogStorePilotCostume2TString'],
         'catalogStorePilotCostume2String': json['catalogStorePilotCostume2String'] == null ? undefined : json['catalogStorePilotCostume2String'],
         'catalogStorePilotCostume3TString': json['catalogStorePilotCostume3TString'] == null ? undefined : json['catalogStorePilotCostume3TString'],
         'catalogStorePilotCostume3String': json['catalogStorePilotCostume3String'] == null ? undefined : json['catalogStorePilotCostume3String'],
-        'unk156': json['unk156'] == null ? undefined : json['unk156'],
-        'arcadeSelectionCostume1SpriteAssetHash': json['arcadeSelectionCostume1SpriteAssetHash'] == null ? undefined : json['arcadeSelectionCostume1SpriteAssetHash'],
-        'arcadeSelectionCostume2SpriteAssetHash': json['arcadeSelectionCostume2SpriteAssetHash'] == null ? undefined : json['arcadeSelectionCostume2SpriteAssetHash'],
-        'arcadeSelectionCostume3SpriteAssetHash': json['arcadeSelectionCostume3SpriteAssetHash'] == null ? undefined : json['arcadeSelectionCostume3SpriteAssetHash'],
-        'loadingLeftCostume1SpriteAssetHash': json['loadingLeftCostume1SpriteAssetHash'] == null ? undefined : json['loadingLeftCostume1SpriteAssetHash'],
-        'loadingLeftCostume2SpriteAssetHash': json['loadingLeftCostume2SpriteAssetHash'] == null ? undefined : json['loadingLeftCostume2SpriteAssetHash'],
-        'loadingLeftCostume3SpriteAssetHash': json['loadingLeftCostume3SpriteAssetHash'] == null ? undefined : json['loadingLeftCostume3SpriteAssetHash'],
-        'loadingRightCostume1SpriteAssetHash': json['loadingRightCostume1SpriteAssetHash'] == null ? undefined : json['loadingRightCostume1SpriteAssetHash'],
-        'loadingRightCostume2SpriteAssetHash': json['loadingRightCostume2SpriteAssetHash'] == null ? undefined : json['loadingRightCostume2SpriteAssetHash'],
-        'loadingRightCostume3SpriteAssetHash': json['loadingRightCostume3SpriteAssetHash'] == null ? undefined : json['loadingRightCostume3SpriteAssetHash'],
-        'genericSelectionCostume1SpriteAssetHash': json['genericSelectionCostume1SpriteAssetHash'] == null ? undefined : json['genericSelectionCostume1SpriteAssetHash'],
-        'genericSelectionCostume2SpriteAssetHash': json['genericSelectionCostume2SpriteAssetHash'] == null ? undefined : json['genericSelectionCostume2SpriteAssetHash'],
-        'genericSelectionCostume3SpriteAssetHash': json['genericSelectionCostume3SpriteAssetHash'] == null ? undefined : json['genericSelectionCostume3SpriteAssetHash'],
-        'loadingTargetUnitSpriteAssetHash': json['loadingTargetUnitSpriteAssetHash'] == null ? undefined : json['loadingTargetUnitSpriteAssetHash'],
-        'loadingTargetPilotCostume1SpriteAssetHash': json['loadingTargetPilotCostume1SpriteAssetHash'] == null ? undefined : json['loadingTargetPilotCostume1SpriteAssetHash'],
-        'loadingTargetPilotCostume2SpriteAssetHash': json['loadingTargetPilotCostume2SpriteAssetHash'] == null ? undefined : json['loadingTargetPilotCostume2SpriteAssetHash'],
-        'loadingTargetPilotCostume3SpriteAssetHash': json['loadingTargetPilotCostume3SpriteAssetHash'] == null ? undefined : json['loadingTargetPilotCostume3SpriteAssetHash'],
-        'inGameSortieAndAwakeningPilotCostume1SpriteAssetHash': json['inGameSortieAndAwakeningPilotCostume1SpriteAssetHash'] == null ? undefined : json['inGameSortieAndAwakeningPilotCostume1SpriteAssetHash'],
-        'inGameSortieAndAwakeningPilotCostume2SpriteAssetHash': json['inGameSortieAndAwakeningPilotCostume2SpriteAssetHash'] == null ? undefined : json['inGameSortieAndAwakeningPilotCostume2SpriteAssetHash'],
-        'inGameSortieAndAwakeningPilotCostume3SpriteAssetHash': json['inGameSortieAndAwakeningPilotCostume3SpriteAssetHash'] == null ? undefined : json['inGameSortieAndAwakeningPilotCostume3SpriteAssetHash'],
-        'spriteFramesAssetHash': json['spriteFramesAssetHash'] == null ? undefined : json['spriteFramesAssetHash'],
-        'resultSmallUnitSpriteAssetHash': json['resultSmallUnitSpriteAssetHash'] == null ? undefined : json['resultSmallUnitSpriteAssetHash'],
-        'figurineSpriteAssetHash': json['figurineSpriteAssetHash'] == null ? undefined : json['figurineSpriteAssetHash'],
-        'loadingTargetUnitSmallSpriteAssetHash': json['loadingTargetUnitSmallSpriteAssetHash'] == null ? undefined : json['loadingTargetUnitSmallSpriteAssetHash'],
-        'catalogStorePilotCostume2SpriteAssetHash': json['catalogStorePilotCostume2SpriteAssetHash'] == null ? undefined : json['catalogStorePilotCostume2SpriteAssetHash'],
-        'catalogStorePilotCostume3SpriteAssetHash': json['catalogStorePilotCostume3SpriteAssetHash'] == null ? undefined : json['catalogStorePilotCostume3SpriteAssetHash'],
+        'unk156': json['unk156'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk156']),
+        'arcadeSelectionCostume1SpriteAssetHash': json['arcadeSelectionCostume1SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['arcadeSelectionCostume1SpriteAssetHash']),
+        'arcadeSelectionCostume2SpriteAssetHash': json['arcadeSelectionCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['arcadeSelectionCostume2SpriteAssetHash']),
+        'arcadeSelectionCostume3SpriteAssetHash': json['arcadeSelectionCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['arcadeSelectionCostume3SpriteAssetHash']),
+        'loadingLeftCostume1SpriteAssetHash': json['loadingLeftCostume1SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingLeftCostume1SpriteAssetHash']),
+        'loadingLeftCostume2SpriteAssetHash': json['loadingLeftCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingLeftCostume2SpriteAssetHash']),
+        'loadingLeftCostume3SpriteAssetHash': json['loadingLeftCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingLeftCostume3SpriteAssetHash']),
+        'loadingRightCostume1SpriteAssetHash': json['loadingRightCostume1SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingRightCostume1SpriteAssetHash']),
+        'loadingRightCostume2SpriteAssetHash': json['loadingRightCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingRightCostume2SpriteAssetHash']),
+        'loadingRightCostume3SpriteAssetHash': json['loadingRightCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingRightCostume3SpriteAssetHash']),
+        'genericSelectionCostume1SpriteAssetHash': json['genericSelectionCostume1SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['genericSelectionCostume1SpriteAssetHash']),
+        'genericSelectionCostume2SpriteAssetHash': json['genericSelectionCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['genericSelectionCostume2SpriteAssetHash']),
+        'genericSelectionCostume3SpriteAssetHash': json['genericSelectionCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['genericSelectionCostume3SpriteAssetHash']),
+        'loadingTargetUnitSpriteAssetHash': json['loadingTargetUnitSpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingTargetUnitSpriteAssetHash']),
+        'loadingTargetPilotCostume1SpriteAssetHash': json['loadingTargetPilotCostume1SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingTargetPilotCostume1SpriteAssetHash']),
+        'loadingTargetPilotCostume2SpriteAssetHash': json['loadingTargetPilotCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingTargetPilotCostume2SpriteAssetHash']),
+        'loadingTargetPilotCostume3SpriteAssetHash': json['loadingTargetPilotCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingTargetPilotCostume3SpriteAssetHash']),
+        'inGameSortieAndAwakeningPilotCostume1SpriteAssetHash': json['inGameSortieAndAwakeningPilotCostume1SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inGameSortieAndAwakeningPilotCostume1SpriteAssetHash']),
+        'inGameSortieAndAwakeningPilotCostume2SpriteAssetHash': json['inGameSortieAndAwakeningPilotCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inGameSortieAndAwakeningPilotCostume2SpriteAssetHash']),
+        'inGameSortieAndAwakeningPilotCostume3SpriteAssetHash': json['inGameSortieAndAwakeningPilotCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['inGameSortieAndAwakeningPilotCostume3SpriteAssetHash']),
+        'spriteFramesAssetHash': json['spriteFramesAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['spriteFramesAssetHash']),
+        'resultSmallUnitSpriteAssetHash': json['resultSmallUnitSpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['resultSmallUnitSpriteAssetHash']),
+        'figurineSpriteAssetHash': json['figurineSpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['figurineSpriteAssetHash']),
+        'loadingTargetUnitSmallSpriteAssetHash': json['loadingTargetUnitSmallSpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['loadingTargetUnitSmallSpriteAssetHash']),
+        'catalogStorePilotCostume2SpriteAssetHash': json['catalogStorePilotCostume2SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['catalogStorePilotCostume2SpriteAssetHash']),
+        'catalogStorePilotCostume3SpriteAssetHash': json['catalogStorePilotCostume3SpriteAssetHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['catalogStorePilotCostume3SpriteAssetHash']),
     };
 }
 
@@ -370,52 +379,52 @@ export function UpsertPlayableCharactersCommandToJSON(value?: UpsertPlayableChar
     }
     return {
         
-        'unitId': value['unitId'],
-        'unitIndex': value['unitIndex'],
-        'seriesId': value['seriesId'],
-        'unk2': value['unk2'],
+        'unitId': GetApiAmmoHashParameterInnerToJSON(value['unitId']),
+        'unitIndex': CreateSeriesCommandIdToJSON(value['unitIndex']),
+        'seriesId': CreateSeriesCommandIdToJSON(value['seriesId']),
+        'unk2': PlayableCharacterDtoUnk2ToJSON(value['unk2']),
         'fString': value['fString'],
         'fOutString': value['fOutString'],
         'pString': value['pString'],
-        'unitSelectOrderInSeries': value['unitSelectOrderInSeries'],
-        'arcadeSmallSpriteIndex': value['arcadeSmallSpriteIndex'],
-        'arcadeUnitNameSpriteIndex': value['arcadeUnitNameSpriteIndex'],
-        'unk27': value['unk27'],
-        'unk112': value['unk112'],
-        'figurineSpriteIndex': value['figurineSpriteIndex'],
-        'unk114': value['unk114'],
-        'unk124': value['unk124'],
-        'unk128': value['unk128'],
+        'unitSelectOrderInSeries': CreateSeriesCommandIdToJSON(value['unitSelectOrderInSeries']),
+        'arcadeSmallSpriteIndex': CreateSeriesCommandIdToJSON(value['arcadeSmallSpriteIndex']),
+        'arcadeUnitNameSpriteIndex': CreateSeriesCommandIdToJSON(value['arcadeUnitNameSpriteIndex']),
+        'unk27': CreateSeriesCommandIdToJSON(value['unk27']),
+        'unk112': CreateSeriesCommandIdToJSON(value['unk112']),
+        'figurineSpriteIndex': CreateSeriesCommandIdToJSON(value['figurineSpriteIndex']),
+        'unk114': PlayableCharacterDtoUnk2ToJSON(value['unk114']),
+        'unk124': GetApiAmmoHashParameterInnerToJSON(value['unk124']),
+        'unk128': GetApiAmmoHashParameterInnerToJSON(value['unk128']),
         'catalogStorePilotCostume2TString': value['catalogStorePilotCostume2TString'],
         'catalogStorePilotCostume2String': value['catalogStorePilotCostume2String'],
         'catalogStorePilotCostume3TString': value['catalogStorePilotCostume3TString'],
         'catalogStorePilotCostume3String': value['catalogStorePilotCostume3String'],
-        'unk156': value['unk156'],
-        'arcadeSelectionCostume1SpriteAssetHash': value['arcadeSelectionCostume1SpriteAssetHash'],
-        'arcadeSelectionCostume2SpriteAssetHash': value['arcadeSelectionCostume2SpriteAssetHash'],
-        'arcadeSelectionCostume3SpriteAssetHash': value['arcadeSelectionCostume3SpriteAssetHash'],
-        'loadingLeftCostume1SpriteAssetHash': value['loadingLeftCostume1SpriteAssetHash'],
-        'loadingLeftCostume2SpriteAssetHash': value['loadingLeftCostume2SpriteAssetHash'],
-        'loadingLeftCostume3SpriteAssetHash': value['loadingLeftCostume3SpriteAssetHash'],
-        'loadingRightCostume1SpriteAssetHash': value['loadingRightCostume1SpriteAssetHash'],
-        'loadingRightCostume2SpriteAssetHash': value['loadingRightCostume2SpriteAssetHash'],
-        'loadingRightCostume3SpriteAssetHash': value['loadingRightCostume3SpriteAssetHash'],
-        'genericSelectionCostume1SpriteAssetHash': value['genericSelectionCostume1SpriteAssetHash'],
-        'genericSelectionCostume2SpriteAssetHash': value['genericSelectionCostume2SpriteAssetHash'],
-        'genericSelectionCostume3SpriteAssetHash': value['genericSelectionCostume3SpriteAssetHash'],
-        'loadingTargetUnitSpriteAssetHash': value['loadingTargetUnitSpriteAssetHash'],
-        'loadingTargetPilotCostume1SpriteAssetHash': value['loadingTargetPilotCostume1SpriteAssetHash'],
-        'loadingTargetPilotCostume2SpriteAssetHash': value['loadingTargetPilotCostume2SpriteAssetHash'],
-        'loadingTargetPilotCostume3SpriteAssetHash': value['loadingTargetPilotCostume3SpriteAssetHash'],
-        'inGameSortieAndAwakeningPilotCostume1SpriteAssetHash': value['inGameSortieAndAwakeningPilotCostume1SpriteAssetHash'],
-        'inGameSortieAndAwakeningPilotCostume2SpriteAssetHash': value['inGameSortieAndAwakeningPilotCostume2SpriteAssetHash'],
-        'inGameSortieAndAwakeningPilotCostume3SpriteAssetHash': value['inGameSortieAndAwakeningPilotCostume3SpriteAssetHash'],
-        'spriteFramesAssetHash': value['spriteFramesAssetHash'],
-        'resultSmallUnitSpriteAssetHash': value['resultSmallUnitSpriteAssetHash'],
-        'figurineSpriteAssetHash': value['figurineSpriteAssetHash'],
-        'loadingTargetUnitSmallSpriteAssetHash': value['loadingTargetUnitSmallSpriteAssetHash'],
-        'catalogStorePilotCostume2SpriteAssetHash': value['catalogStorePilotCostume2SpriteAssetHash'],
-        'catalogStorePilotCostume3SpriteAssetHash': value['catalogStorePilotCostume3SpriteAssetHash'],
+        'unk156': GetApiAmmoHashParameterInnerToJSON(value['unk156']),
+        'arcadeSelectionCostume1SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['arcadeSelectionCostume1SpriteAssetHash']),
+        'arcadeSelectionCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['arcadeSelectionCostume2SpriteAssetHash']),
+        'arcadeSelectionCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['arcadeSelectionCostume3SpriteAssetHash']),
+        'loadingLeftCostume1SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingLeftCostume1SpriteAssetHash']),
+        'loadingLeftCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingLeftCostume2SpriteAssetHash']),
+        'loadingLeftCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingLeftCostume3SpriteAssetHash']),
+        'loadingRightCostume1SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingRightCostume1SpriteAssetHash']),
+        'loadingRightCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingRightCostume2SpriteAssetHash']),
+        'loadingRightCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingRightCostume3SpriteAssetHash']),
+        'genericSelectionCostume1SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['genericSelectionCostume1SpriteAssetHash']),
+        'genericSelectionCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['genericSelectionCostume2SpriteAssetHash']),
+        'genericSelectionCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['genericSelectionCostume3SpriteAssetHash']),
+        'loadingTargetUnitSpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingTargetUnitSpriteAssetHash']),
+        'loadingTargetPilotCostume1SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingTargetPilotCostume1SpriteAssetHash']),
+        'loadingTargetPilotCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingTargetPilotCostume2SpriteAssetHash']),
+        'loadingTargetPilotCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingTargetPilotCostume3SpriteAssetHash']),
+        'inGameSortieAndAwakeningPilotCostume1SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['inGameSortieAndAwakeningPilotCostume1SpriteAssetHash']),
+        'inGameSortieAndAwakeningPilotCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['inGameSortieAndAwakeningPilotCostume2SpriteAssetHash']),
+        'inGameSortieAndAwakeningPilotCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['inGameSortieAndAwakeningPilotCostume3SpriteAssetHash']),
+        'spriteFramesAssetHash': GetApiAmmoHashParameterInnerToJSON(value['spriteFramesAssetHash']),
+        'resultSmallUnitSpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['resultSmallUnitSpriteAssetHash']),
+        'figurineSpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['figurineSpriteAssetHash']),
+        'loadingTargetUnitSmallSpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['loadingTargetUnitSmallSpriteAssetHash']),
+        'catalogStorePilotCostume2SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['catalogStorePilotCostume2SpriteAssetHash']),
+        'catalogStorePilotCostume3SpriteAssetHash': GetApiAmmoHashParameterInnerToJSON(value['catalogStorePilotCostume3SpriteAssetHash']),
     };
 }
 

@@ -1,38 +1,38 @@
-﻿import React from "react"
-import { UnitSummaryVm } from "@/api/exvs"
-import { exportUnitStats } from "@/api/wrapper/stats-api"
-import SeriesUnitsSelector from "@/features/series/components/series-units-selector"
+﻿import React from "react";
+import { UnitSummaryVm } from "@/api/exvs";
+import { exportUnitStats } from "@/api/wrapper/stats-api";
+import UnitsSelector from "@/features/units/components/units-selector";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/icons";
 
 interface StatsExportProps {
-  units?: UnitSummaryVm[] | undefined
-  onExport: () => void
+  units?: UnitSummaryVm[] | undefined;
+  onExport: () => void;
 }
 
 const StatsExport = ({ units, onExport }: StatsExportProps) => {
-  const [isExportPending, setIsExportPending] = React.useState(false)
-  const [hotReload, setHotReload] = React.useState(true)
+  const [isExportPending, setIsExportPending] = React.useState(false);
+  const [hotReload, setHotReload] = React.useState(true);
 
   const [selectedExportUnits, setSelectedExportUnits] =
-    React.useState<UnitSummaryVm[]>()
+    React.useState<UnitSummaryVm[]>();
 
   React.useEffect(() => {
     if (units) {
-      setSelectedExportUnits(units)
+      setSelectedExportUnits(units);
     }
-  }, [units])
+  }, [units]);
 
   const handleExport = async () => {
     try {
@@ -41,22 +41,22 @@ const StatsExport = ({ units, onExport }: StatsExportProps) => {
           unitIds: selectedExportUnits?.map((x) => x.unitId!),
           replaceWorking: true,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully exported unit stats binary to working directory!`,
-      })
+      });
 
-      onExport()
+      onExport();
     } catch (e) {
       toast({
         title: `Error`,
         description: `Export failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <Card>
@@ -70,7 +70,7 @@ const StatsExport = ({ units, onExport }: StatsExportProps) => {
         <div className="grid gap-4">
           <div className={"space-y-2"}>
             <Label>Units</Label>
-            <SeriesUnitsSelector
+            <UnitsSelector
               disabled={!!units}
               multipleSelect={true}
               selectedUnits={selectedExportUnits}
@@ -91,9 +91,9 @@ const StatsExport = ({ units, onExport }: StatsExportProps) => {
           <Button
             disabled={isExportPending}
             onClick={async () => {
-              setIsExportPending(true)
-              await handleExport()
-              setIsExportPending(false)
+              setIsExportPending(true);
+              await handleExport();
+              setIsExportPending(false);
             }}
           >
             {isExportPending && (
@@ -107,7 +107,7 @@ const StatsExport = ({ units, onExport }: StatsExportProps) => {
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default StatsExport
+export default StatsExport;

@@ -1,20 +1,20 @@
-﻿import React from "react"
-import { AssetFileType, AssetFileVm, UnitSummaryVm } from "@/api/exvs"
-import { fetchAssetFiles } from "@/api/wrapper/asset-api"
-import SelectAssetFileType from "@/pages/common/components/selects/select-asset-file-type"
+﻿import React from "react";
+import { AssetFileType, AssetFileVm, UnitSummaryVm } from "@/api/exvs";
+import { fetchAssetFiles } from "@/api/wrapper/asset-api";
+import SelectAssetFileType from "@/features/assets/components/select-asset-file-type";
 import {
   CommonAssetFileOptionsType,
   UnitAssetFileOptionsType,
-} from "@/lib/constants"
+} from "@/lib/constants";
 
-import { Label } from "@/components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import SeriesUnitsSelector from "../../../../features/series/components/series-units-selector"
+import UnitsSelector from "../../../../features/units/components/units-selector";
 
 interface AssetFilesSearcherProps {
-  units?: UnitSummaryVm[] | undefined
-  setResultAssetFiles: (resultAssetFiles: AssetFileVm[] | undefined) => void
+  units?: UnitSummaryVm[] | undefined;
+  setResultAssetFiles: (resultAssetFiles: AssetFileVm[] | undefined) => void;
 }
 
 const AssetFilesSearcher = ({
@@ -22,34 +22,34 @@ const AssetFilesSearcher = ({
   setResultAssetFiles,
 }: AssetFilesSearcherProps) => {
   const [selectedTab, setSelectedTab] = React.useState<"unit" | "common">(
-    "unit"
-  )
+    "unit",
+  );
 
   const [selectedUnits, setSelectedUnits] = React.useState<
     UnitSummaryVm[] | undefined
-  >()
+  >();
 
   const [selectedUnitAssetFileType, setSelectedUnitAssetFileType] =
-    React.useState<UnitAssetFileOptionsType>()
+    React.useState<UnitAssetFileOptionsType>();
 
   const [selectedCommonAssetFileType, setSelectedCommonAssetFileType] =
-    React.useState<CommonAssetFileOptionsType>()
+    React.useState<CommonAssetFileOptionsType>();
 
   React.useEffect(() => {
-    if (units) setSelectedUnits(units)
-  }, [])
+    if (units) setSelectedUnits(units);
+  }, []);
 
   const getData = React.useCallback(
     async (unitIds: number[] | undefined, assetFileTypes: AssetFileType[]) => {
       const assetFiles = await fetchAssetFiles({
         unitIds: unitIds,
         assetFileTypes: assetFileTypes,
-      })
+      });
 
       if (assetFiles.items.length <= 0) {
-        setResultAssetFiles(undefined)
+        setResultAssetFiles(undefined);
       } else {
-        setResultAssetFiles(assetFiles.items)
+        setResultAssetFiles(assetFiles.items);
       }
     },
     [
@@ -57,8 +57,8 @@ const AssetFilesSearcher = ({
       selectedUnits,
       selectedUnitAssetFileType,
       selectedCommonAssetFileType,
-    ]
-  )
+    ],
+  );
 
   React.useEffect(() => {
     const search = async () => {
@@ -70,20 +70,20 @@ const AssetFilesSearcher = ({
       ) {
         const unitIds = !selectedUnits[0].unitId
           ? undefined
-          : [selectedUnits[0].unitId!]
-        await getData(unitIds, [selectedUnitAssetFileType])
+          : [selectedUnits[0].unitId!];
+        await getData(unitIds, [selectedUnitAssetFileType]);
       } else if (selectedTab === "common" && selectedCommonAssetFileType) {
-        await getData(undefined, [selectedCommonAssetFileType])
+        await getData(undefined, [selectedCommonAssetFileType]);
       }
-    }
+    };
 
-  search().catch((error) => console.error(error))
+    search().catch((error) => console.error(error));
   }, [
     selectedTab,
     selectedUnits,
     selectedUnitAssetFileType,
     selectedCommonAssetFileType,
-  ])
+  ]);
 
   return (
     <>
@@ -92,7 +92,7 @@ const AssetFilesSearcher = ({
         className="space-y-4"
         value={selectedTab}
         onValueChange={(e) => {
-          setSelectedTab(e as "unit" | "common")
+          setSelectedTab(e as "unit" | "common");
         }}
       >
         <TabsList>
@@ -102,7 +102,7 @@ const AssetFilesSearcher = ({
         <TabsContent value="unit" className="space-y-4">
           <div className={"space-y-2"}>
             <Label>Search by unit asset files</Label>
-            <SeriesUnitsSelector
+            <UnitsSelector
               disabled={!!units}
               setSelectedUnits={setSelectedUnits}
               selectedUnits={selectedUnits}
@@ -131,7 +131,7 @@ const AssetFilesSearcher = ({
               }
               setSelectedUnitAssetFileType={(type) =>
                 setSelectedCommonAssetFileType(
-                  type as CommonAssetFileOptionsType
+                  type as CommonAssetFileOptionsType,
                 )
               }
             ></SelectAssetFileType>
@@ -139,7 +139,7 @@ const AssetFilesSearcher = ({
         </TabsContent>
       </Tabs>
     </>
-  )
-}
+  );
+};
 
-export default AssetFilesSearcher
+export default AssetFilesSearcher;

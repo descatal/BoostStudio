@@ -11,11 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as UnitsRouteImport } from './routes/units/route'
+import { Route as ToolsRouteImport } from './routes/tools/route'
 import { Route as PatchesRouteImport } from './routes/patches/route'
+import { Route as IndexImport } from './routes/index'
 import { Route as UnitsIndexImport } from './routes/units/index'
+import { Route as ToolsIndexImport } from './routes/tools/index'
 import { Route as PatchesIndexImport } from './routes/patches/index'
 import { Route as UnitsScriptsImport } from './routes/units/scripts'
 import { Route as UnitsAssetsImport } from './routes/units/assets'
+import { Route as ToolsFhmImport } from './routes/tools/fhm'
 import { Route as PatchesPatchIdImport } from './routes/patches/$patchId'
 import { Route as UnitsInfoRouteImport } from './routes/units/info/route'
 import { Route as UnitsUnitIdRouteImport } from './routes/units/$unitId/route'
@@ -36,16 +41,40 @@ import { Route as UnitsUnitIdInfoAmmoImport } from './routes/units/$unitId/info/
 
 // Create/Update Routes
 
+const UnitsRouteRoute = UnitsRouteImport.update({
+  id: '/units',
+  path: '/units',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ToolsRouteRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PatchesRouteRoute = PatchesRouteImport.update({
   id: '/patches',
   path: '/patches',
   getParentRoute: () => rootRoute,
 } as any)
 
-const UnitsIndexRoute = UnitsIndexImport.update({
-  id: '/units/',
-  path: '/units/',
+const IndexRoute = IndexImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
+} as any)
+
+const UnitsIndexRoute = UnitsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UnitsRouteRoute,
+} as any)
+
+const ToolsIndexRoute = ToolsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRouteRoute,
 } as any)
 
 const PatchesIndexRoute = PatchesIndexImport.update({
@@ -55,15 +84,21 @@ const PatchesIndexRoute = PatchesIndexImport.update({
 } as any)
 
 const UnitsScriptsRoute = UnitsScriptsImport.update({
-  id: '/units/scripts',
-  path: '/units/scripts',
-  getParentRoute: () => rootRoute,
+  id: '/scripts',
+  path: '/scripts',
+  getParentRoute: () => UnitsRouteRoute,
 } as any)
 
 const UnitsAssetsRoute = UnitsAssetsImport.update({
-  id: '/units/assets',
-  path: '/units/assets',
-  getParentRoute: () => rootRoute,
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => UnitsRouteRoute,
+} as any)
+
+const ToolsFhmRoute = ToolsFhmImport.update({
+  id: '/fhm',
+  path: '/fhm',
+  getParentRoute: () => ToolsRouteRoute,
 } as any)
 
 const PatchesPatchIdRoute = PatchesPatchIdImport.update({
@@ -73,15 +108,15 @@ const PatchesPatchIdRoute = PatchesPatchIdImport.update({
 } as any)
 
 const UnitsInfoRouteRoute = UnitsInfoRouteImport.update({
-  id: '/units/info',
-  path: '/units/info',
-  getParentRoute: () => rootRoute,
+  id: '/info',
+  path: '/info',
+  getParentRoute: () => UnitsRouteRoute,
 } as any)
 
 const UnitsUnitIdRouteRoute = UnitsUnitIdRouteImport.update({
-  id: '/units/$unitId',
-  path: '/units/$unitId',
-  getParentRoute: () => rootRoute,
+  id: '/$unitId',
+  path: '/$unitId',
+  getParentRoute: () => UnitsRouteRoute,
 } as any)
 
 const UnitsInfoIndexRoute = UnitsInfoIndexImport.update({
@@ -174,6 +209,13 @@ const UnitsUnitIdInfoAmmoRoute = UnitsUnitIdInfoAmmoImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/patches': {
       id: '/patches'
       path: '/patches'
@@ -181,19 +223,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PatchesRouteImport
       parentRoute: typeof rootRoute
     }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/units': {
+      id: '/units'
+      path: '/units'
+      fullPath: '/units'
+      preLoaderRoute: typeof UnitsRouteImport
+      parentRoute: typeof rootRoute
+    }
     '/units/$unitId': {
       id: '/units/$unitId'
-      path: '/units/$unitId'
+      path: '/$unitId'
       fullPath: '/units/$unitId'
       preLoaderRoute: typeof UnitsUnitIdRouteImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof UnitsRouteImport
     }
     '/units/info': {
       id: '/units/info'
-      path: '/units/info'
+      path: '/info'
       fullPath: '/units/info'
       preLoaderRoute: typeof UnitsInfoRouteImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof UnitsRouteImport
     }
     '/patches/$patchId': {
       id: '/patches/$patchId'
@@ -202,19 +258,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PatchesPatchIdImport
       parentRoute: typeof PatchesRouteImport
     }
+    '/tools/fhm': {
+      id: '/tools/fhm'
+      path: '/fhm'
+      fullPath: '/tools/fhm'
+      preLoaderRoute: typeof ToolsFhmImport
+      parentRoute: typeof ToolsRouteImport
+    }
     '/units/assets': {
       id: '/units/assets'
-      path: '/units/assets'
+      path: '/assets'
       fullPath: '/units/assets'
       preLoaderRoute: typeof UnitsAssetsImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof UnitsRouteImport
     }
     '/units/scripts': {
       id: '/units/scripts'
-      path: '/units/scripts'
+      path: '/scripts'
       fullPath: '/units/scripts'
       preLoaderRoute: typeof UnitsScriptsImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof UnitsRouteImport
     }
     '/patches/': {
       id: '/patches/'
@@ -223,12 +286,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PatchesIndexImport
       parentRoute: typeof PatchesRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexImport
+      parentRoute: typeof ToolsRouteImport
+    }
     '/units/': {
       id: '/units/'
-      path: '/units'
-      fullPath: '/units'
+      path: '/'
+      fullPath: '/units/'
       preLoaderRoute: typeof UnitsIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof UnitsRouteImport
     }
     '/units/$unitId/info': {
       id: '/units/$unitId/info'
@@ -347,6 +417,20 @@ const PatchesRouteRouteWithChildren = PatchesRouteRoute._addFileChildren(
   PatchesRouteRouteChildren,
 )
 
+interface ToolsRouteRouteChildren {
+  ToolsFhmRoute: typeof ToolsFhmRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
+}
+
+const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
+  ToolsFhmRoute: ToolsFhmRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
+}
+
+const ToolsRouteRouteWithChildren = ToolsRouteRoute._addFileChildren(
+  ToolsRouteRouteChildren,
+)
+
 interface UnitsUnitIdInfoRouteRouteChildren {
   UnitsUnitIdInfoAmmoRoute: typeof UnitsUnitIdInfoAmmoRoute
   UnitsUnitIdInfoHitboxesRoute: typeof UnitsUnitIdInfoHitboxesRoute
@@ -403,15 +487,40 @@ const UnitsInfoRouteRouteWithChildren = UnitsInfoRouteRoute._addFileChildren(
   UnitsInfoRouteRouteChildren,
 )
 
+interface UnitsRouteRouteChildren {
+  UnitsUnitIdRouteRoute: typeof UnitsUnitIdRouteRouteWithChildren
+  UnitsInfoRouteRoute: typeof UnitsInfoRouteRouteWithChildren
+  UnitsAssetsRoute: typeof UnitsAssetsRoute
+  UnitsScriptsRoute: typeof UnitsScriptsRoute
+  UnitsIndexRoute: typeof UnitsIndexRoute
+}
+
+const UnitsRouteRouteChildren: UnitsRouteRouteChildren = {
+  UnitsUnitIdRouteRoute: UnitsUnitIdRouteRouteWithChildren,
+  UnitsInfoRouteRoute: UnitsInfoRouteRouteWithChildren,
+  UnitsAssetsRoute: UnitsAssetsRoute,
+  UnitsScriptsRoute: UnitsScriptsRoute,
+  UnitsIndexRoute: UnitsIndexRoute,
+}
+
+const UnitsRouteRouteWithChildren = UnitsRouteRoute._addFileChildren(
+  UnitsRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/patches': typeof PatchesRouteRouteWithChildren
+  '/tools': typeof ToolsRouteRouteWithChildren
+  '/units': typeof UnitsRouteRouteWithChildren
   '/units/$unitId': typeof UnitsUnitIdRouteRouteWithChildren
   '/units/info': typeof UnitsInfoRouteRouteWithChildren
   '/patches/$patchId': typeof PatchesPatchIdRoute
+  '/tools/fhm': typeof ToolsFhmRoute
   '/units/assets': typeof UnitsAssetsRoute
   '/units/scripts': typeof UnitsScriptsRoute
   '/patches/': typeof PatchesIndexRoute
-  '/units': typeof UnitsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
+  '/units/': typeof UnitsIndexRoute
   '/units/$unitId/info': typeof UnitsUnitIdInfoRouteRouteWithChildren
   '/units/$unitId/assets': typeof UnitsUnitIdAssetsRoute
   '/units/$unitId/scripts': typeof UnitsUnitIdScriptsRoute
@@ -429,10 +538,13 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/patches/$patchId': typeof PatchesPatchIdRoute
+  '/tools/fhm': typeof ToolsFhmRoute
   '/units/assets': typeof UnitsAssetsRoute
   '/units/scripts': typeof UnitsScriptsRoute
   '/patches': typeof PatchesIndexRoute
+  '/tools': typeof ToolsIndexRoute
   '/units': typeof UnitsIndexRoute
   '/units/$unitId/assets': typeof UnitsUnitIdAssetsRoute
   '/units/$unitId/scripts': typeof UnitsUnitIdScriptsRoute
@@ -451,13 +563,18 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexRoute
   '/patches': typeof PatchesRouteRouteWithChildren
+  '/tools': typeof ToolsRouteRouteWithChildren
+  '/units': typeof UnitsRouteRouteWithChildren
   '/units/$unitId': typeof UnitsUnitIdRouteRouteWithChildren
   '/units/info': typeof UnitsInfoRouteRouteWithChildren
   '/patches/$patchId': typeof PatchesPatchIdRoute
+  '/tools/fhm': typeof ToolsFhmRoute
   '/units/assets': typeof UnitsAssetsRoute
   '/units/scripts': typeof UnitsScriptsRoute
   '/patches/': typeof PatchesIndexRoute
+  '/tools/': typeof ToolsIndexRoute
   '/units/': typeof UnitsIndexRoute
   '/units/$unitId/info': typeof UnitsUnitIdInfoRouteRouteWithChildren
   '/units/$unitId/assets': typeof UnitsUnitIdAssetsRoute
@@ -478,14 +595,19 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/patches'
+    | '/tools'
+    | '/units'
     | '/units/$unitId'
     | '/units/info'
     | '/patches/$patchId'
+    | '/tools/fhm'
     | '/units/assets'
     | '/units/scripts'
     | '/patches/'
-    | '/units'
+    | '/tools/'
+    | '/units/'
     | '/units/$unitId/info'
     | '/units/$unitId/assets'
     | '/units/$unitId/scripts'
@@ -502,10 +624,13 @@ export interface FileRouteTypes {
     | '/units/$unitId/info/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/'
     | '/patches/$patchId'
+    | '/tools/fhm'
     | '/units/assets'
     | '/units/scripts'
     | '/patches'
+    | '/tools'
     | '/units'
     | '/units/$unitId/assets'
     | '/units/$unitId/scripts'
@@ -522,13 +647,18 @@ export interface FileRouteTypes {
     | '/units/$unitId/info'
   id:
     | '__root__'
+    | '/'
     | '/patches'
+    | '/tools'
+    | '/units'
     | '/units/$unitId'
     | '/units/info'
     | '/patches/$patchId'
+    | '/tools/fhm'
     | '/units/assets'
     | '/units/scripts'
     | '/patches/'
+    | '/tools/'
     | '/units/'
     | '/units/$unitId/info'
     | '/units/$unitId/assets'
@@ -548,21 +678,17 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   PatchesRouteRoute: typeof PatchesRouteRouteWithChildren
-  UnitsUnitIdRouteRoute: typeof UnitsUnitIdRouteRouteWithChildren
-  UnitsInfoRouteRoute: typeof UnitsInfoRouteRouteWithChildren
-  UnitsAssetsRoute: typeof UnitsAssetsRoute
-  UnitsScriptsRoute: typeof UnitsScriptsRoute
-  UnitsIndexRoute: typeof UnitsIndexRoute
+  ToolsRouteRoute: typeof ToolsRouteRouteWithChildren
+  UnitsRouteRoute: typeof UnitsRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   PatchesRouteRoute: PatchesRouteRouteWithChildren,
-  UnitsUnitIdRouteRoute: UnitsUnitIdRouteRouteWithChildren,
-  UnitsInfoRouteRoute: UnitsInfoRouteRouteWithChildren,
-  UnitsAssetsRoute: UnitsAssetsRoute,
-  UnitsScriptsRoute: UnitsScriptsRoute,
-  UnitsIndexRoute: UnitsIndexRoute,
+  ToolsRouteRoute: ToolsRouteRouteWithChildren,
+  UnitsRouteRoute: UnitsRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -575,13 +701,14 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/patches",
-        "/units/$unitId",
-        "/units/info",
-        "/units/assets",
-        "/units/scripts",
-        "/units/"
+        "/tools",
+        "/units"
       ]
+    },
+    "/": {
+      "filePath": "index.tsx"
     },
     "/patches": {
       "filePath": "patches/route.tsx",
@@ -590,8 +717,26 @@ export const routeTree = rootRoute
         "/patches/"
       ]
     },
+    "/tools": {
+      "filePath": "tools/route.tsx",
+      "children": [
+        "/tools/fhm",
+        "/tools/"
+      ]
+    },
+    "/units": {
+      "filePath": "units/route.tsx",
+      "children": [
+        "/units/$unitId",
+        "/units/info",
+        "/units/assets",
+        "/units/scripts",
+        "/units/"
+      ]
+    },
     "/units/$unitId": {
       "filePath": "units/$unitId/route.tsx",
+      "parent": "/units",
       "children": [
         "/units/$unitId/info",
         "/units/$unitId/assets",
@@ -601,6 +746,7 @@ export const routeTree = rootRoute
     },
     "/units/info": {
       "filePath": "units/info/route.tsx",
+      "parent": "/units",
       "children": [
         "/units/info/ammo",
         "/units/info/hitboxes",
@@ -613,18 +759,29 @@ export const routeTree = rootRoute
       "filePath": "patches/$patchId.tsx",
       "parent": "/patches"
     },
+    "/tools/fhm": {
+      "filePath": "tools/fhm.tsx",
+      "parent": "/tools"
+    },
     "/units/assets": {
-      "filePath": "units/assets.tsx"
+      "filePath": "units/assets.tsx",
+      "parent": "/units"
     },
     "/units/scripts": {
-      "filePath": "units/scripts.tsx"
+      "filePath": "units/scripts.tsx",
+      "parent": "/units"
     },
     "/patches/": {
       "filePath": "patches/index.tsx",
       "parent": "/patches"
     },
+    "/tools/": {
+      "filePath": "tools/index.tsx",
+      "parent": "/tools"
+    },
     "/units/": {
-      "filePath": "units/index.tsx"
+      "filePath": "units/index.tsx",
+      "parent": "/units"
     },
     "/units/$unitId/info": {
       "filePath": "units/$unitId/info/route.tsx",

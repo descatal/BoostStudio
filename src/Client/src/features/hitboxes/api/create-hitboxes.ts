@@ -1,17 +1,32 @@
 import { hitboxesApi } from "@/api/api";
 import { CreateHitboxCommand } from "@/api/exvs";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { MutationConfig } from "@/lib/react-query";
+import { getHitboxGroupsOptions } from "@/features/hitboxes/api/get-hitbox-group";
 
-interface useApiCreateHitboxesMutationProps {
-  onSuccess: () => void;
+function createHitboxes(options: CreateHitboxCommand) {
+  return hitboxesApi.postApiHitboxes({ createHitboxCommand: options });
 }
 
-export const useApiCreateHitboxesMutation = ({
-  onSuccess,
-}: useApiCreateHitboxesMutationProps) => {
+type UseCreateHitboxesOptions = {
+  mutationConfig?: MutationConfig<typeof createHitboxes>;
+};
+
+export const useCreateHitboxes = ({
+  mutationConfig,
+}: UseCreateHitboxesOptions) => {
+  const queryClient = useQueryClient();
+
+  const { onSuccess, ...restConfig } = mutationConfig || {};
+
   return useMutation({
-    mutationFn: (options: CreateHitboxCommand) =>
-      hitboxesApi.postApiHitboxes({ createHitboxCommand: options }),
-    onSuccess: onSuccess,
+    onSuccess: async (...args) => {
+      await queryClient.invalidateQueries({
+        queryKey: getHitboxGroupsOptions({}).queryKey,
+      });
+      onSuccess?.(...args);
+    },
+    ...restConfig,
+    mutationFn: createHitboxes,
   });
 };

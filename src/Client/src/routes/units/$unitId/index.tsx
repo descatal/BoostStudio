@@ -11,6 +11,7 @@ function RouteComponent() {
     <Navigate
       to={`/units/$unitId/info`}
       params={{ unitId: unitId.toString() }}
+      replace
     />
   );
 }

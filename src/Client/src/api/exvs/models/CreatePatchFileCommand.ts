@@ -12,25 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { PathInfoDto } from './PathInfoDto';
-import {
-    PathInfoDtoFromJSON,
-    PathInfoDtoFromJSONTyped,
-    PathInfoDtoToJSON,
-} from './PathInfoDto';
-import type { PatchFileVersion } from './PatchFileVersion';
-import {
-    PatchFileVersionFromJSON,
-    PatchFileVersionFromJSONTyped,
-    PatchFileVersionToJSON,
-} from './PatchFileVersion';
-import type { FileInfoDto } from './FileInfoDto';
-import {
-    FileInfoDtoFromJSON,
-    FileInfoDtoFromJSONTyped,
-    FileInfoDtoToJSON,
-} from './FileInfoDto';
+import type { Null } from "./Null";
+import { NullFromJSON, NullToJSON } from "./Null";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+import type { PatchFileVersion } from "./PatchFileVersion";
+import { PatchFileVersionFromJSON, PatchFileVersionToJSON } from "./PatchFileVersion";
 
 /**
  * 
@@ -46,22 +33,22 @@ export interface CreatePatchFileCommand {
     tblId: PatchFileVersion;
     /**
      * 
-     * @type {PathInfoDto}
+     * @type {Null}
      * @memberof CreatePatchFileCommand
      */
-    pathInfo?: PathInfoDto | null;
+    pathInfo?: Null;
     /**
      * 
-     * @type {FileInfoDto}
+     * @type {Null}
      * @memberof CreatePatchFileCommand
      */
-    fileInfo?: FileInfoDto | null;
+    fileInfo?: Null;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof CreatePatchFileCommand
      */
-    assetFileHash?: number | null;
+    assetFileHash?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -83,9 +70,9 @@ export function CreatePatchFileCommandFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'tblId': PatchFileVersionFromJSON(json['tblId']),
-        'pathInfo': json['pathInfo'] == null ? undefined : PathInfoDtoFromJSON(json['pathInfo']),
-        'fileInfo': json['fileInfo'] == null ? undefined : FileInfoDtoFromJSON(json['fileInfo']),
-        'assetFileHash': json['assetFileHash'] == null ? undefined : json['assetFileHash'],
+        'pathInfo': json['pathInfo'] == null ? undefined : NullFromJSON(json['pathInfo']),
+        'fileInfo': json['fileInfo'] == null ? undefined : NullFromJSON(json['fileInfo']),
+        'assetFileHash': json['assetFileHash'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['assetFileHash']),
     };
 }
 
@@ -96,9 +83,9 @@ export function CreatePatchFileCommandToJSON(value?: CreatePatchFileCommand | nu
     return {
         
         'tblId': PatchFileVersionToJSON(value['tblId']),
-        'pathInfo': PathInfoDtoToJSON(value['pathInfo']),
-        'fileInfo': FileInfoDtoToJSON(value['fileInfo']),
-        'assetFileHash': value['assetFileHash'],
+        'pathInfo': NullToJSON(value['pathInfo']),
+        'fileInfo': NullToJSON(value['fileInfo']),
+        'assetFileHash': AmmoDtoUnitIdToJSON(value['assetFileHash']),
     };
 }
 

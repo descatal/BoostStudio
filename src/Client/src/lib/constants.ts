@@ -92,3 +92,9 @@ export const UnitCustomizableInfoSections = {
   Projectiles: "projectiles",
   Hitboxes: "hitboxes",
 } as const;
+
+export const ToolsSections = {
+  Fhm: "fhm",
+  Psarc: "psarc",
+  Script: "script",
+};

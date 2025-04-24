@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -27,10 +32,10 @@ export interface TblVm {
     id: string;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof TblVm
      */
-    cumulativeAssetIndex?: number;
+    cumulativeAssetIndex?: GetApiAmmoHashParameterInner;
 }
 
 /**
@@ -52,7 +57,7 @@ export function TblVmFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tbl
     return {
         
         'id': json['id'],
-        'cumulativeAssetIndex': json['cumulativeAssetIndex'] == null ? undefined : json['cumulativeAssetIndex'],
+        'cumulativeAssetIndex': json['cumulativeAssetIndex'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['cumulativeAssetIndex']),
     };
 }
 
@@ -63,7 +68,7 @@ export function TblVmToJSON(value?: TblVm | null): any {
     return {
         
         'id': value['id'],
-        'cumulativeAssetIndex': value['cumulativeAssetIndex'],
+        'cumulativeAssetIndex': GetApiAmmoHashParameterInnerToJSON(value['cumulativeAssetIndex']),
     };
 }
 

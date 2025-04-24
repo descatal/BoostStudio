@@ -11,6 +11,7 @@ function RouteComponent() {
     <Navigate
       to="/patches/$patchId"
       params={{ patchId: patchId ?? PatchFileTabs.Patch6 }}
+      replace
     />
   );
 }

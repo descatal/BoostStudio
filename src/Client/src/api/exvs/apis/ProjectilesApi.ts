@@ -13,61 +13,56 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   CreateProjectileCommand,
   ExportUnitProjectileByPathCommand,
   ExportUnitProjectileCommand,
+  GetApiAmmoHashParameterInner,
+  GetApiAmmoPageParameter,
+  GetApiAmmoPerPageParameter,
   PaginatedListOfProjectileDto,
   PaginatedListOfUnitProjectileDto,
   ProjectileDto,
   UnitProjectileDto,
   UpdateProjectileByIdCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    CreateProjectileCommandFromJSON,
-    CreateProjectileCommandToJSON,
-    ExportUnitProjectileByPathCommandFromJSON,
-    ExportUnitProjectileByPathCommandToJSON,
-    ExportUnitProjectileCommandFromJSON,
-    ExportUnitProjectileCommandToJSON,
-    PaginatedListOfProjectileDtoFromJSON,
-    PaginatedListOfProjectileDtoToJSON,
-    PaginatedListOfUnitProjectileDtoFromJSON,
-    PaginatedListOfUnitProjectileDtoToJSON,
-    ProjectileDtoFromJSON,
-    ProjectileDtoToJSON,
-    UnitProjectileDtoFromJSON,
-    UnitProjectileDtoToJSON,
-    UpdateProjectileByIdCommandFromJSON,
-    UpdateProjectileByIdCommandToJSON,
-} from '../models/index';
+  CreateProjectileCommandToJSON,
+  ExportUnitProjectileByPathCommandToJSON,
+  ExportUnitProjectileCommandToJSON,
+  PaginatedListOfProjectileDtoFromJSON,
+  PaginatedListOfUnitProjectileDtoFromJSON,
+  ProjectileDtoFromJSON,
+  UnitProjectileDtoFromJSON,
+  UpdateProjectileByIdCommandToJSON,
+} from "../models/index";
 
 export interface DeleteApiProjectilesByHashRequest {
-    hash: number;
+  hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiProjectilesRequest {
-    page?: number;
-    perPage?: number;
-    hashes?: Array<number>;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    hashes?: Array<GetApiAmmoHashParameterInner>;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     search?: string;
 }
 
 export interface GetApiProjectilesByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
 }
 
 export interface GetApiUnitProjectilesRequest {
-    page?: number;
-    perPage?: number;
-    unitIds?: Array<number>;
+    page?: GetApiAmmoPageParameter;
+    perPage?: GetApiAmmoPerPageParameter;
+    unitIds?: Array<GetApiAmmoHashParameterInner>;
     search?: string;
 }
 
 export interface GetApiUnitProjectilesByUnitIdRequest {
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
 }
 
 export interface PostApiProjectilesRequest {
@@ -75,7 +70,7 @@ export interface PostApiProjectilesRequest {
 }
 
 export interface PostApiProjectilesByHashRequest {
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     updateProjectileByIdCommand: UpdateProjectileByIdCommand;
 }
 

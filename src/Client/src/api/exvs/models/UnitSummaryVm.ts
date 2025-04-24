@@ -12,7 +12,16 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { Null } from "./Null";
+import { NullFromJSON, NullToJSON } from "./Null";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+
 /**
  * 
  * @export
@@ -21,10 +30,10 @@ import { mapValues } from '../runtime';
 export interface UnitSummaryVm {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UnitSummaryVm
      */
-    unitId?: number;
+    unitId?: GetApiAmmoHashParameterInner;
     /**
      * 
      * @type {string}
@@ -51,10 +60,16 @@ export interface UnitSummaryVm {
     nameChinese?: string | null;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof UnitSummaryVm
      */
-    seriesId?: number | null;
+    seriesId?: AmmoDtoUnitId | null;
+    /**
+     * 
+     * @type {Null}
+     * @memberof UnitSummaryVm
+     */
+    series?: Null;
 }
 
 /**
@@ -74,12 +89,13 @@ export function UnitSummaryVmFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'unitId': json['unitId'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unitId']),
         'slugName': json['slugName'] == null ? undefined : json['slugName'],
         'nameEnglish': json['nameEnglish'] == null ? undefined : json['nameEnglish'],
         'nameJapanese': json['nameJapanese'] == null ? undefined : json['nameJapanese'],
         'nameChinese': json['nameChinese'] == null ? undefined : json['nameChinese'],
-        'seriesId': json['seriesId'] == null ? undefined : json['seriesId'],
+        'seriesId': json['seriesId'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['seriesId']),
+        'series': json['series'] == null ? undefined : NullFromJSON(json['series']),
     };
 }
 
@@ -89,12 +105,13 @@ export function UnitSummaryVmToJSON(value?: UnitSummaryVm | null): any {
     }
     return {
         
-        'unitId': value['unitId'],
+        'unitId': GetApiAmmoHashParameterInnerToJSON(value['unitId']),
         'slugName': value['slugName'],
         'nameEnglish': value['nameEnglish'],
         'nameJapanese': value['nameJapanese'],
         'nameChinese': value['nameChinese'],
-        'seriesId': value['seriesId'],
+        'seriesId': AmmoDtoUnitIdToJSON(value['seriesId']),
+        'series': NullToJSON(value['series']),
     };
 }
 

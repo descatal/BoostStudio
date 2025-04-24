@@ -12,13 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
-import type { TblFileInfoMetadata } from './TblFileInfoMetadata';
-import {
-    TblFileInfoMetadataFromJSON,
-    TblFileInfoMetadataFromJSONTyped,
-    TblFileInfoMetadataToJSON,
-} from './TblFileInfoMetadata';
+import type { Null } from "./Null";
+import { NullFromJSON, NullToJSON } from "./Null";
 
 /**
  * 
@@ -34,10 +29,10 @@ export interface PatchFileMetadataDto {
     path?: string | null;
     /**
      * 
-     * @type {TblFileInfoMetadata}
+     * @type {Null}
      * @memberof PatchFileMetadataDto
      */
-    fileInfoMetadata?: TblFileInfoMetadata | null;
+    fileInfoMetadata?: Null;
 }
 
 /**
@@ -58,7 +53,7 @@ export function PatchFileMetadataDtoFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'path': json['path'] == null ? undefined : json['path'],
-        'fileInfoMetadata': json['fileInfoMetadata'] == null ? undefined : TblFileInfoMetadataFromJSON(json['fileInfoMetadata']),
+        'fileInfoMetadata': json['fileInfoMetadata'] == null ? undefined : NullFromJSON(json['fileInfoMetadata']),
     };
 }
 
@@ -69,7 +64,7 @@ export function PatchFileMetadataDtoToJSON(value?: PatchFileMetadataDto | null):
     return {
         
         'path': value['path'],
-        'fileInfoMetadata': TblFileInfoMetadataToJSON(value['fileInfoMetadata']),
+        'fileInfoMetadata': NullToJSON(value['fileInfoMetadata']),
     };
 }
 

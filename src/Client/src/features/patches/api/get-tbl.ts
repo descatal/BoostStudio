@@ -1,14 +1,26 @@
 import { tblApi } from "@/api/api";
-import { PatchFileVersion } from "@/api/exvs";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { GetApiTblByIdRequest } from "@/api/exvs";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { QueryConfig } from "@/lib/react-query";
 
-export const useTblById = (id: PatchFileVersion) => {
+function getTblById(options: GetApiTblByIdRequest) {
+  return tblApi.getApiTblById(options);
+}
+
+export const getTblByIdOptions = (request: GetApiTblByIdRequest) => {
+  return queryOptions({
+    queryKey: ["getTblById", request],
+    queryFn: () => getTblById(request),
+  });
+};
+
+type UseTblByIdOptions = {
+  queryConfig?: QueryConfig<typeof getTblById>;
+} & GetApiTblByIdRequest;
+
+export const useTblById = ({ queryConfig, ...options }: UseTblByIdOptions) => {
   return useQuery({
-    queryKey: ["getApiTblById", id],
-    queryFn: () =>
-      tblApi.getApiTblById({
-        id: id,
-      }),
-    placeholderData: keepPreviousData,
+    ...getTblByIdOptions(options),
+    ...queryConfig,
   });
 };

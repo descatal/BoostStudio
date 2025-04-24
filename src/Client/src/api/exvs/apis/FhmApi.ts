@@ -13,22 +13,20 @@
  */
 
 
-import * as runtime from '../runtime';
+import * as runtime from "../runtime";
 import type {
   PackFhmAssetCommand,
   UnpackFhmAssetCommand,
-} from '../models/index';
+} from "../models/index";
 import {
-    PackFhmAssetCommandFromJSON,
-    PackFhmAssetCommandToJSON,
-    UnpackFhmAssetCommandFromJSON,
-    UnpackFhmAssetCommandToJSON,
-} from '../models/index';
+  PackFhmAssetCommandToJSON,
+  UnpackFhmAssetCommandToJSON,
+} from "../models/index";
 
 export interface GetApiFhmPackPathRequest {
-    sourcePath: string;
-    destinationPath: string;
-    fileName?: string;
+  sourcePath: string;
+  destinationPath: string;
+  fileName?: string;
 }
 
 export interface GetApiFhmUnpackPathRequest {
@@ -158,7 +156,7 @@ export class FhmApi extends runtime.BaseAPI {
 
     /**
      */
-    async postApiFhmPackRaw(requestParameters: PostApiFhmPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+    async postApiFhmPackRaw(requestParameters: PostApiFhmPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Blob>> {
         if (requestParameters['file'] == null) {
             throw new runtime.RequiredError(
                 'file',
@@ -198,13 +196,14 @@ export class FhmApi extends runtime.BaseAPI {
             body: formParams,
         }, initOverrides);
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.BlobApiResponse(response);
     }
 
     /**
      */
-    async postApiFhmPack(requestParameters: PostApiFhmPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
-        await this.postApiFhmPackRaw(requestParameters, initOverrides);
+    async postApiFhmPack(requestParameters: PostApiFhmPackRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Blob> {
+        const response = await this.postApiFhmPackRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

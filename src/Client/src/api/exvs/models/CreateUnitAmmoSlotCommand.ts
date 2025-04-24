@@ -12,7 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AmmoDtoOrder } from "./AmmoDtoOrder";
+import { AmmoDtoOrderFromJSON, AmmoDtoOrderToJSON } from "./AmmoDtoOrder";
+
 /**
  * 
  * @export
@@ -21,22 +28,22 @@ import { mapValues } from '../runtime';
 export interface CreateUnitAmmoSlotCommand {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof CreateUnitAmmoSlotCommand
      */
-    ammoHash: number;
+    ammoHash: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof CreateUnitAmmoSlotCommand
      */
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoOrder}
      * @memberof CreateUnitAmmoSlotCommand
      */
-    slotOrder: number;
+    slotOrder: AmmoDtoOrder;
 }
 
 /**
@@ -59,9 +66,9 @@ export function CreateUnitAmmoSlotCommandFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'ammoHash': json['ammoHash'],
-        'unitId': json['unitId'],
-        'slotOrder': json['slotOrder'],
+        'ammoHash': GetApiAmmoHashParameterInnerFromJSON(json['ammoHash']),
+        'unitId': GetApiAmmoHashParameterInnerFromJSON(json['unitId']),
+        'slotOrder': AmmoDtoOrderFromJSON(json['slotOrder']),
     };
 }
 
@@ -71,9 +78,9 @@ export function CreateUnitAmmoSlotCommandToJSON(value?: CreateUnitAmmoSlotComman
     }
     return {
         
-        'ammoHash': value['ammoHash'],
-        'unitId': value['unitId'],
-        'slotOrder': value['slotOrder'],
+        'ammoHash': GetApiAmmoHashParameterInnerToJSON(value['ammoHash']),
+        'unitId': GetApiAmmoHashParameterInnerToJSON(value['unitId']),
+        'slotOrder': AmmoDtoOrderToJSON(value['slotOrder']),
     };
 }
 

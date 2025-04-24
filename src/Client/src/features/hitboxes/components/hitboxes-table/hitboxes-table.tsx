@@ -1,5 +1,5 @@
 import React from "react";
-import { useApiSeriesUnits } from "@/features/series/api/get-series";
+import { useSeriesUnits } from "@/features/series/api/get-series";
 import { DataTableFilterField } from "@/types/index2";
 import { HitboxDto } from "@/api/exvs";
 import { useDataTable } from "@/hooks/use-react-table-3";
@@ -8,7 +8,7 @@ import { DataTableToolbar } from "@/components/data-table-2/data-table-toolbar";
 import { loadPaginatedHitboxesSearchParams } from "@/loaders/hitboxes-search-params";
 import { hitboxTableColumns } from "@/features/hitboxes/components/hitboxes-table/columns";
 import { HitboxesTableToolbarActions } from "@/features/hitboxes/components/hitboxes-table/toolbar-actions";
-import { useApiHitboxes } from "@/features/hitboxes/api/get-hitboxes";
+import { useHitboxes } from "@/features/hitboxes/api/get-hitboxes";
 
 // // intended to be used in this table only, to be cast from HitboxGroupDto
 // // the original HitboxDto does not have the context of unitId associated to it, the info can only be found in HitboxGroupDto
@@ -26,7 +26,7 @@ const HitboxesTable = ({ unitId }: HitboxesTableProps) => {
     location.search,
   );
 
-  const paginatedData = useApiHitboxes({
+  const paginatedData = useHitboxes({
     page: page,
     perPage: perPage,
     hashes: hashes?.map((x) => parseInt(x, 16)) ?? undefined,
@@ -43,7 +43,7 @@ const HitboxesTable = ({ unitId }: HitboxesTableProps) => {
   //   ) ?? [];
 
   const seriesUnits =
-    useApiSeriesUnits()
+    useSeriesUnits()
       ?.data?.items.filter((vm) => vm.units)
       .flatMap((vm) => vm.units!) ?? [];
 

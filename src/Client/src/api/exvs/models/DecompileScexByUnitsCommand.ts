@@ -12,7 +12,12 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+
 /**
  * 
  * @export
@@ -21,10 +26,10 @@ import { mapValues } from '../runtime';
 export interface DecompileScexByUnitsCommand {
     /**
      * 
-     * @type {Array<number>}
+     * @type {Array<GetApiAmmoHashParameterInner>}
      * @memberof DecompileScexByUnitsCommand
      */
-    unitIds: Array<number>;
+    unitIds: Array<GetApiAmmoHashParameterInner>;
     /**
      * 
      * @type {boolean}
@@ -51,7 +56,7 @@ export function DecompileScexByUnitsCommandFromJSONTyped(json: any, ignoreDiscri
     }
     return {
         
-        'unitIds': json['unitIds'],
+        'unitIds': ((json['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerFromJSON)),
         'replaceScript': json['replaceScript'] == null ? undefined : json['replaceScript'],
     };
 }
@@ -62,7 +67,7 @@ export function DecompileScexByUnitsCommandToJSON(value?: DecompileScexByUnitsCo
     }
     return {
         
-        'unitIds': value['unitIds'],
+        'unitIds': ((value['unitIds'] as Array<any>).map(GetApiAmmoHashParameterInnerToJSON)),
         'replaceScript': value['replaceScript'],
     };
 }

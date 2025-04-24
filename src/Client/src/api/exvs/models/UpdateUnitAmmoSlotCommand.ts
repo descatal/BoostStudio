@@ -12,7 +12,19 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+import type { UpdateUnitAmmoSlotCommandSlotOrder } from "./UpdateUnitAmmoSlotCommandSlotOrder";
+import {
+  UpdateUnitAmmoSlotCommandSlotOrderFromJSON,
+  UpdateUnitAmmoSlotCommandSlotOrderToJSON
+} from "./UpdateUnitAmmoSlotCommandSlotOrder";
+
 /**
  * 
  * @export
@@ -27,22 +39,22 @@ export interface UpdateUnitAmmoSlotCommand {
     id: string;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateUnitAmmoSlotCommand
      */
-    unitId: number;
+    unitId: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {UpdateUnitAmmoSlotCommandSlotOrder}
      * @memberof UpdateUnitAmmoSlotCommand
      */
-    slotOrder?: number | null;
+    slotOrder?: UpdateUnitAmmoSlotCommandSlotOrder | null;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof UpdateUnitAmmoSlotCommand
      */
-    ammoHash?: number | null;
+    ammoHash?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -65,9 +77,9 @@ export function UpdateUnitAmmoSlotCommandFromJSONTyped(json: any, ignoreDiscrimi
     return {
         
         'id': json['id'],
-        'unitId': json['unitId'],
-        'slotOrder': json['slotOrder'] == null ? undefined : json['slotOrder'],
-        'ammoHash': json['ammoHash'] == null ? undefined : json['ammoHash'],
+        'unitId': GetApiAmmoHashParameterInnerFromJSON(json['unitId']),
+        'slotOrder': json['slotOrder'] == null ? undefined : UpdateUnitAmmoSlotCommandSlotOrderFromJSON(json['slotOrder']),
+        'ammoHash': json['ammoHash'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['ammoHash']),
     };
 }
 
@@ -78,9 +90,9 @@ export function UpdateUnitAmmoSlotCommandToJSON(value?: UpdateUnitAmmoSlotComman
     return {
         
         'id': value['id'],
-        'unitId': value['unitId'],
-        'slotOrder': value['slotOrder'],
-        'ammoHash': value['ammoHash'],
+        'unitId': GetApiAmmoHashParameterInnerToJSON(value['unitId']),
+        'slotOrder': UpdateUnitAmmoSlotCommandSlotOrderToJSON(value['slotOrder']),
+        'ammoHash': AmmoDtoUnitIdToJSON(value['ammoHash']),
     };
 }
 

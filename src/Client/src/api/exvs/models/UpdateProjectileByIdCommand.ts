@@ -12,7 +12,19 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import type { CreateHitboxCommandDamageCorrection } from "./CreateHitboxCommandDamageCorrection";
+import {
+  CreateHitboxCommandDamageCorrectionFromJSON,
+  CreateHitboxCommandDamageCorrectionToJSON
+} from "./CreateHitboxCommandDamageCorrection";
+import type { GetApiAmmoHashParameterInner } from "./GetApiAmmoHashParameterInner";
+import {
+  GetApiAmmoHashParameterInnerFromJSON,
+  GetApiAmmoHashParameterInnerToJSON
+} from "./GetApiAmmoHashParameterInner";
+import type { AmmoDtoUnitId } from "./AmmoDtoUnitId";
+import { AmmoDtoUnitIdFromJSON, AmmoDtoUnitIdToJSON } from "./AmmoDtoUnitId";
+
 /**
  * 
  * @export
@@ -21,436 +33,436 @@ import { mapValues } from '../runtime';
 export interface UpdateProjectileByIdCommand {
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    hash: number;
+    hash: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    projectileType?: number;
+    projectileType?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof UpdateProjectileByIdCommand
      */
-    hitboxHash?: number | null;
+    hitboxHash?: AmmoDtoUnitId | null;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    modelHash?: number;
+    modelHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    skeletonIndex?: number;
+    skeletonIndex?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    aimType?: number;
+    aimType?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    translateY?: number;
+    translateY?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    translateZ?: number;
+    translateZ?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    translateX?: number;
+    translateX?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    rotateX?: number;
+    rotateX?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    rotateZ?: number;
+    rotateZ?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    cosmeticHash?: number;
+    cosmeticHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    unk44?: number;
+    unk44?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    unk48?: number;
+    unk48?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    unk52?: number;
+    unk52?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    unk56?: number;
+    unk56?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    ammoConsumption?: number;
+    ammoConsumption?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    durationFrame?: number;
+    durationFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    maxTravelDistance?: number;
+    maxTravelDistance?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    initialSpeed?: number;
+    initialSpeed?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    acceleration?: number;
+    acceleration?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    accelerationStartFrame?: number;
+    accelerationStartFrame?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    unk84?: number;
+    unk84?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    maxSpeed?: number;
+    maxSpeed?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved92?: number;
+    reserved92?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved96?: number;
+    reserved96?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved100?: number;
+    reserved100?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved104?: number;
+    reserved104?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved108?: number;
+    reserved108?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved112?: number;
+    reserved112?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved116?: number;
+    reserved116?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    horizontalGuidance?: number;
+    horizontalGuidance?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    horizontalGuidanceAngle?: number;
+    horizontalGuidanceAngle?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    verticalGuidance?: number;
+    verticalGuidance?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    verticalGuidanceAngle?: number;
+    verticalGuidanceAngle?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved136?: number;
+    reserved136?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved140?: number;
+    reserved140?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved144?: number;
+    reserved144?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved148?: number;
+    reserved148?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved152?: number;
+    reserved152?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved156?: number;
+    reserved156?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved160?: number;
+    reserved160?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved164?: number;
+    reserved164?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved168?: number;
+    reserved168?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved172?: number;
+    reserved172?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    size?: number;
+    size?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved180?: number;
+    reserved180?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved184?: number;
+    reserved184?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    soundEffectHash?: number;
+    soundEffectHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved192?: number;
+    reserved192?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved196?: number;
+    reserved196?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    chainedProjectileHash?: number;
+    chainedProjectileHash?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved204?: number;
+    reserved204?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved208?: number;
+    reserved208?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved212?: number;
+    reserved212?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {GetApiAmmoHashParameterInner}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved216?: number;
+    reserved216?: GetApiAmmoHashParameterInner;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved220?: number;
+    reserved220?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved224?: number;
+    reserved224?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved228?: number;
+    reserved228?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved232?: number;
+    reserved232?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved236?: number;
+    reserved236?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved240?: number;
+    reserved240?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved244?: number;
+    reserved244?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved248?: number;
+    reserved248?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved252?: number;
+    reserved252?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved256?: number;
+    reserved256?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved260?: number;
+    reserved260?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved264?: number;
+    reserved264?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved268?: number;
+    reserved268?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved272?: number;
+    reserved272?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {CreateHitboxCommandDamageCorrection}
      * @memberof UpdateProjectileByIdCommand
      */
-    reserved276?: number;
+    reserved276?: CreateHitboxCommandDamageCorrection;
     /**
      * 
-     * @type {number}
+     * @type {AmmoDtoUnitId}
      * @memberof UpdateProjectileByIdCommand
      */
-    unitId?: number | null;
+    unitId?: AmmoDtoUnitId | null;
 }
 
 /**
@@ -471,78 +483,78 @@ export function UpdateProjectileByIdCommandFromJSONTyped(json: any, ignoreDiscri
     }
     return {
         
-        'hash': json['hash'],
-        'projectileType': json['projectileType'] == null ? undefined : json['projectileType'],
-        'hitboxHash': json['hitboxHash'] == null ? undefined : json['hitboxHash'],
-        'modelHash': json['modelHash'] == null ? undefined : json['modelHash'],
-        'skeletonIndex': json['skeletonIndex'] == null ? undefined : json['skeletonIndex'],
-        'aimType': json['aimType'] == null ? undefined : json['aimType'],
-        'translateY': json['translateY'] == null ? undefined : json['translateY'],
-        'translateZ': json['translateZ'] == null ? undefined : json['translateZ'],
-        'translateX': json['translateX'] == null ? undefined : json['translateX'],
-        'rotateX': json['rotateX'] == null ? undefined : json['rotateX'],
-        'rotateZ': json['rotateZ'] == null ? undefined : json['rotateZ'],
-        'cosmeticHash': json['cosmeticHash'] == null ? undefined : json['cosmeticHash'],
-        'unk44': json['unk44'] == null ? undefined : json['unk44'],
-        'unk48': json['unk48'] == null ? undefined : json['unk48'],
-        'unk52': json['unk52'] == null ? undefined : json['unk52'],
-        'unk56': json['unk56'] == null ? undefined : json['unk56'],
-        'ammoConsumption': json['ammoConsumption'] == null ? undefined : json['ammoConsumption'],
-        'durationFrame': json['durationFrame'] == null ? undefined : json['durationFrame'],
-        'maxTravelDistance': json['maxTravelDistance'] == null ? undefined : json['maxTravelDistance'],
-        'initialSpeed': json['initialSpeed'] == null ? undefined : json['initialSpeed'],
-        'acceleration': json['acceleration'] == null ? undefined : json['acceleration'],
-        'accelerationStartFrame': json['accelerationStartFrame'] == null ? undefined : json['accelerationStartFrame'],
-        'unk84': json['unk84'] == null ? undefined : json['unk84'],
-        'maxSpeed': json['maxSpeed'] == null ? undefined : json['maxSpeed'],
-        'reserved92': json['reserved92'] == null ? undefined : json['reserved92'],
-        'reserved96': json['reserved96'] == null ? undefined : json['reserved96'],
-        'reserved100': json['reserved100'] == null ? undefined : json['reserved100'],
-        'reserved104': json['reserved104'] == null ? undefined : json['reserved104'],
-        'reserved108': json['reserved108'] == null ? undefined : json['reserved108'],
-        'reserved112': json['reserved112'] == null ? undefined : json['reserved112'],
-        'reserved116': json['reserved116'] == null ? undefined : json['reserved116'],
-        'horizontalGuidance': json['horizontalGuidance'] == null ? undefined : json['horizontalGuidance'],
-        'horizontalGuidanceAngle': json['horizontalGuidanceAngle'] == null ? undefined : json['horizontalGuidanceAngle'],
-        'verticalGuidance': json['verticalGuidance'] == null ? undefined : json['verticalGuidance'],
-        'verticalGuidanceAngle': json['verticalGuidanceAngle'] == null ? undefined : json['verticalGuidanceAngle'],
-        'reserved136': json['reserved136'] == null ? undefined : json['reserved136'],
-        'reserved140': json['reserved140'] == null ? undefined : json['reserved140'],
-        'reserved144': json['reserved144'] == null ? undefined : json['reserved144'],
-        'reserved148': json['reserved148'] == null ? undefined : json['reserved148'],
-        'reserved152': json['reserved152'] == null ? undefined : json['reserved152'],
-        'reserved156': json['reserved156'] == null ? undefined : json['reserved156'],
-        'reserved160': json['reserved160'] == null ? undefined : json['reserved160'],
-        'reserved164': json['reserved164'] == null ? undefined : json['reserved164'],
-        'reserved168': json['reserved168'] == null ? undefined : json['reserved168'],
-        'reserved172': json['reserved172'] == null ? undefined : json['reserved172'],
-        'size': json['size'] == null ? undefined : json['size'],
-        'reserved180': json['reserved180'] == null ? undefined : json['reserved180'],
-        'reserved184': json['reserved184'] == null ? undefined : json['reserved184'],
-        'soundEffectHash': json['soundEffectHash'] == null ? undefined : json['soundEffectHash'],
-        'reserved192': json['reserved192'] == null ? undefined : json['reserved192'],
-        'reserved196': json['reserved196'] == null ? undefined : json['reserved196'],
-        'chainedProjectileHash': json['chainedProjectileHash'] == null ? undefined : json['chainedProjectileHash'],
-        'reserved204': json['reserved204'] == null ? undefined : json['reserved204'],
-        'reserved208': json['reserved208'] == null ? undefined : json['reserved208'],
-        'reserved212': json['reserved212'] == null ? undefined : json['reserved212'],
-        'reserved216': json['reserved216'] == null ? undefined : json['reserved216'],
-        'reserved220': json['reserved220'] == null ? undefined : json['reserved220'],
-        'reserved224': json['reserved224'] == null ? undefined : json['reserved224'],
-        'reserved228': json['reserved228'] == null ? undefined : json['reserved228'],
-        'reserved232': json['reserved232'] == null ? undefined : json['reserved232'],
-        'reserved236': json['reserved236'] == null ? undefined : json['reserved236'],
-        'reserved240': json['reserved240'] == null ? undefined : json['reserved240'],
-        'reserved244': json['reserved244'] == null ? undefined : json['reserved244'],
-        'reserved248': json['reserved248'] == null ? undefined : json['reserved248'],
-        'reserved252': json['reserved252'] == null ? undefined : json['reserved252'],
-        'reserved256': json['reserved256'] == null ? undefined : json['reserved256'],
-        'reserved260': json['reserved260'] == null ? undefined : json['reserved260'],
-        'reserved264': json['reserved264'] == null ? undefined : json['reserved264'],
-        'reserved268': json['reserved268'] == null ? undefined : json['reserved268'],
-        'reserved272': json['reserved272'] == null ? undefined : json['reserved272'],
-        'reserved276': json['reserved276'] == null ? undefined : json['reserved276'],
-        'unitId': json['unitId'] == null ? undefined : json['unitId'],
+        'hash': GetApiAmmoHashParameterInnerFromJSON(json['hash']),
+        'projectileType': json['projectileType'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['projectileType']),
+        'hitboxHash': json['hitboxHash'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['hitboxHash']),
+        'modelHash': json['modelHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['modelHash']),
+        'skeletonIndex': json['skeletonIndex'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['skeletonIndex']),
+        'aimType': json['aimType'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['aimType']),
+        'translateY': json['translateY'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['translateY']),
+        'translateZ': json['translateZ'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['translateZ']),
+        'translateX': json['translateX'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['translateX']),
+        'rotateX': json['rotateX'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['rotateX']),
+        'rotateZ': json['rotateZ'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['rotateZ']),
+        'cosmeticHash': json['cosmeticHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['cosmeticHash']),
+        'unk44': json['unk44'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk44']),
+        'unk48': json['unk48'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk48']),
+        'unk52': json['unk52'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk52']),
+        'unk56': json['unk56'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['unk56']),
+        'ammoConsumption': json['ammoConsumption'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['ammoConsumption']),
+        'durationFrame': json['durationFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['durationFrame']),
+        'maxTravelDistance': json['maxTravelDistance'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['maxTravelDistance']),
+        'initialSpeed': json['initialSpeed'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['initialSpeed']),
+        'acceleration': json['acceleration'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['acceleration']),
+        'accelerationStartFrame': json['accelerationStartFrame'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['accelerationStartFrame']),
+        'unk84': json['unk84'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['unk84']),
+        'maxSpeed': json['maxSpeed'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['maxSpeed']),
+        'reserved92': json['reserved92'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved92']),
+        'reserved96': json['reserved96'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved96']),
+        'reserved100': json['reserved100'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved100']),
+        'reserved104': json['reserved104'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved104']),
+        'reserved108': json['reserved108'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved108']),
+        'reserved112': json['reserved112'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved112']),
+        'reserved116': json['reserved116'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved116']),
+        'horizontalGuidance': json['horizontalGuidance'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['horizontalGuidance']),
+        'horizontalGuidanceAngle': json['horizontalGuidanceAngle'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['horizontalGuidanceAngle']),
+        'verticalGuidance': json['verticalGuidance'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['verticalGuidance']),
+        'verticalGuidanceAngle': json['verticalGuidanceAngle'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['verticalGuidanceAngle']),
+        'reserved136': json['reserved136'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved136']),
+        'reserved140': json['reserved140'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved140']),
+        'reserved144': json['reserved144'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved144']),
+        'reserved148': json['reserved148'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved148']),
+        'reserved152': json['reserved152'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved152']),
+        'reserved156': json['reserved156'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved156']),
+        'reserved160': json['reserved160'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved160']),
+        'reserved164': json['reserved164'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved164']),
+        'reserved168': json['reserved168'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved168']),
+        'reserved172': json['reserved172'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved172']),
+        'size': json['size'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['size']),
+        'reserved180': json['reserved180'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved180']),
+        'reserved184': json['reserved184'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved184']),
+        'soundEffectHash': json['soundEffectHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['soundEffectHash']),
+        'reserved192': json['reserved192'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved192']),
+        'reserved196': json['reserved196'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved196']),
+        'chainedProjectileHash': json['chainedProjectileHash'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['chainedProjectileHash']),
+        'reserved204': json['reserved204'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved204']),
+        'reserved208': json['reserved208'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved208']),
+        'reserved212': json['reserved212'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved212']),
+        'reserved216': json['reserved216'] == null ? undefined : GetApiAmmoHashParameterInnerFromJSON(json['reserved216']),
+        'reserved220': json['reserved220'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved220']),
+        'reserved224': json['reserved224'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved224']),
+        'reserved228': json['reserved228'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved228']),
+        'reserved232': json['reserved232'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved232']),
+        'reserved236': json['reserved236'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved236']),
+        'reserved240': json['reserved240'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved240']),
+        'reserved244': json['reserved244'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved244']),
+        'reserved248': json['reserved248'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved248']),
+        'reserved252': json['reserved252'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved252']),
+        'reserved256': json['reserved256'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved256']),
+        'reserved260': json['reserved260'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved260']),
+        'reserved264': json['reserved264'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved264']),
+        'reserved268': json['reserved268'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved268']),
+        'reserved272': json['reserved272'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved272']),
+        'reserved276': json['reserved276'] == null ? undefined : CreateHitboxCommandDamageCorrectionFromJSON(json['reserved276']),
+        'unitId': json['unitId'] == null ? undefined : AmmoDtoUnitIdFromJSON(json['unitId']),
     };
 }
 
@@ -552,78 +564,78 @@ export function UpdateProjectileByIdCommandToJSON(value?: UpdateProjectileByIdCo
     }
     return {
         
-        'hash': value['hash'],
-        'projectileType': value['projectileType'],
-        'hitboxHash': value['hitboxHash'],
-        'modelHash': value['modelHash'],
-        'skeletonIndex': value['skeletonIndex'],
-        'aimType': value['aimType'],
-        'translateY': value['translateY'],
-        'translateZ': value['translateZ'],
-        'translateX': value['translateX'],
-        'rotateX': value['rotateX'],
-        'rotateZ': value['rotateZ'],
-        'cosmeticHash': value['cosmeticHash'],
-        'unk44': value['unk44'],
-        'unk48': value['unk48'],
-        'unk52': value['unk52'],
-        'unk56': value['unk56'],
-        'ammoConsumption': value['ammoConsumption'],
-        'durationFrame': value['durationFrame'],
-        'maxTravelDistance': value['maxTravelDistance'],
-        'initialSpeed': value['initialSpeed'],
-        'acceleration': value['acceleration'],
-        'accelerationStartFrame': value['accelerationStartFrame'],
-        'unk84': value['unk84'],
-        'maxSpeed': value['maxSpeed'],
-        'reserved92': value['reserved92'],
-        'reserved96': value['reserved96'],
-        'reserved100': value['reserved100'],
-        'reserved104': value['reserved104'],
-        'reserved108': value['reserved108'],
-        'reserved112': value['reserved112'],
-        'reserved116': value['reserved116'],
-        'horizontalGuidance': value['horizontalGuidance'],
-        'horizontalGuidanceAngle': value['horizontalGuidanceAngle'],
-        'verticalGuidance': value['verticalGuidance'],
-        'verticalGuidanceAngle': value['verticalGuidanceAngle'],
-        'reserved136': value['reserved136'],
-        'reserved140': value['reserved140'],
-        'reserved144': value['reserved144'],
-        'reserved148': value['reserved148'],
-        'reserved152': value['reserved152'],
-        'reserved156': value['reserved156'],
-        'reserved160': value['reserved160'],
-        'reserved164': value['reserved164'],
-        'reserved168': value['reserved168'],
-        'reserved172': value['reserved172'],
-        'size': value['size'],
-        'reserved180': value['reserved180'],
-        'reserved184': value['reserved184'],
-        'soundEffectHash': value['soundEffectHash'],
-        'reserved192': value['reserved192'],
-        'reserved196': value['reserved196'],
-        'chainedProjectileHash': value['chainedProjectileHash'],
-        'reserved204': value['reserved204'],
-        'reserved208': value['reserved208'],
-        'reserved212': value['reserved212'],
-        'reserved216': value['reserved216'],
-        'reserved220': value['reserved220'],
-        'reserved224': value['reserved224'],
-        'reserved228': value['reserved228'],
-        'reserved232': value['reserved232'],
-        'reserved236': value['reserved236'],
-        'reserved240': value['reserved240'],
-        'reserved244': value['reserved244'],
-        'reserved248': value['reserved248'],
-        'reserved252': value['reserved252'],
-        'reserved256': value['reserved256'],
-        'reserved260': value['reserved260'],
-        'reserved264': value['reserved264'],
-        'reserved268': value['reserved268'],
-        'reserved272': value['reserved272'],
-        'reserved276': value['reserved276'],
-        'unitId': value['unitId'],
+        'hash': GetApiAmmoHashParameterInnerToJSON(value['hash']),
+        'projectileType': GetApiAmmoHashParameterInnerToJSON(value['projectileType']),
+        'hitboxHash': AmmoDtoUnitIdToJSON(value['hitboxHash']),
+        'modelHash': GetApiAmmoHashParameterInnerToJSON(value['modelHash']),
+        'skeletonIndex': GetApiAmmoHashParameterInnerToJSON(value['skeletonIndex']),
+        'aimType': GetApiAmmoHashParameterInnerToJSON(value['aimType']),
+        'translateY': CreateHitboxCommandDamageCorrectionToJSON(value['translateY']),
+        'translateZ': CreateHitboxCommandDamageCorrectionToJSON(value['translateZ']),
+        'translateX': CreateHitboxCommandDamageCorrectionToJSON(value['translateX']),
+        'rotateX': CreateHitboxCommandDamageCorrectionToJSON(value['rotateX']),
+        'rotateZ': CreateHitboxCommandDamageCorrectionToJSON(value['rotateZ']),
+        'cosmeticHash': GetApiAmmoHashParameterInnerToJSON(value['cosmeticHash']),
+        'unk44': GetApiAmmoHashParameterInnerToJSON(value['unk44']),
+        'unk48': GetApiAmmoHashParameterInnerToJSON(value['unk48']),
+        'unk52': GetApiAmmoHashParameterInnerToJSON(value['unk52']),
+        'unk56': GetApiAmmoHashParameterInnerToJSON(value['unk56']),
+        'ammoConsumption': GetApiAmmoHashParameterInnerToJSON(value['ammoConsumption']),
+        'durationFrame': GetApiAmmoHashParameterInnerToJSON(value['durationFrame']),
+        'maxTravelDistance': CreateHitboxCommandDamageCorrectionToJSON(value['maxTravelDistance']),
+        'initialSpeed': CreateHitboxCommandDamageCorrectionToJSON(value['initialSpeed']),
+        'acceleration': CreateHitboxCommandDamageCorrectionToJSON(value['acceleration']),
+        'accelerationStartFrame': GetApiAmmoHashParameterInnerToJSON(value['accelerationStartFrame']),
+        'unk84': CreateHitboxCommandDamageCorrectionToJSON(value['unk84']),
+        'maxSpeed': CreateHitboxCommandDamageCorrectionToJSON(value['maxSpeed']),
+        'reserved92': CreateHitboxCommandDamageCorrectionToJSON(value['reserved92']),
+        'reserved96': CreateHitboxCommandDamageCorrectionToJSON(value['reserved96']),
+        'reserved100': CreateHitboxCommandDamageCorrectionToJSON(value['reserved100']),
+        'reserved104': CreateHitboxCommandDamageCorrectionToJSON(value['reserved104']),
+        'reserved108': CreateHitboxCommandDamageCorrectionToJSON(value['reserved108']),
+        'reserved112': CreateHitboxCommandDamageCorrectionToJSON(value['reserved112']),
+        'reserved116': GetApiAmmoHashParameterInnerToJSON(value['reserved116']),
+        'horizontalGuidance': CreateHitboxCommandDamageCorrectionToJSON(value['horizontalGuidance']),
+        'horizontalGuidanceAngle': CreateHitboxCommandDamageCorrectionToJSON(value['horizontalGuidanceAngle']),
+        'verticalGuidance': CreateHitboxCommandDamageCorrectionToJSON(value['verticalGuidance']),
+        'verticalGuidanceAngle': CreateHitboxCommandDamageCorrectionToJSON(value['verticalGuidanceAngle']),
+        'reserved136': GetApiAmmoHashParameterInnerToJSON(value['reserved136']),
+        'reserved140': GetApiAmmoHashParameterInnerToJSON(value['reserved140']),
+        'reserved144': CreateHitboxCommandDamageCorrectionToJSON(value['reserved144']),
+        'reserved148': CreateHitboxCommandDamageCorrectionToJSON(value['reserved148']),
+        'reserved152': CreateHitboxCommandDamageCorrectionToJSON(value['reserved152']),
+        'reserved156': CreateHitboxCommandDamageCorrectionToJSON(value['reserved156']),
+        'reserved160': CreateHitboxCommandDamageCorrectionToJSON(value['reserved160']),
+        'reserved164': CreateHitboxCommandDamageCorrectionToJSON(value['reserved164']),
+        'reserved168': GetApiAmmoHashParameterInnerToJSON(value['reserved168']),
+        'reserved172': CreateHitboxCommandDamageCorrectionToJSON(value['reserved172']),
+        'size': CreateHitboxCommandDamageCorrectionToJSON(value['size']),
+        'reserved180': GetApiAmmoHashParameterInnerToJSON(value['reserved180']),
+        'reserved184': GetApiAmmoHashParameterInnerToJSON(value['reserved184']),
+        'soundEffectHash': GetApiAmmoHashParameterInnerToJSON(value['soundEffectHash']),
+        'reserved192': GetApiAmmoHashParameterInnerToJSON(value['reserved192']),
+        'reserved196': GetApiAmmoHashParameterInnerToJSON(value['reserved196']),
+        'chainedProjectileHash': GetApiAmmoHashParameterInnerToJSON(value['chainedProjectileHash']),
+        'reserved204': GetApiAmmoHashParameterInnerToJSON(value['reserved204']),
+        'reserved208': GetApiAmmoHashParameterInnerToJSON(value['reserved208']),
+        'reserved212': GetApiAmmoHashParameterInnerToJSON(value['reserved212']),
+        'reserved216': GetApiAmmoHashParameterInnerToJSON(value['reserved216']),
+        'reserved220': CreateHitboxCommandDamageCorrectionToJSON(value['reserved220']),
+        'reserved224': CreateHitboxCommandDamageCorrectionToJSON(value['reserved224']),
+        'reserved228': CreateHitboxCommandDamageCorrectionToJSON(value['reserved228']),
+        'reserved232': CreateHitboxCommandDamageCorrectionToJSON(value['reserved232']),
+        'reserved236': CreateHitboxCommandDamageCorrectionToJSON(value['reserved236']),
+        'reserved240': CreateHitboxCommandDamageCorrectionToJSON(value['reserved240']),
+        'reserved244': CreateHitboxCommandDamageCorrectionToJSON(value['reserved244']),
+        'reserved248': CreateHitboxCommandDamageCorrectionToJSON(value['reserved248']),
+        'reserved252': CreateHitboxCommandDamageCorrectionToJSON(value['reserved252']),
+        'reserved256': CreateHitboxCommandDamageCorrectionToJSON(value['reserved256']),
+        'reserved260': CreateHitboxCommandDamageCorrectionToJSON(value['reserved260']),
+        'reserved264': CreateHitboxCommandDamageCorrectionToJSON(value['reserved264']),
+        'reserved268': CreateHitboxCommandDamageCorrectionToJSON(value['reserved268']),
+        'reserved272': CreateHitboxCommandDamageCorrectionToJSON(value['reserved272']),
+        'reserved276': CreateHitboxCommandDamageCorrectionToJSON(value['reserved276']),
+        'unitId': AmmoDtoUnitIdToJSON(value['unitId']),
     };
 }
 
