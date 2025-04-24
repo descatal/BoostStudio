@@ -9,7 +9,7 @@
     <Platforms>AnyCPU</Platforms>
     <SpaRoot>../../../Client/</SpaRoot>
     <SpaProxyLaunchCommand>pnpm dev</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:1420</SpaProxyServerUrl>
+    <SpaProxyServerUrl>http://localhost:1420</SpaProxyServerUrl>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -25,23 +25,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <PackageReference Include="Scalar.AspNetCore" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
     <PackageReference Include="FluentValidation.AspNetCore"/>
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
   </ItemGroup>
 

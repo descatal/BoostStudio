@@ -8,8 +8,43 @@ services:
     container_name: "boost_studio"
     user: "root"
     ports:
-      - "9420:8080"
+      - "8020:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
     environment:
       - ConnectionStrings__DefaultConnection=DataSource=/home/app/.local/share/db/app.db;Cache=Shared
+      - ASPNETCORE_HOSTINGSTARTUPASSEMBLIES="Microsoft.AspNetCore.SpaProxy"
     volumes:
       - ./.deploy:/home/app/.local/share/db
+  code-server:
+    image: codercom/code-server:4.16.1-ubuntu
+    container_name: code-server
+    environment:
+      - DOCKER_USER=admin
+      - PASSWORD=password #Replace this with your login password
+    volumes:
+      - ./config:/config
+      - ./:/home/coder/workspace
+    ports:
+      - "8010:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=PathPrefix(`/vscode`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+    restart: unless-stopped
+  traefik:
+    image: "traefik:v3.3"
+    container_name: "traefik"
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"

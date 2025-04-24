@@ -36,7 +36,7 @@ public static class WebApplicationExtensions
         if (!string.IsNullOrWhiteSpace(areaName))
             routeGroup.WithGroupName(areaName);
 
-        return routeGroup.WithTags(tagName).WithOpenApi();
+        return routeGroup.WithTags(tagName);
     }
 
     private static string Slugify(string input) =>

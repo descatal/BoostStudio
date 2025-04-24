@@ -10,7 +10,8 @@ public record UnitSummaryVm
     public string? NameJapanese { get; set; }
     public string? NameChinese { get; set; }
     public uint? SeriesId { get; set; }
-    // public SeriesVm? Series { get; set; }
+
+    public SeriesVm? Series { get; set; }
 }
 
 public record UnitDto : UnitDetailsDto

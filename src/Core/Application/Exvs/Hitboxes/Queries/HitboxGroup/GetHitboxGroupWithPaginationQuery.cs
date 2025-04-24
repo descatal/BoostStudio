@@ -12,22 +12,34 @@ public record GetHitboxGroupWithPaginationQuery(
     uint[]? UnitIds = null
 ) : IRequest<PaginatedList<HitboxGroupDto>>;
 
-public class GetHitboxGroupWithPaginationQueryHandler(
-    IApplicationDbContext applicationDbContext
-) : IRequestHandler<GetHitboxGroupWithPaginationQuery, PaginatedList<HitboxGroupDto>>
+public class GetHitboxGroupWithPaginationQueryHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<GetHitboxGroupWithPaginationQuery, PaginatedList<HitboxGroupDto>>
 {
-    public async ValueTask<PaginatedList<HitboxGroupDto>> Handle(GetHitboxGroupWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<HitboxGroupDto>> Handle(
+        GetHitboxGroupWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var query = applicationDbContext.HitboxGroups
-            .Include(group => group.Units)
-            .AsQueryable();
+        var query = applicationDbContext.HitboxGroups.Include(group => group.Units).AsQueryable();
 
         if (request.UnitIds?.Length > 0)
-            query = query.Where(group => group.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
-        
+        {
+            query = query.Where(group =>
+                group.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId))
+            );
+        }
+
+        if (request.Hashes?.Length > 0)
+        {
+            query = query.Where(group => request.Hashes.Any(hash => group.Hash == hash));
+        }
+
         var mappedQueryable = HitboxGroupMapper.ProjectToDto(query);
-        var result = await PaginatedList<HitboxGroupDto>
-            .CreateAsync(mappedQueryable, request.Page, request.PerPage);
+        var result = await PaginatedList<HitboxGroupDto>.CreateAsync(
+            mappedQueryable,
+            request.Page,
+            request.PerPage
+        );
 
         return result;
     }

@@ -8,19 +8,22 @@ namespace BoostStudio.Application.Exvs.Hitboxes.Queries.Hitbox;
 
 public record GetHitboxByHashQuery(uint Hash) : IRequest<HitboxDto>;
 
-public class GetHitboxByHashQueryHandler(
-    IApplicationDbContext applicationDbContext
-) : IRequestHandler<GetHitboxByHashQuery, HitboxDto>
+public class GetHitboxByHashQueryHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<GetHitboxByHashQuery, HitboxDto>
 {
-    public async ValueTask<HitboxDto> Handle(GetHitboxByHashQuery request, CancellationToken cancellationToken)
+    public async ValueTask<HitboxDto> Handle(
+        GetHitboxByHashQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var projectiles = applicationDbContext.Hitboxes
-            .Where(projectile => projectile.Hash == request.Hash);
-        
+        var projectiles = applicationDbContext.Hitboxes.Where(projectile =>
+            projectile.Hash == request.Hash
+        );
+
         var queryableDto = HitboxMapper.ProjectToDto(projectiles);
         var dto = await queryableDto.FirstOrDefaultAsync(cancellationToken);
         Guard.Against.NotFound(request.Hash, dto);
-        
+
         return dto;
     }
 }

@@ -1,5 +1,9 @@
+using System.Net.Mime;
+using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Infrastructure.Data;
+using BoostStudio.Web;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -16,7 +20,7 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Configuration.AddJsonFile("appsettings.Mappings.json");
+    builder.Configuration.AddJsonFile("appsettings-Mappings.json");
     builder.Configuration.AddEnvironmentVariables();
 
     builder.Logging.ClearProviders();
@@ -74,7 +78,7 @@ try
         opt.Theme = ScalarTheme.Mars;
     });
 
-    app.UseExceptionHandler(_ => { });
+    app.UseExceptionHandler();
 
     app.MapEndpoints();
 

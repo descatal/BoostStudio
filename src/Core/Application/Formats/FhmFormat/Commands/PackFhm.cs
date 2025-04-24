@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Ardalis.GuardClauses;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.FhmFormat;
 using BoostStudio.Application.Common.Models;
@@ -26,7 +27,10 @@ public class PackFhmCommandHandler(
         await compressor.DecompressAsync(request.File, extractFolder, cancellationToken);
         var packedFhm = await fhmPacker.PackAsync(stream, extractFolder, cancellationToken);
 
-        var serializedFhm = await formatBinarySerializer.SerializeAsync(packedFhm, cancellationToken);
+        var serializedFhm = await formatBinarySerializer.SerializeAsync(
+            packedFhm,
+            cancellationToken
+        );
 
         Directory.Delete(extractFolder, true);
         return serializedFhm.ToArray();

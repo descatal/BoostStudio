@@ -11,8 +11,10 @@
     <PackageVersion Include="FFMpegCore" Version="5.1.0" />
     <PackageVersion Include="Mediator.Abstractions" Version="2.1.7" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="2.1.7" />
-    <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="9.0.1" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="1.2.9" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.3.25172.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.1.17" />
     <PackageVersion Include="ServiceScan.SourceGenerator" Version="1.1.2" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
     <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0" />
@@ -21,24 +23,20 @@
     <PackageVersion Include="KaitaiStruct.Runtime.CSharp" Version="0.10.0" />
     <!--    <PackageVersion Include="MediatR" Version="12.2.0" />-->
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.6.24327.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageVersion>
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0-preview.6.24328.4" />
     <PackageVersion Include=" Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.6.24327.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.6.24327.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.0-preview.3.25172.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageVersion>
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.0-preview.6.24327.7" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="Moq" Version="4.20.69" />
@@ -48,14 +46,14 @@
     <PackageVersion Include="OneOf" Version="3.0.263" />
     <PackageVersion Include="Reloaded.Memory" Version="9.4.1" />
     <PackageVersion Include="Respawn" Version="6.1.0" />
-    <PackageVersion Include="Riok.Mapperly" Version="4.1.1" />
+    <PackageVersion Include="Riok.Mapperly" Version="4.2.0-next.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageVersion Include="SharpCompress" Version="0.34.2" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="7.2.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.1" />
     <PackageVersion Include="System.CommandLine.Hosting" Version="0.3.0-alpha.21216.1" />
     <PackageVersion Include="System.IO.Hashing" Version="8.0.0" />
     <PackageVersion Include="Testcontainers.MsSql" Version="3.6.0" />

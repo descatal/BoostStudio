@@ -5,8 +5,8 @@ using BoostStudio.Domain.Entities.Exvs.Assets;
 using BoostStudio.Domain.Entities.Exvs.Units.Characters;
 using BoostStudio.Domain.Enums;
 using Riok.Mapperly.Abstractions;
-using Unit=BoostStudio.Domain.Entities.Exvs.Units.Unit;
-using CharacterInfo=BoostStudio.Formats.ListInfoBinaryFormat.CharacterInfo;
+using CharacterInfo = BoostStudio.Formats.ListInfoBinaryFormat.CharacterInfo;
+using Unit = BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Contracts.Units;
 
@@ -40,12 +40,18 @@ public static partial class UnitMapper2
     [MapperIgnoreSource(nameof(Unit.Id))]
     [MapProperty(nameof(Unit.GameUnitId), nameof(UnitSummaryVm.UnitId))]
     [MapProperty(nameof(@Unit.PlayableCharacter.SeriesId), nameof(UnitSummaryVm.SeriesId))]
+    [MapProperty(nameof(@Unit.PlayableCharacter.Series), nameof(UnitSummaryVm.Series))]
     public static partial UnitSummaryVm MapToVm(Unit entity);
 
     public static partial List<UnitSummaryVm> MapToVm(List<Unit> entity);
 
+    public static partial IQueryable<UnitSummaryVm> ProjectToVm(IQueryable<Unit> entity);
+
     // Not pretty but does the job
-    public static List<UnitSummaryVm> MapToVm(List<Unit> entity, LanguageSettings[]? languageSettings)
+    public static List<UnitSummaryVm> MapToVm(
+        List<Unit> entity,
+        LanguageSettings[]? languageSettings
+    )
     {
         var mappedVmList = MapToVm(entity);
         if (languageSettings is null || languageSettings.Length <= 0)
@@ -100,13 +106,16 @@ public static partial class UnitMapper2
         uint order,
         Unit unitEntity,
         List<AssetFile> assetEntities,
-        (uint, AssetFileType)[] characterAssets)
+        (uint, AssetFileType)[] characterAssets
+    )
     {
         var assetOrder = order;
         foreach (var characterAsset in characterAssets)
         {
             // check if unitEntity already has the asset entry assigned to it, if it does use it
-            var entity = unitEntity.AssetFiles.FirstOrDefault(assetFile => assetFile.Hash == characterAsset.Item1);
+            var entity = unitEntity.AssetFiles.FirstOrDefault(assetFile =>
+                assetFile.Hash == characterAsset.Item1
+            );
 
             // 0 means there's no asset assigned, try to remove and move on
             if (characterAsset.Item1 == 0)
@@ -122,16 +131,14 @@ public static partial class UnitMapper2
             {
                 // further check with existing asset entities and see if there's already an entry in db
                 // this happens when the asset list is already imported, but is marked as Unknown due to lack of context
-                entity = assetEntities.FirstOrDefault(assetFile => assetFile.Hash == characterAsset.Item1);
+                entity = assetEntities.FirstOrDefault(assetFile =>
+                    assetFile.Hash == characterAsset.Item1
+                );
 
                 // if the entry does not exist in existing asset db, create one with the Hash
                 if (entity is null)
                 {
-                    entity = new AssetFile()
-                    {
-                        Hash = characterAsset.Item1,
-                        Order = assetOrder++,
-                    };
+                    entity = new AssetFile() { Hash = characterAsset.Item1, Order = assetOrder++ };
 
                     applicationDbContext.AssetFiles.Add(entity);
                 }
@@ -152,28 +159,144 @@ public static partial class UnitMapper2
 
         var dto = PlayableCharacterMapper.MapToDto(entity.PlayableCharacter);
 
-        dto.ArcadeSelectionCostume1SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.ArcadeSelectionCostume1Sprite))?.Hash ?? 0;
-        dto.ArcadeSelectionCostume2SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.ArcadeSelectionCostume2Sprite))?.Hash ?? 0;
-        dto.ArcadeSelectionCostume3SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.ArcadeSelectionCostume3Sprite))?.Hash ?? 0;
-        dto.LoadingLeftCostume1SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingLeftCostume1Sprite))?.Hash ?? 0;
-        dto.LoadingLeftCostume2SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingLeftCostume2Sprite))?.Hash ?? 0;
-        dto.LoadingLeftCostume3SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingLeftCostume3Sprite))?.Hash ?? 0;
-        dto.LoadingRightCostume1SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingRightCostume1Sprite))?.Hash ?? 0;
-        dto.LoadingRightCostume2SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingRightCostume2Sprite))?.Hash ?? 0;
-        dto.LoadingRightCostume3SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingRightCostume3Sprite))?.Hash ?? 0;
-        dto.LoadingTargetUnitSpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingTargetUnitSprite))?.Hash ?? 0;
-        dto.LoadingTargetPilotCostume1SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingTargetPilotCostume1Sprite))?.Hash ?? 0;
-        dto.LoadingTargetPilotCostume2SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingTargetPilotCostume2Sprite))?.Hash ?? 0;
-        dto.LoadingTargetPilotCostume3SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingTargetPilotCostume3Sprite))?.Hash ?? 0;
-        dto.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite))?.Hash ?? 0;
-        dto.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite))?.Hash ?? 0;
-        dto.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite))?.Hash ?? 0;
-        dto.SpriteFramesAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.SpriteFrames))?.Hash ?? 0;
-        dto.ResultSmallUnitSpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.ResultSmallUnitSprite))?.Hash ?? 0;
-        dto.FigurineSpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.FigurineSprite))?.Hash ?? 0;
-        dto.LoadingTargetUnitSmallSpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.LoadingTargetUnitSmallSprite))?.Hash ?? 0;
-        dto.CatalogStorePilotCostume2SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.CatalogStorePilotCostume2Sprite))?.Hash ?? 0;
-        dto.CatalogStorePilotCostume3SpriteAssetHash = entity.AssetFiles.FirstOrDefault(assetFile => assetFile.FileType.Contains(AssetFileType.CatalogStorePilotCostume3Sprite))?.Hash ?? 0;
+        dto.ArcadeSelectionCostume1SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.ArcadeSelectionCostume1Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.ArcadeSelectionCostume2SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.ArcadeSelectionCostume2Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.ArcadeSelectionCostume3SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.ArcadeSelectionCostume3Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingLeftCostume1SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingLeftCostume1Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingLeftCostume2SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingLeftCostume2Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingLeftCostume3SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingLeftCostume3Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingRightCostume1SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingRightCostume1Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingRightCostume2SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingRightCostume2Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingRightCostume3SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingRightCostume3Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingTargetUnitSpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingTargetUnitSprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingTargetPilotCostume1SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingTargetPilotCostume1Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingTargetPilotCostume2SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingTargetPilotCostume2Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingTargetPilotCostume3SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingTargetPilotCostume3Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(
+                        AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite
+                    )
+                )
+                ?.Hash ?? 0;
+        dto.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(
+                        AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite
+                    )
+                )
+                ?.Hash ?? 0;
+        dto.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(
+                        AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite
+                    )
+                )
+                ?.Hash ?? 0;
+        dto.SpriteFramesAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.SpriteFrames)
+                )
+                ?.Hash ?? 0;
+        dto.ResultSmallUnitSpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.ResultSmallUnitSprite)
+                )
+                ?.Hash ?? 0;
+        dto.FigurineSpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.FigurineSprite)
+                )
+                ?.Hash ?? 0;
+        dto.LoadingTargetUnitSmallSpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.LoadingTargetUnitSmallSprite)
+                )
+                ?.Hash ?? 0;
+        dto.CatalogStorePilotCostume2SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.CatalogStorePilotCostume2Sprite)
+                )
+                ?.Hash ?? 0;
+        dto.CatalogStorePilotCostume3SpriteAssetHash =
+            entity
+                .AssetFiles.FirstOrDefault(assetFile =>
+                    assetFile.FileType.Contains(AssetFileType.CatalogStorePilotCostume3Sprite)
+                )
+                ?.Hash ?? 0;
 
         return dto;
     }
@@ -278,9 +401,15 @@ public static partial class PlayableCharacterMapper
     [MapperIgnoreTarget(nameof(PlayableCharacterDto.LoadingTargetPilotCostume1SpriteAssetHash))]
     [MapperIgnoreTarget(nameof(PlayableCharacterDto.LoadingTargetPilotCostume2SpriteAssetHash))]
     [MapperIgnoreTarget(nameof(PlayableCharacterDto.LoadingTargetPilotCostume3SpriteAssetHash))]
-    [MapperIgnoreTarget(nameof(PlayableCharacterDto.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash))]
-    [MapperIgnoreTarget(nameof(PlayableCharacterDto.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash))]
-    [MapperIgnoreTarget(nameof(PlayableCharacterDto.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash))]
+    [MapperIgnoreTarget(
+        nameof(PlayableCharacterDto.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash)
+    )]
+    [MapperIgnoreTarget(
+        nameof(PlayableCharacterDto.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash)
+    )]
+    [MapperIgnoreTarget(
+        nameof(PlayableCharacterDto.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash)
+    )]
     [MapperIgnoreTarget(nameof(PlayableCharacterDto.SpriteFramesAssetHash))]
     [MapperIgnoreTarget(nameof(PlayableCharacterDto.ResultSmallUnitSpriteAssetHash))]
     [MapperIgnoreTarget(nameof(PlayableCharacterDto.FigurineSpriteAssetHash))]
@@ -299,60 +428,186 @@ public static partial class PlayableCharacterMapper
 public static class CharacterAssetUtils
 {
     public static (uint, AssetFileType)[] GetAssetHashes(CharacterInfo characterInfo) =>
-    [
-        (characterInfo.ArcadeSelectionCostume1SpriteAssetHash, AssetFileType.ArcadeSelectionCostume1Sprite),
-        (characterInfo.ArcadeSelectionCostume2SpriteAssetHash, AssetFileType.ArcadeSelectionCostume2Sprite),
-        (characterInfo.ArcadeSelectionCostume3SpriteAssetHash, AssetFileType.ArcadeSelectionCostume3Sprite),
-        (characterInfo.LoadingLeftCostume1SpriteAssetHash, AssetFileType.LoadingLeftCostume1Sprite),
-        (characterInfo.LoadingLeftCostume2SpriteAssetHash, AssetFileType.LoadingLeftCostume2Sprite),
-        (characterInfo.LoadingLeftCostume3SpriteAssetHash, AssetFileType.LoadingLeftCostume3Sprite),
-        (characterInfo.LoadingRightCostume1SpriteAssetHash, AssetFileType.LoadingRightCostume1Sprite),
-        (characterInfo.LoadingRightCostume2SpriteAssetHash, AssetFileType.LoadingRightCostume2Sprite),
-        (characterInfo.LoadingRightCostume3SpriteAssetHash, AssetFileType.LoadingRightCostume3Sprite),
-        (characterInfo.GenericSelectionCostume1SpriteAssetHash, AssetFileType.GenericSelectionCostume1Sprite),
-        (characterInfo.GenericSelectionCostume2SpriteAssetHash, AssetFileType.GenericSelectionCostume2Sprite),
-        (characterInfo.GenericSelectionCostume3SpriteAssetHash, AssetFileType.GenericSelectionCostume3Sprite),
-        (characterInfo.LoadingTargetUnitSpriteAssetHash, AssetFileType.LoadingTargetUnitSprite),
-        (characterInfo.LoadingTargetPilotCostume1SpriteAssetHash, AssetFileType.LoadingTargetPilotCostume1Sprite),
-        (characterInfo.LoadingTargetPilotCostume2SpriteAssetHash, AssetFileType.LoadingTargetPilotCostume2Sprite),
-        (characterInfo.LoadingTargetPilotCostume3SpriteAssetHash, AssetFileType.LoadingTargetPilotCostume3Sprite),
-        (characterInfo.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash, AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite),
-        (characterInfo.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash, AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite),
-        (characterInfo.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash, AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite),
-        (characterInfo.SpriteFramesAssetHash, AssetFileType.SpriteFrames),
-        (characterInfo.ResultSmallUnitSpriteAssetHash, AssetFileType.ResultSmallUnitSprite),
-        (characterInfo.FigurineSpriteAssetHash, AssetFileType.FigurineSprite),
-        (characterInfo.LoadingTargetUnitSmallSpriteAssetHash, AssetFileType.LoadingTargetUnitSmallSprite),
-        (characterInfo.CatalogStorePilotCostume2SpriteAssetHash, AssetFileType.CatalogStorePilotCostume2Sprite),
-        (characterInfo.CatalogStorePilotCostume3SpriteAssetHash, AssetFileType.CatalogStorePilotCostume3Sprite),
-    ];
+        [
+            (
+                characterInfo.ArcadeSelectionCostume1SpriteAssetHash,
+                AssetFileType.ArcadeSelectionCostume1Sprite
+            ),
+            (
+                characterInfo.ArcadeSelectionCostume2SpriteAssetHash,
+                AssetFileType.ArcadeSelectionCostume2Sprite
+            ),
+            (
+                characterInfo.ArcadeSelectionCostume3SpriteAssetHash,
+                AssetFileType.ArcadeSelectionCostume3Sprite
+            ),
+            (
+                characterInfo.LoadingLeftCostume1SpriteAssetHash,
+                AssetFileType.LoadingLeftCostume1Sprite
+            ),
+            (
+                characterInfo.LoadingLeftCostume2SpriteAssetHash,
+                AssetFileType.LoadingLeftCostume2Sprite
+            ),
+            (
+                characterInfo.LoadingLeftCostume3SpriteAssetHash,
+                AssetFileType.LoadingLeftCostume3Sprite
+            ),
+            (
+                characterInfo.LoadingRightCostume1SpriteAssetHash,
+                AssetFileType.LoadingRightCostume1Sprite
+            ),
+            (
+                characterInfo.LoadingRightCostume2SpriteAssetHash,
+                AssetFileType.LoadingRightCostume2Sprite
+            ),
+            (
+                characterInfo.LoadingRightCostume3SpriteAssetHash,
+                AssetFileType.LoadingRightCostume3Sprite
+            ),
+            (
+                characterInfo.GenericSelectionCostume1SpriteAssetHash,
+                AssetFileType.GenericSelectionCostume1Sprite
+            ),
+            (
+                characterInfo.GenericSelectionCostume2SpriteAssetHash,
+                AssetFileType.GenericSelectionCostume2Sprite
+            ),
+            (
+                characterInfo.GenericSelectionCostume3SpriteAssetHash,
+                AssetFileType.GenericSelectionCostume3Sprite
+            ),
+            (characterInfo.LoadingTargetUnitSpriteAssetHash, AssetFileType.LoadingTargetUnitSprite),
+            (
+                characterInfo.LoadingTargetPilotCostume1SpriteAssetHash,
+                AssetFileType.LoadingTargetPilotCostume1Sprite
+            ),
+            (
+                characterInfo.LoadingTargetPilotCostume2SpriteAssetHash,
+                AssetFileType.LoadingTargetPilotCostume2Sprite
+            ),
+            (
+                characterInfo.LoadingTargetPilotCostume3SpriteAssetHash,
+                AssetFileType.LoadingTargetPilotCostume3Sprite
+            ),
+            (
+                characterInfo.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash,
+                AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite
+            ),
+            (
+                characterInfo.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash,
+                AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite
+            ),
+            (
+                characterInfo.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash,
+                AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite
+            ),
+            (characterInfo.SpriteFramesAssetHash, AssetFileType.SpriteFrames),
+            (characterInfo.ResultSmallUnitSpriteAssetHash, AssetFileType.ResultSmallUnitSprite),
+            (characterInfo.FigurineSpriteAssetHash, AssetFileType.FigurineSprite),
+            (
+                characterInfo.LoadingTargetUnitSmallSpriteAssetHash,
+                AssetFileType.LoadingTargetUnitSmallSprite
+            ),
+            (
+                characterInfo.CatalogStorePilotCostume2SpriteAssetHash,
+                AssetFileType.CatalogStorePilotCostume2Sprite
+            ),
+            (
+                characterInfo.CatalogStorePilotCostume3SpriteAssetHash,
+                AssetFileType.CatalogStorePilotCostume3Sprite
+            ),
+        ];
 
     public static (uint, AssetFileType)[] GetAssetHashes(PlayableCharacterDetailsDto detailsDto) =>
-    [
-        (detailsDto.ArcadeSelectionCostume1SpriteAssetHash, AssetFileType.ArcadeSelectionCostume1Sprite),
-        (detailsDto.ArcadeSelectionCostume2SpriteAssetHash, AssetFileType.ArcadeSelectionCostume2Sprite),
-        (detailsDto.ArcadeSelectionCostume3SpriteAssetHash, AssetFileType.ArcadeSelectionCostume3Sprite),
-        (detailsDto.LoadingLeftCostume1SpriteAssetHash, AssetFileType.LoadingLeftCostume1Sprite),
-        (detailsDto.LoadingLeftCostume2SpriteAssetHash, AssetFileType.LoadingLeftCostume2Sprite),
-        (detailsDto.LoadingLeftCostume3SpriteAssetHash, AssetFileType.LoadingLeftCostume3Sprite),
-        (detailsDto.LoadingRightCostume1SpriteAssetHash, AssetFileType.LoadingRightCostume1Sprite),
-        (detailsDto.LoadingRightCostume2SpriteAssetHash, AssetFileType.LoadingRightCostume2Sprite),
-        (detailsDto.LoadingRightCostume3SpriteAssetHash, AssetFileType.LoadingRightCostume3Sprite),
-        (detailsDto.GenericSelectionCostume1SpriteAssetHash, AssetFileType.GenericSelectionCostume1Sprite),
-        (detailsDto.GenericSelectionCostume2SpriteAssetHash, AssetFileType.GenericSelectionCostume2Sprite),
-        (detailsDto.GenericSelectionCostume3SpriteAssetHash, AssetFileType.GenericSelectionCostume3Sprite),
-        (detailsDto.LoadingTargetUnitSpriteAssetHash, AssetFileType.LoadingTargetUnitSprite),
-        (detailsDto.LoadingTargetPilotCostume1SpriteAssetHash, AssetFileType.LoadingTargetPilotCostume1Sprite),
-        (detailsDto.LoadingTargetPilotCostume2SpriteAssetHash, AssetFileType.LoadingTargetPilotCostume2Sprite),
-        (detailsDto.LoadingTargetPilotCostume3SpriteAssetHash, AssetFileType.LoadingTargetPilotCostume3Sprite),
-        (detailsDto.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash, AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite),
-        (detailsDto.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash, AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite),
-        (detailsDto.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash, AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite),
-        (detailsDto.SpriteFramesAssetHash, AssetFileType.SpriteFrames),
-        (detailsDto.ResultSmallUnitSpriteAssetHash, AssetFileType.ResultSmallUnitSprite),
-        (detailsDto.FigurineSpriteAssetHash, AssetFileType.FigurineSprite),
-        (detailsDto.LoadingTargetUnitSmallSpriteAssetHash, AssetFileType.LoadingTargetUnitSmallSprite),
-        (detailsDto.CatalogStorePilotCostume2SpriteAssetHash, AssetFileType.CatalogStorePilotCostume2Sprite),
-        (detailsDto.CatalogStorePilotCostume3SpriteAssetHash, AssetFileType.CatalogStorePilotCostume3Sprite),
-    ];
+        [
+            (
+                detailsDto.ArcadeSelectionCostume1SpriteAssetHash,
+                AssetFileType.ArcadeSelectionCostume1Sprite
+            ),
+            (
+                detailsDto.ArcadeSelectionCostume2SpriteAssetHash,
+                AssetFileType.ArcadeSelectionCostume2Sprite
+            ),
+            (
+                detailsDto.ArcadeSelectionCostume3SpriteAssetHash,
+                AssetFileType.ArcadeSelectionCostume3Sprite
+            ),
+            (
+                detailsDto.LoadingLeftCostume1SpriteAssetHash,
+                AssetFileType.LoadingLeftCostume1Sprite
+            ),
+            (
+                detailsDto.LoadingLeftCostume2SpriteAssetHash,
+                AssetFileType.LoadingLeftCostume2Sprite
+            ),
+            (
+                detailsDto.LoadingLeftCostume3SpriteAssetHash,
+                AssetFileType.LoadingLeftCostume3Sprite
+            ),
+            (
+                detailsDto.LoadingRightCostume1SpriteAssetHash,
+                AssetFileType.LoadingRightCostume1Sprite
+            ),
+            (
+                detailsDto.LoadingRightCostume2SpriteAssetHash,
+                AssetFileType.LoadingRightCostume2Sprite
+            ),
+            (
+                detailsDto.LoadingRightCostume3SpriteAssetHash,
+                AssetFileType.LoadingRightCostume3Sprite
+            ),
+            (
+                detailsDto.GenericSelectionCostume1SpriteAssetHash,
+                AssetFileType.GenericSelectionCostume1Sprite
+            ),
+            (
+                detailsDto.GenericSelectionCostume2SpriteAssetHash,
+                AssetFileType.GenericSelectionCostume2Sprite
+            ),
+            (
+                detailsDto.GenericSelectionCostume3SpriteAssetHash,
+                AssetFileType.GenericSelectionCostume3Sprite
+            ),
+            (detailsDto.LoadingTargetUnitSpriteAssetHash, AssetFileType.LoadingTargetUnitSprite),
+            (
+                detailsDto.LoadingTargetPilotCostume1SpriteAssetHash,
+                AssetFileType.LoadingTargetPilotCostume1Sprite
+            ),
+            (
+                detailsDto.LoadingTargetPilotCostume2SpriteAssetHash,
+                AssetFileType.LoadingTargetPilotCostume2Sprite
+            ),
+            (
+                detailsDto.LoadingTargetPilotCostume3SpriteAssetHash,
+                AssetFileType.LoadingTargetPilotCostume3Sprite
+            ),
+            (
+                detailsDto.InGameSortieAndAwakeningPilotCostume1SpriteAssetHash,
+                AssetFileType.InGameSortieAndAwakeningPilotCostume1Sprite
+            ),
+            (
+                detailsDto.InGameSortieAndAwakeningPilotCostume2SpriteAssetHash,
+                AssetFileType.InGameSortieAndAwakeningPilotCostume2Sprite
+            ),
+            (
+                detailsDto.InGameSortieAndAwakeningPilotCostume3SpriteAssetHash,
+                AssetFileType.InGameSortieAndAwakeningPilotCostume3Sprite
+            ),
+            (detailsDto.SpriteFramesAssetHash, AssetFileType.SpriteFrames),
+            (detailsDto.ResultSmallUnitSpriteAssetHash, AssetFileType.ResultSmallUnitSprite),
+            (detailsDto.FigurineSpriteAssetHash, AssetFileType.FigurineSprite),
+            (
+                detailsDto.LoadingTargetUnitSmallSpriteAssetHash,
+                AssetFileType.LoadingTargetUnitSmallSprite
+            ),
+            (
+                detailsDto.CatalogStorePilotCostume2SpriteAssetHash,
+                AssetFileType.CatalogStorePilotCostume2Sprite
+            ),
+            (
+                detailsDto.CatalogStorePilotCostume3SpriteAssetHash,
+                AssetFileType.CatalogStorePilotCostume3Sprite
+            ),
+        ];
 }

@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Units;
 using BoostStudio.Application.Exvs.Series.Commands;
 using BoostStudio.Application.Exvs.Units.Commands;
@@ -25,19 +26,21 @@ public class Units : EndpointGroupBase
             .MapPost(ImportPlayableCharacters, "playable-characters/import")
             .MapPost(ExportPlayableCharacters, "playable-characters/export");
     }
-    
-    private static async Task<List<UnitSummaryVm>> GetUnit(
-        ISender sender, 
-        [AsParameters] GetUnitSummaryQuery summaryQuery, 
-        CancellationToken cancellationToken)
+
+    private static async Task<PaginatedList<UnitSummaryVm>> GetUnit(
+        ISender sender,
+        [AsParameters] GetUnitSummaryQuery summaryQuery,
+        CancellationToken cancellationToken
+    )
     {
         return await sender.Send(summaryQuery, cancellationToken);
     }
-    
+
     private static async Task<UnitSummaryVm> GetUnitByUnitId(
-        ISender sender, 
+        ISender sender,
         uint unitId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         return await sender.Send(new GetUnitQueryByUnitId(unitId), cancellationToken);
     }
@@ -45,36 +48,41 @@ public class Units : EndpointGroupBase
     private static async Task<PlayableCharacterDto> GetPlayableCharactersByUnitId(
         ISender sender,
         uint unitId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         return await sender.Send(new GetPlayableCharactersQuery(unitId), cancellationToken);
     }
-    
+
     private static async Task<IResult> CreateUnit(
-        ISender sender, 
-        CreateUnitCommand command, 
-        CancellationToken cancellationToken)
+        ISender sender,
+        CreateUnitCommand command,
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(command, cancellationToken);
         return Results.Created();
     }
-    
+
     private static async Task<IResult> BulkCreateUnit(
-        ISender sender, 
-        BulkCreateUnitCommand command, 
-        CancellationToken cancellationToken)
+        ISender sender,
+        BulkCreateUnitCommand command,
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(command, cancellationToken);
         return Results.Created();
     }
-    
+
     private static async Task<IResult> UpdateUnit(
-        ISender sender, 
-        uint unitId, 
-        UpdateUnitCommand command, 
-        CancellationToken cancellationToken)
+        ISender sender,
+        uint unitId,
+        UpdateUnitCommand command,
+        CancellationToken cancellationToken
+    )
     {
-        if (unitId != command.UnitId) return Results.BadRequest();
+        if (unitId != command.UnitId)
+            return Results.BadRequest();
         await sender.Send(command, cancellationToken);
         return Results.NoContent();
     }
@@ -83,9 +91,11 @@ public class Units : EndpointGroupBase
         ISender sender,
         uint unitId,
         UpsertPlayableCharactersCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-        if (unitId != command.UnitId) return Results.BadRequest();
+        if (unitId != command.UnitId)
+            return Results.BadRequest();
         await sender.Send(command, cancellationToken);
         return Results.NoContent();
     }
@@ -93,7 +103,8 @@ public class Units : EndpointGroupBase
     private static async Task<IResult> ImportPlayableCharacters(
         ISender sender,
         [FromForm] IFormFile file,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var fileStream = file.OpenReadStream();
         await sender.Send(new ImportPlayableCharactersCommand(fileStream), cancellationToken);
@@ -105,10 +116,14 @@ public class Units : EndpointGroupBase
     private static async Task<IResult> ExportPlayableCharacters(
         ISender sender,
         ExportPlayableCharactersCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var fileInfo = await sender.Send(command, cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
+        return Results.File(
+            fileInfo.Data,
+            fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet,
+            fileInfo.FileName
+        );
     }
 }
-

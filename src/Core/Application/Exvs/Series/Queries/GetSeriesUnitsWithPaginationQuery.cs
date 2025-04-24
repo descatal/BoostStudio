@@ -9,26 +9,35 @@ namespace BoostStudio.Application.Exvs.Series.Queries;
 public record GetSeriesUnitsWithPaginationQuery(
     int Page = 1,
     int PerPage = 10,
+    uint[]? UnitIds = null,
     bool ListAll = false
 ) : IRequest<PaginatedList<SeriesUnitsVm>>;
 
-public class GetSeriesUnitsWithPaginationQueryHandler(
-    IApplicationDbContext applicationDbContext
-) : IRequestHandler<GetSeriesUnitsWithPaginationQuery, PaginatedList<SeriesUnitsVm>>
+public class GetSeriesUnitsWithPaginationQueryHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<GetSeriesUnitsWithPaginationQuery, PaginatedList<SeriesUnitsVm>>
 {
-    public async ValueTask<PaginatedList<SeriesUnitsVm>> Handle(GetSeriesUnitsWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<SeriesUnitsVm>> Handle(
+        GetSeriesUnitsWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var query = applicationDbContext.Units
-            .Include(x => x.PlayableCharacter)
+        var query = applicationDbContext
+            .Units.Include(x => x.PlayableCharacter)
             .ThenInclude(x => x!.Series)
             .AsQueryable();
+
+        if (request.UnitIds?.Length > 0)
+        {
+            query = query.Where(unit => request.UnitIds.Contains(unit.GameUnitId));
+        }
 
         var groupedQuery = query
             .Where(unit => unit.PlayableCharacter != null && unit.PlayableCharacter.Series != null)
             .GroupBy(unit => unit.PlayableCharacter!.Series)
             .Select(grouping => new
             {
-                Meta = SeriesMapper.MapToSeriesUnitsVm(grouping.Key!), Units = UnitMapper2.MapToVm(grouping.ToList())
+                Meta = SeriesMapper.MapToSeriesUnitsVm(grouping.Key!),
+                Units = UnitMapper2.MapToVm(grouping.ToList()),
             })
             .Select(map => new SeriesUnitsVm()
             {
@@ -37,11 +46,15 @@ public class GetSeriesUnitsWithPaginationQueryHandler(
                 NameEnglish = map.Meta.NameEnglish,
                 NameJapanese = map.Meta.NameJapanese,
                 SlugName = map.Meta.SlugName,
-                Units = map.Units
+                Units = map.Units,
             });
 
         if (!request.ListAll)
-            return await PaginatedList<SeriesUnitsVm>.CreateAsync(groupedQuery, request.Page, request.PerPage);
+            return await PaginatedList<SeriesUnitsVm>.CreateAsync(
+                groupedQuery,
+                request.Page,
+                request.PerPage
+            );
 
         var items = await groupedQuery.ToListAsync(cancellationToken);
         return new PaginatedList<SeriesUnitsVm>(items, items.Count, 1, items.Count);
