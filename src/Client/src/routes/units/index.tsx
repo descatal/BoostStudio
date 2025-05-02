@@ -2,12 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Main } from "@/components/layout/main";
 import { UnitSummaryVm } from "@/api/exvs";
 import React, { useState } from "react";
-import { useSeriesUnits } from "@/features/series/api/get-series";
 import UnitCard from "@/pages/units/components/unit-card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
+import { useQuery } from "@tanstack/react-query";
+import { getApiSeriesUnitsOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 export const Route = createFileRoute("/units/")({
   component: RouteComponent,
@@ -19,9 +20,14 @@ function RouteComponent() {
   );
   const [search, setSearch] = useState("");
 
-  const seriesUnitsQuery = useSeriesUnits({
-    listAll: true,
+  const seriesUnitsQuery = useQuery({
+    ...getApiSeriesUnitsOptions({
+      query: {
+        ListAll: true,
+      },
+    }),
   });
+
   const seriesUnits = seriesUnitsQuery.data?.items;
   const filteredUnits = seriesUnits
     ?.map((x) => {

@@ -6,23 +6,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import React from "react";
-import { useTblById } from "@/features/patches/api/get-tbl";
 import {
   PatchFileTabs,
   PatchIdNameMap,
 } from "@/features/patches/libs/constants";
 import ResizePatchDialog from "./dialogs/resize-patch-dialog";
 import ExportTblDialog from "./dialogs/export-tbl-dialog";
-import { DataTableSkeleton } from "@/components/data-table-2/data-table-skeleton";
 import PatchFilesTable from "@/features/patches/components/patch-files-table/patch-files-table";
+import { useQuery } from "@tanstack/react-query";
+import { getApiTblByIdOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 interface PatchFilesListProps {
   patchId: PatchFileTabs;
 }
 
 const PatchFilesList = ({ patchId }: PatchFilesListProps) => {
-  const tblInfo =
-    !patchId || patchId === "All" ? undefined : useTblById(patchId)?.data;
+  const query = useQuery({
+    ...getApiTblByIdOptions({
+      path: {
+        id: !patchId || patchId === "All" ? "Base" : patchId,
+      },
+    }),
+  });
+
+  const tblInfo = !patchId || patchId === "All" ? undefined : query.data;
 
   return (
     <>
@@ -45,30 +52,7 @@ const PatchFilesList = ({ patchId }: PatchFilesListProps) => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <React.Suspense
-              fallback={
-                <DataTableSkeleton
-                  columnCount={6}
-                  searchableColumnCount={1}
-                  filterableColumnCount={2}
-                  cellWidths={[
-                    "10rem",
-                    "40rem",
-                    "12rem",
-                    "12rem",
-                    "8rem",
-                    "8rem",
-                  ]}
-                  shrinkZero
-                />
-              }
-            >
-              <PatchFilesTable
-                patchId={patchId === "All" ? undefined : patchId}
-              />
-            </React.Suspense>
-          </div>
+          <PatchFilesTable patchId={patchId === "All" ? undefined : patchId} />
         </CardContent>
       </Card>
     </>

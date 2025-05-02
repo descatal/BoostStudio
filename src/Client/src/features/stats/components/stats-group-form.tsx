@@ -1,7 +1,8 @@
 import React from "react";
-import { CreateStatCommand, StatDto, UpdateStatCommand } from "@/api/exvs/zod";
 import { ZodProvider } from "@autoform/zod";
 import { AutoForm } from "@/components/ui/autoform";
+import { CreateStatCommand, StatDto, UpdateStatCommand } from "@/api/exvs";
+import { zStatDto } from "@/api/exvs/zod.gen";
 
 type StatsGroupFormProps =
   | {
@@ -15,7 +16,7 @@ type StatsGroupFormProps =
       onSubmit: (data: UpdateStatCommand) => void;
     };
 
-const schemaProvider = new ZodProvider(StatDto);
+const schemaProvider = new ZodProvider(zStatDto);
 
 const StatsGroupForm = ({ data, children, onSubmit }: StatsGroupFormProps) => {
   return (

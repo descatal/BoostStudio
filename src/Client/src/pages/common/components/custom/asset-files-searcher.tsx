@@ -1,6 +1,5 @@
 ﻿import React from "react";
 import { AssetFileType, AssetFileVm, UnitSummaryVm } from "@/api/exvs";
-import { fetchAssetFiles } from "@/api/wrapper/asset-api";
 import SelectAssetFileType from "@/features/assets/components/select-asset-file-type";
 import {
   CommonAssetFileOptionsType,
@@ -11,11 +10,15 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import UnitsSelector from "../../../../features/units/components/units-selector";
+import { useQuery } from "@tanstack/react-query";
+import { getApiAssetsOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 interface AssetFilesSearcherProps {
   units?: UnitSummaryVm[] | undefined;
   setResultAssetFiles: (resultAssetFiles: AssetFileVm[] | undefined) => void;
 }
+
+// Burn this with fire
 
 const AssetFilesSearcher = ({
   units,
@@ -41,15 +44,21 @@ const AssetFilesSearcher = ({
 
   const getData = React.useCallback(
     async (unitIds: number[] | undefined, assetFileTypes: AssetFileType[]) => {
-      const assetFiles = await fetchAssetFiles({
-        unitIds: unitIds,
-        assetFileTypes: assetFileTypes,
+      const assetFilesQuery = useQuery({
+        ...getApiAssetsOptions({
+          query: {
+            UnitIds: unitIds,
+            AssetFileTypes: assetFileTypes,
+          },
+        }),
       });
 
-      if (assetFiles.items.length <= 0) {
+      const assetFiles = assetFilesQuery.data?.items ?? [];
+
+      if (assetFiles.length <= 0) {
         setResultAssetFiles(undefined);
       } else {
-        setResultAssetFiles(assetFiles.items);
+        setResultAssetFiles(assetFiles);
       }
     },
     [

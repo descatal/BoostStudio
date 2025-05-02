@@ -1,14 +1,20 @@
-"use client";
-
 import { ProjectileDto, StatDto } from "@/api/exvs";
 import { ColumnDef } from "@tanstack/react-table";
 import StatsGroupTableRowActions from "@/features/stats/components/stats-group-table/row-actions";
-import { StatDto as ZodStatDto } from "@/api/exvs/zod";
-import { HashInput } from "@/components/custom/hash-input";
-import { Link, useParams } from "@tanstack/react-router";
 import React from "react";
+import { zStatDto } from "@/api/exvs/zod.gen";
 
-const customTableRows: ColumnDef<ProjectileDto>[] = [];
+const customTableRows: ColumnDef<ProjectileDto>[] = [
+  {
+    id: "unitId",
+    accessorKey: "unitId",
+    meta: {
+      label: "Unit",
+      variant: "multiSelect",
+    },
+    enableColumnFilter: true,
+  },
+];
 
 const allCustomTableRowKeys = customTableRows.map(
   // @ts-ignore
@@ -17,7 +23,7 @@ const allCustomTableRowKeys = customTableRows.map(
 
 export const statsGroupTableColumns: ColumnDef<StatDto>[] = [
   ...customTableRows,
-  ...Object.keys(ZodStatDto.shape)
+  ...Object.keys(zStatDto.shape)
     .filter((key) => !allCustomTableRowKeys.includes(key))
     .map((x) => ({
       accessorKey: x,

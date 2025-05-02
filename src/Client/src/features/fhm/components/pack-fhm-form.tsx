@@ -9,7 +9,7 @@ import {
   FileUploadList,
   FileUploadTrigger,
 } from "@/components/ui/file-upload";
-import { Loader2, Upload, X } from "lucide-react";
+import { DownloadIcon, Loader2, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,13 +23,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { PostApiFhmPackRequest } from "@/api/exvs";
-import { fhmApi } from "@/api/api";
 import { toast } from "@/hooks/use-toast";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { LuPackage } from "react-icons/lu";
 import { GetProblemDetails } from "@/lib/errors";
+import { postApiFhmPackMutation } from "@/api/exvs/@tanstack/react-query.gen";
 
+// can deprecate this out in favor of zod once this is implemented:
+// https://github.com/hey-api/openapi-ts/pull/1616
 const formSchema = z.object({
   files: z
     .array(z.custom<File>())
@@ -44,7 +45,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const PackFhmForm = () => {
-  const [packedFiles, setPackedFiles] = useState<File[]>([]);
+  const [convertedFiles, setConvertedFiles] = useState<File[]>([]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -54,19 +55,30 @@ const PackFhmForm = () => {
   });
 
   const packMutation = useMutation({
-    mutationFn: async (options: PostApiFhmPackRequest) => {
+    ...postApiFhmPackMutation(),
+    onMutate: () => {
       toast({
         title: "Packing",
         description: "Packing the provided file into .fhm format...",
       });
-      return fhmApi.postApiFhmPack(options);
     },
     onSuccess: (data) => {
-      setPackedFiles([new File([data], "fileName")]);
       toast({
         title: "Pack successful!",
         description: "Packed FHM file successfully!",
       });
+
+      const fileName = form.getValues("files")[0]?.name ?? "packed.fhm";
+      const fileNameWithoutExt = fileName.substring(
+        0,
+        fileName.lastIndexOf("."),
+      );
+
+      // for now
+      const file = new File([data], `${fileNameWithoutExt}.fhm`, {
+        type: data.type,
+      });
+      setConvertedFiles([file]);
     },
     onSettled: async (_, error) => {
       if (error) {
@@ -78,9 +90,11 @@ const PackFhmForm = () => {
     },
   });
 
-  const onSubmit = React.useCallback((data: FormValues) => {
+  const onSubmit = React.useCallback(async (data: FormValues) => {
     packMutation.mutate({
-      file: data.files[0],
+      body: {
+        file: data.files[0],
+      },
     });
   }, []);
 
@@ -135,11 +149,34 @@ const PackFhmForm = () => {
                         <FileUploadItem key={index} value={file}>
                           <FileUploadItemPreview />
                           <FileUploadItemMetadata />
+                          {convertedFiles[0] && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="size-7"
+                              title={"Download converted file"}
+                              type={"button"}
+                              onClick={() => {
+                                const packedFile = convertedFiles[0];
+                                const url = URL.createObjectURL(packedFile);
+                                const a = document.createElement("a");
+                                a.href = url;
+                                a.download = packedFile.name;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                              }}
+                            >
+                              <DownloadIcon />
+                            </Button>
+                          )}
                           <FileUploadItemDelete asChild>
                             <Button
                               variant="ghost"
                               size="icon"
                               className="size-7"
+                              title={"Remove file"}
                             >
                               <X />
                             </Button>
@@ -171,7 +208,7 @@ const PackFhmForm = () => {
       </Form>
       <FileUpload>
         <FileUploadList>
-          <FileUploadItem value={packedFiles[0]}>
+          <FileUploadItem value={convertedFiles[0]!}>
             <FileUploadItemPreview />
             <FileUploadItemMetadata />
             <FileUploadItemDelete asChild>

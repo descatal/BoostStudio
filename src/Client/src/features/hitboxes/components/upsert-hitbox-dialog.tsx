@@ -28,9 +28,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useCreateHitboxes } from "@/features/hitboxes/api/create-hitboxes";
-import { useUpdateHitboxes } from "@/features/hitboxes/api/update-hitboxes";
 import HitboxForm from "@/features/hitboxes/components/hitbox-form";
+import { useMutation } from "@tanstack/react-query";
+import {
+  postApiHitboxesByHashMutation,
+  postApiHitboxesMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
 
 interface UpsertHitboxDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -46,23 +49,29 @@ const UpsertHitboxDialog = ({
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useCreateHitboxes({
-    mutationConfig: { onSuccess: () => setOpen(false) },
-  });
-  const updateHitboxes = useUpdateHitboxes({
-    mutationConfig: {
-      onSuccess: () => setOpen(false),
-    },
+  const createMutation = useMutation({
+    ...postApiHitboxesMutation(),
+    onSuccess: () => () => setOpen(false),
   });
 
-  const isPending = createMutation.isPending || updateHitboxes.isPending;
+  const updateMutation = useMutation({
+    ...postApiHitboxesByHashMutation(),
+    onSuccess: () => () => setOpen(false),
+  });
+
+  const isPending = createMutation.isPending || updateMutation.isPending;
 
   const handleSubmit = (
     upsertData: CreateHitboxCommand | UpdateHitboxCommand,
   ) => {
     data
-      ? updateHitboxes.mutate(upsertData as UpdateHitboxCommand)
-      : createMutation.mutate(upsertData as CreateHitboxCommand);
+      ? updateMutation.mutate({
+          path: {
+            hash: (upsertData as UpdateHitboxCommand).hash,
+          },
+          body: upsertData as UpdateHitboxCommand,
+        })
+      : createMutation.mutate({ body: upsertData as CreateHitboxCommand });
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");

@@ -1,5 +1,4 @@
 ﻿import * as React from "react";
-import { PatchFileVersion } from "@/api/exvs";
 import {
   CreatePatchFileSchema,
   UpdatePatchFileSchema,
@@ -38,6 +37,7 @@ import {
 } from "@/components/ui/select";
 import { HashInput } from "@/components/custom/hash-input";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
+import { zPatchFileVersion } from "@/api/exvs/zod.gen";
 
 interface PatchFilesFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
@@ -85,7 +85,7 @@ export function PatchFilesForm({
                 </FormControl>
                 <SelectContent>
                   <SelectGroup>
-                    {Object.values(PatchFileVersion).map((version) => (
+                    {Object.values(zPatchFileVersion.Enum).map((version) => (
                       <SelectItem
                         key={version}
                         value={version}
@@ -265,7 +265,7 @@ export function PatchFilesForm({
                               </FormControl>
                               <SelectContent>
                                 <SelectGroup>
-                                  {Object.values(PatchFileVersion).map(
+                                  {Object.values(zPatchFileVersion.Enum).map(
                                     (version) => (
                                       <SelectItem
                                         key={version}

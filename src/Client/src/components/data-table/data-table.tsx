@@ -1,10 +1,7 @@
-﻿"use client"
+﻿import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
+import type * as React from "react";
 
-import * as React from "react"
-import { flexRender, Table as TableType } from "@tanstack/react-table"
-
-import { getCommonPinningStyles } from "@/lib/data-table"
-import { cn } from "@/lib/utils"
+import { DataTablePagination } from "@/components/data-table/data-table-pagination";
 import {
   Table,
   TableBody,
@@ -12,55 +9,49 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
+import { getCommonPinningStyles } from "@/lib/data-table";
+import { cn } from "@/lib/utils";
 
-import { DataTablePagination } from "./data-table-pagination"
-
-interface DataTableProps<TData> extends React.HTMLAttributes<HTMLDivElement> {
-  table: TableType<TData>
+interface DataTableProps<TData> extends React.ComponentProps<"div"> {
+  table: TanstackTable<TData>;
+  actionBar?: React.ReactNode;
 }
 
 export function DataTable<TData>({
   table,
+  actionBar,
   children,
   className,
   ...props
 }: DataTableProps<TData>) {
-  const modifiedRows = table.options.meta?.modifiedRows ?? []
-
   return (
     <div
-      className={cn("w-full space-y-2.5 overflow-auto", className)}
+      className={cn("flex w-full flex-col gap-2.5 overflow-auto", className)}
       {...props}
     >
       {children}
-      <div className="rounded-md border">
+      <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      // className={`
-                      //   text-center
-                      //   ${header.column.columnDef.meta?.isKey ? "sticky left-0 bg-background" : ""}
-                      //   ${header.column.columnDef.meta?.isAction ? "sticky right-0 bg-background" : ""}`}
-                      style={{
-                        ...getCommonPinningStyles({ column: header.column }),
-                      }}
-                      key={header.id}
-                      colSpan={header.colSpan}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    style={{
+                      ...getCommonPinningStyles({ column: header.column }),
+                    }}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -73,23 +64,6 @@ export function DataTable<TData>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
-                      // className={`
-                      //   bg-background
-                      //   text-center
-                      //   ${
-                      //     !(modifiedRows.indexOf(row.index) === -1)
-                      //       ? cell.column.columnDef.meta?.isKey ||
-                      //         cell.column.columnDef.meta?.isAction
-                      //         ? cell.column.columnDef.meta?.isAction
-                      //           ? "border-y-2 border-r-2 border-red-500"
-                      //           : cell.column.columnDef.meta?.isKey
-                      //             ? "border-y-2 border-l-2 border-red-500"
-                      //             : "border-y-2 border-red-500"
-                      //         : "border-y-2 border-red-500"
-                      //       : ""
-                      //   }
-                      //   ${cell.column.columnDef.meta?.isKey ? "sticky left-0" : ""}
-                      //   ${cell.column.columnDef.meta?.isAction ? "sticky right-0" : ""}`}
                       key={cell.id}
                       style={{
                         ...getCommonPinningStyles({ column: cell.column }),
@@ -97,7 +71,7 @@ export function DataTable<TData>({
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -118,8 +92,10 @@ export function DataTable<TData>({
       </div>
       <div className="flex flex-col gap-2.5">
         <DataTablePagination table={table} />
-        {table.getFilteredSelectedRowModel().rows.length > 0}
+        {actionBar &&
+          table.getFilteredSelectedRowModel().rows.length > 0 &&
+          actionBar}
       </div>
     </div>
-  )
+  );
 }

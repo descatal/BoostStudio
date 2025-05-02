@@ -28,9 +28,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useApiCreateProjectilesMutation } from "@/features/projectiles/api/create-projectiles";
-import { useApiUpdateProjectilesMutation } from "@/features/projectiles/api/update-projectiles";
 import ProjectileForm from "@/features/projectiles/components/projectile-form";
+import { useMutation } from "@tanstack/react-query";
+import {
+  postApiProjectilesByHashMutation,
+  postApiProjectilesMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
 
 interface UpsertProjectileDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -46,11 +49,14 @@ const UpsertProjectileDialog = ({
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useApiCreateProjectilesMutation({
-    onSuccess: () => setOpen(false),
+  const createMutation = useMutation({
+    ...postApiProjectilesMutation(),
+    onSuccess: () => () => setOpen(false),
   });
-  const updateMutation = useApiUpdateProjectilesMutation({
-    onSuccess: () => setOpen(false),
+
+  const updateMutation = useMutation({
+    ...postApiProjectilesByHashMutation(),
+    onSuccess: () => () => setOpen(false),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
@@ -59,8 +65,13 @@ const UpsertProjectileDialog = ({
     upsertData: CreateProjectileCommand | UpdateProjectileByIdCommand,
   ) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateProjectileByIdCommand)
-      : createMutation.mutate(upsertData as CreateProjectileCommand);
+      ? updateMutation.mutate({
+          path: {
+            hash: (upsertData as UpdateProjectileByIdCommand).hash,
+          },
+          body: upsertData as UpdateProjectileByIdCommand,
+        })
+      : createMutation.mutate({ body: upsertData as CreateProjectileCommand });
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");

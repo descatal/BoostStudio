@@ -1,15 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-// import { HitboxTableVm } from "@/features/hitboxes/components/hitboxes-table/hitboxes-table";
 import { HashInput } from "@/components/custom/hash-input";
 import HitboxesTableRowActions from "@/features/hitboxes/components/hitboxes-table/row-actions";
 import { HitboxDto } from "@/api/exvs";
-import { HitboxDto as ZodHitboxDto } from "@/api/exvs/zod";
+import { zHitboxDto } from "@/api/exvs/zod.gen";
 
 const customTableRows: ColumnDef<HitboxDto>[] = [
   {
+    id: "hash",
     accessorKey: "hash",
-    header: "hash",
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
@@ -18,6 +17,21 @@ const customTableRows: ColumnDef<HitboxDto>[] = [
         initialMode={"hex"}
       />
     ),
+    meta: {
+      label: "Hash",
+      variant: "text",
+      placeholder: "Search by Hash (Hex)",
+    },
+    enableColumnFilter: true,
+  },
+  {
+    id: "unitId",
+    accessorKey: "unitId",
+    meta: {
+      label: "Unit",
+      variant: "multiSelect",
+    },
+    enableColumnFilter: true,
   },
 ];
 
@@ -29,7 +43,7 @@ const allCustomTableRowKeys = customTableRows.map(
 export const hitboxTableColumns: ColumnDef<HitboxDto>[] = [
   ...customTableRows,
   // map everything else
-  ...Object.keys(ZodHitboxDto.shape)
+  ...Object.keys(zHitboxDto.shape)
     .filter((key) => !allCustomTableRowKeys.includes(key))
     .map((x) => ({
       accessorKey: x,

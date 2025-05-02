@@ -1,5 +1,4 @@
 import React from "react";
-import { HitboxDto as ZodHitboxDto } from "@/api/exvs/zod";
 import { ZodProvider } from "@autoform/zod";
 import { AutoForm } from "@/components/ui/autoform";
 import {
@@ -7,6 +6,7 @@ import {
   HitboxDto,
   UpdateHitboxCommand,
 } from "@/api/exvs";
+import { zHitboxDto } from "@/api/exvs/zod.gen";
 
 type HitboxFormProps =
   | {
@@ -20,7 +20,7 @@ type HitboxFormProps =
       onSubmit: (data: UpdateHitboxCommand) => void;
     };
 
-const schemaProvider = new ZodProvider(ZodHitboxDto);
+const schemaProvider = new ZodProvider(zHitboxDto);
 
 const HitboxForm = ({ data, onSubmit, children }: HitboxFormProps) => {
   return (

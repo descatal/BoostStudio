@@ -6,27 +6,39 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useApiAmmoOptions } from "@/features/ammo/api/get-ammo-options";
-import { useApiUnitStatsByUnitId } from "@/features/stats/api/get-unit-stats-by-unit-id";
 import CreateAmmoSlotSheet from "@/pages/units/customize/information/components/tabs/stats/components/ammo-slots/components/create-ammo-slot-sheet";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getApiAmmoOptions,
+  getApiUnitStatsByUnitIdOptions,
+} from "@/api/exvs/@tanstack/react-query.gen";
 
 interface AmmoSlotsProps {
   unitId: number;
 }
 
 const AmmoSlots = ({ unitId }: AmmoSlotsProps) => {
-  const getUnitStatsByUnitIdQuery = useApiUnitStatsByUnitId({
-    unitId: unitId,
-  });
-  const getAmmoOptionsQuery = useApiAmmoOptions({
-    unitIds: [unitId],
+  const unitStatQuery = useQuery({
+    ...getApiUnitStatsByUnitIdOptions({
+      path: {
+        unitId: unitId,
+      },
+    }),
   });
 
-  const ammoSlots = getUnitStatsByUnitIdQuery.data?.ammoSlots ?? [];
-  const ammoOptions = getAmmoOptionsQuery.data ?? [];
+  const ammoQuery = useQuery({
+    ...getApiAmmoOptions({
+      query: {
+        UnitIds: [unitId],
+      },
+    }),
+  });
+
+  const ammoSlots = unitStatQuery.data?.ammoSlots ?? [];
+  const ammoOptions = ammoQuery.data?.items.map((dto) => dto.hash!) ?? [];
 
   return (
     <Card className="col-span-full">

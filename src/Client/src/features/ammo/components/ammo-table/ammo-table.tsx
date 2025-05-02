@@ -1,14 +1,15 @@
 import React from "react";
-import { useSeriesUnits } from "@/features/series/api/get-series";
-import { DataTableFilterField } from "@/types/index2";
-import { useDataTable } from "@/hooks/use-react-table-3";
-import { DataTable } from "@/components/data-table-2/data-table";
-import { DataTableToolbar } from "@/components/data-table-2/data-table-toolbar";
+import { useDataTable } from "@/hooks/use-data-table";
+import { DataTable } from "@/components/data-table/data-table";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { loadPaginatedAmmoSearchParams } from "@/loaders/ammo-search-params";
-import { useApiAmmo } from "@/features/ammo/api/get-ammo";
 import { ammoTableColumns } from "@/features/ammo/components/ammo-table/columns";
-import { AmmoDto } from "@/api/exvs";
 import { AmmoTableToolbarActions } from "@/features/ammo/components/ammo-table/toolbar-actions";
+import { useQuery } from "@tanstack/react-query";
+import {
+  getApiAmmoOptions,
+  getApiSeriesUnitsOptions,
+} from "@/api/exvs/@tanstack/react-query.gen";
 
 type AmmoTableProps = {
   unitId?: number | undefined;
@@ -19,43 +20,42 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
     location.search,
   );
 
-  const paginatedData = useApiAmmo({
-    page: page,
-    perPage: perPage,
-    hash: hashes?.map((x) => parseInt(x, 16)) ?? undefined,
-    unitIds: unitId ? [unitId] : (unitIds ?? undefined),
-  })?.data;
-
-  const seriesUnits =
-    useSeriesUnits()
-      ?.data?.items.filter((vm) => vm.units)
-      .flatMap((vm) => vm.units!) ?? [];
-
-  const baseFilterFields: DataTableFilterField<AmmoDto>[] = [
-    {
-      id: "hash",
-      label: "Hash",
-      placeholder: "Filter by Hash (Hex)",
-    },
-    {
-      id: "unitId",
-      label: "Units",
-      options: seriesUnits.map((type) => ({
-        label: type.nameEnglish ?? "-",
-        value: type.unitId!.toString(),
-      })),
-    },
-  ];
-
-  const filterFields = baseFilterFields.filter((field) => {
-    if (field.id === "unitId" && unitId) return false;
-    return true;
+  const paginatedQuery = useQuery({
+    ...getApiAmmoOptions({
+      query: {
+        Page: page,
+        PerPage: perPage,
+        Hash: hashes?.map((x) => parseInt(x, 16)) ?? undefined,
+        UnitIds: unitId ? [unitId] : (unitIds ?? undefined),
+      },
+    }),
   });
+
+  const paginatedData = paginatedQuery?.data;
+
+  const seriesUnitsQuery = useQuery({
+    ...getApiSeriesUnitsOptions({
+      query: {
+        ListAll: true,
+      },
+    }),
+    select: (data) =>
+      data?.items
+        .filter((vm) => vm.units)
+        .flatMap((vm) => vm.units!)
+        ?.map((type) => ({
+          label: type.nameEnglish ?? "-",
+          value: type.unitId!.toString(),
+        })) ?? [],
+  });
+
+  let unitColumnDef = ammoTableColumns.find((x) => x.id === "unitId");
+  if (unitColumnDef?.meta) unitColumnDef.meta.options = seriesUnitsQuery.data;
+  if (unitColumnDef && unitId) unitColumnDef.enableColumnFilter = false;
 
   const { table } = useDataTable({
     data: paginatedData?.items ?? [],
     columns: ammoTableColumns,
-    filterFields: filterFields,
     initialState: {
       columnPinning: { right: ["actions"], left: ["hash"] },
     },
@@ -65,7 +65,7 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
 
   return (
     <DataTable table={table}>
-      <DataTableToolbar table={table} filterFields={filterFields}>
+      <DataTableToolbar table={table}>
         <AmmoTableToolbarActions />
       </DataTableToolbar>
     </DataTable>

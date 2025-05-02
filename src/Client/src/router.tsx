@@ -1,6 +1,4 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-
-import App from "./App";
 import GeneralError from "./pages/errors/general-error";
 import MaintenanceError from "./pages/errors/maintenance-error";
 import NotFoundError from "./pages/errors/not-found-error";

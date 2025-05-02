@@ -8,8 +8,9 @@ import { Separator } from "@/components/ui/separator";
 
 import UnitCard from "./components/unit-card";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useSeriesUnits } from "@/features/series/api/get-series";
 import TopBar from "@/components/custom/top-bar";
+import { useQuery } from "@tanstack/react-query";
+import { getApiSeriesUnitsOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 const UnitsPage = () => {
   // const unitsApi = useAppContext((s) => s.unitsApi)
@@ -20,25 +21,10 @@ const UnitsPage = () => {
     undefined,
   );
 
-  const seriesUnitsQuery = useSeriesUnits();
+  const seriesUnitsQuery = useQuery({
+    ...getApiSeriesUnitsOptions(),
+  });
   const seriesUnits = seriesUnitsQuery.data?.items;
-
-  // const query = useQuery({
-  //     queryKey: ["getApiUnits", debouncedSearchParam],
-  //     queryFn: async () => {
-  //       const unitsSummary = await unitsApi.getApiUnits({
-  //         search: debouncedSearchParam
-  //       })
-  //       return Object.groupBy(unitsSummary, (unitSummaryVm) => {
-  //         return unitSummaryVm.series?.slugName ?? "unknown"
-  //       })
-  //     },
-  //     placeholderData: keepPreviousData,
-  //     staleTime: 1000
-  //   }
-  // );
-  //
-  // const groupedData = query.data;
 
   return (
     <div className="flex flex-col items-center">

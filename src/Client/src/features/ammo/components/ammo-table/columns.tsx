@@ -1,14 +1,14 @@
-import { CellContext, ColumnDef } from "@tanstack/react-table";
-import { AmmoDto, HitboxDto } from "@/api/exvs";
-import { AmmoDto as ZodAmmoDto } from "@/api/exvs/zod";
+import { ColumnDef } from "@tanstack/react-table";
+import { AmmoDto } from "@/api/exvs";
 import AmmoTableRowActions from "@/features/ammo/components/ammo-table/row-actions";
 import { HashInput } from "@/components/custom/hash-input";
 import React from "react";
+import { zAmmoDto } from "@/api/exvs/zod.gen";
 
 const customTableRows: ColumnDef<AmmoDto>[] = [
   {
+    id: "hash",
     accessorKey: "hash",
-    header: "hash",
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
@@ -17,6 +17,21 @@ const customTableRows: ColumnDef<AmmoDto>[] = [
         initialMode={"hex"}
       />
     ),
+    meta: {
+      label: "Hash",
+      variant: "text",
+      placeholder: "Search by Hash (Hex)",
+    },
+    enableColumnFilter: true,
+  },
+  {
+    id: "unitId",
+    accessorKey: "unitId",
+    meta: {
+      label: "Unit",
+      variant: "multiSelect",
+    },
+    enableColumnFilter: true,
   },
 ];
 
@@ -28,7 +43,7 @@ const allCustomTableRowKeys = customTableRows.map(
 export const ammoTableColumns: ColumnDef<AmmoDto>[] = [
   ...customTableRows,
   // map everything else
-  ...Object.keys(ZodAmmoDto.shape)
+  ...Object.keys(zAmmoDto.shape)
     .filter((key) => !allCustomTableRowKeys.includes(key))
     .map((x) => ({
       accessorKey: x,

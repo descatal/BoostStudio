@@ -1,24 +1,23 @@
 import React from "react";
-import { useResizeTblPatches } from "@/features/patches/api/resize-tbl-patches";
-
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import ConfirmationDialog from "@/components/custom/confirmation-dialog";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
 import { PatchFileVersion } from "@/api/exvs";
+import { useMutation } from "@tanstack/react-query";
+import { postApiPatchFilesResizeMutation } from "@/api/exvs/@tanstack/react-query.gen";
 
 type ResizeDialogProps = {
   patchId?: PatchFileVersion | undefined;
 };
 
 const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
-  const resizePatchesMutation = useResizeTblPatches({
-    mutationConfig: {
-      onSuccess: () => {
-        toast({
-          title: "Resize success!",
-        });
-      },
+  const resizePatchesMutation = useMutation({
+    ...postApiPatchFilesResizeMutation(),
+    onSuccess: () => {
+      toast({
+        title: "Export success!",
+      });
     },
   });
 
@@ -34,7 +33,9 @@ const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
           type="button"
           onClick={() => {
             resizePatchesMutation.mutate({
-              versions: !patchId ? undefined : [patchId],
+              body: {
+                versions: !patchId ? undefined : [patchId],
+              },
             });
           }}
         >

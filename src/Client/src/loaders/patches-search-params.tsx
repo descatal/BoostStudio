@@ -5,15 +5,19 @@ import {
   createParser,
   parseAsArrayOf,
   parseAsInteger,
+  parseAsString,
   UrlKeys,
 } from "nuqs";
+import { zAssetFileType } from "@/api/exvs/zod.gen";
 
 const parseAsAssetFileType = createParser({
   parse(queryValue) {
-    if (Object.values(AssetFileType).includes(queryValue as AssetFileType)) {
+    if (
+      Object.values(zAssetFileType.Enum).includes(queryValue as AssetFileType)
+    ) {
       return queryValue as AssetFileType;
     }
-    return AssetFileType.Unknown;
+    return zAssetFileType.Enum.Unknown;
   },
   serialize(value) {
     return value;
@@ -22,13 +26,15 @@ const parseAsAssetFileType = createParser({
 
 const paginatedPatchesSearchParams = {
   ...commonPaginatedSearchParams,
-  assetFileHashes: parseAsArrayOf(parseAsInteger),
+  assetFileHashes: parseAsArrayOf(parseAsString),
   fileTypes: parseAsArrayOf(parseAsAssetFileType),
+  unitIds: parseAsArrayOf(parseAsInteger),
 };
 
 const urlKeys: UrlKeys<typeof paginatedPatchesSearchParams> = {
   assetFileHashes: "assetFileHash",
   fileTypes: "fileType",
+  unitIds: "unitId",
 };
 
 export const loadPaginatedPatchesSearchParams = createLoader(

@@ -7,10 +7,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { HashInput } from "@/components/custom/hash-input";
 import PatchFilesListRowActions from "@/features/patches/components/patch-files-table/row-actions";
+import { zAssetFileType } from "@/api/exvs/zod.gen";
 
 export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
   {
-    accessorKey: "assetFileHash",
+    id: "assetFileHash",
+    accessorFn: (row) => row.assetFile?.hash ?? row.assetFileHash,
     header: "File Hash",
     cell: ({ row }) => (
       <HashInput
@@ -24,31 +26,61 @@ export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
         initialMode={"hex"}
       />
     ),
+    meta: {
+      label: "Hash",
+      variant: "text",
+      placeholder: "Search by Hash (Hex)",
+    },
+    enableColumnFilter: true,
   },
   {
-    accessorKey: "fileType",
+    id: "fileType",
+    accessorFn: (row) => row.assetFile?.fileType,
     header: "File Type",
     cell: ({ row }) => {
-      return (
-        <Badge className={"justify-center"}>
-          {row.original.assetFile?.fileType ?? "Not Valid"}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "units",
-    header: "Units",
-    cell: ({ row }) => {
-      if (
-        !row.original.assetFile?.units ||
-        row.original.assetFile?.units.length === 0
-      )
+      const fileTypes = row.original.assetFile?.fileType;
+      if (!fileTypes || fileTypes.length === 0) {
         return (
           <Badge className={"w-fit"} variant={"outline"}>
             -
           </Badge>
         );
+      }
+
+      return (
+        <div className={"flex flex-col gap-2"}>
+          {fileTypes &&
+            fileTypes.map((x) => (
+              <Badge className={"justify-center"}>{x}</Badge>
+            ))}
+        </div>
+      );
+    },
+    meta: {
+      label: "File Type",
+      variant: "multiSelect",
+      options: Object.keys(zAssetFileType.Enum).map((type) => ({
+        label: type,
+        value: type,
+      })),
+    },
+    enableColumnFilter: true,
+  },
+  {
+    id: "unitId",
+    accessorFn: (row) => row.assetFile?.units.map((x) => x.unitId),
+    header: "Units",
+    cell: ({ row }) => {
+      if (
+        !row.original.assetFile?.units ||
+        row.original.assetFile?.units.length === 0
+      ) {
+        return (
+          <Badge className={"w-fit"} variant={"outline"}>
+            -
+          </Badge>
+        );
+      }
 
       return (
         <div className={"flex flex-col gap-2"}>
@@ -64,13 +96,16 @@ export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
         </div>
       );
     },
+    meta: {
+      label: "Unit",
+      variant: "multiSelect",
+    },
+    enableColumnFilter: true,
   },
   {
-    accessorKey: "filePath",
+    id: "filePath",
+    accessorFn: (row) => row.pathInfo?.path,
     header: "File Path",
-    cell: ({ row }) => (
-      <div className="text-wrap">{row.original.pathInfo?.path}</div>
-    ),
   },
   {
     id: "actions",

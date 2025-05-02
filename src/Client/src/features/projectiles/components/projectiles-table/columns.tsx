@@ -2,14 +2,14 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import { HashInput } from "@/components/custom/hash-input";
 import { ProjectileDto } from "@/api/exvs";
-import { ProjectileDto as ZodProjectileDto } from "@/api/exvs/zod";
 import ProjectilesTableRowActions from "@/features/projectiles/components/projectiles-table/row-actions";
 import { Link } from "@tanstack/react-router";
+import { zProjectileDto } from "@/api/exvs/zod.gen";
 
 const customTableRows: ColumnDef<ProjectileDto>[] = [
   {
+    id: "hash",
     accessorKey: "hash",
-    header: "hash",
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
@@ -18,10 +18,25 @@ const customTableRows: ColumnDef<ProjectileDto>[] = [
         initialMode={"hex"}
       />
     ),
+    meta: {
+      label: "Hash",
+      variant: "text",
+      placeholder: "Search by Hash (Hex)",
+    },
+    enableColumnFilter: true,
   },
   {
+    id: "unitId",
+    accessorKey: "unitId",
+    meta: {
+      label: "Unit",
+      variant: "multiSelect",
+    },
+    enableColumnFilter: true,
+  },
+  {
+    id: "hitboxHash",
     accessorKey: "hitboxHash",
-    header: "hitboxHash",
     cell: ({ row }) => {
       return (
         <>
@@ -52,7 +67,7 @@ const allCustomTableRowKeys = customTableRows.map(
 export const projectileTableColumns: ColumnDef<ProjectileDto>[] = [
   ...customTableRows,
   // map everything else
-  ...Object.keys(ZodProjectileDto.shape)
+  ...Object.keys(zProjectileDto.shape)
     .filter((key) => !allCustomTableRowKeys.includes(key))
     .map((x) => ({
       accessorKey: x,

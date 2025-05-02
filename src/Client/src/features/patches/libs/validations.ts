@@ -1,18 +1,18 @@
 import {
   CreatePatchFileCommand,
   FileInfoDto,
-  PatchFileVersion,
   type PathInfoDto,
   type UpdatePatchFileByIdCommand,
-} from "@/api/exvs"
-import { z } from "zod"
+} from "@/api/exvs";
+import { z } from "zod";
+import { zPatchFileVersion } from "@/api/exvs/zod.gen";
 
-const patchFileVersionEnum = z.nativeEnum(PatchFileVersion)
+const patchFileVersionEnum = z.nativeEnum(zPatchFileVersion.Enum);
 
 const pathInfoSchema = z.object({
   path: z.string(),
   order: z.coerce.number().nullable(),
-}) satisfies z.ZodType<PathInfoDto>
+}) satisfies z.ZodType<PathInfoDto>;
 
 const fileInfoSchema = z.object({
   version: patchFileVersionEnum,
@@ -20,7 +20,7 @@ const fileInfoSchema = z.object({
   size2: z.coerce.number(),
   size3: z.coerce.number(),
   size4: z.coerce.number(),
-}) satisfies z.ZodType<FileInfoDto>
+}) satisfies z.ZodType<FileInfoDto>;
 
 export const createPatchFileSchema = z
   .object({
@@ -35,15 +35,15 @@ export const createPatchFileSchema = z
         path: ["assetFileHash"],
         code: z.ZodIssueCode.custom,
         message: "Asset file hash is required",
-      })
+      });
     }
 
     if (!object.fileInfo) {
-      object.assetFileHash = null
+      object.assetFileHash = null;
     }
-  }) satisfies z.ZodType<CreatePatchFileCommand>
+  }) satisfies z.ZodType<CreatePatchFileCommand>;
 
-export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>
+export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>;
 
 export const updatePatchFileSchema = z
   .object({
@@ -55,18 +55,18 @@ export const updatePatchFileSchema = z
   })
   .superRefine((object) => {
     if (!object.fileInfo) {
-      object.assetFileHash = null
+      object.assetFileHash = null;
     }
-  }) satisfies z.ZodType<UpdatePatchFileByIdCommand>
+  }) satisfies z.ZodType<UpdatePatchFileByIdCommand>;
 
-export type UpdatePatchFileSchema = z.infer<typeof updatePatchFileSchema>
+export type UpdatePatchFileSchema = z.infer<typeof updatePatchFileSchema>;
 
 export interface AssetFileSearch {
-  assetFileHash: number
+  assetFileHash: number;
 }
 
 export const searchAssetFileSearchSchema = z.object({
   assetFileHash: z.number(),
-}) satisfies z.ZodType<AssetFileSearch>
+}) satisfies z.ZodType<AssetFileSearch>;
 
-export type SearchAssetFileSchema = z.infer<typeof searchAssetFileSearchSchema>
+export type SearchAssetFileSchema = z.infer<typeof searchAssetFileSearchSchema>;

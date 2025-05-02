@@ -72,7 +72,7 @@ const StatsExport = ({ units, onExport }: StatsExportProps) => {
             <Label>Units</Label>
             <UnitsSelector
               disabled={!!units}
-              multipleSelect={true}
+              multipleSelect
               selectedUnits={selectedExportUnits}
               setSelectedUnits={setSelectedExportUnits}
             />

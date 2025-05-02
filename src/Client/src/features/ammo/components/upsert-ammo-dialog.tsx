@@ -24,9 +24,12 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useCreateAmmoMutation } from "@/features/ammo/api/create-ammo";
-import { useUpdateAmmoMutation } from "@/features/ammo/api/update-ammo";
 import AmmoForm from "@/features/ammo/components/ammo-form";
+import { useMutation } from "@tanstack/react-query";
+import {
+  postApiAmmoByHashMutation,
+  postApiAmmoMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
 
 interface UpsertAmmoDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -42,19 +45,27 @@ const UpsertAmmoDialog = ({
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useCreateAmmoMutation({
-    onSuccess: () => setOpen(false),
+  const createMutation = useMutation({
+    ...postApiAmmoMutation(),
+    onSuccess: () => () => setOpen(false),
   });
-  const updateMutation = useUpdateAmmoMutation({
-    onSuccess: () => setOpen(false),
+
+  const updateMutation = useMutation({
+    ...postApiAmmoByHashMutation(),
+    onSuccess: () => () => setOpen(false),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
   const handleSubmit = (upsertData: CreateAmmoCommand | UpdateAmmoCommand) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateAmmoCommand)
-      : createMutation.mutate(upsertData as CreateAmmoCommand);
+      ? updateMutation.mutate({
+          path: {
+            hash: (upsertData as UpdateAmmoCommand).hash,
+          },
+          body: upsertData as UpdateAmmoCommand,
+        })
+      : createMutation.mutate({ body: upsertData as CreateAmmoCommand });
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");

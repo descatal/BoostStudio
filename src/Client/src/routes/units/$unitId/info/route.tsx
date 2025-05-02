@@ -1,12 +1,12 @@
 import { createFileRoute, Outlet, useMatchRoute } from "@tanstack/react-router";
-import ExportDialog from "@/pages/units/customize/information/components/export-dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import React from "react";
-import { useUnitById } from "@/features/units/api/get-unit-by-id";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { TabsLinkTrigger } from "@/components/tabs-link-trigger";
 import { UnitCustomizableInfoSections } from "@/lib/constants";
+import { useQuery } from "@tanstack/react-query";
+import { getApiUnitsByUnitIdOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 export const Route = createFileRoute("/units/$unitId/info")({
   component: RouteComponent,
@@ -14,9 +14,16 @@ export const Route = createFileRoute("/units/$unitId/info")({
 
 function RouteComponent() {
   const { unitId }: { unitId: number } = Route.useParams();
-  const { data } = useUnitById({
-    unitId: unitId,
+
+  const query = useQuery({
+    ...getApiUnitsByUnitIdOptions({
+      path: {
+        unitId: unitId,
+      },
+    }),
   });
+
+  const data = query.data;
 
   const matchRoute = useMatchRoute();
   const matchedSection =
@@ -26,7 +33,7 @@ function RouteComponent() {
 
   return (
     <>
-      <ExportDialog />
+      {/*<ExportDialog />*/}
       {data && (
         <div className="flex-col md:flex">
           <div className="flex-1 space-y-4 p-8 pt-6">

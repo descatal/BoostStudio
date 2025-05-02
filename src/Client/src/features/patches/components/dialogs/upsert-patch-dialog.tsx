@@ -1,6 +1,5 @@
 import React from "react";
-import { PatchFileSummaryVm, PatchFileVersion } from "@/api/exvs";
-import { useUpdateTblPatchFile } from "@/features/patches/api/update-tbl-patch-file";
+import { PatchFileSummaryVm } from "@/api/exvs";
 import { PatchFilesForm } from "@/features/patches/components/patch-files-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
@@ -37,6 +36,10 @@ import {
   updatePatchFileSchema,
 } from "../../libs/validations";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
+import { useMutation } from "@tanstack/react-query";
+import { postApiPatchFilesByIdMutation } from "@/api/exvs/@tanstack/react-query.gen";
+import { toast } from "@/components/ui/use-toast";
+import { zPatchFileVersion } from "@/api/exvs/zod.gen";
 
 interface UpsertPatchDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -49,13 +52,17 @@ const UpsertPatchDialog = ({
   patchFile,
   ...props
 }: UpsertPatchDialogProps) => {
-  const updateTblPatchFileMutation = useUpdateTblPatchFile({
-    mutationConfig: {
-      onSuccess: () => {},
+  const updateTblPatchFileMutation = useMutation({
+    ...postApiPatchFilesByIdMutation(),
+    onSuccess: () => {
+      toast({
+        title: "Update success!",
+      });
     },
   });
 
-  const selectedPatchFileVersion = patchFile?.tblId ?? PatchFileVersion.Base;
+  const selectedPatchFileVersion =
+    patchFile?.tblId ?? zPatchFileVersion.Enum.Base;
   const patchName = PatchIdNameMap[selectedPatchFileVersion];
 
   const form = useForm<CreatePatchFileSchema | UpdatePatchFileSchema>({
@@ -88,8 +95,13 @@ const UpsertPatchDialog = ({
   ) => {
     if (patchFile) {
       updateTblPatchFileMutation.mutate({
-        ...values,
-        id: patchFile.id!,
+        body: {
+          ...values,
+          id: patchFile.id!,
+        },
+        path: {
+          id: patchFile.id!,
+        },
       });
     }
   };

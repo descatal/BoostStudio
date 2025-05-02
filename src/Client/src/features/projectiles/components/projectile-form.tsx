@@ -1,5 +1,4 @@
 import React from "react";
-import { ProjectileDto as ZodProjectileDto } from "@/api/exvs/zod";
 import { ZodProvider } from "@autoform/zod";
 import { AutoForm } from "@/components/ui/autoform";
 import {
@@ -7,6 +6,7 @@ import {
   ProjectileDto,
   UpdateProjectileByIdCommand,
 } from "@/api/exvs";
+import { zProjectileDto } from "@/api/exvs/zod.gen";
 
 type ProjectileFormProps =
   | {
@@ -20,7 +20,7 @@ type ProjectileFormProps =
       onSubmit: (data: UpdateProjectileByIdCommand) => void;
     };
 
-const schemaProvider = new ZodProvider(ZodProjectileDto);
+const schemaProvider = new ZodProvider(zProjectileDto);
 
 const ProjectileForm = ({ data, onSubmit, children }: ProjectileFormProps) => {
   return (

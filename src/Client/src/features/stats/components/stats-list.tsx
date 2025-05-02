@@ -6,8 +6,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import StatsGroupTable from "@/features/stats/components/stats-group-table/stats-group-table";
 import AmmoSlots from "@/features/stats/components/ammo-slots/ammo-slots";
+import StatsGroupTable from "@/features/stats/components/stats-group-table/stats-group-table";
 
 interface StatsListProps {
   unitId?: number | undefined;

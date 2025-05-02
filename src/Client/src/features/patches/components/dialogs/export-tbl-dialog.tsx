@@ -1,24 +1,24 @@
 import React from "react";
-import { useExportTbl } from "@/features/patches/api/export-tbl";
 
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import ConfirmationDialog from "@/components/custom/confirmation-dialog";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
 import { PatchFileVersion } from "@/api/exvs";
+import { useMutation } from "@tanstack/react-query";
+import { postApiTblExportMutation } from "@/api/exvs/@tanstack/react-query.gen";
 
 type ResizeDialogProps = {
   patchId: PatchFileVersion | undefined;
 };
 
 const ExportTblDialog = ({ patchId }: ResizeDialogProps) => {
-  const exportTblMutation = useExportTbl({
-    mutationConfig: {
-      onSuccess: () => {
-        toast({
-          title: "Export success!",
-        });
-      },
+  const exportTblMutation = useMutation({
+    ...postApiTblExportMutation(),
+    onSuccess: () => {
+      toast({
+        title: "Export success!",
+      });
     },
   });
 
@@ -34,10 +34,11 @@ const ExportTblDialog = ({ patchId }: ResizeDialogProps) => {
           type="button"
           onClick={() => {
             if (!patchId) return;
-
             exportTblMutation.mutate({
-              versions: [patchId],
-              replaceStaging: true,
+              body: {
+                versions: [patchId],
+                replaceStaging: true,
+              },
             });
           }}
         >

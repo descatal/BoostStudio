@@ -1,10 +1,9 @@
-"use client";
-
 import * as React from "react";
-import { useSeriesUnits } from "@/features/series/api/get-series";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
+import { getApiSeriesUnitsOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 interface UnitsSelectorProps
   extends React.ComponentPropsWithoutRef<typeof MultipleSelector> {
@@ -18,11 +17,15 @@ export default function UnitsSelector({
   className,
   ...props
 }: UnitsSelectorProps) {
-  const paginatedSeriesUnits = useSeriesUnits({
-    listAll: true,
+  const seriesUnitsQuery = useQuery({
+    ...getApiSeriesUnitsOptions({
+      query: {
+        ListAll: true,
+      },
+    }),
   });
 
-  const seriesUnits = paginatedSeriesUnits.data?.items;
+  const seriesUnits = seriesUnitsQuery?.data?.items;
 
   const seriesUnitsOptions: Option[] =
     seriesUnits?.flatMap(

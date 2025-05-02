@@ -3,7 +3,6 @@ import { Editor, Monaco } from "@monaco-editor/react";
 import { useApiDecompiledScexByUnitId } from "@/features/scripts/api/get-decompiled-scex-by-unit-id";
 import OneDarkPro from "@/themes/onedarkpro.json";
 import UnitsSelector from "@/features/units/components/units-selector";
-import { useSeriesUnits } from "@/features/series/api/get-series";
 
 interface ScriptViewerProps {
   unitId: number;
@@ -21,8 +20,6 @@ const ScriptViewer = ({ unitId }: ScriptViewerProps) => {
       ...OneDarkPro,
     });
   };
-
-  const units = useSeriesUnits({});
 
   return (
     <>

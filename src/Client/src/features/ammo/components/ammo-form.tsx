@@ -1,8 +1,8 @@
 import React from "react";
-import { AmmoDto as ZodAmmoDto } from "@/api/exvs/zod";
 import { ZodProvider } from "@autoform/zod";
 import { AutoForm } from "@/components/ui/autoform";
 import { AmmoDto, CreateAmmoCommand, UpdateAmmoCommand } from "@/api/exvs";
+import { zAmmoDto } from "@/api/exvs/zod.gen";
 
 type AmmoFormProps =
   | {
@@ -16,16 +16,16 @@ type AmmoFormProps =
       onSubmit: (data: UpdateAmmoCommand) => void;
     };
 
-const schemaProvider = new ZodProvider(ZodAmmoDto);
+const schemaProvider = new ZodProvider(zAmmoDto);
 
 const AmmoForm = ({ data, onSubmit, children }: AmmoFormProps) => {
   return (
     <AutoForm
       schema={schemaProvider}
-      defaultValues={data}
+      defaultValues={{ ...data, hash: BigInt(data?.hash ?? 0) }}
       onSubmit={(submitData) => {
         data
-          ? onSubmit({ ...submitData, hash: submitData.hash! })
+          ? onSubmit({ ...submitData, hash: Number(submitData.hash!) })
           : onSubmit(submitData);
       }}
       formProps={{

@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { CreateStatCommand, StatDto } from "@/api/exvs";
+import { CreateStatCommand, StatDto, UpdateStatCommand } from "@/api/exvs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -25,9 +25,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import StatsGroupForm from "@/features/stats/components/stats-group-form";
-import { useUpdateStatsMutation } from "@/features/stats/api/update-stats";
-import { UpdateStatCommand } from "@/api/exvs/zod";
-import { useCreateStatsMutation } from "@/features/stats/api/create-stats";
+import { useMutation } from "@tanstack/react-query";
+import {
+  postApiStatsByIdMutation,
+  postApiStatsMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
 
 interface UpsertStatsGroupDialogProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -43,19 +45,27 @@ const UpsertStatsGroupDialog = ({
   // put this into global state
   const [open, setOpen] = React.useState(false);
 
-  const createMutation = useCreateStatsMutation({
-    onSuccess: () => setOpen(false),
+  const createMutation = useMutation({
+    ...postApiStatsMutation(),
+    onSuccess: () => () => setOpen(false),
   });
-  const updateMutation = useUpdateStatsMutation({
-    onSuccess: () => setOpen(false),
+
+  const updateMutation = useMutation({
+    ...postApiStatsByIdMutation(),
+    onSuccess: () => () => setOpen(false),
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
 
   const handleSubmit = (upsertData: CreateStatCommand | UpdateStatCommand) => {
     data
-      ? updateMutation.mutate(upsertData as UpdateStatCommand)
-      : createMutation.mutate(upsertData as CreateStatCommand);
+      ? updateMutation.mutate({
+          path: {
+            id: (upsertData as UpdateStatCommand).id.toString(),
+          },
+          body: upsertData as UpdateStatCommand,
+        })
+      : createMutation.mutate({ body: upsertData as CreateStatCommand });
   };
 
   const isDesktop = useMediaQuery("(min-width: 640px)");
