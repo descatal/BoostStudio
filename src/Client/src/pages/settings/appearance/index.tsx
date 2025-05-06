@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useTheme } from "next-themes"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "next-themes";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import {
   Form,
@@ -11,36 +11,36 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { toast } from "@/components/ui/use-toast"
-import { Button, buttonVariants } from "@/components/custom/button"
+} from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { toast } from "@/hooks/use-toast";
+import { Button } from "@/components/custom/button";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark", "system"], {
     required_error: "Please select a theme.",
   }),
-})
+});
 
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
+type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
 const Appearance = () => {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, theme } = useTheme();
 
   const defaultValues: Partial<AppearanceFormValues> = {
     theme: theme as "light" | "dark" | "system",
-  }
+  };
 
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
-  })
+  });
 
   function onSubmit(data: AppearanceFormValues) {
-    setTheme(data.theme)
+    setTheme(data.theme);
     toast({
       title: "Settings saved!",
-    })
+    });
   }
 
   return (
@@ -120,7 +120,7 @@ const Appearance = () => {
         <Button>Update preferences</Button>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default Appearance
+export default Appearance;

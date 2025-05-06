@@ -1,14 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import ScriptViewer from "@/features/scripts/components/script-viewer";
+import ScriptCompiler from "@/features/scripts/components/script-compiler";
 
 export const Route = createFileRoute("/units/scripts")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return (
-    <>
-      <ScriptViewer unitId={1011} />
-    </>
-  );
+  return <ScriptCompiler unitId={1011} />;
 }

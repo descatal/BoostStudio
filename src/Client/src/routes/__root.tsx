@@ -20,11 +20,14 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Topbar from "@/components/layout/topbar";
 import { Toaster } from "@/components/ui/toaster";
-import { toast } from "@/hooks/use-toast";
 import { ShowErrorToast } from "@/lib/errors";
+import GeneralError from "@/features/errors/general-error";
+import NotFoundError from "@/features/errors/not-found-error";
 
 export const Route = createRootRoute({
   component: RootComponent,
+  notFoundComponent: NotFoundError,
+  errorComponent: GeneralError,
 });
 
 const queryClient = new QueryClient({
@@ -55,22 +58,25 @@ function RootComponent() {
               <SearchProvider>
                 <Toaster />
                 {"__TAURI__" in window ? <Menu /> : <></>}
-                <div className="relative h-screen overflow-hidden bg-background">
-                  <Sidebar
-                    isCollapsed={isCollapsed}
-                    setIsCollapsed={setIsCollapsed}
-                  />
-                  <main
-                    id="content"
-                    className={`
+                <div
+                  className={`
                       overflow-x-hidden pb-20 pt-16 transition-[margin] md:pt-0 ${isCollapsed ? "md:ml-14" : "md:ml-64"} h-full
                     `}
+                >
+                  <Topbar />
+                  <div
+                    className={`relative h-[calc(100vh-${isCollapsed ? "64" : "128"}px)] overflow-auto bg-background`}
                   >
-                    <Topbar />
-                    <React.Fragment>
-                      <Outlet />
-                    </React.Fragment>
-                  </main>
+                    <Sidebar
+                      isCollapsed={isCollapsed}
+                      setIsCollapsed={setIsCollapsed}
+                    />
+                    <main id="content" className={"h-full"}>
+                      <React.Fragment>
+                        <Outlet />
+                      </React.Fragment>
+                    </main>
+                  </div>
                 </div>
               </SearchProvider>
             </NuqsAdapter>

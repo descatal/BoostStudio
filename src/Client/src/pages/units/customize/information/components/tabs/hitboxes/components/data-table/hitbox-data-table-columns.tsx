@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { GetApiHitboxesByHash200Response } from "@/api/exvs/models/GetApiHitboxesByHash200Response"
-import { createHitbox, deleteHitbox } from "@/api/wrapper/hitbox-api"
-import { ColumnDef, RowData } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { GetApiHitboxesByHash200Response } from "@/api/exvs/models/GetApiHitboxesByHash200Response";
+import { createHitbox, deleteHitbox } from "@/api/wrapper/hitbox-api";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 
 import {
   AlertDialog,
@@ -15,16 +15,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/dropdown-menu";
+import { toast } from "@/hooks/use-toast";
 
 export const hitboxColumns: ColumnDef<GetApiHitboxesByHash200Response>[] = [
   {
@@ -160,7 +160,7 @@ export const hitboxColumns: ColumnDef<GetApiHitboxesByHash200Response>[] = [
       isAction: true,
     },
     cell: ({ row, table }) => {
-      const data = row.original
+      const data = row.original;
 
       return (
         <>
@@ -178,11 +178,11 @@ export const hitboxColumns: ColumnDef<GetApiHitboxesByHash200Response>[] = [
                   onClick={async () => {
                     await createHitbox({
                       createHitboxCommand: { ...data },
-                    })
-                    await table.options.meta?.fetchData()
+                    });
+                    await table.options.meta?.fetchData();
                     toast({
                       title: "Hitbox Duplicated!",
-                    })
+                    });
                   }}
                 >
                   Duplicate
@@ -210,11 +210,11 @@ export const hitboxColumns: ColumnDef<GetApiHitboxesByHash200Response>[] = [
                   onClick={async () => {
                     await deleteHitbox({
                       hash: data.hash!,
-                    })
-                    await table.options.meta?.fetchData()
+                    });
+                    await table.options.meta?.fetchData();
                     toast({
                       title: "Hitbox Deleted!",
-                    })
+                    });
                   }}
                 >
                   Confirm
@@ -223,7 +223,7 @@ export const hitboxColumns: ColumnDef<GetApiHitboxesByHash200Response>[] = [
             </AlertDialogContent>
           </AlertDialog>
         </>
-      )
+      );
     },
   },
-]
+];

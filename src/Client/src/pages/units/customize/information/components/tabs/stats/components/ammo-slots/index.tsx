@@ -18,11 +18,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 import CreateAmmoSlotSheet from "./components/create-ammo-slot-sheet";
 import UpdateAmmoSlotSheet from "./components/update-ammo-slot-sheet";
-import { AmmoSlotContext, AmmoSlotContextType } from "./types";
+import { AmmoSlotContext } from "./types";
 
 const AmmoSlots = ({
   unitId,

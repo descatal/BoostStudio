@@ -1,13 +1,10 @@
-import React, { useCallback } from "react"
-import { UpsertConfigCommand } from "@/api/exvs"
-import { upsertConfig } from "@/api/wrapper/config-api"
-import { fieldConfig, ZodProvider } from "@autoform/zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { AutoForm } from "@/components/ui/autoform"
-import { Button } from "@/components/ui/button"
+import React, { useCallback } from "react";
+import { UpsertConfigCommand } from "@/api/exvs";
+import { upsertConfig } from "@/api/wrapper/config-api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -15,16 +12,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "@/hooks/use-toast";
 
 // /rpcs3/.moddedboost
 // /workstation
@@ -33,15 +30,15 @@ import { toast } from "@/components/ui/use-toast"
 const upsertConfigSchema = z.object({
   key: z.string(),
   value: z.string(),
-}) satisfies z.ZodType<UpsertConfigCommand>
+}) satisfies z.ZodType<UpsertConfigCommand>;
 
 interface ConfigFormProps {
-  title: string
-  description: string
-  placeholder?: string | undefined
-  configKey: string | undefined
-  configValue: string | undefined
-  onSubmit: (key: string, value: string) => Promise<void>
+  title: string;
+  description: string;
+  placeholder?: string | undefined;
+  configKey: string | undefined;
+  configValue: string | undefined;
+  onSubmit: (key: string, value: string) => Promise<void>;
 }
 
 const ConfigForm = ({
@@ -58,13 +55,13 @@ const ConfigForm = ({
       key: configKey,
       value: configValue ?? "",
     },
-  })
+  });
 
   React.useEffect(() => {
     form.resetField("value", {
       defaultValue: configValue ?? "",
-    })
-  }, [configValue])
+    });
+  }, [configValue]);
 
   const saveConfig = useCallback(async (Key: string, Value: string) => {
     await upsertConfig({
@@ -72,19 +69,19 @@ const ConfigForm = ({
         key: Key,
         value: Value,
       },
-    })
+    });
 
     toast({
       title: "Config saved successfully!",
-    })
-  }, [])
+    });
+  }, []);
 
   const onConfigFormSubmit = async (
-    values: z.infer<typeof upsertConfigSchema>
+    values: z.infer<typeof upsertConfigSchema>,
   ) => {
-    await saveConfig(values.key, values.value)
-    await onSubmit(values.key, values.value)
-  }
+    await saveConfig(values.key, values.value);
+    await onSubmit(values.key, values.value);
+  };
 
   return (
     <Form {...form}>
@@ -117,7 +114,7 @@ const ConfigForm = ({
         </Card>
       </form>
     </Form>
-  )
-}
+  );
+};
 
-export default ConfigForm
+export default ConfigForm;

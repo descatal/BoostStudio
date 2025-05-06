@@ -52,7 +52,7 @@ export type AssetFileVm = {
     hash: number;
     order?: number;
     fileType?: Array<AssetFileType>;
-    gameUnitId?: null | number;
+    unitIds?: Array<number>;
 };
 
 export type BulkCreateUnitCommand = {
@@ -120,7 +120,7 @@ export type CreateAmmoCommand = {
 export type CreateAssetFileCommand = {
     order?: number;
     fileType?: Array<AssetFileType>;
-    gameUnitId?: null | number;
+    unitIds?: Array<number>;
 };
 
 export type CreateHitboxCommand = {
@@ -1159,7 +1159,7 @@ export type UpdateAssetFileByHashCommand = {
     hash: number;
     order?: number;
     fileType?: Array<AssetFileType>;
-    gameUnitId?: null | number;
+    unitIds?: Array<number>;
 };
 
 export type UpdateHitboxCommand = {
@@ -3100,6 +3100,7 @@ export type GetApiAssetsData = {
         PerPage?: number;
         UnitIds?: Array<number>;
         AssetFileTypes?: Array<AssetFileType>;
+        ListAll?: boolean;
     };
     url: '/api/assets';
 };

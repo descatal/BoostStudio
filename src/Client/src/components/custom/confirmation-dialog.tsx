@@ -1,88 +1,67 @@
-import React, { useEffect } from "react"
-import { Info } from "lucide-react"
-
-import { useDisclosure } from "@/hooks/use-disclosure"
+import React from "react";
+import { Info } from "lucide-react";
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+  Credenza,
+  CredenzaBody,
+  CredenzaClose,
+  CredenzaContent,
+  CredenzaFooter,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from "@/components/credenza";
+import { LuCircleAlert } from "react-icons/lu";
+import { Separator } from "@/components/ui/separator";
 
-export type ConfirmationDialogProps = {
-  triggerButton: React.ReactElement
-  confirmButton: React.ReactElement
-  title: string
-  body?: string
-  cancelButtonText?: string
-  icon?: "danger" | "info"
-  isDone?: boolean
+interface ConfirmationDialogProps
+  extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
+  triggerButton: React.ReactElement;
+  cancelButton?: React.ReactElement;
+  confirmButton?: React.ReactElement;
+  title: string;
+  body?: string;
+  icon?: "danger" | "info";
 }
 
 const ConfirmationDialog = ({
   triggerButton,
+  cancelButton,
   confirmButton,
   title,
   body = "",
-  cancelButtonText = "Cancel",
   icon = "danger",
-  isDone = false,
+  ...props
 }: ConfirmationDialogProps) => {
-  const { close, open, isOpen } = useDisclosure()
-  const cancelButtonRef = React.useRef(null)
-
-  useEffect(() => {
-    if (isDone) {
-      close()
-    }
-  }, [isDone, close])
-
   return (
-    <AlertDialog
-      open={isOpen}
-      onOpenChange={(isOpen) => {
-        if (!isOpen) {
-          close()
-        } else {
-          open()
-        }
-      }}
-    >
-      <AlertDialogTrigger asChild>{triggerButton}</AlertDialogTrigger>
-      <AlertDialogContent className="sm:max-w-[425px]">
-        <AlertDialogHeader className="flex">
-          <AlertDialogTitle className="flex items-center gap-2">
-            {" "}
+    <Credenza {...props}>
+      <CredenzaTrigger asChild>{triggerButton}</CredenzaTrigger>
+      <CredenzaContent>
+        <CredenzaHeader className="flex">
+          <CredenzaTitle className="flex items-center gap-2">
             {icon === "danger" && (
-              <Info className="size-6 text-red-600" aria-hidden="true" />
+              <LuCircleAlert className="size-6" aria-hidden="true" />
             )}
-            {icon === "info" && (
-              <Info className="size-6 text-blue-600" aria-hidden="true" />
-            )}
+            {icon === "info" && <Info className="size-6" aria-hidden="true" />}
             {title}
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-
-        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-          {body && (
-            <div className="mt-2">
-              <p>{body}</p>
-            </div>
-          )}
-        </div>
-
-        <AlertDialogFooter>
+          </CredenzaTitle>
+        </CredenzaHeader>
+        <CredenzaBody>
+          <div className="grid gap-4">
+            {body && (
+              <div className="my-2">
+                <p className={"text-sm text-muted-foreground"}>{body}</p>
+              </div>
+            )}
+          </div>
+          <Separator />
+        </CredenzaBody>
+        <CredenzaFooter>
+          <CredenzaClose asChild>{cancelButton}</CredenzaClose>
           {confirmButton}
-          <Button ref={cancelButtonRef} variant="outline" onClick={close}>
-            {cancelButtonText}
-          </Button>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  )
-}
+        </CredenzaFooter>
+      </CredenzaContent>
+    </Credenza>
+  );
+};
 
-export default ConfirmationDialog
+export default ConfirmationDialog;

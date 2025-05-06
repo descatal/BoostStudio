@@ -1,10 +1,9 @@
-import React, { useEffect } from "react"
-import { createUnitAmmoSlot } from "@/api/wrapper/stats-api"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ReloadIcon } from "@radix-ui/react-icons"
-import { useForm } from "react-hook-form"
+import React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,7 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -20,7 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetClose,
@@ -30,20 +29,19 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/sheet";
 
 import {
   CreateAmmoSlotSchema,
   createAmmoSlotSchema,
-} from "../../libs/validations"
-import { AmmoSlotContext, AmmoSlotContextType } from "../../types"
+} from "../../libs/validations";
+import { AmmoSlotContext, AmmoSlotContextType } from "../../types";
 
 interface CreateAmmoSlotSheetProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
-  index: number
-  unitId: number
-  ammoOptions: number[]
+  index: number;
+  unitId: number;
+  ammoOptions: number[];
 }
 
 const CreateAmmoSlotSheet = ({
@@ -54,8 +52,8 @@ const CreateAmmoSlotSheet = ({
   ...props
 }: CreateAmmoSlotSheetProps) => {
   const { ammoSlots, setAmmoSlots } =
-    React.useContext<AmmoSlotContextType>(AmmoSlotContext)
-  const [isCreatePending, startCreateTransition] = React.useTransition()
+    React.useContext<AmmoSlotContextType>(AmmoSlotContext);
+  const [isCreatePending, startCreateTransition] = React.useTransition();
 
   const form = useForm<CreateAmmoSlotSchema>({
     resolver: zodResolver(createAmmoSlotSchema),
@@ -64,7 +62,7 @@ const CreateAmmoSlotSheet = ({
       unitId: unitId,
       slotOrder: index,
     },
-  })
+  });
 
   function onSubmit(input: CreateAmmoSlotSchema) {
     // startCreateTransition(async () => {
@@ -159,7 +157,7 @@ const CreateAmmoSlotSheet = ({
         </SheetContent>
       </Sheet>
     </div>
-  )
-}
+  );
+};
 
-export default CreateAmmoSlotSheet
+export default CreateAmmoSlotSheet;

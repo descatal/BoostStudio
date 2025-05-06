@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import AmmoSlots from "@/features/stats/components/ammo-slots/ammo-slots";
-import StatsGroupTable from "@/features/stats/components/stats-group-table/stats-group-table";
+import StatsGroupTable from "@/features/stats/components/stats-group-table/table";
 
 interface StatsListProps {
   unitId?: number | undefined;

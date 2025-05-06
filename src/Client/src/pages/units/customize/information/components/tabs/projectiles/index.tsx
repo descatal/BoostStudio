@@ -1,103 +1,101 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { GetApiProjectiles200Response } from "@/api/exvs/models/GetApiProjectiles200Response"
-import { GetApiProjectilesByHash200Response } from "@/api/exvs/models/GetApiProjectilesByHash200Response"
+import React, { useCallback, useEffect, useState } from "react";
 import {
   fetchProjectiles,
   updateProjectile,
-} from "@/api/wrapper/projectile-api"
-import { DataTableFilterField } from "@/types"
+} from "@/api/wrapper/projectile-api";
+import { DataTableFilterField } from "@/types";
 
-import { useDataTable } from "@/hooks/use-react-table-2"
+import { useDataTable } from "@/hooks/use-react-table-2";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { DataTable } from "@/components/data-table/data-table"
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
+} from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
+import { DataTable } from "@/components/data-table/data-table";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
-import { projectileColumns } from "./components/data-table/projectile-data-table-columns"
-import { ProjectileDataTableToolbar } from "./components/data-table/projectile-data-table-toolbar"
-import {GetApiProjectilesRequest, type PaginatedListOfProjectileDto, type ProjectileDto} from "@/api/exvs";
+import { projectileColumns } from "./components/data-table/projectile-data-table-columns";
+import { ProjectileDataTableToolbar } from "./components/data-table/projectile-data-table-toolbar";
+import {
+  type PaginatedListOfProjectileDto,
+  type ProjectileDto,
+} from "@/api/exvs";
 
 const Projectiles = ({ unitId }: { unitId: number }) => {
-  const [response, setResponse] = useState<PaginatedListOfProjectileDto>()
-  const [projectiles, setProjectiles] = useState<
-    ProjectileDto[]
-  >([])
+  const [response, setResponse] = useState<PaginatedListOfProjectileDto>();
+  const [projectiles, setProjectiles] = useState<ProjectileDto[]>([]);
 
   const getData = useCallback(async () => {
-    const pagination = table.getState().pagination
+    const pagination = table.getState().pagination;
     const hash = table
       .getState()
-      .columnFilters.find((column) => column.id === "hash")?.value as string
+      .columnFilters.find((column) => column.id === "hash")?.value as string;
     const hitboxHash = table
       .getState()
       .columnFilters.find((column) => column.id === "hitboxHash")
-      ?.value as string
+      ?.value as string;
 
-    const hashes = hash?.split(";").map((x) => Number(x))
+    const hashes = hash?.split(";").map((x) => Number(x));
     const projectileDto = await fetchProjectiles({
       unitIds: [unitId],
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
       hashes: hashes,
       search: hitboxHash,
-    })
-    setResponse(projectileDto)
-  }, [unitId])
+    });
+    setResponse(projectileDto);
+  }, [unitId]);
 
   const saveData = useCallback(async () => {
-    const modifiedRows = table.options.meta?.modifiedRows ?? []
+    const modifiedRows = table.options.meta?.modifiedRows ?? [];
     const modifiedEntities = modifiedRows.map((rowIndex, index) => {
-      return table.getRow(rowIndex.toString()).original
-    })
+      return table.getRow(rowIndex.toString()).original;
+    });
 
     for (const entity of modifiedEntities) {
-      if (entity.hash === undefined) continue
-      if (entity.hitboxHash === 0) entity.hitboxHash = undefined
+      if (entity.hash === undefined) continue;
+      if (entity.hitboxHash === 0) entity.hitboxHash = undefined;
       await updateProjectile({
         hash: entity.hash!,
         updateProjectileByIdCommand: {
           ...entity,
           hash: entity.hash!,
         },
-      })
+      });
     }
 
     toast({
       title: "Saved!",
       description: "Save operation successful.",
-    })
-    await getData()
-  }, [])
+    });
+    await getData();
+  }, []);
 
   useEffect(() => {
-    setProjectiles(response?.items ?? [])
-  }, [response])
+    setProjectiles(response?.items ?? []);
+  }, [response]);
 
   useEffect(() => {
-    getData().catch(console.error)
-  }, [unitId])
+    getData().catch(console.error);
+  }, [unitId]);
 
-  const filterFields: DataTableFilterField<ProjectileDto>[] =
-    [
-      {
-        type: "input",
-        label: "Hash",
-        value: "hash",
-        placeholder: "Search by hash",
-      },
-      {
-        type: "input",
-        label: "Hitbox Hash",
-        value: "hitboxHash",
-        placeholder: "Search by hitbox hash",
-      },
-    ]
+  const filterFields: DataTableFilterField<ProjectileDto>[] = [
+    {
+      type: "input",
+      label: "Hash",
+      value: "hash",
+      placeholder: "Search by hash",
+    },
+    {
+      type: "input",
+      label: "Hitbox Hash",
+      value: "hitboxHash",
+      placeholder: "Search by hitbox hash",
+    },
+  ];
 
   const { table } = useDataTable({
     data: projectiles,
@@ -108,7 +106,7 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
     fetchData: getData,
     saveData: saveData,
     enableEditingMode: true,
-  })
+  });
 
   return (
     <div>
@@ -132,7 +130,7 @@ const Projectiles = ({ unitId }: { unitId: number }) => {
         </Card>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Projectiles
+export default Projectiles;

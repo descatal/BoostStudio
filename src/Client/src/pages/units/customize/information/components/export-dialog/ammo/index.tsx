@@ -1,45 +1,51 @@
-﻿import React from "react"
+﻿import React from "react";
 
-import {Button} from "@/components/ui/button"
-import {Card, CardContent, CardDescription, CardHeader, CardTitle,} from "@/components/ui/card"
-import {Separator} from "@/components/ui/separator"
-import {toast} from "@/components/ui/use-toast"
-import {Icons} from "@/components/icons"
-import {ArrowBigDownDash} from "lucide-react";
-import {Switch} from "@/components/ui/switch";
-import {exportAmmo} from "@/api/wrapper/ammo-api";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "@/hooks/use-toast";
+import { Icons } from "@/components/icons";
+import { ArrowBigDownDash } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { exportAmmo } from "@/api/wrapper/ammo-api";
 
 interface AmmoExportProps {
-  onExport: () => void
+  onExport: () => void;
 }
 
-const AmmoExport = ({onExport}: AmmoExportProps) => {
-  const [isExportPending, setIsExportPending] = React.useState(false)
-  const [hotReload, setHotReload] = React.useState(true)
+const AmmoExport = ({ onExport }: AmmoExportProps) => {
+  const [isExportPending, setIsExportPending] = React.useState(false);
+  const [hotReload, setHotReload] = React.useState(true);
 
   const handleExport = async () => {
     try {
       await exportAmmo({
         exportAmmoCommand: {
           replaceWorking: true,
-          hotReload: hotReload
+          hotReload: hotReload,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully exported ammo binary to working directory!`,
-      })
+      });
 
-      onExport()
+      onExport();
     } catch (e) {
       toast({
         title: `Error`,
         description: `Export failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <Card>
@@ -52,22 +58,22 @@ const AmmoExport = ({onExport}: AmmoExportProps) => {
       <CardContent>
         <div className="grid gap-4">
           <div className="flex items-center space-x-4 rounded-md border p-4">
-            <ArrowBigDownDash/>
+            <ArrowBigDownDash />
             <div className="flex-1 space-y-1">
               <p className="text-sm font-medium leading-none">Hot Reload</p>
               <p className="text-sm text-muted-foreground">
                 Patch the compiled ammo binary to running RPCS3.
               </p>
             </div>
-            <Switch checked={hotReload} onCheckedChange={setHotReload}/>
+            <Switch checked={hotReload} onCheckedChange={setHotReload} />
           </div>
-          <Separator/>
+          <Separator />
           <Button
             disabled={isExportPending}
             onClick={async () => {
-              setIsExportPending(true)
-              await handleExport()
-              setIsExportPending(false)
+              setIsExportPending(true);
+              await handleExport();
+              setIsExportPending(false);
             }}
           >
             {isExportPending && (
@@ -81,7 +87,7 @@ const AmmoExport = ({onExport}: AmmoExportProps) => {
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default AmmoExport
+export default AmmoExport;

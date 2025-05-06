@@ -64,7 +64,7 @@ const PackFhmForm = () => {
     },
     onSuccess: (data) => {
       toast({
-        title: "Pack successful!",
+        title: "Successful!",
         description: "Packed FHM file successfully!",
       });
 

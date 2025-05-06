@@ -5,7 +5,11 @@ import {
   type UpdatePatchFileByIdCommand,
 } from "@/api/exvs";
 import { z } from "zod";
-import { zPatchFileVersion } from "@/api/exvs/zod.gen";
+import {
+  zCreatePatchFileCommand,
+  zPatchFileVersion,
+  zUpdatePatchFileByIdCommand,
+} from "@/api/exvs/zod.gen";
 
 const patchFileVersionEnum = z.nativeEnum(zPatchFileVersion.Enum);
 
@@ -43,7 +47,7 @@ export const createPatchFileSchema = z
     }
   }) satisfies z.ZodType<CreatePatchFileCommand>;
 
-export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>;
+// export type CreatePatchFileSchema = z.infer<typeof createPatchFileSchema>;
 
 export const updatePatchFileSchema = z
   .object({
@@ -59,7 +63,7 @@ export const updatePatchFileSchema = z
     }
   }) satisfies z.ZodType<UpdatePatchFileByIdCommand>;
 
-export type UpdatePatchFileSchema = z.infer<typeof updatePatchFileSchema>;
+// export type UpdatePatchFileSchema = z.infer<typeof updatePatchFileSchema>;
 
 export interface AssetFileSearch {
   assetFileHash: number;
@@ -70,3 +74,6 @@ export const searchAssetFileSearchSchema = z.object({
 }) satisfies z.ZodType<AssetFileSearch>;
 
 export type SearchAssetFileSchema = z.infer<typeof searchAssetFileSearchSchema>;
+
+export type CreatePatchFileSchema = z.infer<typeof zCreatePatchFileCommand>;
+export type UpdatePatchFileSchema = z.infer<typeof zUpdatePatchFileByIdCommand>;

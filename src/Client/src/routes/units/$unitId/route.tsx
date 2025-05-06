@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import React, { useEffect } from "react";
-import { UnitCustomizableSections } from "@/lib/constants";
-import { useAppContext } from "@/providers/app-store-provider";
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getApiUnitsByUnitIdOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 export const Route = createFileRoute("/units/$unitId")({
   component: RouteComponent,
@@ -10,17 +10,31 @@ export const Route = createFileRoute("/units/$unitId")({
 function RouteComponent() {
   const { unitId }: { unitId: number } = Route.useParams();
 
-  const setTopbarLinks = useAppContext((state) => state.setTopbarLinks);
-  const links = Object.entries(UnitCustomizableSections).map(
-    ([label, path]) => ({
-      label: label,
-      path: `/units/${unitId}/${path}`,
+  const query = useQuery({
+    ...getApiUnitsByUnitIdOptions({
+      path: {
+        unitId: unitId,
+      },
     }),
+  });
+
+  const data = query.data;
+
+  return (
+    <>
+      {data && (
+        <>
+          <div className="flex items-center justify-between space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight">
+              {data.nameEnglish}
+            </h2>
+          </div>
+          <label className="text-sm text-muted-foreground">
+            UnitId: {data.unitId}
+          </label>
+        </>
+      )}
+      <Outlet />
+    </>
   );
-
-  useEffect(() => {
-    setTopbarLinks(links);
-  }, []);
-
-  return <Outlet />;
 }

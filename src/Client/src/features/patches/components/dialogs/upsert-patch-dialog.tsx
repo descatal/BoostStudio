@@ -1,48 +1,43 @@
 import React from "react";
 import { PatchFileSummaryVm } from "@/api/exvs";
-import { PatchFilesForm } from "@/features/patches/components/patch-files-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
 import { useForm } from "react-hook-form";
-
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 
+import { PatchIdNameMap } from "@/features/patches/libs/constants";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getApiPatchFilesSummaryQueryKey,
+  postApiPatchFilesByIdMutation,
+  postApiPatchFilesMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
+import { toast } from "@/hooks/use-toast";
+import {
+  zCreatePatchFileCommand,
+  zPatchFileVersion,
+  zUpdatePatchFileByIdCommand,
+} from "@/api/exvs/zod.gen";
+import {
+  Credenza,
+  CredenzaContent,
+  CredenzaDescription,
+  CredenzaFooter,
+  CredenzaHeader,
+  CredenzaTitle,
+  CredenzaTrigger,
+} from "@/components/credenza";
+import { EnhancedButton } from "@/components/ui/enhanced-button";
+import { BiSave } from "react-icons/bi";
+import { PatchFilesForm } from "@/features/patches/components/patch-files-form";
 import {
   CreatePatchFileSchema,
-  createPatchFileSchema,
   UpdatePatchFileSchema,
-  updatePatchFileSchema,
-} from "../../libs/validations";
-import { PatchIdNameMap } from "@/features/patches/libs/constants";
-import { useMutation } from "@tanstack/react-query";
-import { postApiPatchFilesByIdMutation } from "@/api/exvs/@tanstack/react-query.gen";
-import { toast } from "@/components/ui/use-toast";
-import { zPatchFileVersion } from "@/api/exvs/zod.gen";
+} from "@/features/patches/libs/validations";
+import { Route } from "@/routes/patches/route";
+import { Icons } from "@/components/icons";
 
 interface UpsertPatchDialogProps
-  extends React.ComponentPropsWithRef<typeof Sheet> {
+  extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
   patchFile?: PatchFileSummaryVm | undefined;
   triggerButton?: React.ReactElement | undefined;
 }
@@ -52,23 +47,55 @@ const UpsertPatchDialog = ({
   patchFile,
   ...props
 }: UpsertPatchDialogProps) => {
-  const updateTblPatchFileMutation = useMutation({
-    ...postApiPatchFilesByIdMutation(),
-    onSuccess: () => {
+  const [open, setOpen] = React.useState(false);
+
+  const queryClient = useQueryClient();
+  const createMutation = useMutation({
+    ...postApiPatchFilesMutation(),
+    onSuccess: async () => {
       toast({
-        title: "Update success!",
+        title: "Success!",
+        description: "Entry created.",
+      });
+      setOpen(false);
+
+      await queryClient.invalidateQueries({
+        predicate: (query) =>
+          // @ts-ignore
+          query.queryKey[0]._id === getApiPatchFilesSummaryQueryKey()[0]._id,
       });
     },
   });
 
+  const updateMutation = useMutation({
+    ...postApiPatchFilesByIdMutation(),
+    onSuccess: async () => {
+      toast({
+        title: "Success!",
+        description: "Entry updated.",
+      });
+      setOpen(false);
+
+      await queryClient.invalidateQueries({
+        predicate: (query) =>
+          // @ts-ignore
+          query.queryKey[0]._id === getApiPatchFilesSummaryQueryKey()[0]._id,
+      });
+    },
+  });
+
+  const { patchId }: { patchId: string } = Route.useParams();
+
   const selectedPatchFileVersion =
-    patchFile?.tblId ?? zPatchFileVersion.Enum.Base;
+    patchFile?.tblId ??
+    zPatchFileVersion.options.find((x) => x === patchId) ??
+    zPatchFileVersion.Enum.Base;
   const patchName = PatchIdNameMap[selectedPatchFileVersion];
 
   const form = useForm<CreatePatchFileSchema | UpdatePatchFileSchema>({
     resolver: patchFile
-      ? zodResolver(updatePatchFileSchema)
-      : zodResolver(createPatchFileSchema),
+      ? zodResolver(zUpdatePatchFileByIdCommand)
+      : zodResolver(zCreatePatchFileCommand),
     defaultValues: patchFile
       ? patchFile
       : {
@@ -88,96 +115,64 @@ const UpsertPatchDialog = ({
         },
   });
 
-  const isDesktop = useMediaQuery("(min-width: 640px)");
-
   const handleFormSubmit = (
-    values: CreatePatchFileSchema | UpdatePatchFileSchema,
+    data: CreatePatchFileSchema | UpdatePatchFileSchema,
   ) => {
     if (patchFile) {
-      updateTblPatchFileMutation.mutate({
-        body: {
-          ...values,
-          id: patchFile.id!,
-        },
+      const typedData = data as UpdatePatchFileSchema;
+      updateMutation.mutate({
+        body: { ...typedData, id: typedData.id! },
         path: {
-          id: patchFile.id!,
+          id: typedData.id!,
         },
+      });
+    } else {
+      const typedData = data as CreatePatchFileSchema;
+      createMutation.mutate({
+        body: typedData,
       });
     }
   };
 
-  if (isDesktop) {
-    return (
-      <Sheet {...props}>
-        <SheetTrigger asChild>{triggerButton ?? <></>}</SheetTrigger>
-        <SheetContent className="flex flex-col gap-6 sm:max-w-md">
-          <SheetHeader className="text-left">
-            <SheetTitle>{patchFile ? "Update" : "Create"}</SheetTitle>
-            <SheetDescription>
-              {patchFile ? "Update existing" : "Create new"} patch file details
-              and save the changes
-            </SheetDescription>
-          </SheetHeader>
-          <Separator />
-          <PatchFilesForm form={form} onSubmit={handleFormSubmit}>
-            <SheetFooter className="gap-2 pt-2 sm:space-x-0">
-              <SheetClose asChild>
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
-              </SheetClose>
-              <Button disabled={updateTblPatchFileMutation.isPending}>
-                {updateTblPatchFileMutation.isPending && (
-                  <Loader
-                    className="mr-2 size-4 animate-spin"
-                    aria-hidden="true"
-                  />
-                )}
-                Save
-              </Button>
-            </SheetFooter>
-          </PatchFilesForm>
-        </SheetContent>
-      </Sheet>
-    );
-  }
-
   return (
-    <Drawer {...props}>
-      <DrawerTrigger asChild autoFocus={props.open}>
-        {triggerButton ?? <></>}
-      </DrawerTrigger>
-      <DrawerContent className="flex flex-col gap-6 sm:max-w-md">
-        <DrawerHeader className="text-left">
-          <DrawerTitle>Update patch file details</DrawerTitle>
-          <DrawerDescription>
-            Update the patch file details and save the changes
-          </DrawerDescription>
-        </DrawerHeader>
+    <Credenza {...props} open={open} onOpenChange={setOpen}>
+      <CredenzaTrigger asChild>{triggerButton ?? <></>}</CredenzaTrigger>
+      <CredenzaContent className="flex flex-col gap-6 sm:max-w-md">
+        <CredenzaHeader className="text-left">
+          <CredenzaTitle>{patchFile ? "Update" : "Create"}</CredenzaTitle>
+          <CredenzaDescription>
+            {patchFile ? "Update existing" : "Create new"} patch file details
+            and save the changes
+          </CredenzaDescription>
+        </CredenzaHeader>
         <Separator />
         <PatchFilesForm form={form} onSubmit={handleFormSubmit}>
-          <DrawerFooter className="gap-2 pt-2 sm:space-x-0">
-            <DrawerClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DrawerClose>
-            <Button
+          <CredenzaFooter>
+            <EnhancedButton
+              className={"mb-2 w-full"}
+              effect={"expandIcon"}
+              variant={"default"}
+              icon={BiSave}
+              iconPlacement={"right"}
+              disabled={
+                patchFile ? updateMutation.isPending : createMutation.isPending
+              }
               type={"submit"}
-              disabled={updateTblPatchFileMutation.isPending}
             >
-              {updateTblPatchFileMutation.isPending && (
-                <Loader
-                  className="mr-2 size-4 animate-spin"
+              {(patchFile
+                ? updateMutation.isPending
+                : createMutation.isPending) && (
+                <Icons.spinner
+                  className="size-4 mr-2 animate-spin"
                   aria-hidden="true"
                 />
               )}
               Save
-            </Button>
-          </DrawerFooter>
+            </EnhancedButton>
+          </CredenzaFooter>
         </PatchFilesForm>
-      </DrawerContent>
-    </Drawer>
+      </CredenzaContent>
+    </Credenza>
   );
 };
 

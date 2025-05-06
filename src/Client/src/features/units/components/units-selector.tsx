@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useEffect } from "react";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -23,27 +24,37 @@ export default function UnitsSelector({
         ListAll: true,
       },
     }),
+    select: (data): Option[] => {
+      return data.items?.flatMap(
+        (series) =>
+          series.units?.map((unit) => ({
+            group: series.nameEnglish ?? "",
+            label: unit.nameEnglish ?? "",
+            value: unit.unitId!.toString(),
+            fixed: defaultValues?.some((x) => x === unit.unitId!),
+          })) ?? [],
+      );
+    },
   });
 
-  const seriesUnits = seriesUnitsQuery?.data?.items;
+  const seriesUnitsOptions = seriesUnitsQuery.data ?? [];
 
-  const seriesUnitsOptions: Option[] =
-    seriesUnits?.flatMap(
-      (series) =>
-        series.units?.map((unit) => ({
-          group: series.nameEnglish ?? "",
-          label: unit.nameEnglish ?? "",
-          value: unit.unitId!.toString(),
-          fixed: defaultValues?.some((x) => x === unit.unitId),
-        })) ?? [],
-    ) ?? [];
+  useEffect(() => {
+    if (defaultValues?.length <= 0 || !props.onChange) return;
+
+    // if default values comes in, but the props.value isn't in sync, make sure the current state is matched
+    const defaultOptions = seriesUnitsOptions.filter((x) =>
+      defaultValues?.some((p) => p.toString() === x.value),
+    );
+
+    props.onChange(defaultOptions);
+  }, [defaultValues, seriesUnitsOptions]);
 
   return (
     <>
       {seriesUnitsOptions.length > 0 && (
         <div className={cn(className ?? "w-full px-10")}>
           <MultipleSelector
-            {...props}
             maxSelected={multiple ? Number.MAX_SAFE_INTEGER : 1}
             onMaxSelected={() => {
               toast("Max unit reached");
@@ -56,6 +67,7 @@ export default function UnitsSelector({
               </p>
             }
             groupBy="group"
+            {...props}
           />
         </div>
       )}

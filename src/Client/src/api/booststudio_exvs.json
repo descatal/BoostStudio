@@ -3155,6 +3155,14 @@
                 "$ref": "#/components/schemas/AssetFileType"
               }
             }
+          },
+          {
+            "name": "ListAll",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -3553,12 +3561,12 @@
               "$ref": "#/components/schemas/AssetFileType"
             }
           },
-          "gameUnitId": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "uint32"
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            }
           }
         }
       },
@@ -3807,12 +3815,12 @@
               "$ref": "#/components/schemas/AssetFileType"
             }
           },
-          "gameUnitId": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "uint32"
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            }
           }
         }
       },
@@ -7890,12 +7898,12 @@
               "$ref": "#/components/schemas/AssetFileType"
             }
           },
-          "gameUnitId": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "uint32"
+          "unitIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "uint32"
+            }
           }
         }
       },

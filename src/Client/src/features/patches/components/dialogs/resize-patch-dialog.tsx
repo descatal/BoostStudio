@@ -1,46 +1,82 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import ConfirmationDialog from "@/components/custom/confirmation-dialog";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
 import { PatchFileVersion } from "@/api/exvs";
-import { useMutation } from "@tanstack/react-query";
-import { postApiPatchFilesResizeMutation } from "@/api/exvs/@tanstack/react-query.gen";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getApiPatchFilesSummaryQueryKey,
+  postApiPatchFilesResizeMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
+import { EnhancedButton } from "@/components/ui/enhanced-button";
+import { CgSize } from "react-icons/cg";
+import { Icons } from "@/components/icons";
 
 type ResizeDialogProps = {
   patchId?: PatchFileVersion | undefined;
 };
 
 const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
-  const resizePatchesMutation = useMutation({
+  const [open, setOpen] = React.useState(false);
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
     ...postApiPatchFilesResizeMutation(),
-    onSuccess: () => {
+    onSuccess: async () => {
       toast({
-        title: "Export success!",
+        title: "Success!",
+        description: "Size for all files in this patch file has been updated!",
+      });
+      setOpen(false);
+
+      await queryClient.invalidateQueries({
+        predicate: (query) =>
+          // @ts-ignore
+          query.queryKey[0]._id === getApiPatchFilesSummaryQueryKey()[0]._id,
       });
     },
   });
 
   return (
     <ConfirmationDialog
-      isDone={resizePatchesMutation.isSuccess}
+      open={open}
+      onOpenChange={setOpen}
       icon="info"
       title="Are you sure?"
-      body={`Resize all patch entries for ${PatchIdNameMap[patchId ?? "All"]}?`}
-      triggerButton={<Button>Resize</Button>}
+      body={`This will update all patch entries' file sizes for ${PatchIdNameMap[patchId ?? "All"]}.`}
+      triggerButton={
+        <EnhancedButton
+          effect={"gooeyLeft"}
+          icon={CgSize}
+          iconPlacement={"right"}
+        >
+          Resize
+        </EnhancedButton>
+      }
       confirmButton={
-        <Button
+        <EnhancedButton
+          className={"w-full"}
+          effect={"expandIcon"}
+          icon={CgSize}
+          iconPlacement={"right"}
           type="button"
+          disabled={mutation.isPending}
           onClick={() => {
-            resizePatchesMutation.mutate({
+            mutation.mutate({
               body: {
                 versions: !patchId ? undefined : [patchId],
               },
             });
           }}
         >
+          {mutation.isPending && (
+            <Icons.spinner
+              className="size-4 mr-2 animate-spin"
+              aria-hidden="true"
+            />
+          )}
           Resize
-        </Button>
+        </EnhancedButton>
       }
     />
   );

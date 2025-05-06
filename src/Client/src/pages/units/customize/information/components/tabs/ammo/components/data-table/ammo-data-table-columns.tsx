@@ -1,9 +1,9 @@
-﻿"use client"
+﻿"use client";
 
-import { AmmoDto } from "@/api/exvs"
-import { createAmmo, deleteAmmo } from "@/api/wrapper/ammo-api"
-import { ColumnDef, RowData } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import { AmmoDto } from "@/api/exvs";
+import { createAmmo, deleteAmmo } from "@/api/wrapper/ammo-api";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 
 import {
   AlertDialog,
@@ -15,17 +15,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { toast } from "@/components/ui/use-toast"
-import { HashInput } from "@/components/custom/hash-input"
+} from "@/components/ui/dropdown-menu";
+import { toast } from "@/hooks/use-toast";
+import { HashInput } from "@/components/custom/hash-input";
 
 export const ammoColumns: ColumnDef<AmmoDto>[] = [
   {
@@ -178,7 +178,7 @@ export const ammoColumns: ColumnDef<AmmoDto>[] = [
       isAction: true,
     },
     cell: ({ row, table }) => {
-      const data = row.original
+      const data = row.original;
 
       return (
         <>
@@ -194,11 +194,11 @@ export const ammoColumns: ColumnDef<AmmoDto>[] = [
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={async () => {
-                    await createAmmo({ ...data })
-                    await table.options.meta?.fetchData()
+                    await createAmmo({ ...data });
+                    await table.options.meta?.fetchData();
                     toast({
                       title: "Ammo Duplicated!",
-                    })
+                    });
                   }}
                 >
                   Duplicate
@@ -224,11 +224,11 @@ export const ammoColumns: ColumnDef<AmmoDto>[] = [
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={async () => {
-                    await deleteAmmo(data.hash!)
-                    await table.options.meta?.fetchData()
+                    await deleteAmmo(data.hash!);
+                    await table.options.meta?.fetchData();
                     toast({
                       title: "Ammo Deleted!",
-                    })
+                    });
                   }}
                 >
                   Confirm
@@ -237,7 +237,7 @@ export const ammoColumns: ColumnDef<AmmoDto>[] = [
             </AlertDialogContent>
           </AlertDialog>
         </>
-      )
+      );
     },
   },
-]
+];

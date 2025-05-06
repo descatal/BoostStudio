@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { Icons } from "@/components/icons";
 import { ArrowBigDownDash } from "lucide-react";
 import { Switch } from "@/components/ui/switch";

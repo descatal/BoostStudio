@@ -132,7 +132,7 @@ export const zAssetFileVm = z.object({
   hash: z.number().int(),
   order: z.number().int().optional(),
   fileType: z.array(zAssetFileType).optional(),
-  gameUnitId: z.union([z.null(), z.number().int()]).optional(),
+  unitIds: z.array(z.number().int()).optional(),
 });
 
 export const zBulkCreateUnitCommand = z.object({
@@ -200,7 +200,7 @@ export const zCreateAmmoCommand = z.object({
 export const zCreateAssetFileCommand = z.object({
   order: z.number().int().optional(),
   fileType: z.array(zAssetFileType).optional(),
-  gameUnitId: z.union([z.null(), z.number().int()]).optional(),
+  unitIds: z.array(z.number().int()).optional(),
 });
 
 export const zCreateHitboxCommand = z.object({
@@ -1251,7 +1251,7 @@ export const zUpdateAssetFileByHashCommand = z.object({
   hash: z.number().int(),
   order: z.number().int().optional(),
   fileType: z.array(zAssetFileType).optional(),
-  gameUnitId: z.union([z.null(), z.number().int()]).optional(),
+  unitIds: z.array(z.number().int()).optional(),
 });
 
 export const zUpdateHitboxCommand = z.object({

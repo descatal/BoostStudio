@@ -1,76 +1,76 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { GetApiHitboxes200Response } from "@/api/exvs/models/GetApiHitboxes200Response"
-import { GetApiHitboxesByHash200Response } from "@/api/exvs/models/GetApiHitboxesByHash200Response"
-import { fetchHitboxes, updateHitbox } from "@/api/wrapper/hitbox-api"
-import { DataTableFilterField } from "@/types"
+import React, { useCallback, useEffect, useState } from "react";
+import { GetApiHitboxes200Response } from "@/api/exvs/models/GetApiHitboxes200Response";
+import { GetApiHitboxesByHash200Response } from "@/api/exvs/models/GetApiHitboxesByHash200Response";
+import { fetchHitboxes, updateHitbox } from "@/api/wrapper/hitbox-api";
+import { DataTableFilterField } from "@/types";
 
-import { useDataTable } from "@/hooks/use-react-table-2"
+import { useDataTable } from "@/hooks/use-react-table-2";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { DataTable } from "@/components/data-table/data-table"
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
+} from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
+import { DataTable } from "@/components/data-table/data-table";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
-import { hitboxColumns } from "./components/data-table/hitbox-data-table-columns"
-import { HitboxDataTableToolbar } from "./components/data-table/hitbox-data-table-toolbar"
+import { hitboxColumns } from "./components/data-table/hitbox-data-table-columns";
+import { HitboxDataTableToolbar } from "./components/data-table/hitbox-data-table-toolbar";
 
 const Hitboxes = ({ unitId }: { unitId: number }) => {
-  const [response, setResponse] = useState<GetApiHitboxes200Response>()
+  const [response, setResponse] = useState<GetApiHitboxes200Response>();
   const [hitboxes, setHitboxes] = useState<GetApiHitboxesByHash200Response[]>(
-    []
-  )
+    [],
+  );
 
   const getData = useCallback(async () => {
-    const pagination = table.getState().pagination
+    const pagination = table.getState().pagination;
     const hash = table
       .getState()
-      .columnFilters.find((column) => column.id === "hash")?.value as string
-    const hashes = hash?.split(";").map((x) => Number(x))
+      .columnFilters.find((column) => column.id === "hash")?.value as string;
+    const hashes = hash?.split(";").map((x) => Number(x));
     const getApiHitboxes200Response = await fetchHitboxes({
       unitIds: [unitId],
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
       hashes: hashes,
-    })
-    setResponse(getApiHitboxes200Response)
-  }, [unitId])
+    });
+    setResponse(getApiHitboxes200Response);
+  }, [unitId]);
 
   const saveData = useCallback(async () => {
-    const modifiedRows = table.options.meta?.modifiedRows ?? []
+    const modifiedRows = table.options.meta?.modifiedRows ?? [];
     const modifiedEntities = modifiedRows.map((rowIndex, index) => {
-      return table.getRow(rowIndex.toString()).original
-    })
+      return table.getRow(rowIndex.toString()).original;
+    });
 
     for (const entity of modifiedEntities) {
-      if (!entity.hash) continue
+      if (!entity.hash) continue;
       await updateHitbox({
         hash: entity.hash!,
         updateHitboxCommand: {
           ...entity,
           hash: entity.hash!,
         },
-      })
+      });
     }
 
     toast({
       title: "Saved!",
       description: "Save operation successful.",
-    })
-    await getData()
-  }, [])
+    });
+    await getData();
+  }, []);
 
   useEffect(() => {
-    setHitboxes(response?.items ?? [])
-  }, [response])
+    setHitboxes(response?.items ?? []);
+  }, [response]);
 
   useEffect(() => {
-    getData().catch(console.error)
-  }, [unitId])
+    getData().catch(console.error);
+  }, [unitId]);
 
   const filterFields: DataTableFilterField<GetApiHitboxesByHash200Response>[] =
     [
@@ -80,7 +80,7 @@ const Hitboxes = ({ unitId }: { unitId: number }) => {
         value: "hash",
         placeholder: "Search by hash",
       },
-    ]
+    ];
 
   const { table } = useDataTable({
     data: hitboxes,
@@ -91,7 +91,7 @@ const Hitboxes = ({ unitId }: { unitId: number }) => {
     fetchData: getData,
     saveData: saveData,
     enableEditingMode: true,
-  })
+  });
 
   return (
     <div>
@@ -117,7 +117,7 @@ const Hitboxes = ({ unitId }: { unitId: number }) => {
         <></>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Hitboxes
+export default Hitboxes;

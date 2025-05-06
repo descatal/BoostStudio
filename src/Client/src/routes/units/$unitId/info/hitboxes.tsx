@@ -7,5 +7,5 @@ export const Route = createFileRoute("/units/$unitId/info/hitboxes")({
 
 function RouteComponent() {
   const { unitId }: { unitId: number } = Route.useParams();
-  return <HitboxesList unitId={unitId} />;
+  return <HitboxesList unitId={Number(unitId)} />;
 }

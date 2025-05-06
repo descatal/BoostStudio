@@ -1,36 +1,36 @@
-﻿import React from "react"
-import { AssetFileVm, UnitSummaryVm } from "@/api/exvs"
-import { packFhmAssets, unpackFhmAssets } from "@/api/wrapper/fhm-api"
-import AssetFilesSearcher from "@/pages/common/components/custom/asset-files-searcher"
+﻿import React from "react";
+import { AssetFileVm, UnitSummaryVm } from "@/api/exvs";
+import { packFhmAssets, unpackFhmAssets } from "@/api/wrapper/fhm-api";
+import AssetFilesSearcher from "@/features/assets/components/asset-files-searcher";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
+import { Icons } from "@/components/icons";
 
 interface AssetToolsProps {
-  units?: UnitSummaryVm[] | undefined
+  units?: UnitSummaryVm[] | undefined;
 }
 
 const AssetTools = ({ units }: AssetToolsProps) => {
-  const [isPackPending, setIsPackPending] = React.useState(false)
-  const [isUnpackPending, setIsUnpackPending] = React.useState(false)
+  const [isPackPending, setIsPackPending] = React.useState(false);
+  const [isUnpackPending, setIsUnpackPending] = React.useState(false);
 
   const [selectedUnpackAssetFile, setSelectedUnpackAssetFile] = React.useState<
     AssetFileVm[] | undefined
-  >()
+  >();
 
   const [selectedPackAssetFile, setSelectedPackAssetFile] = React.useState<
     AssetFileVm[] | undefined
-  >()
+  >();
 
   const packFhmAsset = async () => {
     if (!selectedPackAssetFile) {
@@ -38,8 +38,8 @@ const AssetTools = ({ units }: AssetToolsProps) => {
         title: `Error`,
         description: `Please select at least one asset!`,
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -48,20 +48,20 @@ const AssetTools = ({ units }: AssetToolsProps) => {
           assetFileHashes: selectedPackAssetFile.map((x) => x.hash),
           replaceStaging: true,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully packed assets to staging directory!`,
-      })
+      });
     } catch (e) {
       toast({
         title: `Error`,
         description: `Packing failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const unpackFhmAsset = async () => {
     if (!selectedUnpackAssetFile) {
@@ -69,8 +69,8 @@ const AssetTools = ({ units }: AssetToolsProps) => {
         title: `Error`,
         description: `Please select at least one asset!`,
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -79,20 +79,20 @@ const AssetTools = ({ units }: AssetToolsProps) => {
           assetFileHashes: selectedUnpackAssetFile.map((x) => x.hash),
           replaceWorking: true,
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully unpacked assets to working directory!`,
-      })
+      });
     } catch (e) {
       toast({
         title: `Error`,
         description: `Unpacking failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   return (
     <Tabs defaultValue={"pack"}>
@@ -119,9 +119,9 @@ const AssetTools = ({ units }: AssetToolsProps) => {
               <Button
                 disabled={isPackPending}
                 onClick={async () => {
-                  setIsPackPending(true)
-                  await packFhmAsset()
-                  setIsPackPending(false)
+                  setIsPackPending(true);
+                  await packFhmAsset();
+                  setIsPackPending(false);
                 }}
               >
                 {isPackPending && (
@@ -155,9 +155,9 @@ const AssetTools = ({ units }: AssetToolsProps) => {
               <Button
                 disabled={isUnpackPending}
                 onClick={async () => {
-                  setIsUnpackPending(true)
-                  await unpackFhmAsset()
-                  setIsUnpackPending(false)
+                  setIsUnpackPending(true);
+                  await unpackFhmAsset();
+                  setIsUnpackPending(false);
                 }}
               >
                 {isUnpackPending && (
@@ -173,7 +173,7 @@ const AssetTools = ({ units }: AssetToolsProps) => {
         </Card>
       </TabsContent>
     </Tabs>
-  )
-}
+  );
+};
 
-export default AssetTools
+export default AssetTools;

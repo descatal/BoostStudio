@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import UpsertPatchDialog from "@/features/patches/components/dialogs/upsert-patch-dialog";
 import { PatchFileSummaryVm } from "@/api/exvs";
+import DeletePatchDialog from "@/features/patches/components/dialogs/delete-patch-dialog";
 
 type PatchFilesListRowActionsProps = {
   data: PatchFileSummaryVm;
@@ -40,7 +41,14 @@ const PatchFilesListRowActions = ({ data }: PatchFilesListRowActionsProps) => {
                 }
                 patchFile={data}
               />
-              {/*<DropdownMenuItem>Delete</DropdownMenuItem>*/}
+              <DeletePatchDialog
+                id={data.id}
+                triggerButton={
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    Delete
+                  </DropdownMenuItem>
+                }
+              ></DeletePatchDialog>
             </>
           ) : (
             <></>

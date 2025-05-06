@@ -1,19 +1,19 @@
-﻿import React from "react"
-import { PatchFileVersion } from "@/api/exvs/models/PatchFileVersion"
+﻿import React from "react";
+import { PatchFileVersion } from "@/api/exvs/models/PatchFileVersion";
 import {
   packPsarcByPatchFiles,
   unpackPsarcByPatchFiles,
-} from "@/api/wrapper/psarc-api"
+} from "@/api/wrapper/psarc-api";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,23 +21,23 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
+import { Icons } from "@/components/icons";
 
 const PsarcTools = () => {
-  const [isPackPending, setIsPackPending] = React.useState(false)
-  const [isUnpackPending, setIsUnpackPending] = React.useState(false)
+  const [isPackPending, setIsPackPending] = React.useState(false);
+  const [isUnpackPending, setIsUnpackPending] = React.useState(false);
 
   const [selectedPackPsarcPatchFileVersion, setSelectedPackPatchFileVersion] =
-    React.useState<PatchFileVersion>(PatchFileVersion.Patch6)
+    React.useState<PatchFileVersion>(PatchFileVersion.Patch6);
 
   const [
     selectedUnpackPsarcPatchFileVersion,
     setSelectedUnpackPatchFileVersion,
-  ] = React.useState<PatchFileVersion>(PatchFileVersion.Patch6)
+  ] = React.useState<PatchFileVersion>(PatchFileVersion.Patch6);
 
   const packPsarc = async () => {
     if (!selectedPackPsarcPatchFileVersion) {
@@ -45,8 +45,8 @@ const PsarcTools = () => {
         title: `Error`,
         description: `Please select at least one patch file version!`,
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -54,26 +54,26 @@ const PsarcTools = () => {
         packPsarcByPatchFilesCommand: {
           patchFileVersions: [selectedPackPsarcPatchFileVersion],
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully packed ${selectedPackPsarcPatchFileVersion} psarc to production directory!`,
-      })
+      });
     } catch (e) {
       toast({
         title: `Error`,
         description: `Packing failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handlePackPsarcSubmit = async () => {
-    setIsPackPending(true)
-    await packPsarc()
-    setIsPackPending(false)
-  }
+    setIsPackPending(true);
+    await packPsarc();
+    setIsPackPending(false);
+  };
 
   const unpackPsarc = async () => {
     if (!selectedUnpackPsarcPatchFileVersion) {
@@ -81,8 +81,8 @@ const PsarcTools = () => {
         title: `Error`,
         description: `Please select at least one patch file version!`,
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     try {
@@ -90,26 +90,26 @@ const PsarcTools = () => {
         unpackPsarcByPatchFilesCommand: {
           patchFileVersions: [selectedUnpackPsarcPatchFileVersion],
         },
-      })
+      });
 
       toast({
         title: "Success",
         description: `Successfully unpacked ${selectedUnpackPsarcPatchFileVersion} psarc to staging directory!`,
-      })
+      });
     } catch (e) {
       toast({
         title: `Error`,
         description: `Unpacking failed! ${e}`,
         variant: "destructive",
-      })
+      });
     }
-  }
+  };
 
   const handleUnpackPsarcSubmit = async () => {
-    setIsUnpackPending(true)
-    await unpackPsarc()
-    setIsUnpackPending(false)
-  }
+    setIsUnpackPending(true);
+    await unpackPsarc();
+    setIsUnpackPending(false);
+  };
 
   return (
     <Tabs defaultValue={"pack"}>
@@ -132,7 +132,7 @@ const PsarcTools = () => {
                 <Label>Version</Label>
                 <Select
                   onValueChange={(e) => {
-                    setSelectedPackPatchFileVersion(e as PatchFileVersion)
+                    setSelectedPackPatchFileVersion(e as PatchFileVersion);
                   }}
                   defaultValue={selectedPackPsarcPatchFileVersion}
                 >
@@ -183,7 +183,7 @@ const PsarcTools = () => {
                 <Label>Version</Label>
                 <Select
                   onValueChange={(e) => {
-                    setSelectedUnpackPatchFileVersion(e as PatchFileVersion)
+                    setSelectedUnpackPatchFileVersion(e as PatchFileVersion);
                   }}
                   defaultValue={selectedUnpackPsarcPatchFileVersion}
                 >
@@ -223,7 +223,7 @@ const PsarcTools = () => {
         </Card>
       </TabsContent>
     </Tabs>
-  )
-}
+  );
+};
 
-export default PsarcTools
+export default PsarcTools;

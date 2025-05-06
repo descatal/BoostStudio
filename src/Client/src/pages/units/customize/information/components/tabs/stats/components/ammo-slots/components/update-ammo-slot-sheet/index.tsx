@@ -1,10 +1,9 @@
-import React, { useEffect } from "react"
-import { updateUnitAmmoSlot } from "@/api/wrapper/stats-api"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { ReloadIcon } from "@radix-ui/react-icons"
-import { useForm } from "react-hook-form"
+import React, { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,7 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -20,7 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetClose,
@@ -30,20 +29,19 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { toast } from "@/components/ui/use-toast"
+} from "@/components/ui/sheet";
 
 import {
   UpdateAmmoSlotSchema,
   updateAmmoSlotSchema,
-} from "../../libs/validations"
-import { AmmoSlotContext, AmmoSlotContextType } from "../../types"
+} from "../../libs/validations";
+import { AmmoSlotContext, AmmoSlotContextType } from "../../types";
 
 interface UpdateAmmoSlotSheetProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
-  unitId: number
-  index: number
-  ammoOptions: number[]
+  unitId: number;
+  index: number;
+  ammoOptions: number[];
 }
 
 const UpdateAmmoSlotSheet = ({
@@ -54,10 +52,10 @@ const UpdateAmmoSlotSheet = ({
   ...props
 }: UpdateAmmoSlotSheetProps) => {
   const { ammoSlots, setAmmoSlots } =
-    React.useContext<AmmoSlotContextType>(AmmoSlotContext)
-  const ammoSlot = ammoSlots[index]
-  const [isUpdatePending, startUpdateTransition] = React.useTransition()
-  const [openBool, setOpenBool] = React.useState(false)
+    React.useContext<AmmoSlotContextType>(AmmoSlotContext);
+  const ammoSlot = ammoSlots[index];
+  const [isUpdatePending, startUpdateTransition] = React.useTransition();
+  const [openBool, setOpenBool] = React.useState(false);
 
   const form = useForm<UpdateAmmoSlotSchema>({
     resolver: zodResolver(updateAmmoSlotSchema),
@@ -67,14 +65,14 @@ const UpdateAmmoSlotSheet = ({
       unitId: unitId,
       slotOrder: ammoSlot.slotOrder,
     },
-  })
+  });
 
   useEffect(() => {
-    form.setValue("id", ammoSlot.id ?? "")
-    form.setValue("ammoHash", ammoSlot.ammoHash ?? 0)
-    form.setValue("unitId", unitId)
-    form.setValue("slotOrder", ammoSlot.slotOrder ?? 0)
-  }, [ammoSlots])
+    form.setValue("id", ammoSlot.id ?? "");
+    form.setValue("ammoHash", ammoSlot.ammoHash ?? 0);
+    form.setValue("unitId", unitId);
+    form.setValue("slotOrder", ammoSlot.slotOrder ?? 0);
+  }, [ammoSlots]);
 
   function onSubmit(input: UpdateAmmoSlotSchema) {
     // startUpdateTransition(async () => {
@@ -168,7 +166,7 @@ const UpdateAmmoSlotSheet = ({
         </SheetContent>
       </Sheet>
     </div>
-  )
-}
+  );
+};
 
-export default UpdateAmmoSlotSheet
+export default UpdateAmmoSlotSheet;

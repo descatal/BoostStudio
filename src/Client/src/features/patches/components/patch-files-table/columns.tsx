@@ -50,8 +50,10 @@ export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
       return (
         <div className={"flex flex-col gap-2"}>
           {fileTypes &&
-            fileTypes.map((x) => (
-              <Badge className={"justify-center"}>{x}</Badge>
+            fileTypes.map((fileType, index) => (
+              <Badge key={index} className={"justify-center"}>
+                {fileType}
+              </Badge>
             ))}
         </div>
       );

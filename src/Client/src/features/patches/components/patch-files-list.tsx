@@ -12,7 +12,7 @@ import {
 } from "@/features/patches/libs/constants";
 import ResizePatchDialog from "./dialogs/resize-patch-dialog";
 import ExportTblDialog from "./dialogs/export-tbl-dialog";
-import PatchFilesTable from "@/features/patches/components/patch-files-table/patch-files-table";
+import PatchFilesTable from "@/features/patches/components/patch-files-table/table";
 import { useQuery } from "@tanstack/react-query";
 import { getApiTblByIdOptions } from "@/api/exvs/@tanstack/react-query.gen";
 

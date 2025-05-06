@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import React from "react";
+import PackUnpackAssets from "@/features/assets/components/pack-unpack-assets";
 
 export const Route = createFileRoute("/units/assets")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>Hello "/units/assets"!</div>;
+  return <PackUnpackAssets />;
 }

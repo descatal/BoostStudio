@@ -38,12 +38,13 @@ import {
 import { HashInput } from "@/components/custom/hash-input";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
 import { zPatchFileVersion } from "@/api/exvs/zod.gen";
+import { Scroller } from "@/components/ui/scroller";
 
 interface PatchFilesFormProps
   extends Omit<React.ComponentPropsWithRef<"form">, "onSubmit"> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   form: UseFormReturn<CreatePatchFileSchema | UpdatePatchFileSchema>;
-  onSubmit: (data: CreatePatchFileSchema) => void;
+  onSubmit: (data: CreatePatchFileSchema | UpdatePatchFileSchema) => void;
 }
 
 export function PatchFilesForm({
@@ -107,281 +108,308 @@ export function PatchFilesForm({
               <AccordionTrigger>
                 <Label>Path Information</Label>
               </AccordionTrigger>
-              <AccordionContent>
-                <Card>
-                  <CardHeader>
-                    <div className={"flex justify-between"}>
-                      <div className="flex items-center justify-end space-x-2">
-                        <Checkbox
-                          id={"path"}
-                          checked={hasPath}
-                          onCheckedChange={() => setHasPath(!hasPath)}
-                        />
-                        <label
-                          htmlFor="path"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Has Path
-                        </label>
+              <Scroller className={"max-h-56"}>
+                <AccordionContent>
+                  <Card>
+                    <CardHeader>
+                      <div className={"flex justify-between"}>
+                        <div className="flex items-center justify-end space-x-2">
+                          <Checkbox
+                            id={"path"}
+                            checked={hasPath}
+                            onCheckedChange={() => setHasPath(!hasPath)}
+                          />
+                          <label
+                            htmlFor="path"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            Has Path
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className={`mt-4 space-y-3`}>
-                      <FormField
-                        control={form.control}
-                        name={"pathInfo.path"}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Path</FormLabel>
-                            <FormControl>
-                              <Input
-                                disabled={!hasPath}
-                                placeholder={`${PatchIdNameMap[form.getValues().tblId] ?? ""}/`}
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name={"pathInfo.order"}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Order</FormLabel>
-                            <FormControl>
-                              <Input
-                                {...field}
-                                disabled={!hasPath}
-                                placeholder={`Leave blank for auto increment`}
-                                type="number"
-                                min={0}
-                                value={field.value ?? ""}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              </AccordionContent>
+                    </CardHeader>
+                    <CardContent>
+                      <div className={`mt-4 space-y-3`}>
+                        <FormField
+                          control={form.control}
+                          name={"pathInfo.path"}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Path</FormLabel>
+                              <FormControl>
+                                <Input
+                                  disabled={!hasPath}
+                                  placeholder={`${PatchIdNameMap[form.getValues().tblId] ?? ""}/`}
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={"pathInfo.order"}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Order</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  disabled={!hasPath}
+                                  placeholder={`Leave blank for auto increment`}
+                                  type="number"
+                                  min={0}
+                                  value={field.value ?? ""}
+                                  onChange={(e) =>
+                                    field.onChange(e.target.valueAsNumber)
+                                  }
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </AccordionContent>
+              </Scroller>
             </AccordionItem>
             <AccordionItem value="file">
               <AccordionTrigger>
                 <Label>File Information</Label>
               </AccordionTrigger>
-              <AccordionContent>
-                <Card>
-                  <CardHeader>
-                    <div className={"flex justify-between"}>
-                      <div className="flex items-center justify-end space-x-2">
-                        <Checkbox
-                          id={"asset"}
-                          checked={hasAsset}
-                          onCheckedChange={(checked) => {
-                            setHasAsset(checked as boolean);
-                          }}
-                        />
-                        <label
-                          htmlFor="asset"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Has Asset File
-                        </label>
+              <Scroller className={"max-h-60"}>
+                <AccordionContent>
+                  <Card>
+                    <CardHeader>
+                      <div className={"flex justify-between"}>
+                        <div className="flex items-center justify-end space-x-2">
+                          <Checkbox
+                            id={"asset"}
+                            checked={hasAsset}
+                            onCheckedChange={(checked) => {
+                              setHasAsset(checked as boolean);
+                            }}
+                          />
+                          <label
+                            htmlFor="asset"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            Has Asset File
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className={`mt-4 space-y-3`}>
-                      <FormField
-                        control={form.control}
-                        name={"assetFileHash"}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Hash</FormLabel>
-                            <FormControl>
-                              <div className={"flex flex-row space-x-2"}>
-                                <HashInput
-                                  disabled={!hasAsset}
-                                  initialMode={"hex"}
-                                  initialValue={field.value}
-                                  placeholder="Enter Hash"
-                                  {...field}
-                                  value={field.value ?? undefined}
-                                  onHashChanged={(value) => {
-                                    form.setValue(
-                                      "assetFileHash",
-                                      value ?? null,
-                                    );
-                                  }}
-                                />
-                                <SearchAssetFilePopover
-                                  setAssetFile={(asset) => {
-                                    if (!asset) return;
-                                    form.setValue("assetFileHash", null);
-                                    // not the best way, but this will force a re-render
-                                    setTimeout(function () {
+                    </CardHeader>
+                    <CardContent>
+                      <div className={`mt-4 space-y-3`}>
+                        <FormField
+                          control={form.control}
+                          name={"assetFileHash"}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Hash</FormLabel>
+                              <FormControl>
+                                <div className={"flex flex-row space-x-2"}>
+                                  <HashInput
+                                    disabled={!hasAsset}
+                                    initialMode={"hex"}
+                                    initialValue={field.value}
+                                    placeholder="Enter Hash"
+                                    {...field}
+                                    value={field.value ?? undefined}
+                                    onHashChanged={(value) => {
                                       form.setValue(
                                         "assetFileHash",
-                                        asset.hash,
+                                        value ?? null,
                                       );
-                                    }, 5);
-                                  }}
-                                >
-                                  <PopoverTrigger asChild>
-                                    <Button
-                                      disabled={!hasAsset}
-                                      type={"button"}
-                                    >
-                                      Search...
-                                    </Button>
-                                  </PopoverTrigger>
-                                </SearchAssetFilePopover>
-                              </div>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name={"fileInfo.version"}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Version</FormLabel>
-                            <Select
-                              disabled={!hasAsset}
-                              value={field.value}
-                              onValueChange={field.onChange}
-                              defaultValue={form.getValues("tblId")}
-                            >
-                              <FormControl>
-                                <SelectTrigger className="capitalize">
-                                  <SelectValue placeholder="Select Version" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectGroup>
-                                  {Object.values(zPatchFileVersion.Enum).map(
-                                    (version) => (
-                                      <SelectItem
-                                        key={version}
-                                        value={version}
-                                        className="capitalize"
+                                    }}
+                                  />
+                                  <SearchAssetFilePopover
+                                    setAssetFile={(asset) => {
+                                      if (!asset) return;
+                                      form.setValue("assetFileHash", null);
+                                      // not the best way, but this will force a re-render
+                                      setTimeout(function () {
+                                        form.setValue(
+                                          "assetFileHash",
+                                          asset.hash,
+                                        );
+                                      }, 5);
+                                    }}
+                                  >
+                                    <PopoverTrigger asChild>
+                                      <Button
+                                        disabled={!hasAsset}
+                                        type={"button"}
                                       >
-                                        {version}
-                                      </SelectItem>
-                                    ),
-                                  )}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <Accordion
-                        type="single"
-                        defaultValue={"sizes"}
-                        collapsible
-                      >
-                        <AccordionItem value="sizes">
-                          <AccordionTrigger>
-                            <Label>File Sizes</Label>
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            <Card>
-                              <CardContent>
-                                <div className={"mt-5 flex-row space-y-3"}>
-                                  <FormField
-                                    control={form.control}
-                                    name={"fileInfo.size1"}
-                                    render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel>Size 1</FormLabel>
-                                        <FormControl>
-                                          <Input
-                                            {...field}
-                                            placeholder={"Size 1"}
-                                            disabled={!hasAsset}
-                                            type="number"
-                                            min={0}
-                                            value={field.value ?? ""}
-                                          ></Input>
-                                        </FormControl>
-                                      </FormItem>
-                                    )}
-                                  />
-                                  <FormField
-                                    control={form.control}
-                                    name={"fileInfo.size2"}
-                                    render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel>Size 2</FormLabel>
-                                        <FormControl>
-                                          <Input
-                                            {...field}
-                                            disabled={!hasAsset}
-                                            placeholder={"Size 2"}
-                                            type="number"
-                                            min={0}
-                                            value={field.value ?? ""}
-                                          ></Input>
-                                        </FormControl>
-                                      </FormItem>
-                                    )}
-                                  />
-                                  <FormField
-                                    control={form.control}
-                                    name={"fileInfo.size3"}
-                                    render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel>Size 3</FormLabel>
-                                        <FormControl>
-                                          <Input
-                                            {...field}
-                                            disabled={!hasAsset}
-                                            placeholder={"Size 3"}
-                                            type="number"
-                                            min={0}
-                                            value={field.value ?? ""}
-                                          ></Input>
-                                        </FormControl>
-                                      </FormItem>
-                                    )}
-                                  />
-                                  <FormField
-                                    control={form.control}
-                                    name={"fileInfo.size4"}
-                                    render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel>Size 4</FormLabel>
-                                        <FormControl>
-                                          <Input
-                                            {...field}
-                                            disabled={!hasAsset}
-                                            placeholder={"Size 4"}
-                                            type="number"
-                                            min={0}
-                                            value={field.value ?? ""}
-                                          ></Input>
-                                        </FormControl>
-                                      </FormItem>
-                                    )}
-                                  />
+                                        Search...
+                                      </Button>
+                                    </PopoverTrigger>
+                                  </SearchAssetFilePopover>
                                 </div>
-                              </CardContent>
-                            </Card>
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                    </div>
-                  </CardContent>
-                </Card>
-              </AccordionContent>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={"fileInfo.version"}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Version</FormLabel>
+                              <Select
+                                disabled={!hasAsset}
+                                value={field.value}
+                                onValueChange={field.onChange}
+                                defaultValue={form.getValues("tblId")}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="capitalize">
+                                    <SelectValue placeholder="Select Version" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectGroup>
+                                    {Object.values(zPatchFileVersion.Enum).map(
+                                      (version) => (
+                                        <SelectItem
+                                          key={version}
+                                          value={version}
+                                          className="capitalize"
+                                        >
+                                          {version}
+                                        </SelectItem>
+                                      ),
+                                    )}
+                                  </SelectGroup>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <Accordion
+                          type="single"
+                          defaultValue={"sizes"}
+                          collapsible
+                        >
+                          <AccordionItem value="sizes">
+                            <AccordionTrigger>
+                              <Label>File Sizes</Label>
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <Card>
+                                <CardContent>
+                                  <div className={"mt-5 flex-row space-y-3"}>
+                                    <FormField
+                                      control={form.control}
+                                      name={"fileInfo.size1"}
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Size 1</FormLabel>
+                                          <FormControl>
+                                            <Input
+                                              {...field}
+                                              placeholder={"Size 1"}
+                                              disabled={!hasAsset}
+                                              type="number"
+                                              min={0}
+                                              value={field.value ?? ""}
+                                              onChange={(e) =>
+                                                field.onChange(
+                                                  e.target.valueAsNumber,
+                                                )
+                                              }
+                                            />
+                                          </FormControl>
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <FormField
+                                      control={form.control}
+                                      name={"fileInfo.size2"}
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Size 2</FormLabel>
+                                          <FormControl>
+                                            <Input
+                                              {...field}
+                                              disabled={!hasAsset}
+                                              placeholder={"Size 2"}
+                                              type="number"
+                                              min={0}
+                                              value={field.value ?? ""}
+                                              onChange={(e) =>
+                                                field.onChange(
+                                                  e.target.valueAsNumber,
+                                                )
+                                              }
+                                            ></Input>
+                                          </FormControl>
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <FormField
+                                      control={form.control}
+                                      name={"fileInfo.size3"}
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Size 3</FormLabel>
+                                          <FormControl>
+                                            <Input
+                                              {...field}
+                                              disabled={!hasAsset}
+                                              placeholder={"Size 3"}
+                                              type="number"
+                                              min={0}
+                                              value={field.value ?? ""}
+                                              onChange={(e) =>
+                                                field.onChange(
+                                                  e.target.valueAsNumber,
+                                                )
+                                              }
+                                            ></Input>
+                                          </FormControl>
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <FormField
+                                      control={form.control}
+                                      name={"fileInfo.size4"}
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel>Size 4</FormLabel>
+                                          <FormControl>
+                                            <Input
+                                              {...field}
+                                              disabled={!hasAsset}
+                                              placeholder={"Size 4"}
+                                              type="number"
+                                              min={0}
+                                              value={field.value ?? ""}
+                                              onChange={(e) =>
+                                                field.onChange(
+                                                  e.target.valueAsNumber,
+                                                )
+                                              }
+                                            ></Input>
+                                          </FormControl>
+                                        </FormItem>
+                                      )}
+                                    />
+                                  </div>
+                                </CardContent>
+                              </Card>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </AccordionContent>
+              </Scroller>
             </AccordionItem>
           </Accordion>
         </div>

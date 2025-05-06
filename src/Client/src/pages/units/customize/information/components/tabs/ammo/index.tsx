@@ -1,67 +1,66 @@
-﻿import React, { useCallback, useEffect, useState } from "react"
-import { AmmoDto } from "@/api/exvs"
-import { GetApiAmmo200Response } from "@/api/exvs/models/GetApiAmmo200Response"
-import { fetchAmmo, updateAmmo } from "@/api/wrapper/ammo-api"
-import { DataTableFilterField } from "@/types"
+﻿import React, { useCallback, useEffect, useState } from "react";
+import { AmmoDto } from "@/api/exvs";
+import { GetApiAmmo200Response } from "@/api/exvs/models/GetApiAmmo200Response";
+import { fetchAmmo, updateAmmo } from "@/api/wrapper/ammo-api";
 
-import { useDataTable } from "@/hooks/use-react-table-2"
+import { useDataTable } from "@/hooks/use-react-table-2";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { toast } from "@/components/ui/use-toast"
-import { DataTable } from "@/components/data-table/data-table"
-import { DataTableToolbar } from "@/components/data-table/data-table-toolbar"
+} from "@/components/ui/card";
+import { toast } from "@/hooks/use-toast";
+import { DataTable } from "@/components/data-table/data-table";
+import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 
-import { ammoColumns } from "./components/data-table/ammo-data-table-columns"
-import { AmmoDataTableToolbar } from "./components/data-table/ammo-data-table-toolbar"
+import { ammoColumns } from "./components/data-table/ammo-data-table-columns";
+import { AmmoDataTableToolbar } from "./components/data-table/ammo-data-table-toolbar";
 
 const Ammo = ({ unitId }: { unitId: number }) => {
-  const [response, setResponse] = useState<GetApiAmmo200Response>()
-  const [ammo, setAmmo] = useState<AmmoDto[]>([])
+  const [response, setResponse] = useState<GetApiAmmo200Response>();
+  const [ammo, setAmmo] = useState<AmmoDto[]>([]);
 
   const getData = useCallback(async () => {
-    const pagination = table.getState().pagination
+    const pagination = table.getState().pagination;
     const hash = table
       .getState()
-      .columnFilters.find((column) => column.id === "hash")?.value as string
-    const hashes = hash?.split(";").map((x) => Number(x))
+      .columnFilters.find((column) => column.id === "hash")?.value as string;
+    const hashes = hash?.split(";").map((x) => Number(x));
     const ammo200Response = await fetchAmmo({
       unitIds: [unitId],
       page: pagination.pageIndex + 1,
       perPage: pagination.pageSize,
       hash: hashes,
-    })
-    setResponse(ammo200Response)
-  }, [unitId])
+    });
+    setResponse(ammo200Response);
+  }, [unitId]);
 
   const saveData = useCallback(async () => {
-    const modifiedRows = table.options.meta?.modifiedRows ?? []
+    const modifiedRows = table.options.meta?.modifiedRows ?? [];
     const modifiedEntities = modifiedRows.map((rowIndex, index) => {
-      return table.getRow(rowIndex.toString()).original
-    })
+      return table.getRow(rowIndex.toString()).original;
+    });
 
     for (const entity of modifiedEntities) {
-      await updateAmmo(entity)
+      await updateAmmo(entity);
     }
 
     toast({
       title: "Saved!",
       description: "Save operation successful.",
-    })
-    await getData()
-  }, [])
+    });
+    await getData();
+  }, []);
 
   useEffect(() => {
-    setAmmo(response?.items ?? [])
-  }, [response])
+    setAmmo(response?.items ?? []);
+  }, [response]);
 
   useEffect(() => {
-    getData().catch(console.error)
-  }, [unitId])
+    getData().catch(console.error);
+  }, [unitId]);
 
   // const filterFields: DataTableFilterField<AmmoDto>[] = [
   //   {
@@ -80,7 +79,7 @@ const Ammo = ({ unitId }: { unitId: number }) => {
     fetchData: getData,
     saveData: saveData,
     enableEditingMode: true,
-  })
+  });
 
   return (
     <div>
@@ -106,7 +105,7 @@ const Ammo = ({ unitId }: { unitId: number }) => {
         <></>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Ammo
+export default Ammo;
