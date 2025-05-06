@@ -11,30 +11,53 @@ public record GetAmmoWithPaginationQuery(
     int PerPage = 10,
     uint[]? Hash = null,
     uint[]? UnitIds = null,
-    string? Search = null
+    string? Search = null,
+    bool ListAll = false
 ) : IRequest<PaginatedList<AmmoDto>>;
 
-public class GetAmmoWithPaginationQueryHandler(
-    IApplicationDbContext applicationDbContext
-) : IRequestHandler<GetAmmoWithPaginationQuery, PaginatedList<AmmoDto>>
+public class GetAmmoWithPaginationQueryHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<GetAmmoWithPaginationQuery, PaginatedList<AmmoDto>>
 {
-    public async ValueTask<PaginatedList<AmmoDto>> Handle(GetAmmoWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<AmmoDto>> Handle(
+        GetAmmoWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var query = applicationDbContext.Ammo
-            .Include(stat => stat.UnitStat)
+        var query = applicationDbContext
+            .Ammo.Include(stat => stat.UnitStat)
             .OrderBy(ammo => ammo.Order)
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(request.Search))
-            query = query.Where(entity => entity.Hash.ToString().ToLower().Contains(request.Search));
-        
+        {
+            query = query.Where(entity =>
+                entity.Hash.ToString().ToLower().Contains(request.Search)
+            );
+        }
+
         if (request.Hash is not null && request.Hash.Length > 0)
+        {
             query = query.Where(entity => request.Hash.Contains(entity.Hash));
-        
+        }
         if (request.UnitIds is not null && request.UnitIds.Length > 0)
-            query = query.Where(entity => entity.UnitStat != null && request.UnitIds.Contains(entity.UnitStat.GameUnitId));
-        
+        {
+            query = query.Where(entity =>
+                entity.UnitStat != null && request.UnitIds.Contains(entity.UnitStat.GameUnitId)
+            );
+        }
+
         var queryableDto = AmmoMapper.ProjectToDto(query);
-        return await PaginatedList<AmmoDto>.CreateAsync(queryableDto, request.Page, request.PerPage);
+
+        if (!request.ListAll)
+        {
+            return await PaginatedList<AmmoDto>.CreateAsync(
+                queryableDto,
+                request.Page,
+                request.PerPage
+            );
+        }
+
+        var allData = await queryableDto.ToListAsync(cancellationToken);
+        return new PaginatedList<AmmoDto>(allData, allData.Count, 1, allData.Count);
     }
 }

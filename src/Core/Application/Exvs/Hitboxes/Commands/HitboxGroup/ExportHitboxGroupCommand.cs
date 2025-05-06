@@ -13,7 +13,7 @@ using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Reloaded.Memory;
-using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
+using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Hitboxes.Commands.HitboxGroup;
 
@@ -38,21 +38,39 @@ public class ExportHitboxGroupCommandHandler(
     IConfigsRepository configsRepository,
     ICompressor compressor,
     ILogger<ExportHitboxGroupCommandHandler> logger
-) : IRequestHandler<ExportHitboxGroupCommand, FileInfo>,
-    IRequestHandler<ExportHitboxGroupByPathCommand>
+)
+    : IRequestHandler<ExportHitboxGroupCommand, FileInfo>,
+        IRequestHandler<ExportHitboxGroupByPathCommand>
 {
     public async ValueTask<FileInfo> Handle(
         ExportHitboxGroupCommand command,
         CancellationToken cancellationToken
     )
     {
-        var workingDirectory = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
-        if (command.ReplaceWorking && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value)))
-            throw new NotFoundException(ConfigKeys.WorkingDirectory, workingDirectory.FirstError.Description);
+        var workingDirectory = await configsRepository.GetConfig(
+            ConfigKeys.WorkingDirectory,
+            cancellationToken
+        );
+        if (
+            command.ReplaceWorking
+            && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value))
+        )
+            throw new NotFoundException(
+                ConfigKeys.WorkingDirectory,
+                workingDirectory.FirstError.Description
+            );
 
-        var generatedBinaries = await GenerateBinary(command.Hashes, command.UnitIds, cancellationToken);
+        var generatedBinaries = await GenerateBinary(
+            command.Hashes,
+            command.UnitIds,
+            cancellationToken
+        );
 
-        var hitboxesWorkingDirectory = Path.Combine(workingDirectory.Value.Value, "common", AssetFileType.Hitboxes.GetSnakeCaseName());
+        var hitboxesWorkingDirectory = Path.Combine(
+            workingDirectory.Value.Value,
+            "common",
+            AssetFileType.Hitboxes.GetSnakeCaseName()
+        );
         foreach (var generatedBinary in generatedBinaries)
         {
             if (command is { HotReload: false, ReplaceWorking: false })
@@ -67,33 +85,43 @@ public class ExportHitboxGroupCommandHandler(
             // pack hitboxes in fhm format
             // this implicitly assumes that all units' hitboxes that's required by the game already have a copy in the working directory
             var packedHitboxBinary = await mediator.Send(
-                new PackFhmAssetCommand(AssetFileTypes: [AssetFileType.Hitboxes], ReplaceStaging: false),
+                new PackFhmAssetCommand(
+                    AssetFileTypes: [AssetFileType.Hitboxes],
+                    ReplaceStaging: false
+                ),
                 cancellationToken
             );
 
             // the command will return a tar file, decompress it
             var file = await compressor.DecompressAsync(packedHitboxBinary.Data, cancellationToken);
-            var binary = file.FirstOrDefault();
+            var binary = file.FirstOrDefault(); // take the first one lol, we assumin shit here
             if (binary is not null)
             {
                 const long mapRegionPointer = 0x300000000;
                 using var rpcs3Process = Process.GetProcessesByName("rpcs3").FirstOrDefault();
 
                 if (rpcs3Process is null)
-                    throw new NotFoundException("No process with name 'rpcs3' was found", "process");
+                    throw new NotFoundException(
+                        "No process with name 'rpcs3' was found",
+                        "process"
+                    );
 
-                #pragma warning disable CA1416
+#pragma warning disable CA1416
 
                 // TODO: refactor this to a cross platform thing
                 // 0x40B20000 is the fixed whole packed hitbox offset
                 var rpcs3Memory = new ExternalMemory(rpcs3Process);
                 rpcs3Memory.WriteRaw((UIntPtr)(mapRegionPointer + 0x40B20000), binary.Data);
 
-                #pragma warning restore CA1416
+#pragma warning restore CA1416
             }
         }
 
-        var tarFileBytes = await compressor.CompressAsync(generatedBinaries, CompressionFormats.Tar, cancellationToken);
+        var tarFileBytes = await compressor.CompressAsync(
+            generatedBinaries,
+            CompressionFormats.Tar,
+            cancellationToken
+        );
         return new FileInfo(tarFileBytes, "hitbox.tar", MediaTypeNames.Application.Octet);
     }
 
@@ -103,12 +131,19 @@ public class ExportHitboxGroupCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var generatedBinaries = await GenerateBinary(command.Hashes, command.UnitIds, cancellationToken);
+        var generatedBinaries = await GenerateBinary(
+            command.Hashes,
+            command.UnitIds,
+            cancellationToken
+        );
 
         var exportPath = command.OutputPath ?? string.Empty;
         if (string.IsNullOrWhiteSpace(command.OutputPath))
         {
-            var configPath = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
+            var configPath = await configsRepository.GetConfig(
+                ConfigKeys.WorkingDirectory,
+                cancellationToken
+            );
             Guard.Against.NotFound(ConfigKeys.WorkingDirectory, configPath.Value);
 
             exportPath = Path.Combine(configPath.Value.Value, "Hitboxes");
@@ -129,15 +164,18 @@ public class ExportHitboxGroupCommandHandler(
     private async ValueTask<List<FileInfo>> GenerateBinary(
         uint[]? hashes = null,
         uint[]? unitIds = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
-        var query = applicationDbContext.HitboxGroups
-            .Include(group => group.Units)
+        var query = applicationDbContext
+            .HitboxGroups.Include(group => group.Units)
             .Include(group => group.Hitboxes)
             .AsQueryable();
 
         if (unitIds is not null)
-            query = query.Where(group => group.Units.Any(unit => unitIds.Contains(unit.GameUnitId)));
+            query = query.Where(group =>
+                group.Units.Any(unit => unitIds.Contains(unit.GameUnitId))
+            );
 
         if (hashes is not null)
             query = query.Where(group => hashes.Contains(group.Hash));
@@ -147,7 +185,10 @@ public class ExportHitboxGroupCommandHandler(
         var fileInfo = new List<FileInfo>();
         foreach (var hitboxGroup in group)
         {
-            var serializedBytes = await binarySerializer.SerializeAsync(hitboxGroup, cancellationToken);
+            var serializedBytes = await binarySerializer.SerializeAsync(
+                hitboxGroup,
+                cancellationToken
+            );
 
             // hitboxes must have the unit's id in the file name so that the information is not lost
             // hitboxes have loose connection to unit id, the game does not care which unit it is tied to, just the group
@@ -155,8 +196,10 @@ public class ExportHitboxGroupCommandHandler(
             var fileName = hitboxGroup.Units.Count switch
             {
                 0 => $"common_{hitboxGroup.Hash}",
-                1 => $"{hitboxGroup.Units.First().SnakeCaseName}-{hitboxGroup.Units.First().GameUnitId}",
-                _ => $"combined_{string.Join('-', hitboxGroup.Units.Select(unit => unit.GameUnitId))}"
+                1 =>
+                    $"{hitboxGroup.Units.First().SnakeCaseName}-{hitboxGroup.Units.First().GameUnitId}",
+                _ =>
+                    $"combined_{string.Join('-', hitboxGroup.Units.Select(unit => unit.GameUnitId))}",
             };
 
             fileName = Path.ChangeExtension(fileName, ".hitbox");

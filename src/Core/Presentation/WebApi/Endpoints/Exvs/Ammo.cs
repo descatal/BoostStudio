@@ -16,7 +16,7 @@ public class Ammo : EndpointGroupBase
         app.MapGroup(this, DefinitionNames.Exvs)
             .MapGet(GetAmmoWithPagination)
             .MapGet(GetAmmoByHash, "{hash}")
-            .MapGet(GetAmmoOptions, "options")
+            // .MapGet(GetAmmoOptions, "options")
             .MapPost(CreateAmmo)
             .MapPost(UpdateAmmoByHash, "{hash}")
             .MapDelete(DeleteAmmoByHash, "{hash}")

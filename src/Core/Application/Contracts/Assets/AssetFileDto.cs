@@ -12,6 +12,6 @@ public record AssetFileDto
     public uint Order { get; set; }
 
     public List<AssetFileType> FileType { get; set; } = [];
-    
-    public uint? GameUnitId { get; set; }
+
+    public uint[] UnitIds { get; set; } = [];
 }

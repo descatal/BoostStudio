@@ -40,13 +40,19 @@ public class Fhm : EndpointGroupBase
         await sender.Send(request, cancellationToken);
     }
 
+    // Needed for OpenApi to recognize the return type as FileContentHttpResult, which will be converted to Blob
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: MediaTypeNames.Application.Octet
+    )]
     private async Task<IResult> UnpackFhm(
         ISender sender,
         IFormFile file,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken,
+        [FromQuery] CompressionFormats compressionFormat = CompressionFormats.Tar
     )
     {
-        var compressionFormat = CompressionFormats.Tar;
         await using var stream = file.OpenReadStream();
         using BinaryReader binaryReader = new(stream);
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
@@ -67,11 +73,11 @@ public class Fhm : EndpointGroupBase
                 MediaTypeNames.Application.Zip,
                 fileName
             ),
-            _ => Results.File(unpackedFile, MediaTypeNames.Application.Octet, fileName),
+            _ => TypedResults.File(unpackedFile, MediaTypeNames.Application.Octet, fileName),
         };
     }
 
-    // [Produces(MediaTypeNames.Application.Octet)]
+    // Needed for OpenApi to recognize the return type as FileContentHttpResult, which will be converted to Blob
     [ProducesResponseType(
         type: typeof(FileContentHttpResult),
         statusCode: StatusCodes.Status200OK,
@@ -94,6 +100,7 @@ public class Fhm : EndpointGroupBase
             "fhm"
         );
 
+        // This will automatically embed the filename in response's Content-Disposition header, with the body returned as octet-stream binary
         return TypedResults.File(packedFile, MediaTypeNames.Application.Octet, fhmFileName);
     }
 

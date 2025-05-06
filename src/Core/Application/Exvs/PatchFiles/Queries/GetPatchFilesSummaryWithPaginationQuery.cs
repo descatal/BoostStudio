@@ -19,36 +19,49 @@ public class GetPatchFilesSummaryWithPaginationQueryHandler(
     IApplicationDbContext applicationDbContext
 ) : IRequestHandler<GetPatchFilesSummaryWithPaginationQuery, PaginatedList<PatchFileSummaryVm>>
 {
-    public async ValueTask<PaginatedList<PatchFileSummaryVm>> Handle(GetPatchFilesSummaryWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<PatchFileSummaryVm>> Handle(
+        GetPatchFilesSummaryWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var query = applicationDbContext.PatchFiles
-            .Include(entity => entity.AssetFile)
+        var query = applicationDbContext
+            .PatchFiles.Include(entity => entity.AssetFile)
             .ThenInclude(entity => entity!.Units)
             .AsQueryable();
 
         if (request.UnitIds?.Length > 0)
         {
             query = query.Where(entity =>
-                    entity.AssetFile != null &&
-                    entity.AssetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId))
-                );
+                entity.AssetFile != null
+                && entity.AssetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId))
+            );
         }
 
         if (request.AssetFileHashes?.Length > 0)
-            query = query.Where(entity => request.AssetFileHashes.Any(hash => hash == entity.AssetFileHash));
+            query = query.Where(entity =>
+                request.AssetFileHashes.Any(hash => hash == entity.AssetFileHash)
+            );
 
         if (request.AssetFileTypes?.Length > 0)
         {
             query = query.Where(entity =>
-                    entity.AssetFile != null &&
-                    request.AssetFileTypes.Any(type => entity.AssetFile.FileType.Contains(type))
-                );
+                entity.AssetFile != null
+                && request.AssetFileTypes.Any(type => entity.AssetFile.FileType.Contains(type))
+            );
         }
 
         if (request.Versions?.Length > 0)
             query = query.Where(entity => request.Versions.Contains(entity.TblId));
-        
+
+        query = query.OrderBy(patchFile =>
+            patchFile.PathInfo == null ? 0 : patchFile.PathInfo.Order
+        );
+
         var mappedQuery = PatchFilesMapper.ProjectToSummaryVm(query);
-        return await PaginatedList<PatchFileSummaryVm>.CreateAsync(mappedQuery, request.Page, request.PerPage);
+        return await PaginatedList<PatchFileSummaryVm>.CreateAsync(
+            mappedQuery,
+            request.Page,
+            request.PerPage
+        );
     }
 }

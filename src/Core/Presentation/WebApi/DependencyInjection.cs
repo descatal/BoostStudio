@@ -5,7 +5,7 @@ using BoostStudio.Web.Constants;
 using BoostStudio.Web.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OpenApi;
+using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
 
 namespace BoostStudio.Web;
@@ -37,10 +37,12 @@ public static class DependencyInjection
 
         services.AddOpenApi(
             DefinitionNames.Exvs,
-            options => // Schema transformer to set the format of decimal to 'decimal'
+            options =>
+            {
                 options.AddSchemaTransformer(
-                    (schema, context, cancellationToken) =>
+                    (schema, context, _) =>
                     {
+                        // Transform any FileContentHttpResult into binary format
                         if (context.JsonTypeInfo.Type == typeof(FileContentHttpResult))
                         {
                             schema.Type = JsonSchemaType.String;
@@ -49,7 +51,10 @@ public static class DependencyInjection
                         }
                         return Task.CompletedTask;
                     }
-                )
+                );
+
+                options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+            }
         );
         services.AddOpenApi(DefinitionNames.Exvs2);
 

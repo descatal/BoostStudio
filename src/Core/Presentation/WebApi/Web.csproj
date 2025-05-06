@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <RootNamespace>BoostStudio.Web</RootNamespace>
     <AssemblyName>BoostStudio.Web</AssemblyName>
@@ -11,19 +10,18 @@
     <SpaProxyLaunchCommand>pnpm dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>http://localhost:1420</SpaProxyServerUrl>
   </PropertyGroup>
-
   <PropertyGroup>
-    <OpenApiGenerateDocuments Condition=" $(Configuration) == 'DEBUG' ">true</OpenApiGenerateDocuments>
+    <OpenApiGenerateDocuments Condition="'$(GenerateOpenApi)' != 'true'"
+      >true</OpenApiGenerateDocuments
+    >
     <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../../../Client/src/api</OpenApiDocumentsDirectory>
-    <OpenApiGenerateDocumentsOptions>--file-name booststudio</OpenApiGenerateDocumentsOptions>
+    <OpenApiGenerateDocumentsOptions>--file-name booststudio --openapi-version OpenApi3_1</OpenApiGenerateDocumentsOptions>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\Client\booststudio.client.esproj" />
     <ProjectReference Include="..\..\Application\Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
@@ -32,21 +30,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="FluentValidation.AspNetCore"/>
+    <PackageReference Include="FluentValidation.AspNetCore" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Sinks.File" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="wwwroot\assets\units\small-icons\" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="..\..\..\..\.dockerignore">
       <Link>.dockerignore</Link>
     </Content>
   </ItemGroup>
-  
 </Project>

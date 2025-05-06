@@ -11,7 +11,7 @@
     <PackageVersion Include="FFMpegCore" Version="5.1.0" />
     <PackageVersion Include="Mediator.Abstractions" Version="2.1.7" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="2.1.7" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.3.25172.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.1.25120.3" />
     <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="9.0.4" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.4" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.1.17" />
@@ -25,18 +25,30 @@
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.6.24327.4" />
-    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0-preview.6.24328.4" />
-    <PackageVersion Include=" Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.6.24327.4" />
+    <PackageVersion
+      Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"
+      Version="9.0.0-preview.6.24328.4"
+    />
+    <PackageVersion
+      Include=" Microsoft.EntityFrameworkCore.Relational"
+      Version="9.0.0-preview.6.24327.4"
+    />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.6.24327.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="10.0.0-preview.3.25172.1">
+    <PackageVersion
+      Include="Microsoft.Extensions.ApiDescription.Server"
+      Version="10.0.0-preview.1.25120.3"
+    >
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageVersion
+      Include="Microsoft.Extensions.Configuration.EnvironmentVariables"
+      Version="8.0.0"
+    />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.0-preview.6.24327.7" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageVersion Include="Moq" Version="4.20.69" />

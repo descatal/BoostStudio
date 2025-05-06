@@ -1,9 +1,5 @@
-using System.Net.Mime;
-using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Web;
-using BoostStudio.Web.Constants;
-using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 using Serilog;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -44,7 +40,13 @@ try
     }
     else
     {
-        app.UseCors(corsBuilder => corsBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+        app.UseCors(corsBuilder =>
+            corsBuilder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("x-file-name", "Content-Disposition")
+        );
 
         app.UseSwaggerUI(opts =>
         {
