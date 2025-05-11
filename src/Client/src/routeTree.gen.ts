@@ -11,7 +11,6 @@
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
-import { Route as OverlayImport } from "./routes/overlay";
 import { Route as UnitsRouteImport } from "./routes/units/route";
 import { Route as ToolsRouteImport } from "./routes/tools/route";
 import { Route as PatchesRouteImport } from "./routes/patches/route";
@@ -24,6 +23,7 @@ import { Route as UnitsScriptsImport } from "./routes/units/scripts";
 import { Route as UnitsAssetsImport } from "./routes/units/assets";
 import { Route as ToolsFhmImport } from "./routes/tools/fhm";
 import { Route as PatchesPatchIdImport } from "./routes/patches/$patchId";
+import { Route as OverlaysMatchInfoImport } from "./routes/overlays/match-info";
 import { Route as UnitsInfoRouteImport } from "./routes/units/info/route";
 import { Route as UnitsUnitIdRouteImport } from "./routes/units/$unitId/route";
 import { Route as UnitsInfoIndexImport } from "./routes/units/info/index";
@@ -42,12 +42,6 @@ import { Route as UnitsUnitIdInfoHitboxesImport } from "./routes/units/$unitId/i
 import { Route as UnitsUnitIdInfoAmmoImport } from "./routes/units/$unitId/info/ammo";
 
 // Create/Update Routes
-
-const OverlayRoute = OverlayImport.update({
-  id: "/overlay",
-  path: "/overlay",
-  getParentRoute: () => rootRoute,
-} as any);
 
 const UnitsRouteRoute = UnitsRouteImport.update({
   id: "/units",
@@ -119,6 +113,12 @@ const PatchesPatchIdRoute = PatchesPatchIdImport.update({
   id: "/$patchId",
   path: "/$patchId",
   getParentRoute: () => PatchesRouteRoute,
+} as any);
+
+const OverlaysMatchInfoRoute = OverlaysMatchInfoImport.update({
+  id: "/overlays/match-info",
+  path: "/overlays/match-info",
+  getParentRoute: () => rootRoute,
 } as any);
 
 const UnitsInfoRouteRoute = UnitsInfoRouteImport.update({
@@ -251,13 +251,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof UnitsRouteImport;
       parentRoute: typeof rootRoute;
     };
-    "/overlay": {
-      id: "/overlay";
-      path: "/overlay";
-      fullPath: "/overlay";
-      preLoaderRoute: typeof OverlayImport;
-      parentRoute: typeof rootRoute;
-    };
     "/units/$unitId": {
       id: "/units/$unitId";
       path: "/$unitId";
@@ -271,6 +264,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/units/info";
       preLoaderRoute: typeof UnitsInfoRouteImport;
       parentRoute: typeof UnitsRouteImport;
+    };
+    "/overlays/match-info": {
+      id: "/overlays/match-info";
+      path: "/overlays/match-info";
+      fullPath: "/overlays/match-info";
+      preLoaderRoute: typeof OverlaysMatchInfoImport;
+      parentRoute: typeof rootRoute;
     };
     "/patches/$patchId": {
       id: "/patches/$patchId";
@@ -540,9 +540,9 @@ export interface FileRoutesByFullPath {
   "/patches": typeof PatchesRouteRouteWithChildren;
   "/tools": typeof ToolsRouteRouteWithChildren;
   "/units": typeof UnitsRouteRouteWithChildren;
-  "/overlay": typeof OverlayRoute;
   "/units/$unitId": typeof UnitsUnitIdRouteRouteWithChildren;
   "/units/info": typeof UnitsInfoRouteRouteWithChildren;
+  "/overlays/match-info": typeof OverlaysMatchInfoRoute;
   "/patches/$patchId": typeof PatchesPatchIdRoute;
   "/tools/fhm": typeof ToolsFhmRoute;
   "/units/assets": typeof UnitsAssetsRoute;
@@ -569,7 +569,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
-  "/overlay": typeof OverlayRoute;
+  "/overlays/match-info": typeof OverlaysMatchInfoRoute;
   "/patches/$patchId": typeof PatchesPatchIdRoute;
   "/tools/fhm": typeof ToolsFhmRoute;
   "/units/assets": typeof UnitsAssetsRoute;
@@ -599,9 +599,9 @@ export interface FileRoutesById {
   "/patches": typeof PatchesRouteRouteWithChildren;
   "/tools": typeof ToolsRouteRouteWithChildren;
   "/units": typeof UnitsRouteRouteWithChildren;
-  "/overlay": typeof OverlayRoute;
   "/units/$unitId": typeof UnitsUnitIdRouteRouteWithChildren;
   "/units/info": typeof UnitsInfoRouteRouteWithChildren;
+  "/overlays/match-info": typeof OverlaysMatchInfoRoute;
   "/patches/$patchId": typeof PatchesPatchIdRoute;
   "/tools/fhm": typeof ToolsFhmRoute;
   "/units/assets": typeof UnitsAssetsRoute;
@@ -633,9 +633,9 @@ export interface FileRouteTypes {
     | "/patches"
     | "/tools"
     | "/units"
-    | "/overlay"
     | "/units/$unitId"
     | "/units/info"
+    | "/overlays/match-info"
     | "/patches/$patchId"
     | "/tools/fhm"
     | "/units/assets"
@@ -661,7 +661,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
-    | "/overlay"
+    | "/overlays/match-info"
     | "/patches/$patchId"
     | "/tools/fhm"
     | "/units/assets"
@@ -689,9 +689,9 @@ export interface FileRouteTypes {
     | "/patches"
     | "/tools"
     | "/units"
-    | "/overlay"
     | "/units/$unitId"
     | "/units/info"
+    | "/overlays/match-info"
     | "/patches/$patchId"
     | "/tools/fhm"
     | "/units/assets"
@@ -722,7 +722,7 @@ export interface RootRouteChildren {
   PatchesRouteRoute: typeof PatchesRouteRouteWithChildren;
   ToolsRouteRoute: typeof ToolsRouteRouteWithChildren;
   UnitsRouteRoute: typeof UnitsRouteRouteWithChildren;
-  OverlayRoute: typeof OverlayRoute;
+  OverlaysMatchInfoRoute: typeof OverlaysMatchInfoRoute;
   OverlaysIndexRoute: typeof OverlaysIndexRoute;
 }
 
@@ -731,7 +731,7 @@ const rootRouteChildren: RootRouteChildren = {
   PatchesRouteRoute: PatchesRouteRouteWithChildren,
   ToolsRouteRoute: ToolsRouteRouteWithChildren,
   UnitsRouteRoute: UnitsRouteRouteWithChildren,
-  OverlayRoute: OverlayRoute,
+  OverlaysMatchInfoRoute: OverlaysMatchInfoRoute,
   OverlaysIndexRoute: OverlaysIndexRoute,
 };
 
@@ -749,7 +749,7 @@ export const routeTree = rootRoute
         "/patches",
         "/tools",
         "/units",
-        "/overlay",
+        "/overlays/match-info",
         "/overlays/"
       ]
     },
@@ -780,9 +780,6 @@ export const routeTree = rootRoute
         "/units/"
       ]
     },
-    "/overlay": {
-      "filePath": "overlay.tsx"
-    },
     "/units/$unitId": {
       "filePath": "units/$unitId/route.tsx",
       "parent": "/units",
@@ -803,6 +800,9 @@ export const routeTree = rootRoute
         "/units/info/stats",
         "/units/info/"
       ]
+    },
+    "/overlays/match-info": {
+      "filePath": "overlays/match-info.tsx"
     },
     "/patches/$patchId": {
       "filePath": "patches/$patchId.tsx",

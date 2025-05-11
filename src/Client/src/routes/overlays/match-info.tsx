@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export const Route = createFileRoute("/overlay")({
+export const Route = createFileRoute("/overlays/match-info")({
   component: RouteComponent,
 });
 

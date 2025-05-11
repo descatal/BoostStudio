@@ -50,7 +50,12 @@ pub async fn get_listener() -> bool {
 }
 
 #[tauri::command]
-pub async fn start_listening(app: tauri::AppHandle, interval: u64, keywords: Vec<String>) {
+pub async fn start_listening(
+    app: tauri::AppHandle,
+    interval: u64,
+    keywords: Vec<String>,
+    path: String,
+) {
     // if keywords is empty, coalesce to default values
     let keywords = if keywords.is_empty() {
         vec!["BLJS10250".to_string(), "NPJB00512".to_string()]
@@ -61,21 +66,25 @@ pub async fn start_listening(app: tauri::AppHandle, interval: u64, keywords: Vec
     // if interval is 0, coalesce to default value
     let interval = if interval == 0 { 1000 } else { interval };
 
+    // if path is empty, coalesce to default value
+    let path = if path.is_empty() {
+        "/overlay/match-info".to_string()
+    } else {
+        path
+    };
+
     println!("Starting listener...");
 
-    let webview_window = tauri::WebviewWindowBuilder::new(
-        &app,
-        "overlay",
-        tauri::WebviewUrl::App("/overlay".into()),
-    )
-    .closable(false)
-    .decorations(false)
-    .resizable(false)
-    .minimizable(false)
-    .maximizable(false)
-    .transparent(true)
-    .build()
-    .unwrap();
+    let webview_window =
+        tauri::WebviewWindowBuilder::new(&app, "overlay", tauri::WebviewUrl::App(path.into()))
+            .closable(false)
+            .decorations(false)
+            .resizable(false)
+            .minimizable(false)
+            .maximizable(false)
+            .transparent(true)
+            .build()
+            .unwrap();
 
     start_monitoring(&app, keywords, interval, webview_window.clone());
     webview_window.show().unwrap();
