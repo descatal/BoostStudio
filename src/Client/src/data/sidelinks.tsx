@@ -1,26 +1,18 @@
-import { JSX } from "react"
-import {
-  IconBarrierBlock,
-  IconError404,
-  IconExclamationCircle,
-  IconLayoutDashboard,
-  IconLock,
-  IconServerOff,
-  IconSettings,
-} from "@tabler/icons-react"
-import { CiFileOn } from "react-icons/ci"
-import { HiOutlineStatusOnline } from "react-icons/hi"
-import { HiOutlineWrench } from "react-icons/hi2"
+import { JSX } from "react";
+import { IconLayoutDashboard, IconSettings } from "@tabler/icons-react";
+import { CiFileOn } from "react-icons/ci";
+import { HiOutlineWrench } from "react-icons/hi2";
+import { FaRegWindowRestore } from "react-icons/fa6";
 
 export interface NavLink {
-  title: string
-  label?: string
-  href: string
-  icon: JSX.Element
+  title: string;
+  label?: string;
+  href: string;
+  icon: JSX.Element;
 }
 
 export interface SideLink extends NavLink {
-  sub?: NavLink[]
+  sub?: NavLink[];
 }
 
 export const sidelinks: SideLink[] = [
@@ -47,6 +39,12 @@ export const sidelinks: SideLink[] = [
     label: "",
     href: "/tools",
     icon: <HiOutlineWrench size={18} />,
+  },
+  {
+    title: "Overlays",
+    label: "",
+    href: "/overlays",
+    icon: <FaRegWindowRestore size={18} />,
   },
   // {
   //   title: "Error Pages",
@@ -86,4 +84,4 @@ export const sidelinks: SideLink[] = [
     href: "/settings",
     icon: <IconSettings size={18} />,
   },
-]
+];

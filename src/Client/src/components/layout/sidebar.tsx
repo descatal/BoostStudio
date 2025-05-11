@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react"
-import { sidelinks } from "@/data/sidelinks"
-import { IconChevronsLeft, IconMenu2, IconX } from "@tabler/icons-react"
+import React, { useEffect, useState } from "react";
+import { sidelinks } from "@/data/sidelinks";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 
-import { cn } from "@/lib/utils"
-import { Menu } from "@/components/menu"
+import { cn } from "@/lib/utils";
 
-import { Button } from "../custom/button"
-import { Layout } from "../custom/layout"
-import Nav from "../nav"
+import { Button } from "../custom/button";
+import { Layout } from "../custom/layout";
+import Nav from "../nav";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
-  isCollapsed: boolean
-  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>
+  isCollapsed: boolean;
+  setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Sidebar({
@@ -19,22 +18,22 @@ export default function Sidebar({
   isCollapsed,
   setIsCollapsed,
 }: SidebarProps) {
-  const [navOpened, setNavOpened] = useState(false)
+  const [navOpened, setNavOpened] = useState(false);
 
   /* Make body not scrollable when navBar is opened */
   useEffect(() => {
     if (navOpened) {
-      document.body.classList.add("overflow-hidden")
+      document.body.classList.add("overflow-hidden");
     } else {
-      document.body.classList.remove("overflow-hidden")
+      document.body.classList.remove("overflow-hidden");
     }
-  }, [navOpened])
+  }, [navOpened]);
 
   return (
     <aside
       className={cn(
         `fixed left-0 right-0 ${"__TAURI__" in window ? "top-10" : "top-0"} z-50 border-r-2 border-r-muted transition-[width] md:bottom-0 md:right-auto md:h-svh md:w-fit ${isCollapsed ? "md:w-14" : "md:w-64"}`,
-        className
+        className,
       )}
     >
       {/* Overlay in mobile */}
@@ -50,9 +49,9 @@ export default function Sidebar({
           className={`z-50 flex cursor-pointer justify-between px-4 py-3 shadow-sm md:px-4`}
           onClick={() => {
             if (window.innerWidth >= 768) {
-              setIsCollapsed((prev) => !prev)
+              setIsCollapsed((prev) => !prev);
             } else {
-              setNavOpened((prev) => !prev)
+              setNavOpened((prev) => !prev);
             }
           }}
         >
@@ -104,8 +103,8 @@ export default function Sidebar({
             aria-controls="sidebar-menu"
             aria-expanded={navOpened}
             onClick={(e) => {
-              e.stopPropagation()
-              setNavOpened((prev) => !prev)
+              e.stopPropagation();
+              setNavOpened((prev) => !prev);
             }}
           >
             {navOpened ? <IconX /> : <IconMenu2 />}
@@ -135,5 +134,5 @@ export default function Sidebar({
         {/*</Button>*/}
       </Layout>
     </aside>
-  )
+  );
 }

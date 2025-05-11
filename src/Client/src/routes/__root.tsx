@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRef } from "react";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { AppContext } from "@/providers/app-store-provider";
+import { AppContext, useAppContext } from "@/providers/app-store-provider";
 import {
   MutationCache,
   QueryCache,
@@ -23,6 +23,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ShowErrorToast } from "@/lib/errors";
 import GeneralError from "@/features/errors/general-error";
 import NotFoundError from "@/features/errors/not-found-error";
+import { cn } from "@/lib/utils";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -47,7 +48,6 @@ const queryClient = new QueryClient({
 
 function RootComponent() {
   const store = useRef(createAppStore()).current;
-  const [isCollapsed, setIsCollapsed] = useIsCollapsed();
 
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -58,33 +58,49 @@ function RootComponent() {
               <SearchProvider>
                 <Toaster />
                 {"__TAURI__" in window ? <Menu /> : <></>}
-                <div
-                  className={`
-                      overflow-x-hidden pb-20 pt-16 transition-[margin] md:pt-0 ${isCollapsed ? "md:ml-14" : "md:ml-64"} h-full
-                    `}
-                >
-                  <Topbar />
-                  <div
-                    className={`relative h-[calc(100vh-${isCollapsed ? "64" : "128"}px)] overflow-auto bg-background`}
-                  >
-                    <Sidebar
-                      isCollapsed={isCollapsed}
-                      setIsCollapsed={setIsCollapsed}
-                    />
-                    <main id="content" className={"h-full"}>
-                      <React.Fragment>
-                        <Outlet />
-                      </React.Fragment>
-                    </main>
-                  </div>
-                </div>
+                <RouterComponent />
               </SearchProvider>
             </NuqsAdapter>
           </TooltipProvider>
-          <TanStackRouterDevtools />
-          <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </AppContext.Provider>
     </ThemeProvider>
+  );
+}
+
+function RouterComponent() {
+  const [isCollapsed, setIsCollapsed] = useIsCollapsed();
+  const showSidebar = useAppContext((state) => state.showSidebar);
+  const showTopBar = useAppContext((state) => state.showTopbar);
+  const showDevtools = useAppContext((state) => state.showDevtools);
+  const transparent = useAppContext((state) => state.transparent);
+
+  return (
+    <>
+      <div
+        className={`overflow-x-hidden transition-[margin]  ${showSidebar && cn(isCollapsed ? "md:ml-14" : "md:ml-64")} ${showSidebar && "md:pt-0 pb-20 pt-16"}`}
+      >
+        {showTopBar && <Topbar />}
+        <div
+          className={`relative ${showTopBar ? `h-[calc(100vh-128px)] md:h-[calc(100vh-64px)]` : "h-screen"} overflow-auto ${transparent ? "bg-transparent" : "bg-background"}`}
+        >
+          {showSidebar && (
+            <Sidebar
+              isCollapsed={isCollapsed}
+              setIsCollapsed={setIsCollapsed}
+            />
+          )}
+          <main id="content" className={"h-full"}>
+            <Outlet />
+          </main>
+        </div>
+      </div>
+      {showDevtools && (
+        <>
+          <TanStackRouterDevtools />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </>
+      )}
+    </>
   );
 }

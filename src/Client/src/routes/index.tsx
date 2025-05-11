@@ -1,9 +1,10 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
+import React from "react";
 
 export const Route = createFileRoute("/")({
-  component: RouteComponent,
+  component: IndexComponent,
 });
 
-function RouteComponent() {
-  return <Navigate to={`/units`} replace />;
+function IndexComponent() {
+  return <Navigate to={"/units"} replace />;
 }
