@@ -56,6 +56,7 @@
     "@radix-ui/react-toggle-group": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@tabler/icons-react": "^3.10.0",
+    "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-query": "^5.62.15",
     "@tanstack/react-query-devtools": "^5.67.1",
     "@tanstack/react-router": "^1.109.0",
@@ -67,7 +68,6 @@
     "@tauri-apps/plugin-shell": "2.2.1",
     "@tauri-apps/plugin-window": "2.0.0-alpha.1",
     "@uidotdev/usehooks": "^2.4.1",
-    "@vitejs/plugin-react-swc": "^3.8.0",
     "badge": "^1.0.3",
     "cmdk": "^1.0.0",
     "content-disposition-attachment": "^0.3.1",
@@ -91,8 +91,8 @@
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.1",
     "sonner": "^1.7.4",
-    "tailwind-scrollbar": "^4.0.2",
-    "tailwindcss-animate": "^1.0.6",
+    "tailwind-merge": "^3.2.0",
+    "tailwindcss": "^4.1.5",
     "typed-openapi": "^0.10.1",
     "vaul": "^0.9.3",
     "vscode-web": "^1.91.1",
@@ -100,6 +100,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@tanstack/eslint-config": "^0.1.0",
     "@hey-api/openapi-ts": "^0.66.6",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@openapitools/openapi-generator-cli": "^2.15.3",
@@ -110,17 +111,15 @@
     "@types/node": "^20.14.10",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.14",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "globals": "^15.14.0",
-    "postcss": "^8.5.1",
     "prettier": "^3.5.0",
-    "prettier-plugin-tailwindcss": "^0.4.1",
-    "tailwind-merge": "^1.14.0",
-    "tailwindcss": "^3.4.17",
     "taze": "^0.11.2",
+    "tw-animate-css": "^1.2.9",
     "typescript": "^5.7.2",
-    "vite": "^6.3.3"
+    "vite": "^6.0.3"
   }
 }
