@@ -56,7 +56,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Restore solution
         run: dotnet restore
@@ -81,45 +81,45 @@ jobs:
           path: ./src/Core/Presentation/WebApi/publish/win-x64
           if-no-files-found: error
 
-      - name: Publish website (linux-x64)
-        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-        run: |
-          dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true --output ./publish/linux-x64
-        working-directory: ./src/Core/Presentation/WebApi
-
-      - name: Upload website artifacts (linux-x64)
-        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: BoostStudio.Web-linux-x64
-          path: ./src/Core/Presentation/WebApi/publish/linux-x64
-          if-no-files-found: error
-
-      - name: Publish console (win-x64)
-        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-        run: |
-          dotnet publish --configuration Console --runtime win-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false -p:EnableCompressionInSingleFile=true --output ./publish/win-x64
-        working-directory: ./src/Core/Presentation/Console
-
-      - name: Upload console artifacts (win-x64)
-        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: BoostStudio.Console-win-x64
-          path: ./src/Core/Presentation/Console/publish/win-x64
-          if-no-files-found: error
-
-      - name: Publish console (linux-x64)
-        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-        run: |
-          dotnet publish --configuration Console --runtime linux-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false -p:EnableCompressionInSingleFile=true --output ./publish/linux-x64
-        working-directory: ./src/Core/Presentation/Console
-
-      - name: Upload console artifacts (linux-x64)
-        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: BoostStudio.Console-linux-x64
-          path: ./src/Core/Presentation/Console/publish/linux-x64
-          if-no-files-found: error
+#      - name: Publish website (linux-x64)
+#        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+#        run: |
+#          dotnet publish --configuration Release --runtime linux-x64 --self-contained -p:PublishSingleFile=true -p:DebugType=None -p:DebugSymbols=false -p:PublishReadyToRun=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true --output ./publish/linux-x64
+#        working-directory: ./src/Core/Presentation/WebApi
+#
+#      - name: Upload website artifacts (linux-x64)
+#        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: BoostStudio.Web-linux-x64
+#          path: ./src/Core/Presentation/WebApi/publish/linux-x64
+#          if-no-files-found: error
+#
+#      - name: Publish console (win-x64)
+#        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
+#        run: |
+#          dotnet publish --configuration Console --runtime win-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false -p:EnableCompressionInSingleFile=true --output ./publish/win-x64
+#        working-directory: ./src/Core/Presentation/Console
+#
+#      - name: Upload console artifacts (win-x64)
+#        if: ${{ matrix.os == 'windows-latest' && inputs.build-artifacts == true }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: BoostStudio.Console-win-x64
+#          path: ./src/Core/Presentation/Console/publish/win-x64
+#          if-no-files-found: error
+#
+#      - name: Publish console (linux-x64)
+#        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+#        run: |
+#          dotnet publish --configuration Console --runtime linux-x64 --self-contained -p:DebugType=None -p:DebugSymbols=false -p:EnableCompressionInSingleFile=true --output ./publish/linux-x64
+#        working-directory: ./src/Core/Presentation/Console
+#
+#      - name: Upload console artifacts (linux-x64)
+#        if: ${{ matrix.os == 'ubuntu-latest' && inputs.build-artifacts == true }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: BoostStudio.Console-linux-x64
+#          path: ./src/Core/Presentation/Console/publish/linux-x64
+#          if-no-files-found: error
 
