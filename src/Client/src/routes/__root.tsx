@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useRef } from "react";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { AppContext, useAppContext } from "@/providers/app-store-provider";
@@ -17,13 +16,13 @@ import { createAppStore } from "@/stores/app-store";
 import useIsCollapsed from "@/hooks/use-is-collapsed";
 import { ThemeProvider } from "@/context/theme-context";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import Topbar from "@/components/layout/topbar";
-import { Toaster } from "@/components/ui/toaster";
-import { ShowErrorToast } from "@/lib/errors";
+import { Toaster } from "@/components/ui/sonner";
+import { ShowErrorToast } from "@/features/errors/toast-errors.tsx";
 import GeneralError from "@/features/errors/general-error";
 import NotFoundError from "@/features/errors/not-found-error";
 import { cn } from "@/lib/utils";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
 export const Route = createRootRoute({
   component: RootComponent,
@@ -38,7 +37,7 @@ const queryClient = new QueryClient({
     },
   }),
   mutationCache: new MutationCache({
-    onSettled: async (data, error) => {
+    onSettled: async (_, error) => {
       if (error) {
         await ShowErrorToast(error);
       }
@@ -78,7 +77,7 @@ function RouterComponent() {
   return (
     <>
       <div
-        className={`overflow-x-hidden transition-[margin]  ${showSidebar && cn(isCollapsed ? "md:ml-14" : "md:ml-64")} ${showSidebar && "md:pt-0 pb-20 pt-16"}`}
+        className={`overflow-x-hidden transition-[margin] ${showSidebar && cn(isCollapsed ? "md:ml-14" : "md:ml-64")} ${showSidebar && "md:pt-0 pb-20 pt-16"}`}
       >
         {showTopBar && <Topbar />}
         <div

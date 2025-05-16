@@ -1,4 +1,3 @@
-import React from "react";
 import { DataTable } from "@/components/data-table/data-table";
 import { DataTableToolbar } from "@/components/data-table/data-table-toolbar";
 import { PatchFilesListToolbarActions } from "@/features/patches/components/patch-files-table/toolbar-actions";

@@ -6,14 +6,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { Check, Layers, X } from "lucide-react";
 import { listen } from "@tauri-apps/api/event";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { invoke } from "@tauri-apps/api/core";
-import { Option } from "@/components/ui/multiple-selector";
-import OverlayAdvancedSettingsForm from "@/features/overlays/components/forms/overlay-advanced-settings-form";
+import { invoke, isTauri } from "@tauri-apps/api/core";
+import OverlayAdvancedSettingsForm, {
+  OVERLAY_SETTINGS,
+  OverlaySettings,
+} from "@/features/overlays/components/forms/overlay-advanced-settings-form";
+import { Tooltip } from "@/components/ui/tooltip.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { getApiConfigsByKeyOptions } from "@/api/exvs/@tanstack/react-query.gen.ts";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/overlays/")({
   component: RouteComponent,
@@ -38,24 +44,27 @@ function RouteComponent() {
     },
   });
 
-  const [windowTitles, setWindowTitles] = React.useState<Option[]>([
-    {
-      label: "BLJS10250",
-      value: "BLJS10250",
+  const settingsQuery = useQuery({
+    ...getApiConfigsByKeyOptions({
+      path: {
+        key: OVERLAY_SETTINGS,
+      },
+    }),
+    select: (data) => {
+      return JSON.parse(data) as OverlaySettings;
     },
-    {
-      label: "NPJB00512",
-      value: "NPJB00512",
-    },
-  ]);
+  });
 
   const isListenerStarted = query.data;
   const queryClient = useQueryClient();
 
+  const tauri = isTauri();
   const [appFound, setAppFound] = useState(false);
 
   useEffect(() => {
-    const start = listen<OverlayListenerStarted>("overlay-started", (event) => {
+    if (!tauri) return;
+
+    const start = listen<OverlayListenerStarted>("overlay-started", (_) => {
       queryClient.setQueryData(["overlay_listener"], true);
     });
 
@@ -66,38 +75,55 @@ function RouteComponent() {
       },
     );
 
-    const stopped = listen<OverlayListenerStopped>(
-      "overlay-stopped",
-      (event) => {
-        queryClient.setQueryData(["overlay_listener"], false);
-      },
-    );
+    const stopped = listen<OverlayListenerStopped>("overlay-stopped", (_) => {
+      queryClient.setQueryData(["overlay_listener"], false);
+    });
 
     return () => {
       start.then();
       progress.then();
       stopped.then();
     };
-  }, []);
+  }, [tauri]);
 
   const startListenerMutation = useMutation({
     mutationFn: async () => {
-      // const request: StartListenerRequest = {
-      //   interval: form.getValues("interval"),
-      // };
-      // await invoke("start_listening", request);
+      if (!settingsQuery.data) {
+        toast.error(
+          "Failed to start listener, no settings has been retrieved!",
+        );
+        return;
+      }
+
+      const request = {
+        interval: settingsQuery.data?.interval ?? 300,
+        keywords: settingsQuery.data?.windowTitles ?? [""],
+      };
+      await invoke("start_listening", request);
+      toast.message("Listener started!");
     },
   });
 
-  const [tricks, setTricks] = React.useState([
-    "Kickflip",
-    "Heelflip",
-    "FS 540",
-  ]);
+  const stopListenerMutation = useMutation({
+    mutationFn: async () => {
+      await invoke("stop_listening");
+      toast.message("Listener stopped!");
+    },
+  });
+
+  async function handleListenerOnClick() {
+    if (tauri) return;
+
+    if (isListenerStarted) {
+      stopListenerMutation.mutate();
+    } else {
+      startListenerMutation.mutate();
+    }
+  }
 
   return (
-    <div className="container max-w-4xl py-10 p-8 pt-6">
-      <div className="grid gap-6">
+    <div className="flex justify-center">
+      <div className="w-4xl py-10 p-8 pt-6 grid gap-6">
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -107,35 +133,31 @@ function RouteComponent() {
               </div>
               {isListenerStarted ? (
                 appFound ? (
-                  <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-green-100 text-green-800 border-green-200">
+                  <Badge variant={"default"}>
                     <Check className="h-3 w-3 mr-1" />
                     Window detected - Overlay active
-                  </div>
+                  </Badge>
                 ) : (
-                  <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-red-100 text-red-800 border-red-200">
+                  <Badge variant={"destructive"}>
                     <X className="h-3 w-3 mr-1" />
                     Window not detected
-                  </div>
+                  </Badge>
                 )
+              ) : tauri ? (
+                <Badge variant={"destructive"}>Listener stopped</Badge>
               ) : (
-                <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-slate-100 text-slate-800 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700">
-                  Listener stopped
-                </div>
+                <Badge variant={"destructive"}>Not supported in browser</Badge>
               )}
             </div>
           </CardHeader>
           <CardContent>
+            <Tooltip></Tooltip>
             <EnhancedButton
+              disabled={!tauri}
               icon={Layers}
-              iconPlacement={"left"}
+              iconPlacement={"right"}
               variant={isListenerStarted ? "destructive" : "default"}
-              onClick={async () => {
-                if (isListenerStarted) {
-                  await invoke("stop_listening");
-                } else {
-                  startListenerMutation.mutate();
-                }
-              }}
+              onClick={handleListenerOnClick}
               className="w-full"
             >
               {isListenerStarted ? "Stop Listener" : "Start Listener"}
@@ -149,8 +171,8 @@ function RouteComponent() {
                 <CardTitle>Customize Overlay</CardTitle>
                 <CardDescription>
                   {isListenerStarted
-                    ? "Stop the listener to customize overlay settings"
-                    : "Adjust how your overlay appears"}
+                    ? "Stop the listener to customize overlay listener settings"
+                    : "Adjust settings on the overlay listener"}
                 </CardDescription>
               </div>
               {isListenerStarted && (

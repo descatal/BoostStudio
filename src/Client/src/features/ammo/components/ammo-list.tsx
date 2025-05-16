@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardContent,
@@ -17,17 +16,15 @@ const AmmoList = ({ unitId }: AmmoListProps) => {
   return (
     <div className={"flex flex-col gap-3"}>
       <Card className="col-span-full">
-        <div className={"flex flex-row justify-between"}>
-          <CardHeader>
+        <CardHeader className={"flex flex-row justify-between"}>
+          <div>
             <CardTitle>Ammo</CardTitle>
             <CardDescription>
               {unitId ? "Ammo associated with this unit" : "All ammo"}
             </CardDescription>
-          </CardHeader>
-          <div className="flex items-center space-x-2 mr-5">
-            <AmmoExportDialog />
           </div>
-        </div>
+          <AmmoExportDialog />
+        </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <AmmoTable unitId={unitId} />

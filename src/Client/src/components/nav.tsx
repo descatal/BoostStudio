@@ -201,13 +201,15 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant={isChildActive ? "secondary" : "ghost"}
-              size="icon"
-              className="h-12 w-12"
-            >
-              {icon}
-            </Button>
+            <div>
+              <Button
+                variant={isChildActive ? "secondary" : "ghost"}
+                size="icon"
+                className="h-12 w-12"
+              >
+                {icon}
+              </Button>
+            </div>
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent side="right" className="flex items-center gap-4">

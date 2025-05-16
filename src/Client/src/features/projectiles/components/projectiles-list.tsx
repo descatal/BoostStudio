@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardContent,
@@ -17,19 +16,17 @@ const ProjectilesList = ({ unitId }: ProjectilesListProps) => {
   return (
     <div className={"flex flex-col gap-3"}>
       <Card className="col-span-full">
-        <div className={"flex flex-row justify-between"}>
-          <CardHeader>
-            <CardTitle>Projectiles</CardTitle>
+        <CardHeader className={"flex flex-row justify-between"}>
+          <div>
+            <CardTitle className={"mb-2"}>Projectiles</CardTitle>
             <CardDescription>
               {unitId
                 ? "Projectiles associated with this unit"
                 : "All projectiles"}
             </CardDescription>
-          </CardHeader>
-          <div className="flex items-center space-x-2 mr-5">
-            <ProjectileExportDialog unitIds={unitId ? [unitId] : undefined} />
           </div>
-        </div>
+          <ProjectileExportDialog unitIds={unitId ? [unitId] : undefined} />
+        </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <ProjectilesTable unitId={unitId} />

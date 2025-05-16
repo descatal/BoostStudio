@@ -1,27 +1,16 @@
-"use client"
+import { LaptopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
-import * as React from "react"
-import { LaptopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons"
-import { useTheme } from "next-themes"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import {
   MenubarContent,
   MenubarMenu,
   MenubarRadioGroup,
   MenubarRadioItem,
   MenubarTrigger,
-} from "@/components/ui/menubar"
-import { Icons } from "@/components/icons"
+} from "@/components/ui/menubar";
+import { useTheme } from "@/context/theme-context.tsx";
 
 export function MenuModeToggle() {
-  const { setTheme, theme } = useTheme()
+  const { setTheme, theme } = useTheme();
 
   return (
     <MenubarMenu>
@@ -43,5 +32,5 @@ export function MenuModeToggle() {
         </MenubarRadioGroup>
       </MenubarContent>
     </MenubarMenu>
-  )
+  );
 }

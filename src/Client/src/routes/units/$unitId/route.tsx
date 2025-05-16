@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getApiUnitsByUnitIdOptions } from "@/api/exvs/@tanstack/react-query.gen";
 

@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { ToolsSections } from "@/lib/constants";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useAppContext } from "@/providers/app-store-provider";
 
 export const Route = createFileRoute("/tools")({

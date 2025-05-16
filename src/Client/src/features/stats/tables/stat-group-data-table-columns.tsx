@@ -1,10 +1,9 @@
-﻿"use client"
+﻿"use client";
 
-import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner"
-import { GetApiUnitStats200ResponseItemsInner } from "@/api/exvs/models/GetApiUnitStats200ResponseItemsInner"
-import { createStats, deleteStats } from "@/api/wrapper/stats-api"
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import type { GetApiStats200ResponseItemsInner } from "@/api/exvs/models/GetApiStats200ResponseItemsInner";
+import { deleteStats } from "@/api/wrapper/stats-api";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 
 import {
   AlertDialog,
@@ -16,15 +15,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 export const statGroupColumns: ColumnDef<GetApiStats200ResponseItemsInner>[] = [
   {
@@ -624,17 +623,19 @@ export const statGroupColumns: ColumnDef<GetApiStats200ResponseItemsInner>[] = [
       isAction: true,
     },
     cell: ({ row, table }) => {
-      const data = row.original
+      const data = row.original;
 
       return (
         <>
           <AlertDialog>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
+                <div>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -643,9 +644,9 @@ export const statGroupColumns: ColumnDef<GetApiStats200ResponseItemsInner>[] = [
                     console.log("Duplicating a new stat...", {
                       ...data,
                       id: undefined,
-                    })
+                    });
                     // await createStats(data)
-                    await table.options.meta?.fetchData()
+                    await table.options.meta?.fetchData();
                   }}
                 >
                   Duplicate
@@ -667,9 +668,9 @@ export const statGroupColumns: ColumnDef<GetApiStats200ResponseItemsInner>[] = [
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={async () => {
-                    console.log("Deleting existing stat with id: ", data.id!)
-                    await deleteStats(data.id!)
-                    await table.options.meta?.fetchData()
+                    console.log("Deleting existing stat with id: ", data.id!);
+                    await deleteStats(data.id!);
+                    await table.options.meta?.fetchData();
                   }}
                 >
                   Confirm
@@ -678,7 +679,7 @@ export const statGroupColumns: ColumnDef<GetApiStats200ResponseItemsInner>[] = [
             </AlertDialogContent>
           </AlertDialog>
         </>
-      )
+      );
     },
   },
-]
+];

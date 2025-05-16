@@ -1,8 +1,11 @@
-import { createFileRoute, Outlet, useMatchRoute } from "@tanstack/react-router";
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
-import React from "react";
+import {
+  createFileRoute,
+  Link,
+  Outlet,
+  useMatchRoute,
+} from "@tanstack/react-router";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { TabsLinkTrigger } from "@/components/tabs-link-trigger";
 import { UnitCustomizableInfoSections } from "@/lib/constants";
 
 export const Route = createFileRoute("/units/$unitId/info")({
@@ -10,6 +13,7 @@ export const Route = createFileRoute("/units/$unitId/info")({
 });
 
 function RouteComponent() {
+  const { unitId }: { unitId: string } = Route.useParams();
   const matchRoute = useMatchRoute();
   const matchedSection =
     Object.values(UnitCustomizableInfoSections).find((path) => {
@@ -24,16 +28,21 @@ function RouteComponent() {
             <TabsList className="absolute flex h-10">
               {Object.entries(UnitCustomizableInfoSections).map(
                 ([label, value]) => (
-                  <TabsLinkTrigger key={value} href={value}>
-                    {label}
-                  </TabsLinkTrigger>
+                  <TabsTrigger key={value} value={value}>
+                    <Link
+                      to={`/units/$unitId/info/${value}`}
+                      params={{ unitId: unitId }}
+                    >
+                      {label}
+                    </Link>
+                  </TabsTrigger>
                 ),
               )}
             </TabsList>
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-        {Object.entries(UnitCustomizableInfoSections).map(([label, value]) => (
+        {Object.entries(UnitCustomizableInfoSections).map(([_, value]) => (
           <TabsContent key={value} value={value}>
             <Outlet />
           </TabsContent>

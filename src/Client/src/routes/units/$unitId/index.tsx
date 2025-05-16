@@ -1,5 +1,4 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
-import { UnitCustomizableInfoSections } from "@/lib/constants";
 
 export const Route = createFileRoute("/units/$unitId/")({
   component: RouteComponent,

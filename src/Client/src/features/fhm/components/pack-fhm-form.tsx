@@ -26,7 +26,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "@/hooks/use-toast";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { LuPackage } from "react-icons/lu";
-import { GetProblemDetails } from "@/lib/errors";
+import { GetProblemDetails } from "@/features/errors/toast-errors.tsx";
 import { postApiFhmPackMutation } from "@/api/exvs/@tanstack/react-query.gen";
 
 // can deprecate this out in favor of zod once this is implemented:

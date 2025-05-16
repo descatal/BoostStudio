@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Main } from "@/components/layout/main";
 import { UnitSummaryVm } from "@/api/exvs";
-import React, { useState } from "react";
+import { useState } from "react";
 import UnitCard from "@/pages/units/components/unit-card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";

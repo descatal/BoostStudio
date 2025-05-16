@@ -29,12 +29,12 @@ import {
 
 interface ProjectileExportDialogProps
   extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
-  triggerButton?: React.ReactNode;
+  children?: React.ReactNode;
   unitIds?: number[];
 }
 
 const ProjectileExportDialog = ({
-  triggerButton,
+  children,
   unitIds,
   ...props
 }: ProjectileExportDialogProps) => {
@@ -54,7 +54,7 @@ const ProjectileExportDialog = ({
   return (
     <Credenza {...props}>
       <CredenzaTrigger asChild>
-        {triggerButton ?? (
+        {children ?? (
           <EnhancedButton
             effect={"gooeyRight"}
             icon={BiExport}

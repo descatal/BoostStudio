@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Form,
   FormControl,
@@ -13,46 +12,91 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { toast } from "sonner";
-import { RefreshCcw, X } from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import {
+  TagsInput,
   TagsInputClear,
   TagsInputInput,
   TagsInputItem,
-  TagsInputItemDelete,
-  TagsInputItemText,
   TagsInputLabel,
-} from "@diceui/tags-input";
-import { TagsInput, TagsInputList } from "@/components/ui/tags-input";
+  TagsInputList,
+} from "@/components/ui/tags-input";
 import { Button } from "@/components/ui/button";
+import { TagsInputItemDelete, TagsInputItemText } from "@diceui/tags-input";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  getApiConfigsByKeyOptions,
+  postApiConfigsMutation,
+} from "@/api/exvs/@tanstack/react-query.gen.ts";
+import { FaSave } from "react-icons/fa";
+import { Icons } from "@/components/icons.tsx";
 
-const formSchema = z.object({
+export const overlaySettingsFormSchema = z.object({
   windowTitles: z
     .array(z.string())
     .nonempty("Please enter at least one window title!"),
   interval: z.number().optional(),
 });
 
+export type OverlaySettings = z.infer<typeof overlaySettingsFormSchema>;
+
+export const OVERLAY_SETTINGS = "OVERLAY_SETTINGS";
+
 const OverlayAdvancedSettingsForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      windowTitles: ["NPJB00512", "BLJS10250"],
-      interval: 300,
+  const query = useQuery({
+    ...getApiConfigsByKeyOptions({
+      path: {
+        key: OVERLAY_SETTINGS,
+      },
+    }),
+    select: (data) => {
+      return JSON.parse(data) as OverlaySettings;
+    },
+    retry: 1,
+  });
+
+  const mutation = useMutation({
+    ...postApiConfigsMutation(),
+  });
+
+  const form = useForm<OverlaySettings>({
+    resolver: zodResolver(overlaySettingsFormSchema),
+    values: {
+      windowTitles: query.data?.windowTitles ?? ["NPJB00512", "BLJS10250"],
+      interval: query.data?.interval ?? 300,
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: OverlaySettings) {
     try {
+      const jsonPayload = JSON.stringify(values, null, 2);
+      await mutation.mutateAsync({
+        body: {
+          key: OVERLAY_SETTINGS,
+          value: jsonPayload,
+        },
+      });
+      await query.refetch();
+      form.reset();
+
       toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>,
+        <div>
+          <p>The following values have been saved into config:</p>
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{jsonPayload}</code>
+          </pre>
+        </div>,
       );
     } catch (error) {
       console.error("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
     }
   }
+
+  if (query.error) {
+    return <p>Failed to retrieve settings!</p>;
+  }
+  if (query.isLoading) return <p>Loading..</p>;
 
   return (
     <Form {...form}>
@@ -69,6 +113,7 @@ const OverlayAdvancedSettingsForm = () => {
                 value={field.value}
                 onValueChange={field.onChange}
                 className={"w-full"}
+                editable
               >
                 <TagsInputLabel>
                   <FormLabel>Window Titles</FormLabel>
@@ -78,14 +123,12 @@ const OverlayAdvancedSettingsForm = () => {
                     {field.value.map((fieldName) => (
                       <TagsInputItem key={fieldName} value={fieldName}>
                         <TagsInputItemText />
-                        <TagsInputItemDelete>
-                          <X className="h-3.5 w-3.5" />
-                        </TagsInputItemDelete>
+                        <TagsInputItemDelete />
                       </TagsInputItem>
                     ))}
                     <TagsInputInput
                       placeholder="Add window title..."
-                      className={"w-full"}
+                      className={"w-fit"}
                     />
                   </TagsInputList>
                 </FormControl>
@@ -103,7 +146,20 @@ const OverlayAdvancedSettingsForm = () => {
             </FormItem>
           )}
         />
-        <EnhancedButton type="submit">Submit</EnhancedButton>
+        <EnhancedButton
+          type="submit"
+          className={"w-full"}
+          icon={FaSave}
+          iconPlacement={"right"}
+        >
+          {mutation.isPending && (
+            <Icons.spinner
+              className="size-4 mr-2 animate-spin"
+              aria-hidden="true"
+            />
+          )}
+          Submit
+        </EnhancedButton>
       </form>
     </Form>
   );

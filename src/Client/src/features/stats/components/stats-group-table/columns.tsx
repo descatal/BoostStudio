@@ -1,7 +1,6 @@
 import { ProjectileDto, StatDto } from "@/api/exvs";
 import { ColumnDef } from "@tanstack/react-table";
 import StatsGroupTableRowActions from "@/features/stats/components/stats-group-table/row-actions";
-import React from "react";
 import { zStatDto } from "@/api/exvs/zod.gen";
 
 const customTableRows: ColumnDef<ProjectileDto>[] = [

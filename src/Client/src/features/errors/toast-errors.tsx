@@ -1,5 +1,5 @@
-import { toast } from "@/hooks/use-toast";
 import { ProblemDetails } from "get-problem-details";
+import { toast } from "sonner";
 
 export async function GetProblemDetails(error: Error) {
   // @ts-ignore
@@ -10,17 +10,18 @@ export async function GetProblemDetails(error: Error) {
 
     // problem details payload, check RFC
     return new ProblemDetails(responseResult);
+  } else {
+    return new ProblemDetails(error);
   }
 }
 
 export async function ShowErrorToast(error: Error) {
   const problemDetails = await GetProblemDetails(error);
   const errorMessage =
-    problemDetails?.title ?? error?.message ?? "Unspecified error!";
+    problemDetails?.title ??
+    problemDetails?.detail ??
+    error?.message ??
+    "Unspecified error!";
 
-  toast({
-    title: "Error",
-    description: errorMessage,
-    variant: "destructive",
-  });
+  toast.error(errorMessage);
 }

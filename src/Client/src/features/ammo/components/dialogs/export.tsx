@@ -21,13 +21,10 @@ import { MdMemory } from "react-icons/md";
 
 interface AmmoExportDialogProps
   extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
-  triggerButton?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const AmmoExportDialog = ({
-  triggerButton,
-  ...props
-}: AmmoExportDialogProps) => {
+const AmmoExportDialog = ({ children, ...props }: AmmoExportDialogProps) => {
   const [hotReload, setHotReload] = React.useState(true);
 
   const mutation = useMutation({
@@ -43,7 +40,7 @@ const AmmoExportDialog = ({
   return (
     <Credenza {...props}>
       <CredenzaTrigger asChild>
-        {triggerButton ?? (
+        {children ?? (
           <EnhancedButton
             effect={"gooeyRight"}
             icon={BiExport}

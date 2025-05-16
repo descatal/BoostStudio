@@ -1,11 +1,20 @@
-@import '../node_modules/.pnpm/tailwindcss@4.1.6/node_modules/tailwindcss/dist/lib.d.mts';
-@import "../node_modules/tw-animate-css";
+@import 'tailwindcss';
+@import "tw-animate-css";
+@import "./themes.css";
 
 @custom-variant dark (&:is(.dark *));
+
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
 
 body {
     @apply m-0;
     font-family:
+            "Geist",
             -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
             'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;

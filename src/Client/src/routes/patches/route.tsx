@@ -1,12 +1,7 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { Header } from "@/components/layout/header";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Main } from "@/components/layout/main";
-import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { TabsLinkTrigger } from "@/components/tabs-link-trigger";
-import { Search } from "@/components/search";
-import { ThemeSwitch } from "@/components/theme-switch";
-import React from "react";
 import { PatchFileTabs } from "@/features/patches/libs/constants";
 
 export const Route = createFileRoute("/patches")({
@@ -27,9 +22,16 @@ function RouteComponent() {
             <div className="relative h-10 w-full">
               <TabsList className="absolute flex h-10">
                 {Object.keys(PatchFileTabs).map((patch) => (
-                  <TabsLinkTrigger key={patch} href={patch}>
-                    {patch}
-                  </TabsLinkTrigger>
+                  <TabsTrigger key={patch} value={patch}>
+                    <Link
+                      to={`/patches/$patchId`}
+                      params={{
+                        patchId: patch,
+                      }}
+                    >
+                      {patch}
+                    </Link>
+                  </TabsTrigger>
                 ))}
               </TabsList>
             </div>

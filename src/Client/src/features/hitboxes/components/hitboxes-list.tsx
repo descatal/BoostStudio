@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardContent,
@@ -17,17 +16,15 @@ const HitboxesList = ({ unitId }: HitboxesListProps) => {
   return (
     <div className={"flex flex-col gap-3"}>
       <Card className="col-span-full">
-        <div className={"flex flex-row justify-between"}>
-          <CardHeader>
+        <CardHeader className={"flex flex-row justify-between"}>
+          <div>
             <CardTitle>Hitboxes</CardTitle>
             <CardDescription>
               {unitId ? "Hitboxes associated with this unit" : "All hitboxes"}
             </CardDescription>
-          </CardHeader>
-          <div className="flex items-center space-x-2 mr-5">
-            <HitboxExportDialog unitIds={unitId ? [unitId] : undefined} />
           </div>
-        </div>
+          <HitboxExportDialog unitIds={unitId ? [unitId] : undefined} />
+        </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <HitboxesTable unitId={unitId} />
