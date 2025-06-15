@@ -2594,6 +2594,7 @@ export type GetApiSeriesData = {
         Page?: number;
         PerPage?: number;
         Search?: Array<string>;
+        ListAll?: boolean;
     };
     url: '/api/series';
 };

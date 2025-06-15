@@ -4,7 +4,7 @@ using BoostStudio.Domain.Entities.Exvs.Series;
 using Riok.Mapperly.Abstractions;
 using SeriesEntity = BoostStudio.Domain.Entities.Exvs.Series.Series;
 using SeriesInfoFormat = BoostStudio.Formats.ListInfoBinaryFormat.SeriesInfo;
-using Unit=BoostStudio.Domain.Entities.Exvs.Units.Unit;
+using Unit = BoostStudio.Domain.Entities.Exvs.Units.Unit;
 
 namespace BoostStudio.Application.Contracts.Series;
 
@@ -16,6 +16,7 @@ public static partial class SeriesMapper
     public static partial SeriesEntity MapToEntity(SeriesDto dto);
 
     [MapperIgnoreSource(nameof(SeriesEntity.DomainEvents))]
+    [MapperIgnoreTarget(nameof(SeriesDto.PlayableSeries))]
     public static partial SeriesDto MapToDto(SeriesEntity entity);
 
     [MapperIgnoreSource(nameof(SeriesEntity.PlayableSeries))]
@@ -40,7 +41,10 @@ public static partial class SeriesMapper
     public static partial IQueryable<SeriesDto> ProjectToDto(IQueryable<SeriesEntity> entity);
 
     [MapperIgnoreTarget(nameof(SeriesEntity.PlayableSeries))]
-    public static partial void UpdateEntityMetadata(SeriesMetadataOption source, SeriesEntity target);
+    public static partial void UpdateEntityMetadata(
+        SeriesMetadataOption source,
+        SeriesEntity target
+    );
 
     public static void UpdateEntityDetailsIfNull(SeriesMetadataOption source, SeriesEntity target)
     {
@@ -91,5 +95,7 @@ public static partial class PlayableSeriesMapper
     [MapperIgnoreSource(nameof(PlayableSeries.Series))]
     public static partial PlayableSeriesDetailsDto MapToDetailsDto(PlayableSeries entity);
 
-    public static partial IQueryable<PlayableSeriesDto> ProjectToDto(IQueryable<PlayableSeries> entity);
+    public static partial IQueryable<PlayableSeriesDto> ProjectToDto(
+        IQueryable<PlayableSeries> entity
+    );
 }

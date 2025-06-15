@@ -2111,6 +2111,14 @@
                 "type": "string"
               }
             }
+          },
+          {
+            "name": "ListAll",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {

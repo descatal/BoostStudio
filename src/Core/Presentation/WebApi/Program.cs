@@ -64,7 +64,7 @@ try
     await app.InitialiseDatabaseAsync();
 
     app.UseHealthChecks("/healthz");
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
 
     app.UseWhen(
         context =>

@@ -1,98 +1,70 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Main } from "@/components/layout/main";
-import { UnitSummaryVm } from "@/api/exvs";
-import { useState } from "react";
-import UnitCard from "@/pages/units/components/unit-card";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import { useQuery } from "@tanstack/react-query";
-import { getApiSeriesUnitsOptions } from "@/api/exvs/@tanstack/react-query.gen";
+import { createFileRoute } from "@tanstack/react-router";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import UnitsCarousel from "@/features/units/components/units-carousel.tsx";
+import UnitsSelector from "@/features/units/components/units-selector.tsx";
+import SeriesCarousel from "@/features/series/components/series-carousel.tsx";
+import { Separator } from "@/components/ui/separator.tsx";
+import React from "react";
 
 export const Route = createFileRoute("/units/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [selectedUnit, setSelectedUnit] = useState<UnitSummaryVm | undefined>(
-    undefined,
-  );
-  const [search, setSearch] = useState("");
+  // const seriesUnitsQuery = useQuery({
+  //   ...getApiSeriesUnitsOptions({
+  //     query: {
+  //       ListAll: true,
+  //     },
+  //   }),
+  //   select: (data) =>
+  //     data?.items
+  //       .filter((vm) => vm.units)
+  //       .flatMap((vm) => vm.units!)
+  //       .map((type) => type.unitId!) ?? [],
+  // });
+  //
+  // const seriesUnits = seriesUnitsQuery.data ?? [];
 
-  const seriesUnitsQuery = useQuery({
-    ...getApiSeriesUnitsOptions({
-      query: {
-        ListAll: true,
-      },
-    }),
-  });
-
-  const seriesUnits = seriesUnitsQuery.data?.items;
-  const filteredUnits = seriesUnits
-    ?.map((x) => {
-      return {
-        ...x,
-        units:
-          x.units?.filter(
-            (unit) =>
-              unit.nameEnglish!.toLowerCase().indexOf(search.toLowerCase()) >
-              -1,
-          ) ?? [],
-      };
-    })
-    .filter((x) => x.units!.length > 0);
+  const [selectedSeries, setSelectedSeries] = React.useState(0);
+  const [selectedUnit, setSelectedUnit] = React.useState();
 
   return (
-    <Main fixed>
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">Units</h2>
-        <div className="flex items-center space-x-2">
-          <Input
-            placeholder={"Search units"}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className={"m-2 h-8 w-[150px] sm:w-[300px]"}
-          />
-          <Link
-            to="/units/$unitId"
-            params={{ unitId: selectedUnit?.unitId?.toString() ?? "" }}
-          >
-            <Button disabled={!selectedUnit}>Details</Button>
-          </Link>
+    <div className={"flex justify-center w-full"}>
+      <Card className={"w-full"}>
+        <div className={"flex justify-between w-full items-center"}>
+          <CardHeader className={"w-full"}>
+            <CardTitle className={"text-2xl"}>Units</CardTitle>
+            <CardDescription className={"text-sm"}>
+              Select a unit to customize.
+            </CardDescription>
+          </CardHeader>
+          <div className={"mr-6 w-64 md:w-[800px]"}>
+            <UnitsSelector />
+          </div>
         </div>
-      </div>
-      <label className="text-sm text-muted-foreground">Select Unit</label>
-      <Card>
-        <CardContent>
-          {filteredUnits &&
-            filteredUnits.map((vm) => (
-              <div key={vm.id} className={"flex flex-col items-center p-4"}>
-                {vm.nameEnglish ?? "Unknown"}
-                <div
-                  className={
-                    "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6"
-                  }
-                >
-                  {vm.units &&
-                    vm.units.map((unit) => (
-                      <UnitCard
-                        className={"cursor-pointer"}
-                        onClick={() => {
-                          if (selectedUnit == unit) setSelectedUnit(undefined);
-                          else setSelectedUnit(unit);
-                        }}
-                        key={unit.unitId}
-                        unit={unit}
-                        selected={selectedUnit?.unitId === unit.unitId}
-                      />
-                    ))}
-                </div>
-                <Separator />
-              </div>
-            ))}
+        <CardContent className={"w-full flex"}>
+          <div className={"grid grid-cols-12"}>
+            <SeriesCarousel
+              className={
+                "flex justify-self-start items-center col-span-2 w-full"
+              }
+              value={selectedSeries}
+              onValueChange={setSelectedSeries}
+            />
+            <div className={"col-span-9 flex"}>
+              <Separator orientation={"vertical"} className={"mx-4"} />
+              <UnitsCarousel className={"content-center w-full"} />
+            </div>
+          </div>
         </CardContent>
       </Card>
-    </Main>
+    </div>
   );
 }
