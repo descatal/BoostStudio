@@ -15,8 +15,8 @@ import { LuPackage, LuPackageOpen } from "react-icons/lu";
 import { Icons } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
 import { postApiFhmPackAssetMutation } from "@/api/exvs/@tanstack/react-query.gen";
-import { toast } from "@/hooks/use-toast";
 import { AssetFileVm } from "@/api/exvs";
+import { toast } from "sonner";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Card> {
   type: "Pack" | "Unpack";
@@ -29,8 +29,7 @@ const PackUnpackAssetCard = ({ type, unitIds, ...props }: Props) => {
   >();
 
   const handleSuccess = () => {
-    toast({
-      title: "Success",
+    toast("Success", {
       description: `Successfully ${type === "Pack" ? "packed" : "unpacked"} assets to staging directory!`,
     });
   };

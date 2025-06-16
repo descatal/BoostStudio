@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import React from "react";
 import { PatchFileVm } from "@/api/exvs";
 import UpsertPatchDialog from "@/features/patches/components/dialogs/upsert-patch-dialog";
 import { type Table } from "@tanstack/react-table";
@@ -11,9 +10,7 @@ type PatchFilesListToolbarActionsProps = {
   table: Table<PatchFileVm>;
 };
 
-export function PatchFilesListToolbarActions({
-  table,
-}: PatchFilesListToolbarActionsProps) {
+export function PatchFilesListToolbarActions({}: PatchFilesListToolbarActionsProps) {
   return (
     <div className="flex items-center gap-2">
       <UpsertPatchDialog

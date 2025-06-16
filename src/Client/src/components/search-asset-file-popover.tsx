@@ -1,12 +1,12 @@
 ﻿import * as React from "react";
 import { AssetFileVm } from "@/api/exvs";
-import AssetFilesSearcher from "@/features/assets/components/asset-files-searcher";
+import AssetFilesSearcher from "@/features/assets/components/asset-files-searcher.tsx";
 
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
-import { HashInput } from "@/components/custom/hash-input";
+import { Button } from "@/components/ui/button.tsx";
+import { Label } from "@/components/ui/label.tsx";
+import { Popover, PopoverContent } from "@/components/ui/popover.tsx";
+import { Separator } from "@/components/ui/separator.tsx";
+import { HashInput } from "@/components/custom/hash-input.tsx";
 
 interface SearchAssetFilePopoverProps
   extends React.ComponentPropsWithRef<typeof Popover> {

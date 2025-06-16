@@ -1,6 +1,5 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "@/hooks/use-toast";
 import { Icons } from "@/components/icons";
 import { Switch } from "@/components/ui/switch";
 import { useMutation } from "@tanstack/react-query";
@@ -18,6 +17,7 @@ import {
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { BiExport } from "react-icons/bi";
 import { MdMemory } from "react-icons/md";
+import { toast } from "sonner";
 
 interface AmmoExportDialogProps
   extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
@@ -30,8 +30,7 @@ const AmmoExportDialog = ({ children, ...props }: AmmoExportDialogProps) => {
   const mutation = useMutation({
     ...postApiAmmoExportMutation(),
     onSuccess: (_) => {
-      toast({
-        title: "Success",
+      toast("Success", {
         description: `Export completed!`,
       });
     },

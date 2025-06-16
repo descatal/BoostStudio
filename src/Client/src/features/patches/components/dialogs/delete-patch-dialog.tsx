@@ -8,7 +8,7 @@ import {
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { LuTrash2 } from "react-icons/lu";
 import { Icons } from "@/components/icons";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface DeletePatchDialogProps {
   id: string;
@@ -22,8 +22,7 @@ const DeletePatchDialog = ({ id, triggerButton }: DeletePatchDialogProps) => {
   const mutation = useMutation({
     ...deleteApiPatchFilesByIdMutation(),
     onSuccess: async () => {
-      toast({
-        title: "Successful!",
+      toast("Successful!", {
         description: "Entry has been deleted.",
       });
       setOpen(false);

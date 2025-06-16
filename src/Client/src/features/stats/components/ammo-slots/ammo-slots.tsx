@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Card,
   CardContent,
@@ -6,7 +5,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import CreateAmmoSlotSheet from "@/pages/units/customize/information/components/tabs/stats/components/ammo-slots/components/create-ammo-slot-sheet";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
@@ -15,6 +13,7 @@ import {
   getApiAmmoOptions,
   getApiUnitStatsByUnitIdOptions,
 } from "@/api/exvs/@tanstack/react-query.gen";
+import CreateAmmoSlotSheet from "@/components/create-ammo-slot-sheet";
 
 interface AmmoSlotsProps {
   unitId: number;

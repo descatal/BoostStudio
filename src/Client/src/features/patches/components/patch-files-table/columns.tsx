@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { type PatchFileSummaryVm } from "@/api/exvs";
 import { ColumnDef } from "@tanstack/react-table";
 

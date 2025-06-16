@@ -1,5 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
 import { HashInput } from "@/components/custom/hash-input";
 import { ProjectileDto } from "@/api/exvs";
 import ProjectilesTableRowActions from "@/features/projectiles/components/table/row-actions";

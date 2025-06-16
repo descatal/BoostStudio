@@ -10,7 +10,6 @@ import {
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { SearchProvider } from "@/context/search-context";
-import { Menu } from "@/components/menu";
 import Sidebar from "@/components/layout/sidebar";
 import { createAppStore } from "@/stores/app-store";
 import useIsCollapsed from "@/hooks/use-is-collapsed";
@@ -56,7 +55,6 @@ function RootComponent() {
             <NuqsAdapter>
               <SearchProvider>
                 <Toaster />
-                {"__TAURI__" in window ? <Menu /> : <></>}
                 <RouterComponent />
               </SearchProvider>
             </NuqsAdapter>

@@ -33,7 +33,7 @@ function RouteComponent() {
   // const seriesUnits = seriesUnitsQuery.data ?? [];
 
   const [selectedSeries, setSelectedSeries] = React.useState(0);
-  const [selectedUnit, setSelectedUnit] = React.useState();
+  // const [selectedUnit, setSelectedUnit] = React.useState();
 
   return (
     <div className={"flex justify-center w-full"}>

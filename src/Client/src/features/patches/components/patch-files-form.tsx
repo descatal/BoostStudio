@@ -3,7 +3,7 @@ import {
   CreatePatchFileSchema,
   UpdatePatchFileSchema,
 } from "@/features/patches/libs/validations";
-import { SearchAssetFilePopover } from "@/pages/patches/components/tabs/components/dialog/search-asset-file-popover";
+import { SearchAssetFilePopover } from "@/components/search-asset-file-popover.tsx";
 import { type UseFormReturn } from "react-hook-form";
 
 import { cn } from "@/lib/utils";

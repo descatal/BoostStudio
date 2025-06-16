@@ -1,5 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
 import { HashInput } from "@/components/custom/hash-input";
 import HitboxesTableRowActions from "@/features/hitboxes/components/table/row-actions";
 import { HitboxDto } from "@/api/exvs";

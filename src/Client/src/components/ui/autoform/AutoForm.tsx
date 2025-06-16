@@ -1,4 +1,3 @@
-import React from "react";
 import {
   AutoForm as BaseAutoForm,
   AutoFormUIComponents,

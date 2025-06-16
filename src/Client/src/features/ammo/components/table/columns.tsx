@@ -2,7 +2,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { AmmoDto } from "@/api/exvs";
 import AmmoTableRowActions from "@/features/ammo/components/table/row-actions";
 import { HashInput } from "@/components/custom/hash-input";
-import React from "react";
 import { zAmmoDto } from "@/api/exvs/zod.gen";
 
 const customTableRows: ColumnDef<AmmoDto>[] = [

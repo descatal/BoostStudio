@@ -1,7 +1,4 @@
-﻿"use client";
-
-import React from "react";
-import UpsertStatsGroupDialog from "@/features/stats/components/dialogs/upsert-stats-group-dialog";
+﻿import UpsertStatsGroupDialog from "@/features/stats/components/dialogs/upsert-stats-group-dialog";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 

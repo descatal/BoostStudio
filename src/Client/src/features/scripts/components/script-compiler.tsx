@@ -7,7 +7,6 @@ import {
   postApiScexCompileUnitsMutation,
 } from "@/api/exvs/@tanstack/react-query.gen";
 import { useTheme } from "@/context/theme-context";
-import { toast } from "@/hooks/use-toast";
 import { Option } from "@/components/ui/multiple-selector";
 import {
   ResizableHandle,
@@ -30,6 +29,7 @@ import { Switch } from "@/components/ui/switch";
 import { MdMemory } from "react-icons/md";
 import UnitsSelector from "@/features/units/components/units-selector";
 import { Label } from "recharts";
+import { toast } from "sonner";
 
 interface ScriptViewerProps {
   unitId: number;
@@ -60,8 +60,7 @@ const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
   const mutation = useMutation({
     ...postApiScexCompileUnitsMutation(),
     onSuccess: (_) => {
-      toast({
-        title: "Success",
+      toast("Success", {
         description: `Successfully compiled scripts to working directory!`,
       });
     },

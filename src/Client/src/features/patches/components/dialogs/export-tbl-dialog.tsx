@@ -7,7 +7,7 @@ import { postApiTblExportMutation } from "@/api/exvs/@tanstack/react-query.gen";
 import { Icons } from "@/components/icons";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { BiExport } from "react-icons/bi";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 type ResizeDialogProps = {
   patchId: PatchFileVersion | undefined;
@@ -19,8 +19,7 @@ const ExportTblDialog = ({ patchId }: ResizeDialogProps) => {
   const mutation = useMutation({
     ...postApiTblExportMutation(),
     onSuccess: () => {
-      toast({
-        title: "Success!",
+      toast("Success!", {
         description: "Patch info successfully exported.",
       });
       setOpen(false);

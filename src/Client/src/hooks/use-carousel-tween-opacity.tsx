@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { CarouselApi } from "@/components/ui/carousel";
 import { EmblaCarouselType, EmblaEventType } from "embla-carousel";
 

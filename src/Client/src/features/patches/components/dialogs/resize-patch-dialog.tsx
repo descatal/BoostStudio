@@ -1,5 +1,4 @@
 import React from "react";
-import { toast } from "@/hooks/use-toast";
 import ConfirmationDialog from "@/components/custom/confirmation-dialog";
 import { PatchIdNameMap } from "@/features/patches/libs/constants";
 import { PatchFileVersion } from "@/api/exvs";
@@ -11,6 +10,7 @@ import {
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { CgSize } from "react-icons/cg";
 import { Icons } from "@/components/icons";
+import { toast } from "sonner";
 
 type ResizeDialogProps = {
   patchId?: PatchFileVersion | undefined;
@@ -23,8 +23,7 @@ const ResizePatchDialog = ({ patchId }: ResizeDialogProps) => {
   const mutation = useMutation({
     ...postApiPatchFilesResizeMutation(),
     onSuccess: async () => {
-      toast({
-        title: "Success!",
+      toast("Success!", {
         description: "Size for all files in this patch file has been updated!",
       });
       setOpen(false);

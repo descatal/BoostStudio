@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import React from "react";
 import UpsertAmmoDialog from "@/features/ammo/components/dialogs/upsert";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { PlusIcon } from "lucide-react";

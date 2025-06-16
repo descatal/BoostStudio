@@ -1,4 +1,3 @@
-import React from "react";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import PackUnpackAssetCard from "@/features/assets/components/cards/pack-unpack-asset-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

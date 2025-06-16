@@ -1,7 +1,4 @@
-﻿"use client"
-
-import * as React from "react"
-import { Table } from "@tanstack/react-table"
+﻿import { Table } from "@tanstack/react-table";
 
 import {
   AlertDialog,
@@ -13,17 +10,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button, buttonVariants } from "@/components/ui/button"
+} from "@/components/ui/alert-dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 interface StatGroupDataTableToolbarProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function StatGroupDataTableToolbar<TData>({
   table,
 }: StatGroupDataTableToolbarProps<TData>) {
-  const modifiedRows = table.options.meta?.modifiedRows ?? []
+  const modifiedRows = table.options.meta?.modifiedRows ?? [];
 
   return (
     <div className="flex items-center justify-between">
@@ -62,5 +59,5 @@ export function StatGroupDataTableToolbar<TData>({
         Discard
       </Button>
     </div>
-  )
+  );
 }

@@ -1,9 +1,8 @@
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ReloadIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button.tsx";
 import {
   Form,
   FormControl,
@@ -11,7 +10,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/components/ui/form.tsx";
 import {
   Select,
   SelectContent,
@@ -19,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select.tsx";
 import {
   Sheet,
   SheetClose,
@@ -29,13 +28,41 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
+} from "@/components/ui/sheet.tsx";
 
+import { z } from "zod";
 import {
-  CreateAmmoSlotSchema,
-  createAmmoSlotSchema,
-} from "../../libs/validations";
-import { AmmoSlotContext, AmmoSlotContextType } from "../../types";
+  CreateUnitAmmoSlotCommand,
+  UnitAmmoSlotDto,
+  UpdateUnitAmmoSlotCommand,
+} from "@/api/exvs";
+
+export const updateAmmoSlotSchema = z.object({
+  id: z.string(),
+  ammoHash: z.number({ coerce: true }),
+  unitId: z.number(),
+  slotOrder: z.number(),
+}) satisfies z.ZodType<UpdateUnitAmmoSlotCommand>;
+
+export type UpdateAmmoSlotSchema = z.infer<typeof updateAmmoSlotSchema>;
+
+export const createAmmoSlotSchema = z.object({
+  ammoHash: z.number({ coerce: true }),
+  unitId: z.number(),
+  slotOrder: z.number(),
+}) satisfies z.ZodType<CreateUnitAmmoSlotCommand>;
+
+export type CreateAmmoSlotSchema = z.infer<typeof createAmmoSlotSchema>;
+
+export type AmmoSlotContextType = {
+  ammoSlots: UnitAmmoSlotDto[];
+  setAmmoSlots: (data: UnitAmmoSlotDto[]) => void;
+};
+
+export const AmmoSlotContext = React.createContext<AmmoSlotContextType>({
+  ammoSlots: [],
+  setAmmoSlots: () => {},
+});
 
 interface CreateAmmoSlotSheetProps
   extends React.ComponentPropsWithRef<typeof Sheet> {
@@ -51,9 +78,9 @@ const CreateAmmoSlotSheet = ({
   ammoOptions,
   ...props
 }: CreateAmmoSlotSheetProps) => {
-  const { ammoSlots, setAmmoSlots } =
-    React.useContext<AmmoSlotContextType>(AmmoSlotContext);
-  const [isCreatePending, startCreateTransition] = React.useTransition();
+  // const { ammoSlots, setAmmoSlots } =
+  //   React.useContext<AmmoSlotContextType>(AmmoSlotContext);
+  // const [isCreatePending, startCreateTransition] = React.useTransition();
 
   const form = useForm<CreateAmmoSlotSchema>({
     resolver: zodResolver(createAmmoSlotSchema),
@@ -65,6 +92,7 @@ const CreateAmmoSlotSheet = ({
   });
 
   function onSubmit(input: CreateAmmoSlotSchema) {
+    console.log(input);
     // startCreateTransition(async () => {
     //   const id = await createUnitAmmoSlot({
     //     createUnitAmmoSlotCommand: {
@@ -142,15 +170,15 @@ const CreateAmmoSlotSheet = ({
                     Cancel
                   </Button>
                 </SheetClose>
-                <Button disabled={isCreatePending}>
-                  {isCreatePending && (
-                    <ReloadIcon
-                      className="mr-2 size-4 animate-spin"
-                      aria-hidden="true"
-                    />
-                  )}
-                  Save
-                </Button>
+                {/*<Button disabled={isCreatePending}>*/}
+                {/*  {isCreatePending && (*/}
+                {/*    <ReloadIcon*/}
+                {/*      className="mr-2 size-4 animate-spin"*/}
+                {/*      aria-hidden="true"*/}
+                {/*    />*/}
+                {/*  )}*/}
+                {/*  Save*/}
+                {/*</Button>*/}
               </SheetFooter>
             </form>
           </Form>

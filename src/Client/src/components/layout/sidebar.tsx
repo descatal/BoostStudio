@@ -5,7 +5,7 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 
 import { Button } from "../custom/button";
-import { Layout } from "../custom/layout";
+import { Layout } from "./layout.tsx";
 import Nav from "../nav";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {

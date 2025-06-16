@@ -1,6 +1,5 @@
 ﻿"use client";
 
-import React from "react";
 import UpsertHitboxDialog from "@/features/hitboxes/components/dialogs/upsert";
 import { PlusIcon } from "lucide-react";
 import { EnhancedButton } from "@/components/ui/enhanced-button";

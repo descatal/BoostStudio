@@ -11,7 +11,6 @@ import {
   postApiPatchFilesByIdMutation,
   postApiPatchFilesMutation,
 } from "@/api/exvs/@tanstack/react-query.gen";
-import { toast } from "@/hooks/use-toast";
 import {
   zCreatePatchFileCommand,
   zPatchFileVersion,
@@ -35,6 +34,7 @@ import {
 } from "@/features/patches/libs/validations";
 import { Route } from "@/routes/patches/route";
 import { Icons } from "@/components/icons";
+import { toast } from "sonner";
 
 interface UpsertPatchDialogProps
   extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
@@ -53,8 +53,7 @@ const UpsertPatchDialog = ({
   const createMutation = useMutation({
     ...postApiPatchFilesMutation(),
     onSuccess: async () => {
-      toast({
-        title: "Success!",
+      toast("Success!", {
         description: "Entry created.",
       });
       setOpen(false);
@@ -70,8 +69,7 @@ const UpsertPatchDialog = ({
   const updateMutation = useMutation({
     ...postApiPatchFilesByIdMutation(),
     onSuccess: async () => {
-      toast({
-        title: "Success!",
+      toast("Success!", {
         description: "Entry updated.",
       });
       setOpen(false);

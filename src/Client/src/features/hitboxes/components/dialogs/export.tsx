@@ -1,6 +1,5 @@
 import React from "react";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "@/hooks/use-toast";
 import { Icons } from "@/components/icons";
 import { Switch } from "@/components/ui/switch";
 import { useMutation } from "@tanstack/react-query";
@@ -26,6 +25,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 interface HitboxExportDialogProps
   extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
@@ -44,8 +44,7 @@ const HitboxExportDialog = ({
   const mutation = useMutation({
     ...postApiHitboxGroupsExportMutation(),
     onSuccess: (_) => {
-      toast({
-        title: "Success",
+      toast("Success", {
         description: `Export completed!`,
       });
     },

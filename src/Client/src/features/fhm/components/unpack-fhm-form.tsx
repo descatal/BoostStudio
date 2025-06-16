@@ -23,11 +23,11 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "@/hooks/use-toast";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { LuPackageOpen } from "react-icons/lu";
 import { GetProblemDetails } from "@/features/errors/toast-errors.tsx";
 import { postApiFhmUnpackMutation } from "@/api/exvs/@tanstack/react-query.gen";
+import { toast } from "sonner";
 
 // can deprecate this out in favor of zod once this is implemented:
 // https://github.com/hey-api/openapi-ts/pull/1616
@@ -57,14 +57,12 @@ const UnpackFhmForm = () => {
   const unpackMutation = useMutation({
     ...postApiFhmUnpackMutation(),
     onMutate: () => {
-      toast({
-        title: "Unpacking",
+      toast("Unpacking", {
         description: "Unpacking the provided file into .tar format...",
       });
     },
     onSuccess: (data) => {
-      toast({
-        title: "Successful!",
+      toast("Successful!", {
         description: "Packed FHM file successfully!",
       });
 

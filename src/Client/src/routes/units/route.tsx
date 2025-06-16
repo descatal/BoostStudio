@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useAppContext } from "@/providers/app-store-provider";
 import { UnitCustomizableSections } from "@/lib/constants";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/units")({
   component: RouteComponent,

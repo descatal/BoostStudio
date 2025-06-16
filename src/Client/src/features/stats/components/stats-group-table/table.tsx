@@ -1,4 +1,3 @@
-import React from "react";
 import { useDataTable } from "@/hooks/use-data-table";
 import { statsGroupTableColumns } from "@/features/stats/components/stats-group-table/columns";
 import { loadPaginatedStatsGroupSearchParams } from "@/loaders/stats-group-search-params";

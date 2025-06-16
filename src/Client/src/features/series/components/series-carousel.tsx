@@ -11,7 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useCarouselTweenEffect } from "@/hooks/useCarouselTweenEffect.tsx";
+import { useCarouselTweenEffect } from "@/hooks/use-carousel-tween-effect.tsx";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Carousel> {
   value?: number;
