@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UnitsSelector from "../../units/components/units-selector";
 import { useQuery } from "@tanstack/react-query";
 import { getApiAssetsOptions } from "@/api/exvs/@tanstack/react-query.gen";
-import { Option } from "@/components/ui/multiple-selector";
 
 interface AssetFilesSearcherProps {
   unitIds?: number[];
@@ -27,7 +26,9 @@ const AssetFilesSearcher = ({
     "unit",
   );
 
-  const [selectedUnitIds, setSelectedUnitIds] = React.useState<Option[]>([]);
+  const [selectedUnitIds, setSelectedUnitIds] = React.useState<
+    number[] | undefined
+  >(unitIds);
 
   const [selectedUnitAssetFileType, setSelectedUnitAssetFileType] =
     React.useState<UnitAssetFileOptionsType>();
@@ -42,7 +43,7 @@ const AssetFilesSearcher = ({
   const assetFilesQuery = useQuery({
     ...getApiAssetsOptions({
       query: {
-        UnitIds: selectedUnitIds.map((x) => Number(x.value)),
+        UnitIds: selectedTab === "unit" ? selectedUnitIds : undefined,
         AssetFileTypes: selectedFileType,
         ListAll: true,
       },
@@ -88,9 +89,9 @@ const AssetFilesSearcher = ({
             multiple
             disabled={!!unitIds}
             className={"w-full"}
-            value={selectedUnitIds}
+            values={selectedUnitIds}
             onChange={setSelectedUnitIds}
-            defaultValues={unitIds}
+            fixedValues={unitIds}
             placeholder={unitIds ? undefined : "Select units..."}
           />
         </div>

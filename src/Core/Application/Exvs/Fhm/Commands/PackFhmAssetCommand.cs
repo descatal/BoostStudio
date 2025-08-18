@@ -10,7 +10,7 @@ using BoostStudio.Domain.Enums;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
+using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Fhm.Commands;
 
@@ -30,32 +30,52 @@ public class PackFhmAssetCommandHandler(
     ILogger<PackFhmAssetCommandHandler> logger
 ) : IRequestHandler<PackFhmAssetCommand, FileInfo>
 {
-    public async ValueTask<FileInfo> Handle(PackFhmAssetCommand request, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(
+        PackFhmAssetCommand request,
+        CancellationToken cancellationToken
+    )
     {
-        var workingDirectoryConfig = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
+        var workingDirectoryConfig = await configsRepository.GetConfig(
+            ConfigKeys.WorkingDirectory,
+            cancellationToken
+        );
         if (workingDirectoryConfig.IsError)
-            throw new NotFoundException(ConfigKeys.WorkingDirectory, workingDirectoryConfig.FirstError.Description);
+            throw new NotFoundException(
+                ConfigKeys.WorkingDirectory,
+                workingDirectoryConfig.FirstError.Description
+            );
 
-        var stagingDirectoryConfig = await configsRepository.GetConfig(ConfigKeys.StagingDirectory, cancellationToken);
+        var stagingDirectoryConfig = await configsRepository.GetConfig(
+            ConfigKeys.StagingDirectory,
+            cancellationToken
+        );
         if (stagingDirectoryConfig.IsError)
-            throw new NotFoundException(ConfigKeys.StagingDirectory, stagingDirectoryConfig.FirstError.Description);
+            throw new NotFoundException(
+                ConfigKeys.StagingDirectory,
+                stagingDirectoryConfig.FirstError.Description
+            );
 
-        var assetFilesQuery = applicationDbContext.AssetFiles
-            .Include(assetFile => assetFile.PatchFiles)
+        var assetFilesQuery = applicationDbContext
+            .AssetFiles.Include(assetFile => assetFile.PatchFiles)
             .Include(assetFile => assetFile.Units)
             .AsQueryable();
 
         if (request.AssetFileHashes?.Length > 0)
-            assetFilesQuery = assetFilesQuery.Where(assetFile => request.AssetFileHashes.Contains(assetFile.Hash));
+            assetFilesQuery = assetFilesQuery.Where(assetFile =>
+                request.AssetFileHashes.Contains(assetFile.Hash)
+            );
 
         if (request.AssetFileTypes?.Length > 0)
-            assetFilesQuery = assetFilesQuery.Where(entity => request.AssetFileTypes.Any(type => entity.FileType.Contains(type)));
+            assetFilesQuery = assetFilesQuery.Where(entity =>
+                request.AssetFileTypes.Any(type => entity.FileType.Contains(type))
+            );
 
         if (request.UnitIds?.Length > 0)
-            assetFilesQuery = assetFilesQuery.Where(assetFile => assetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId)));
+            assetFilesQuery = assetFilesQuery.Where(assetFile =>
+                assetFile.Units.Any(unit => request.UnitIds.Contains(unit.GameUnitId))
+            );
 
-        var assetFiles = await assetFilesQuery
-            .ToListAsync(cancellationToken);
+        var assetFiles = await assetFilesQuery.ToListAsync(cancellationToken);
 
         var packedFiles = new List<FileInfo>();
         foreach (var assetFile in assetFiles)
@@ -69,11 +89,17 @@ public class PackFhmAssetCommandHandler(
                         List<PatchFile> patchFiles = [];
                         if (request.PatchFileVersions?.Length > 0)
                         {
-                            patchFiles = assetFile.PatchFiles.Where(file => request.PatchFileVersions.Contains(file.TblId)).ToList();
+                            patchFiles = assetFile
+                                .PatchFiles.Where(file =>
+                                    request.PatchFileVersions.Contains(file.TblId)
+                                )
+                                .ToList();
                         }
                         else
                         {
-                            var latestPatchFile = assetFile.PatchFiles.OrderBy(file => file.TblId).LastOrDefault();
+                            var latestPatchFile = assetFile
+                                .PatchFiles.OrderBy(file => file.TblId)
+                                .LastOrDefault();
                             if (latestPatchFile is not null)
                                 patchFiles = [latestPatchFile];
                         }
@@ -86,26 +112,69 @@ public class PackFhmAssetCommandHandler(
                             var tblName = patchFile.TblId.GetPatchName();
                             var fileTypeName = fileType.GetSnakeCaseName();
 
-                            var sourceDirectory = Path.Combine(workingDirectoryConfig.Value.Value, "units", unit.SnakeCaseName, fileTypeName);
+                            var sourceDirectory = Path.Combine(
+                                workingDirectoryConfig.Value.Value,
+                                "units",
+                                unit.SnakeCaseName,
+                                fileTypeName
+                            );
+
                             if (!Directory.Exists(sourceDirectory))
-                                throw new NotFoundException(nameof(sourceDirectory), sourceDirectory);
+                            {
+                                throw new NotFoundException(
+                                    nameof(sourceDirectory),
+                                    sourceDirectory
+                                );
+                            }
 
                             // todo: these are needed for current psarc directory structure
                             string destinationDirectory = string.Empty;
                             if (request.ReplaceStaging)
                             {
-                                var destinationBaseDirectory = Path.Combine(stagingDirectoryConfig.Value.Value, "psarc", tblName, "units");
+                                var allDirectories = Directory.GetDirectories(
+                                    path: stagingDirectoryConfig.Value.Value,
+                                    searchPattern: "*",
+                                    SearchOption.AllDirectories
+                                );
+
+                                var destinationBaseDirectory = Path.Combine(
+                                    stagingDirectoryConfig.Value.Value,
+                                    "psarc",
+                                    tblName,
+                                    "units"
+                                );
+
                                 string[] alternateDirectories = ["fb_units", "mbon_units", ""];
                                 foreach (var alternateDirectory in alternateDirectories)
                                 {
-                                    destinationDirectory = Path.Combine(destinationBaseDirectory, alternateDirectory, unit.SnakeCaseName, fileTypeName);
-                                    if (Directory.Exists(destinationDirectory))
+                                    var candidateDirectory = Path.Combine(
+                                        destinationBaseDirectory,
+                                        alternateDirectory,
+                                        unit.SnakeCaseName,
+                                        fileTypeName
+                                    );
+
+                                    destinationDirectory = allDirectories.FirstOrDefault(
+                                        directory =>
+                                            candidateDirectory.Equals(
+                                                directory,
+                                                StringComparison.OrdinalIgnoreCase
+                                            ),
+                                        string.Empty
+                                    );
+
+                                    if (!string.IsNullOrWhiteSpace(sourceDirectory))
+                                    {
                                         break;
+                                    }
                                 }
                             }
                             else
                             {
-                                destinationDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+                                destinationDirectory = Path.Combine(
+                                    Path.GetTempPath(),
+                                    Path.GetRandomFileName()
+                                );
                             }
 
                             try
@@ -113,7 +182,14 @@ public class PackFhmAssetCommandHandler(
                                 if (!Directory.Exists(destinationDirectory))
                                     Directory.CreateDirectory(destinationDirectory);
 
-                                var packedFile = await mediator.Send(new PackFhmByPathCommand(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
+                                var packedFile = await mediator.Send(
+                                    new PackFhmByPathCommand(
+                                        sourceDirectory,
+                                        destinationDirectory,
+                                        $"PATCH{assetFile.Hash:X8}.PAC"
+                                    ),
+                                    cancellationToken
+                                );
                                 packedFiles.Add(packedFile);
                             }
                             finally
@@ -129,11 +205,17 @@ public class PackFhmAssetCommandHandler(
                     List<PatchFile> patchFiles = [];
                     if (request.PatchFileVersions?.Length > 0)
                     {
-                        patchFiles = assetFile.PatchFiles.Where(file => request.PatchFileVersions.Contains(file.TblId)).ToList();
+                        patchFiles = assetFile
+                            .PatchFiles.Where(file =>
+                                request.PatchFileVersions.Contains(file.TblId)
+                            )
+                            .ToList();
                     }
                     else
                     {
-                        var latestPatchFile = assetFile.PatchFiles.OrderBy(file => file.TblId).LastOrDefault();
+                        var latestPatchFile = assetFile
+                            .PatchFiles.OrderBy(file => file.TblId)
+                            .LastOrDefault();
                         if (latestPatchFile is not null)
                             patchFiles = [latestPatchFile];
                     }
@@ -146,12 +228,22 @@ public class PackFhmAssetCommandHandler(
                         var tblName = patchFile.TblId.GetPatchName();
                         var fileTypeName = fileType.GetSnakeCaseName();
 
-                        var sourceDirectory = Path.Combine(workingDirectoryConfig.Value.Value, "common", fileTypeName);
+                        var sourceDirectory = Path.Combine(
+                            workingDirectoryConfig.Value.Value,
+                            "common",
+                            fileTypeName
+                        );
                         if (!Directory.Exists(sourceDirectory))
                             throw new NotFoundException(nameof(sourceDirectory), sourceDirectory);
 
                         var destinationDirectory = request.ReplaceStaging
-                            ? Path.Combine(stagingDirectoryConfig.Value.Value, "psarc", tblName, "common", fileTypeName)
+                            ? Path.Combine(
+                                stagingDirectoryConfig.Value.Value,
+                                "psarc",
+                                tblName,
+                                "common",
+                                fileTypeName
+                            )
                             : Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
                         try
@@ -159,7 +251,14 @@ public class PackFhmAssetCommandHandler(
                             if (!Directory.Exists(destinationDirectory))
                                 Directory.CreateDirectory(destinationDirectory);
 
-                            var packedFile = await mediator.Send(new PackFhmByPathCommand(sourceDirectory, destinationDirectory, $"PATCH{assetFile.Hash:X8}.PAC"), cancellationToken);
+                            var packedFile = await mediator.Send(
+                                new PackFhmByPathCommand(
+                                    sourceDirectory,
+                                    destinationDirectory,
+                                    $"PATCH{assetFile.Hash:X8}.PAC"
+                                ),
+                                cancellationToken
+                            );
                             packedFiles.Add(packedFile);
                         }
                         finally
@@ -172,7 +271,11 @@ public class PackFhmAssetCommandHandler(
             }
         }
 
-        var tarFileBytes = await compressor.CompressAsync(packedFiles, CompressionFormats.Tar, cancellationToken);
+        var tarFileBytes = await compressor.CompressAsync(
+            packedFiles,
+            CompressionFormats.Tar,
+            cancellationToken
+        );
         return new FileInfo(tarFileBytes, "packed-fhm.tar", MediaTypeNames.Application.Octet);
     }
 }

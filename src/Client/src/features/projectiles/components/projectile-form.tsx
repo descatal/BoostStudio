@@ -1,5 +1,5 @@
 import React from "react";
-import { ZodProvider } from "@autoform/zod";
+import { ZodProvider } from "@autoform/zod/v4";
 import { AutoForm } from "@/components/ui/autoform";
 import {
   CreateProjectileCommand,

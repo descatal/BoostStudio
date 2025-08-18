@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>BoostStudio.Infrastructure</RootNamespace>
     <AssemblyName>BoostStudio.Infrastructure</AssemblyName>
     <Configurations>Debug;Release;Console</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
@@ -14,18 +12,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="SharpCompress"/>
-    <PackageReference Include="SharpZipLib"/>
+    <PackageReference Include="SharpCompress" />
+    <PackageReference Include="SharpZipLib" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj"/>
+    <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
   </ItemGroup>
-  
   <ItemGroup>
     <None Remove="Resources\psarc.exe" />
     <EmbeddedResource Include="Resources\psarc.exe">
@@ -35,8 +30,15 @@
     <EmbeddedResource Include="Resources\scex-decompiler.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Remove="Resources\scex-decompiler" />
+    <EmbeddedResource Include="Resources\scex-decompiler">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <None Remove="Resources\scex-compiler" />
+    <EmbeddedResource Include="Resources\scex-compiler">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup Condition="'$(Configuration)'!='CONSOLE'">
     <None Remove="Resources\g7221\decode.exe" />
     <EmbeddedResource Include="Resources\g7221\decode.exe">

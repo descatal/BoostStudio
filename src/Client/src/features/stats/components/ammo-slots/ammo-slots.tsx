@@ -5,15 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PlusIcon } from "@radix-ui/react-icons";
-import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import {
   getApiAmmoOptions,
   getApiUnitStatsByUnitIdOptions,
 } from "@/api/exvs/@tanstack/react-query.gen";
-import CreateAmmoSlotSheet from "@/components/create-ammo-slot-sheet";
+import SelectAmmoSlotDialog from "@/features/stats/components/dialogs/select-ammo-slot-dialog.tsx";
 
 interface AmmoSlotsProps {
   unitId: number;
@@ -43,9 +40,7 @@ const AmmoSlots = ({ unitId }: AmmoSlotsProps) => {
     <Card className="col-span-full">
       <CardHeader>
         <CardTitle>
-          <div className="flex items-center justify-between space-y-2">
-            <h2 className="text-2xl font-bold tracking-tight">Ammo Slots</h2>
-          </div>
+          <h2 className="text-2xl font-bold tracking-tight">Ammo Slots</h2>
         </CardTitle>
         <CardDescription>
           The ammo assigned to each ammo slot when spawning this unit.
@@ -59,15 +54,11 @@ const AmmoSlots = ({ unitId }: AmmoSlotsProps) => {
                 <div className={"h-full w-full"}>
                   <Card className={"flex h-full items-center justify-center"}>
                     <CardContent>
-                      <CreateAmmoSlotSheet
+                      <SelectAmmoSlotDialog
                         index={i}
                         unitId={unitId}
-                        ammoOptions={ammoOptions}
-                      >
-                        <Button className={"mt-5"} variant={"ghost"}>
-                          <PlusIcon className={"h-6 w-6"} />
-                        </Button>
-                      </CreateAmmoSlotSheet>
+                        existingData={ammoSlots[i]}
+                      />
                     </CardContent>
                   </Card>
                 </div>
@@ -84,19 +75,28 @@ const AmmoSlots = ({ unitId }: AmmoSlotsProps) => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <Link
-                      to={"/units/$unitId/info/ammo"}
-                      params={{
-                        unitId: unitId.toString(),
-                      }}
-                      search={{
-                        hash: ammoSlots[i]?.ammoHash,
-                      }}
+                    <SelectAmmoSlotDialog
+                      index={i}
+                      unitId={unitId}
+                      existingData={ammoSlots[i]}
                     >
                       <div className="text-2xl font-bold">
                         {ammoSlots[i]?.ammoHash}
                       </div>
-                    </Link>
+                    </SelectAmmoSlotDialog>
+                    {/*<Link*/}
+                    {/*  to={"/units/$unitId/info/ammo"}*/}
+                    {/*  params={{*/}
+                    {/*    unitId: unitId.toString(),*/}
+                    {/*  }}*/}
+                    {/*  search={{*/}
+                    {/*    hash: ammoSlots[i]?.ammoHash,*/}
+                    {/*  }}*/}
+                    {/*>*/}
+                    {/*  <div className="text-2xl font-bold">*/}
+                    {/*    {ammoSlots[i]?.ammoHash}*/}
+                    {/*  </div>*/}
+                    {/*</Link>*/}
                   </CardContent>
                 </Card>
               </div>

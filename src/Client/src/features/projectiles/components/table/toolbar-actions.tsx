@@ -14,6 +14,7 @@ export function ProjectilesTableToolbarActions({}: ProjectilesTableToolbarAction
           <EnhancedButton
             variant="default"
             effect={"expandIcon"}
+            size={"sm"}
             icon={PlusIcon}
             iconPlacement={"right"}
           >

@@ -86,7 +86,7 @@ export function PatchFilesForm({
                 </FormControl>
                 <SelectContent>
                   <SelectGroup>
-                    {Object.values(zPatchFileVersion.Enum).map((version) => (
+                    {Object.values(zPatchFileVersion.enum).map((version) => (
                       <SelectItem
                         key={version}
                         value={version}
@@ -272,7 +272,7 @@ export function PatchFilesForm({
                                 </FormControl>
                                 <SelectContent>
                                   <SelectGroup>
-                                    {Object.values(zPatchFileVersion.Enum).map(
+                                    {Object.values(zPatchFileVersion.enum).map(
                                       (version) => (
                                         <SelectItem
                                           key={version}

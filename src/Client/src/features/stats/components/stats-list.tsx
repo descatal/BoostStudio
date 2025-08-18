@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import AmmoSlots from "@/features/stats/components/ammo-slots/ammo-slots";
 import StatsGroupTable from "@/features/stats/components/stats-group-table/table";
+import StatsExportDialog from "@/features/stats/components/dialogs/stats-export-dialog.tsx";
 
 interface StatsListProps {
   unitId?: number | undefined;
@@ -15,10 +16,19 @@ interface StatsListProps {
 const StatsList = ({ unitId }: StatsListProps) => {
   return (
     <div className={"flex flex-col gap-3"}>
-      {unitId && <AmmoSlots unitId={unitId} />}
+      {unitId && (
+        <div className={"flex flex-col gap-3"}>
+          <div className={"flex justify-end"}>
+            <StatsExportDialog unitIds={[unitId]} />
+          </div>
+          <AmmoSlots unitId={unitId} />
+        </div>
+      )}
       <Card className="col-span-full">
         <CardHeader>
-          <CardTitle>Stat Groups</CardTitle>
+          <CardTitle>
+            <h2 className="text-2xl font-bold tracking-tight">Stat Groups</h2>
+          </CardTitle>
           <CardDescription>
             Stat groups associated with this unit.
           </CardDescription>

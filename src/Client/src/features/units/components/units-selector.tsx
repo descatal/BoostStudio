@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useEffect } from "react";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -7,17 +6,26 @@ import { useQuery } from "@tanstack/react-query";
 import { getApiSeriesUnitsOptions } from "@/api/exvs/@tanstack/react-query.gen";
 
 interface UnitsSelectorProps
-  extends React.ComponentPropsWithoutRef<typeof MultipleSelector> {
-  defaultValues?: number[];
+  extends Omit<
+    React.ComponentPropsWithoutRef<typeof MultipleSelector>,
+    "onChange" | "value"
+  > {
+  fixedValues?: number[];
+  values?: number[];
+  onChange?: (value: number[]) => void;
   multiple?: boolean;
 }
 
 export default function UnitsSelector({
-  defaultValues = [],
+  fixedValues,
+  values,
+  onChange,
   multiple = false,
   className,
   ...props
 }: UnitsSelectorProps) {
+  const [value, setValue] = React.useState<Option[]>([]);
+
   const seriesUnitsQuery = useQuery({
     ...getApiSeriesUnitsOptions({
       query: {
@@ -31,7 +39,7 @@ export default function UnitsSelector({
             group: series.nameEnglish ?? "",
             label: unit.nameEnglish ?? "",
             value: unit.unitId!.toString(),
-            fixed: defaultValues?.some((x) => x === unit.unitId!),
+            fixed: fixedValues?.some((x) => x === unit.unitId!),
           })) ?? [],
       );
     },
@@ -39,16 +47,26 @@ export default function UnitsSelector({
 
   const seriesUnitsOptions = seriesUnitsQuery.data ?? [];
 
-  useEffect(() => {
-    if (defaultValues?.length <= 0 || !props.onChange) return;
+  // Sync internal value with props.values when either changes
+  React.useEffect(() => {
+    if (values && seriesUnitsOptions.length > 0) {
+      const selectedOptions = seriesUnitsOptions.filter((option) =>
+        values.includes(parseInt(option.value)),
+      );
+      setValue(selectedOptions);
+    } else if (!values) {
+      setValue([]);
+    }
+  }, [values, seriesUnitsOptions]);
 
-    // if default values comes in, but the props.value isn't in sync, make sure the current state is matched
-    const defaultOptions = seriesUnitsOptions.filter((x) =>
-      defaultValues?.some((p) => p.toString() === x.value),
-    );
+  // Handle changes from MultipleSelector
+  const handleChange = (newValue: Option[]) => {
+    setValue(newValue);
 
-    props.onChange(defaultOptions);
-  }, [defaultValues, seriesUnitsOptions]);
+    // Convert Option[] back to number[] and call onChange
+    const numberValues = newValue.map((option) => parseInt(option.value));
+    onChange?.(numberValues);
+  };
 
   return (
     <>
@@ -67,6 +85,8 @@ export default function UnitsSelector({
               </p>
             }
             groupBy="group"
+            value={value}
+            onChange={handleChange}
             {...props}
           />
         </div>

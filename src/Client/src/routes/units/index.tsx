@@ -46,7 +46,7 @@ function RouteComponent() {
             </CardDescription>
           </CardHeader>
           <div className={"mr-6 w-64 md:w-[800px]"}>
-            <UnitsSelector />
+            <UnitsSelector placeholder={"Search unit..."} />
           </div>
         </div>
         <CardContent className={"w-full flex"}>

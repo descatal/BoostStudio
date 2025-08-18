@@ -4,15 +4,15 @@ import StatsGroupTableRowActions from "@/features/stats/components/stats-group-t
 import { zStatDto } from "@/api/exvs/zod.gen";
 
 const customTableRows: ColumnDef<ProjectileDto>[] = [
-  {
-    id: "unitId",
-    accessorKey: "unitId",
-    meta: {
-      label: "Unit",
-      variant: "multiSelect",
-    },
-    enableColumnFilter: true,
-  },
+  // {
+  //   id: "unitId",
+  //   accessorKey: "unitId",
+  //   meta: {
+  //     label: "Unit",
+  //     variant: "multiSelect",
+  //   },
+  //   enableColumnFilter: true,
+  // },
 ];
 
 const allCustomTableRowKeys = customTableRows.map(

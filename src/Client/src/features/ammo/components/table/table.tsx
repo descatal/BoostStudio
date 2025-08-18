@@ -69,7 +69,7 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <AmmoTableToolbarActions />
+        <AmmoTableToolbarActions unitId={unitId} />
       </DataTableToolbar>
     </DataTable>
   );

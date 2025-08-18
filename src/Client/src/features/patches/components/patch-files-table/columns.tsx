@@ -60,7 +60,7 @@ export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
     meta: {
       label: "File Type",
       variant: "multiSelect",
-      options: Object.keys(zAssetFileType.Enum).map((type) => ({
+      options: Object.keys(zAssetFileType.enum).map((type) => ({
         label: type,
         value: type,
       })),

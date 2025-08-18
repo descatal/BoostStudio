@@ -67,7 +67,7 @@ const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
   });
 
   return (
-    <div className={"h-full"}>
+    <div className={"h-full pb-5 min-h-[350px]"}>
       <ResizablePanelGroup className={"gap-4 mb-6"} direction="horizontal">
         <ResizablePanel
           collapsible={true}
@@ -113,7 +113,7 @@ const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
                     disabled
                     className={"w-full"}
                     defaultValues={[unitId]}
-                    value={selectedUnitIds}
+                    values={selectedUnitIds}
                     onChange={setSelectedUnitIds}
                     placeholder={unitId ? undefined : "Select unit..."}
                   />

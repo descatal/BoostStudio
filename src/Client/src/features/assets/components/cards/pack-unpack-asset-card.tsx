@@ -14,7 +14,10 @@ import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { LuPackage, LuPackageOpen } from "react-icons/lu";
 import { Icons } from "@/components/icons";
 import { useMutation } from "@tanstack/react-query";
-import { postApiFhmPackAssetMutation } from "@/api/exvs/@tanstack/react-query.gen";
+import {
+  postApiFhmPackAssetMutation,
+  postApiFhmUnpackAssetMutation,
+} from "@/api/exvs/@tanstack/react-query.gen";
 import { AssetFileVm } from "@/api/exvs";
 import { toast } from "sonner";
 
@@ -30,7 +33,7 @@ const PackUnpackAssetCard = ({ type, unitIds, ...props }: Props) => {
 
   const handleSuccess = () => {
     toast("Success", {
-      description: `Successfully ${type === "Pack" ? "packed" : "unpacked"} assets to staging directory!`,
+      description: `Successfully ${type === "Pack" ? "packed" : "unpacked"} assets to ${type === "Pack" ? "staging" : "working"} directory!`,
     });
   };
 
@@ -41,7 +44,7 @@ const PackUnpackAssetCard = ({ type, unitIds, ...props }: Props) => {
           onSuccess: handleSuccess,
         })
       : useMutation({
-          ...postApiFhmPackAssetMutation(),
+          ...postApiFhmUnpackAssetMutation(),
           onSuccess: handleSuccess,
         });
 
@@ -88,7 +91,7 @@ const PackUnpackAssetCard = ({ type, unitIds, ...props }: Props) => {
                 : mutation.mutate({
                     body: {
                       assetFileHashes: selectedFiles.map((x) => x.hash) ?? [],
-                      replaceStaging: true,
+                      replaceWorking: true,
                     },
                   });
             }}

@@ -13,11 +13,11 @@ import { zAssetFileType } from "@/api/exvs/zod.gen";
 const parseAsAssetFileType = createParser({
   parse(queryValue) {
     if (
-      Object.values(zAssetFileType.Enum).includes(queryValue as AssetFileType)
+      Object.values(zAssetFileType.enum).includes(queryValue as AssetFileType)
     ) {
       return queryValue as AssetFileType;
     }
-    return zAssetFileType.Enum.Unknown;
+    return zAssetFileType.enum.Unknown;
   },
   serialize(value) {
     return value;

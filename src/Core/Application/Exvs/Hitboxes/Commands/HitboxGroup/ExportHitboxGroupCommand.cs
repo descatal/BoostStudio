@@ -7,6 +7,7 @@ using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Application.Common.Models;
+using BoostStudio.Application.Common.Utils;
 using BoostStudio.Application.Exvs.Fhm.Commands;
 using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Domain.Enums;
@@ -98,13 +99,14 @@ public class ExportHitboxGroupCommandHandler(
             if (binary is not null)
             {
                 const long mapRegionPointer = 0x300000000;
-                using var rpcs3Process = Process.GetProcessesByName("rpcs3").FirstOrDefault();
-
+                using var rpcs3Process = ProcessesUtils.GetRpcs3Process();
                 if (rpcs3Process is null)
+                {
                     throw new NotFoundException(
                         "No process with name 'rpcs3' was found",
                         "process"
                     );
+                }
 
 #pragma warning disable CA1416
 

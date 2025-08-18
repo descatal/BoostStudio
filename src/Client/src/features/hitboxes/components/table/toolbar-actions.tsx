@@ -14,6 +14,7 @@ export function HitboxesTableToolbarActions({}: HitboxesTableToolbarActionsProps
           <EnhancedButton
             variant="default"
             effect={"expandIcon"}
+            size={"sm"}
             icon={PlusIcon}
             iconPlacement={"right"}
           >

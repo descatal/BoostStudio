@@ -1,8 +1,8 @@
 "use client";
 
-import type { Option } from "@/types/data-table";
 import type { Column } from "@tanstack/react-table";
 import { Check, PlusCircle, XCircle } from "lucide-react";
+import * as React from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import * as React from "react";
+import type { Option } from "@/types/data-table";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -76,60 +76,58 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div>
-          <Button variant="outline" size="sm" className="border-dashed">
-            {selectedValues?.size > 0 ? (
-              <div
-                role="button"
-                aria-label={`Clear ${title} filter`}
-                tabIndex={0}
-                onClick={onReset}
-                className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        <Button variant="outline" size="sm" className="border-dashed">
+          {selectedValues?.size > 0 ? (
+            <div
+              role="button"
+              aria-label={`Clear ${title} filter`}
+              tabIndex={0}
+              onClick={onReset}
+              className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            >
+              <XCircle />
+            </div>
+          ) : (
+            <PlusCircle />
+          )}
+          {title}
+          {selectedValues?.size > 0 && (
+            <>
+              <Separator
+                orientation="vertical"
+                className="mx-0.5 data-[orientation=vertical]:h-4"
+              />
+              <Badge
+                variant="secondary"
+                className="rounded-sm px-1 font-normal lg:hidden"
               >
-                <XCircle />
+                {selectedValues.size}
+              </Badge>
+              <div className="hidden items-center gap-1 lg:flex">
+                {selectedValues.size > 2 ? (
+                  <Badge
+                    variant="secondary"
+                    className="rounded-sm px-1 font-normal"
+                  >
+                    {selectedValues.size} selected
+                  </Badge>
+                ) : (
+                  options
+                    .filter((option) => selectedValues.has(option.value))
+                    .map((option) => (
+                      <Badge
+                        variant="secondary"
+                        key={option.value}
+                        className="rounded-sm px-1 font-normal"
+                      >
+                        {option.label}
+                      </Badge>
+                    ))
+                )}
               </div>
-            ) : (
-              <PlusCircle />
-            )}
-            {title}
-            {selectedValues?.size > 0 && (
-              <>
-                <Separator
-                  orientation="vertical"
-                  className="mx-0.5 data-[orientation=vertical]:h-4"
-                />
-                <Badge
-                  variant="secondary"
-                  className="rounded-sm px-1 font-normal lg:hidden"
-                >
-                  {selectedValues.size}
-                </Badge>
-                <div className="hidden items-center gap-1 lg:flex">
-                  {selectedValues.size > 2 ? (
-                    <Badge
-                      variant="secondary"
-                      className="rounded-sm px-1 font-normal"
-                    >
-                      {selectedValues.size} selected
-                    </Badge>
-                  ) : (
-                    options
-                      .filter((option) => selectedValues.has(option.value))
-                      .map((option) => (
-                        <Badge
-                          variant="secondary"
-                          key={option.value}
-                          className="rounded-sm px-1 font-normal"
-                        >
-                          {option.label}
-                        </Badge>
-                      ))
-                  )}
-                </div>
-              </>
-            )}
-          </Button>
-        </div>
+            </>
+          )}
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[12.5rem] p-0" align="start">
         <Command>

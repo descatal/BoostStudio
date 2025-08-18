@@ -2,7 +2,7 @@
 
 import type { Table } from "@tanstack/react-table";
 import { Check, ChevronsUpDown, Settings2 } from "lucide-react";
-
+import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,7 +18,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import * as React from "react";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -41,19 +40,17 @@ export function DataTableViewOptions<TData>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div>
-          <Button
-            aria-label="Toggle columns"
-            role="combobox"
-            variant="outline"
-            size="sm"
-            className="ml-auto hidden h-8 lg:flex"
-          >
-            <Settings2 />
-            View
-            <ChevronsUpDown className="ml-auto opacity-50" />
-          </Button>
-        </div>
+        <Button
+          aria-label="Toggle columns"
+          role="combobox"
+          variant="outline"
+          size="sm"
+          className="ml-auto hidden h-8 lg:flex"
+        >
+          <Settings2 />
+          View
+          <ChevronsUpDown className="ml-auto opacity-50" />
+        </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-44 p-0">
         <Command>

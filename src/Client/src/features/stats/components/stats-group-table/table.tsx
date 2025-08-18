@@ -54,10 +54,12 @@ const StatsGroupTable = ({ unitId }: StatsGroupTableProps) => {
   if (unitColumnDef && unitId) unitColumnDef.enableColumnFilter = false;
 
   const { table } = useDataTable({
-    data: paginatedUnitStats?.items ?? [],
+    data: (paginatedUnitStats?.items ?? []).sort(
+      (a, b) => (a.order ?? 0) - (b.order ?? 0),
+    ),
     columns: statsGroupTableColumns,
     initialState: {
-      columnPinning: { right: ["actions"], left: ["id"] },
+      columnPinning: { right: ["actions"], left: ["order"] },
       pagination: {
         pageIndex: 1,
         pageSize: 5,
@@ -70,7 +72,7 @@ const StatsGroupTable = ({ unitId }: StatsGroupTableProps) => {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <StatsGroupTableToolbarActions />
+        <StatsGroupTableToolbarActions unitId={unitId} />
       </DataTableToolbar>
     </DataTable>
   );

@@ -42,7 +42,7 @@ const SelectAssetFileType = ({
       onValueChange={(e) => setSelectedUnitAssetFileType(e as AssetFileType)}
       {...props}
     >
-      <SelectTrigger className="capitalize">
+      <SelectTrigger className="capitalize w-full">
         <SelectValue placeholder="Select File Type" />
       </SelectTrigger>
       <SelectContent className={"max-h-[10rem] overflow-y-auto"}>

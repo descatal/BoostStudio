@@ -11,10 +11,12 @@ import { StatDto } from "@/api/exvs";
 import UpsertStatsGroupDialog from "@/features/stats/components/dialogs/upsert-stats-group-dialog";
 
 type StatsGroupTableRowActionsProps = {
+  unitId?: number | undefined;
   data: StatDto;
 };
 
 const StatsGroupTableRowActions = ({
+  unitId,
   data,
 }: StatsGroupTableRowActionsProps) => {
   return (
@@ -34,14 +36,11 @@ const StatsGroupTableRowActions = ({
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           {data.id && (
-            <UpsertStatsGroupDialog
-              data={data}
-              triggerButton={
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  Edit
-                </DropdownMenuItem>
-              }
-            />
+            <UpsertStatsGroupDialog existingData={data} unitId={unitId}>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                Edit
+              </DropdownMenuItem>
+            </UpsertStatsGroupDialog>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

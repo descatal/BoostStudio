@@ -4,7 +4,7 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "scalar/exvs",
-      "applicationUrl": "https://localhost:8081;http://localhost:8080",
+      "applicationUrl": "https://localhost:8181;http://localhost:8180",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using BoostStudio.Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -11,22 +12,33 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
     public async Task DecompileAsync(
         string sourcePath,
         string destinationPath,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
 
-        logger.LogInformation("Creating temporary working directory: {workingDirectory}", workingDirectory);
+        logger.LogInformation(
+            "Creating temporary working directory: {workingDirectory}",
+            workingDirectory
+        );
 
         try
         {
             if (!File.Exists(sourcePath))
             {
-                logger.LogInformation("{sourcePath} is not a valid file, exiting decompiling operation", sourcePath);
+                logger.LogInformation(
+                    "{sourcePath} is not a valid file, exiting decompiling operation",
+                    sourcePath
+                );
                 return;
             }
 
-            var tempExecutablePath = await InitializeDecompilerExecutableAsync(workingDirectory, cancellationToken);
+            var tempExecutablePath = await InitializeExecutable(
+                workingDirectory,
+                executableName: "scex-decompiler",
+                cancellationToken
+            );
 
             var arguments = $"\"{sourcePath}\" -o \"{destinationPath}\"";
             logger.LogInformation("Executing scex-decompiler.exe with: {arguments}", arguments);
@@ -47,19 +59,22 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
             var stdOut = process.StandardOutput;
             var stdErr = process.StandardError;
 
-            while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
+            while (await stdOut.ReadLineAsync(cancellationToken) is { } outputLine)
                 logger.LogInformation("{outputLine}", outputLine);
 
             var errorOutput = new StringBuilder();
-            while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
+            while (await stdErr.ReadLineAsync(cancellationToken) is { } outputLine)
                 errorOutput.Append(outputLine);
-        
+
             await process.WaitForExitAsync(cancellationToken);
 
             if (!File.Exists(destinationPath) || process.ExitCode != 0)
                 throw new Exception($"Failed to decompile scex. Error: {errorOutput}");
 
-            logger.LogInformation("Successfully decompiled scex script on: {destinationPath}", destinationPath);
+            logger.LogInformation(
+                "Successfully decompiled scex script on: {destinationPath}",
+                destinationPath
+            );
         }
         finally
         {
@@ -69,26 +84,37 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
             Directory.Delete(workingDirectory, true);
         }
     }
-    
+
     public async Task CompileAsync(
         string sourcePath,
         string destinationPath,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default
+    )
     {
         var workingDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
         Directory.CreateDirectory(workingDirectory);
 
-        logger.LogInformation("Creating temporary working directory: {workingDirectory}", workingDirectory);
+        logger.LogInformation(
+            "Creating temporary working directory: {workingDirectory}",
+            workingDirectory
+        );
 
         try
         {
             if (!File.Exists(sourcePath))
             {
-                logger.LogInformation("{sourcePath} is not a valid file, exiting compiling operation", sourcePath);
+                logger.LogInformation(
+                    "{sourcePath} is not a valid file, exiting compiling operation",
+                    sourcePath
+                );
                 return;
             }
 
-            var tempExecutablePath = await InitializeCompilerExecutableAsync(workingDirectory, cancellationToken);
+            var tempExecutablePath = await InitializeExecutable(
+                workingDirectory,
+                executableName: "scex-compiler",
+                cancellationToken
+            );
 
             var arguments = $"\"{sourcePath}\" -o \"{destinationPath}\" -i";
             logger.LogInformation("Executing scex-compiler.exe with: {arguments}", arguments);
@@ -109,13 +135,13 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
             var stdOut = process.StandardOutput;
             var stdErr = process.StandardError;
 
-            while (await stdOut.ReadLineAsync(cancellationToken) is {} outputLine)
+            while (await stdOut.ReadLineAsync(cancellationToken) is { } outputLine)
                 logger.LogInformation("{outputLine}", outputLine);
 
             var errorOutput = new StringBuilder();
-            while (await stdErr.ReadLineAsync(cancellationToken) is {} outputLine)
+            while (await stdErr.ReadLineAsync(cancellationToken) is { } outputLine)
                 errorOutput.Append(outputLine);
-        
+
             await process.WaitForExitAsync(cancellationToken);
 
             if (!File.Exists(destinationPath) || process.ExitCode != 0)
@@ -124,7 +150,10 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
             // Weird patching
             BinaryPatch(sourcePath, destinationPath);
 
-            logger.LogInformation("Successfully compiled scex script on: {destinationPath}", destinationPath);
+            logger.LogInformation(
+                "Successfully compiled scex script on: {destinationPath}",
+                destinationPath
+            );
         }
         finally
         {
@@ -135,40 +164,50 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
         }
     }
 
-    private async Task<string> InitializeCompilerExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
+    private async Task<string> InitializeExecutable(
+        string workingDirectory,
+        string executableName,
+        CancellationToken cancellationToken
+    )
     {
-        logger.LogInformation("Initializing scex-compiler.exe in: {workingDirectory}", workingDirectory);
+        if (OperatingSystem.IsWindows())
+        {
+            executableName += ".exe";
+        }
 
-        var workingPath = Path.Combine(workingDirectory, "scex-compiler.exe");
+        logger.LogInformation(
+            "Initializing {ExecutableName} in: {WorkingDirectory}",
+            executableName,
+            workingDirectory
+        );
+
+        var workingPath = Path.Combine(workingDirectory, executableName);
 
         // Extracting executable from resource to a temp location.
-        await using var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BoostStudio.Infrastructure.Resources.scex-compiler.exe");
+        await using var resourceStream = Assembly
+            .GetExecutingAssembly()
+            .GetManifestResourceStream($"BoostStudio.Infrastructure.Resources.{executableName}");
 
         if (resourceStream is null)
-            throw new FileNotFoundException("scex-compiler resource not found.");
+            throw new FileNotFoundException($"{executableName} resource not found.");
 
         await using var fileStream = File.Create(workingPath);
         await resourceStream.CopyToAsync(fileStream, cancellationToken);
         fileStream.Close();
 
-        return workingPath;
-    }
-    
-    private async Task<string> InitializeDecompilerExecutableAsync(string workingDirectory, CancellationToken cancellationToken)
-    {
-        logger.LogInformation("Initializing scex-decompiler.exe in: {workingDirectory}", workingDirectory);
-
-        var workingPath = Path.Combine(workingDirectory, "scex-decompiler.exe");
-
-        // Extracting executable from resource to a temp location.
-        await using var resourceStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("BoostStudio.Infrastructure.Resources.scex-decompiler.exe");
-
-        if (resourceStream is null)
-            throw new FileNotFoundException("scex-decompiler resource not found.");
-
-        await using var fileStream = File.Create(workingPath);
-        await resourceStream.CopyToAsync(fileStream, cancellationToken);
-        fileStream.Close();
+        // in linux, need to make the executable...executable.
+        // basically chmod +x
+        if (OperatingSystem.IsLinux())
+        {
+            var currentFileModes = File.GetUnixFileMode(workingPath);
+            File.SetUnixFileMode(
+                workingPath,
+                mode: currentFileModes
+                    | UnixFileMode.OtherExecute
+                    | UnixFileMode.GroupExecute
+                    | UnixFileMode.UserExecute
+            );
+        }
 
         return workingPath;
     }
@@ -199,10 +238,26 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
         fs.Close();
         oms.Seek(0, SeekOrigin.Begin);
 
-        var fixPosition = Search(oms, new byte[]
-        {
-            0x8A, 0x00, 0x00, 0x00, 0x03, 0x8A, 0x00, 0x00, 0x00, 0x0D, 0x8B, 0x00, 0x00, 0x01,
-        });
+        var fixPosition = Search(
+            oms,
+            new byte[]
+            {
+                0x8A,
+                0x00,
+                0x00,
+                0x00,
+                0x03,
+                0x8A,
+                0x00,
+                0x00,
+                0x00,
+                0x0D,
+                0x8B,
+                0x00,
+                0x00,
+                0x01,
+            }
+        );
 
         if (fixPosition == -1)
             throw new Exception();
@@ -211,18 +266,12 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
 
         for (int i = 0; i < resetCount; i++)
         {
-            int fixPosition1 = Search(oms, new byte[]
-            {
-                0x2E
-            }, (int)oms.Position);
+            int fixPosition1 = Search(oms, new byte[] { 0x2E }, (int)oms.Position);
             if (fixPosition1 == -1)
                 throw new Exception();
 
             oms.Seek(fixPosition1, SeekOrigin.Begin);
-            oms.Write(new byte[]
-            {
-                0xAE
-            }, 0, 1);
+            oms.Write(new byte[] { 0xAE }, 0, 1);
         }
 
         oms.Seek(0, SeekOrigin.Begin);
@@ -247,7 +296,7 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
                 continue;
 
             int j;
-            for (j = pattern.Count - 1; j >= 1 && src[i + j] == pattern[j]; j--) {}
+            for (j = pattern.Count - 1; j >= 1 && src[i + j] == pattern[j]; j--) { }
             if (j == 0)
                 return i + offset;
         }
@@ -260,10 +309,12 @@ public class ScexCompiler(ILogger<ScexCompiler> logger) : IScexCompiler
         var c = src.Length - pattern.Count + 1;
         for (var i = 0; i < c; i++)
         {
-            if (src[i] != pattern[0]) continue;
+            if (src[i] != pattern[0])
+                continue;
             int j;
-            for (j = pattern.Count - 1; j >= 1 && src[i + j] == pattern[j]; j--) {}
-            if (j == 0) return i;
+            for (j = pattern.Count - 1; j >= 1 && src[i + j] == pattern[j]; j--) { }
+            if (j == 0)
+                return i;
         }
         return -1;
     }

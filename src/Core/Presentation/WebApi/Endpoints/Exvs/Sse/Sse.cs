@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Net.ServerSentEvents;
 using System.Runtime.CompilerServices;
+using BoostStudio.Application.Common.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Reloaded.Memory;
 using Reloaded.Memory.Interfaces;
@@ -24,8 +25,7 @@ public class Sse : EndpointGroupBase
         )
         {
             const long mapRegionPointer = 0x300000000;
-            using var rpcs3Process = Process.GetProcessesByName("rpcs3").FirstOrDefault();
-
+            using var rpcs3Process = ProcessesUtils.GetRpcs3Process();
             if (rpcs3Process is null)
                 throw new NotFoundException("No process with name 'rpcs3' was found", "process");
 

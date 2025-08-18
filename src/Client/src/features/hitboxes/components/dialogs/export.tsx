@@ -78,7 +78,7 @@ const HitboxExportDialog = ({
                 disabled={!!unitIds}
                 className={"w-full"}
                 defaultValues={unitIds}
-                value={selectedUnitIds}
+                values={selectedUnitIds}
                 onChange={setSelectedUnitIds}
                 placeholder={unitIds ? undefined : "Select units..."}
               />

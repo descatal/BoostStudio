@@ -11,10 +11,11 @@ import { AmmoDto } from "@/api/exvs";
 import UpsertAmmoDialog from "@/features/ammo/components/dialogs/upsert";
 
 type AmmoTableRowActionsProps = {
+  unitId?: number | undefined;
   data: AmmoDto;
 };
 
-const AmmoTableRowActions = ({ data }: AmmoTableRowActionsProps) => {
+const AmmoTableRowActions = ({ unitId, data }: AmmoTableRowActionsProps) => {
   return (
     <>
       <DropdownMenu>
@@ -32,14 +33,11 @@ const AmmoTableRowActions = ({ data }: AmmoTableRowActionsProps) => {
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           {data.hash && (
-            <UpsertAmmoDialog
-              data={data}
-              triggerButton={
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  Edit
-                </DropdownMenuItem>
-              }
-            />
+            <UpsertAmmoDialog existingData={data} unitId={unitId}>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                Edit
+              </DropdownMenuItem>
+            </UpsertAmmoDialog>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
