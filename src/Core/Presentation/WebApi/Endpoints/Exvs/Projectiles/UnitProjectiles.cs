@@ -4,8 +4,9 @@ using BoostStudio.Application.Contracts.Projectiles.UnitProjectiles;
 using BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 using BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ContentType=System.Net.Mime.MediaTypeNames;
+using ContentType = System.Net.Mime.MediaTypeNames;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Projectiles;
 
@@ -21,23 +22,34 @@ public class UnitProjectiles : EndpointGroupBase
             .MapPost(ExportUnitProjectiles, "export")
             .MapPost(ExportUnitProjectilesByPath, "export/path");
     }
-    
-    [Produces(ContentType.Application.Json)]
-    // [ProducesResponseType(typeof(PaginatedList<UnitProjectileDto>), StatusCodes.Status200OK)]
-    private static async Task<PaginatedList<UnitProjectileDto>> GetUnitProjectilesWithPagination(ISender sender, [AsParameters] GetUnitProjectileWithPaginationQuery request)
+
+    private static async Task<
+        Ok<PaginatedList<UnitProjectileDto>>
+    > GetUnitProjectilesWithPagination(
+        ISender sender,
+        [AsParameters] GetUnitProjectileWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        return await sender.Send(request);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
-    
-    [Produces(ContentType.Application.Json)]
-    // [ProducesResponseType(typeof(UnitProjectileDto), StatusCodes.Status200OK)]
-    private static async Task<UnitProjectileDto> GetUnitProjectileByUnitId(ISender sender, [FromRoute] uint unitId)
+
+    private static async Task<UnitProjectileDto> GetUnitProjectileByUnitId(
+        ISender sender,
+        [FromRoute] uint unitId,
+        CancellationToken cancellationToken
+    )
     {
-        return await sender.Send(new GetUnitProjectileByUnitIdQuery(unitId));
+        var vm = await sender.Send(new GetUnitProjectileByUnitIdQuery(unitId), cancellationToken);
+        return vm;
     }
-    
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportUnitProjectiles(ISender sender, [FromForm] IFormFileCollection files, CancellationToken cancellationToken)
+
+    private static async Task<Created> ImportUnitProjectiles(
+        ISender sender,
+        [FromForm] IFormFileCollection files,
+        CancellationToken cancellationToken
+    )
     {
         var fileStreams = files.Select(formFile => formFile.OpenReadStream()).ToArray();
         await sender.Send(new ImportUnitProjectileCommand(fileStreams), cancellationToken);
@@ -45,14 +57,15 @@ public class UnitProjectiles : EndpointGroupBase
         foreach (var fileStream in fileStreams)
             await fileStream.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
-    
+
     // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportUnitProjectilesByPath(
-        ISender sender, 
+    private static async Task<Created> ImportUnitProjectilesByPath(
+        ISender sender,
         string directoryPath,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         List<Stream> import = [];
         var files = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
@@ -63,26 +76,35 @@ public class UnitProjectiles : EndpointGroupBase
         foreach (var fileStream in import)
             await fileStream.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
-    
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportUnitProjectiles(
-        ISender sender, 
-        ExportUnitProjectileCommand command, 
-        CancellationToken cancellationToken)
+
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: MediaTypeNames.Application.Octet
+    )]
+    private static async Task<FileContentHttpResult> ExportUnitProjectiles(
+        ISender sender,
+        ExportUnitProjectileCommand command,
+        CancellationToken cancellationToken
+    )
     {
         var fileInfo = await sender.Send(command, cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
+        return TypedResults.File(
+            fileInfo.Data,
+            fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet,
+            fileInfo.FileName
+        );
     }
-    
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> ExportUnitProjectilesByPath(
-        ISender sender, 
-        ExportUnitProjectileByPathCommand command, 
-        CancellationToken cancellationToken)
+
+    private static async Task<NoContent> ExportUnitProjectilesByPath(
+        ISender sender,
+        ExportUnitProjectileByPathCommand command,
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(command, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

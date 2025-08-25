@@ -3,8 +3,9 @@ using BoostStudio.Application.Contracts.Hitboxes.HitboxGroups;
 using BoostStudio.Application.Exvs.Hitboxes.Commands.HitboxGroup;
 using BoostStudio.Application.Exvs.Hitboxes.Queries.HitboxGroup;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ContentType=System.Net.Mime.MediaTypeNames;
+using ContentType = System.Net.Mime.MediaTypeNames;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Hitboxes;
 
@@ -23,113 +24,138 @@ public class HitboxGroups : EndpointGroupBase
             .MapPost(ExportHitboxGroups, "export")
             .MapPost(ExportHitboxGroupsByPath, "export/path");
     }
-    
-    [Produces(ContentType.Application.Json)]
-    // [ProducesResponseType(typeof(PaginatedList<HitboxGroupDto>), StatusCodes.Status200OK)]
-    private static async Task<PaginatedList<HitboxGroupDto>> GetHitboxGroupsWithPagination(
-        ISender sender, 
-        [AsParameters] GetHitboxGroupWithPaginationQuery request)
+
+    private static async Task<Ok<PaginatedList<HitboxGroupDto>>> GetHitboxGroupsWithPagination(
+        ISender sender,
+        [AsParameters] GetHitboxGroupWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        return await sender.Send(request);
-    }
-    
-    [Produces(ContentType.Application.Json)]
-    // [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
-    private static async Task<HitboxGroupDto> GetHitboxGroupByHash(ISender sender, [FromRoute] uint hash)
-    {
-        return await sender.Send(new GetHitboxGroupByHashQuery(hash));
-    }
-    
-    [Produces(ContentType.Application.Json)]
-    // [ProducesResponseType(typeof(HitboxGroupDto), StatusCodes.Status200OK)]
-    private static async Task<HitboxGroupDto> GetHitboxGroupByUnitId(ISender sender, [FromRoute] uint unitId)
-    {
-        return await sender.Send(new GetHitboxGroupByUnitIdQuery(unitId));
-    }
-    
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> CreateHitboxGroup(ISender sender, CreateHitboxGroupCommand command, CancellationToken cancellationToken)
-    {
-        await sender.Send(command, cancellationToken);
-        return Results.Created();
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateHitboxGroup(ISender sender, uint hash, UpdateHitboxGroupCommand command, CancellationToken cancellationToken)
+    private static async Task<Ok<HitboxGroupDto>> GetHitboxGroupByHash(
+        ISender sender,
+        [FromRoute] uint hash,
+        CancellationToken cancellationToken
+    )
     {
-        if (hash != command.Hash) return Results.BadRequest();
-        await sender.Send(command, cancellationToken);
-        return Results.NoContent();
+        var vm = await sender.Send(new GetHitboxGroupByHashQuery(hash), cancellationToken);
+        return TypedResults.Ok(vm);
     }
-    
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportHitboxGroups(ISender sender, [FromForm] IFormFile file, uint? unitId, CancellationToken cancellationToken)
-    {
-        // var importHitboxGroupDetailsArray = data
-        //     .Select(request => new ImportHitboxGroupDetails(request.File.OpenReadStream(), request.UnitId))
-        //     .ToArray();
 
+    private static async Task<Ok<HitboxGroupDto>> GetHitboxGroupByUnitId(
+        ISender sender,
+        [FromRoute] uint unitId,
+        CancellationToken cancellationToken
+    )
+    {
+        var vm = await sender.Send(new GetHitboxGroupByUnitIdQuery(unitId), cancellationToken);
+        return TypedResults.Ok(vm);
+    }
+
+    private static async Task<Created> CreateHitboxGroup(
+        ISender sender,
+        CreateHitboxGroupCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+        await sender.Send(command, cancellationToken);
+        return TypedResults.Created();
+    }
+
+    private static async Task<NoContent> UpdateHitboxGroup(
+        ISender sender,
+        uint hash,
+        UpdateHitboxGroupCommand command,
+        CancellationToken cancellationToken
+    )
+    {
+        await sender.Send(command, cancellationToken);
+        return TypedResults.NoContent();
+    }
+
+    private static async Task<Created> ImportHitboxGroups(
+        ISender sender,
+        [FromForm] IFormFile file,
+        uint? unitId,
+        CancellationToken cancellationToken
+    )
+    {
         uint[] unitIds = unitId is not null ? [unitId.Value] : [];
         var import = new ImportHitboxGroupDetails(file.OpenReadStream(), unitIds);
-        
+
         await sender.Send(new ImportHitboxGroupCommand([import]), cancellationToken);
 
-        foreach (var fileStream in new [] { import })
+        foreach (var fileStream in new[] { import })
             await fileStream.File.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
-    
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportHitboxGroupsByPath(
-        ISender sender, 
+
+    private static async Task<Created> ImportHitboxGroupsByPath(
+        ISender sender,
         string directoryPath,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         List<ImportHitboxGroupDetails> import = [];
         var files = Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories);
         foreach (var file in files)
         {
             var fileName = Path.GetFileNameWithoutExtension(file);
-            var unitIds = fileName.Split('-')
+            var unitIds = fileName
+                .Split('-')
                 .Where(name => !string.IsNullOrWhiteSpace(name))
-                .Select(name => {
+                .Select(name =>
+                {
                     bool success = uint.TryParse(name.Trim(), out var value);
                     return new { value, success };
                 })
                 .Where(pair => pair.success)
                 .Select(pair => pair.value)
                 .ToArray();
-            
+
             var fileStream = File.OpenRead(file);
             import.Add(new ImportHitboxGroupDetails(fileStream, unitIds));
         }
-        
+
         await sender.Send(new ImportHitboxGroupCommand(import.ToArray()), cancellationToken);
 
         foreach (var fileStream in import)
             await fileStream.File.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
-    
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportHitboxGroups(
-        ISender sender, 
-        ExportHitboxGroupCommand groupCommand, 
-        CancellationToken cancellationToken)
+
+    // Needed for OpenApi to recognize the return type as FileContentHttpResult, which will be converted to Blob
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: ContentType.Application.Octet
+    )]
+    private static async Task<FileContentHttpResult> ExportHitboxGroups(
+        ISender sender,
+        ExportHitboxGroupCommand groupCommand,
+        CancellationToken cancellationToken
+    )
     {
         var fileInfo = await sender.Send(groupCommand, cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? ContentType.Application.Octet, fileInfo.FileName);
+        return TypedResults.File(
+            fileInfo.Data,
+            fileInfo.MediaTypeName ?? ContentType.Application.Octet,
+            fileInfo.FileName
+        );
     }
-    
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> ExportHitboxGroupsByPath(
-        ISender sender, 
-        ExportHitboxGroupByPathCommand groupCommand, 
-        CancellationToken cancellationToken)
+
+    private static async Task<NoContent> ExportHitboxGroupsByPath(
+        ISender sender,
+        ExportHitboxGroupByPathCommand groupCommand,
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(groupCommand, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 import { Skeleton } from "@/components/ui/skeleton.tsx";
 import { useCarouselTweenEffect } from "@/hooks/use-carousel-tween-effect.tsx";
+import { Link } from "@tanstack/react-router";
 
 interface Props extends React.ComponentPropsWithoutRef<typeof Carousel> {
   value?: number;
@@ -74,14 +75,20 @@ const UnitsCarousel = ({ value, onValueChange, search, ...props }: Props) => {
               className="content-center basis-1/2 md:basis-1/4"
             >
               <div className="p-1">
-                <Card className={cn("transition-transform duration-500")}>
+                <Card className={cn("transition-transform duration-500 p-0")}>
                   <CardContent className="h-[calc(100svh-400px)] p-0">
-                    <img
-                      className={
-                        "object-cover text-xs text-center align-middle"
-                      }
-                      alt={item.nameEnglish!}
-                    />
+                    <Link
+                      className={"justify-center"}
+                      to={"/units/$unitId"}
+                      params={{ unitId: item.unitId!.toString() }}
+                    >
+                      <img
+                        className={
+                          "object-cover text-xs text-center align-middle h-full w-full"
+                        }
+                        alt={item.nameEnglish!}
+                      />
+                    </Link>
                   </CardContent>
                   {/*<CardFooter className={"w-full justify-center"}>*/}
                   {/*  <span className="text-xs">{item.na308830meEnglish}</span>*/}

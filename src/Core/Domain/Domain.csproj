@@ -1,33 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>BoostStudio.Domain</RootNamespace>
     <AssemblyName>BoostStudio.Domain</AssemblyName>
     <Configurations>Debug;Release;Console</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="KaitaiStruct.Runtime.CSharp"/>
-<!--    <PackageReference Include="MediatR"/>-->
+    <PackageReference Include="KaitaiStruct.Runtime.CSharp" />
+    <!--    <PackageReference Include="MediatR"/>-->
     <PackageReference Include="Mediator.Abstractions" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="BinaryFormats\PsarcFormat\**" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Remove="BinaryFormats\PsarcFormat\**" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="BinaryFormats\PsarcFormat\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Exceptions\" />
-    <Folder Include="ValueObjects\" />
   </ItemGroup>
-
 </Project>

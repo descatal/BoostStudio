@@ -5,6 +5,7 @@ using BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
 using BoostStudio.Application.Exvs.Series.Commands;
 using BoostStudio.Application.Exvs.Series.Queries;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Series;
@@ -21,48 +22,64 @@ public class Series : EndpointGroupBase
             .MapPost(ExportPlayableSeries, "export");
     }
 
-    private static async Task<PaginatedList<SeriesDto>> GetSeriesWithPagination(
+    private static async Task<Ok<PaginatedList<SeriesDto>>> GetSeriesWithPagination(
         ISender sender,
-        [AsParameters] GetSeriesWithPaginationQuery request)
+        [AsParameters] GetSeriesWithPaginationQuery request
+    )
     {
-        return await sender.Send(request);
+        var paginatedList = await sender.Send(request);
+        return TypedResults.Ok(paginatedList);
     }
 
-    private static async Task<PaginatedList<SeriesUnitsVm>> GetSeriesUnitsWithPagination(
+    private static async Task<Ok<PaginatedList<SeriesUnitsVm>>> GetSeriesUnitsWithPagination(
         ISender sender,
-        [AsParameters] GetSeriesUnitsWithPaginationQuery request)
+        [AsParameters] GetSeriesUnitsWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        return await sender.Send(request);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-
-    private static async Task<IResult> CreatePlayableSeries(
+    private static async Task<Created> CreatePlayableSeries(
         ISender sender,
         CreateSeriesCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(command, cancellationToken);
-        return Results.Created();
+        return TypedResults.Created();
     }
-    
-    private static async Task<IResult> ImportPlayableSeries(
+
+    private static async Task<Created> ImportPlayableSeries(
         ISender sender,
         [FromForm] IFormFile file,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var fileStream = file.OpenReadStream();
         await sender.Send(new ImportPlayableSeriesCommand(fileStream), cancellationToken);
         await fileStream.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
 
-    private static async Task<IResult> ExportPlayableSeries(
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: MediaTypeNames.Application.Octet
+    )]
+    private static async Task<FileContentHttpResult> ExportPlayableSeries(
         ISender sender,
         ExportPlayableSeriesCommand command,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         var fileInfo = await sender.Send(command, cancellationToken);
-        return Results.File(fileInfo.Data, fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet, fileInfo.FileName);
+        return TypedResults.File(
+            fileInfo.Data,
+            fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet,
+            fileInfo.FileName
+        );
     }
 }

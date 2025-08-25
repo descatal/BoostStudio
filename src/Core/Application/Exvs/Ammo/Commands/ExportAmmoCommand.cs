@@ -69,7 +69,7 @@ public class ExportAmmoCommandHandler(
         {
             // pack ammo in fhm format
             var packedHitboxBinary = await mediator.Send(
-                new PackFhmAssetCommand(
+                new PackFhmByAssetCommand(
                     AssetFileTypes: [AssetFileType.Ammo],
                     ReplaceStaging: false
                 ),

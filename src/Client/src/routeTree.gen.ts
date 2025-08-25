@@ -8,683 +8,683 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from "./routes/__root";
-import { Route as UnitsRouteRouteImport } from "./routes/units/route";
-import { Route as ToolsRouteRouteImport } from "./routes/tools/route";
-import { Route as SettingsRouteRouteImport } from "./routes/settings/route";
-import { Route as PatchesRouteRouteImport } from "./routes/patches/route";
-import { Route as IndexRouteImport } from "./routes/index";
-import { Route as UnitsIndexRouteImport } from "./routes/units/index";
-import { Route as ToolsIndexRouteImport } from "./routes/tools/index";
-import { Route as SettingsIndexRouteImport } from "./routes/settings/index";
-import { Route as PatchesIndexRouteImport } from "./routes/patches/index";
-import { Route as OverlaysIndexRouteImport } from "./routes/overlays/index";
-import { Route as UnitsScriptsRouteImport } from "./routes/units/scripts";
-import { Route as UnitsAssetsRouteImport } from "./routes/units/assets";
-import { Route as ToolsPsarcRouteImport } from "./routes/tools/psarc";
-import { Route as ToolsFhmRouteImport } from "./routes/tools/fhm";
-import { Route as PatchesPatchIdRouteImport } from "./routes/patches/$patchId";
-import { Route as OverlaysMatchInfoRouteImport } from "./routes/overlays/match-info";
-import { Route as UnitsInfoRouteRouteImport } from "./routes/units/info/route";
-import { Route as UnitsUnitIdRouteRouteImport } from "./routes/units/$unitId/route";
-import { Route as UnitsInfoIndexRouteImport } from "./routes/units/info/index";
-import { Route as UnitsUnitIdIndexRouteImport } from "./routes/units/$unitId/index";
-import { Route as UnitsInfoStatsRouteImport } from "./routes/units/info/stats";
-import { Route as UnitsInfoProjectilesRouteImport } from "./routes/units/info/projectiles";
-import { Route as UnitsInfoHitboxesRouteImport } from "./routes/units/info/hitboxes";
-import { Route as UnitsInfoAmmoRouteImport } from "./routes/units/info/ammo";
-import { Route as UnitsUnitIdScriptsRouteImport } from "./routes/units/$unitId/scripts";
-import { Route as UnitsUnitIdAssetsRouteImport } from "./routes/units/$unitId/assets";
-import { Route as UnitsUnitIdInfoRouteRouteImport } from "./routes/units/$unitId/info/route";
-import { Route as UnitsUnitIdInfoIndexRouteImport } from "./routes/units/$unitId/info/index";
-import { Route as UnitsUnitIdInfoStatsRouteImport } from "./routes/units/$unitId/info/stats";
-import { Route as UnitsUnitIdInfoProjectilesRouteImport } from "./routes/units/$unitId/info/projectiles";
-import { Route as UnitsUnitIdInfoHitboxesRouteImport } from "./routes/units/$unitId/info/hitboxes";
-import { Route as UnitsUnitIdInfoAmmoRouteImport } from "./routes/units/$unitId/info/ammo";
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as UnitsRouteRouteImport } from './routes/units/route'
+import { Route as ToolsRouteRouteImport } from './routes/tools/route'
+import { Route as SettingsRouteRouteImport } from './routes/settings/route'
+import { Route as PatchesRouteRouteImport } from './routes/patches/route'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as UnitsIndexRouteImport } from './routes/units/index'
+import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as PatchesIndexRouteImport } from './routes/patches/index'
+import { Route as OverlaysIndexRouteImport } from './routes/overlays/index'
+import { Route as UnitsScriptsRouteImport } from './routes/units/scripts'
+import { Route as UnitsAssetsRouteImport } from './routes/units/assets'
+import { Route as ToolsPsarcRouteImport } from './routes/tools/psarc'
+import { Route as ToolsFhmRouteImport } from './routes/tools/fhm'
+import { Route as PatchesPatchIdRouteImport } from './routes/patches/$patchId'
+import { Route as OverlaysMatchInfoRouteImport } from './routes/overlays/match-info'
+import { Route as UnitsInfoRouteRouteImport } from './routes/units/info/route'
+import { Route as UnitsUnitIdRouteRouteImport } from './routes/units/$unitId/route'
+import { Route as UnitsInfoIndexRouteImport } from './routes/units/info/index'
+import { Route as UnitsUnitIdIndexRouteImport } from './routes/units/$unitId/index'
+import { Route as UnitsInfoStatsRouteImport } from './routes/units/info/stats'
+import { Route as UnitsInfoProjectilesRouteImport } from './routes/units/info/projectiles'
+import { Route as UnitsInfoHitboxesRouteImport } from './routes/units/info/hitboxes'
+import { Route as UnitsInfoAmmoRouteImport } from './routes/units/info/ammo'
+import { Route as UnitsUnitIdScriptsRouteImport } from './routes/units/$unitId/scripts'
+import { Route as UnitsUnitIdAssetsRouteImport } from './routes/units/$unitId/assets'
+import { Route as UnitsUnitIdInfoRouteRouteImport } from './routes/units/$unitId/info/route'
+import { Route as UnitsUnitIdInfoIndexRouteImport } from './routes/units/$unitId/info/index'
+import { Route as UnitsUnitIdInfoStatsRouteImport } from './routes/units/$unitId/info/stats'
+import { Route as UnitsUnitIdInfoProjectilesRouteImport } from './routes/units/$unitId/info/projectiles'
+import { Route as UnitsUnitIdInfoHitboxesRouteImport } from './routes/units/$unitId/info/hitboxes'
+import { Route as UnitsUnitIdInfoAmmoRouteImport } from './routes/units/$unitId/info/ammo'
 
 const UnitsRouteRoute = UnitsRouteRouteImport.update({
-  id: "/units",
-  path: "/units",
+  id: '/units',
+  path: '/units',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const ToolsRouteRoute = ToolsRouteRouteImport.update({
-  id: "/tools",
-  path: "/tools",
+  id: '/tools',
+  path: '/tools',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const SettingsRouteRoute = SettingsRouteRouteImport.update({
-  id: "/settings",
-  path: "/settings",
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const PatchesRouteRoute = PatchesRouteRouteImport.update({
-  id: "/patches",
-  path: "/patches",
+  id: '/patches',
+  path: '/patches',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const IndexRoute = IndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const UnitsIndexRoute = UnitsIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => UnitsRouteRoute,
-} as any);
+} as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => ToolsRouteRoute,
-} as any);
+} as any)
 const SettingsIndexRoute = SettingsIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => SettingsRouteRoute,
-} as any);
+} as any)
 const PatchesIndexRoute = PatchesIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => PatchesRouteRoute,
-} as any);
+} as any)
 const OverlaysIndexRoute = OverlaysIndexRouteImport.update({
-  id: "/overlays/",
-  path: "/overlays/",
+  id: '/overlays/',
+  path: '/overlays/',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const UnitsScriptsRoute = UnitsScriptsRouteImport.update({
-  id: "/scripts",
-  path: "/scripts",
+  id: '/scripts',
+  path: '/scripts',
   getParentRoute: () => UnitsRouteRoute,
-} as any);
+} as any)
 const UnitsAssetsRoute = UnitsAssetsRouteImport.update({
-  id: "/assets",
-  path: "/assets",
+  id: '/assets',
+  path: '/assets',
   getParentRoute: () => UnitsRouteRoute,
-} as any);
+} as any)
 const ToolsPsarcRoute = ToolsPsarcRouteImport.update({
-  id: "/psarc",
-  path: "/psarc",
+  id: '/psarc',
+  path: '/psarc',
   getParentRoute: () => ToolsRouteRoute,
-} as any);
+} as any)
 const ToolsFhmRoute = ToolsFhmRouteImport.update({
-  id: "/fhm",
-  path: "/fhm",
+  id: '/fhm',
+  path: '/fhm',
   getParentRoute: () => ToolsRouteRoute,
-} as any);
+} as any)
 const PatchesPatchIdRoute = PatchesPatchIdRouteImport.update({
-  id: "/$patchId",
-  path: "/$patchId",
+  id: '/$patchId',
+  path: '/$patchId',
   getParentRoute: () => PatchesRouteRoute,
-} as any);
+} as any)
 const OverlaysMatchInfoRoute = OverlaysMatchInfoRouteImport.update({
-  id: "/overlays/match-info",
-  path: "/overlays/match-info",
+  id: '/overlays/match-info',
+  path: '/overlays/match-info',
   getParentRoute: () => rootRouteImport,
-} as any);
+} as any)
 const UnitsInfoRouteRoute = UnitsInfoRouteRouteImport.update({
-  id: "/info",
-  path: "/info",
+  id: '/info',
+  path: '/info',
   getParentRoute: () => UnitsRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdRouteRoute = UnitsUnitIdRouteRouteImport.update({
-  id: "/$unitId",
-  path: "/$unitId",
+  id: '/$unitId',
+  path: '/$unitId',
   getParentRoute: () => UnitsRouteRoute,
-} as any);
+} as any)
 const UnitsInfoIndexRoute = UnitsInfoIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => UnitsInfoRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdIndexRoute = UnitsUnitIdIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => UnitsUnitIdRouteRoute,
-} as any);
+} as any)
 const UnitsInfoStatsRoute = UnitsInfoStatsRouteImport.update({
-  id: "/stats",
-  path: "/stats",
+  id: '/stats',
+  path: '/stats',
   getParentRoute: () => UnitsInfoRouteRoute,
-} as any);
+} as any)
 const UnitsInfoProjectilesRoute = UnitsInfoProjectilesRouteImport.update({
-  id: "/projectiles",
-  path: "/projectiles",
+  id: '/projectiles',
+  path: '/projectiles',
   getParentRoute: () => UnitsInfoRouteRoute,
-} as any);
+} as any)
 const UnitsInfoHitboxesRoute = UnitsInfoHitboxesRouteImport.update({
-  id: "/hitboxes",
-  path: "/hitboxes",
+  id: '/hitboxes',
+  path: '/hitboxes',
   getParentRoute: () => UnitsInfoRouteRoute,
-} as any);
+} as any)
 const UnitsInfoAmmoRoute = UnitsInfoAmmoRouteImport.update({
-  id: "/ammo",
-  path: "/ammo",
+  id: '/ammo',
+  path: '/ammo',
   getParentRoute: () => UnitsInfoRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdScriptsRoute = UnitsUnitIdScriptsRouteImport.update({
-  id: "/scripts",
-  path: "/scripts",
+  id: '/scripts',
+  path: '/scripts',
   getParentRoute: () => UnitsUnitIdRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdAssetsRoute = UnitsUnitIdAssetsRouteImport.update({
-  id: "/assets",
-  path: "/assets",
+  id: '/assets',
+  path: '/assets',
   getParentRoute: () => UnitsUnitIdRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdInfoRouteRoute = UnitsUnitIdInfoRouteRouteImport.update({
-  id: "/info",
-  path: "/info",
+  id: '/info',
+  path: '/info',
   getParentRoute: () => UnitsUnitIdRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdInfoIndexRoute = UnitsUnitIdInfoIndexRouteImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => UnitsUnitIdInfoRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdInfoStatsRoute = UnitsUnitIdInfoStatsRouteImport.update({
-  id: "/stats",
-  path: "/stats",
+  id: '/stats',
+  path: '/stats',
   getParentRoute: () => UnitsUnitIdInfoRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdInfoProjectilesRoute =
   UnitsUnitIdInfoProjectilesRouteImport.update({
-    id: "/projectiles",
-    path: "/projectiles",
+    id: '/projectiles',
+    path: '/projectiles',
     getParentRoute: () => UnitsUnitIdInfoRouteRoute,
-  } as any);
+  } as any)
 const UnitsUnitIdInfoHitboxesRoute = UnitsUnitIdInfoHitboxesRouteImport.update({
-  id: "/hitboxes",
-  path: "/hitboxes",
+  id: '/hitboxes',
+  path: '/hitboxes',
   getParentRoute: () => UnitsUnitIdInfoRouteRoute,
-} as any);
+} as any)
 const UnitsUnitIdInfoAmmoRoute = UnitsUnitIdInfoAmmoRouteImport.update({
-  id: "/ammo",
-  path: "/ammo",
+  id: '/ammo',
+  path: '/ammo',
   getParentRoute: () => UnitsUnitIdInfoRouteRoute,
-} as any);
+} as any)
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/patches": typeof PatchesRouteRouteWithChildren;
-  "/settings": typeof SettingsRouteRouteWithChildren;
-  "/tools": typeof ToolsRouteRouteWithChildren;
-  "/units": typeof UnitsRouteRouteWithChildren;
-  "/units/$unitId": typeof UnitsUnitIdRouteRouteWithChildren;
-  "/units/info": typeof UnitsInfoRouteRouteWithChildren;
-  "/overlays/match-info": typeof OverlaysMatchInfoRoute;
-  "/patches/$patchId": typeof PatchesPatchIdRoute;
-  "/tools/fhm": typeof ToolsFhmRoute;
-  "/tools/psarc": typeof ToolsPsarcRoute;
-  "/units/assets": typeof UnitsAssetsRoute;
-  "/units/scripts": typeof UnitsScriptsRoute;
-  "/overlays": typeof OverlaysIndexRoute;
-  "/patches/": typeof PatchesIndexRoute;
-  "/settings/": typeof SettingsIndexRoute;
-  "/tools/": typeof ToolsIndexRoute;
-  "/units/": typeof UnitsIndexRoute;
-  "/units/$unitId/info": typeof UnitsUnitIdInfoRouteRouteWithChildren;
-  "/units/$unitId/assets": typeof UnitsUnitIdAssetsRoute;
-  "/units/$unitId/scripts": typeof UnitsUnitIdScriptsRoute;
-  "/units/info/ammo": typeof UnitsInfoAmmoRoute;
-  "/units/info/hitboxes": typeof UnitsInfoHitboxesRoute;
-  "/units/info/projectiles": typeof UnitsInfoProjectilesRoute;
-  "/units/info/stats": typeof UnitsInfoStatsRoute;
-  "/units/$unitId/": typeof UnitsUnitIdIndexRoute;
-  "/units/info/": typeof UnitsInfoIndexRoute;
-  "/units/$unitId/info/ammo": typeof UnitsUnitIdInfoAmmoRoute;
-  "/units/$unitId/info/hitboxes": typeof UnitsUnitIdInfoHitboxesRoute;
-  "/units/$unitId/info/projectiles": typeof UnitsUnitIdInfoProjectilesRoute;
-  "/units/$unitId/info/stats": typeof UnitsUnitIdInfoStatsRoute;
-  "/units/$unitId/info/": typeof UnitsUnitIdInfoIndexRoute;
+  '/': typeof IndexRoute
+  '/patches': typeof PatchesRouteRouteWithChildren
+  '/settings': typeof SettingsRouteRouteWithChildren
+  '/tools': typeof ToolsRouteRouteWithChildren
+  '/units': typeof UnitsRouteRouteWithChildren
+  '/units/$unitId': typeof UnitsUnitIdRouteRouteWithChildren
+  '/units/info': typeof UnitsInfoRouteRouteWithChildren
+  '/overlays/match-info': typeof OverlaysMatchInfoRoute
+  '/patches/$patchId': typeof PatchesPatchIdRoute
+  '/tools/fhm': typeof ToolsFhmRoute
+  '/tools/psarc': typeof ToolsPsarcRoute
+  '/units/assets': typeof UnitsAssetsRoute
+  '/units/scripts': typeof UnitsScriptsRoute
+  '/overlays': typeof OverlaysIndexRoute
+  '/patches/': typeof PatchesIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
+  '/units/': typeof UnitsIndexRoute
+  '/units/$unitId/info': typeof UnitsUnitIdInfoRouteRouteWithChildren
+  '/units/$unitId/assets': typeof UnitsUnitIdAssetsRoute
+  '/units/$unitId/scripts': typeof UnitsUnitIdScriptsRoute
+  '/units/info/ammo': typeof UnitsInfoAmmoRoute
+  '/units/info/hitboxes': typeof UnitsInfoHitboxesRoute
+  '/units/info/projectiles': typeof UnitsInfoProjectilesRoute
+  '/units/info/stats': typeof UnitsInfoStatsRoute
+  '/units/$unitId/': typeof UnitsUnitIdIndexRoute
+  '/units/info/': typeof UnitsInfoIndexRoute
+  '/units/$unitId/info/ammo': typeof UnitsUnitIdInfoAmmoRoute
+  '/units/$unitId/info/hitboxes': typeof UnitsUnitIdInfoHitboxesRoute
+  '/units/$unitId/info/projectiles': typeof UnitsUnitIdInfoProjectilesRoute
+  '/units/$unitId/info/stats': typeof UnitsUnitIdInfoStatsRoute
+  '/units/$unitId/info/': typeof UnitsUnitIdInfoIndexRoute
 }
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/overlays/match-info": typeof OverlaysMatchInfoRoute;
-  "/patches/$patchId": typeof PatchesPatchIdRoute;
-  "/tools/fhm": typeof ToolsFhmRoute;
-  "/tools/psarc": typeof ToolsPsarcRoute;
-  "/units/assets": typeof UnitsAssetsRoute;
-  "/units/scripts": typeof UnitsScriptsRoute;
-  "/overlays": typeof OverlaysIndexRoute;
-  "/patches": typeof PatchesIndexRoute;
-  "/settings": typeof SettingsIndexRoute;
-  "/tools": typeof ToolsIndexRoute;
-  "/units": typeof UnitsIndexRoute;
-  "/units/$unitId/assets": typeof UnitsUnitIdAssetsRoute;
-  "/units/$unitId/scripts": typeof UnitsUnitIdScriptsRoute;
-  "/units/info/ammo": typeof UnitsInfoAmmoRoute;
-  "/units/info/hitboxes": typeof UnitsInfoHitboxesRoute;
-  "/units/info/projectiles": typeof UnitsInfoProjectilesRoute;
-  "/units/info/stats": typeof UnitsInfoStatsRoute;
-  "/units/$unitId": typeof UnitsUnitIdIndexRoute;
-  "/units/info": typeof UnitsInfoIndexRoute;
-  "/units/$unitId/info/ammo": typeof UnitsUnitIdInfoAmmoRoute;
-  "/units/$unitId/info/hitboxes": typeof UnitsUnitIdInfoHitboxesRoute;
-  "/units/$unitId/info/projectiles": typeof UnitsUnitIdInfoProjectilesRoute;
-  "/units/$unitId/info/stats": typeof UnitsUnitIdInfoStatsRoute;
-  "/units/$unitId/info": typeof UnitsUnitIdInfoIndexRoute;
+  '/': typeof IndexRoute
+  '/overlays/match-info': typeof OverlaysMatchInfoRoute
+  '/patches/$patchId': typeof PatchesPatchIdRoute
+  '/tools/fhm': typeof ToolsFhmRoute
+  '/tools/psarc': typeof ToolsPsarcRoute
+  '/units/assets': typeof UnitsAssetsRoute
+  '/units/scripts': typeof UnitsScriptsRoute
+  '/overlays': typeof OverlaysIndexRoute
+  '/patches': typeof PatchesIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/tools': typeof ToolsIndexRoute
+  '/units': typeof UnitsIndexRoute
+  '/units/$unitId/assets': typeof UnitsUnitIdAssetsRoute
+  '/units/$unitId/scripts': typeof UnitsUnitIdScriptsRoute
+  '/units/info/ammo': typeof UnitsInfoAmmoRoute
+  '/units/info/hitboxes': typeof UnitsInfoHitboxesRoute
+  '/units/info/projectiles': typeof UnitsInfoProjectilesRoute
+  '/units/info/stats': typeof UnitsInfoStatsRoute
+  '/units/$unitId': typeof UnitsUnitIdIndexRoute
+  '/units/info': typeof UnitsInfoIndexRoute
+  '/units/$unitId/info/ammo': typeof UnitsUnitIdInfoAmmoRoute
+  '/units/$unitId/info/hitboxes': typeof UnitsUnitIdInfoHitboxesRoute
+  '/units/$unitId/info/projectiles': typeof UnitsUnitIdInfoProjectilesRoute
+  '/units/$unitId/info/stats': typeof UnitsUnitIdInfoStatsRoute
+  '/units/$unitId/info': typeof UnitsUnitIdInfoIndexRoute
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport;
-  "/": typeof IndexRoute;
-  "/patches": typeof PatchesRouteRouteWithChildren;
-  "/settings": typeof SettingsRouteRouteWithChildren;
-  "/tools": typeof ToolsRouteRouteWithChildren;
-  "/units": typeof UnitsRouteRouteWithChildren;
-  "/units/$unitId": typeof UnitsUnitIdRouteRouteWithChildren;
-  "/units/info": typeof UnitsInfoRouteRouteWithChildren;
-  "/overlays/match-info": typeof OverlaysMatchInfoRoute;
-  "/patches/$patchId": typeof PatchesPatchIdRoute;
-  "/tools/fhm": typeof ToolsFhmRoute;
-  "/tools/psarc": typeof ToolsPsarcRoute;
-  "/units/assets": typeof UnitsAssetsRoute;
-  "/units/scripts": typeof UnitsScriptsRoute;
-  "/overlays/": typeof OverlaysIndexRoute;
-  "/patches/": typeof PatchesIndexRoute;
-  "/settings/": typeof SettingsIndexRoute;
-  "/tools/": typeof ToolsIndexRoute;
-  "/units/": typeof UnitsIndexRoute;
-  "/units/$unitId/info": typeof UnitsUnitIdInfoRouteRouteWithChildren;
-  "/units/$unitId/assets": typeof UnitsUnitIdAssetsRoute;
-  "/units/$unitId/scripts": typeof UnitsUnitIdScriptsRoute;
-  "/units/info/ammo": typeof UnitsInfoAmmoRoute;
-  "/units/info/hitboxes": typeof UnitsInfoHitboxesRoute;
-  "/units/info/projectiles": typeof UnitsInfoProjectilesRoute;
-  "/units/info/stats": typeof UnitsInfoStatsRoute;
-  "/units/$unitId/": typeof UnitsUnitIdIndexRoute;
-  "/units/info/": typeof UnitsInfoIndexRoute;
-  "/units/$unitId/info/ammo": typeof UnitsUnitIdInfoAmmoRoute;
-  "/units/$unitId/info/hitboxes": typeof UnitsUnitIdInfoHitboxesRoute;
-  "/units/$unitId/info/projectiles": typeof UnitsUnitIdInfoProjectilesRoute;
-  "/units/$unitId/info/stats": typeof UnitsUnitIdInfoStatsRoute;
-  "/units/$unitId/info/": typeof UnitsUnitIdInfoIndexRoute;
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/patches': typeof PatchesRouteRouteWithChildren
+  '/settings': typeof SettingsRouteRouteWithChildren
+  '/tools': typeof ToolsRouteRouteWithChildren
+  '/units': typeof UnitsRouteRouteWithChildren
+  '/units/$unitId': typeof UnitsUnitIdRouteRouteWithChildren
+  '/units/info': typeof UnitsInfoRouteRouteWithChildren
+  '/overlays/match-info': typeof OverlaysMatchInfoRoute
+  '/patches/$patchId': typeof PatchesPatchIdRoute
+  '/tools/fhm': typeof ToolsFhmRoute
+  '/tools/psarc': typeof ToolsPsarcRoute
+  '/units/assets': typeof UnitsAssetsRoute
+  '/units/scripts': typeof UnitsScriptsRoute
+  '/overlays/': typeof OverlaysIndexRoute
+  '/patches/': typeof PatchesIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/tools/': typeof ToolsIndexRoute
+  '/units/': typeof UnitsIndexRoute
+  '/units/$unitId/info': typeof UnitsUnitIdInfoRouteRouteWithChildren
+  '/units/$unitId/assets': typeof UnitsUnitIdAssetsRoute
+  '/units/$unitId/scripts': typeof UnitsUnitIdScriptsRoute
+  '/units/info/ammo': typeof UnitsInfoAmmoRoute
+  '/units/info/hitboxes': typeof UnitsInfoHitboxesRoute
+  '/units/info/projectiles': typeof UnitsInfoProjectilesRoute
+  '/units/info/stats': typeof UnitsInfoStatsRoute
+  '/units/$unitId/': typeof UnitsUnitIdIndexRoute
+  '/units/info/': typeof UnitsInfoIndexRoute
+  '/units/$unitId/info/ammo': typeof UnitsUnitIdInfoAmmoRoute
+  '/units/$unitId/info/hitboxes': typeof UnitsUnitIdInfoHitboxesRoute
+  '/units/$unitId/info/projectiles': typeof UnitsUnitIdInfoProjectilesRoute
+  '/units/$unitId/info/stats': typeof UnitsUnitIdInfoStatsRoute
+  '/units/$unitId/info/': typeof UnitsUnitIdInfoIndexRoute
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/patches"
-    | "/settings"
-    | "/tools"
-    | "/units"
-    | "/units/$unitId"
-    | "/units/info"
-    | "/overlays/match-info"
-    | "/patches/$patchId"
-    | "/tools/fhm"
-    | "/tools/psarc"
-    | "/units/assets"
-    | "/units/scripts"
-    | "/overlays"
-    | "/patches/"
-    | "/settings/"
-    | "/tools/"
-    | "/units/"
-    | "/units/$unitId/info"
-    | "/units/$unitId/assets"
-    | "/units/$unitId/scripts"
-    | "/units/info/ammo"
-    | "/units/info/hitboxes"
-    | "/units/info/projectiles"
-    | "/units/info/stats"
-    | "/units/$unitId/"
-    | "/units/info/"
-    | "/units/$unitId/info/ammo"
-    | "/units/$unitId/info/hitboxes"
-    | "/units/$unitId/info/projectiles"
-    | "/units/$unitId/info/stats"
-    | "/units/$unitId/info/";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/patches'
+    | '/settings'
+    | '/tools'
+    | '/units'
+    | '/units/$unitId'
+    | '/units/info'
+    | '/overlays/match-info'
+    | '/patches/$patchId'
+    | '/tools/fhm'
+    | '/tools/psarc'
+    | '/units/assets'
+    | '/units/scripts'
+    | '/overlays'
+    | '/patches/'
+    | '/settings/'
+    | '/tools/'
+    | '/units/'
+    | '/units/$unitId/info'
+    | '/units/$unitId/assets'
+    | '/units/$unitId/scripts'
+    | '/units/info/ammo'
+    | '/units/info/hitboxes'
+    | '/units/info/projectiles'
+    | '/units/info/stats'
+    | '/units/$unitId/'
+    | '/units/info/'
+    | '/units/$unitId/info/ammo'
+    | '/units/$unitId/info/hitboxes'
+    | '/units/$unitId/info/projectiles'
+    | '/units/$unitId/info/stats'
+    | '/units/$unitId/info/'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/overlays/match-info"
-    | "/patches/$patchId"
-    | "/tools/fhm"
-    | "/tools/psarc"
-    | "/units/assets"
-    | "/units/scripts"
-    | "/overlays"
-    | "/patches"
-    | "/settings"
-    | "/tools"
-    | "/units"
-    | "/units/$unitId/assets"
-    | "/units/$unitId/scripts"
-    | "/units/info/ammo"
-    | "/units/info/hitboxes"
-    | "/units/info/projectiles"
-    | "/units/info/stats"
-    | "/units/$unitId"
-    | "/units/info"
-    | "/units/$unitId/info/ammo"
-    | "/units/$unitId/info/hitboxes"
-    | "/units/$unitId/info/projectiles"
-    | "/units/$unitId/info/stats"
-    | "/units/$unitId/info";
+    | '/'
+    | '/overlays/match-info'
+    | '/patches/$patchId'
+    | '/tools/fhm'
+    | '/tools/psarc'
+    | '/units/assets'
+    | '/units/scripts'
+    | '/overlays'
+    | '/patches'
+    | '/settings'
+    | '/tools'
+    | '/units'
+    | '/units/$unitId/assets'
+    | '/units/$unitId/scripts'
+    | '/units/info/ammo'
+    | '/units/info/hitboxes'
+    | '/units/info/projectiles'
+    | '/units/info/stats'
+    | '/units/$unitId'
+    | '/units/info'
+    | '/units/$unitId/info/ammo'
+    | '/units/$unitId/info/hitboxes'
+    | '/units/$unitId/info/projectiles'
+    | '/units/$unitId/info/stats'
+    | '/units/$unitId/info'
   id:
-    | "__root__"
-    | "/"
-    | "/patches"
-    | "/settings"
-    | "/tools"
-    | "/units"
-    | "/units/$unitId"
-    | "/units/info"
-    | "/overlays/match-info"
-    | "/patches/$patchId"
-    | "/tools/fhm"
-    | "/tools/psarc"
-    | "/units/assets"
-    | "/units/scripts"
-    | "/overlays/"
-    | "/patches/"
-    | "/settings/"
-    | "/tools/"
-    | "/units/"
-    | "/units/$unitId/info"
-    | "/units/$unitId/assets"
-    | "/units/$unitId/scripts"
-    | "/units/info/ammo"
-    | "/units/info/hitboxes"
-    | "/units/info/projectiles"
-    | "/units/info/stats"
-    | "/units/$unitId/"
-    | "/units/info/"
-    | "/units/$unitId/info/ammo"
-    | "/units/$unitId/info/hitboxes"
-    | "/units/$unitId/info/projectiles"
-    | "/units/$unitId/info/stats"
-    | "/units/$unitId/info/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/patches'
+    | '/settings'
+    | '/tools'
+    | '/units'
+    | '/units/$unitId'
+    | '/units/info'
+    | '/overlays/match-info'
+    | '/patches/$patchId'
+    | '/tools/fhm'
+    | '/tools/psarc'
+    | '/units/assets'
+    | '/units/scripts'
+    | '/overlays/'
+    | '/patches/'
+    | '/settings/'
+    | '/tools/'
+    | '/units/'
+    | '/units/$unitId/info'
+    | '/units/$unitId/assets'
+    | '/units/$unitId/scripts'
+    | '/units/info/ammo'
+    | '/units/info/hitboxes'
+    | '/units/info/projectiles'
+    | '/units/info/stats'
+    | '/units/$unitId/'
+    | '/units/info/'
+    | '/units/$unitId/info/ammo'
+    | '/units/$unitId/info/hitboxes'
+    | '/units/$unitId/info/projectiles'
+    | '/units/$unitId/info/stats'
+    | '/units/$unitId/info/'
+  fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  PatchesRouteRoute: typeof PatchesRouteRouteWithChildren;
-  SettingsRouteRoute: typeof SettingsRouteRouteWithChildren;
-  ToolsRouteRoute: typeof ToolsRouteRouteWithChildren;
-  UnitsRouteRoute: typeof UnitsRouteRouteWithChildren;
-  OverlaysMatchInfoRoute: typeof OverlaysMatchInfoRoute;
-  OverlaysIndexRoute: typeof OverlaysIndexRoute;
+  IndexRoute: typeof IndexRoute
+  PatchesRouteRoute: typeof PatchesRouteRouteWithChildren
+  SettingsRouteRoute: typeof SettingsRouteRouteWithChildren
+  ToolsRouteRoute: typeof ToolsRouteRouteWithChildren
+  UnitsRouteRoute: typeof UnitsRouteRouteWithChildren
+  OverlaysMatchInfoRoute: typeof OverlaysMatchInfoRoute
+  OverlaysIndexRoute: typeof OverlaysIndexRoute
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/units": {
-      id: "/units";
-      path: "/units";
-      fullPath: "/units";
-      preLoaderRoute: typeof UnitsRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/tools": {
-      id: "/tools";
-      path: "/tools";
-      fullPath: "/tools";
-      preLoaderRoute: typeof ToolsRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/settings": {
-      id: "/settings";
-      path: "/settings";
-      fullPath: "/settings";
-      preLoaderRoute: typeof SettingsRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/patches": {
-      id: "/patches";
-      path: "/patches";
-      fullPath: "/patches";
-      preLoaderRoute: typeof PatchesRouteRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/units/": {
-      id: "/units/";
-      path: "/";
-      fullPath: "/units/";
-      preLoaderRoute: typeof UnitsIndexRouteImport;
-      parentRoute: typeof UnitsRouteRoute;
-    };
-    "/tools/": {
-      id: "/tools/";
-      path: "/";
-      fullPath: "/tools/";
-      preLoaderRoute: typeof ToolsIndexRouteImport;
-      parentRoute: typeof ToolsRouteRoute;
-    };
-    "/settings/": {
-      id: "/settings/";
-      path: "/";
-      fullPath: "/settings/";
-      preLoaderRoute: typeof SettingsIndexRouteImport;
-      parentRoute: typeof SettingsRouteRoute;
-    };
-    "/patches/": {
-      id: "/patches/";
-      path: "/";
-      fullPath: "/patches/";
-      preLoaderRoute: typeof PatchesIndexRouteImport;
-      parentRoute: typeof PatchesRouteRoute;
-    };
-    "/overlays/": {
-      id: "/overlays/";
-      path: "/overlays";
-      fullPath: "/overlays";
-      preLoaderRoute: typeof OverlaysIndexRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/units/scripts": {
-      id: "/units/scripts";
-      path: "/scripts";
-      fullPath: "/units/scripts";
-      preLoaderRoute: typeof UnitsScriptsRouteImport;
-      parentRoute: typeof UnitsRouteRoute;
-    };
-    "/units/assets": {
-      id: "/units/assets";
-      path: "/assets";
-      fullPath: "/units/assets";
-      preLoaderRoute: typeof UnitsAssetsRouteImport;
-      parentRoute: typeof UnitsRouteRoute;
-    };
-    "/tools/psarc": {
-      id: "/tools/psarc";
-      path: "/psarc";
-      fullPath: "/tools/psarc";
-      preLoaderRoute: typeof ToolsPsarcRouteImport;
-      parentRoute: typeof ToolsRouteRoute;
-    };
-    "/tools/fhm": {
-      id: "/tools/fhm";
-      path: "/fhm";
-      fullPath: "/tools/fhm";
-      preLoaderRoute: typeof ToolsFhmRouteImport;
-      parentRoute: typeof ToolsRouteRoute;
-    };
-    "/patches/$patchId": {
-      id: "/patches/$patchId";
-      path: "/$patchId";
-      fullPath: "/patches/$patchId";
-      preLoaderRoute: typeof PatchesPatchIdRouteImport;
-      parentRoute: typeof PatchesRouteRoute;
-    };
-    "/overlays/match-info": {
-      id: "/overlays/match-info";
-      path: "/overlays/match-info";
-      fullPath: "/overlays/match-info";
-      preLoaderRoute: typeof OverlaysMatchInfoRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
-    "/units/info": {
-      id: "/units/info";
-      path: "/info";
-      fullPath: "/units/info";
-      preLoaderRoute: typeof UnitsInfoRouteRouteImport;
-      parentRoute: typeof UnitsRouteRoute;
-    };
-    "/units/$unitId": {
-      id: "/units/$unitId";
-      path: "/$unitId";
-      fullPath: "/units/$unitId";
-      preLoaderRoute: typeof UnitsUnitIdRouteRouteImport;
-      parentRoute: typeof UnitsRouteRoute;
-    };
-    "/units/info/": {
-      id: "/units/info/";
-      path: "/";
-      fullPath: "/units/info/";
-      preLoaderRoute: typeof UnitsInfoIndexRouteImport;
-      parentRoute: typeof UnitsInfoRouteRoute;
-    };
-    "/units/$unitId/": {
-      id: "/units/$unitId/";
-      path: "/";
-      fullPath: "/units/$unitId/";
-      preLoaderRoute: typeof UnitsUnitIdIndexRouteImport;
-      parentRoute: typeof UnitsUnitIdRouteRoute;
-    };
-    "/units/info/stats": {
-      id: "/units/info/stats";
-      path: "/stats";
-      fullPath: "/units/info/stats";
-      preLoaderRoute: typeof UnitsInfoStatsRouteImport;
-      parentRoute: typeof UnitsInfoRouteRoute;
-    };
-    "/units/info/projectiles": {
-      id: "/units/info/projectiles";
-      path: "/projectiles";
-      fullPath: "/units/info/projectiles";
-      preLoaderRoute: typeof UnitsInfoProjectilesRouteImport;
-      parentRoute: typeof UnitsInfoRouteRoute;
-    };
-    "/units/info/hitboxes": {
-      id: "/units/info/hitboxes";
-      path: "/hitboxes";
-      fullPath: "/units/info/hitboxes";
-      preLoaderRoute: typeof UnitsInfoHitboxesRouteImport;
-      parentRoute: typeof UnitsInfoRouteRoute;
-    };
-    "/units/info/ammo": {
-      id: "/units/info/ammo";
-      path: "/ammo";
-      fullPath: "/units/info/ammo";
-      preLoaderRoute: typeof UnitsInfoAmmoRouteImport;
-      parentRoute: typeof UnitsInfoRouteRoute;
-    };
-    "/units/$unitId/scripts": {
-      id: "/units/$unitId/scripts";
-      path: "/scripts";
-      fullPath: "/units/$unitId/scripts";
-      preLoaderRoute: typeof UnitsUnitIdScriptsRouteImport;
-      parentRoute: typeof UnitsUnitIdRouteRoute;
-    };
-    "/units/$unitId/assets": {
-      id: "/units/$unitId/assets";
-      path: "/assets";
-      fullPath: "/units/$unitId/assets";
-      preLoaderRoute: typeof UnitsUnitIdAssetsRouteImport;
-      parentRoute: typeof UnitsUnitIdRouteRoute;
-    };
-    "/units/$unitId/info": {
-      id: "/units/$unitId/info";
-      path: "/info";
-      fullPath: "/units/$unitId/info";
-      preLoaderRoute: typeof UnitsUnitIdInfoRouteRouteImport;
-      parentRoute: typeof UnitsUnitIdRouteRoute;
-    };
-    "/units/$unitId/info/": {
-      id: "/units/$unitId/info/";
-      path: "/";
-      fullPath: "/units/$unitId/info/";
-      preLoaderRoute: typeof UnitsUnitIdInfoIndexRouteImport;
-      parentRoute: typeof UnitsUnitIdInfoRouteRoute;
-    };
-    "/units/$unitId/info/stats": {
-      id: "/units/$unitId/info/stats";
-      path: "/stats";
-      fullPath: "/units/$unitId/info/stats";
-      preLoaderRoute: typeof UnitsUnitIdInfoStatsRouteImport;
-      parentRoute: typeof UnitsUnitIdInfoRouteRoute;
-    };
-    "/units/$unitId/info/projectiles": {
-      id: "/units/$unitId/info/projectiles";
-      path: "/projectiles";
-      fullPath: "/units/$unitId/info/projectiles";
-      preLoaderRoute: typeof UnitsUnitIdInfoProjectilesRouteImport;
-      parentRoute: typeof UnitsUnitIdInfoRouteRoute;
-    };
-    "/units/$unitId/info/hitboxes": {
-      id: "/units/$unitId/info/hitboxes";
-      path: "/hitboxes";
-      fullPath: "/units/$unitId/info/hitboxes";
-      preLoaderRoute: typeof UnitsUnitIdInfoHitboxesRouteImport;
-      parentRoute: typeof UnitsUnitIdInfoRouteRoute;
-    };
-    "/units/$unitId/info/ammo": {
-      id: "/units/$unitId/info/ammo";
-      path: "/ammo";
-      fullPath: "/units/$unitId/info/ammo";
-      preLoaderRoute: typeof UnitsUnitIdInfoAmmoRouteImport;
-      parentRoute: typeof UnitsUnitIdInfoRouteRoute;
-    };
+    '/units': {
+      id: '/units'
+      path: '/units'
+      fullPath: '/units'
+      preLoaderRoute: typeof UnitsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patches': {
+      id: '/patches'
+      path: '/patches'
+      fullPath: '/patches'
+      preLoaderRoute: typeof PatchesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/units/': {
+      id: '/units/'
+      path: '/'
+      fullPath: '/units/'
+      preLoaderRoute: typeof UnitsIndexRouteImport
+      parentRoute: typeof UnitsRouteRoute
+    }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof SettingsRouteRoute
+    }
+    '/patches/': {
+      id: '/patches/'
+      path: '/'
+      fullPath: '/patches/'
+      preLoaderRoute: typeof PatchesIndexRouteImport
+      parentRoute: typeof PatchesRouteRoute
+    }
+    '/overlays/': {
+      id: '/overlays/'
+      path: '/overlays'
+      fullPath: '/overlays'
+      preLoaderRoute: typeof OverlaysIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/units/scripts': {
+      id: '/units/scripts'
+      path: '/scripts'
+      fullPath: '/units/scripts'
+      preLoaderRoute: typeof UnitsScriptsRouteImport
+      parentRoute: typeof UnitsRouteRoute
+    }
+    '/units/assets': {
+      id: '/units/assets'
+      path: '/assets'
+      fullPath: '/units/assets'
+      preLoaderRoute: typeof UnitsAssetsRouteImport
+      parentRoute: typeof UnitsRouteRoute
+    }
+    '/tools/psarc': {
+      id: '/tools/psarc'
+      path: '/psarc'
+      fullPath: '/tools/psarc'
+      preLoaderRoute: typeof ToolsPsarcRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/fhm': {
+      id: '/tools/fhm'
+      path: '/fhm'
+      fullPath: '/tools/fhm'
+      preLoaderRoute: typeof ToolsFhmRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/patches/$patchId': {
+      id: '/patches/$patchId'
+      path: '/$patchId'
+      fullPath: '/patches/$patchId'
+      preLoaderRoute: typeof PatchesPatchIdRouteImport
+      parentRoute: typeof PatchesRouteRoute
+    }
+    '/overlays/match-info': {
+      id: '/overlays/match-info'
+      path: '/overlays/match-info'
+      fullPath: '/overlays/match-info'
+      preLoaderRoute: typeof OverlaysMatchInfoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/units/info': {
+      id: '/units/info'
+      path: '/info'
+      fullPath: '/units/info'
+      preLoaderRoute: typeof UnitsInfoRouteRouteImport
+      parentRoute: typeof UnitsRouteRoute
+    }
+    '/units/$unitId': {
+      id: '/units/$unitId'
+      path: '/$unitId'
+      fullPath: '/units/$unitId'
+      preLoaderRoute: typeof UnitsUnitIdRouteRouteImport
+      parentRoute: typeof UnitsRouteRoute
+    }
+    '/units/info/': {
+      id: '/units/info/'
+      path: '/'
+      fullPath: '/units/info/'
+      preLoaderRoute: typeof UnitsInfoIndexRouteImport
+      parentRoute: typeof UnitsInfoRouteRoute
+    }
+    '/units/$unitId/': {
+      id: '/units/$unitId/'
+      path: '/'
+      fullPath: '/units/$unitId/'
+      preLoaderRoute: typeof UnitsUnitIdIndexRouteImport
+      parentRoute: typeof UnitsUnitIdRouteRoute
+    }
+    '/units/info/stats': {
+      id: '/units/info/stats'
+      path: '/stats'
+      fullPath: '/units/info/stats'
+      preLoaderRoute: typeof UnitsInfoStatsRouteImport
+      parentRoute: typeof UnitsInfoRouteRoute
+    }
+    '/units/info/projectiles': {
+      id: '/units/info/projectiles'
+      path: '/projectiles'
+      fullPath: '/units/info/projectiles'
+      preLoaderRoute: typeof UnitsInfoProjectilesRouteImport
+      parentRoute: typeof UnitsInfoRouteRoute
+    }
+    '/units/info/hitboxes': {
+      id: '/units/info/hitboxes'
+      path: '/hitboxes'
+      fullPath: '/units/info/hitboxes'
+      preLoaderRoute: typeof UnitsInfoHitboxesRouteImport
+      parentRoute: typeof UnitsInfoRouteRoute
+    }
+    '/units/info/ammo': {
+      id: '/units/info/ammo'
+      path: '/ammo'
+      fullPath: '/units/info/ammo'
+      preLoaderRoute: typeof UnitsInfoAmmoRouteImport
+      parentRoute: typeof UnitsInfoRouteRoute
+    }
+    '/units/$unitId/scripts': {
+      id: '/units/$unitId/scripts'
+      path: '/scripts'
+      fullPath: '/units/$unitId/scripts'
+      preLoaderRoute: typeof UnitsUnitIdScriptsRouteImport
+      parentRoute: typeof UnitsUnitIdRouteRoute
+    }
+    '/units/$unitId/assets': {
+      id: '/units/$unitId/assets'
+      path: '/assets'
+      fullPath: '/units/$unitId/assets'
+      preLoaderRoute: typeof UnitsUnitIdAssetsRouteImport
+      parentRoute: typeof UnitsUnitIdRouteRoute
+    }
+    '/units/$unitId/info': {
+      id: '/units/$unitId/info'
+      path: '/info'
+      fullPath: '/units/$unitId/info'
+      preLoaderRoute: typeof UnitsUnitIdInfoRouteRouteImport
+      parentRoute: typeof UnitsUnitIdRouteRoute
+    }
+    '/units/$unitId/info/': {
+      id: '/units/$unitId/info/'
+      path: '/'
+      fullPath: '/units/$unitId/info/'
+      preLoaderRoute: typeof UnitsUnitIdInfoIndexRouteImport
+      parentRoute: typeof UnitsUnitIdInfoRouteRoute
+    }
+    '/units/$unitId/info/stats': {
+      id: '/units/$unitId/info/stats'
+      path: '/stats'
+      fullPath: '/units/$unitId/info/stats'
+      preLoaderRoute: typeof UnitsUnitIdInfoStatsRouteImport
+      parentRoute: typeof UnitsUnitIdInfoRouteRoute
+    }
+    '/units/$unitId/info/projectiles': {
+      id: '/units/$unitId/info/projectiles'
+      path: '/projectiles'
+      fullPath: '/units/$unitId/info/projectiles'
+      preLoaderRoute: typeof UnitsUnitIdInfoProjectilesRouteImport
+      parentRoute: typeof UnitsUnitIdInfoRouteRoute
+    }
+    '/units/$unitId/info/hitboxes': {
+      id: '/units/$unitId/info/hitboxes'
+      path: '/hitboxes'
+      fullPath: '/units/$unitId/info/hitboxes'
+      preLoaderRoute: typeof UnitsUnitIdInfoHitboxesRouteImport
+      parentRoute: typeof UnitsUnitIdInfoRouteRoute
+    }
+    '/units/$unitId/info/ammo': {
+      id: '/units/$unitId/info/ammo'
+      path: '/ammo'
+      fullPath: '/units/$unitId/info/ammo'
+      preLoaderRoute: typeof UnitsUnitIdInfoAmmoRouteImport
+      parentRoute: typeof UnitsUnitIdInfoRouteRoute
+    }
   }
 }
 
 interface PatchesRouteRouteChildren {
-  PatchesPatchIdRoute: typeof PatchesPatchIdRoute;
-  PatchesIndexRoute: typeof PatchesIndexRoute;
+  PatchesPatchIdRoute: typeof PatchesPatchIdRoute
+  PatchesIndexRoute: typeof PatchesIndexRoute
 }
 
 const PatchesRouteRouteChildren: PatchesRouteRouteChildren = {
   PatchesPatchIdRoute: PatchesPatchIdRoute,
   PatchesIndexRoute: PatchesIndexRoute,
-};
+}
 
 const PatchesRouteRouteWithChildren = PatchesRouteRoute._addFileChildren(
   PatchesRouteRouteChildren,
-);
+)
 
 interface SettingsRouteRouteChildren {
-  SettingsIndexRoute: typeof SettingsIndexRoute;
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
 
 const SettingsRouteRouteChildren: SettingsRouteRouteChildren = {
   SettingsIndexRoute: SettingsIndexRoute,
-};
+}
 
 const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
   SettingsRouteRouteChildren,
-);
+)
 
 interface ToolsRouteRouteChildren {
-  ToolsFhmRoute: typeof ToolsFhmRoute;
-  ToolsPsarcRoute: typeof ToolsPsarcRoute;
-  ToolsIndexRoute: typeof ToolsIndexRoute;
+  ToolsFhmRoute: typeof ToolsFhmRoute
+  ToolsPsarcRoute: typeof ToolsPsarcRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
   ToolsFhmRoute: ToolsFhmRoute,
   ToolsPsarcRoute: ToolsPsarcRoute,
   ToolsIndexRoute: ToolsIndexRoute,
-};
+}
 
 const ToolsRouteRouteWithChildren = ToolsRouteRoute._addFileChildren(
   ToolsRouteRouteChildren,
-);
+)
 
 interface UnitsUnitIdInfoRouteRouteChildren {
-  UnitsUnitIdInfoAmmoRoute: typeof UnitsUnitIdInfoAmmoRoute;
-  UnitsUnitIdInfoHitboxesRoute: typeof UnitsUnitIdInfoHitboxesRoute;
-  UnitsUnitIdInfoProjectilesRoute: typeof UnitsUnitIdInfoProjectilesRoute;
-  UnitsUnitIdInfoStatsRoute: typeof UnitsUnitIdInfoStatsRoute;
-  UnitsUnitIdInfoIndexRoute: typeof UnitsUnitIdInfoIndexRoute;
+  UnitsUnitIdInfoAmmoRoute: typeof UnitsUnitIdInfoAmmoRoute
+  UnitsUnitIdInfoHitboxesRoute: typeof UnitsUnitIdInfoHitboxesRoute
+  UnitsUnitIdInfoProjectilesRoute: typeof UnitsUnitIdInfoProjectilesRoute
+  UnitsUnitIdInfoStatsRoute: typeof UnitsUnitIdInfoStatsRoute
+  UnitsUnitIdInfoIndexRoute: typeof UnitsUnitIdInfoIndexRoute
 }
 
 const UnitsUnitIdInfoRouteRouteChildren: UnitsUnitIdInfoRouteRouteChildren = {
@@ -693,16 +693,16 @@ const UnitsUnitIdInfoRouteRouteChildren: UnitsUnitIdInfoRouteRouteChildren = {
   UnitsUnitIdInfoProjectilesRoute: UnitsUnitIdInfoProjectilesRoute,
   UnitsUnitIdInfoStatsRoute: UnitsUnitIdInfoStatsRoute,
   UnitsUnitIdInfoIndexRoute: UnitsUnitIdInfoIndexRoute,
-};
+}
 
 const UnitsUnitIdInfoRouteRouteWithChildren =
-  UnitsUnitIdInfoRouteRoute._addFileChildren(UnitsUnitIdInfoRouteRouteChildren);
+  UnitsUnitIdInfoRouteRoute._addFileChildren(UnitsUnitIdInfoRouteRouteChildren)
 
 interface UnitsUnitIdRouteRouteChildren {
-  UnitsUnitIdInfoRouteRoute: typeof UnitsUnitIdInfoRouteRouteWithChildren;
-  UnitsUnitIdAssetsRoute: typeof UnitsUnitIdAssetsRoute;
-  UnitsUnitIdScriptsRoute: typeof UnitsUnitIdScriptsRoute;
-  UnitsUnitIdIndexRoute: typeof UnitsUnitIdIndexRoute;
+  UnitsUnitIdInfoRouteRoute: typeof UnitsUnitIdInfoRouteRouteWithChildren
+  UnitsUnitIdAssetsRoute: typeof UnitsUnitIdAssetsRoute
+  UnitsUnitIdScriptsRoute: typeof UnitsUnitIdScriptsRoute
+  UnitsUnitIdIndexRoute: typeof UnitsUnitIdIndexRoute
 }
 
 const UnitsUnitIdRouteRouteChildren: UnitsUnitIdRouteRouteChildren = {
@@ -710,17 +710,17 @@ const UnitsUnitIdRouteRouteChildren: UnitsUnitIdRouteRouteChildren = {
   UnitsUnitIdAssetsRoute: UnitsUnitIdAssetsRoute,
   UnitsUnitIdScriptsRoute: UnitsUnitIdScriptsRoute,
   UnitsUnitIdIndexRoute: UnitsUnitIdIndexRoute,
-};
+}
 
 const UnitsUnitIdRouteRouteWithChildren =
-  UnitsUnitIdRouteRoute._addFileChildren(UnitsUnitIdRouteRouteChildren);
+  UnitsUnitIdRouteRoute._addFileChildren(UnitsUnitIdRouteRouteChildren)
 
 interface UnitsInfoRouteRouteChildren {
-  UnitsInfoAmmoRoute: typeof UnitsInfoAmmoRoute;
-  UnitsInfoHitboxesRoute: typeof UnitsInfoHitboxesRoute;
-  UnitsInfoProjectilesRoute: typeof UnitsInfoProjectilesRoute;
-  UnitsInfoStatsRoute: typeof UnitsInfoStatsRoute;
-  UnitsInfoIndexRoute: typeof UnitsInfoIndexRoute;
+  UnitsInfoAmmoRoute: typeof UnitsInfoAmmoRoute
+  UnitsInfoHitboxesRoute: typeof UnitsInfoHitboxesRoute
+  UnitsInfoProjectilesRoute: typeof UnitsInfoProjectilesRoute
+  UnitsInfoStatsRoute: typeof UnitsInfoStatsRoute
+  UnitsInfoIndexRoute: typeof UnitsInfoIndexRoute
 }
 
 const UnitsInfoRouteRouteChildren: UnitsInfoRouteRouteChildren = {
@@ -729,18 +729,18 @@ const UnitsInfoRouteRouteChildren: UnitsInfoRouteRouteChildren = {
   UnitsInfoProjectilesRoute: UnitsInfoProjectilesRoute,
   UnitsInfoStatsRoute: UnitsInfoStatsRoute,
   UnitsInfoIndexRoute: UnitsInfoIndexRoute,
-};
+}
 
 const UnitsInfoRouteRouteWithChildren = UnitsInfoRouteRoute._addFileChildren(
   UnitsInfoRouteRouteChildren,
-);
+)
 
 interface UnitsRouteRouteChildren {
-  UnitsUnitIdRouteRoute: typeof UnitsUnitIdRouteRouteWithChildren;
-  UnitsInfoRouteRoute: typeof UnitsInfoRouteRouteWithChildren;
-  UnitsAssetsRoute: typeof UnitsAssetsRoute;
-  UnitsScriptsRoute: typeof UnitsScriptsRoute;
-  UnitsIndexRoute: typeof UnitsIndexRoute;
+  UnitsUnitIdRouteRoute: typeof UnitsUnitIdRouteRouteWithChildren
+  UnitsInfoRouteRoute: typeof UnitsInfoRouteRouteWithChildren
+  UnitsAssetsRoute: typeof UnitsAssetsRoute
+  UnitsScriptsRoute: typeof UnitsScriptsRoute
+  UnitsIndexRoute: typeof UnitsIndexRoute
 }
 
 const UnitsRouteRouteChildren: UnitsRouteRouteChildren = {
@@ -749,11 +749,11 @@ const UnitsRouteRouteChildren: UnitsRouteRouteChildren = {
   UnitsAssetsRoute: UnitsAssetsRoute,
   UnitsScriptsRoute: UnitsScriptsRoute,
   UnitsIndexRoute: UnitsIndexRoute,
-};
+}
 
 const UnitsRouteRouteWithChildren = UnitsRouteRoute._addFileChildren(
   UnitsRouteRouteChildren,
-);
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -763,7 +763,7 @@ const rootRouteChildren: RootRouteChildren = {
   UnitsRouteRoute: UnitsRouteRouteWithChildren,
   OverlaysMatchInfoRoute: OverlaysMatchInfoRoute,
   OverlaysIndexRoute: OverlaysIndexRoute,
-};
+}
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()

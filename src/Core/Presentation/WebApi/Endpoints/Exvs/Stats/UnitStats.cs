@@ -6,6 +6,7 @@ using BoostStudio.Application.Exvs.Stats.Commands.UnitStat;
 using BoostStudio.Application.Exvs.Stats.Queries.AmmoSlot;
 using BoostStudio.Application.Exvs.Stats.Queries.UnitStat;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ContentType = System.Net.Mime.MediaTypeNames;
 
@@ -29,23 +30,27 @@ public class UnitStats : EndpointGroupBase
             .MapDelete(DeleteUnitAmmoSlotById, "ammo-slot/{id}");
     }
 
-    private static async Task<PaginatedList<UnitStatDto>> GetUnitStatWithPagination(
+    private static async Task<Ok<PaginatedList<UnitStatDto>>> GetUnitStatWithPagination(
         ISender sender,
-        [AsParameters] GetUnitStatWithPaginationQuery request
+        [AsParameters] GetUnitStatWithPaginationQuery request,
+        CancellationToken cancellationToken
     )
     {
-        return await sender.Send(request);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-    private static async Task<UnitStatDto> GetUnitStatByUnitId(
+    private static async Task<Ok<UnitStatDto>> GetUnitStatByUnitId(
         ISender sender,
-        [FromRoute] uint unitId
+        [FromRoute] uint unitId,
+        CancellationToken cancellationToken
     )
     {
-        return await sender.Send(new GetUnitStatByUnitIdQuery(unitId));
+        var vm = await sender.Send(new GetUnitStatByUnitIdQuery(unitId));
+        return TypedResults.Ok(vm);
     }
 
-    private static async Task<IResult> ImportUnitStat(
+    private static async Task<Created> ImportUnitStat(
         ISender sender,
         [FromForm] IFormFileCollection files,
         CancellationToken cancellationToken
@@ -57,74 +62,76 @@ public class UnitStats : EndpointGroupBase
         foreach (var fileStream in fileStreams)
             await fileStream.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
 
-    private static async Task<IResult> ExportUnitStat(
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: MediaTypeNames.Application.Octet
+    )]
+    private static async Task<FileContentHttpResult> ExportUnitStat(
         ISender sender,
         ExportUnitStatCommand command,
         CancellationToken cancellationToken
     )
     {
         var fileInfo = await sender.Send(command, cancellationToken);
-        return Results.File(
+        return TypedResults.File(
             fileInfo.Data,
             fileInfo.MediaTypeName ?? MediaTypeNames.Application.Octet,
             fileInfo.FileName
         );
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> ExportUnitStatByPath(
+    private static async Task<NoContent> ExportUnitStatByPath(
         ISender sender,
         ExportUnitStatByPathCommand command,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(command, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 
-    private static async Task<List<UnitAmmoSlotDto>> GetUnitAmmoSlotByUnitId(
+    private static async Task<Ok<List<UnitAmmoSlotDto>>> GetUnitAmmoSlotByUnitId(
         ISender sender,
-        [FromRoute] uint unitId
+        [FromRoute] uint unitId,
+        CancellationToken cancellationToken
     )
     {
-        return await sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId));
+        var vm = await sender.Send(new GetUnitAmmoSlotByUnitIdQuery(unitId), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    // [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
-    private static async Task<Guid> CreateUnitAmmoSlot(
+    private static async Task<Created> CreateUnitAmmoSlot(
         ISender sender,
         CreateUnitAmmoSlotCommand command,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(command, cancellationToken);
+        await sender.Send(command, cancellationToken);
+        return TypedResults.Created();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateUnitAmmoSlotById(
+    private static async Task<NoContent> UpdateUnitAmmoSlotById(
         ISender sender,
         Guid id,
         UpdateUnitAmmoSlotCommand command,
         CancellationToken cancellationToken
     )
     {
-        if (id != command.Id)
-            return Results.BadRequest();
         await sender.Send(command, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> DeleteUnitAmmoSlotById(
+    private static async Task<NoContent> DeleteUnitAmmoSlotById(
         ISender sender,
         Guid id,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(new DeleteUnitAmmoSlotCommand(id), cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

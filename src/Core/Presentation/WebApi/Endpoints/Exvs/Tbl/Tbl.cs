@@ -3,9 +3,9 @@ using BoostStudio.Application.Contracts.Tbl;
 using BoostStudio.Application.Exvs.PatchFiles.Commands;
 using BoostStudio.Application.Exvs.Tbl.Commands;
 using BoostStudio.Application.Exvs.Tbl.Queries;
-using BoostStudio.Application.Formats.TblFormat.Commands;
 using BoostStudio.Domain.Enums;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ContentType = System.Net.Mime.MediaTypeNames;
 using TblDto = BoostStudio.Application.Contracts.Metadata.Models.TblDto;
@@ -29,17 +29,18 @@ public class Tbl : EndpointGroupBase
             .MapPost(ExportTbl, "export");
     }
 
-    public async Task<TblDto> DeserializeTblFilePath(
+    private static async Task<Ok<TblDto>> DeserializeTblFilePath(
         ISender sender,
         string filePath,
         CancellationToken cancellationToken
     )
     {
         var inputBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
-        return await sender.Send(new DeserializeTbl(inputBytes), cancellationToken);
+        var vm = await sender.Send(new DeserializeTblCommand(inputBytes), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    public async Task<TblDto> DeserializeTblFileStream(
+    private static async Task<Ok<TblDto>> DeserializeTblFileStream(
         ISender sender,
         IFormFile file,
         CancellationToken cancellationToken
@@ -49,17 +50,18 @@ public class Tbl : EndpointGroupBase
         using BinaryReader binaryReader = new(stream);
         var inputBytes = binaryReader.ReadBytes((int)stream.Length);
 
-        return await sender.Send(new DeserializeTbl(inputBytes), cancellationToken);
+        var vm = await sender.Send(new DeserializeTblCommand(inputBytes), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    public async Task<IResult> SerializeTblFilePath(
+    private static async Task<IResult> SerializeTblFilePath(
         ISender sender,
         [FromQuery] string filePath,
         CancellationToken cancellationToken
     )
     {
         var jsonPayload = await File.ReadAllTextAsync(filePath, cancellationToken);
-        var command = JsonSerializer.Deserialize<SerializeTbl>(
+        var command = JsonSerializer.Deserialize<SerializeTblCommand>(
             jsonPayload,
             new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }
         );
@@ -71,36 +73,32 @@ public class Tbl : EndpointGroupBase
         return Results.File(serializedFile, ContentType.Application.Octet, "PATCH.TBL");
     }
 
-    /// <summary>
-    /// Serialize json metadata to a TBL file.
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="command"></param>
-    /// <param name="cancellationToken"></param>
-    /// <returns></returns>
-    [Consumes(ContentType.Application.Json)]
-    public async Task<IResult> SerializeTbl(
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: ContentType.Application.Octet
+    )]
+    private static async Task<FileContentHttpResult> SerializeTbl(
         ISender sender,
-        SerializeTbl command,
+        SerializeTblCommand command,
         CancellationToken cancellationToken
     )
     {
         var serializedFile = await sender.Send(command, cancellationToken);
-        return Results.File(serializedFile, ContentType.Application.Octet, "PATCH.TBL");
+        return TypedResults.File(serializedFile, ContentType.Application.Octet, "PATCH.TBL");
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<TblVm> GetTblById(
+    private static async Task<Ok<TblVm>> GetTblById(
         ISender sender,
         PatchFileVersion id,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(new GetTblByIdQuery(id), cancellationToken);
+        var vm = await sender.Send(new GetTblByIdQuery(id), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> ImportTbl(
+    private static async Task<Created> ImportTbl(
         ISender sender,
         [FromForm] IFormFileCollection files,
         CancellationToken cancellationToken
@@ -112,18 +110,22 @@ public class Tbl : EndpointGroupBase
         foreach (var fileStream in fileStreams)
             await fileStream.DisposeAsync();
 
-        return Results.Created();
+        return TypedResults.Created();
     }
 
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task<IResult> ExportTbl(
+    [ProducesResponseType(
+        type: typeof(FileContentHttpResult),
+        statusCode: StatusCodes.Status200OK,
+        contentType: ContentType.Application.Octet
+    )]
+    private static async Task<FileContentHttpResult> ExportTbl(
         ISender sender,
         ExportTblCommand command,
         CancellationToken cancellationToken
     )
     {
         var fileInfo = await sender.Send(command, cancellationToken);
-        return Results.File(
+        return TypedResults.File(
             fileInfo.Data,
             fileInfo.MediaTypeName ?? ContentType.Application.Octet,
             fileInfo.FileName

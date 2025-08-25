@@ -9,19 +9,17 @@ interface ProjectilesTableToolbarActionsProps {}
 export function ProjectilesTableToolbarActions({}: ProjectilesTableToolbarActionsProps) {
   return (
     <div className="flex items-center gap-2">
-      <UpsertProjectileDialog
-        triggerButton={
-          <EnhancedButton
-            variant="default"
-            effect={"expandIcon"}
-            size={"sm"}
-            icon={PlusIcon}
-            iconPlacement={"right"}
-          >
-            Create
-          </EnhancedButton>
-        }
-      />
+      <UpsertProjectileDialog>
+        <EnhancedButton
+          variant="default"
+          effect={"expandIcon"}
+          size={"sm"}
+          icon={PlusIcon}
+          iconPlacement={"right"}
+        >
+          Create
+        </EnhancedButton>
+      </UpsertProjectileDialog>
     </div>
   );
 }

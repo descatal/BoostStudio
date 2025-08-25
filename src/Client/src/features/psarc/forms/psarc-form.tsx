@@ -19,6 +19,8 @@ import { Icons } from "@/components/icons.tsx";
 import { AutoForm } from "@/components/ui/autoform";
 import { ZodProvider } from "@autoform/zod/v4";
 import { LuPackage, LuPackageOpen } from "react-icons/lu";
+import { FieldConfig } from "@autoform/react";
+import { z } from "zod";
 
 interface Props {
   mode: "pack" | "unpack";
@@ -46,21 +48,27 @@ const PsarcForm = ({ mode, version = zPatchFileVersion.enum.Base }: Props) => {
       : unpackMutation.mutate({ body: data as UnpackPsarcByPatchFilesCommand });
   };
 
-  const schemaProvider = new ZodProvider(
-    mode ? zPackPsarcByPatchFilesCommand : zUnpackPsarcByPatchFilesCommand,
-  );
+  const formSchema = zPackPsarcByPatchFilesCommand.extend({
+    patchFileVersions: z.optional(zPatchFileVersion),
+  });
+
+  const schemaProvider = new ZodProvider(formSchema);
 
   return (
     <AutoForm
       schema={schemaProvider}
       defaultValues={{
-        patchFileVersions: [version],
+        patchFileVersions: version,
       }}
       values={{
-        patchFileVersions: [version],
+        patchFileVersions: version,
       }}
       onSubmit={(submitData) => {
-        handleSubmit({ ...submitData });
+        handleSubmit({
+          patchFileVersions: [
+            submitData.patchFileVersions ?? zPatchFileVersion.enum.Patch6,
+          ],
+        });
       }}
       formProps={{
         className: "p-4",

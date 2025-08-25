@@ -7,5 +7,5 @@ export const Route = createFileRoute("/units/$unitId/info/ammo")({
 
 function RouteComponent() {
   const { unitId }: { unitId: number } = Route.useParams();
-  return <AmmoList unitId={unitId} />;
+  return <AmmoList unitId={Number(unitId)} />;
 }

@@ -36,7 +36,7 @@ function RouteComponent() {
           <div className={"flex flex-col gap-4"}>
             <Card>
               <CardHeader>
-                <CardTitle>Pack Assets</CardTitle>
+                <CardTitle>Pack Psarc</CardTitle>
                 <CardDescription>
                   Pack patch files to .psarc container format.
                 </CardDescription>
@@ -51,7 +51,7 @@ function RouteComponent() {
           <div className={"flex flex-col gap-4"}>
             <Card>
               <CardHeader>
-                <CardTitle>Unpack Assets</CardTitle>
+                <CardTitle>Unpack Psarc</CardTitle>
                 <CardDescription>
                   Unpack patch files from .psarc container format.
                 </CardDescription>

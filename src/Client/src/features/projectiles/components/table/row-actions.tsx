@@ -34,14 +34,11 @@ const ProjectilesTableRowActions = ({
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           {data.hash && (
-            <UpsertProjectileDialog
-              data={data}
-              triggerButton={
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  Edit
-                </DropdownMenuItem>
-              }
-            />
+            <UpsertProjectileDialog existingData={data}>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                Edit
+              </DropdownMenuItem>
+            </UpsertProjectileDialog>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

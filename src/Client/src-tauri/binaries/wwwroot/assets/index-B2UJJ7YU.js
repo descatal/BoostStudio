@@ -1,0 +1,1 @@
+import{ao as o,j as n,N as e}from"./index-_vJHe0oM.js";const i=function(){const{unitId:t}=o.useParams();return n.jsx(e,{to:"/units/$unitId/info",params:{unitId:t.toString()},replace:!0})};export{i as component};

@@ -67,6 +67,7 @@ public class ExportUnitProjectileCommandHandler(
             "common",
             AssetFileType.Projectiles.GetSnakeCaseName()
         );
+
         if (!Directory.Exists(projectilesWorkingDirectory))
             Directory.CreateDirectory(projectilesWorkingDirectory);
 
@@ -87,7 +88,7 @@ public class ExportUnitProjectileCommandHandler(
             // pack hitboxes in fhm format
             // this implicitly assumes that all units' hitboxes that's required by the game already have a copy in the working directory
             var packedProjectileBinary = await mediator.Send(
-                new PackFhmAssetCommand(
+                new PackFhmByAssetCommand(
                     AssetFileTypes: [AssetFileType.Projectiles],
                     ReplaceStaging: false
                 ),

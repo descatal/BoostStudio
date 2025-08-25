@@ -69,8 +69,8 @@ public enum AssetFileType
 
 public static class AssetFileTypeExtensions
 {
-    public static bool IsUnitSpecific(this AssetFileType fileType)
-        => fileType switch
+    public static bool IsUnitSpecific(this AssetFileType fileType) =>
+        fileType switch
         {
             AssetFileType.Dummy => true,
             AssetFileType.Animations => true,
@@ -107,11 +107,11 @@ public static class AssetFileTypeExtensions
             AssetFileType.LoadingTargetUnitSmallSprite => true,
             AssetFileType.CatalogStorePilotCostume2Sprite => true,
             AssetFileType.CatalogStorePilotCostume3Sprite => true,
-            _ => false
+            _ => false,
         };
-    
-    public static bool IsCommon(this AssetFileType fileType)
-        => fileType switch
+
+    public static bool IsCommon(this AssetFileType fileType) =>
+        fileType switch
         {
             AssetFileType.Hitboxes => true,
             AssetFileType.Projectiles => true,
@@ -129,9 +129,18 @@ public static class AssetFileTypeExtensions
             AssetFileType.TextStrings => true,
             AssetFileType.SeriesLogoSprites => true,
             AssetFileType.SeriesLogoSprites2 => true,
-            _ => false
+            _ => false,
         };
 
-    public static string GetSnakeCaseName(this AssetFileType fileType)
-        => JsonNamingPolicy.SnakeCaseLower.ConvertName(fileType.ToString());
+    public static string GetSnakeCaseName(this AssetFileType fileType) =>
+        JsonNamingPolicy.SnakeCaseLower.ConvertName(fileType.ToString());
+
+    public static string? GetAliases(this AssetFileType fileType) =>
+        fileType switch
+        {
+            AssetFileType.Animations => "OMO",
+            AssetFileType.Effects => "EIDX",
+            AssetFileType.WeaponSprites => "DNSO",
+            _ => null,
+        };
 }

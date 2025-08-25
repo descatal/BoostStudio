@@ -1,4 +1,4 @@
-using BoostStudio.Application.Formats.TblFormat.Commands;
+using BoostStudio.Application.Exvs.Tbl.Commands;
 
 namespace BoostStudio.Application.FunctionalTests.Tbl;
 
@@ -9,18 +9,25 @@ public class SerializationTests : BaseTestFixture
     [Test]
     public async Task Tbl_SerializationOperations_ShouldReturnSameBinary()
     {
-        var directory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Tbl", "Binary");
+        var directory = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory,
+            "..",
+            "..",
+            "..",
+            "Tbl",
+            "Binary"
+        );
         var originalBinaries = Directory.GetFiles(directory, "*", SearchOption.TopDirectoryOnly);
 
         foreach (var binaryPaths in originalBinaries)
         {
             var file = await File.ReadAllBytesAsync(binaryPaths);
-            var deserialize = new DeserializeTbl(File: file);
+            var deserialize = new DeserializeTblCommand(File: file);
             var deserializedMetadata = await SendAsync(deserialize);
 
-            var serialize = new SerializeTbl(
-                deserializedMetadata.CumulativeFileInfoCount, 
-                deserializedMetadata.FileMetadata, 
+            var serialize = new SerializeTblCommand(
+                deserializedMetadata.CumulativeFileInfoCount,
+                deserializedMetadata.FileMetadata,
                 deserializedMetadata.PathOrder
             );
             var serializedFile = await SendAsync(serialize);

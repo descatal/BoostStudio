@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { getApiSeriesUnitsOptions } from "@/api/exvs/@tanstack/react-query.gen";
+import { useEffect } from "react";
 
 interface UnitsSelectorProps
   extends Omit<
@@ -24,8 +25,6 @@ export default function UnitsSelector({
   className,
   ...props
 }: UnitsSelectorProps) {
-  const [value, setValue] = React.useState<Option[]>([]);
-
   const seriesUnitsQuery = useQuery({
     ...getApiSeriesUnitsOptions({
       query: {
@@ -47,26 +46,20 @@ export default function UnitsSelector({
 
   const seriesUnitsOptions = seriesUnitsQuery.data ?? [];
 
-  // Sync internal value with props.values when either changes
-  React.useEffect(() => {
-    if (values && seriesUnitsOptions.length > 0) {
-      const selectedOptions = seriesUnitsOptions.filter((option) =>
-        values.includes(parseInt(option.value)),
+  const [options, setOptions] = React.useState<Option[]>(
+    seriesUnitsOptions?.filter((option) => {
+      const optionValue = Number(option.value);
+      return (
+        values?.includes(optionValue) || fixedValues?.includes(optionValue)
       );
-      setValue(selectedOptions);
-    } else if (!values) {
-      setValue([]);
-    }
-  }, [values, seriesUnitsOptions]);
+    }),
+  );
 
-  // Handle changes from MultipleSelector
-  const handleChange = (newValue: Option[]) => {
-    setValue(newValue);
-
+  useEffect(() => {
     // Convert Option[] back to number[] and call onChange
-    const numberValues = newValue.map((option) => parseInt(option.value));
+    const numberValues = options.map((option) => Number(option.value));
     onChange?.(numberValues);
-  };
+  }, [options]);
 
   return (
     <>
@@ -85,8 +78,8 @@ export default function UnitsSelector({
               </p>
             }
             groupBy="group"
-            value={value}
-            onChange={handleChange}
+            value={options}
+            onChange={setOptions}
             {...props}
           />
         </div>

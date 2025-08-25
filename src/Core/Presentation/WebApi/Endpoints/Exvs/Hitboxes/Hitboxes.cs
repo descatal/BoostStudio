@@ -3,6 +3,7 @@ using BoostStudio.Application.Contracts.Hitboxes;
 using BoostStudio.Application.Exvs.Hitboxes.Commands.Hitbox;
 using BoostStudio.Application.Exvs.Hitboxes.Queries.Hitbox;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Hitboxes;
@@ -19,44 +20,54 @@ public class Hitboxes : EndpointGroupBase
             .MapDelete(DeleteHitboxByHash, "{hash}");
     }
 
-    // [ProducesResponseType(typeof(PaginatedList<HitboxDto>), StatusCodes.Status200OK)]
-    private static async Task<PaginatedList<HitboxDto>> GetHitboxesByPagination(
+    private static async Task<Ok<PaginatedList<HitboxDto>>> GetHitboxesByPagination(
         ISender sender,
         [AsParameters] GetHitboxWithPaginationQuery request,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-        return await sender.Send(request, cancellationToken);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-    // [ProducesResponseType(typeof(HitboxDto), StatusCodes.Status200OK)]
-    private static async Task<HitboxDto> GetHitboxById(ISender sender, uint hash, CancellationToken cancellationToken)
+    private static async Task<Ok<HitboxDto>> GetHitboxById(
+        ISender sender,
+        uint hash,
+        CancellationToken cancellationToken
+    )
     {
-        return await sender.Send(new GetHitboxByHashQuery(hash), cancellationToken);
+        var vm = await sender.Send(new GetHitboxByHashQuery(hash), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> CreateHitbox(ISender sender, CreateHitboxCommand request, CancellationToken cancellationToken)
+    private static async Task<Created> CreateHitbox(
+        ISender sender,
+        CreateHitboxCommand request,
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(request, cancellationToken);
-        return Results.Created();
+        return TypedResults.Created();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateHitboxByHash(
-        ISender sender, 
-        [FromRoute] uint hash, 
-        UpdateHitboxCommand command, 
-        CancellationToken cancellationToken)
+    private static async Task<NoContent> UpdateHitboxByHash(
+        ISender sender,
+        [FromRoute] uint hash,
+        UpdateHitboxCommand command,
+        CancellationToken cancellationToken
+    )
     {
-        if (hash != command.Hash) return Results.BadRequest();
         await sender.Send(command, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
-    
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> DeleteHitboxByHash(ISender sender, uint hash, CancellationToken cancellationToken)
+
+    private static async Task<NoContent> DeleteHitboxByHash(
+        ISender sender,
+        uint hash,
+        CancellationToken cancellationToken
+    )
     {
         await sender.Send(new DeleteHitboxByHashCommand(hash), cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

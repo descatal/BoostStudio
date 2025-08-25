@@ -20,52 +20,72 @@ public class ResizePatchFileCommandHandler(
     IConfigsRepository configsRepository
 ) : IRequestHandler<ResizePatchFileCommand>
 {
-    public async ValueTask<Unit> Handle(ResizePatchFileCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(
+        ResizePatchFileCommand request,
+        CancellationToken cancellationToken
+    )
     {
-        var stagingDirectoryConfig = await configsRepository.GetConfig(ConfigKeys.StagingDirectory, cancellationToken);
+        var stagingDirectoryConfig = await configsRepository.GetConfig(
+            ConfigKeys.StagingDirectory,
+            cancellationToken
+        );
         if (stagingDirectoryConfig.IsError || !Directory.Exists(stagingDirectoryConfig.Value.Value))
-            throw new NotFoundException(ConfigKeys.StagingDirectory, stagingDirectoryConfig.FirstError.Description);
-        
-        var query = applicationDbContext.PatchFiles
-            .Include(patchFile => patchFile.AssetFile)
+            throw new NotFoundException(
+                ConfigKeys.StagingDirectory,
+                stagingDirectoryConfig.FirstError.Description
+            );
+
+        var query = applicationDbContext
+            .PatchFiles.Include(patchFile => patchFile.AssetFile)
             .ThenInclude(assetFile => assetFile!.Units)
             .AsQueryable();
 
         if (request.Ids?.Length > 0)
             query = query.Where(patchFile => request.Ids.Contains(patchFile.Id));
-        
+
         if (request.Versions?.Length > 0)
             query = query.Where(patchFile => request.Versions.Contains(patchFile.TblId));
 
         if (request.UnitIds?.Length > 0)
         {
-            query = query.Where(patchFile => 
-                patchFile.AssetFile != null && 
-                request.UnitIds.Any(unitId => patchFile.AssetFile.Units.Any(unit => unit.GameUnitId == unitId))
+            query = query.Where(patchFile =>
+                patchFile.AssetFile != null
+                && request.UnitIds.Any(unitId =>
+                    patchFile.AssetFile.Units.Any(unit => unit.GameUnitId == unitId)
+                )
             );
         }
 
         if (request.AssetFileTypes?.Length > 0)
         {
             query = query.Where(patchFile =>
-                patchFile.AssetFile != null &&
-                request.AssetFileTypes.Any(type => patchFile.AssetFile.FileType.Contains(type))
+                patchFile.AssetFile != null
+                && request.AssetFileTypes.Any(type => patchFile.AssetFile.FileType.Contains(type))
             );
         }
 
         var patchFiles = await query.ToListAsync(cancellationToken);
         foreach (var patchFile in patchFiles)
         {
+            if (patchFile.AssetFileHash == 0x3DD6DC78)
+            {
+                // stud
+            }
+
             if (patchFile.AssetFile is null)
                 continue;
-            
+
             var destinationBaseDirectory = Path.Combine(
-                stagingDirectoryConfig.Value.Value, 
-                "psarc", 
+                stagingDirectoryConfig.Value.Value,
+                "psarc",
                 patchFile.TblId.GetPatchName()
             );
 
-            var fileCandidates = Directory.GetFiles(destinationBaseDirectory, $"PATCH{patchFile.AssetFile.Hash:X8}.PAC", SearchOption.AllDirectories);
+            var fileCandidates = Directory.GetFiles(
+                destinationBaseDirectory,
+                $"PATCH{patchFile.AssetFile.Hash:X8}.PAC",
+                SearchOption.AllDirectories
+            );
             var assetFilePath = fileCandidates.FirstOrDefault();
             if (string.IsNullOrWhiteSpace(assetFilePath) || !File.Exists(assetFilePath))
                 continue;
@@ -80,9 +100,8 @@ public class ResizePatchFileCommandHandler(
             patchFile.FileInfo.Size2 = fileSize;
             patchFile.FileInfo.Size3 = fileSize;
         }
-        
+
         await applicationDbContext.SaveChangesAsync(cancellationToken);
         return default;
     }
 }
-

@@ -17,7 +17,6 @@ import {
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 import { BiExport } from "react-icons/bi";
 import { MdMemory } from "react-icons/md";
-import { Option } from "@/components/ui/multiple-selector";
 import { Label } from "@/components/ui/label";
 import UnitsSelector from "@/features/units/components/units-selector";
 import {
@@ -39,7 +38,9 @@ const ProjectileExportDialog = ({
   ...props
 }: ProjectileExportDialogProps) => {
   const [hotReload, setHotReload] = React.useState(true);
-  const [selectedUnitIds, setSelectedUnitIds] = React.useState<Option[]>([]);
+  const [selectedUnitIds, setSelectedUnitIds] = React.useState<number[]>(
+    unitIds ?? [],
+  );
 
   const mutation = useMutation({
     ...postApiUnitProjectilesExportMutation(),
@@ -77,7 +78,7 @@ const ProjectileExportDialog = ({
               <UnitsSelector
                 disabled={!!unitIds}
                 className={"w-full"}
-                defaultValues={unitIds}
+                fixedValues={unitIds}
                 values={selectedUnitIds}
                 onChange={setSelectedUnitIds}
                 placeholder={unitIds ? undefined : "Select units..."}
@@ -120,7 +121,7 @@ const ProjectileExportDialog = ({
             onClick={async () => {
               mutation.mutate({
                 body: {
-                  unitIds: selectedUnitIds.map((x) => Number(x.value)),
+                  unitIds: selectedUnitIds,
                   replaceWorking: true,
                   hotReload: hotReload,
                 },

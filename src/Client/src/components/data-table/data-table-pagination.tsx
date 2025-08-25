@@ -23,7 +23,7 @@ interface DataTablePaginationProps<TData> extends React.ComponentProps<"div"> {
 
 export function DataTablePagination<TData>({
   table,
-  pageSizeOptions = [10, 20, 30, 40, 50],
+  pageSizeOptions = [5, 10, 20, 30, 40, 50],
   className,
   ...props
 }: DataTablePaginationProps<TData>) {
@@ -69,7 +69,7 @@ export function DataTablePagination<TData>({
             aria-label="Go to first page"
             variant="outline"
             size="icon"
-            className="hidden size-8 lg:flex"
+            className="size-8 lg:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -99,7 +99,7 @@ export function DataTablePagination<TData>({
             aria-label="Go to last page"
             variant="outline"
             size="icon"
-            className="hidden size-8 lg:flex"
+            className="size-8 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >

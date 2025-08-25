@@ -3,6 +3,7 @@ using BoostStudio.Application.Contracts.Stats;
 using BoostStudio.Application.Exvs.Stats.Commands.Stat;
 using BoostStudio.Application.Exvs.Stats.Queries.Stat;
 using BoostStudio.Web.Constants;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Stats;
@@ -19,59 +20,54 @@ public class Stats : EndpointGroupBase
             .MapDelete(DeleteStat, "{id}");
     }
 
-    // [ProducesResponseType(typeof(PaginatedList<StatDto>), StatusCodes.Status200OK)]
-    private static async Task<PaginatedList<StatDto>> GetStatByPagination(
+    private static async Task<Ok<PaginatedList<StatDto>>> GetStatByPagination(
         ISender sender,
         [AsParameters] GetStatWithPaginationQuery request,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(request, cancellationToken);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-    // [ProducesResponseType(typeof(StatDto), StatusCodes.Status200OK)]
-    private static async Task<StatDto> GetStatById(
+    private static async Task<Ok<StatDto>> GetStatById(
         ISender sender,
         Guid id,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(new GetStatByIdQuery(id), cancellationToken);
+        var vm = await sender.Send(new GetStatByIdQuery(id), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    // [ProducesResponseType(StatusCodes.Status201Created)]
-    private static async Task<IResult> CreateStat(
+    private static async Task<Created> CreateStat(
         ISender sender,
         CreateStatCommand request,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(request, cancellationToken);
-        return Results.Created();
+        return TypedResults.Created();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdateStat(
+    private static async Task<NoContent> UpdateStat(
         ISender sender,
         [FromRoute] Guid id,
         UpdateStatCommand command,
         CancellationToken cancellationToken
     )
     {
-        if (id != command.Id)
-            return Results.BadRequest();
         await sender.Send(command, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> DeleteStat(
+    private static async Task<NoContent> DeleteStat(
         ISender sender,
         [FromRoute] Guid id,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(new DeleteStatCommand(id), cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 }

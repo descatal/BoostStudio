@@ -33,7 +33,7 @@ function RouteComponent() {
   // const seriesUnits = seriesUnitsQuery.data ?? [];
 
   const [selectedSeries, setSelectedSeries] = React.useState(0);
-  // const [selectedUnit, setSelectedUnit] = React.useState();
+  const [selectedUnit, setSelectedUnit] = React.useState<number>(0);
 
   return (
     <div className={"flex justify-center w-full"}>
@@ -46,7 +46,10 @@ function RouteComponent() {
             </CardDescription>
           </CardHeader>
           <div className={"mr-6 w-64 md:w-[800px]"}>
-            <UnitsSelector placeholder={"Search unit..."} />
+            <UnitsSelector
+              placeholder={"Search unit..."}
+              onChange={(unit) => setSelectedUnit(unit[0])}
+            />
           </div>
         </div>
         <CardContent className={"w-full flex"}>
@@ -60,7 +63,10 @@ function RouteComponent() {
             />
             <div className={"col-span-9 flex"}>
               <Separator orientation={"vertical"} className={"mx-4"} />
-              <UnitsCarousel className={"content-center w-full"} />
+              <UnitsCarousel
+                className={"content-center w-full"}
+                value={selectedUnit}
+              />
             </div>
           </div>
         </CardContent>

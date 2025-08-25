@@ -9,7 +9,6 @@ using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Common.Utils;
 using BoostStudio.Application.Exvs.Fhm.Commands;
-using BoostStudio.Application.Formats.FhmFormat.Commands;
 using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -86,7 +85,7 @@ public class ExportHitboxGroupCommandHandler(
             // pack hitboxes in fhm format
             // this implicitly assumes that all units' hitboxes that's required by the game already have a copy in the working directory
             var packedHitboxBinary = await mediator.Send(
-                new PackFhmAssetCommand(
+                new PackFhmByAssetCommand(
                     AssetFileTypes: [AssetFileType.Hitboxes],
                     ReplaceStaging: false
                 ),

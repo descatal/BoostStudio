@@ -1,19 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>BoostStudio.Application</RootNamespace>
     <AssemblyName>BoostStudio.Application</AssemblyName>
     <Configurations>Debug;Release;Console</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Ardalis.GuardClauses" />
     <PackageReference Include="ErrorOr" />
     <PackageReference Include="FFMpegCore" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="HttpClientToCurl" />
-    <PackageReference Include="KaitaiStruct.Runtime.CSharp"/>
+    <PackageReference Include="KaitaiStruct.Runtime.CSharp" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
     <PackageReference Include="Microsoft.Extensions.Http" />
@@ -30,29 +28,26 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj"/>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Contracts\flatc.exe">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Http">
       <HintPath>..\..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.1\Microsoft.Extensions.Http.dll</HintPath>
     </Reference>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Exvs2\" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageVersion Update="Microsoft.EntityFrameworkCore.Relational" Version="9.0.0-preview.6.24327.4" />
+    <PackageVersion
+      Update="Microsoft.EntityFrameworkCore.Relational"
+      Version="9.0.0-preview.6.24327.4"
+    />
   </ItemGroup>
-
 </Project>

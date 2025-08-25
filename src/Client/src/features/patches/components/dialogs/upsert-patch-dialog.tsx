@@ -87,7 +87,7 @@ const UpsertPatchDialog = ({
   const selectedPatchFileVersion =
     patchFile?.tblId ??
     zPatchFileVersion.options.find((x) => x === patchId) ??
-    zPatchFileVersion.Enum.Base;
+    zPatchFileVersion.enum.Base;
   const patchName = PatchIdNameMap[selectedPatchFileVersion];
 
   const form = useForm<CreatePatchFileSchema | UpdatePatchFileSchema>({

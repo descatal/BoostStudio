@@ -1,12 +1,9 @@
-﻿using System.Net.Mime;
-using BoostStudio.Application.Common.Models;
+﻿using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Tbl.PatchFiles;
 using BoostStudio.Application.Exvs.PatchFiles.Commands;
 using BoostStudio.Application.Exvs.PatchFiles.Queries;
-using BoostStudio.Application.Exvs.Tbl.Commands;
-using BoostStudio.Application.Exvs.Tbl.Queries;
 using BoostStudio.Web.Constants;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Tbl;
 
@@ -24,77 +21,76 @@ public class PatchFiles : EndpointGroupBase
             .MapPost(ResizePatchFile, "resize");
     }
 
-    private static async Task<PaginatedList<PatchFileSummaryVm>> GetPatchFilesSummaryWithPagination(
+    private static async Task<
+        Ok<PaginatedList<PatchFileSummaryVm>>
+    > GetPatchFilesSummaryWithPagination(
         ISender sender,
         [AsParameters] GetPatchFilesSummaryWithPaginationQuery request,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(request, cancellationToken);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-    // [Produces(MediaTypeNames.Application.Json)]
-    // [ProducesResponseType(typeof(PaginatedList<PatchFileVm>), StatusCodes.Status200OK)]
-    private static async Task<PaginatedList<PatchFileVm>> GetPatchFilesWithPagination(
+    private static async Task<Ok<PaginatedList<PatchFileVm>>> GetPatchFilesWithPagination(
         ISender sender,
         [AsParameters] GetPatchFilesWithPagination request,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(request, cancellationToken);
+        var paginatedList = await sender.Send(request, cancellationToken);
+        return TypedResults.Ok(paginatedList);
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<PatchFileVm> GetPatchFileById(
+    private static async Task<Ok<PatchFileVm>> GetPatchFileById(
         ISender sender,
         Guid id,
         CancellationToken cancellationToken
     )
     {
-        return await sender.Send(new GetPatchFilesByIdQuery(id), cancellationToken);
+        var vm = await sender.Send(new GetPatchFilesByIdQuery(id), cancellationToken);
+        return TypedResults.Ok(vm);
     }
 
-    // [ProducesResponseType(StatusCodes.Status200OK)]
-    private static async Task CreatePatchFile(
+    private static async Task<Created> CreatePatchFile(
         ISender sender,
         CreatePatchFileCommand command,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(command, cancellationToken);
+        return TypedResults.Created();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> UpdatePatchFileById(
+    private static async Task<NoContent> UpdatePatchFileById(
         ISender sender,
         Guid id,
         UpdatePatchFileByIdCommand byIdCommand,
         CancellationToken cancellationToken
     )
     {
-        if (id != byIdCommand.Id)
-            return Results.BadRequest();
         await sender.Send(byIdCommand, cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 
-    // [ProducesResponseType(StatusCodes.Status204NoContent)]
-    private static async Task<IResult> DeletePatchFileById(
+    private static async Task<NoContent> DeletePatchFileById(
         ISender sender,
         Guid id,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(new DeletePatchFileByIdCommand(id), cancellationToken);
-        return Results.NoContent();
+        return TypedResults.NoContent();
     }
 
-    private static async Task ResizePatchFile(
+    private static async Task<NoContent> ResizePatchFile(
         ISender sender,
         ResizePatchFileCommand command,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(command, cancellationToken);
+        return TypedResults.NoContent();
     }
 }

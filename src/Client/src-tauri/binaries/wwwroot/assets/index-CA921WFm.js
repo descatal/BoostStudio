@@ -1,0 +1,1 @@
+import{l as a,j as o,N as e}from"./index-_vJHe0oM.js";import{P as s}from"./constants-BO8B297w.js";const c=function(){const{patchId:t}=a.useParams();return o.jsx(e,{to:"/patches/$patchId",params:{patchId:t??s.Patch6},replace:!0})};export{c as component};

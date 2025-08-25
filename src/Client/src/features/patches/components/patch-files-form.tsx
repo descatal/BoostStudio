@@ -220,10 +220,12 @@ export function PatchFilesForm({
                                     {...field}
                                     value={field.value ?? undefined}
                                     onHashChanged={(value) => {
-                                      form.setValue(
-                                        "assetFileHash",
-                                        value ?? null,
-                                      );
+                                      if (value) {
+                                        form.setValue(
+                                          "assetFileHash",
+                                          value ?? null,
+                                        );
+                                      }
                                     }}
                                   />
                                   <SearchAssetFilePopover

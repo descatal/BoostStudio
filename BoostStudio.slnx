@@ -30,9 +30,6 @@
     <Project Path="src\Core\Application\Application.csproj" Type="Classic C#" />
     <Project Path="src\Core\Domain\Domain.csproj" Type="Classic C#" />
     <Project Path="src\Core\Infrastructure\Infrastructure.csproj" Type="Classic C#" />
-  </Folder>
-  <Folder Name="/src/Core/Presentation/">
-    <Project Path="src\Core\Presentation\Console\Console.csproj" Type="Classic C#" />
     <Project Path="src\Core\Presentation\WebApi\Web.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/tests/">
