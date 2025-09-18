@@ -685,7 +685,7 @@ export const zLanguageSettings = z.enum(["English", "Japanese", "Chinese"]);
 
 export const zNullableOfCompressionType = z.enum(["None", "Zlib", "Lzma"]);
 
-export const zPackFhmAssetCommand = z.object({
+export const zPackFhmByAssetCommand = z.object({
   assetFileHashes: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
   assetFileTypes: z.optional(z.union([z.null(), z.array(zAssetFileType)])),
   unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
@@ -1206,7 +1206,7 @@ export const zResizePatchFileCommand = z.object({
   assetFileTypes: z.optional(z.union([z.null(), z.array(zAssetFileType)])),
 });
 
-export const zSerializeTbl = z.object({
+export const zSerializeTblCommand = z.object({
   cumulativeFileInfoCount: z.coerce.number(),
   fileMetadata: z.array(zPatchFileMetadataDto),
   pathOrder: z.optional(z.union([z.null(), z.array(z.string())])),
@@ -1223,7 +1223,7 @@ export const zTblVm = z.object({
   cumulativeAssetIndex: z.optional(z.coerce.number()),
 });
 
-export const zUnpackFhmAssetCommand = z.object({
+export const zUnpackFhmByAssetCommand = z.object({
   assetFileHashes: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
   assetFileTypes: z.optional(z.union([z.null(), z.array(zAssetFileType)])),
   unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
@@ -1660,252 +1660,8 @@ export const zUpsertPlayableCharactersCommand = z.object({
   catalogStorePilotCostume3SpriteAssetHash: z.optional(z.coerce.number()),
 });
 
-export const zGetApiAmmoData = z.object({
-  body: z.optional(z.never()),
-  path: z.optional(z.never()),
-  query: z.optional(
-    z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      Hash: z.optional(z.array(z.coerce.number())),
-      UnitIds: z.optional(z.array(z.coerce.number())),
-      Search: z.optional(z.string()),
-      ListAll: z.optional(z.boolean()).default(false),
-    }),
-  ),
-});
-
-/**
- * OK
- */
-export const zGetApiAmmoResponse = zPaginatedListOfAmmoDto;
-
-export const zPostApiAmmoData = z.object({
-  body: zCreateAmmoCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zDeleteApiAmmoByHashData = z.object({
-  body: z.optional(z.never()),
-  path: z.object({
-    hash: z.coerce.number(),
-  }),
-  query: z.optional(z.never()),
-});
-
-export const zGetApiAmmoByHashData = z.object({
-  body: z.optional(z.never()),
-  path: z.object({
-    hash: z.coerce.number(),
-  }),
-  query: z.optional(z.never()),
-});
-
-/**
- * OK
- */
-export const zGetApiAmmoByHashResponse = zAmmoDto;
-
-export const zPostApiAmmoByHashData = z.object({
-  body: zUpdateAmmoCommand,
-  path: z.object({
-    hash: z.coerce.number(),
-  }),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiAmmoImportData = z.object({
-  body: z.object({
-    formFile: zIFormFile,
-  }),
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiAmmoExportData = z.object({
-  body: zExportAmmoCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiAmmoExportPathData = z.object({
-  body: zExportAmmoByPathCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zGetApiConfigsData = z.object({
-  body: z.optional(z.never()),
-  path: z.optional(z.never()),
-  query: z.object({
-    Keys: z.array(z.string()),
-  }),
-});
-
-/**
- * OK
- */
-export const zGetApiConfigsResponse = z.array(zConfigDto);
-
-export const zPostApiConfigsData = z.object({
-  body: zUpsertConfigCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zDeleteApiConfigsByKeyData = z.object({
-  body: z.optional(z.never()),
-  path: z.object({
-    key: z.string(),
-  }),
-  query: z.optional(z.never()),
-});
-
-export const zGetApiConfigsByKeyData = z.object({
-  body: z.optional(z.never()),
-  path: z.object({
-    key: z.string(),
-  }),
-  query: z.optional(z.never()),
-});
-
-/**
- * OK
- */
-export const zGetApiConfigsByKeyResponse = z.string();
-
 export const zPostApiDebugData = z.object({
   body: zDebugCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zGetApiFhmPackPathData = z.object({
-  body: z.optional(z.never()),
-  path: z.optional(z.never()),
-  query: z.object({
-    SourcePath: z.string(),
-    DestinationPath: z.string(),
-    FileName: z.optional(z.string()),
-  }),
-});
-
-export const zGetApiFhmUnpackPathData = z.object({
-  body: z.optional(z.never()),
-  path: z.optional(z.never()),
-  query: z.object({
-    SourceFilePath: z.string(),
-    OutputDirectoryPath: z.string(),
-    MultipleFiles: z.optional(z.boolean()).default(false),
-  }),
-});
-
-export const zPostApiFhmPackData = z.object({
-  body: z.object({
-    file: zIFormFile,
-  }),
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-/**
- * OK
- */
-export const zPostApiFhmPackResponse = zFileContentHttpResult;
-
-export const zPostApiFhmUnpackData = z.object({
-  body: z.object({
-    file: zIFormFile,
-  }),
-  path: z.optional(z.never()),
-  query: z.optional(
-    z.object({
-      compressionFormat: z.optional(zCompressionFormats),
-    }),
-  ),
-});
-
-/**
- * OK
- */
-export const zPostApiFhmUnpackResponse = zFileContentHttpResult;
-
-export const zPostApiFhmPackAssetData = z.object({
-  body: zPackFhmAssetCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiFhmUnpackAssetData = z.object({
-  body: zUnpackFhmAssetCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiPsarcPackPathData = z.object({
-  body: zPackPsarcByPathCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiPsarcUnpackPathData = z.object({
-  body: zUnpackPsarcByPathCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiPsarcPackPatchFilesData = z.object({
-  body: zPackPsarcByPatchFilesCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiPsarcUnpackPatchFilesData = z.object({
-  body: zUnpackPsarcByPatchFilesCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zGetApiScexDecompiledByUnitIdData = z.object({
-  body: z.optional(z.never()),
-  path: z.object({
-    unitId: z.coerce.number(),
-  }),
-  query: z.optional(z.never()),
-});
-
-/**
- * OK
- */
-export const zGetApiScexDecompiledByUnitIdResponse = z.string();
-
-export const zPostApiScexCompilePathData = z.object({
-  body: zCompileScexByPathCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiScexDecompilePathData = z.object({
-  body: zDecompileScexByPathCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiScexHotReloadPathData = z.object({
-  body: zHotReloadScex,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiScexCompileUnitsData = z.object({
-  body: zCompileScexByUnitsCommand,
-  path: z.optional(z.never()),
-  query: z.optional(z.never()),
-});
-
-export const zPostApiScexDecompileUnitsData = z.object({
-  body: zDecompileScexByUnitsCommand,
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
@@ -1958,6 +1714,11 @@ export const zPostApiUnitsByUnitIdData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zPostApiUnitsByUnitIdResponse = z.void();
+
 export const zGetApiUnitsByUnitIdPlayableCharactersData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -1980,6 +1741,11 @@ export const zPostApiUnitsByUnitIdPlayableCharactersData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zPostApiUnitsByUnitIdPlayableCharactersResponse = z.void();
+
 export const zPostApiUnitsBulkData = z.object({
   body: zBulkCreateUnitCommand,
   path: z.optional(z.never()),
@@ -1999,6 +1765,12 @@ export const zPostApiUnitsPlayableCharactersExportData = z.object({
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * OK
+ */
+export const zPostApiUnitsPlayableCharactersExportResponse =
+  zFileContentHttpResult;
 
 export const zGetApiPatchFilesData = z.object({
   body: z.optional(z.never()),
@@ -2054,6 +1826,11 @@ export const zDeleteApiPatchFilesByIdData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zDeleteApiPatchFilesByIdResponse = z.void();
+
 export const zGetApiPatchFilesByIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -2075,11 +1852,21 @@ export const zPostApiPatchFilesByIdData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zPostApiPatchFilesByIdResponse = z.void();
+
 export const zPostApiPatchFilesResizeData = z.object({
   body: zResizePatchFileCommand,
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiPatchFilesResizeResponse = z.void();
 
 export const zGetApiTblDeserializePathData = z.object({
   body: z.optional(z.never()),
@@ -2116,10 +1903,15 @@ export const zGetApiTblSerializePathData = z.object({
 });
 
 export const zPostApiTblSerializeData = z.object({
-  body: zSerializeTbl,
+  body: zSerializeTblCommand,
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * OK
+ */
+export const zPostApiTblSerializeResponse = zFileContentHttpResult;
 
 export const zGetApiTblByIdData = z.object({
   body: z.optional(z.never()),
@@ -2147,6 +1939,11 @@ export const zPostApiTblExportData = z.object({
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * OK
+ */
+export const zPostApiTblExportResponse = zFileContentHttpResult;
 
 export const zGetApiStatsData = z.object({
   body: z.optional(z.never()),
@@ -2180,6 +1977,11 @@ export const zDeleteApiStatsByIdData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zDeleteApiStatsByIdResponse = z.void();
+
 export const zGetApiStatsByIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -2200,6 +2002,11 @@ export const zPostApiStatsByIdData = z.object({
   }),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiStatsByIdResponse = z.void();
 
 export const zGetApiUnitStatsData = z.object({
   body: z.optional(z.never()),
@@ -2245,11 +2052,21 @@ export const zPostApiUnitStatsExportData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * OK
+ */
+export const zPostApiUnitStatsExportResponse = zFileContentHttpResult;
+
 export const zPostApiUnitStatsExportPathData = z.object({
   body: zExportUnitStatByPathCommand,
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiUnitStatsExportPathResponse = z.void();
 
 export const zGetApiUnitStatsAmmoSlotByUnitIdData = z.object({
   body: z.optional(z.never()),
@@ -2271,11 +2088,6 @@ export const zPostApiUnitStatsAmmoSlotData = z.object({
   query: z.optional(z.never()),
 });
 
-/**
- * OK
- */
-export const zPostApiUnitStatsAmmoSlotResponse = z.uuid();
-
 export const zDeleteApiUnitStatsAmmoSlotByIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -2284,6 +2096,11 @@ export const zDeleteApiUnitStatsAmmoSlotByIdData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zDeleteApiUnitStatsAmmoSlotByIdResponse = z.void();
+
 export const zPostApiUnitStatsAmmoSlotByIdData = z.object({
   body: zUpdateUnitAmmoSlotCommand,
   path: z.object({
@@ -2291,6 +2108,11 @@ export const zPostApiUnitStatsAmmoSlotByIdData = z.object({
   }),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiUnitStatsAmmoSlotByIdResponse = z.void();
 
 export const zGetApiSeriesData = z.object({
   body: z.optional(z.never()),
@@ -2348,6 +2170,123 @@ export const zPostApiSeriesExportData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * OK
+ */
+export const zPostApiSeriesExportResponse = zFileContentHttpResult;
+
+export const zGetApiScexDecompiledByUnitIdData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    unitId: z.coerce.number(),
+  }),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zGetApiScexDecompiledByUnitIdResponse = z.string();
+
+export const zPostApiScexCompilePathData = z.object({
+  body: zCompileScexByPathCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiScexCompilePathResponse = z.void();
+
+export const zPostApiScexDecompilePathData = z.object({
+  body: zDecompileScexByPathCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiScexDecompilePathResponse = z.void();
+
+export const zPostApiScexHotReloadPathData = z.object({
+  body: zHotReloadScex,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiScexHotReloadPathResponse = z.void();
+
+export const zPostApiScexCompileUnitsData = z.object({
+  body: zCompileScexByUnitsCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiScexCompileUnitsResponse = z.void();
+
+export const zPostApiScexDecompileUnitsData = z.object({
+  body: zDecompileScexByUnitsCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiScexDecompileUnitsResponse = z.void();
+
+export const zPostApiPsarcPackPathData = z.object({
+  body: zPackPsarcByPathCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiPsarcPackPathResponse = z.void();
+
+export const zPostApiPsarcUnpackPathData = z.object({
+  body: zUnpackPsarcByPathCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiPsarcUnpackPathResponse = z.void();
+
+export const zPostApiPsarcPackPatchFilesData = z.object({
+  body: zPackPsarcByPatchFilesCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiPsarcPackPatchFilesResponse = z.void();
+
+export const zPostApiPsarcUnpackPatchFilesData = z.object({
+  body: zUnpackPsarcByPatchFilesCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiPsarcUnpackPatchFilesResponse = z.void();
+
 export const zGetApiProjectilesData = z.object({
   body: z.optional(z.never()),
   path: z.optional(z.never()),
@@ -2357,6 +2296,7 @@ export const zGetApiProjectilesData = z.object({
       PerPage: z.optional(z.coerce.number()).default(10),
       Hashes: z.optional(z.array(z.coerce.number())),
       UnitIds: z.optional(z.array(z.coerce.number())),
+      ModelHashes: z.optional(z.array(z.coerce.number())),
       Search: z.optional(z.string()),
     }),
   ),
@@ -2455,11 +2395,21 @@ export const zPostApiUnitProjectilesExportData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * OK
+ */
+export const zPostApiUnitProjectilesExportResponse = zFileContentHttpResult;
+
 export const zPostApiUnitProjectilesExportPathData = z.object({
   body: zExportUnitProjectileByPathCommand,
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiUnitProjectilesExportPathResponse = z.void();
 
 export const zGetApiHitboxesData = z.object({
   body: z.optional(z.never()),
@@ -2494,6 +2444,11 @@ export const zDeleteApiHitboxesByHashData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zDeleteApiHitboxesByHashResponse = z.void();
+
 export const zGetApiHitboxesByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -2514,6 +2469,11 @@ export const zPostApiHitboxesByHashData = z.object({
   }),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiHitboxesByHashResponse = z.void();
 
 export const zGetApiHitboxGroupsData = z.object({
   body: z.optional(z.never()),
@@ -2573,6 +2533,11 @@ export const zPostApiHitboxGroupsByHashData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zPostApiHitboxGroupsByHashResponse = z.void();
+
 export const zPostApiHitboxGroupsImportData = z.object({
   body: z.object({
     file: zIFormFile,
@@ -2599,11 +2564,153 @@ export const zPostApiHitboxGroupsExportData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * OK
+ */
+export const zPostApiHitboxGroupsExportResponse = zFileContentHttpResult;
+
 export const zPostApiHitboxGroupsExportPathData = z.object({
   body: zExportHitboxGroupByPathCommand,
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiHitboxGroupsExportPathResponse = z.void();
+
+export const zGetApiFhmPackPathData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.object({
+    SourcePath: z.string(),
+    DestinationPath: z.string(),
+    FileName: z.optional(z.string()),
+  }),
+});
+
+/**
+ * No Content
+ */
+export const zGetApiFhmPackPathResponse = z.void();
+
+export const zGetApiFhmUnpackPathData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.object({
+    SourceFilePath: z.string(),
+    OutputDirectoryPath: z.string(),
+    MultipleFiles: z.optional(z.boolean()).default(false),
+  }),
+});
+
+/**
+ * No Content
+ */
+export const zGetApiFhmUnpackPathResponse = z.void();
+
+export const zPostApiFhmPackData = z.object({
+  body: z.object({
+    file: zIFormFile,
+  }),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zPostApiFhmPackResponse = zFileContentHttpResult;
+
+export const zPostApiFhmUnpackData = z.object({
+  body: z.object({
+    file: zIFormFile,
+  }),
+  path: z.optional(z.never()),
+  query: z.optional(
+    z.object({
+      compressionFormat: z.optional(zCompressionFormats),
+    }),
+  ),
+});
+
+/**
+ * OK
+ */
+export const zPostApiFhmUnpackResponse = zFileContentHttpResult;
+
+export const zPostApiFhmPackAssetData = z.object({
+  body: zPackFhmByAssetCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiFhmPackAssetResponse = z.void();
+
+export const zPostApiFhmUnpackAssetData = z.object({
+  body: zUnpackFhmByAssetCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiFhmUnpackAssetResponse = z.void();
+
+export const zGetApiConfigsData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.object({
+    Keys: z.array(z.string()),
+  }),
+});
+
+/**
+ * OK
+ */
+export const zGetApiConfigsResponse = z.array(zConfigDto);
+
+export const zPostApiConfigsData = z.object({
+  body: zUpsertConfigCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiConfigsResponse = z.void();
+
+export const zDeleteApiConfigsByKeyData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    key: z.string(),
+  }),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zDeleteApiConfigsByKeyResponse = z.void();
+
+export const zGetApiConfigsByKeyData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    key: z.string(),
+  }),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zGetApiConfigsByKeyResponse = z.string();
 
 export const zGetApiAssetsData = z.object({
   body: z.optional(z.never()),
@@ -2638,6 +2745,11 @@ export const zDeleteApiAssetsByHashData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zDeleteApiAssetsByHashResponse = z.void();
+
 export const zGetApiAssetsByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
@@ -2659,6 +2771,11 @@ export const zPostApiAssetsByHashData = z.object({
   query: z.optional(z.never()),
 });
 
+/**
+ * No Content
+ */
+export const zPostApiAssetsByHashResponse = z.void();
+
 export const zPostApiAssetsImportData = z.object({
   body: z.object({
     files: zIFormFileCollection,
@@ -2666,3 +2783,98 @@ export const zPostApiAssetsImportData = z.object({
   path: z.optional(z.never()),
   query: z.optional(z.never()),
 });
+
+export const zGetApiAmmoData = z.object({
+  body: z.optional(z.never()),
+  path: z.optional(z.never()),
+  query: z.optional(
+    z.object({
+      Page: z.optional(z.coerce.number()).default(1),
+      PerPage: z.optional(z.coerce.number()).default(10),
+      Hash: z.optional(z.array(z.coerce.number())),
+      UnitIds: z.optional(z.array(z.coerce.number())),
+      Search: z.optional(z.string()),
+      ListAll: z.optional(z.boolean()).default(false),
+    }),
+  ),
+});
+
+/**
+ * OK
+ */
+export const zGetApiAmmoResponse = zPaginatedListOfAmmoDto;
+
+export const zPostApiAmmoData = z.object({
+  body: zCreateAmmoCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+export const zDeleteApiAmmoByHashData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    hash: z.coerce.number(),
+  }),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zDeleteApiAmmoByHashResponse = z.void();
+
+export const zGetApiAmmoByHashData = z.object({
+  body: z.optional(z.never()),
+  path: z.object({
+    hash: z.coerce.number(),
+  }),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zGetApiAmmoByHashResponse = zAmmoDto;
+
+export const zPostApiAmmoByHashData = z.object({
+  body: zUpdateAmmoCommand,
+  path: z.object({
+    hash: z.coerce.number(),
+  }),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiAmmoByHashResponse = z.void();
+
+export const zPostApiAmmoImportData = z.object({
+  body: z.object({
+    formFile: zIFormFile,
+  }),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+export const zPostApiAmmoExportData = z.object({
+  body: zExportAmmoCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zPostApiAmmoExportResponse = zFileContentHttpResult;
+
+export const zPostApiAmmoExportPathData = z.object({
+  body: zExportAmmoByPathCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * No Content
+ */
+export const zPostApiAmmoExportPathResponse = z.void();

@@ -46,14 +46,11 @@ export default function UnitsSelector({
 
   const seriesUnitsOptions = seriesUnitsQuery.data ?? [];
 
-  const [options, setOptions] = React.useState<Option[]>(
-    seriesUnitsOptions?.filter((option) => {
-      const optionValue = Number(option.value);
-      return (
-        values?.includes(optionValue) || fixedValues?.includes(optionValue)
-      );
-    }),
-  );
+  const fixedOptions = seriesUnitsOptions?.filter((option) => {
+    const optionValue = Number(option.value);
+    return values?.includes(optionValue) || fixedValues?.includes(optionValue);
+  });
+  const [options, setOptions] = React.useState<Option[]>(fixedOptions);
 
   useEffect(() => {
     // Convert Option[] back to number[] and call onChange

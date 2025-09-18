@@ -54,9 +54,9 @@ public class DecompileScexByUnitsCommandHandler(
         {
             var sourceFilePath = Path.Combine(
                 workingDirectoryConfig.Value.Value,
-                "units",
+                WorkingDirectoryConstants.UnitsDirectory,
                 unit.SnakeCaseName,
-                AssetFileType.Data.ToString().ToLower(),
+                nameof(AssetFileType.Data).ToLower(),
                 "005.bin"
             );
 

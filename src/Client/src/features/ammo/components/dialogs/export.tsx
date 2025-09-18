@@ -25,6 +25,7 @@ interface AmmoExportDialogProps
 }
 
 const AmmoExportDialog = ({ children, ...props }: AmmoExportDialogProps) => {
+  const [open, setOpen] = React.useState(false);
   const [hotReload, setHotReload] = React.useState(true);
 
   const mutation = useMutation({
@@ -33,11 +34,12 @@ const AmmoExportDialog = ({ children, ...props }: AmmoExportDialogProps) => {
       toast("Success", {
         description: `Export completed!`,
       });
+      setOpen(false);
     },
   });
 
   return (
-    <Credenza {...props}>
+    <Credenza {...props} open={open} onOpenChange={setOpen}>
       <CredenzaTrigger asChild>
         {children ?? (
           <EnhancedButton

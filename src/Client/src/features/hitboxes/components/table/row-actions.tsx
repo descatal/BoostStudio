@@ -11,10 +11,14 @@ import { HitboxDto } from "@/api/exvs";
 import UpsertHitboxDialog from "@/features/hitboxes/components/dialogs/upsert";
 
 type HitboxesTableRowActionsProps = {
+  unitId?: number | undefined;
   data: HitboxDto;
 };
 
-const HitboxesTableRowActions = ({ data }: HitboxesTableRowActionsProps) => {
+const HitboxesTableRowActions = ({
+  unitId,
+  data,
+}: HitboxesTableRowActionsProps) => {
   return (
     <>
       <DropdownMenu>
@@ -32,14 +36,11 @@ const HitboxesTableRowActions = ({ data }: HitboxesTableRowActionsProps) => {
         <DropdownMenuContent align="end" className="w-40">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           {data.hash && (
-            <UpsertHitboxDialog
-              data={data}
-              triggerButton={
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                  Edit
-                </DropdownMenuItem>
-              }
-            />
+            <UpsertHitboxDialog unitId={unitId} existingData={data}>
+              <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                Edit
+              </DropdownMenuItem>
+            </UpsertHitboxDialog>
           )}
         </DropdownMenuContent>
       </DropdownMenu>

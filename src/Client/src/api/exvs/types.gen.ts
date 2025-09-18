@@ -556,7 +556,7 @@ export type LanguageSettings = 'English' | 'Japanese' | 'Chinese';
 
 export type NullableOfCompressionType = 'None' | 'Zlib' | 'Lzma';
 
-export type PackFhmAssetCommand = {
+export type PackFhmByAssetCommand = {
     assetFileHashes?: null | Array<number>;
     assetFileTypes?: null | Array<AssetFileType>;
     unitIds?: null | Array<number>;
@@ -864,7 +864,7 @@ export type ResizePatchFileCommand = {
     assetFileTypes?: null | Array<AssetFileType>;
 };
 
-export type SerializeTbl = {
+export type SerializeTblCommand = {
     cumulativeFileInfoCount: number;
     fileMetadata: Array<PatchFileMetadataDto>;
     pathOrder?: null | Array<string>;
@@ -1099,7 +1099,7 @@ export type UnitSummaryVm = {
     series?: SeriesVm;
 };
 
-export type UnpackFhmAssetCommand = {
+export type UnpackFhmByAssetCommand = {
     assetFileHashes?: null | Array<number>;
     assetFileTypes?: null | Array<AssetFileType>;
     unitIds?: null | Array<number>;
@@ -1510,203 +1510,6 @@ export type UpsertPlayableCharactersCommand = {
     catalogStorePilotCostume3SpriteAssetHash?: number;
 };
 
-export type GetApiAmmoData = {
-    body?: never;
-    path?: never;
-    query?: {
-        Page?: number;
-        PerPage?: number;
-        Hash?: Array<number>;
-        UnitIds?: Array<number>;
-        Search?: string;
-        ListAll?: boolean;
-    };
-    url: '/api/ammo';
-};
-
-export type GetApiAmmoResponses = {
-    /**
-     * OK
-     */
-    200: PaginatedListOfAmmoDto;
-};
-
-export type GetApiAmmoResponse = GetApiAmmoResponses[keyof GetApiAmmoResponses];
-
-export type PostApiAmmoData = {
-    body: CreateAmmoCommand;
-    path?: never;
-    query?: never;
-    url: '/api/ammo';
-};
-
-export type PostApiAmmoResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type DeleteApiAmmoByHashData = {
-    body?: never;
-    path: {
-        hash: number;
-    };
-    query?: never;
-    url: '/api/ammo/{hash}';
-};
-
-export type DeleteApiAmmoByHashResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type GetApiAmmoByHashData = {
-    body?: never;
-    path: {
-        hash: number;
-    };
-    query?: never;
-    url: '/api/ammo/{hash}';
-};
-
-export type GetApiAmmoByHashResponses = {
-    /**
-     * OK
-     */
-    200: AmmoDto;
-};
-
-export type GetApiAmmoByHashResponse = GetApiAmmoByHashResponses[keyof GetApiAmmoByHashResponses];
-
-export type PostApiAmmoByHashData = {
-    body: UpdateAmmoCommand;
-    path: {
-        hash: number;
-    };
-    query?: never;
-    url: '/api/ammo/{hash}';
-};
-
-export type PostApiAmmoByHashResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiAmmoImportData = {
-    body: {
-        formFile: IFormFile;
-    };
-    path?: never;
-    query?: never;
-    url: '/api/ammo/import';
-};
-
-export type PostApiAmmoImportResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiAmmoExportData = {
-    body: ExportAmmoCommand;
-    path?: never;
-    query?: never;
-    url: '/api/ammo/export';
-};
-
-export type PostApiAmmoExportResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiAmmoExportPathData = {
-    body: ExportAmmoByPathCommand;
-    path?: never;
-    query?: never;
-    url: '/api/ammo/export/path';
-};
-
-export type PostApiAmmoExportPathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type GetApiConfigsData = {
-    body?: never;
-    path?: never;
-    query: {
-        Keys: Array<string>;
-    };
-    url: '/api/configs';
-};
-
-export type GetApiConfigsResponses = {
-    /**
-     * OK
-     */
-    200: Array<ConfigDto>;
-};
-
-export type GetApiConfigsResponse = GetApiConfigsResponses[keyof GetApiConfigsResponses];
-
-export type PostApiConfigsData = {
-    body: UpsertConfigCommand;
-    path?: never;
-    query?: never;
-    url: '/api/configs';
-};
-
-export type PostApiConfigsResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type DeleteApiConfigsByKeyData = {
-    body?: never;
-    path: {
-        key: string;
-    };
-    query?: never;
-    url: '/api/configs/{key}';
-};
-
-export type DeleteApiConfigsByKeyResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type GetApiConfigsByKeyData = {
-    body?: never;
-    path: {
-        key: string;
-    };
-    query?: never;
-    url: '/api/configs/{key}';
-};
-
-export type GetApiConfigsByKeyResponses = {
-    /**
-     * OK
-     */
-    200: string;
-};
-
-export type GetApiConfigsByKeyResponse = GetApiConfigsByKeyResponses[keyof GetApiConfigsByKeyResponses];
-
 export type PostApiDebugData = {
     body: DebugCommand;
     path?: never;
@@ -1715,252 +1518,6 @@ export type PostApiDebugData = {
 };
 
 export type PostApiDebugResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type GetApiFhmPackPathData = {
-    body?: never;
-    path?: never;
-    query: {
-        SourcePath: string;
-        DestinationPath: string;
-        FileName?: string;
-    };
-    url: '/api/fhm/pack-path';
-};
-
-export type GetApiFhmPackPathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type GetApiFhmUnpackPathData = {
-    body?: never;
-    path?: never;
-    query: {
-        SourceFilePath: string;
-        OutputDirectoryPath: string;
-        MultipleFiles?: boolean;
-    };
-    url: '/api/fhm/unpack-path';
-};
-
-export type GetApiFhmUnpackPathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiFhmPackData = {
-    body: {
-        file: IFormFile;
-    };
-    path?: never;
-    query?: never;
-    url: '/api/fhm/pack';
-};
-
-export type PostApiFhmPackResponses = {
-    /**
-     * OK
-     */
-    200: FileContentHttpResult;
-};
-
-export type PostApiFhmPackResponse = PostApiFhmPackResponses[keyof PostApiFhmPackResponses];
-
-export type PostApiFhmUnpackData = {
-    body: {
-        file: IFormFile;
-    };
-    path?: never;
-    query?: {
-        compressionFormat?: CompressionFormats;
-    };
-    url: '/api/fhm/unpack';
-};
-
-export type PostApiFhmUnpackResponses = {
-    /**
-     * OK
-     */
-    200: FileContentHttpResult;
-};
-
-export type PostApiFhmUnpackResponse = PostApiFhmUnpackResponses[keyof PostApiFhmUnpackResponses];
-
-export type PostApiFhmPackAssetData = {
-    body: PackFhmAssetCommand;
-    path?: never;
-    query?: never;
-    url: '/api/fhm/pack/asset';
-};
-
-export type PostApiFhmPackAssetResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiFhmUnpackAssetData = {
-    body: UnpackFhmAssetCommand;
-    path?: never;
-    query?: never;
-    url: '/api/fhm/unpack/asset';
-};
-
-export type PostApiFhmUnpackAssetResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiPsarcPackPathData = {
-    body: PackPsarcByPathCommand;
-    path?: never;
-    query?: never;
-    url: '/api/psarc/pack/path';
-};
-
-export type PostApiPsarcPackPathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiPsarcUnpackPathData = {
-    body: UnpackPsarcByPathCommand;
-    path?: never;
-    query?: never;
-    url: '/api/psarc/unpack/path';
-};
-
-export type PostApiPsarcUnpackPathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiPsarcPackPatchFilesData = {
-    body: PackPsarcByPatchFilesCommand;
-    path?: never;
-    query?: never;
-    url: '/api/psarc/pack/patch-files';
-};
-
-export type PostApiPsarcPackPatchFilesResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiPsarcUnpackPatchFilesData = {
-    body: UnpackPsarcByPatchFilesCommand;
-    path?: never;
-    query?: never;
-    url: '/api/psarc/unpack/patch-files';
-};
-
-export type PostApiPsarcUnpackPatchFilesResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type GetApiScexDecompiledByUnitIdData = {
-    body?: never;
-    path: {
-        unitId: number;
-    };
-    query?: never;
-    url: '/api/scex/decompiled/{unitId}';
-};
-
-export type GetApiScexDecompiledByUnitIdResponses = {
-    /**
-     * OK
-     */
-    200: string;
-};
-
-export type GetApiScexDecompiledByUnitIdResponse = GetApiScexDecompiledByUnitIdResponses[keyof GetApiScexDecompiledByUnitIdResponses];
-
-export type PostApiScexCompilePathData = {
-    body: CompileScexByPathCommand;
-    path?: never;
-    query?: never;
-    url: '/api/scex/compile/path';
-};
-
-export type PostApiScexCompilePathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiScexDecompilePathData = {
-    body: DecompileScexByPathCommand;
-    path?: never;
-    query?: never;
-    url: '/api/scex/decompile/path';
-};
-
-export type PostApiScexDecompilePathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiScexHotReloadPathData = {
-    body: HotReloadScex;
-    path?: never;
-    query?: never;
-    url: '/api/scex/hot-reload/path';
-};
-
-export type PostApiScexHotReloadPathResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiScexCompileUnitsData = {
-    body: CompileScexByUnitsCommand;
-    path?: never;
-    query?: never;
-    url: '/api/scex/compile/units';
-};
-
-export type PostApiScexCompileUnitsResponses = {
-    /**
-     * OK
-     */
-    200: unknown;
-};
-
-export type PostApiScexDecompileUnitsData = {
-    body: DecompileScexByUnitsCommand;
-    path?: never;
-    query?: never;
-    url: '/api/scex/decompile/units';
-};
-
-export type PostApiScexDecompileUnitsResponses = {
     /**
      * OK
      */
@@ -2000,9 +1557,9 @@ export type PostApiUnitsData = {
 
 export type PostApiUnitsResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type GetApiUnitsByUnitIdData = {
@@ -2034,10 +1591,12 @@ export type PostApiUnitsByUnitIdData = {
 
 export type PostApiUnitsByUnitIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiUnitsByUnitIdResponse = PostApiUnitsByUnitIdResponses[keyof PostApiUnitsByUnitIdResponses];
 
 export type GetApiUnitsByUnitIdPlayableCharactersData = {
     body?: never;
@@ -2068,10 +1627,12 @@ export type PostApiUnitsByUnitIdPlayableCharactersData = {
 
 export type PostApiUnitsByUnitIdPlayableCharactersResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiUnitsByUnitIdPlayableCharactersResponse = PostApiUnitsByUnitIdPlayableCharactersResponses[keyof PostApiUnitsByUnitIdPlayableCharactersResponses];
 
 export type PostApiUnitsBulkData = {
     body: BulkCreateUnitCommand;
@@ -2082,9 +1643,9 @@ export type PostApiUnitsBulkData = {
 
 export type PostApiUnitsBulkResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiUnitsPlayableCharactersImportData = {
@@ -2098,9 +1659,9 @@ export type PostApiUnitsPlayableCharactersImportData = {
 
 export type PostApiUnitsPlayableCharactersImportResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiUnitsPlayableCharactersExportData = {
@@ -2114,8 +1675,10 @@ export type PostApiUnitsPlayableCharactersExportResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiUnitsPlayableCharactersExportResponse = PostApiUnitsPlayableCharactersExportResponses[keyof PostApiUnitsPlayableCharactersExportResponses];
 
 export type GetApiPatchFilesData = {
     body?: never;
@@ -2148,9 +1711,9 @@ export type PostApiPatchFilesData = {
 
 export type PostApiPatchFilesResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type GetApiPatchFilesSummaryData = {
@@ -2187,10 +1750,12 @@ export type DeleteApiPatchFilesByIdData = {
 
 export type DeleteApiPatchFilesByIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type DeleteApiPatchFilesByIdResponse = DeleteApiPatchFilesByIdResponses[keyof DeleteApiPatchFilesByIdResponses];
 
 export type GetApiPatchFilesByIdData = {
     body?: never;
@@ -2221,10 +1786,12 @@ export type PostApiPatchFilesByIdData = {
 
 export type PostApiPatchFilesByIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiPatchFilesByIdResponse = PostApiPatchFilesByIdResponses[keyof PostApiPatchFilesByIdResponses];
 
 export type PostApiPatchFilesResizeData = {
     body: ResizePatchFileCommand;
@@ -2235,10 +1802,12 @@ export type PostApiPatchFilesResizeData = {
 
 export type PostApiPatchFilesResizeResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiPatchFilesResizeResponse = PostApiPatchFilesResizeResponses[keyof PostApiPatchFilesResizeResponses];
 
 export type GetApiTblDeserializePathData = {
     body?: never;
@@ -2293,7 +1862,7 @@ export type GetApiTblSerializePathResponses = {
 };
 
 export type PostApiTblSerializeData = {
-    body: SerializeTbl;
+    body: SerializeTblCommand;
     path?: never;
     query?: never;
     url: '/api/tbl/serialize';
@@ -2303,8 +1872,10 @@ export type PostApiTblSerializeResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiTblSerializeResponse = PostApiTblSerializeResponses[keyof PostApiTblSerializeResponses];
 
 export type GetApiTblByIdData = {
     body?: never;
@@ -2335,9 +1906,9 @@ export type PostApiTblImportData = {
 
 export type PostApiTblImportResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiTblExportData = {
@@ -2351,8 +1922,10 @@ export type PostApiTblExportResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiTblExportResponse = PostApiTblExportResponses[keyof PostApiTblExportResponses];
 
 export type GetApiStatsData = {
     body?: never;
@@ -2384,9 +1957,9 @@ export type PostApiStatsData = {
 
 export type PostApiStatsResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type DeleteApiStatsByIdData = {
@@ -2400,10 +1973,12 @@ export type DeleteApiStatsByIdData = {
 
 export type DeleteApiStatsByIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type DeleteApiStatsByIdResponse = DeleteApiStatsByIdResponses[keyof DeleteApiStatsByIdResponses];
 
 export type GetApiStatsByIdData = {
     body?: never;
@@ -2434,10 +2009,12 @@ export type PostApiStatsByIdData = {
 
 export type PostApiStatsByIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiStatsByIdResponse = PostApiStatsByIdResponses[keyof PostApiStatsByIdResponses];
 
 export type GetApiUnitStatsData = {
     body?: never;
@@ -2488,9 +2065,9 @@ export type PostApiUnitStatsImportData = {
 
 export type PostApiUnitStatsImportResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiUnitStatsExportData = {
@@ -2504,8 +2081,10 @@ export type PostApiUnitStatsExportResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiUnitStatsExportResponse = PostApiUnitStatsExportResponses[keyof PostApiUnitStatsExportResponses];
 
 export type PostApiUnitStatsExportPathData = {
     body: ExportUnitStatByPathCommand;
@@ -2516,10 +2095,12 @@ export type PostApiUnitStatsExportPathData = {
 
 export type PostApiUnitStatsExportPathResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiUnitStatsExportPathResponse = PostApiUnitStatsExportPathResponses[keyof PostApiUnitStatsExportPathResponses];
 
 export type GetApiUnitStatsAmmoSlotByUnitIdData = {
     body?: never;
@@ -2548,12 +2129,10 @@ export type PostApiUnitStatsAmmoSlotData = {
 
 export type PostApiUnitStatsAmmoSlotResponses = {
     /**
-     * OK
+     * Created
      */
-    200: string;
+    201: unknown;
 };
-
-export type PostApiUnitStatsAmmoSlotResponse = PostApiUnitStatsAmmoSlotResponses[keyof PostApiUnitStatsAmmoSlotResponses];
 
 export type DeleteApiUnitStatsAmmoSlotByIdData = {
     body?: never;
@@ -2566,10 +2145,12 @@ export type DeleteApiUnitStatsAmmoSlotByIdData = {
 
 export type DeleteApiUnitStatsAmmoSlotByIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type DeleteApiUnitStatsAmmoSlotByIdResponse = DeleteApiUnitStatsAmmoSlotByIdResponses[keyof DeleteApiUnitStatsAmmoSlotByIdResponses];
 
 export type PostApiUnitStatsAmmoSlotByIdData = {
     body: UpdateUnitAmmoSlotCommand;
@@ -2582,10 +2163,12 @@ export type PostApiUnitStatsAmmoSlotByIdData = {
 
 export type PostApiUnitStatsAmmoSlotByIdResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiUnitStatsAmmoSlotByIdResponse = PostApiUnitStatsAmmoSlotByIdResponses[keyof PostApiUnitStatsAmmoSlotByIdResponses];
 
 export type GetApiSeriesData = {
     body?: never;
@@ -2617,9 +2200,9 @@ export type PostApiSeriesData = {
 
 export type PostApiSeriesResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type GetApiSeriesUnitsData = {
@@ -2654,9 +2237,9 @@ export type PostApiSeriesImportData = {
 
 export type PostApiSeriesImportResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiSeriesExportData = {
@@ -2670,8 +2253,172 @@ export type PostApiSeriesExportResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiSeriesExportResponse = PostApiSeriesExportResponses[keyof PostApiSeriesExportResponses];
+
+export type GetApiScexDecompiledByUnitIdData = {
+    body?: never;
+    path: {
+        unitId: number;
+    };
+    query?: never;
+    url: '/api/scex/decompiled/{unitId}';
+};
+
+export type GetApiScexDecompiledByUnitIdResponses = {
+    /**
+     * OK
+     */
+    200: string;
+};
+
+export type GetApiScexDecompiledByUnitIdResponse = GetApiScexDecompiledByUnitIdResponses[keyof GetApiScexDecompiledByUnitIdResponses];
+
+export type PostApiScexCompilePathData = {
+    body: CompileScexByPathCommand;
+    path?: never;
+    query?: never;
+    url: '/api/scex/compile/path';
+};
+
+export type PostApiScexCompilePathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiScexCompilePathResponse = PostApiScexCompilePathResponses[keyof PostApiScexCompilePathResponses];
+
+export type PostApiScexDecompilePathData = {
+    body: DecompileScexByPathCommand;
+    path?: never;
+    query?: never;
+    url: '/api/scex/decompile/path';
+};
+
+export type PostApiScexDecompilePathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiScexDecompilePathResponse = PostApiScexDecompilePathResponses[keyof PostApiScexDecompilePathResponses];
+
+export type PostApiScexHotReloadPathData = {
+    body: HotReloadScex;
+    path?: never;
+    query?: never;
+    url: '/api/scex/hot-reload/path';
+};
+
+export type PostApiScexHotReloadPathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiScexHotReloadPathResponse = PostApiScexHotReloadPathResponses[keyof PostApiScexHotReloadPathResponses];
+
+export type PostApiScexCompileUnitsData = {
+    body: CompileScexByUnitsCommand;
+    path?: never;
+    query?: never;
+    url: '/api/scex/compile/units';
+};
+
+export type PostApiScexCompileUnitsResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiScexCompileUnitsResponse = PostApiScexCompileUnitsResponses[keyof PostApiScexCompileUnitsResponses];
+
+export type PostApiScexDecompileUnitsData = {
+    body: DecompileScexByUnitsCommand;
+    path?: never;
+    query?: never;
+    url: '/api/scex/decompile/units';
+};
+
+export type PostApiScexDecompileUnitsResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiScexDecompileUnitsResponse = PostApiScexDecompileUnitsResponses[keyof PostApiScexDecompileUnitsResponses];
+
+export type PostApiPsarcPackPathData = {
+    body: PackPsarcByPathCommand;
+    path?: never;
+    query?: never;
+    url: '/api/psarc/pack/path';
+};
+
+export type PostApiPsarcPackPathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiPsarcPackPathResponse = PostApiPsarcPackPathResponses[keyof PostApiPsarcPackPathResponses];
+
+export type PostApiPsarcUnpackPathData = {
+    body: UnpackPsarcByPathCommand;
+    path?: never;
+    query?: never;
+    url: '/api/psarc/unpack/path';
+};
+
+export type PostApiPsarcUnpackPathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiPsarcUnpackPathResponse = PostApiPsarcUnpackPathResponses[keyof PostApiPsarcUnpackPathResponses];
+
+export type PostApiPsarcPackPatchFilesData = {
+    body: PackPsarcByPatchFilesCommand;
+    path?: never;
+    query?: never;
+    url: '/api/psarc/pack/patch-files';
+};
+
+export type PostApiPsarcPackPatchFilesResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiPsarcPackPatchFilesResponse = PostApiPsarcPackPatchFilesResponses[keyof PostApiPsarcPackPatchFilesResponses];
+
+export type PostApiPsarcUnpackPatchFilesData = {
+    body: UnpackPsarcByPatchFilesCommand;
+    path?: never;
+    query?: never;
+    url: '/api/psarc/unpack/patch-files';
+};
+
+export type PostApiPsarcUnpackPatchFilesResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiPsarcUnpackPatchFilesResponse = PostApiPsarcUnpackPatchFilesResponses[keyof PostApiPsarcUnpackPatchFilesResponses];
 
 export type GetApiProjectilesData = {
     body?: never;
@@ -2681,6 +2428,7 @@ export type GetApiProjectilesData = {
         PerPage?: number;
         Hashes?: Array<number>;
         UnitIds?: Array<number>;
+        ModelHashes?: Array<number>;
         Search?: string;
     };
     url: '/api/projectiles';
@@ -2704,9 +2452,9 @@ export type PostApiProjectilesData = {
 
 export type PostApiProjectilesResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type DeleteApiProjectilesByHashData = {
@@ -2809,9 +2557,9 @@ export type PostApiUnitProjectilesImportData = {
 
 export type PostApiUnitProjectilesImportResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiUnitProjectilesImportPathData = {
@@ -2825,9 +2573,9 @@ export type PostApiUnitProjectilesImportPathData = {
 
 export type PostApiUnitProjectilesImportPathResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiUnitProjectilesExportData = {
@@ -2841,8 +2589,10 @@ export type PostApiUnitProjectilesExportResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiUnitProjectilesExportResponse = PostApiUnitProjectilesExportResponses[keyof PostApiUnitProjectilesExportResponses];
 
 export type PostApiUnitProjectilesExportPathData = {
     body: ExportUnitProjectileByPathCommand;
@@ -2853,10 +2603,12 @@ export type PostApiUnitProjectilesExportPathData = {
 
 export type PostApiUnitProjectilesExportPathResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiUnitProjectilesExportPathResponse = PostApiUnitProjectilesExportPathResponses[keyof PostApiUnitProjectilesExportPathResponses];
 
 export type GetApiHitboxesData = {
     body?: never;
@@ -2889,9 +2641,9 @@ export type PostApiHitboxesData = {
 
 export type PostApiHitboxesResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type DeleteApiHitboxesByHashData = {
@@ -2905,10 +2657,12 @@ export type DeleteApiHitboxesByHashData = {
 
 export type DeleteApiHitboxesByHashResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type DeleteApiHitboxesByHashResponse = DeleteApiHitboxesByHashResponses[keyof DeleteApiHitboxesByHashResponses];
 
 export type GetApiHitboxesByHashData = {
     body?: never;
@@ -2939,10 +2693,12 @@ export type PostApiHitboxesByHashData = {
 
 export type PostApiHitboxesByHashResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiHitboxesByHashResponse = PostApiHitboxesByHashResponses[keyof PostApiHitboxesByHashResponses];
 
 export type GetApiHitboxGroupsData = {
     body?: never;
@@ -2974,9 +2730,9 @@ export type PostApiHitboxGroupsData = {
 
 export type PostApiHitboxGroupsResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type GetApiHitboxGroupsHashByHashData = {
@@ -3026,10 +2782,12 @@ export type PostApiHitboxGroupsByHashData = {
 
 export type PostApiHitboxGroupsByHashResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiHitboxGroupsByHashResponse = PostApiHitboxGroupsByHashResponses[keyof PostApiHitboxGroupsByHashResponses];
 
 export type PostApiHitboxGroupsImportData = {
     body: {
@@ -3044,9 +2802,9 @@ export type PostApiHitboxGroupsImportData = {
 
 export type PostApiHitboxGroupsImportResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiHitboxGroupsImportPathData = {
@@ -3060,9 +2818,9 @@ export type PostApiHitboxGroupsImportPathData = {
 
 export type PostApiHitboxGroupsImportPathResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type PostApiHitboxGroupsExportData = {
@@ -3076,8 +2834,10 @@ export type PostApiHitboxGroupsExportResponses = {
     /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiHitboxGroupsExportResponse = PostApiHitboxGroupsExportResponses[keyof PostApiHitboxGroupsExportResponses];
 
 export type PostApiHitboxGroupsExportPathData = {
     body: ExportHitboxGroupByPathCommand;
@@ -3088,10 +2848,192 @@ export type PostApiHitboxGroupsExportPathData = {
 
 export type PostApiHitboxGroupsExportPathResponses = {
     /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiHitboxGroupsExportPathResponse = PostApiHitboxGroupsExportPathResponses[keyof PostApiHitboxGroupsExportPathResponses];
+
+export type GetApiFhmPackPathData = {
+    body?: never;
+    path?: never;
+    query: {
+        SourcePath: string;
+        DestinationPath: string;
+        FileName?: string;
+    };
+    url: '/api/fhm/pack-path';
+};
+
+export type GetApiFhmPackPathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type GetApiFhmPackPathResponse = GetApiFhmPackPathResponses[keyof GetApiFhmPackPathResponses];
+
+export type GetApiFhmUnpackPathData = {
+    body?: never;
+    path?: never;
+    query: {
+        SourceFilePath: string;
+        OutputDirectoryPath: string;
+        MultipleFiles?: boolean;
+    };
+    url: '/api/fhm/unpack-path';
+};
+
+export type GetApiFhmUnpackPathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type GetApiFhmUnpackPathResponse = GetApiFhmUnpackPathResponses[keyof GetApiFhmUnpackPathResponses];
+
+export type PostApiFhmPackData = {
+    body: {
+        file: IFormFile;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/fhm/pack';
+};
+
+export type PostApiFhmPackResponses = {
+    /**
      * OK
      */
-    200: unknown;
+    200: FileContentHttpResult;
 };
+
+export type PostApiFhmPackResponse = PostApiFhmPackResponses[keyof PostApiFhmPackResponses];
+
+export type PostApiFhmUnpackData = {
+    body: {
+        file: IFormFile;
+    };
+    path?: never;
+    query?: {
+        compressionFormat?: CompressionFormats;
+    };
+    url: '/api/fhm/unpack';
+};
+
+export type PostApiFhmUnpackResponses = {
+    /**
+     * OK
+     */
+    200: FileContentHttpResult;
+};
+
+export type PostApiFhmUnpackResponse = PostApiFhmUnpackResponses[keyof PostApiFhmUnpackResponses];
+
+export type PostApiFhmPackAssetData = {
+    body: PackFhmByAssetCommand;
+    path?: never;
+    query?: never;
+    url: '/api/fhm/pack/asset';
+};
+
+export type PostApiFhmPackAssetResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiFhmPackAssetResponse = PostApiFhmPackAssetResponses[keyof PostApiFhmPackAssetResponses];
+
+export type PostApiFhmUnpackAssetData = {
+    body: UnpackFhmByAssetCommand;
+    path?: never;
+    query?: never;
+    url: '/api/fhm/unpack/asset';
+};
+
+export type PostApiFhmUnpackAssetResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiFhmUnpackAssetResponse = PostApiFhmUnpackAssetResponses[keyof PostApiFhmUnpackAssetResponses];
+
+export type GetApiConfigsData = {
+    body?: never;
+    path?: never;
+    query: {
+        Keys: Array<string>;
+    };
+    url: '/api/configs';
+};
+
+export type GetApiConfigsResponses = {
+    /**
+     * OK
+     */
+    200: Array<ConfigDto>;
+};
+
+export type GetApiConfigsResponse = GetApiConfigsResponses[keyof GetApiConfigsResponses];
+
+export type PostApiConfigsData = {
+    body: UpsertConfigCommand;
+    path?: never;
+    query?: never;
+    url: '/api/configs';
+};
+
+export type PostApiConfigsResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiConfigsResponse = PostApiConfigsResponses[keyof PostApiConfigsResponses];
+
+export type DeleteApiConfigsByKeyData = {
+    body?: never;
+    path: {
+        key: string;
+    };
+    query?: never;
+    url: '/api/configs/{key}';
+};
+
+export type DeleteApiConfigsByKeyResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type DeleteApiConfigsByKeyResponse = DeleteApiConfigsByKeyResponses[keyof DeleteApiConfigsByKeyResponses];
+
+export type GetApiConfigsByKeyData = {
+    body?: never;
+    path: {
+        key: string;
+    };
+    query?: never;
+    url: '/api/configs/{key}';
+};
+
+export type GetApiConfigsByKeyResponses = {
+    /**
+     * OK
+     */
+    200: string;
+};
+
+export type GetApiConfigsByKeyResponse = GetApiConfigsByKeyResponses[keyof GetApiConfigsByKeyResponses];
 
 export type GetApiAssetsData = {
     body?: never;
@@ -3124,9 +3066,9 @@ export type PostApiAssetsData = {
 
 export type PostApiAssetsResponses = {
     /**
-     * OK
+     * Created
      */
-    200: unknown;
+    201: unknown;
 };
 
 export type DeleteApiAssetsByHashData = {
@@ -3140,10 +3082,12 @@ export type DeleteApiAssetsByHashData = {
 
 export type DeleteApiAssetsByHashResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type DeleteApiAssetsByHashResponse = DeleteApiAssetsByHashResponses[keyof DeleteApiAssetsByHashResponses];
 
 export type GetApiAssetsByHashData = {
     body?: never;
@@ -3174,10 +3118,12 @@ export type PostApiAssetsByHashData = {
 
 export type PostApiAssetsByHashResponses = {
     /**
-     * OK
+     * No Content
      */
-    200: unknown;
+    204: void;
 };
+
+export type PostApiAssetsByHashResponse = PostApiAssetsByHashResponses[keyof PostApiAssetsByHashResponses];
 
 export type PostApiAssetsImportData = {
     body: {
@@ -3190,10 +3136,149 @@ export type PostApiAssetsImportData = {
 
 export type PostApiAssetsImportResponses = {
     /**
+     * Created
+     */
+    201: unknown;
+};
+
+export type GetApiAmmoData = {
+    body?: never;
+    path?: never;
+    query?: {
+        Page?: number;
+        PerPage?: number;
+        Hash?: Array<number>;
+        UnitIds?: Array<number>;
+        Search?: string;
+        ListAll?: boolean;
+    };
+    url: '/api/ammo';
+};
+
+export type GetApiAmmoResponses = {
+    /**
      * OK
      */
-    200: unknown;
+    200: PaginatedListOfAmmoDto;
 };
+
+export type GetApiAmmoResponse = GetApiAmmoResponses[keyof GetApiAmmoResponses];
+
+export type PostApiAmmoData = {
+    body: CreateAmmoCommand;
+    path?: never;
+    query?: never;
+    url: '/api/ammo';
+};
+
+export type PostApiAmmoResponses = {
+    /**
+     * Created
+     */
+    201: unknown;
+};
+
+export type DeleteApiAmmoByHashData = {
+    body?: never;
+    path: {
+        hash: number;
+    };
+    query?: never;
+    url: '/api/ammo/{hash}';
+};
+
+export type DeleteApiAmmoByHashResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type DeleteApiAmmoByHashResponse = DeleteApiAmmoByHashResponses[keyof DeleteApiAmmoByHashResponses];
+
+export type GetApiAmmoByHashData = {
+    body?: never;
+    path: {
+        hash: number;
+    };
+    query?: never;
+    url: '/api/ammo/{hash}';
+};
+
+export type GetApiAmmoByHashResponses = {
+    /**
+     * OK
+     */
+    200: AmmoDto;
+};
+
+export type GetApiAmmoByHashResponse = GetApiAmmoByHashResponses[keyof GetApiAmmoByHashResponses];
+
+export type PostApiAmmoByHashData = {
+    body: UpdateAmmoCommand;
+    path: {
+        hash: number;
+    };
+    query?: never;
+    url: '/api/ammo/{hash}';
+};
+
+export type PostApiAmmoByHashResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiAmmoByHashResponse = PostApiAmmoByHashResponses[keyof PostApiAmmoByHashResponses];
+
+export type PostApiAmmoImportData = {
+    body: {
+        formFile: IFormFile;
+    };
+    path?: never;
+    query?: never;
+    url: '/api/ammo/import';
+};
+
+export type PostApiAmmoImportResponses = {
+    /**
+     * Created
+     */
+    201: unknown;
+};
+
+export type PostApiAmmoExportData = {
+    body: ExportAmmoCommand;
+    path?: never;
+    query?: never;
+    url: '/api/ammo/export';
+};
+
+export type PostApiAmmoExportResponses = {
+    /**
+     * OK
+     */
+    200: FileContentHttpResult;
+};
+
+export type PostApiAmmoExportResponse = PostApiAmmoExportResponses[keyof PostApiAmmoExportResponses];
+
+export type PostApiAmmoExportPathData = {
+    body: ExportAmmoByPathCommand;
+    path?: never;
+    query?: never;
+    url: '/api/ammo/export/path';
+};
+
+export type PostApiAmmoExportPathResponses = {
+    /**
+     * No Content
+     */
+    204: void;
+};
+
+export type PostApiAmmoExportPathResponse = PostApiAmmoExportPathResponses[keyof PostApiAmmoExportPathResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://src` | (string & {});

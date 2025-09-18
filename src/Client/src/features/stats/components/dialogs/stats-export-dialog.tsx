@@ -26,19 +26,19 @@ const StatsExportDialog = ({
   children,
   ...props
 }: StatsExportDialogProps) => {
-  // const [hotReload, setHotReload] = React.useState(true);
-
+  const [open, setOpen] = React.useState(false);
   const mutation = useMutation({
     ...postApiUnitStatsExportMutation(),
     onSuccess: (_) => {
       toast("Success", {
         description: `Export completed!`,
       });
+      setOpen(false);
     },
   });
 
   return (
-    <Credenza {...props}>
+    <Credenza {...props} open={open} onOpenChange={setOpen}>
       <CredenzaTrigger asChild>
         {children ?? (
           <EnhancedButton
@@ -57,21 +57,6 @@ const StatsExportDialog = ({
             Export stats info for units to working directory.
           </CredenzaDescription>
         </CredenzaHeader>
-        {/*<CredenzaBody>*/}
-        {/*  <div className="grid gap-4">*/}
-        {/*    <div className="flex items-center space-x-4 rounded-md border p-4">*/}
-        {/*      <MdMemory size={40} />*/}
-        {/*      <div className="flex-1 space-y-1">*/}
-        {/*        <p className="text-sm font-medium leading-none">Hot Reload</p>*/}
-        {/*        <p className="text-sm text-muted-foreground">*/}
-        {/*          Patch the compiled binary to a running RPCS3's memory.*/}
-        {/*        </p>*/}
-        {/*      </div>*/}
-        {/*      <Switch checked={hotReload} onCheckedChange={setHotReload} />*/}
-        {/*    </div>*/}
-        {/*    <Separator />*/}
-        {/*  </div>*/}
-        {/*</CredenzaBody>*/}
         <CredenzaFooter>
           <EnhancedButton
             className={"w-full"}

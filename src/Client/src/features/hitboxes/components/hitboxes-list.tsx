@@ -18,7 +18,7 @@ const HitboxesList = ({ unitId }: HitboxesListProps) => {
       <Card className="col-span-full">
         <CardHeader className={"flex flex-row justify-between"}>
           <div>
-            <CardTitle>Hitboxes</CardTitle>
+            <CardTitle className={"mb-2"}>Hitboxes</CardTitle>
             <CardDescription>
               {unitId ? "Hitboxes associated with this unit" : "All hitboxes"}
             </CardDescription>

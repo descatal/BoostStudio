@@ -12,20 +12,29 @@ public record GetUnitProjectileWithPaginationQuery(
     string? Search = null
 ) : IRequest<PaginatedList<UnitProjectileDto>>;
 
-public class GetUnitProjectileWithPaginationQueryHandler(
-    IApplicationDbContext applicationDbContext
-) : IRequestHandler<GetUnitProjectileWithPaginationQuery, PaginatedList<UnitProjectileDto>>
+public class GetUnitProjectileWithPaginationQueryHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<GetUnitProjectileWithPaginationQuery, PaginatedList<UnitProjectileDto>>
 {
-    public async ValueTask<PaginatedList<UnitProjectileDto>> Handle(GetUnitProjectileWithPaginationQuery request, CancellationToken cancellationToken)
+    public async ValueTask<PaginatedList<UnitProjectileDto>> Handle(
+        GetUnitProjectileWithPaginationQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var unitProjectilesQueryable = applicationDbContext.UnitProjectiles.AsQueryable();
 
         if (request.UnitIds is not null && request.UnitIds.Length != 0)
-            unitProjectilesQueryable = unitProjectilesQueryable.Where(unitProjectile => request.UnitIds.Contains(unitProjectile.GameUnitId));
-        
+        {
+            unitProjectilesQueryable = unitProjectilesQueryable.Where(unitProjectile =>
+                request.UnitIds.Contains(unitProjectile.GameUnitId)
+            );
+        }
+
         var mappedQueryable = UnitProjectileMapper.ProjectToDto(unitProjectilesQueryable);
-        var result = await PaginatedList<UnitProjectileDto>
-            .CreateAsync(mappedQueryable, request.Page, request.PerPage);
+        var result = await PaginatedList<UnitProjectileDto>.CreateAsync(
+            mappedQueryable,
+            request.Page,
+            request.PerPage
+        );
 
         return result;
     }

@@ -22,7 +22,8 @@ public class Units : EndpointGroupBase
             .MapPost(CreateUnit)
             .MapPost(UpdateUnit, "{unitId}")
             .MapPost(BulkCreateUnit, "bulk")
-            .MapPost(UpsertPlayableCharacterByUnitId, "{unitId}/playable-characters")
+            .MapPost(UpsertPlayableCharacterByUnitId, "{unitId}/playable-character")
+            .MapDelete(DeletePlayableCharacterByUnitId, "{unitId}/playable-character")
             .MapPost(ImportPlayableCharacters, "playable-characters/import")
             .MapPost(ExportPlayableCharacters, "playable-characters/export");
     }
@@ -91,11 +92,21 @@ public class Units : EndpointGroupBase
     private static async Task<NoContent> UpsertPlayableCharacterByUnitId(
         ISender sender,
         uint unitId,
-        UpsertPlayableCharactersCommand command,
+        UpsertPlayableCharacterCommand command,
         CancellationToken cancellationToken
     )
     {
         await sender.Send(command, cancellationToken);
+        return TypedResults.NoContent();
+    }
+
+    private static async Task<NoContent> DeletePlayableCharacterByUnitId(
+        ISender sender,
+        uint unitId,
+        CancellationToken cancellationToken
+    )
+    {
+        await sender.Send(new DeletePlayableCharacterCommand(unitId), cancellationToken);
         return TypedResults.NoContent();
     }
 

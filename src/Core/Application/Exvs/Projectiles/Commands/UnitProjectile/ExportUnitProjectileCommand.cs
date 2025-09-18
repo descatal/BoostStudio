@@ -64,7 +64,7 @@ public class ExportUnitProjectileCommandHandler(
 
         var projectilesWorkingDirectory = Path.Combine(
             workingDirectory.Value.Value,
-            "common",
+            WorkingDirectoryConstants.CommonDirectory,
             AssetFileType.Projectiles.GetSnakeCaseName()
         );
 

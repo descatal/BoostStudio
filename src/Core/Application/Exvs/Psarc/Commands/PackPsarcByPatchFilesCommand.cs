@@ -44,7 +44,7 @@ public class PackPsarcPatchFilesCommandHandler(
 
             var sourceDirectory = Path.Combine(
                 stagingDirectoryConfig.Value.Value,
-                "psarc",
+                StagingDirectoryConstants.PsarcDirectory,
                 patchFileName
             );
             if (!Directory.Exists(sourceDirectory))

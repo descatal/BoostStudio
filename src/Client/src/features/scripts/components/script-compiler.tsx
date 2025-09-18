@@ -37,7 +37,9 @@ interface ScriptViewerProps {
 
 const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
   const [hotReload, setHotReload] = React.useState(true);
-  const [selectedUnitIds, setSelectedUnitIds] = React.useState<Option[]>([]);
+  const [selectedUnitIds, setSelectedUnitIds] = React.useState<number[]>(
+    unitId ? [unitId] : [],
+  );
 
   const query = useQuery({
     ...getApiScexDecompiledByUnitIdOptions({
@@ -67,37 +69,37 @@ const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
   });
 
   return (
-    <div className={"h-full pb-5 min-h-[350px]"}>
+    <div className={"h-full p-5"}>
       <ResizablePanelGroup className={"gap-4 mb-6"} direction="horizontal">
-        <ResizablePanel
-          collapsible={true}
-          collapsedSize={0}
-          defaultSize={70}
-          minSize={30}
-        >
-          <Editor
-            className={"rounded-md border p-2"}
-            value={query.data ?? ""}
-            theme={theme === "dark" ? "OneDarkPro" : ""}
-            beforeMount={handleEditorDidMount}
-            defaultLanguage={"C++"}
-            options={{
-              wordWrap: "on",
-              fontSize: 14,
-              fontFamily: "Jetbrains-Mono",
-              fontLigatures: true,
-              readOnly: true,
-            }}
-          />
-        </ResizablePanel>
-        <ResizableHandle withHandle />
+        {/*<ResizablePanel*/}
+        {/*  collapsible={true}*/}
+        {/*  collapsedSize={0}*/}
+        {/*  defaultSize={70}*/}
+        {/*  minSize={30}*/}
+        {/*>*/}
+        {/*  <Editor*/}
+        {/*    className={"rounded-md border p-2"}*/}
+        {/*    value={query.data ?? ""}*/}
+        {/*    theme={theme === "dark" ? "OneDarkPro" : ""}*/}
+        {/*    beforeMount={handleEditorDidMount}*/}
+        {/*    defaultLanguage={"C++"}*/}
+        {/*    options={{*/}
+        {/*      wordWrap: "on",*/}
+        {/*      fontSize: 14,*/}
+        {/*      fontFamily: "Jetbrains-Mono",*/}
+        {/*      fontLigatures: true,*/}
+        {/*      readOnly: true,*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</ResizablePanel>*/}
+        {/*<ResizableHandle withHandle />*/}
         <ResizablePanel
           collapsible={true}
           collapsedSize={0}
           defaultSize={30}
           minSize={30}
         >
-          <Card className={"h-full"}>
+          <Card>
             <CardHeader>
               <CardTitle>Compile</CardTitle>
               <CardDescription>
@@ -112,7 +114,7 @@ const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
                   <UnitsSelector
                     disabled
                     className={"w-full"}
-                    defaultValues={[unitId]}
+                    fixedValues={[unitId]}
                     values={selectedUnitIds}
                     onChange={setSelectedUnitIds}
                     placeholder={unitId ? undefined : "Select unit..."}

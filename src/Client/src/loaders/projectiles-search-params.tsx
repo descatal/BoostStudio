@@ -11,11 +11,13 @@ const paginatedProjectilesSearchParams = {
   ...commonPaginatedSearchParams,
   hashes: parseAsArrayOf(parseAsString),
   unitIds: parseAsArrayOf(parseAsInteger),
+  modelHashes: parseAsArrayOf(parseAsString),
 };
 
 const urlKeys: UrlKeys<typeof paginatedProjectilesSearchParams> = {
   hashes: "hash",
   unitIds: "unitId",
+  modelHashes: "modelHash",
 };
 
 export const loadPaginatedProjectilesSearchParams = createLoader(

@@ -74,9 +74,9 @@ public class CompileScexByUnitsCommandHandler(
             var destinationFilePath = request.ReplaceWorking
                 ? Path.Combine(
                     workingDirectoryConfig.Value.Value,
-                    "units",
+                    WorkingDirectoryConstants.UnitsDirectory,
                     unit.SnakeCaseName,
-                    AssetFileType.Data.ToString().ToLower()
+                    nameof(AssetFileType.Data).ToLower()
                 )
                 : Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 

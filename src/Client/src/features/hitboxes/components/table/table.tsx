@@ -73,7 +73,7 @@ const HitboxesTable = ({ unitId }: HitboxesTableProps) => {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <HitboxesTableToolbarActions />
+        <HitboxesTableToolbarActions unitId={unitId} />
       </DataTableToolbar>
     </DataTable>
   );

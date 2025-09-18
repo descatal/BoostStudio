@@ -1,9 +1,10 @@
 import React from "react";
 import { CreateStatCommand, StatDto, UpdateStatCommand } from "@/api/exvs";
 import { ChevronDown, PlusIcon } from "lucide-react";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getApiStatsOptions,
+  getApiStatsQueryKey,
   postApiStatsByIdMutation,
   postApiStatsMutation,
 } from "@/api/exvs/@tanstack/react-query.gen";
@@ -17,6 +18,7 @@ import { zCreateStatCommand, zUpdateStatCommand } from "@/api/exvs/zod.gen.ts";
 import { Separator } from "@/components/ui/separator.tsx";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -36,9 +38,9 @@ import {
   ComboboxItem,
   ComboboxTrigger,
 } from "@/components/ui/combobox";
-import { UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
 
-interface UpsertStatsGroupDialogProps
+interface Props
   extends Omit<React.ComponentPropsWithRef<typeof DrawerContent>, "children"> {
   existingData?: StatDto | undefined;
   unitId?: number | undefined;
@@ -50,12 +52,14 @@ const UpsertStatsGroupDialog = ({
   children,
   unitId,
   ...props
-}: UpsertStatsGroupDialogProps) => {
+}: Props) => {
   // put this into global state
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState(existingData);
-  const formRef = React.useRef<UseFormReturn | null>(null);
+  const [duplicateSelection, setDuplicateSelection] = React.useState("");
+  const [duplicateInput, setDuplicateInput] = React.useState("");
 
+  const queryClient = useQueryClient();
   const { data: duplicateOptions } = useQuery({
     ...getApiStatsOptions({
       query: {
@@ -73,15 +77,29 @@ const UpsertStatsGroupDialog = ({
 
   const createMutation = useMutation({
     ...postApiStatsMutation(),
-    onSuccess: () => () => setOpen(false),
+    onSuccess: onSuccess,
   });
 
   const updateMutation = useMutation({
     ...postApiStatsByIdMutation(),
-    onSuccess: () => () => setOpen(false),
+    onSuccess: onSuccess,
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
+
+  async function onSuccess() {
+    toast("Success", {
+      description: `${existingData ? "Update" : "Create"} success!`,
+    });
+
+    setOpen(false);
+
+    await queryClient.invalidateQueries({
+      predicate: (query) =>
+        // @ts-ignore
+        query.queryKey[0]._id === getApiStatsQueryKey()[0]._id,
+    });
+  }
 
   const handleSubmit = (upsertData: CreateStatCommand | UpdateStatCommand) => {
     existingData
@@ -98,6 +116,13 @@ const UpsertStatsGroupDialog = ({
     existingData ? zUpdateStatCommand : zCreateStatCommand,
   );
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  React.useEffect(() => {
+    const matchedData = duplicateOptions?.find(
+      (option) => option.id === duplicateSelection,
+    );
+    if (matchedData) setData(matchedData);
+  }, [duplicateSelection]);
 
   return (
     <Drawer
@@ -119,59 +144,76 @@ const UpsertStatsGroupDialog = ({
         )}
       </DrawerTrigger>
       <DrawerContent {...props}>
-        <DrawerHeader>
+        <DrawerHeader className="px-6 pt-6 pb-4 border-b">
           <div className={"flex flex-row items-center justify-between"}>
-            <div>
-              <DrawerTitle>{existingData ? "Update" : "Create"}</DrawerTitle>
-              <DrawerDescription>
-                {existingData ? `Update an existing` : "Create a new"} stats
-                group entry <br />
-                {existingData && `id: ${existingData.id}`}
-              </DrawerDescription>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <DrawerTitle>
+                    {existingData ? "Update" : "Create"} Stats
+                  </DrawerTitle>
+                  <DrawerDescription>
+                    {existingData
+                      ? `Update the unit stats information below.`
+                      : "Fill out the unit stats information below."}
+                  </DrawerDescription>
+                </div>
+              </div>
             </div>
-            <div className={"flex flex-row gap-2"}>
-              <Combobox
-                onValueChange={(value) => {
-                  const matchedData = duplicateOptions?.find(
-                    (option) => option.id === value,
-                  );
-                  if (matchedData) setData(matchedData);
-                }}
-              >
-                <ComboboxAnchor>
-                  <ComboboxInput
-                    className={"max-w-30"}
-                    placeholder="Duplicate from..."
-                  />
-                  <ComboboxTrigger>
-                    <ChevronDown className="h-4 w-4" />
-                  </ComboboxTrigger>
-                </ComboboxAnchor>
-                <ComboboxContent>
-                  <ComboboxEmpty>No other stats group found</ComboboxEmpty>
-                  <ComboboxGroup>
-                    <ComboboxGroupLabel>Stats</ComboboxGroupLabel>
-                    {duplicateOptions?.map((option) => (
-                      <ComboboxItem key={option.id!} value={option.id!}>
-                        {option.order} ({option.id!})
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                </ComboboxContent>
-              </Combobox>
-              <EnhancedButton
-                iconPlacement={"right"}
-                icon={BiX}
-                size={"sm"}
-                variant={"outline"}
-                onClick={() => {
-                  if (formRef.current) {
-                    setData({});
-                    formRef.current.reset({}, { keepValues: false });
-                  }
-                }}
-              />
+          </div>
+          {existingData && (
+            <div className="flex items-center gap-2 px-3 py-2 bg-muted rounded-md">
+              <span className="text-sm font-medium text-muted-foreground">
+                ID:
+              </span>
+              <code className="text-sm font-mono bg-background px-2 py-1 rounded border">
+                {existingData.id}
+              </code>
             </div>
+          )}
+          <div className="flex items-center gap-2 w-full pt-2">
+            <Combobox
+              className={"w-full"}
+              inputValue={duplicateInput}
+              onInputValueChange={setDuplicateInput}
+              value={duplicateSelection}
+              onValueChange={setDuplicateSelection}
+            >
+              <ComboboxAnchor>
+                <ComboboxInput placeholder="Duplicate from..." />
+                <ComboboxTrigger>
+                  <ChevronDown className="h-4 w-4" />
+                </ComboboxTrigger>
+              </ComboboxAnchor>
+              <ComboboxContent>
+                <ComboboxEmpty>No other stats group found</ComboboxEmpty>
+                <ComboboxGroup>
+                  <ComboboxGroupLabel>Stats</ComboboxGroupLabel>
+                  {duplicateOptions?.map((option) => (
+                    <ComboboxItem key={option.id!} value={option.id!}>
+                      {option.order} ({option.id!})
+                    </ComboboxItem>
+                  ))}
+                </ComboboxGroup>
+              </ComboboxContent>
+            </Combobox>
+            <EnhancedButton
+              className={"w-fit"}
+              variant="outline"
+              size="sm"
+              type={"reset"}
+              icon={BiX}
+              effect={"expandIcon"}
+              iconPlacement={"right"}
+              form={"form"}
+              onClick={() => {
+                setDuplicateSelection("");
+                setDuplicateInput("");
+                setData(undefined);
+              }}
+            >
+              Clear
+            </EnhancedButton>
           </div>
         </DrawerHeader>
         <Separator />
@@ -179,13 +221,11 @@ const UpsertStatsGroupDialog = ({
           schema={schemaProvider}
           defaultValues={existingData}
           values={data}
-          onFormInit={(form) => {
-            formRef.current = form;
-          }}
           onSubmit={(submitData) => {
             handleSubmit({ ...submitData });
           }}
           formProps={{
+            id: "form",
             className: "px-8 py-4 overflow-auto",
           }}
           uiComponents={{
@@ -200,12 +240,13 @@ const UpsertStatsGroupDialog = ({
         />
         <DrawerFooter>
           <EnhancedButton
-            className={"w-full"}
             effect={"expandIcon"}
             variant={"default"}
             icon={BiSave}
             iconPlacement={"right"}
             disabled={isPending}
+            form={"form"}
+            type={"submit"}
           >
             {isPending && (
               <Icons.spinner
@@ -215,6 +256,11 @@ const UpsertStatsGroupDialog = ({
             )}
             Save
           </EnhancedButton>
+          <DrawerClose asChild>
+            <EnhancedButton variant={"outline"} disabled={isPending}>
+              Cancel
+            </EnhancedButton>
+          </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

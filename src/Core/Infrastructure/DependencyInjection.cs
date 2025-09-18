@@ -8,9 +8,7 @@ using BoostStudio.Application.Common.Interfaces.Formats.PsarcFormat;
 using BoostStudio.Application.Common.Interfaces.Formats.TblFormat;
 using BoostStudio.Application.Common.Interfaces.Repositories;
 using BoostStudio.Domain.Entities.Exvs.Ammo;
-using BoostStudio.Formats;
 using BoostStudio.Infrastructure.BackgroundServices;
-using BoostStudio.Infrastructure.Compressor;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Infrastructure.Data.Interceptors;
 using BoostStudio.Infrastructure.Data.Repositories;
@@ -23,6 +21,7 @@ using BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
 using BoostStudio.Infrastructure.Formats.HitboxFormat;
 using BoostStudio.Infrastructure.Formats.ListInfoFormat;
+using BoostStudio.Infrastructure.Formats.Ndp3Format;
 using BoostStudio.Infrastructure.Formats.ProjectileFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
 using BoostStudio.Infrastructure.Formats.StatsFormat;
@@ -30,13 +29,13 @@ using BoostStudio.Infrastructure.Formats.TblFormat;
 using BoostStudio.Infrastructure.Scex;
 using FFMpegCore;
 using FFMpegCore.Extensions.Downloader;
-using FFMpegCore.Extensions.Downloader.Enums;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace BoostStudio.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -109,7 +108,7 @@ public static class DependencyInjection
 
         services.AddSingleton(TimeProvider.System);
 
-        services.AddSingleton<ICompressor, Compressor>();
+        services.AddSingleton<ICompressor, Compressor.Compressor>();
 
         services.AddTransient<IFormatBinarySerializer<Fhm>, FhmBinarySerializer>();
         services.AddTransient<IFormatBinarySerializer<List<Ammo>>, AmmoBinarySerializer>();
@@ -120,6 +119,7 @@ public static class DependencyInjection
         services.AddTransient<IHitboxGroupBinarySerializer, HitboxGroupBinarySerializer>();
         services.AddTransient<IListInfoBinarySerializer, ListInfoBinarySerializer>();
         services.AddTransient<ITblBinarySerializer, TblBinarySerializer>();
+        services.AddTransient<INdp3BinarySerializer, Ndp3BinarySerializer>();
 
         services.AddTransient<IBnsf, Bnsf>();
         services.AddTransient<IRiff, Riff>();

@@ -16,7 +16,7 @@ interface ProjectilesTableProps {
 }
 
 const ProjectilesTable = ({ unitId }: ProjectilesTableProps) => {
-  const { page, perPage, hashes, unitIds } =
+  const { page, perPage, hashes, unitIds, modelHashes } =
     loadPaginatedProjectilesSearchParams(location.search);
 
   const paginatedQuery = useQuery({
@@ -26,6 +26,7 @@ const ProjectilesTable = ({ unitId }: ProjectilesTableProps) => {
         PerPage: perPage,
         Hashes: hashes?.map((x) => parseInt(x, 16)) ?? undefined,
         UnitIds: unitId ? [unitId] : (unitIds ?? undefined),
+        ModelHashes: modelHashes?.map((x) => parseInt(x, 16)) ?? undefined,
       },
     }),
   });
@@ -69,7 +70,7 @@ const ProjectilesTable = ({ unitId }: ProjectilesTableProps) => {
   return (
     <DataTable table={table}>
       <DataTableToolbar table={table}>
-        <ProjectilesTableToolbarActions />
+        <ProjectilesTableToolbarActions unitId={unitId} />
       </DataTableToolbar>
     </DataTable>
   );

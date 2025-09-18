@@ -11,15 +11,11 @@
     <PackageReference Include="Mediator.Abstractions" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="BinaryFormats\PsarcFormat\**" />
+    <Folder Include="Entities\Exvs\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="BinaryFormats\PsarcFormat\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="BinaryFormats\PsarcFormat\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
+    <Compile Remove="Kaitai\app.cs" />
+    <Compile Remove="Kaitai\kscgenerate.cs" />
+    <None Include="Kaitai\kscgenerate.cs" />
   </ItemGroup>
 </Project>

@@ -120,7 +120,7 @@ public class PackFhmAssetCommandHandler(
 
                             var sourceDirectory = Path.Combine(
                                 workingDirectoryConfig.Value.Value,
-                                "units",
+                                WorkingDirectoryConstants.UnitsDirectory,
                                 unit.SnakeCaseName,
                                 fileTypeName
                             );
@@ -145,9 +145,9 @@ public class PackFhmAssetCommandHandler(
 
                                 var destinationBaseDirectory = Path.Combine(
                                     stagingDirectoryConfig.Value.Value,
-                                    "psarc",
+                                    StagingDirectoryConstants.PsarcDirectory,
                                     tblName,
-                                    "Units"
+                                    StagingDirectoryConstants.UnitsDirectory
                                 );
 
                                 var candidateDirectories = PathUtils.GetAssetCandidateDirectory(
@@ -237,7 +237,7 @@ public class PackFhmAssetCommandHandler(
 
                         var sourceDirectory = Path.Combine(
                             workingDirectoryConfig.Value.Value,
-                            "common",
+                            WorkingDirectoryConstants.CommonDirectory,
                             fileTypeName
                         );
                         if (!Directory.Exists(sourceDirectory))
@@ -246,9 +246,9 @@ public class PackFhmAssetCommandHandler(
                         var destinationDirectory = request.ReplaceStaging
                             ? Path.Combine(
                                 stagingDirectoryConfig.Value.Value,
-                                "psarc",
+                                StagingDirectoryConstants.PsarcDirectory,
                                 tblName,
-                                "common",
+                                StagingDirectoryConstants.CommonDirectory,
                                 fileTypeName
                             )
                             : Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

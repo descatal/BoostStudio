@@ -13,14 +13,12 @@ using BoostStudio.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Reloaded.Memory;
-using FileInfo=BoostStudio.Application.Common.Models.FileInfo;
+using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.ListInfo.Commands;
 
-public record ExportSeriesListInfoCommand(
-    uint[]? UnitIds = null,
-    bool ReplaceWorking = false
-) : IRequest<FileInfo>;
+public record ExportSeriesListInfoCommand(uint[]? UnitIds = null, bool ReplaceWorking = false)
+    : IRequest<FileInfo>;
 
 public class ExportUnitProjectileCommandHandler(
     IUnitProjectileBinarySerializer binarySerializer,
@@ -31,7 +29,10 @@ public class ExportUnitProjectileCommandHandler(
     ILogger<ExportUnitProjectileCommandHandler> logger
 ) : IRequestHandler<ExportSeriesListInfoCommand, FileInfo>
 {
-    public async ValueTask<FileInfo> Handle(ExportSeriesListInfoCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(
+        ExportSeriesListInfoCommand command,
+        CancellationToken cancellationToken
+    )
     {
         // var workingDirectory = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
         // if (command.ReplaceWorking && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value)))
@@ -40,7 +41,7 @@ public class ExportUnitProjectileCommandHandler(
         // // return combined tar file
         // var generatedBinaries = await GenerateBinary(command.UnitIds, cancellationToken);
         //
-        // var projectilesWorkingDirectory = Path.Combine(workingDirectory.Value.Value, "common", AssetFileType.Projectiles.GetSnakeCaseName());
+        // var projectilesWorkingDirectory = Path.Combine(workingDirectory.Value.Value, NameConstants.CommonDirectory, AssetFileType.Projectiles.GetSnakeCaseName());
         // if (!Directory.Exists(projectilesWorkingDirectory))
         //     Directory.CreateDirectory(projectilesWorkingDirectory);
         //
@@ -107,29 +108,39 @@ public class ExportUnitProjectileCommandHandler(
         //     }
         // }
 
-        var tarFileBytes = await compressor.CompressAsync([], CompressionFormats.Tar, cancellationToken);
+        var tarFileBytes = await compressor.CompressAsync(
+            [],
+            CompressionFormats.Tar,
+            cancellationToken
+        );
         return new FileInfo(tarFileBytes, "projectiles.tar", MediaTypeNames.Application.Octet);
     }
 
-    private async ValueTask<List<FileInfo>> GenerateBinary(uint[]? unitIds = null, CancellationToken cancellationToken = default)
+    private async ValueTask<List<FileInfo>> GenerateBinary(
+        uint[]? unitIds = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        var query = applicationDbContext.UnitProjectiles
-            .Include(unitProjectile => unitProjectile.Unit)
+        var query = applicationDbContext
+            .UnitProjectiles.Include(unitProjectile => unitProjectile.Unit)
             .Include(unitProjectile => unitProjectile.Projectiles)
             .AsQueryable();
 
         if (unitIds is not null)
             query = query.Where(unitProjectile => unitIds.Contains(unitProjectile.GameUnitId));
-        
+
         var unitProjectiles = await query.ToListAsync(cancellationToken);
-        
+
         var fileInfo = new List<FileInfo>();
         foreach (var unitProjectile in unitProjectiles)
         {
             if (unitProjectile.Unit is null)
                 continue;
-            
-            var serializedBytes = await binarySerializer.SerializeAsync(unitProjectile, cancellationToken);
+
+            var serializedBytes = await binarySerializer.SerializeAsync(
+                unitProjectile,
+                cancellationToken
+            );
 
             // for projectiles the file name can be ambiguous on which unit it is, since the information is already embedded in the file
             // hence we can just use the unit's snake case name, import will read the data inside the binary to associate the projectile info with the unit

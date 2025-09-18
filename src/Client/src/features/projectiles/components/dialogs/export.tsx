@@ -37,6 +37,7 @@ const ProjectileExportDialog = ({
   unitIds,
   ...props
 }: ProjectileExportDialogProps) => {
+  const [open, setOpen] = React.useState(false);
   const [hotReload, setHotReload] = React.useState(true);
   const [selectedUnitIds, setSelectedUnitIds] = React.useState<number[]>(
     unitIds ?? [],
@@ -48,11 +49,12 @@ const ProjectileExportDialog = ({
       toast("Success", {
         description: `Export completed!`,
       });
+      setOpen(false);
     },
   });
 
   return (
-    <Credenza {...props}>
+    <Credenza {...props} open={open} onOpenChange={setOpen}>
       <CredenzaTrigger asChild>
         {children ?? (
           <EnhancedButton

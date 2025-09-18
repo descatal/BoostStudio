@@ -10,9 +10,7 @@ using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Units.Commands.PlayableCharacters;
 
-public record ExportPlayableCharactersCommand(
-    bool ReplaceWorking = false
-) : IRequest<FileInfo>;
+public record ExportPlayableCharactersCommand(bool ReplaceWorking = false) : IRequest<FileInfo>;
 
 public class ExportPlayableCharactersCommandHandler(
     IConfigsRepository configsRepository,
@@ -21,20 +19,33 @@ public class ExportPlayableCharactersCommandHandler(
     ILogger<ExportPlayableCharactersCommandHandler> logger
 ) : IRequestHandler<ExportPlayableCharactersCommand, FileInfo>
 {
-    public async ValueTask<FileInfo> Handle(ExportPlayableCharactersCommand command, CancellationToken cancellationToken)
+    public async ValueTask<FileInfo> Handle(
+        ExportPlayableCharactersCommand command,
+        CancellationToken cancellationToken
+    )
     {
-        var workingDirectory = await configsRepository.GetConfig(ConfigKeys.WorkingDirectory, cancellationToken);
-        if (command.ReplaceWorking && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value)))
-            throw new NotFoundException(ConfigKeys.WorkingDirectory, workingDirectory.FirstError.Description);
+        var workingDirectory = await configsRepository.GetConfig(
+            ConfigKeys.WorkingDirectory,
+            cancellationToken
+        );
+        if (
+            command.ReplaceWorking
+            && (workingDirectory.IsError || string.IsNullOrWhiteSpace(workingDirectory.Value.Value))
+        )
+            throw new NotFoundException(
+                ConfigKeys.WorkingDirectory,
+                workingDirectory.FirstError.Description
+            );
 
-        var query = applicationDbContext.Units
-            .Include(entity => entity.PlayableCharacter)
+        var query = applicationDbContext
+            .Units.Include(entity => entity.PlayableCharacter)
             .Include(entity => entity.AssetFiles)
             .AsQueryable();
 
         var units = await query.ToListAsync(cancellationToken);
 
-        List<uint> foo = [
+        List<uint> foo =
+        [
             1011,
             1021,
             1031,
@@ -271,11 +282,19 @@ public class ExportPlayableCharactersCommandHandler(
 
         units = units.OrderBy(x => foo.IndexOf(x.GameUnitId)).ToList();
 
-        var serializedBytes = await binarySerializer.SerializePlayableCharactersAsync(units, cancellationToken);
+        var serializedBytes = await binarySerializer.SerializePlayableCharactersAsync(
+            units,
+            cancellationToken
+        );
 
         if (command.ReplaceWorking)
         {
-            var workingFilePath = Path.Combine(workingDirectory.Value.Value, "common", AssetFileType.ListInfo.GetSnakeCaseName(), "001.bin");
+            var workingFilePath = Path.Combine(
+                workingDirectory.Value.Value,
+                WorkingDirectoryConstants.CommonDirectory,
+                AssetFileType.ListInfo.GetSnakeCaseName(),
+                "001.bin"
+            );
             await File.WriteAllBytesAsync(workingFilePath, serializedBytes, cancellationToken);
         }
 

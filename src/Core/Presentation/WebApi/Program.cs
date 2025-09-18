@@ -1,3 +1,5 @@
+using BoostStudio.Application;
+using BoostStudio.Infrastructure;
 using BoostStudio.Infrastructure.Data;
 using BoostStudio.Web;
 using Scalar.AspNetCore;

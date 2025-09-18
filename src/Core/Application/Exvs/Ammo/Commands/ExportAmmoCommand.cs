@@ -53,7 +53,7 @@ public class ExportAmmoCommandHandler(
 
         var ammoWorkingDirectory = Path.Combine(
             workingDirectory.Value.Value,
-            "common",
+            WorkingDirectoryConstants.CommonDirectory,
             AssetFileType.Ammo.GetSnakeCaseName()
         );
         if (command.HotReload || command.ReplaceWorking)

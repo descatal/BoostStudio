@@ -34,6 +34,10 @@ const customTableRows: ColumnDef<ProjectileDto>[] = [
     enableColumnFilter: true,
   },
   {
+    id: "projectileType",
+    accessorKey: "projectileType",
+  },
+  {
     id: "hitboxHash",
     accessorKey: "hitboxHash",
     cell: ({ row }) => {
@@ -55,6 +59,24 @@ const customTableRows: ColumnDef<ProjectileDto>[] = [
         </>
       );
     },
+  },
+  {
+    id: "modelHash",
+    accessorKey: "modelHash",
+    cell: ({ row }) => (
+      <HashInput
+        className={"border-none"}
+        initialValue={row.original.modelHash}
+        readonly={true}
+        initialMode={"hex"}
+      />
+    ),
+    meta: {
+      label: "Model Hash",
+      variant: "text",
+      placeholder: "Search by Model Hash (Hex)",
+    },
+    enableColumnFilter: true,
   },
 ];
 

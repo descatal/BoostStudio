@@ -114,9 +114,9 @@ public class UnpackFhmAssetCommandHandler(
                             // todo: these are needed for current psarc directory structure
                             var sourceBaseDirectory = Path.Combine(
                                 stagingDirectoryConfig.Value.Value,
-                                "psarc",
+                                StagingDirectoryConstants.PsarcDirectory,
                                 tblName,
-                                "Units"
+                                StagingDirectoryConstants.UnitsDirectory
                             );
 
                             var allDirectories = Directory.GetDirectories(
@@ -161,7 +161,7 @@ public class UnpackFhmAssetCommandHandler(
                             var destinationDirectory = request.ReplaceWorking
                                 ? Path.Combine(
                                     workingDirectoryConfig.Value.Value,
-                                    "units",
+                                    WorkingDirectoryConstants.UnitsDirectory,
                                     unit.SnakeCaseName,
                                     fileType.GetSnakeCaseName()
                                 )
@@ -224,9 +224,9 @@ public class UnpackFhmAssetCommandHandler(
 
                         var sourceDirectory = Path.Combine(
                             stagingDirectoryConfig.Value.Value,
-                            "psarc",
+                            StagingDirectoryConstants.PsarcDirectory,
                             tblName,
-                            "common",
+                            StagingDirectoryConstants.CommonDirectory,
                             fileTypeName
                         );
 
@@ -236,7 +236,7 @@ public class UnpackFhmAssetCommandHandler(
                         var destinationDirectory = request.ReplaceWorking
                             ? Path.Combine(
                                 workingDirectoryConfig.Value.Value,
-                                "common",
+                                WorkingDirectoryConstants.CommonDirectory,
                                 fileTypeName
                             )
                             : Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

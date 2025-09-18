@@ -21,7 +21,7 @@ public record ProjectileDetailsDto
     public uint Unk44 { get; set; }
     public uint Unk48 { get; set; }
     public uint Unk52 { get; set; }
-    public uint Unk56 { get; set; }
+    public float Unk56 { get; set; }
     public uint AmmoConsumption { get; set; }
     public uint DurationFrame { get; set; }
     public float MaxTravelDistance { get; set; }

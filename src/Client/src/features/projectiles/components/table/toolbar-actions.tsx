@@ -4,12 +4,14 @@ import UpsertProjectileDialog from "@/features/projectiles/components/dialogs/up
 import { PlusIcon } from "lucide-react";
 import { EnhancedButton } from "@/components/ui/enhanced-button";
 
-interface ProjectilesTableToolbarActionsProps {}
+interface Props {
+  unitId?: number | undefined;
+}
 
-export function ProjectilesTableToolbarActions({}: ProjectilesTableToolbarActionsProps) {
+export function ProjectilesTableToolbarActions({ unitId }: Props) {
   return (
     <div className="flex items-center gap-2">
-      <UpsertProjectileDialog>
+      <UpsertProjectileDialog unitId={unitId}>
         <EnhancedButton
           variant="default"
           effect={"expandIcon"}

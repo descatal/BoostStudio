@@ -52,7 +52,7 @@ public class UnpackPsarcPatchFilesCommandHandler(
             // if clean staging directory and unpack stuff here
             var destinationDirectory = Path.Combine(
                 stagingDirectoryConfig.Value.Value,
-                "psarc",
+                StagingDirectoryConstants.PsarcDirectory,
                 patchFileName
             );
 

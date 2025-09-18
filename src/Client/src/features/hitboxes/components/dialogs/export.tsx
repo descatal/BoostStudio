@@ -19,7 +19,6 @@ import { BiExport } from "react-icons/bi";
 import { MdMemory } from "react-icons/md";
 import { Label } from "@/components/ui/label";
 import UnitsSelector from "@/features/units/components/units-selector";
-import { Option } from "@/components/ui/multiple-selector";
 import {
   Tooltip,
   TooltipContent,
@@ -27,19 +26,18 @@ import {
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
 
-interface HitboxExportDialogProps
+interface Props
   extends Omit<React.ComponentPropsWithRef<typeof Credenza>, "children"> {
-  triggerButton?: React.ReactNode;
+  children?: React.ReactNode;
   unitIds?: number[];
 }
 
-const HitboxExportDialog = ({
-  triggerButton,
-  unitIds,
-  ...props
-}: HitboxExportDialogProps) => {
+const HitboxExportDialog = ({ children, unitIds, ...props }: Props) => {
+  const [open, setOpen] = React.useState(false);
   const [hotReload, setHotReload] = React.useState(true);
-  const [selectedUnitIds, setSelectedUnitIds] = React.useState<Option[]>([]);
+  const [selectedUnitIds, setSelectedUnitIds] = React.useState<number[]>(
+    unitIds ?? [],
+  );
 
   const mutation = useMutation({
     ...postApiHitboxGroupsExportMutation(),
@@ -47,13 +45,14 @@ const HitboxExportDialog = ({
       toast("Success", {
         description: `Export completed!`,
       });
+      setOpen(false);
     },
   });
 
   return (
-    <Credenza {...props}>
+    <Credenza {...props} open={open} onOpenChange={setOpen}>
       <CredenzaTrigger asChild>
-        {triggerButton ?? (
+        {children ?? (
           <EnhancedButton
             effect={"gooeyRight"}
             icon={BiExport}
@@ -65,7 +64,7 @@ const HitboxExportDialog = ({
       </CredenzaTrigger>
       <CredenzaContent>
         <CredenzaHeader>
-          <CredenzaTitle>Export Ammo Info</CredenzaTitle>
+          <CredenzaTitle>Export Hitbox Info</CredenzaTitle>
           <CredenzaDescription>
             Export hitbox info to working directory.
           </CredenzaDescription>
@@ -77,7 +76,7 @@ const HitboxExportDialog = ({
               <UnitsSelector
                 disabled={!!unitIds}
                 className={"w-full"}
-                defaultValues={unitIds}
+                fixedValues={unitIds}
                 values={selectedUnitIds}
                 onChange={setSelectedUnitIds}
                 placeholder={unitIds ? undefined : "Select units..."}
@@ -120,7 +119,7 @@ const HitboxExportDialog = ({
             onClick={async () => {
               mutation.mutate({
                 body: {
-                  unitIds: selectedUnitIds.map((x) => Number(x.value)),
+                  unitIds: selectedUnitIds,
                   replaceWorking: true,
                   hotReload: hotReload,
                 },

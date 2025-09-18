@@ -77,7 +77,7 @@ public class ResizePatchFileCommandHandler(
 
             var destinationBaseDirectory = Path.Combine(
                 stagingDirectoryConfig.Value.Value,
-                "psarc",
+                StagingDirectoryConstants.PsarcDirectory,
                 patchFile.TblId.GetPatchName()
             );
 

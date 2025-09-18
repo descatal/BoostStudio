@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { ChevronDown, PlusIcon } from "lucide-react";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -16,9 +17,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   getApiProjectilesOptions,
+  getApiProjectilesQueryKey,
   postApiProjectilesByHashMutation,
   postApiProjectilesMutation,
 } from "@/api/exvs/@tanstack/react-query.gen";
@@ -28,8 +30,6 @@ import {
   ComboboxAnchor,
   ComboboxContent,
   ComboboxEmpty,
-  ComboboxGroup,
-  ComboboxGroupLabel,
   ComboboxInput,
   ComboboxItem,
   ComboboxTrigger,
@@ -43,7 +43,7 @@ import {
   zCreateProjectileCommand,
   zUpdateProjectileByIdCommand,
 } from "@/api/exvs/zod.gen.ts";
-import { UseFormReturn } from "react-hook-form";
+import { toast } from "sonner";
 
 interface Props
   extends Omit<React.ComponentPropsWithRef<typeof DrawerContent>, "children"> {
@@ -61,11 +61,14 @@ const UpsertProjectileDialog = ({
   // put this into global state
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState(existingData);
-  const formRef = React.useRef<UseFormReturn | null>(null);
+  const [duplicateSelection, setDuplicateSelection] = React.useState("");
+  const [duplicateInput, setDuplicateInput] = React.useState("");
 
+  const queryClient = useQueryClient();
   const { data: duplicateOptions } = useQuery({
     ...getApiProjectilesOptions({
       query: {
+        PerPage: 100,
         UnitIds: unitId
           ? [unitId]
           : existingData?.unitId
@@ -80,15 +83,29 @@ const UpsertProjectileDialog = ({
 
   const createMutation = useMutation({
     ...postApiProjectilesMutation(),
-    onSettled: () => () => setOpen(false),
+    onSuccess: onSuccess,
   });
 
   const updateMutation = useMutation({
     ...postApiProjectilesByHashMutation(),
-    onSettled: () => () => setOpen(false),
+    onSuccess: onSuccess,
   });
 
   const isPending = createMutation.isPending || updateMutation.isPending;
+
+  async function onSuccess() {
+    toast("Success", {
+      description: `${existingData ? "Update" : "Create"} success!`,
+    });
+
+    setOpen(false);
+
+    await queryClient.invalidateQueries({
+      predicate: (query) =>
+        // @ts-ignore
+        query.queryKey[0]._id === getApiProjectilesQueryKey()[0]._id,
+    });
+  }
 
   const handleSubmit = (
     upsertData: CreateProjectileCommand | UpdateProjectileByIdCommand,
@@ -110,6 +127,14 @@ const UpsertProjectileDialog = ({
   const schemaProvider = new ZodProvider(schema);
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
+  React.useEffect(() => {
+    const matchedData = duplicateOptions?.find(
+      (option) =>
+        option.hash!.toString(16).toUpperCase() === duplicateSelection,
+    );
+    if (matchedData) setData(matchedData);
+  }, [duplicateSelection]);
+
   return (
     <Drawer
       open={open}
@@ -130,62 +155,76 @@ const UpsertProjectileDialog = ({
         )}
       </DrawerTrigger>
       <DrawerContent {...props}>
-        <DrawerHeader>
+        <DrawerHeader className="px-6 pt-6 pb-4 border-b">
           <div className={"flex flex-row items-center justify-between"}>
-            <div>
-              <DrawerTitle>{existingData ? "Update" : "Create"}</DrawerTitle>
-              <DrawerDescription>
-                {existingData ? `Update an existing` : "Create a new"}{" "}
-                projectile entry <br />
-                {existingData && `id: ${existingData.hash}`}
-              </DrawerDescription>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <DrawerTitle>
+                    {existingData ? "Update" : "Create"} Projectile
+                  </DrawerTitle>
+                  <DrawerDescription>
+                    {existingData
+                      ? `Update the projectile information below.`
+                      : "Fill out the projectile information below."}
+                  </DrawerDescription>
+                </div>
+              </div>
             </div>
-            <div className={"flex flex-row gap-2"}>
-              <Combobox
-                onValueChange={(value) => {
-                  const matchedData = duplicateOptions?.find(
-                    (option) => option.hash === Number(value),
-                  );
-                  if (matchedData) setData(matchedData);
-                }}
-              >
-                <ComboboxAnchor>
-                  <ComboboxInput
-                    className={"max-w-30"}
-                    placeholder="Duplicate from..."
-                  />
-                  <ComboboxTrigger>
-                    <ChevronDown className="h-4 w-4" />
-                  </ComboboxTrigger>
-                </ComboboxAnchor>
-                <ComboboxContent>
-                  <ComboboxEmpty>No other projectile found</ComboboxEmpty>
-                  <ComboboxGroup>
-                    <ComboboxGroupLabel>Projectile</ComboboxGroupLabel>
-                    {duplicateOptions?.map((option) => (
-                      <ComboboxItem
-                        key={option.hash!}
-                        value={option.hash!.toString()}
-                      >
-                        0x{option.hash!.toString(16)}
-                      </ComboboxItem>
-                    ))}
-                  </ComboboxGroup>
-                </ComboboxContent>
-              </Combobox>
-              <EnhancedButton
-                iconPlacement={"right"}
-                icon={BiX}
-                size={"sm"}
-                variant={"outline"}
-                onClick={() => {
-                  if (formRef.current) {
-                    setData({});
-                    formRef.current.reset({}, { keepValues: false });
-                  }
-                }}
-              />
+          </div>
+          {existingData && (
+            <div className="flex items-center gap-2 px-3 py-2 bg-muted rounded-md">
+              <span className="text-sm font-medium text-muted-foreground">
+                ID:
+              </span>
+              <code className="text-sm font-mono bg-background px-2 py-1 rounded border">
+                {existingData.hash}
+              </code>
             </div>
+          )}
+          <div className="flex items-center gap-2 w-full pt-2">
+            <Combobox
+              className={"w-full"}
+              inputValue={duplicateInput}
+              onInputValueChange={setDuplicateInput}
+              value={duplicateSelection}
+              onValueChange={setDuplicateSelection}
+            >
+              <ComboboxAnchor>
+                <ComboboxInput placeholder="Duplicate from..." />
+                <ComboboxTrigger>
+                  <ChevronDown className="h-4 w-4" />
+                </ComboboxTrigger>
+              </ComboboxAnchor>
+              <ComboboxContent>
+                <ComboboxEmpty>No other projectile found</ComboboxEmpty>
+                {duplicateOptions?.map((option) => (
+                  <ComboboxItem
+                    key={option.hash!}
+                    value={option.hash!.toString(16).toUpperCase()}
+                  >
+                    {option.hash!.toString(16).toUpperCase()}
+                  </ComboboxItem>
+                ))}
+              </ComboboxContent>
+            </Combobox>
+            <EnhancedButton
+              className={"w-fit"}
+              variant="outline"
+              size="sm"
+              type={"reset"}
+              icon={BiX}
+              effect={"expandIcon"}
+              iconPlacement={"right"}
+              form={"form"}
+              onClick={() => {
+                setDuplicateSelection("");
+                setDuplicateInput("");
+                setData(undefined);
+              }}
+            >
+              Clear
+            </EnhancedButton>
           </div>
         </DrawerHeader>
         <Separator />
@@ -193,13 +232,11 @@ const UpsertProjectileDialog = ({
           schema={schemaProvider}
           defaultValues={existingData}
           values={data}
-          onFormInit={(form) => {
-            formRef.current = form;
-          }}
           onSubmit={(submitData) => {
             handleSubmit({ ...submitData });
           }}
           formProps={{
+            id: "form",
             className: "px-8 py-4 overflow-auto",
           }}
           uiComponents={{
@@ -210,29 +247,32 @@ const UpsertProjectileDialog = ({
                 {error}
               </div>
             ),
-            SubmitButton: () => (
-              <DrawerFooter>
-                <EnhancedButton
-                  className={"w-full"}
-                  effect={"expandIcon"}
-                  variant={"default"}
-                  icon={BiSave}
-                  iconPlacement={"right"}
-                  disabled={isPending}
-                >
-                  {isPending && (
-                    <Icons.spinner
-                      className="size-4 mr-2 animate-spin"
-                      aria-hidden="true"
-                    />
-                  )}
-                  Save
-                </EnhancedButton>
-              </DrawerFooter>
-            ),
           }}
-          withSubmit
         />
+        <DrawerFooter>
+          <EnhancedButton
+            effect={"expandIcon"}
+            variant={"default"}
+            icon={BiSave}
+            iconPlacement={"right"}
+            disabled={isPending}
+            form={"form"}
+            type={"submit"}
+          >
+            {isPending && (
+              <Icons.spinner
+                className="size-4 mr-2 animate-spin"
+                aria-hidden="true"
+              />
+            )}
+            Save
+          </EnhancedButton>
+          <DrawerClose asChild>
+            <EnhancedButton variant={"outline"} disabled={isPending}>
+              Cancel
+            </EnhancedButton>
+          </DrawerClose>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

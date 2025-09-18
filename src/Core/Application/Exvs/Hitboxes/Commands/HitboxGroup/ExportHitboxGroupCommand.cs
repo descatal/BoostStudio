@@ -68,9 +68,10 @@ public class ExportHitboxGroupCommandHandler(
 
         var hitboxesWorkingDirectory = Path.Combine(
             workingDirectory.Value.Value,
-            "common",
+            WorkingDirectoryConstants.CommonDirectory,
             AssetFileType.Hitboxes.GetSnakeCaseName()
         );
+
         foreach (var generatedBinary in generatedBinaries)
         {
             if (command is { HotReload: false, ReplaceWorking: false })
