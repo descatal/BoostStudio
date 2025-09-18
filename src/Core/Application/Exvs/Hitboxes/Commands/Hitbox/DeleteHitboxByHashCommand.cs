@@ -5,11 +5,21 @@ namespace BoostStudio.Application.Exvs.Hitboxes.Commands.Hitbox;
 
 public record DeleteHitboxByHashCommand(uint Hash) : IRequest;
 
-public class DeleteHitboxByHashCommandHandler(IApplicationDbContext applicationDbContext) : IRequestHandler<DeleteHitboxByHashCommand>
+public class DeleteHitboxByHashCommandHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<DeleteHitboxByHashCommand>
 {
-    public async ValueTask<Unit> Handle(DeleteHitboxByHashCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(
+        DeleteHitboxByHashCommand request,
+        CancellationToken cancellationToken
+    )
     {
-        await applicationDbContext.Hitboxes.Where(projectile => projectile.Hash == request.Hash).ExecuteDeleteAsync(cancellationToken);
-        return Unit.Value;       
+        var hitboxes = await applicationDbContext
+            .Hitboxes.Where(projectile => projectile.Hash == request.Hash)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        applicationDbContext.Hitboxes.RemoveRange(hitboxes);
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

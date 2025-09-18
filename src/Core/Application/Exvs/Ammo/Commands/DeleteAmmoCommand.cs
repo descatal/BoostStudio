@@ -5,16 +5,21 @@ namespace BoostStudio.Application.Exvs.Ammo.Commands;
 
 public record DeleteAmmoCommand(uint Hash) : IRequest;
 
-public class DeleteAmmoCommandHandler(
-    IApplicationDbContext applicationDbContext
-) : IRequestHandler<DeleteAmmoCommand>
+public class DeleteAmmoCommandHandler(IApplicationDbContext applicationDbContext)
+    : IRequestHandler<DeleteAmmoCommand>
 {
-    public async ValueTask<Unit> Handle(DeleteAmmoCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Unit> Handle(
+        DeleteAmmoCommand command,
+        CancellationToken cancellationToken
+    )
     {
-        await applicationDbContext.Ammo
-            .Where(ammo => ammo.Hash == command.Hash)
-            .ExecuteDeleteAsync(cancellationToken);
-        
+        var ammo = await applicationDbContext
+            .Ammo.Where(ammo => ammo.Hash == command.Hash)
+            .ToListAsync(cancellationToken: cancellationToken);
+
+        applicationDbContext.Ammo.RemoveRange(ammo);
+        await applicationDbContext.SaveChangesAsync(cancellationToken);
+
         return Unit.Value;
     }
 }
