@@ -6,10 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import {
-  getApiAmmoOptions,
-  getApiUnitStatsByUnitIdOptions,
-} from "@/api/exvs/@tanstack/react-query.gen";
+import { getApiUnitStatsByUnitIdOptions } from "@/api/exvs/@tanstack/react-query.gen";
 import SelectAmmoSlotDialog from "@/features/stats/components/dialogs/select-ammo-slot-dialog.tsx";
 
 interface AmmoSlotsProps {
@@ -25,16 +22,16 @@ const AmmoSlots = ({ unitId }: AmmoSlotsProps) => {
     }),
   });
 
-  const ammoQuery = useQuery({
-    ...getApiAmmoOptions({
-      query: {
-        UnitIds: [unitId],
-      },
-    }),
-  });
+  // const ammoQuery = useQuery({
+  //   ...getApiAmmoOptions({
+  //     query: {
+  //       UnitIds: [unitId],
+  //     },
+  //   }),
+  // });
 
   const ammoSlots = unitStatQuery.data?.ammoSlots ?? [];
-  const ammoOptions = ammoQuery.data?.items.map((dto) => dto.hash!) ?? [];
+  // const ammoOptions = ammoQuery.data?.items.map((dto) => dto.hash!) ?? [];
 
   return (
     <Card className="col-span-full">

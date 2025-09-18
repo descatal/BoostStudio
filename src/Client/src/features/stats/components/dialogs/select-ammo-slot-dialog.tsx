@@ -122,7 +122,7 @@ const SelectAmmoSlotDialog = ({
                 {error}
               </div>
             ),
-            SubmitButton: ({ children }) => (
+            SubmitButton: () => (
               <EnhancedButton
                 className={"w-full"}
                 effect={"expandIcon"}

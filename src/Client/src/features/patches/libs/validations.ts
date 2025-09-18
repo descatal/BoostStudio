@@ -11,7 +11,7 @@ import {
   zUpdatePatchFileByIdCommand,
 } from "@/api/exvs/zod.gen";
 
-const patchFileVersionEnum = z.nativeEnum(zPatchFileVersion.Enum);
+const patchFileVersionEnum = z.nativeEnum(zPatchFileVersion.enum);
 
 const pathInfoSchema = z.object({
   path: z.string(),

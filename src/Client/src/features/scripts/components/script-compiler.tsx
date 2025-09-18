@@ -1,18 +1,7 @@
 import React from "react";
-import { Editor, Monaco } from "@monaco-editor/react";
-import OneDarkPro from "@/themes/onedarkpro.json";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  getApiScexDecompiledByUnitIdOptions,
-  postApiScexCompileUnitsMutation,
-} from "@/api/exvs/@tanstack/react-query.gen";
-import { useTheme } from "@/context/theme-context";
-import { Option } from "@/components/ui/multiple-selector";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "@/components/ui/resizable";
+import { useMutation } from "@tanstack/react-query";
+import { postApiScexCompileUnitsMutation } from "@/api/exvs/@tanstack/react-query.gen";
+import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import {
   Card,
   CardContent,
@@ -41,23 +30,23 @@ const ScriptCompiler = ({ unitId }: ScriptViewerProps) => {
     unitId ? [unitId] : [],
   );
 
-  const query = useQuery({
-    ...getApiScexDecompiledByUnitIdOptions({
-      path: {
-        unitId: unitId,
-      },
-    }),
-  });
+  // const query = useQuery({
+  //   ...getApiScexDecompiledByUnitIdOptions({
+  //     path: {
+  //       unitId: unitId,
+  //     },
+  //   }),
+  // });
 
-  const handleEditorDidMount = (monaco: Monaco) => {
-    monaco.editor.defineTheme("OneDarkPro", {
-      base: "vs-dark",
-      inherit: true,
-      ...OneDarkPro,
-    });
-  };
+  // const handleEditorDidMount = (monaco: Monaco) => {
+  //   monaco.editor.defineTheme("OneDarkPro", {
+  //     base: "vs-dark",
+  //     inherit: true,
+  //     ...OneDarkPro,
+  //   });
+  // };
 
-  const { theme } = useTheme();
+  // const { theme } = useTheme();
 
   const mutation = useMutation({
     ...postApiScexCompileUnitsMutation(),

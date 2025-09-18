@@ -39,7 +39,7 @@ import {
 
 export const updateAmmoSlotSchema = z.object({
   id: z.string(),
-  ammoHash: z.number({ coerce: true }),
+  ammoHash: z.number(),
   unitId: z.number(),
   slotOrder: z.number(),
 }) satisfies z.ZodType<UpdateUnitAmmoSlotCommand>;
@@ -47,7 +47,7 @@ export const updateAmmoSlotSchema = z.object({
 export type UpdateAmmoSlotSchema = z.infer<typeof updateAmmoSlotSchema>;
 
 export const createAmmoSlotSchema = z.object({
-  ammoHash: z.number({ coerce: true }),
+  ammoHash: z.number(),
   unitId: z.number(),
   slotOrder: z.number(),
 }) satisfies z.ZodType<CreateUnitAmmoSlotCommand>;

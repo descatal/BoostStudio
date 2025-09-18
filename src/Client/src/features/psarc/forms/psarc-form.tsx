@@ -12,14 +12,12 @@ import {
 import {
   zPackPsarcByPatchFilesCommand,
   zPatchFileVersion,
-  zUnpackPsarcByPatchFilesCommand,
 } from "@/api/exvs/zod.gen.ts";
 import { Label } from "@/components/ui/label.tsx";
 import { Icons } from "@/components/icons.tsx";
 import { AutoForm } from "@/components/ui/autoform";
 import { ZodProvider } from "@autoform/zod/v4";
 import { LuPackage, LuPackageOpen } from "react-icons/lu";
-import { FieldConfig } from "@autoform/react";
 import { z } from "zod";
 
 interface Props {
