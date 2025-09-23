@@ -37,16 +37,20 @@ public class UnpackFhmAssetCommandHandler(
             ConfigKeys.WorkingDirectory,
             cancellationToken
         );
+
         if (workingDirectoryConfig.IsError)
+        {
             throw new NotFoundException(
                 ConfigKeys.WorkingDirectory,
                 workingDirectoryConfig.FirstError.Description
             );
+        }
 
         var stagingDirectoryConfig = await configsRepository.GetConfig(
             ConfigKeys.StagingDirectory,
             cancellationToken
         );
+
         if (stagingDirectoryConfig.IsError)
         {
             throw new NotFoundException(

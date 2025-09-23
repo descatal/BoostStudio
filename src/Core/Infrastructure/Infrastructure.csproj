@@ -19,9 +19,6 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Resources\psarc.exe" />
     <EmbeddedResource Include="Resources\psarc.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

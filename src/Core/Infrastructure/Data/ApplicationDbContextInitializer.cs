@@ -1,14 +1,7 @@
-﻿using BoostStudio.Application.Common.Constants;
-using BoostStudio.Application.Common.Enums.Assets;
-using BoostStudio.Application.Common.Models.Options;
-using BoostStudio.Domain.Entities.Exvs.Assets;
-using BoostStudio.Domain.Entities.Exvs.Series;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace BoostStudio.Infrastructure.Data;
 
@@ -18,7 +11,8 @@ public static class InitializerExtensions
     {
         using var scope = app.Services.CreateScope();
 
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+        var initializer =
+            scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
 
         await initializer.InitialiseAsync();
 
@@ -28,7 +22,8 @@ public static class InitializerExtensions
 
 public class ApplicationDbContextInitializer(
     ApplicationDbContext context,
-    ILogger<ApplicationDbContextInitializer> logger)
+    ILogger<ApplicationDbContextInitializer> logger
+)
 {
     public async Task InitialiseAsync()
     {

@@ -22,12 +22,20 @@ public class Ndp3 : EndpointGroupBase
     )]
     private static async Task<FileContentHttpResult> ConvertAsync(
         ISender sender,
-        IFormFile file,
+        IFormFile ndp3File,
+        IFormFile? vbnFile,
         CancellationToken cancellationToken
     )
     {
-        await using var stream = file.OpenReadStream();
-        var convertedFile = await sender.Send(new ConvertNdp3Command(stream), cancellationToken);
-        return TypedResults.File(convertedFile);
+        var fileName = ndp3File.FileName;
+        await using var ndp3FileStream = ndp3File.OpenReadStream();
+        await using var vbnFileStream = vbnFile?.OpenReadStream();
+
+        var convertedFile = await sender.Send(
+            new ConvertNdp3Command(ndp3FileStream, VbnFile: vbnFileStream, FileName: fileName),
+            cancellationToken
+        );
+
+        return TypedResults.File(convertedFile, fileDownloadName: $"converted.tar");
     }
 }

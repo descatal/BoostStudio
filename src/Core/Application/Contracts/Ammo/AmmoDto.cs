@@ -39,8 +39,7 @@ public record AmmoDetailsDto
     public uint ReleaseChargeLingerDurationFrame { get; set; }
     public uint MaxChargeLevel { get; set; }
     public uint Unk124 { get; set; }
-    public uint Unk128 { get; set; }
+    public uint ChargeMultiLockFlag { get; set; }
     public int Order { get; set; }
-
     public uint? UnitId { get; set; }
 }

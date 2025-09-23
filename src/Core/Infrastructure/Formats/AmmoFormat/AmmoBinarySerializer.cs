@@ -3,7 +3,7 @@ using BoostStudio.Domain.Entities.Exvs.Ammo;
 using BoostStudio.Formats;
 using BoostStudio.Infrastructure.Common;
 using Kaitai;
-using AmmoMapper=BoostStudio.Application.Contracts.Ammo.AmmoMapper;
+using AmmoMapper = BoostStudio.Application.Contracts.Ammo.AmmoMapper;
 
 namespace BoostStudio.Infrastructure.Formats.AmmoFormat;
 
@@ -11,16 +11,25 @@ public class AmmoBinarySerializer : IFormatBinarySerializer<List<Ammo>>
 {
     public async Task<byte[]> SerializeAsync(List<Ammo> data, CancellationToken cancellationToken)
     {
-        await using var metadataStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
+        await using var metadataStream = new CustomBinaryWriter(
+            new MemoryStream(),
+            Endianness.BigEndian
+        );
 
         metadataStream.WriteUint(0x1D258FF7); // Magic
         metadataStream.WriteUint(0x22); // Fixed property count, is the actual property count - 1
         metadataStream.WriteUint(0); // Two zero 4 byte array
         metadataStream.WriteUint(0);
         metadataStream.WriteUint((uint)data.Count);
-        
-        await using var ammoHashListStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
-        await using var ammoPropertiesStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
+
+        await using var ammoHashListStream = new CustomBinaryWriter(
+            new MemoryStream(),
+            Endianness.BigEndian
+        );
+        await using var ammoPropertiesStream = new CustomBinaryWriter(
+            new MemoryStream(),
+            Endianness.BigEndian
+        );
 
         foreach (var ammo in data)
         {
@@ -57,11 +66,14 @@ public class AmmoBinarySerializer : IFormatBinarySerializer<List<Ammo>>
             ammoPropertiesStream.WriteUint(ammo.ReleaseChargeLingerDurationFrame);
             ammoPropertiesStream.WriteUint(ammo.MaxChargeLevel);
             ammoPropertiesStream.WriteUint(ammo.Unk124);
-            ammoPropertiesStream.WriteUint(ammo.Unk128);
+            ammoPropertiesStream.WriteUint(ammo.ChargeMultiLockFlag);
         }
 
         // Concatenate the file metadata stream with the file body stream
-        await using var fileStream = new CustomBinaryWriter(new MemoryStream(), Endianness.BigEndian);
+        await using var fileStream = new CustomBinaryWriter(
+            new MemoryStream(),
+            Endianness.BigEndian
+        );
         await fileStream.ConcatenateStreamAsync(metadataStream.Stream);
         await fileStream.ConcatenateStreamAsync(ammoHashListStream.Stream);
         await fileStream.ConcatenateStreamAsync(ammoPropertiesStream.Stream);
@@ -73,10 +85,10 @@ public class AmmoBinarySerializer : IFormatBinarySerializer<List<Ammo>>
     {
         var kaitaiStream = new KaitaiStream(data);
         var deserializedObject = new AmmoBinaryFormat(kaitaiStream);
-        
+
         // Map deserializedAmmoBinaryObject into Ammo
         var ammo = AmmoMapper.AmmoBinaryFormatToAmmo(deserializedObject).ToList();
-        
+
         return Task.FromResult(ammo);
     }
 }

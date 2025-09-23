@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <RootNamespace>BoostStudio.Application.FunctionalTests</RootNamespace>
     <AssemblyName>BoostStudio.Application.FunctionalTests</AssemblyName>
     <Configurations>Debug;Release;Console</Configurations>
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
-    <None Remove="appsettings.json"/>
+    <None Remove="appsettings.json" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -18,32 +15,27 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing"/>
-    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-    <PackageReference Include="nunit"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="nunit" />
     <PackageReference Include="NUnit.Analyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NUnit3TestAdapter"/>
-    <PackageReference Include="coverlet.collector"/>
-    <PackageReference Include="FluentAssertions"/>
-    <PackageReference Include="Moq"/>
-    <PackageReference Include="Respawn"/>
-    <PackageReference Include="Testcontainers.MsSql"/>
+    <PackageReference Include="NUnit3TestAdapter" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="Respawn" />
+    <PackageReference Include="Testcontainers.MsSql" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Tbl\Binary\" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\Core\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\src\Core\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Core\Presentation\WebApi\Web.csproj" />
   </ItemGroup>
-
 </Project>

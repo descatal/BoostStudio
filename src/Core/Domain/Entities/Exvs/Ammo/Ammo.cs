@@ -37,11 +37,11 @@ public class Ammo : BaseEntity<Guid>
     public uint ReleaseChargeLingerDurationFrame { get; set; }
     public uint MaxChargeLevel { get; set; }
     public uint Unk124 { get; set; }
-    public uint Unk128 { get; set; }
-    
+    public uint ChargeMultiLockFlag { get; set; }
+
     // Optional navigation, can be used to assign this ammo to a UnitStat entry
     public int Order { get; set; }
-    
+
     public Guid? UnitStatId { get; set; }
 
     public UnitStat? UnitStat { get; set; }

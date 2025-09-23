@@ -20,7 +20,7 @@ seq:
   - id: meshes
     type: mesh_data
     repeat: expr
-    repeat-expr: header.polysets_count
+    repeat-expr: header.num_polysets
 
 types:
   header_data:
@@ -35,7 +35,7 @@ types:
         doc: |
           Indicates the version of the Binary ndp3 container format.
           For this specification, should be set to 2.
-      - id: polysets_count
+      - id: num_polysets
         type: u2
         doc: |
           Number of polysets
@@ -45,23 +45,23 @@ types:
       - id: bone_index_end
         type: u2
         doc: The highest bone index referenced by the objects and vertices in this ndp3.
-      - id: polyclump_start
+      - id: metadata_chunk_size
         type: u4
-      - id: polyclump_size
+      - id: triangle_data_chunk_size
         type: u4
-      - id: vertclump_size
+      - id: vertex_color_uv_chunk_size
         type: u4
-      - id: vertaddclump_size
+      - id: vertex_indices_chunk_size
         type: u4
     instances:
-      polyclump_pointer:
-        value:  0x30 + polyclump_start
-      vertclump_pointer:
-        value: polyclump_pointer + polyclump_size
-      vertaddclump_pointer:
-        value: vertclump_pointer + vertclump_size
-      nameclump_pointer:
-        value: vertaddclump_pointer + vertaddclump_size
+      triangle_data_pointer:
+        value:  0x30 + metadata_chunk_size
+      vertex_color_uv_pointer:
+        value: triangle_data_pointer + triangle_data_chunk_size
+      vertex_data_pointer:
+        value: vertex_color_uv_pointer + vertex_color_uv_chunk_size
+      name_chunk_pointer:
+        value: vertex_data_pointer + vertex_indices_chunk_size
   bounding_sphere:
     seq:
       - id: center_x
@@ -87,88 +87,86 @@ types:
       - id: position_b
         type: u4
       - id: polygons
-        type: poly_data
+        type: polygon_data
         repeat: expr
         repeat-expr: num_polygons
-  poly_data:
+    instances:
+      name:
+        type: str
+        terminator: 0
+        encoding: UTF-8
+        pos: name_offset + _parent.header.name_chunk_pointer
+  polygon_data:
     seq:
-      - id: poly_start
+      - id: triangle_data_offset
         type: u4
-      - id: vert_start
+      - id: color_uv_offset
         type: u4
-      - id: vert_add_start
+      - id: vertex_data_offset
         type: u4
       - id: num_vertices
         type: u2
-      - id: vert_size
+      - id: vertex_size
         type: u1
       - id: uv_size
         type: u1
-      - id: text_props
+      - id: material_offsets
         type: u4
         repeat: expr
         repeat-expr: 4
       - id: num_vertex_indices
         type: u2
-      - id: poly_size
+      - id: polygon_size
         type: u1
-      - id: poly_flag
+      - id: polygon_flag
         type: u1
       - id: align
         size: 0xC
-      - id: vertices
-        type: vertex_data
-        repeat: expr
-        repeat-expr: num_vertices
     instances:
       materials:
         type: material_data(_index)
         repeat: expr
         repeat-expr: 4
+      color_uv:
+        type: color_uv_data
+        pos: color_uv_offset + _parent._parent.header.vertex_color_uv_pointer
+        repeat: expr
+        repeat-expr: num_vertices
+      vertices:
+        type: vertex_data
+        pos: vertex_data_offset + _parent._parent.header.vertex_data_pointer
+        repeat: expr
+        repeat-expr: num_vertices
       vertex_indices:
         type: u2
-        pos: _parent._parent.header.polyclump_pointer
+        pos: triangle_data_offset + _parent._parent.header.triangle_data_pointer
         repeat: expr
         repeat-expr: num_vertex_indices
-  vertex_data:
-    instances:
-      uv:
-        type: uv_data
-        pos: _parent._parent._parent.header.vertclump_pointer
-        repeat: expr
-        repeat-expr: _parent.uv_size >> 4
-      vertex:
-        type: pos_data
-        pos: _parent._parent._parent.header.vertaddclump_pointer
-  uv_data:
+  color_uv_data:
     seq:
       - id: color
         type: vector_4
       - id: uv
         type: vector_2
-  pos_data:
+  vertex_data:
     seq:
       - id: pos
-        type: float_pos
-      - id: nrm
-        type: float_pos
-      - id: bitan
-        type: float_pos
-      - id: tan
-        type: float_pos
-      - id: bone
-        type: bone_data
-  bone_data:
-    seq:
-      - id: ids
+        type: coordinates
+      - id: normal
+        type: coordinates
+      - id: bitangent
+        type: coordinates
+      - id: tangent
+        type: coordinates
+      - id: bone_indices
         type: u4
         repeat: expr
         repeat-expr: 4
-      - id: weights
+      - id: bone_weights
         type: f4
         repeat: expr
         repeat-expr: 4
-  float_pos:
+  coordinates:
     seq:
       - id: x
         type: f4
@@ -200,9 +198,9 @@ types:
         type: s4
     instances:
       body:
-        pos: _parent.text_props[i]
+        pos: _parent.material_offsets[i]
         type: material_instance
-        if: _parent.text_props[i] != 0
+        if: _parent.material_offsets[i] != 0
   material_instance:
     seq:
       - id: flag
@@ -213,7 +211,7 @@ types:
         type: u2
       - id: num_textures
         type: u2
-      - id: dst_factor
+      - id: destination_factor
         type: u2
       - id: alpha_test
         type: s1
