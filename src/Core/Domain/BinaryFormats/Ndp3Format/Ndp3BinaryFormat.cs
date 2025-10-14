@@ -117,148 +117,6 @@ namespace BoostStudio.Formats
                 }
             }
         }
-        public partial class ColorUvData : KaitaiStruct
-        {
-            public static ColorUvData FromFile(string fileName)
-            {
-                return new ColorUvData(new KaitaiStream(fileName));
-            }
-
-            public ColorUvData(KaitaiStream p__io, Ndp3BinaryFormat.PolygonData p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
-            {
-                m_parent = p__parent;
-                m_root = p__root;
-                if (!write)
-                    _read();
-            }
-            private void _read()
-            {
-                _color = new Vector4(m_io, this, m_root);
-                _uv = new Vector2(m_io, this, m_root);
-            }
-            private Vector4 _color;
-            private Vector2 _uv;
-            private Ndp3BinaryFormat m_root;
-            private Ndp3BinaryFormat.PolygonData m_parent;
-            public Vector4 Color
-            {
-                get { return _color; }
-
-                set
-                {
-                    _color = value;
-                }
-            }
-            public Vector2 Uv
-            {
-                get { return _uv; }
-
-                set
-                {
-                    _uv = value;
-                }
-            }
-            public Ndp3BinaryFormat M_Root
-            {
-                get { return m_root; }
-
-                set
-                {
-                    m_root = value;
-                }
-            }
-            public Ndp3BinaryFormat.PolygonData M_Parent
-            {
-                get { return m_parent; }
-
-                set
-                {
-                    m_parent = value;
-                }
-            }
-        }
-        public partial class Coordinates : KaitaiStruct
-        {
-            public static Coordinates FromFile(string fileName)
-            {
-                return new Coordinates(new KaitaiStream(fileName));
-            }
-
-            public Coordinates(KaitaiStream p__io, Ndp3BinaryFormat.VertexData p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
-            {
-                m_parent = p__parent;
-                m_root = p__root;
-                if (!write)
-                    _read();
-            }
-            private void _read()
-            {
-                _x = m_io.ReadF4be();
-                _y = m_io.ReadF4be();
-                _z = m_io.ReadF4be();
-                _w = m_io.ReadF4be();
-            }
-            private float _x;
-            private float _y;
-            private float _z;
-            private float _w;
-            private Ndp3BinaryFormat m_root;
-            private Ndp3BinaryFormat.VertexData m_parent;
-            public float X
-            {
-                get { return _x; }
-
-                set
-                {
-                    _x = value;
-                }
-            }
-            public float Y
-            {
-                get { return _y; }
-
-                set
-                {
-                    _y = value;
-                }
-            }
-            public float Z
-            {
-                get { return _z; }
-
-                set
-                {
-                    _z = value;
-                }
-            }
-            public float W
-            {
-                get { return _w; }
-
-                set
-                {
-                    _w = value;
-                }
-            }
-            public Ndp3BinaryFormat M_Root
-            {
-                get { return m_root; }
-
-                set
-                {
-                    m_root = value;
-                }
-            }
-            public Ndp3BinaryFormat.VertexData M_Parent
-            {
-                get { return m_parent; }
-
-                set
-                {
-                    m_parent = value;
-                }
-            }
-        }
         public partial class HeaderData : KaitaiStruct
         {
             public static HeaderData FromFile(string fileName)
@@ -272,8 +130,8 @@ namespace BoostStudio.Formats
                 m_root = p__root;
                 f_nameChunkPointer = write;
                 f_triangleDataPointer = write;
+                f_vertexAttributesPointer = write;
                 f_vertexColorUvPointer = write;
-                f_vertexDataPointer = write;
                 if (!write)
                     _read();
             }
@@ -303,7 +161,7 @@ namespace BoostStudio.Formats
                     if (f_nameChunkPointer)
                         return _nameChunkPointer;
                     f_nameChunkPointer = true;
-                    _nameChunkPointer = (int)(VertexDataPointer + VertexIndicesChunkSize);
+                    _nameChunkPointer = (int)(VertexAttributesPointer + VertexIndicesChunkSize);
                     return _nameChunkPointer;
                 }
 
@@ -330,6 +188,24 @@ namespace BoostStudio.Formats
                     _triangleDataPointer = value;
                 }
             }
+            private bool f_vertexAttributesPointer;
+            private int _vertexAttributesPointer;
+            public int VertexAttributesPointer
+            {
+                get
+                {
+                    if (f_vertexAttributesPointer)
+                        return _vertexAttributesPointer;
+                    f_vertexAttributesPointer = true;
+                    _vertexAttributesPointer = (int)(VertexColorUvPointer + VertexColorUvChunkSize);
+                    return _vertexAttributesPointer;
+                }
+
+                set
+                {
+                    _vertexAttributesPointer = value;
+                }
+            }
             private bool f_vertexColorUvPointer;
             private int _vertexColorUvPointer;
             public int VertexColorUvPointer
@@ -346,24 +222,6 @@ namespace BoostStudio.Formats
                 set
                 {
                     _vertexColorUvPointer = value;
-                }
-            }
-            private bool f_vertexDataPointer;
-            private int _vertexDataPointer;
-            public int VertexDataPointer
-            {
-                get
-                {
-                    if (f_vertexDataPointer)
-                        return _vertexDataPointer;
-                    f_vertexDataPointer = true;
-                    _vertexDataPointer = (int)(VertexColorUvPointer + VertexColorUvChunkSize);
-                    return _vertexDataPointer;
-                }
-
-                set
-                {
-                    _vertexDataPointer = value;
                 }
             }
             private byte[] _magic;
@@ -914,9 +772,8 @@ namespace BoostStudio.Formats
             {
                 m_parent = p__parent;
                 m_root = p__root;
-                f_colorUv = write;
+                f_indices = write;
                 f_materials = write;
-                f_vertexIndices = write;
                 f_vertices = write;
                 if (!write)
                     _read();
@@ -924,8 +781,8 @@ namespace BoostStudio.Formats
             private void _read()
             {
                 _triangleDataOffset = m_io.ReadU4be();
-                _colorUvOffset = m_io.ReadU4be();
-                _vertexDataOffset = m_io.ReadU4be();
+                _vertexColorUvOffset = m_io.ReadU4be();
+                _vertexAttributesOffset = m_io.ReadU4be();
                 _numVertices = m_io.ReadU2be();
                 _vertexSize = m_io.ReadU1();
                 _uvSize = m_io.ReadU1();
@@ -939,29 +796,29 @@ namespace BoostStudio.Formats
                 _polygonFlag = m_io.ReadU1();
                 _align = m_io.ReadBytes(12);
             }
-            private bool f_colorUv;
-            private List<ColorUvData> _colorUv;
-            public List<ColorUvData> ColorUv
+            private bool f_indices;
+            private List<ushort> _indices;
+            public List<ushort> Indices
             {
                 get
                 {
-                    if (f_colorUv)
-                        return _colorUv;
-                    f_colorUv = true;
+                    if (f_indices)
+                        return _indices;
+                    f_indices = true;
                     long _pos = m_io.Pos;
-                    m_io.Seek(ColorUvOffset + M_Parent.M_Parent.Header.VertexColorUvPointer);
-                    _colorUv = new List<ColorUvData>();
-                    for (var i = 0; i < NumVertices; i++)
+                    m_io.Seek(TriangleDataOffset + M_Parent.M_Parent.Header.TriangleDataPointer);
+                    _indices = new List<ushort>();
+                    for (var i = 0; i < NumVertexIndices; i++)
                     {
-                        _colorUv.Add(new ColorUvData(m_io, this, m_root));
+                        _indices.Add(m_io.ReadU2be());
                     }
                     m_io.Seek(_pos);
-                    return _colorUv;
+                    return _indices;
                 }
 
                 set
                 {
-                    _colorUv = value;
+                    _indices = value;
                 }
             }
             private bool f_materials;
@@ -986,48 +843,16 @@ namespace BoostStudio.Formats
                     _materials = value;
                 }
             }
-            private bool f_vertexIndices;
-            private List<ushort> _vertexIndices;
-            public List<ushort> VertexIndices
-            {
-                get
-                {
-                    if (f_vertexIndices)
-                        return _vertexIndices;
-                    f_vertexIndices = true;
-                    long _pos = m_io.Pos;
-                    m_io.Seek(TriangleDataOffset + M_Parent.M_Parent.Header.TriangleDataPointer);
-                    _vertexIndices = new List<ushort>();
-                    for (var i = 0; i < NumVertexIndices; i++)
-                    {
-                        _vertexIndices.Add(m_io.ReadU2be());
-                    }
-                    m_io.Seek(_pos);
-                    return _vertexIndices;
-                }
-
-                set
-                {
-                    _vertexIndices = value;
-                }
-            }
             private bool f_vertices;
-            private List<VertexData> _vertices;
-            public List<VertexData> Vertices
+            private VertexBuffer _vertices;
+            public VertexBuffer Vertices
             {
                 get
                 {
                     if (f_vertices)
                         return _vertices;
                     f_vertices = true;
-                    long _pos = m_io.Pos;
-                    m_io.Seek(VertexDataOffset + M_Parent.M_Parent.Header.VertexDataPointer);
-                    _vertices = new List<VertexData>();
-                    for (var i = 0; i < NumVertices; i++)
-                    {
-                        _vertices.Add(new VertexData(m_io, this, m_root));
-                    }
-                    m_io.Seek(_pos);
+                    _vertices = new VertexBuffer(m_io, this, m_root);
                     return _vertices;
                 }
 
@@ -1037,8 +862,8 @@ namespace BoostStudio.Formats
                 }
             }
             private uint _triangleDataOffset;
-            private uint _colorUvOffset;
-            private uint _vertexDataOffset;
+            private uint _vertexColorUvOffset;
+            private uint _vertexAttributesOffset;
             private ushort _numVertices;
             private byte _vertexSize;
             private byte _uvSize;
@@ -1058,22 +883,22 @@ namespace BoostStudio.Formats
                     _triangleDataOffset = value;
                 }
             }
-            public uint ColorUvOffset
+            public uint VertexColorUvOffset
             {
-                get { return _colorUvOffset; }
+                get { return _vertexColorUvOffset; }
 
                 set
                 {
-                    _colorUvOffset = value;
+                    _vertexColorUvOffset = value;
                 }
             }
-            public uint VertexDataOffset
+            public uint VertexAttributesOffset
             {
-                get { return _vertexDataOffset; }
+                get { return _vertexAttributesOffset; }
 
                 set
                 {
-                    _vertexDataOffset = value;
+                    _vertexAttributesOffset = value;
                 }
             }
             public ushort NumVertices
@@ -1326,14 +1151,14 @@ namespace BoostStudio.Formats
                 }
             }
         }
-        public partial class Vector2 : KaitaiStruct
+        public partial class Vector2Byte : KaitaiStruct
         {
-            public static Vector2 FromFile(string fileName)
+            public static Vector2Byte FromFile(string fileName)
             {
-                return new Vector2(new KaitaiStream(fileName));
+                return new Vector2Byte(new KaitaiStream(fileName));
             }
 
-            public Vector2(KaitaiStream p__io, Ndp3BinaryFormat.ColorUvData p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
+            public Vector2Byte(KaitaiStream p__io, Ndp3BinaryFormat.VertexColorUv p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -1348,7 +1173,7 @@ namespace BoostStudio.Formats
             private ushort _x;
             private ushort _y;
             private Ndp3BinaryFormat m_root;
-            private Ndp3BinaryFormat.ColorUvData m_parent;
+            private Ndp3BinaryFormat.VertexColorUv m_parent;
             public ushort X
             {
                 get { return _x; }
@@ -1376,7 +1201,7 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public Ndp3BinaryFormat.ColorUvData M_Parent
+            public Ndp3BinaryFormat.VertexColorUv M_Parent
             {
                 get { return m_parent; }
 
@@ -1393,7 +1218,89 @@ namespace BoostStudio.Formats
                 return new Vector4(new KaitaiStream(fileName));
             }
 
-            public Vector4(KaitaiStream p__io, Ndp3BinaryFormat.ColorUvData p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
+            public Vector4(KaitaiStream p__io, Ndp3BinaryFormat.VertexAttribute p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
+            {
+                m_parent = p__parent;
+                m_root = p__root;
+                if (!write)
+                    _read();
+            }
+            private void _read()
+            {
+                _x = m_io.ReadF4be();
+                _y = m_io.ReadF4be();
+                _z = m_io.ReadF4be();
+                _w = m_io.ReadF4be();
+            }
+            private float _x;
+            private float _y;
+            private float _z;
+            private float _w;
+            private Ndp3BinaryFormat m_root;
+            private Ndp3BinaryFormat.VertexAttribute m_parent;
+            public float X
+            {
+                get { return _x; }
+
+                set
+                {
+                    _x = value;
+                }
+            }
+            public float Y
+            {
+                get { return _y; }
+
+                set
+                {
+                    _y = value;
+                }
+            }
+            public float Z
+            {
+                get { return _z; }
+
+                set
+                {
+                    _z = value;
+                }
+            }
+            public float W
+            {
+                get { return _w; }
+
+                set
+                {
+                    _w = value;
+                }
+            }
+            public Ndp3BinaryFormat M_Root
+            {
+                get { return m_root; }
+
+                set
+                {
+                    m_root = value;
+                }
+            }
+            public Ndp3BinaryFormat.VertexAttribute M_Parent
+            {
+                get { return m_parent; }
+
+                set
+                {
+                    m_parent = value;
+                }
+            }
+        }
+        public partial class Vector4Byte : KaitaiStruct
+        {
+            public static Vector4Byte FromFile(string fileName)
+            {
+                return new Vector4Byte(new KaitaiStream(fileName));
+            }
+
+            public Vector4Byte(KaitaiStream p__io, Ndp3BinaryFormat.VertexColorUv p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -1412,7 +1319,7 @@ namespace BoostStudio.Formats
             private byte _z;
             private byte _w;
             private Ndp3BinaryFormat m_root;
-            private Ndp3BinaryFormat.ColorUvData m_parent;
+            private Ndp3BinaryFormat.VertexColorUv m_parent;
             public byte X
             {
                 get { return _x; }
@@ -1458,7 +1365,7 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public Ndp3BinaryFormat.ColorUvData M_Parent
+            public Ndp3BinaryFormat.VertexColorUv M_Parent
             {
                 get { return m_parent; }
 
@@ -1468,14 +1375,14 @@ namespace BoostStudio.Formats
                 }
             }
         }
-        public partial class VertexData : KaitaiStruct
+        public partial class VertexAttribute : KaitaiStruct
         {
-            public static VertexData FromFile(string fileName)
+            public static VertexAttribute FromFile(string fileName)
             {
-                return new VertexData(new KaitaiStream(fileName));
+                return new VertexAttribute(new KaitaiStream(fileName));
             }
 
-            public VertexData(KaitaiStream p__io, Ndp3BinaryFormat.PolygonData p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
+            public VertexAttribute(KaitaiStream p__io, Ndp3BinaryFormat.VertexBuffer p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -1484,10 +1391,10 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                _pos = new Coordinates(m_io, this, m_root);
-                _normal = new Coordinates(m_io, this, m_root);
-                _bitangent = new Coordinates(m_io, this, m_root);
-                _tangent = new Coordinates(m_io, this, m_root);
+                _pos = new Vector4(m_io, this, m_root);
+                _normal = new Vector4(m_io, this, m_root);
+                _bitangent = new Vector4(m_io, this, m_root);
+                _tangent = new Vector4(m_io, this, m_root);
                 _boneIndices = new List<uint>();
                 for (var i = 0; i < 4; i++)
                 {
@@ -1499,15 +1406,15 @@ namespace BoostStudio.Formats
                     _boneWeights.Add(m_io.ReadF4be());
                 }
             }
-            private Coordinates _pos;
-            private Coordinates _normal;
-            private Coordinates _bitangent;
-            private Coordinates _tangent;
+            private Vector4 _pos;
+            private Vector4 _normal;
+            private Vector4 _bitangent;
+            private Vector4 _tangent;
             private List<uint> _boneIndices;
             private List<float> _boneWeights;
             private Ndp3BinaryFormat m_root;
-            private Ndp3BinaryFormat.PolygonData m_parent;
-            public Coordinates Pos
+            private Ndp3BinaryFormat.VertexBuffer m_parent;
+            public Vector4 Pos
             {
                 get { return _pos; }
 
@@ -1516,7 +1423,7 @@ namespace BoostStudio.Formats
                     _pos = value;
                 }
             }
-            public Coordinates Normal
+            public Vector4 Normal
             {
                 get { return _normal; }
 
@@ -1525,7 +1432,7 @@ namespace BoostStudio.Formats
                     _normal = value;
                 }
             }
-            public Coordinates Bitangent
+            public Vector4 Bitangent
             {
                 get { return _bitangent; }
 
@@ -1534,7 +1441,7 @@ namespace BoostStudio.Formats
                     _bitangent = value;
                 }
             }
-            public Coordinates Tangent
+            public Vector4 Tangent
             {
                 get { return _tangent; }
 
@@ -1570,7 +1477,157 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
+            public Ndp3BinaryFormat.VertexBuffer M_Parent
+            {
+                get { return m_parent; }
+
+                set
+                {
+                    m_parent = value;
+                }
+            }
+        }
+        public partial class VertexBuffer : KaitaiStruct
+        {
+            public static VertexBuffer FromFile(string fileName)
+            {
+                return new VertexBuffer(new KaitaiStream(fileName));
+            }
+
+            public VertexBuffer(KaitaiStream p__io, Ndp3BinaryFormat.PolygonData p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
+            {
+                m_parent = p__parent;
+                m_root = p__root;
+                f_attributes = write;
+                f_colorUv = write;
+                if (!write)
+                    _read();
+            }
+            private void _read()
+            {
+            }
+            private bool f_attributes;
+            private List<VertexAttribute> _attributes;
+            public List<VertexAttribute> Attributes
+            {
+                get
+                {
+                    if (f_attributes)
+                        return _attributes;
+                    f_attributes = true;
+                    long _pos = m_io.Pos;
+                    m_io.Seek(M_Parent.VertexAttributesOffset + M_Parent.M_Parent.M_Parent.Header.VertexAttributesPointer);
+                    _attributes = new List<VertexAttribute>();
+                    for (var i = 0; i < M_Parent.NumVertices; i++)
+                    {
+                        _attributes.Add(new VertexAttribute(m_io, this, m_root));
+                    }
+                    m_io.Seek(_pos);
+                    return _attributes;
+                }
+
+                set
+                {
+                    _attributes = value;
+                }
+            }
+            private bool f_colorUv;
+            private List<VertexColorUv> _colorUv;
+            public List<VertexColorUv> ColorUv
+            {
+                get
+                {
+                    if (f_colorUv)
+                        return _colorUv;
+                    f_colorUv = true;
+                    long _pos = m_io.Pos;
+                    m_io.Seek(M_Parent.VertexColorUvOffset + M_Parent.M_Parent.M_Parent.Header.VertexColorUvPointer);
+                    _colorUv = new List<VertexColorUv>();
+                    for (var i = 0; i < M_Parent.NumVertices; i++)
+                    {
+                        _colorUv.Add(new VertexColorUv(m_io, this, m_root));
+                    }
+                    m_io.Seek(_pos);
+                    return _colorUv;
+                }
+
+                set
+                {
+                    _colorUv = value;
+                }
+            }
+            private Ndp3BinaryFormat m_root;
+            private Ndp3BinaryFormat.PolygonData m_parent;
+            public Ndp3BinaryFormat M_Root
+            {
+                get { return m_root; }
+
+                set
+                {
+                    m_root = value;
+                }
+            }
             public Ndp3BinaryFormat.PolygonData M_Parent
+            {
+                get { return m_parent; }
+
+                set
+                {
+                    m_parent = value;
+                }
+            }
+        }
+        public partial class VertexColorUv : KaitaiStruct
+        {
+            public static VertexColorUv FromFile(string fileName)
+            {
+                return new VertexColorUv(new KaitaiStream(fileName));
+            }
+
+            public VertexColorUv(KaitaiStream p__io, Ndp3BinaryFormat.VertexBuffer p__parent = null, Ndp3BinaryFormat p__root = null, bool write = false) : base(p__io)
+            {
+                m_parent = p__parent;
+                m_root = p__root;
+                if (!write)
+                    _read();
+            }
+            private void _read()
+            {
+                _color = new Vector4Byte(m_io, this, m_root);
+                _uv = new Vector2Byte(m_io, this, m_root);
+            }
+            private Vector4Byte _color;
+            private Vector2Byte _uv;
+            private Ndp3BinaryFormat m_root;
+            private Ndp3BinaryFormat.VertexBuffer m_parent;
+            public Vector4Byte Color
+            {
+                get { return _color; }
+
+                set
+                {
+                    _color = value;
+                }
+            }
+            public Vector2Byte Uv
+            {
+                get { return _uv; }
+
+                set
+                {
+                    _uv = value;
+                }
+            }
+            public Ndp3BinaryFormat M_Root
+            {
+                get { return m_root; }
+
+                set
+                {
+                    m_root = value;
+                }
+            }
+            public Ndp3BinaryFormat.VertexBuffer M_Parent
             {
                 get { return m_parent; }
 

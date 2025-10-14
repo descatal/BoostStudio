@@ -2341,6 +2341,61 @@
         }
       }
     },
+    "/api/ndp3/json": {
+      "post": {
+        "tags": [
+          "Ndp3"
+        ],
+        "operationId": "post-api-ndp3-json",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "ndp3File",
+                  "vbnFile"
+                ],
+                "type": "object",
+                "allOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "ndp3File": {
+                        "$ref": "#/components/schemas/IFormFile"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "vbnFile": {
+                        "$ref": "#/components/schemas/IFormFile"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoneVm"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/hitboxes": {
       "get": {
         "tags": [
@@ -4147,6 +4202,40 @@
               ],
               "format": "uint32"
             }
+          }
+        }
+      },
+      "BoneVm": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "transform": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
+                "type": [
+                  "number",
+                  "string"
+                ],
+                "format": "float"
+              }
+            }
+          },
+          "parent_index": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "null",
+              "integer",
+              "string"
+            ],
+            "format": "int32"
+          },
+          "billboard_type": {
+            "type": "string"
           }
         }
       },

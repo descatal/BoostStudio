@@ -26,6 +26,7 @@ using BoostStudio.Infrastructure.Formats.ProjectileFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
 using BoostStudio.Infrastructure.Formats.StatsFormat;
 using BoostStudio.Infrastructure.Formats.TblFormat;
+using BoostStudio.Infrastructure.Formats.VbnFormat;
 using BoostStudio.Infrastructure.Scex;
 using FFMpegCore;
 using FFMpegCore.Extensions.Downloader;
@@ -120,6 +121,7 @@ public static class DependencyInjection
         services.AddTransient<IListInfoBinarySerializer, ListInfoBinarySerializer>();
         services.AddTransient<ITblBinarySerializer, TblBinarySerializer>();
         services.AddTransient<INdp3BinarySerializer, Ndp3BinarySerializer>();
+        services.AddTransient<IVbnBinarySerializer, VbnBinarySerializer>();
 
         services.AddTransient<IBnsf, Bnsf>();
         services.AddTransient<IRiff, Riff>();

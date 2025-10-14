@@ -43,12 +43,14 @@ public static class DependencyInjection
                     (schema, context, _) =>
                     {
                         // Transform any FileContentHttpResult into binary format
-                        if (context.JsonTypeInfo.Type == typeof(FileContentHttpResult))
+                        if (context.JsonTypeInfo.Type != typeof(FileContentHttpResult))
                         {
-                            schema.Type = JsonSchemaType.String;
-                            schema.Format = "binary";
-                            schema.Properties = null;
+                            return Task.CompletedTask;
                         }
+
+                        schema.Type = JsonSchemaType.String;
+                        schema.Format = "binary";
+                        schema.Properties = null;
                         return Task.CompletedTask;
                     }
                 );

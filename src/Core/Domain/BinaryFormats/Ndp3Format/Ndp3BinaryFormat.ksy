@@ -58,10 +58,10 @@ types:
         value:  0x30 + metadata_chunk_size
       vertex_color_uv_pointer:
         value: triangle_data_pointer + triangle_data_chunk_size
-      vertex_data_pointer:
+      vertex_attributes_pointer:
         value: vertex_color_uv_pointer + vertex_color_uv_chunk_size
       name_chunk_pointer:
-        value: vertex_data_pointer + vertex_indices_chunk_size
+        value: vertex_attributes_pointer + vertex_indices_chunk_size
   bounding_sphere:
     seq:
       - id: center_x
@@ -100,9 +100,9 @@ types:
     seq:
       - id: triangle_data_offset
         type: u4
-      - id: color_uv_offset
+      - id: vertex_color_uv_offset
         type: u4
-      - id: vertex_data_offset
+      - id: vertex_attributes_offset
         type: u4
       - id: num_vertices
         type: u2
@@ -127,37 +127,41 @@ types:
         type: material_data(_index)
         repeat: expr
         repeat-expr: 4
-      color_uv:
-        type: color_uv_data
-        pos: color_uv_offset + _parent._parent.header.vertex_color_uv_pointer
-        repeat: expr
-        repeat-expr: num_vertices
       vertices:
-        type: vertex_data
-        pos: vertex_data_offset + _parent._parent.header.vertex_data_pointer
-        repeat: expr
-        repeat-expr: num_vertices
-      vertex_indices:
+        type: vertex_buffer
+      indices:
         type: u2
         pos: triangle_data_offset + _parent._parent.header.triangle_data_pointer
         repeat: expr
         repeat-expr: num_vertex_indices
-  color_uv_data:
+  vertex_buffer:
+    instances:
+      color_uv:
+        type: vertex_color_uv
+        pos: _parent.vertex_color_uv_offset + _parent._parent._parent.header.vertex_color_uv_pointer
+        repeat: expr
+        repeat-expr: _parent.num_vertices
+      attributes:
+        type: vertex_attribute
+        pos: _parent.vertex_attributes_offset + _parent._parent._parent.header.vertex_attributes_pointer
+        repeat: expr
+        repeat-expr: _parent.num_vertices
+  vertex_color_uv:
     seq:
       - id: color
-        type: vector_4
+        type: vector_4_byte
       - id: uv
-        type: vector_2
-  vertex_data:
+        type: vector_2_byte
+  vertex_attribute:
     seq:
       - id: pos
-        type: coordinates
+        type: vector_4
       - id: normal
-        type: coordinates
+        type: vector_4
       - id: bitangent
-        type: coordinates
+        type: vector_4
       - id: tangent
-        type: coordinates
+        type: vector_4
       - id: bone_indices
         type: u4
         repeat: expr
@@ -166,7 +170,7 @@ types:
         type: f4
         repeat: expr
         repeat-expr: 4
-  coordinates:
+  vector_4:
     seq:
       - id: x
         type: f4
@@ -176,13 +180,13 @@ types:
         type: f4
       - id: w
         type: f4
-  vector_2:
+  vector_2_byte:
     seq:
       - id: x
         type: u2
       - id: y
         type: u2
-  vector_4:
+  vector_4_byte:
     seq:
       - id: x
         type: u1
