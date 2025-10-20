@@ -11,6 +11,7 @@
     <PackageVersion Include="FFMpegCore" Version="5.1.0" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.0.1" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.10" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="10.0.0-preview.5.25277.114" />
     <PackageVersion
