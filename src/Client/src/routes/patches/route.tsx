@@ -3,6 +3,7 @@ import { Main } from "@/components/layout/main";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { PatchFileTabs } from "@/features/patches/libs/constants";
+import { useAppContext } from "@/providers/app-store-provider.ts";
 
 export const Route = createFileRoute("/patches")({
   component: RouteComponent,
@@ -10,6 +11,9 @@ export const Route = createFileRoute("/patches")({
 
 function RouteComponent() {
   const { patchId }: { patchId: PatchFileTabs } = Route.useParams();
+
+  const setTopbarLinks = useAppContext((state) => state.setTopbarLinks);
+  setTopbarLinks([]);
 
   return (
     <>

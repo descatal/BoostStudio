@@ -22,6 +22,7 @@ import { Route as OverlaysIndexRouteImport } from './routes/overlays/index'
 import { Route as UnitsScriptsRouteImport } from './routes/units/scripts'
 import { Route as UnitsAssetsRouteImport } from './routes/units/assets'
 import { Route as ToolsPsarcRouteImport } from './routes/tools/psarc'
+import { Route as ToolsModelRouteImport } from './routes/tools/model'
 import { Route as ToolsFhmRouteImport } from './routes/tools/fhm'
 import { Route as PatchesPatchIdRouteImport } from './routes/patches/$patchId'
 import { Route as OverlaysMatchInfoRouteImport } from './routes/overlays/match-info'
@@ -105,6 +106,11 @@ const UnitsAssetsRoute = UnitsAssetsRouteImport.update({
 const ToolsPsarcRoute = ToolsPsarcRouteImport.update({
   id: '/psarc',
   path: '/psarc',
+  getParentRoute: () => ToolsRouteRoute,
+} as any)
+const ToolsModelRoute = ToolsModelRouteImport.update({
+  id: '/model',
+  path: '/model',
   getParentRoute: () => ToolsRouteRoute,
 } as any)
 const ToolsFhmRoute = ToolsFhmRouteImport.update({
@@ -215,6 +221,7 @@ export interface FileRoutesByFullPath {
   '/overlays/match-info': typeof OverlaysMatchInfoRoute
   '/patches/$patchId': typeof PatchesPatchIdRoute
   '/tools/fhm': typeof ToolsFhmRoute
+  '/tools/model': typeof ToolsModelRoute
   '/tools/psarc': typeof ToolsPsarcRoute
   '/units/assets': typeof UnitsAssetsRoute
   '/units/scripts': typeof UnitsScriptsRoute
@@ -243,6 +250,7 @@ export interface FileRoutesByTo {
   '/overlays/match-info': typeof OverlaysMatchInfoRoute
   '/patches/$patchId': typeof PatchesPatchIdRoute
   '/tools/fhm': typeof ToolsFhmRoute
+  '/tools/model': typeof ToolsModelRoute
   '/tools/psarc': typeof ToolsPsarcRoute
   '/units/assets': typeof UnitsAssetsRoute
   '/units/scripts': typeof UnitsScriptsRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/overlays/match-info': typeof OverlaysMatchInfoRoute
   '/patches/$patchId': typeof PatchesPatchIdRoute
   '/tools/fhm': typeof ToolsFhmRoute
+  '/tools/model': typeof ToolsModelRoute
   '/tools/psarc': typeof ToolsPsarcRoute
   '/units/assets': typeof UnitsAssetsRoute
   '/units/scripts': typeof UnitsScriptsRoute
@@ -313,6 +322,7 @@ export interface FileRouteTypes {
     | '/overlays/match-info'
     | '/patches/$patchId'
     | '/tools/fhm'
+    | '/tools/model'
     | '/tools/psarc'
     | '/units/assets'
     | '/units/scripts'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/overlays/match-info'
     | '/patches/$patchId'
     | '/tools/fhm'
+    | '/tools/model'
     | '/tools/psarc'
     | '/units/assets'
     | '/units/scripts'
@@ -374,6 +385,7 @@ export interface FileRouteTypes {
     | '/overlays/match-info'
     | '/patches/$patchId'
     | '/tools/fhm'
+    | '/tools/model'
     | '/tools/psarc'
     | '/units/assets'
     | '/units/scripts'
@@ -499,6 +511,13 @@ declare module '@tanstack/react-router' {
       path: '/psarc'
       fullPath: '/tools/psarc'
       preLoaderRoute: typeof ToolsPsarcRouteImport
+      parentRoute: typeof ToolsRouteRoute
+    }
+    '/tools/model': {
+      id: '/tools/model'
+      path: '/model'
+      fullPath: '/tools/model'
+      preLoaderRoute: typeof ToolsModelRouteImport
       parentRoute: typeof ToolsRouteRoute
     }
     '/tools/fhm': {
@@ -665,12 +684,14 @@ const SettingsRouteRouteWithChildren = SettingsRouteRoute._addFileChildren(
 
 interface ToolsRouteRouteChildren {
   ToolsFhmRoute: typeof ToolsFhmRoute
+  ToolsModelRoute: typeof ToolsModelRoute
   ToolsPsarcRoute: typeof ToolsPsarcRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 const ToolsRouteRouteChildren: ToolsRouteRouteChildren = {
   ToolsFhmRoute: ToolsFhmRoute,
+  ToolsModelRoute: ToolsModelRoute,
   ToolsPsarcRoute: ToolsPsarcRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }

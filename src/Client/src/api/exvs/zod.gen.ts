@@ -3,42 +3,100 @@
 import { z } from "zod";
 
 export const zAmmoDto = z.object({
-  hash: z.optional(z.coerce.bigint()),
-  ammoType: z.optional(z.coerce.number()),
-  maxAmmo: z.optional(z.coerce.number()),
-  initialAmmo: z.optional(z.coerce.number()),
-  timedDurationFrame: z.optional(z.coerce.number()),
-  unk16: z.optional(z.coerce.number()),
-  reloadType: z.optional(z.coerce.number()),
-  cooldownDurationFrame: z.optional(z.coerce.number()),
-  reloadDurationFrame: z.optional(z.coerce.number()),
-  assaultBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  blastBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  unk40: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  inactiveUnk48: z.optional(z.coerce.number()),
-  inactiveCooldownDurationFrame: z.optional(z.coerce.number()),
-  inactiveReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveAssaultBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveBlastBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveUnk68: z.optional(z.coerce.number()),
-  inactiveUnk72: z.optional(z.coerce.number()),
-  burstReplenish: z.optional(z.coerce.number()),
-  unk80: z.optional(z.coerce.number()),
-  unk84: z.optional(z.coerce.number()),
-  unk88: z.optional(z.coerce.number()),
-  chargeInput: z.optional(z.coerce.number()),
-  chargeDurationFrame: z.optional(z.coerce.number()),
-  assaultBurstChargeDurationFrame: z.optional(z.coerce.number()),
-  blastBurstChargeDurationFrame: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  unk112: z.optional(z.coerce.number()),
-  releaseChargeLingerDurationFrame: z.optional(z.coerce.number()),
-  maxChargeLevel: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
-  order: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  hash: z.optional(
+    z.union([z.coerce.bigint(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  ammoType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxAmmo: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  initialAmmo: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  timedDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk16: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  reloadType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  cooldownDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  blastBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk40: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  inactiveUnk48: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveCooldownDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveAssaultBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveBlastBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveUnk68: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveUnk72: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  burstReplenish: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk80: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk84: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk88: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  chargeInput: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstChargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  blastBurstChargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk108: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk112: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  releaseChargeLingerDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxChargeLevel: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk124: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chargeMultiLockFlag: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zAssetFileType = z.enum([
@@ -100,7 +158,7 @@ export const zAssetFileType = z.enum([
 export const zSeriesVm = z.union([
   z.null(),
   z.object({
-    id: z.optional(z.coerce.number()),
+    id: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
     slugName: z.optional(z.string()),
     nameEnglish: z.optional(z.union([z.null(), z.string()])),
     nameJapanese: z.optional(z.union([z.null(), z.string()])),
@@ -109,30 +167,36 @@ export const zSeriesVm = z.union([
 ]);
 
 export const zUnitSummaryVm = z.object({
-  unitId: z.optional(z.coerce.number()),
+  unitId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   slugName: z.optional(z.union([z.null(), z.string()])),
   nameEnglish: z.optional(z.union([z.null(), z.string()])),
   nameJapanese: z.optional(z.union([z.null(), z.string()])),
   nameChinese: z.optional(z.union([z.null(), z.string()])),
-  seriesId: z.optional(z.union([z.null(), z.coerce.number()])),
+  seriesId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   series: z.optional(zSeriesVm),
 });
 
 export const zAssetFileDto = z.union([
   z.null(),
   z.object({
-    hash: z.coerce.number(),
-    order: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    order: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
     fileType: z.array(zAssetFileType),
     units: z.array(zUnitSummaryVm),
   }),
 ]);
 
 export const zAssetFileVm = z.object({
-  hash: z.coerce.number(),
-  order: z.optional(z.coerce.number()),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   fileType: z.optional(z.array(zAssetFileType)),
-  unitIds: z.optional(z.array(z.coerce.number())),
+  unitIds: z.optional(
+    z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  ),
 });
 
 export const zBulkCreateUnitCommand = z.object({
@@ -147,7 +211,7 @@ export const zCompileScexByPathCommand = z.object({
 });
 
 export const zCompileScexByUnitsCommand = z.object({
-  unitIds: z.array(z.coerce.number()),
+  unitIds: z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   replaceWorking: z.optional(z.boolean()).default(false),
   hotReload: z.optional(z.boolean()).default(false),
 });
@@ -160,85 +224,204 @@ export const zConfigDto = z.object({
 });
 
 export const zCreateAmmoCommand = z.object({
-  ammoType: z.optional(z.coerce.number()),
-  maxAmmo: z.optional(z.coerce.number()),
-  initialAmmo: z.optional(z.coerce.number()),
-  timedDurationFrame: z.optional(z.coerce.number()),
-  unk16: z.optional(z.coerce.number()),
-  reloadType: z.optional(z.coerce.number()),
-  cooldownDurationFrame: z.optional(z.coerce.number()),
-  reloadDurationFrame: z.optional(z.coerce.number()),
-  assaultBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  blastBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  unk40: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  inactiveUnk48: z.optional(z.coerce.number()),
-  inactiveCooldownDurationFrame: z.optional(z.coerce.number()),
-  inactiveReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveAssaultBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveBlastBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveUnk68: z.optional(z.coerce.number()),
-  inactiveUnk72: z.optional(z.coerce.number()),
-  burstReplenish: z.optional(z.coerce.number()),
-  unk80: z.optional(z.coerce.number()),
-  unk84: z.optional(z.coerce.number()),
-  unk88: z.optional(z.coerce.number()),
-  chargeInput: z.optional(z.coerce.number()),
-  chargeDurationFrame: z.optional(z.coerce.number()),
-  assaultBurstChargeDurationFrame: z.optional(z.coerce.number()),
-  blastBurstChargeDurationFrame: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  unk112: z.optional(z.coerce.number()),
-  releaseChargeLingerDurationFrame: z.optional(z.coerce.number()),
-  maxChargeLevel: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
-  order: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  ammoType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxAmmo: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  initialAmmo: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  timedDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk16: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  reloadType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  cooldownDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  blastBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk40: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  inactiveUnk48: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveCooldownDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveAssaultBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveBlastBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveUnk68: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveUnk72: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  burstReplenish: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk80: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk84: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk88: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  chargeInput: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstChargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  blastBurstChargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk108: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk112: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  releaseChargeLingerDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxChargeLevel: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk124: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chargeMultiLockFlag: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zCreateAssetFileCommand = z.object({
-  order: z.optional(z.coerce.number()),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   fileType: z.optional(z.array(zAssetFileType)),
-  unitIds: z.optional(z.array(z.coerce.number())),
+  unitIds: z.optional(
+    z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  ),
 });
 
 export const zCreateHitboxCommand = z.object({
-  hitboxType: z.optional(z.coerce.number()),
-  damage: z.optional(z.coerce.number()),
-  unk8: z.optional(z.coerce.number()),
-  downValueThreshold: z.optional(z.coerce.number()),
-  yorukeValueThreshold: z.optional(z.coerce.number()),
-  unk20: z.optional(z.coerce.number()),
-  unk24: z.optional(z.coerce.number()),
-  damageCorrection: z.optional(z.coerce.number()),
-  specialEffect: z.optional(z.coerce.number()),
-  hitEffect: z.optional(z.coerce.number()),
-  flyDirection1: z.optional(z.coerce.number()),
-  flyDirection2: z.optional(z.coerce.number()),
-  flyDirection3: z.optional(z.coerce.number()),
-  enemyCameraShakeMultiplier: z.optional(z.coerce.number()),
-  playerCameraShakeMultiplier: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  knockUpAngle: z.optional(z.coerce.number()),
-  knockUpRange: z.optional(z.coerce.number()),
-  unk68: z.optional(z.coerce.number()),
-  multipleHitIntervalFrame: z.optional(z.coerce.number()),
-  multipleHitCount: z.optional(z.coerce.number()),
-  enemyStunDuration: z.optional(z.coerce.number()),
-  playerStunDuration: z.optional(z.coerce.number()),
-  hitVisualEffect: z.optional(z.coerce.number()),
-  hitVisualEffectSizeMultiplier: z.optional(z.coerce.number()),
-  hitSoundEffectHash: z.optional(z.coerce.number()),
-  unk100: z.optional(z.coerce.number()),
-  friendlyDamageFlag: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  hitboxGroupHash: z.optional(z.coerce.number()),
+  hitboxType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  damage: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk8: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  downValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  yorukeValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk20: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk24: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  damageCorrection: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  specialEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection1: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection2: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection3: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  enemyCameraShakeMultiplier: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  playerCameraShakeMultiplier: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk56: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  knockUpAngle: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  knockUpRange: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk68: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  multipleHitIntervalFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  multipleHitCount: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  enemyStunDuration: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  playerStunDuration: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitVisualEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitVisualEffectSizeMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  hitSoundEffectHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk100: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  friendlyDamageFlag: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk108: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitboxGroupHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zCreateHitboxGroupCommand = z.object({
-  hash: z.coerce.number(),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
 });
 
 export const zPatchFileVersion = z.enum([
@@ -255,7 +438,9 @@ export const zPathInfoDto = z.union([
   z.null(),
   z.object({
     path: z.string(),
-    order: z.optional(z.union([z.null(), z.coerce.number()])),
+    order: z.optional(
+      z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
   }),
 ]);
 
@@ -263,10 +448,10 @@ export const zFileInfoDto = z.union([
   z.null(),
   z.object({
     version: zPatchFileVersion,
-    size1: z.coerce.number(),
-    size2: z.coerce.number(),
-    size3: z.coerce.number(),
-    size4: z.coerce.number(),
+    size1: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size2: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size3: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size4: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
 ]);
 
@@ -274,99 +459,385 @@ export const zCreatePatchFileCommand = z.object({
   tblId: zPatchFileVersion,
   pathInfo: z.optional(zPathInfoDto),
   fileInfo: z.optional(zFileInfoDto),
-  assetFileHash: z.optional(z.union([z.null(), z.coerce.number()])),
+  assetFileHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zCreateProjectileCommand = z.object({
-  projectileType: z.optional(z.coerce.number()),
-  hitboxHash: z.optional(z.union([z.null(), z.coerce.number()])),
-  modelHash: z.optional(z.coerce.number()),
-  skeletonIndex: z.optional(z.coerce.number()),
-  aimType: z.optional(z.coerce.number()),
-  translateY: z.optional(z.coerce.number()),
-  translateZ: z.optional(z.coerce.number()),
-  translateX: z.optional(z.coerce.number()),
-  rotateX: z.optional(z.coerce.number()),
-  rotateZ: z.optional(z.coerce.number()),
-  cosmeticHash: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  unk48: z.optional(z.coerce.number()),
-  unk52: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  ammoConsumption: z.optional(z.coerce.number()),
-  durationFrame: z.optional(z.coerce.number()),
-  maxTravelDistance: z.optional(z.coerce.number()),
-  initialSpeed: z.optional(z.coerce.number()),
-  acceleration: z.optional(z.coerce.number()),
-  accelerationStartFrame: z.optional(z.coerce.number()),
-  unk84: z.optional(z.coerce.number()),
-  maxSpeed: z.optional(z.coerce.number()),
-  reserved92: z.optional(z.coerce.number()),
-  reserved96: z.optional(z.coerce.number()),
-  reserved100: z.optional(z.coerce.number()),
-  reserved104: z.optional(z.coerce.number()),
-  reserved108: z.optional(z.coerce.number()),
-  reserved112: z.optional(z.coerce.number()),
-  reserved116: z.optional(z.coerce.number()),
-  horizontalGuidance: z.optional(z.coerce.number()),
-  horizontalGuidanceAngle: z.optional(z.coerce.number()),
-  verticalGuidance: z.optional(z.coerce.number()),
-  verticalGuidanceAngle: z.optional(z.coerce.number()),
-  reserved136: z.optional(z.coerce.number()),
-  reserved140: z.optional(z.coerce.number()),
-  reserved144: z.optional(z.coerce.number()),
-  reserved148: z.optional(z.coerce.number()),
-  reserved152: z.optional(z.coerce.number()),
-  reserved156: z.optional(z.coerce.number()),
-  reserved160: z.optional(z.coerce.number()),
-  reserved164: z.optional(z.coerce.number()),
-  reserved168: z.optional(z.coerce.number()),
-  reserved172: z.optional(z.coerce.number()),
-  size: z.optional(z.coerce.number()),
-  reserved180: z.optional(z.coerce.number()),
-  reserved184: z.optional(z.coerce.number()),
-  soundEffectHash: z.optional(z.coerce.number()),
-  reserved192: z.optional(z.coerce.number()),
-  reserved196: z.optional(z.coerce.number()),
-  chainedProjectileHash: z.optional(z.coerce.number()),
-  reserved204: z.optional(z.coerce.number()),
-  reserved208: z.optional(z.coerce.number()),
-  reserved212: z.optional(z.coerce.number()),
-  reserved216: z.optional(z.coerce.number()),
-  reserved220: z.optional(z.coerce.number()),
-  reserved224: z.optional(z.coerce.number()),
-  reserved228: z.optional(z.coerce.number()),
-  reserved232: z.optional(z.coerce.number()),
-  reserved236: z.optional(z.coerce.number()),
-  reserved240: z.optional(z.coerce.number()),
-  reserved244: z.optional(z.coerce.number()),
-  reserved248: z.optional(z.coerce.number()),
-  reserved252: z.optional(z.coerce.number()),
-  reserved256: z.optional(z.coerce.number()),
-  reserved260: z.optional(z.coerce.number()),
-  reserved264: z.optional(z.coerce.number()),
-  reserved268: z.optional(z.coerce.number()),
-  reserved272: z.optional(z.coerce.number()),
-  reserved276: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  projectileType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitboxHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  modelHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  skeletonIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  aimType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  translateY: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  translateZ: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  translateX: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  rotateX: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  rotateZ: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  cosmeticHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk48: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk52: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk56: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  ammoConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  durationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxTravelDistance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  initialSpeed: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  acceleration: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  accelerationStartFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk84: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  maxSpeed: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved92: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved96: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved100: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved104: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved108: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved112: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved116: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  horizontalGuidance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  horizontalGuidanceAngle: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  verticalGuidance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  verticalGuidanceAngle: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved136: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved140: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved144: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved148: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved152: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved156: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved160: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved164: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved168: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved172: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  size: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved180: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved184: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  soundEffectHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved192: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved196: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chainedProjectileHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved204: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved208: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved212: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved216: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved220: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved224: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved228: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved232: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved236: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved240: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved244: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved248: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved252: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved256: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved260: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved264: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved268: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved272: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved276: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zPlayableSeriesDetailsDto = z.union([
   z.null(),
   z.object({
-    unk2: z.optional(z.coerce.number()),
-    unk3: z.optional(z.coerce.number()),
-    unk4: z.optional(z.coerce.number()),
-    selectOrder: z.optional(z.coerce.number()),
-    logoSpriteIndex: z.optional(z.coerce.number()),
-    logoSprite2Index: z.optional(z.coerce.number()),
-    unk11: z.optional(z.coerce.number()),
-    movieAssetHash: z.optional(z.union([z.null(), z.coerce.number()])),
+    unk2: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    unk3: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    unk4: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    selectOrder: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    logoSpriteIndex: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    logoSprite2Index: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    unk11: z.optional(
+      z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
+    movieAssetHash: z.optional(
+      z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    ),
   }),
 ]);
 
 export const zCreateSeriesCommand = z.object({
-  id: z.optional(z.coerce.number()),
+  id: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   playableSeries: z.optional(zPlayableSeriesDetailsDto),
   slugName: z.optional(z.string()),
   nameEnglish: z.optional(z.union([z.null(), z.string()])),
@@ -375,188 +846,745 @@ export const zCreateSeriesCommand = z.object({
 });
 
 export const zCreateStatCommand = z.object({
-  unitCost: z.optional(z.coerce.number()),
-  unitCost2: z.optional(z.coerce.number()),
-  maxHp: z.optional(z.coerce.number()),
-  downValueThreshold: z.optional(z.coerce.number()),
-  yorukeValueThreshold: z.optional(z.coerce.number()),
-  unk20: z.optional(z.coerce.number()),
-  unk24: z.optional(z.coerce.number()),
-  unk28: z.optional(z.coerce.number()),
-  maxBoost: z.optional(z.coerce.number()),
-  unk36: z.optional(z.coerce.number()),
-  unk40: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  gravityMultiplierAir: z.optional(z.coerce.number()),
-  gravityMultiplierLand: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  unk60: z.optional(z.coerce.number()),
-  unk64: z.optional(z.coerce.number()),
-  unk68: z.optional(z.coerce.number()),
-  unk72: z.optional(z.coerce.number()),
-  unk76: z.optional(z.coerce.number()),
-  unk80: z.optional(z.coerce.number()),
-  cameraZoomMultiplier: z.optional(z.coerce.number()),
-  unk88: z.optional(z.coerce.number()),
-  unk92: z.optional(z.coerce.number()),
-  unk96: z.optional(z.coerce.number()),
-  unk100: z.optional(z.coerce.number()),
-  unk104: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  sizeMultiplier: z.optional(z.coerce.number()),
-  unk116: z.optional(z.coerce.number()),
-  unk120: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
-  unk132: z.optional(z.coerce.number()),
-  unk136: z.optional(z.coerce.number()),
-  unk140: z.optional(z.coerce.number()),
-  unk144: z.optional(z.coerce.number()),
-  unk148: z.optional(z.coerce.number()),
-  unk152: z.optional(z.coerce.number()),
-  unk156: z.optional(z.coerce.number()),
-  unk160: z.optional(z.coerce.number()),
-  unk164: z.optional(z.coerce.number()),
-  unk168: z.optional(z.coerce.number()),
-  unk172: z.optional(z.coerce.number()),
-  unk176: z.optional(z.coerce.number()),
-  unk180: z.optional(z.coerce.number()),
-  unk184: z.optional(z.coerce.number()),
-  redLockRangeMelee: z.optional(z.coerce.number()),
-  redLockRange: z.optional(z.coerce.number()),
-  unk196: z.optional(z.coerce.number()),
-  unk200: z.optional(z.coerce.number()),
-  unk204: z.optional(z.coerce.number()),
-  unk208: z.optional(z.coerce.number()),
-  boostReplenish: z.optional(z.coerce.number()),
-  unk216: z.optional(z.coerce.number()),
-  boostInitialConsumption: z.optional(z.coerce.number()),
-  boostFuwaInitialConsumption: z.optional(z.coerce.number()),
-  boostFlyConsumption: z.optional(z.coerce.number()),
-  boostGroundStepInitialConsumption: z.optional(z.coerce.number()),
-  boostGroundStepConsumption: z.optional(z.coerce.number()),
-  boostAirStepInitialConsumption: z.optional(z.coerce.number()),
-  boostAirStepConsumption: z.optional(z.coerce.number()),
-  boostBdInitialConsumption: z.optional(z.coerce.number()),
-  boostBdConsumption: z.optional(z.coerce.number()),
-  unk256: z.optional(z.coerce.number()),
-  unk260: z.optional(z.coerce.number()),
-  unk264: z.optional(z.coerce.number()),
-  unk268: z.optional(z.coerce.number()),
-  boostTransformInitialConsumption: z.optional(z.coerce.number()),
-  boostTransformConsumption: z.optional(z.coerce.number()),
-  boostNonVernierActionConsumption: z.optional(z.coerce.number()),
-  boostPostActionConsumption: z.optional(z.coerce.number()),
-  boostRainbowStepInitialConsumption: z.optional(z.coerce.number()),
-  unk292: z.optional(z.coerce.number()),
-  unk296: z.optional(z.coerce.number()),
-  unk300: z.optional(z.coerce.number()),
-  unk304: z.optional(z.coerce.number()),
-  unk308: z.optional(z.coerce.number()),
-  unk312: z.optional(z.coerce.number()),
-  unk316: z.optional(z.coerce.number()),
-  unk320: z.optional(z.coerce.number()),
-  unk324: z.optional(z.coerce.number()),
-  unk328: z.optional(z.coerce.number()),
-  unk332: z.optional(z.coerce.number()),
-  assaultBurstRedLockMelee: z.optional(z.coerce.number()),
-  assaultBurstRedLock: z.optional(z.coerce.number()),
-  assaultBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  assaultBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  assaultBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  assaultBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  assaultBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk364: z.optional(z.coerce.number()),
-  unk368: z.optional(z.coerce.number()),
+  unitCost: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unitCost2: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxHp: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  downValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  yorukeValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk20: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk24: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk28: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  maxBoost: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk36: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk40: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  gravityMultiplierAir: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  gravityMultiplierLand: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk56: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk60: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk64: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk68: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk72: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk76: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk80: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  cameraZoomMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk88: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk92: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk96: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk100: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk104: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk108: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  sizeMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk116: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk120: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk124: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk128: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk132: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk136: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk140: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk144: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk148: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk152: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk156: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk160: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk164: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk168: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk172: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk176: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk180: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk184: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  redLockRangeMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  redLockRange: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk196: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk200: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk204: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk208: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostReplenish: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk216: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostFuwaInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostFlyConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostGroundStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostGroundStepConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostAirStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostAirStepConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostBdInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostBdConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk256: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk260: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk264: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk268: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostTransformInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostTransformConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostNonVernierActionConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostPostActionConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostRainbowStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk292: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk296: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk300: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk304: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk308: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk312: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk316: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk320: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk324: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk328: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk332: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk364: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk368: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   assaultBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   assaultBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk380: z.optional(z.coerce.number()),
-  unk384: z.optional(z.coerce.number()),
-  unk388: z.optional(z.coerce.number()),
-  unk392: z.optional(z.coerce.number()),
-  unk396: z.optional(z.coerce.number()),
-  blastBurstRedLockMelee: z.optional(z.coerce.number()),
-  blastBurstRedLock: z.optional(z.coerce.number()),
-  blastBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  blastBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  blastBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  blastBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  blastBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk428: z.optional(z.coerce.number()),
-  unk432: z.optional(z.coerce.number()),
+  unk380: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk384: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk388: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk392: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk396: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk428: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk432: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   blastBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   blastBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk444: z.optional(z.coerce.number()),
-  unk448: z.optional(z.coerce.number()),
-  unk452: z.optional(z.coerce.number()),
-  unk456: z.optional(z.coerce.number()),
-  unk460: z.optional(z.coerce.number()),
-  thirdBurstRedLockMelee: z.optional(z.coerce.number()),
-  thirdBurstRedLock: z.optional(z.coerce.number()),
-  thirdBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  thirdBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  thirdBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  thirdBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  thirdBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk492: z.optional(z.coerce.number()),
-  unk496: z.optional(z.coerce.number()),
+  unk444: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk448: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk452: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk456: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk460: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk492: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk496: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   thirdBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   thirdBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk508: z.optional(z.coerce.number()),
-  unk512: z.optional(z.coerce.number()),
-  unk516: z.optional(z.coerce.number()),
-  unk520: z.optional(z.coerce.number()),
-  unk524: z.optional(z.coerce.number()),
-  fourthBurstRedLockMelee: z.optional(z.coerce.number()),
-  fourthBurstRedLock: z.optional(z.coerce.number()),
-  fourthBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  fourthBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  fourthBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  fourthBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  fourthBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk572: z.optional(z.coerce.number()),
-  unk576: z.optional(z.coerce.number()),
+  unk508: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk512: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk516: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk520: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk524: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk572: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk576: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   fourthBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   fourthBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk588: z.optional(z.coerce.number()),
-  unk592: z.optional(z.coerce.number()),
-  unk596: z.optional(z.coerce.number()),
-  unk600: z.optional(z.coerce.number()),
-  unk604: z.optional(z.coerce.number()),
-  unk608: z.optional(z.coerce.number()),
-  order: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  unk588: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk592: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk596: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk600: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk604: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk608: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zCreateUnitAmmoSlotCommand = z.object({
-  ammoHash: z.coerce.number(),
-  unitId: z.coerce.number(),
-  slotOrder: z.coerce.number(),
+  ammoHash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  slotOrder: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
 });
 
 export const zCreateUnitCommand = z.object({
-  unitId: z.optional(z.coerce.number()),
+  unitId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   slugName: z.optional(z.union([z.null(), z.string()])),
   nameEnglish: z.optional(z.union([z.null(), z.string()])),
   nameJapanese: z.optional(z.union([z.null(), z.string()])),
   nameChinese: z.optional(z.union([z.null(), z.string()])),
-  seriesId: z.optional(z.union([z.null(), z.coerce.number()])),
+  seriesId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   series: z.optional(zSeriesVm),
 });
 
@@ -569,7 +1597,7 @@ export const zDecompileScexByPathCommand = z.object({
 });
 
 export const zDecompileScexByUnitsCommand = z.object({
-  unitIds: z.array(z.coerce.number()),
+  unitIds: z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   replaceScript: z.optional(z.boolean()).default(false),
 });
 
@@ -583,14 +1611,34 @@ export const zExportAmmoCommand = z.object({
 });
 
 export const zExportHitboxGroupByPathCommand = z.object({
-  hashes: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  hashes: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   outputPath: z.optional(z.union([z.null(), z.string()])),
 });
 
 export const zExportHitboxGroupCommand = z.object({
-  hashes: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  hashes: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   replaceWorking: z.optional(z.boolean()).default(false),
   hotReload: z.optional(z.boolean()).default(false),
 });
@@ -609,23 +1657,43 @@ export const zExportTblCommand = z.object({
 });
 
 export const zExportUnitProjectileByPathCommand = z.object({
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   exportPath: z.optional(z.union([z.null(), z.string()])),
 });
 
 export const zExportUnitProjectileCommand = z.object({
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   replaceWorking: z.optional(z.boolean()).default(false),
   hotReload: z.optional(z.boolean()).default(false),
 });
 
 export const zExportUnitStatByPathCommand = z.object({
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   exportPath: z.optional(z.union([z.null(), z.string()])),
 });
 
 export const zExportUnitStatCommand = z.object({
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   replaceWorking: z.optional(z.boolean()).default(false),
 });
 
@@ -634,42 +1702,100 @@ export const zFileContentHttpResult = z.string();
 export const zGetUnitSummaryQueryIncludes = z.enum(["Series"]);
 
 export const zHitboxDto = z.object({
-  hash: z.optional(z.coerce.number()),
-  hitboxType: z.optional(z.coerce.number()),
-  damage: z.optional(z.coerce.number()),
-  unk8: z.optional(z.coerce.number()),
-  downValueThreshold: z.optional(z.coerce.number()),
-  yorukeValueThreshold: z.optional(z.coerce.number()),
-  unk20: z.optional(z.coerce.number()),
-  unk24: z.optional(z.coerce.number()),
-  damageCorrection: z.optional(z.coerce.number()),
-  specialEffect: z.optional(z.coerce.number()),
-  hitEffect: z.optional(z.coerce.number()),
-  flyDirection1: z.optional(z.coerce.number()),
-  flyDirection2: z.optional(z.coerce.number()),
-  flyDirection3: z.optional(z.coerce.number()),
-  enemyCameraShakeMultiplier: z.optional(z.coerce.number()),
-  playerCameraShakeMultiplier: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  knockUpAngle: z.optional(z.coerce.number()),
-  knockUpRange: z.optional(z.coerce.number()),
-  unk68: z.optional(z.coerce.number()),
-  multipleHitIntervalFrame: z.optional(z.coerce.number()),
-  multipleHitCount: z.optional(z.coerce.number()),
-  enemyStunDuration: z.optional(z.coerce.number()),
-  playerStunDuration: z.optional(z.coerce.number()),
-  hitVisualEffect: z.optional(z.coerce.number()),
-  hitVisualEffectSizeMultiplier: z.optional(z.coerce.number()),
-  hitSoundEffectHash: z.optional(z.coerce.number()),
-  unk100: z.optional(z.coerce.number()),
-  friendlyDamageFlag: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  hitboxGroupHash: z.optional(z.coerce.number()),
+  hash: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  hitboxType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  damage: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk8: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  downValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  yorukeValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk20: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk24: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  damageCorrection: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  specialEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection1: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection2: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection3: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  enemyCameraShakeMultiplier: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  playerCameraShakeMultiplier: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk56: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  knockUpAngle: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  knockUpRange: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk68: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  multipleHitIntervalFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  multipleHitCount: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  enemyStunDuration: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  playerStunDuration: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitVisualEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitVisualEffectSizeMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  hitSoundEffectHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk100: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  friendlyDamageFlag: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk108: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitboxGroupHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zHitboxGroupDto = z.object({
-  hash: z.optional(z.coerce.number()),
-  unitIds: z.optional(z.array(z.coerce.number())),
+  hash: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitIds: z.optional(
+    z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  ),
   hitboxes: z.optional(z.array(zHitboxDto)),
 });
 
@@ -686,9 +1812,19 @@ export const zLanguageSettings = z.enum(["English", "Japanese", "Chinese"]);
 export const zNullableOfCompressionType = z.enum(["None", "Zlib", "Lzma"]);
 
 export const zPackFhmByAssetCommand = z.object({
-  assetFileHashes: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  assetFileHashes: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   assetFileTypes: z.optional(z.union([z.null(), z.array(zAssetFileType)])),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   patchFileVersions: z.optional(
     z.union([z.null(), z.array(zPatchFileVersion)]),
   ),
@@ -707,42 +1843,59 @@ export const zPackPsarcByPathCommand = z.object({
   filename: z.optional(z.union([z.null(), z.string()])),
   compressionType: z.optional(zNullableOfCompressionType),
   compressionLevel: z
-    .optional(z.union([z.null(), z.coerce.number().default(9)]))
+    .optional(
+      z.union([
+        z.null(),
+        z.int().default(9),
+        z
+          .string()
+          .regex(/^-?(?:0|[1-9]\d*)$/)
+          .default(9),
+      ]),
+    )
     .default(9),
 });
 
 export const zPaginatedListOfAmmoDto = z.object({
   items: z.array(zAmmoDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zPaginatedListOfAssetFileVm = z.object({
   items: z.array(zAssetFileVm),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zPaginatedListOfHitboxDto = z.object({
   items: z.array(zHitboxDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zPaginatedListOfHitboxGroupDto = z.object({
   items: z.array(zHitboxGroupDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
@@ -753,14 +1906,18 @@ export const zPatchFileSummaryVm = z.object({
   tblId: zPatchFileVersion,
   pathInfo: z.optional(zPathInfoDto),
   fileInfo: z.optional(zFileInfoDto),
-  assetFileHash: z.optional(z.union([z.null(), z.coerce.number()])),
+  assetFileHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zPaginatedListOfPatchFileSummaryVm = z.object({
   items: z.array(zPatchFileSummaryVm),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
@@ -770,104 +1927,378 @@ export const zPatchFileVm = z.object({
   tblId: zPatchFileVersion,
   pathInfo: z.optional(zPathInfoDto),
   fileInfo: z.optional(zFileInfoDto),
-  assetFileHash: z.optional(z.union([z.null(), z.coerce.number()])),
+  assetFileHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zPaginatedListOfPatchFileVm = z.object({
   items: z.array(zPatchFileVm),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zProjectileDto = z.object({
-  hash: z.optional(z.coerce.number()),
-  projectileType: z.optional(z.coerce.number()),
-  hitboxHash: z.optional(z.union([z.null(), z.coerce.number()])),
-  modelHash: z.optional(z.coerce.number()),
-  skeletonIndex: z.optional(z.coerce.number()),
-  aimType: z.optional(z.coerce.number()),
-  translateY: z.optional(z.coerce.number()),
-  translateZ: z.optional(z.coerce.number()),
-  translateX: z.optional(z.coerce.number()),
-  rotateX: z.optional(z.coerce.number()),
-  rotateZ: z.optional(z.coerce.number()),
-  cosmeticHash: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  unk48: z.optional(z.coerce.number()),
-  unk52: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  ammoConsumption: z.optional(z.coerce.number()),
-  durationFrame: z.optional(z.coerce.number()),
-  maxTravelDistance: z.optional(z.coerce.number()),
-  initialSpeed: z.optional(z.coerce.number()),
-  acceleration: z.optional(z.coerce.number()),
-  accelerationStartFrame: z.optional(z.coerce.number()),
-  unk84: z.optional(z.coerce.number()),
-  maxSpeed: z.optional(z.coerce.number()),
-  reserved92: z.optional(z.coerce.number()),
-  reserved96: z.optional(z.coerce.number()),
-  reserved100: z.optional(z.coerce.number()),
-  reserved104: z.optional(z.coerce.number()),
-  reserved108: z.optional(z.coerce.number()),
-  reserved112: z.optional(z.coerce.number()),
-  reserved116: z.optional(z.coerce.number()),
-  horizontalGuidance: z.optional(z.coerce.number()),
-  horizontalGuidanceAngle: z.optional(z.coerce.number()),
-  verticalGuidance: z.optional(z.coerce.number()),
-  verticalGuidanceAngle: z.optional(z.coerce.number()),
-  reserved136: z.optional(z.coerce.number()),
-  reserved140: z.optional(z.coerce.number()),
-  reserved144: z.optional(z.coerce.number()),
-  reserved148: z.optional(z.coerce.number()),
-  reserved152: z.optional(z.coerce.number()),
-  reserved156: z.optional(z.coerce.number()),
-  reserved160: z.optional(z.coerce.number()),
-  reserved164: z.optional(z.coerce.number()),
-  reserved168: z.optional(z.coerce.number()),
-  reserved172: z.optional(z.coerce.number()),
-  size: z.optional(z.coerce.number()),
-  reserved180: z.optional(z.coerce.number()),
-  reserved184: z.optional(z.coerce.number()),
-  soundEffectHash: z.optional(z.coerce.number()),
-  reserved192: z.optional(z.coerce.number()),
-  reserved196: z.optional(z.coerce.number()),
-  chainedProjectileHash: z.optional(z.coerce.number()),
-  reserved204: z.optional(z.coerce.number()),
-  reserved208: z.optional(z.coerce.number()),
-  reserved212: z.optional(z.coerce.number()),
-  reserved216: z.optional(z.coerce.number()),
-  reserved220: z.optional(z.coerce.number()),
-  reserved224: z.optional(z.coerce.number()),
-  reserved228: z.optional(z.coerce.number()),
-  reserved232: z.optional(z.coerce.number()),
-  reserved236: z.optional(z.coerce.number()),
-  reserved240: z.optional(z.coerce.number()),
-  reserved244: z.optional(z.coerce.number()),
-  reserved248: z.optional(z.coerce.number()),
-  reserved252: z.optional(z.coerce.number()),
-  reserved256: z.optional(z.coerce.number()),
-  reserved260: z.optional(z.coerce.number()),
-  reserved264: z.optional(z.coerce.number()),
-  reserved268: z.optional(z.coerce.number()),
-  reserved272: z.optional(z.coerce.number()),
-  reserved276: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  hash: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  projectileType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitboxHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  modelHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  skeletonIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  aimType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  translateY: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  translateZ: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  translateX: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  rotateX: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  rotateZ: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  cosmeticHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk48: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk52: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk56: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  ammoConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  durationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxTravelDistance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  initialSpeed: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  acceleration: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  accelerationStartFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk84: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  maxSpeed: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved92: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved96: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved100: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved104: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved108: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved112: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved116: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  horizontalGuidance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  horizontalGuidanceAngle: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  verticalGuidance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  verticalGuidanceAngle: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved136: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved140: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved144: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved148: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved152: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved156: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved160: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved164: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved168: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved172: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  size: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved180: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved184: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  soundEffectHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved192: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved196: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chainedProjectileHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved204: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved208: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved212: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved216: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved220: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved224: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved228: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved232: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved236: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved240: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved244: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved248: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved252: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved256: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved260: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved264: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved268: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved272: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved276: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zPaginatedListOfProjectileDto = z.object({
   items: z.array(zProjectileDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zSeriesDto = z.object({
-  id: z.optional(z.coerce.number()),
+  id: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   playableSeries: z.optional(zPlayableSeriesDetailsDto),
   slugName: z.optional(z.string()),
   nameEnglish: z.optional(z.union([z.null(), z.string()])),
@@ -877,16 +2308,18 @@ export const zSeriesDto = z.object({
 
 export const zPaginatedListOfSeriesDto = z.object({
   items: z.array(zSeriesDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zSeriesUnitsVm = z.object({
   units: z.optional(z.array(zUnitSummaryVm)),
-  id: z.optional(z.coerce.number()),
+  id: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   slugName: z.optional(z.string()),
   nameEnglish: z.optional(z.union([z.null(), z.string()])),
   nameJapanese: z.optional(z.union([z.null(), z.string()])),
@@ -895,233 +2328,804 @@ export const zSeriesUnitsVm = z.object({
 
 export const zPaginatedListOfSeriesUnitsVm = z.object({
   items: z.array(zSeriesUnitsVm),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zStatDto = z.object({
   id: z.optional(z.string()),
-  unitCost: z.optional(z.coerce.number()),
-  unitCost2: z.optional(z.coerce.number()),
-  maxHp: z.optional(z.coerce.number()),
-  downValueThreshold: z.optional(z.coerce.number()),
-  yorukeValueThreshold: z.optional(z.coerce.number()),
-  unk20: z.optional(z.coerce.number()),
-  unk24: z.optional(z.coerce.number()),
-  unk28: z.optional(z.coerce.number()),
-  maxBoost: z.optional(z.coerce.number()),
-  unk36: z.optional(z.coerce.number()),
-  unk40: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  gravityMultiplierAir: z.optional(z.coerce.number()),
-  gravityMultiplierLand: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  unk60: z.optional(z.coerce.number()),
-  unk64: z.optional(z.coerce.number()),
-  unk68: z.optional(z.coerce.number()),
-  unk72: z.optional(z.coerce.number()),
-  unk76: z.optional(z.coerce.number()),
-  unk80: z.optional(z.coerce.number()),
-  cameraZoomMultiplier: z.optional(z.coerce.number()),
-  unk88: z.optional(z.coerce.number()),
-  unk92: z.optional(z.coerce.number()),
-  unk96: z.optional(z.coerce.number()),
-  unk100: z.optional(z.coerce.number()),
-  unk104: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  sizeMultiplier: z.optional(z.coerce.number()),
-  unk116: z.optional(z.coerce.number()),
-  unk120: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
-  unk132: z.optional(z.coerce.number()),
-  unk136: z.optional(z.coerce.number()),
-  unk140: z.optional(z.coerce.number()),
-  unk144: z.optional(z.coerce.number()),
-  unk148: z.optional(z.coerce.number()),
-  unk152: z.optional(z.coerce.number()),
-  unk156: z.optional(z.coerce.number()),
-  unk160: z.optional(z.coerce.number()),
-  unk164: z.optional(z.coerce.number()),
-  unk168: z.optional(z.coerce.number()),
-  unk172: z.optional(z.coerce.number()),
-  unk176: z.optional(z.coerce.number()),
-  unk180: z.optional(z.coerce.number()),
-  unk184: z.optional(z.coerce.number()),
-  redLockRangeMelee: z.optional(z.coerce.number()),
-  redLockRange: z.optional(z.coerce.number()),
-  unk196: z.optional(z.coerce.number()),
-  unk200: z.optional(z.coerce.number()),
-  unk204: z.optional(z.coerce.number()),
-  unk208: z.optional(z.coerce.number()),
-  boostReplenish: z.optional(z.coerce.number()),
-  unk216: z.optional(z.coerce.number()),
-  boostInitialConsumption: z.optional(z.coerce.number()),
-  boostFuwaInitialConsumption: z.optional(z.coerce.number()),
-  boostFlyConsumption: z.optional(z.coerce.number()),
-  boostGroundStepInitialConsumption: z.optional(z.coerce.number()),
-  boostGroundStepConsumption: z.optional(z.coerce.number()),
-  boostAirStepInitialConsumption: z.optional(z.coerce.number()),
-  boostAirStepConsumption: z.optional(z.coerce.number()),
-  boostBdInitialConsumption: z.optional(z.coerce.number()),
-  boostBdConsumption: z.optional(z.coerce.number()),
-  unk256: z.optional(z.coerce.number()),
-  unk260: z.optional(z.coerce.number()),
-  unk264: z.optional(z.coerce.number()),
-  unk268: z.optional(z.coerce.number()),
-  boostTransformInitialConsumption: z.optional(z.coerce.number()),
-  boostTransformConsumption: z.optional(z.coerce.number()),
-  boostNonVernierActionConsumption: z.optional(z.coerce.number()),
-  boostPostActionConsumption: z.optional(z.coerce.number()),
-  boostRainbowStepInitialConsumption: z.optional(z.coerce.number()),
-  unk292: z.optional(z.coerce.number()),
-  unk296: z.optional(z.coerce.number()),
-  unk300: z.optional(z.coerce.number()),
-  unk304: z.optional(z.coerce.number()),
-  unk308: z.optional(z.coerce.number()),
-  unk312: z.optional(z.coerce.number()),
-  unk316: z.optional(z.coerce.number()),
-  unk320: z.optional(z.coerce.number()),
-  unk324: z.optional(z.coerce.number()),
-  unk328: z.optional(z.coerce.number()),
-  unk332: z.optional(z.coerce.number()),
-  assaultBurstRedLockMelee: z.optional(z.coerce.number()),
-  assaultBurstRedLock: z.optional(z.coerce.number()),
-  assaultBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  assaultBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  assaultBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  assaultBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  assaultBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk364: z.optional(z.coerce.number()),
-  unk368: z.optional(z.coerce.number()),
+  unitCost: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unitCost2: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxHp: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  downValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  yorukeValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk20: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk24: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk28: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  maxBoost: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk36: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk40: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  gravityMultiplierAir: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  gravityMultiplierLand: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk56: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk60: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk64: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk68: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk72: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk76: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk80: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  cameraZoomMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk88: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk92: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk96: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk100: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk104: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk108: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  sizeMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk116: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk120: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk124: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk128: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk132: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk136: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk140: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk144: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk148: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk152: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk156: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk160: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk164: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk168: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk172: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk176: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk180: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk184: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  redLockRangeMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  redLockRange: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk196: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk200: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk204: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk208: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostReplenish: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk216: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostFuwaInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostFlyConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostGroundStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostGroundStepConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostAirStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostAirStepConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostBdInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostBdConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk256: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk260: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk264: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk268: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostTransformInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostTransformConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostNonVernierActionConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostPostActionConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostRainbowStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk292: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk296: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk300: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk304: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk308: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk312: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk316: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk320: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk324: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk328: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk332: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk364: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk368: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   assaultBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   assaultBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk380: z.optional(z.coerce.number()),
-  unk384: z.optional(z.coerce.number()),
-  unk388: z.optional(z.coerce.number()),
-  unk392: z.optional(z.coerce.number()),
-  unk396: z.optional(z.coerce.number()),
-  blastBurstRedLockMelee: z.optional(z.coerce.number()),
-  blastBurstRedLock: z.optional(z.coerce.number()),
-  blastBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  blastBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  blastBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  blastBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  blastBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk428: z.optional(z.coerce.number()),
-  unk432: z.optional(z.coerce.number()),
+  unk380: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk384: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk388: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk392: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk396: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk428: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk432: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   blastBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   blastBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk444: z.optional(z.coerce.number()),
-  unk448: z.optional(z.coerce.number()),
-  unk452: z.optional(z.coerce.number()),
-  unk456: z.optional(z.coerce.number()),
-  unk460: z.optional(z.coerce.number()),
-  thirdBurstRedLockMelee: z.optional(z.coerce.number()),
-  thirdBurstRedLock: z.optional(z.coerce.number()),
-  thirdBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  thirdBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  thirdBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  thirdBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  thirdBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk492: z.optional(z.coerce.number()),
-  unk496: z.optional(z.coerce.number()),
+  unk444: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk448: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk452: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk456: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk460: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk492: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk496: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   thirdBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   thirdBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk508: z.optional(z.coerce.number()),
-  unk512: z.optional(z.coerce.number()),
-  unk516: z.optional(z.coerce.number()),
-  unk520: z.optional(z.coerce.number()),
-  unk524: z.optional(z.coerce.number()),
-  fourthBurstRedLockMelee: z.optional(z.coerce.number()),
-  fourthBurstRedLock: z.optional(z.coerce.number()),
-  fourthBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  fourthBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  fourthBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  fourthBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  fourthBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk572: z.optional(z.coerce.number()),
-  unk576: z.optional(z.coerce.number()),
+  unk508: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk512: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk516: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk520: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk524: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk572: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk576: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   fourthBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   fourthBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk588: z.optional(z.coerce.number()),
-  unk592: z.optional(z.coerce.number()),
-  unk596: z.optional(z.coerce.number()),
-  unk600: z.optional(z.coerce.number()),
-  unk604: z.optional(z.coerce.number()),
-  unk608: z.optional(z.coerce.number()),
-  order: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  unk588: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk592: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk596: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk600: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk604: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk608: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zPaginatedListOfStatDto = z.object({
   items: z.array(zStatDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zUnitProjectileDto = z.object({
-  unitId: z.optional(z.coerce.number()),
+  unitId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   projectiles: z.optional(z.array(zProjectileDto)),
 });
 
 export const zPaginatedListOfUnitProjectileDto = z.object({
   items: z.array(zUnitProjectileDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zUnitAmmoSlotDto = z.object({
   id: z.optional(z.union([z.null(), z.string()])),
-  slotOrder: z.optional(z.coerce.number()),
-  ammoHash: z.optional(z.coerce.number()),
+  slotOrder: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  ammoHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUnitStatDto = z.object({
   id: z.optional(z.union([z.null(), z.string()])),
-  unitId: z.optional(z.coerce.number()),
+  unitId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   ammoSlots: z.optional(z.array(zUnitAmmoSlotDto)),
 });
 
 export const zPaginatedListOfUnitStatDto = z.object({
   items: z.array(zUnitStatDto),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
 
 export const zPaginatedListOfUnitSummaryVm = z.object({
   items: z.array(zUnitSummaryVm),
-  pageNumber: z.coerce.number(),
-  totalPages: z.optional(z.coerce.number()),
-  totalCount: z.coerce.number(),
+  pageNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  totalPages: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  totalCount: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   hasPreviousPage: z.optional(z.boolean()),
   hasNextPage: z.optional(z.boolean()),
 });
@@ -1129,13 +3133,13 @@ export const zPaginatedListOfUnitSummaryVm = z.object({
 export const zTblFileInfoMetadata = z.union([
   z.null(),
   z.object({
-    cumulativeIndex: z.coerce.number(),
-    patchNumber: z.coerce.number(),
-    size1: z.coerce.number(),
-    size2: z.coerce.number(),
-    size3: z.coerce.number(),
-    size4: z.coerce.number(),
-    hashName: z.coerce.number(),
+    cumulativeIndex: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    patchNumber: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size1: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size2: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size3: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    size4: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+    hashName: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
 ]);
 
@@ -1145,88 +3149,179 @@ export const zPatchFileMetadataDto = z.object({
 });
 
 export const zPlayableCharacterDto = z.object({
-  unitId: z.optional(z.coerce.number()),
-  unitIndex: z.optional(z.coerce.number()),
-  seriesId: z.optional(z.coerce.number()),
-  unk2: z.optional(z.coerce.number()),
+  unitId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unitIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  seriesId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk2: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   fString: z.optional(z.union([z.null(), z.string()])),
   fOutString: z.optional(z.union([z.null(), z.string()])),
   pString: z.optional(z.union([z.null(), z.string()])),
-  unitSelectOrderInSeries: z.optional(z.coerce.number()),
-  arcadeSmallSpriteIndex: z.optional(z.coerce.number()),
-  arcadeUnitNameSpriteIndex: z.optional(z.coerce.number()),
-  unk27: z.optional(z.coerce.number()),
-  unk112: z.optional(z.coerce.number()),
-  figurineSpriteIndex: z.optional(z.coerce.number()),
-  unk114: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
+  unitSelectOrderInSeries: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSmallSpriteIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeUnitNameSpriteIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk27: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk112: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  figurineSpriteIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk114: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk124: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk128: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   catalogStorePilotCostume2TString: z.optional(z.union([z.null(), z.string()])),
   catalogStorePilotCostume2String: z.optional(z.union([z.null(), z.string()])),
   catalogStorePilotCostume3TString: z.optional(z.union([z.null(), z.string()])),
   catalogStorePilotCostume3String: z.optional(z.union([z.null(), z.string()])),
-  unk156: z.optional(z.coerce.number()),
-  arcadeSelectionCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  arcadeSelectionCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  arcadeSelectionCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingLeftCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingLeftCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingLeftCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingRightCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingRightCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingRightCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  genericSelectionCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  genericSelectionCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  genericSelectionCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetUnitSpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetPilotCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetPilotCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetPilotCostume3SpriteAssetHash: z.optional(z.coerce.number()),
+  unk156: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSelectionCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSelectionCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSelectionCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingLeftCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingLeftCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingLeftCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingRightCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingRightCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingRightCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  genericSelectionCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  genericSelectionCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  genericSelectionCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetUnitSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetPilotCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetPilotCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetPilotCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   inGameSortieAndAwakeningPilotCostume1SpriteAssetHash: z.optional(
-    z.coerce.number(),
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   ),
   inGameSortieAndAwakeningPilotCostume2SpriteAssetHash: z.optional(
-    z.coerce.number(),
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   ),
   inGameSortieAndAwakeningPilotCostume3SpriteAssetHash: z.optional(
-    z.coerce.number(),
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   ),
-  spriteFramesAssetHash: z.optional(z.coerce.number()),
-  resultSmallUnitSpriteAssetHash: z.optional(z.coerce.number()),
-  figurineSpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetUnitSmallSpriteAssetHash: z.optional(z.coerce.number()),
-  catalogStorePilotCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  catalogStorePilotCostume3SpriteAssetHash: z.optional(z.coerce.number()),
+  spriteFramesAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  resultSmallUnitSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  figurineSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetUnitSmallSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  catalogStorePilotCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  catalogStorePilotCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zResizePatchFileCommand = z.object({
   ids: z.optional(z.union([z.null(), z.array(z.uuid())])),
   versions: z.optional(z.union([z.null(), z.array(zPatchFileVersion)])),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   assetFileTypes: z.optional(z.union([z.null(), z.array(zAssetFileType)])),
 });
 
 export const zSerializeTblCommand = z.object({
-  cumulativeFileInfoCount: z.coerce.number(),
+  cumulativeFileInfoCount: z.union([
+    z.int(),
+    z.string().regex(/^-?(?:0|[1-9]\d*)$/),
+  ]),
   fileMetadata: z.array(zPatchFileMetadataDto),
   pathOrder: z.optional(z.union([z.null(), z.array(z.string())])),
 });
 
 export const zTblDto = z.object({
-  cumulativeFileInfoCount: z.coerce.number(),
+  cumulativeFileInfoCount: z.union([
+    z.int(),
+    z.string().regex(/^-?(?:0|[1-9]\d*)$/),
+  ]),
   fileMetadata: z.array(zPatchFileMetadataDto),
   pathOrder: z.optional(z.union([z.null(), z.array(z.string())])),
 });
 
 export const zTblVm = z.object({
   id: z.string(),
-  cumulativeAssetIndex: z.optional(z.coerce.number()),
+  cumulativeAssetIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUnpackFhmByAssetCommand = z.object({
-  assetFileHashes: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  assetFileHashes: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   assetFileTypes: z.optional(z.union([z.null(), z.array(zAssetFileType)])),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
   patchFileVersions: z.optional(
     z.union([z.null(), z.array(zPatchFileVersion)]),
   ),
@@ -1245,88 +3340,207 @@ export const zUnpackPsarcByPathCommand = z.object({
 });
 
 export const zUpdateAmmoCommand = z.object({
-  hash: z.coerce.number(),
-  ammoType: z.optional(z.coerce.number()),
-  maxAmmo: z.optional(z.coerce.number()),
-  initialAmmo: z.optional(z.coerce.number()),
-  timedDurationFrame: z.optional(z.coerce.number()),
-  unk16: z.optional(z.coerce.number()),
-  reloadType: z.optional(z.coerce.number()),
-  cooldownDurationFrame: z.optional(z.coerce.number()),
-  reloadDurationFrame: z.optional(z.coerce.number()),
-  assaultBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  blastBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  unk40: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  inactiveUnk48: z.optional(z.coerce.number()),
-  inactiveCooldownDurationFrame: z.optional(z.coerce.number()),
-  inactiveReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveAssaultBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveBlastBurstReloadDurationFrame: z.optional(z.coerce.number()),
-  inactiveUnk68: z.optional(z.coerce.number()),
-  inactiveUnk72: z.optional(z.coerce.number()),
-  burstReplenish: z.optional(z.coerce.number()),
-  unk80: z.optional(z.coerce.number()),
-  unk84: z.optional(z.coerce.number()),
-  unk88: z.optional(z.coerce.number()),
-  chargeInput: z.optional(z.coerce.number()),
-  chargeDurationFrame: z.optional(z.coerce.number()),
-  assaultBurstChargeDurationFrame: z.optional(z.coerce.number()),
-  blastBurstChargeDurationFrame: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  unk112: z.optional(z.coerce.number()),
-  releaseChargeLingerDurationFrame: z.optional(z.coerce.number()),
-  maxChargeLevel: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
-  order: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ammoType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxAmmo: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  initialAmmo: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  timedDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk16: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  reloadType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  cooldownDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  blastBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk40: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  inactiveUnk48: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveCooldownDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveAssaultBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveBlastBurstReloadDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveUnk68: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  inactiveUnk72: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  burstReplenish: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk80: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk84: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk88: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  chargeInput: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstChargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  blastBurstChargeDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk108: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk112: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  releaseChargeLingerDurationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxChargeLevel: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk124: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chargeMultiLockFlag: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUpdateAssetFileByHashCommand = z.object({
-  hash: z.coerce.number(),
-  order: z.optional(z.coerce.number()),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   fileType: z.optional(z.array(zAssetFileType)),
-  unitIds: z.optional(z.array(z.coerce.number())),
+  unitIds: z.optional(
+    z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  ),
 });
 
 export const zUpdateHitboxCommand = z.object({
-  hash: z.coerce.number(),
-  hitboxType: z.optional(z.coerce.number()),
-  damage: z.optional(z.coerce.number()),
-  unk8: z.optional(z.coerce.number()),
-  downValueThreshold: z.optional(z.coerce.number()),
-  yorukeValueThreshold: z.optional(z.coerce.number()),
-  unk20: z.optional(z.coerce.number()),
-  unk24: z.optional(z.coerce.number()),
-  damageCorrection: z.optional(z.coerce.number()),
-  specialEffect: z.optional(z.coerce.number()),
-  hitEffect: z.optional(z.coerce.number()),
-  flyDirection1: z.optional(z.coerce.number()),
-  flyDirection2: z.optional(z.coerce.number()),
-  flyDirection3: z.optional(z.coerce.number()),
-  enemyCameraShakeMultiplier: z.optional(z.coerce.number()),
-  playerCameraShakeMultiplier: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  knockUpAngle: z.optional(z.coerce.number()),
-  knockUpRange: z.optional(z.coerce.number()),
-  unk68: z.optional(z.coerce.number()),
-  multipleHitIntervalFrame: z.optional(z.coerce.number()),
-  multipleHitCount: z.optional(z.coerce.number()),
-  enemyStunDuration: z.optional(z.coerce.number()),
-  playerStunDuration: z.optional(z.coerce.number()),
-  hitVisualEffect: z.optional(z.coerce.number()),
-  hitVisualEffectSizeMultiplier: z.optional(z.coerce.number()),
-  hitSoundEffectHash: z.optional(z.coerce.number()),
-  unk100: z.optional(z.coerce.number()),
-  friendlyDamageFlag: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  hitboxGroupHash: z.optional(z.coerce.number()),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  hitboxType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  damage: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk8: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  downValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  yorukeValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk20: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk24: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  damageCorrection: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  specialEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection1: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection2: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  flyDirection3: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  enemyCameraShakeMultiplier: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  playerCameraShakeMultiplier: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk56: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  knockUpAngle: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  knockUpRange: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk68: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  multipleHitIntervalFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  multipleHitCount: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  enemyStunDuration: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  playerStunDuration: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitVisualEffect: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitVisualEffectSizeMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  hitSoundEffectHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk100: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  friendlyDamageFlag: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk108: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitboxGroupHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUpdateHitboxGroupCommand = z.object({
-  hash: z.coerce.number(),
-  unitIds: z.optional(z.union([z.null(), z.array(z.coerce.number())])),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  unitIds: z.optional(
+    z.union([
+      z.null(),
+      z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    ]),
+  ),
 });
 
 export const zUpdatePatchFileByIdCommand = z.object({
@@ -1334,269 +3548,1100 @@ export const zUpdatePatchFileByIdCommand = z.object({
   tblId: zPatchFileVersion,
   pathInfo: z.optional(zPathInfoDto),
   fileInfo: z.optional(zFileInfoDto),
-  assetFileHash: z.optional(z.union([z.null(), z.coerce.number()])),
+  assetFileHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUpdateProjectileByIdCommand = z.object({
-  hash: z.coerce.number(),
-  projectileType: z.optional(z.coerce.number()),
-  hitboxHash: z.optional(z.union([z.null(), z.coerce.number()])),
-  modelHash: z.optional(z.coerce.number()),
-  skeletonIndex: z.optional(z.coerce.number()),
-  aimType: z.optional(z.coerce.number()),
-  translateY: z.optional(z.coerce.number()),
-  translateZ: z.optional(z.coerce.number()),
-  translateX: z.optional(z.coerce.number()),
-  rotateX: z.optional(z.coerce.number()),
-  rotateZ: z.optional(z.coerce.number()),
-  cosmeticHash: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  unk48: z.optional(z.coerce.number()),
-  unk52: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  ammoConsumption: z.optional(z.coerce.number()),
-  durationFrame: z.optional(z.coerce.number()),
-  maxTravelDistance: z.optional(z.coerce.number()),
-  initialSpeed: z.optional(z.coerce.number()),
-  acceleration: z.optional(z.coerce.number()),
-  accelerationStartFrame: z.optional(z.coerce.number()),
-  unk84: z.optional(z.coerce.number()),
-  maxSpeed: z.optional(z.coerce.number()),
-  reserved92: z.optional(z.coerce.number()),
-  reserved96: z.optional(z.coerce.number()),
-  reserved100: z.optional(z.coerce.number()),
-  reserved104: z.optional(z.coerce.number()),
-  reserved108: z.optional(z.coerce.number()),
-  reserved112: z.optional(z.coerce.number()),
-  reserved116: z.optional(z.coerce.number()),
-  horizontalGuidance: z.optional(z.coerce.number()),
-  horizontalGuidanceAngle: z.optional(z.coerce.number()),
-  verticalGuidance: z.optional(z.coerce.number()),
-  verticalGuidanceAngle: z.optional(z.coerce.number()),
-  reserved136: z.optional(z.coerce.number()),
-  reserved140: z.optional(z.coerce.number()),
-  reserved144: z.optional(z.coerce.number()),
-  reserved148: z.optional(z.coerce.number()),
-  reserved152: z.optional(z.coerce.number()),
-  reserved156: z.optional(z.coerce.number()),
-  reserved160: z.optional(z.coerce.number()),
-  reserved164: z.optional(z.coerce.number()),
-  reserved168: z.optional(z.coerce.number()),
-  reserved172: z.optional(z.coerce.number()),
-  size: z.optional(z.coerce.number()),
-  reserved180: z.optional(z.coerce.number()),
-  reserved184: z.optional(z.coerce.number()),
-  soundEffectHash: z.optional(z.coerce.number()),
-  reserved192: z.optional(z.coerce.number()),
-  reserved196: z.optional(z.coerce.number()),
-  chainedProjectileHash: z.optional(z.coerce.number()),
-  reserved204: z.optional(z.coerce.number()),
-  reserved208: z.optional(z.coerce.number()),
-  reserved212: z.optional(z.coerce.number()),
-  reserved216: z.optional(z.coerce.number()),
-  reserved220: z.optional(z.coerce.number()),
-  reserved224: z.optional(z.coerce.number()),
-  reserved228: z.optional(z.coerce.number()),
-  reserved232: z.optional(z.coerce.number()),
-  reserved236: z.optional(z.coerce.number()),
-  reserved240: z.optional(z.coerce.number()),
-  reserved244: z.optional(z.coerce.number()),
-  reserved248: z.optional(z.coerce.number()),
-  reserved252: z.optional(z.coerce.number()),
-  reserved256: z.optional(z.coerce.number()),
-  reserved260: z.optional(z.coerce.number()),
-  reserved264: z.optional(z.coerce.number()),
-  reserved268: z.optional(z.coerce.number()),
-  reserved272: z.optional(z.coerce.number()),
-  reserved276: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  projectileType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  hitboxHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  modelHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  skeletonIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  aimType: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  translateY: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  translateZ: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  translateX: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  rotateX: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  rotateZ: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  cosmeticHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk48: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk52: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk56: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  ammoConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  durationFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxTravelDistance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  initialSpeed: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  acceleration: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  accelerationStartFrame: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk84: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  maxSpeed: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved92: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved96: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved100: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved104: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved108: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved112: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved116: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  horizontalGuidance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  horizontalGuidanceAngle: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  verticalGuidance: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  verticalGuidanceAngle: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved136: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved140: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved144: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved148: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved152: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved156: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved160: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved164: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved168: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved172: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  size: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved180: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved184: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  soundEffectHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved192: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved196: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  chainedProjectileHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved204: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved208: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved212: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved216: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  reserved220: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved224: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved228: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved232: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved236: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved240: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved244: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved248: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved252: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved256: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved260: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved264: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved268: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved272: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  reserved276: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUpdateStatCommand = z.object({
   id: z.uuid(),
-  unitCost: z.optional(z.coerce.number()),
-  unitCost2: z.optional(z.coerce.number()),
-  maxHp: z.optional(z.coerce.number()),
-  downValueThreshold: z.optional(z.coerce.number()),
-  yorukeValueThreshold: z.optional(z.coerce.number()),
-  unk20: z.optional(z.coerce.number()),
-  unk24: z.optional(z.coerce.number()),
-  unk28: z.optional(z.coerce.number()),
-  maxBoost: z.optional(z.coerce.number()),
-  unk36: z.optional(z.coerce.number()),
-  unk40: z.optional(z.coerce.number()),
-  unk44: z.optional(z.coerce.number()),
-  gravityMultiplierAir: z.optional(z.coerce.number()),
-  gravityMultiplierLand: z.optional(z.coerce.number()),
-  unk56: z.optional(z.coerce.number()),
-  unk60: z.optional(z.coerce.number()),
-  unk64: z.optional(z.coerce.number()),
-  unk68: z.optional(z.coerce.number()),
-  unk72: z.optional(z.coerce.number()),
-  unk76: z.optional(z.coerce.number()),
-  unk80: z.optional(z.coerce.number()),
-  cameraZoomMultiplier: z.optional(z.coerce.number()),
-  unk88: z.optional(z.coerce.number()),
-  unk92: z.optional(z.coerce.number()),
-  unk96: z.optional(z.coerce.number()),
-  unk100: z.optional(z.coerce.number()),
-  unk104: z.optional(z.coerce.number()),
-  unk108: z.optional(z.coerce.number()),
-  sizeMultiplier: z.optional(z.coerce.number()),
-  unk116: z.optional(z.coerce.number()),
-  unk120: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
-  unk132: z.optional(z.coerce.number()),
-  unk136: z.optional(z.coerce.number()),
-  unk140: z.optional(z.coerce.number()),
-  unk144: z.optional(z.coerce.number()),
-  unk148: z.optional(z.coerce.number()),
-  unk152: z.optional(z.coerce.number()),
-  unk156: z.optional(z.coerce.number()),
-  unk160: z.optional(z.coerce.number()),
-  unk164: z.optional(z.coerce.number()),
-  unk168: z.optional(z.coerce.number()),
-  unk172: z.optional(z.coerce.number()),
-  unk176: z.optional(z.coerce.number()),
-  unk180: z.optional(z.coerce.number()),
-  unk184: z.optional(z.coerce.number()),
-  redLockRangeMelee: z.optional(z.coerce.number()),
-  redLockRange: z.optional(z.coerce.number()),
-  unk196: z.optional(z.coerce.number()),
-  unk200: z.optional(z.coerce.number()),
-  unk204: z.optional(z.coerce.number()),
-  unk208: z.optional(z.coerce.number()),
-  boostReplenish: z.optional(z.coerce.number()),
-  unk216: z.optional(z.coerce.number()),
-  boostInitialConsumption: z.optional(z.coerce.number()),
-  boostFuwaInitialConsumption: z.optional(z.coerce.number()),
-  boostFlyConsumption: z.optional(z.coerce.number()),
-  boostGroundStepInitialConsumption: z.optional(z.coerce.number()),
-  boostGroundStepConsumption: z.optional(z.coerce.number()),
-  boostAirStepInitialConsumption: z.optional(z.coerce.number()),
-  boostAirStepConsumption: z.optional(z.coerce.number()),
-  boostBdInitialConsumption: z.optional(z.coerce.number()),
-  boostBdConsumption: z.optional(z.coerce.number()),
-  unk256: z.optional(z.coerce.number()),
-  unk260: z.optional(z.coerce.number()),
-  unk264: z.optional(z.coerce.number()),
-  unk268: z.optional(z.coerce.number()),
-  boostTransformInitialConsumption: z.optional(z.coerce.number()),
-  boostTransformConsumption: z.optional(z.coerce.number()),
-  boostNonVernierActionConsumption: z.optional(z.coerce.number()),
-  boostPostActionConsumption: z.optional(z.coerce.number()),
-  boostRainbowStepInitialConsumption: z.optional(z.coerce.number()),
-  unk292: z.optional(z.coerce.number()),
-  unk296: z.optional(z.coerce.number()),
-  unk300: z.optional(z.coerce.number()),
-  unk304: z.optional(z.coerce.number()),
-  unk308: z.optional(z.coerce.number()),
-  unk312: z.optional(z.coerce.number()),
-  unk316: z.optional(z.coerce.number()),
-  unk320: z.optional(z.coerce.number()),
-  unk324: z.optional(z.coerce.number()),
-  unk328: z.optional(z.coerce.number()),
-  unk332: z.optional(z.coerce.number()),
-  assaultBurstRedLockMelee: z.optional(z.coerce.number()),
-  assaultBurstRedLock: z.optional(z.coerce.number()),
-  assaultBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  assaultBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  assaultBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  assaultBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  assaultBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk364: z.optional(z.coerce.number()),
-  unk368: z.optional(z.coerce.number()),
+  unitCost: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unitCost2: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  maxHp: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  downValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  yorukeValueThreshold: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk20: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk24: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk28: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  maxBoost: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk36: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk40: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk44: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  gravityMultiplierAir: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  gravityMultiplierLand: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk56: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk60: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk64: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk68: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk72: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk76: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk80: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  cameraZoomMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk88: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk92: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk96: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk100: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk104: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk108: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  sizeMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk116: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk120: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk124: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk128: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk132: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk136: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk140: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk144: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk148: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk152: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk156: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk160: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk164: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk168: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk172: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk176: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk180: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk184: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  redLockRangeMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  redLockRange: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk196: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk200: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk204: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk208: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostReplenish: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk216: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostFuwaInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostFlyConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostGroundStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostGroundStepConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostAirStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostAirStepConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostBdInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostBdConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk256: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk260: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk264: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk268: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostTransformInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostTransformConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostNonVernierActionConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostPostActionConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  boostRainbowStepInitialConsumption: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk292: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk296: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk300: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk304: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk308: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk312: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk316: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk320: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk324: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk328: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk332: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  assaultBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  assaultBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk364: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk368: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   assaultBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   assaultBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk380: z.optional(z.coerce.number()),
-  unk384: z.optional(z.coerce.number()),
-  unk388: z.optional(z.coerce.number()),
-  unk392: z.optional(z.coerce.number()),
-  unk396: z.optional(z.coerce.number()),
-  blastBurstRedLockMelee: z.optional(z.coerce.number()),
-  blastBurstRedLock: z.optional(z.coerce.number()),
-  blastBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  blastBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  blastBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  blastBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  blastBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk428: z.optional(z.coerce.number()),
-  unk432: z.optional(z.coerce.number()),
+  unk380: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk384: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk388: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk392: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk396: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  blastBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk428: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk432: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   blastBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   blastBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk444: z.optional(z.coerce.number()),
-  unk448: z.optional(z.coerce.number()),
-  unk452: z.optional(z.coerce.number()),
-  unk456: z.optional(z.coerce.number()),
-  unk460: z.optional(z.coerce.number()),
-  thirdBurstRedLockMelee: z.optional(z.coerce.number()),
-  thirdBurstRedLock: z.optional(z.coerce.number()),
-  thirdBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  thirdBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  thirdBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  thirdBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  thirdBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk492: z.optional(z.coerce.number()),
-  unk496: z.optional(z.coerce.number()),
+  unk444: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk448: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk452: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk456: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk460: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  thirdBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk492: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk496: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   thirdBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   thirdBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk508: z.optional(z.coerce.number()),
-  unk512: z.optional(z.coerce.number()),
-  unk516: z.optional(z.coerce.number()),
-  unk520: z.optional(z.coerce.number()),
-  unk524: z.optional(z.coerce.number()),
-  fourthBurstRedLockMelee: z.optional(z.coerce.number()),
-  fourthBurstRedLock: z.optional(z.coerce.number()),
-  fourthBurstDamageDealtMultiplier: z.optional(z.coerce.number()),
-  fourthBurstDamageTakenMultiplier: z.optional(z.coerce.number()),
-  fourthBurstMobilityMultiplier: z.optional(z.coerce.number()),
-  fourthBurstDownValueDealtMultiplier: z.optional(z.coerce.number()),
-  fourthBurstBoostConsumptionMultiplier: z.optional(z.coerce.number()),
-  unk572: z.optional(z.coerce.number()),
-  unk576: z.optional(z.coerce.number()),
+  unk508: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk512: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk516: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk520: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk524: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstRedLockMelee: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstRedLock: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDamageDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDamageTakenMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstMobilityMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstDownValueDealtMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  fourthBurstBoostConsumptionMultiplier: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk572: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk576: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   fourthBurstDamageDealtBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
   fourthBurstDamageTakenBurstGaugeIncreaseMultiplier: z.optional(
-    z.coerce.number(),
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
   ),
-  unk588: z.optional(z.coerce.number()),
-  unk592: z.optional(z.coerce.number()),
-  unk596: z.optional(z.coerce.number()),
-  unk600: z.optional(z.coerce.number()),
-  unk604: z.optional(z.coerce.number()),
-  unk608: z.optional(z.coerce.number()),
-  order: z.optional(z.coerce.number()),
-  unitId: z.optional(z.union([z.null(), z.coerce.number()])),
+  unk588: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk592: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk596: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk600: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk604: z.optional(
+    z.union([
+      z.number(),
+      z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/),
+    ]),
+  ),
+  unk608: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  order: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unitId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUpdateUnitAmmoSlotCommand = z.object({
   id: z.uuid(),
-  unitId: z.coerce.number(),
-  slotOrder: z.optional(z.union([z.null(), z.coerce.number()])),
-  ammoHash: z.optional(z.union([z.null(), z.coerce.number()])),
+  unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  slotOrder: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  ammoHash: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zUpdateUnitCommand = z.object({
-  unitId: z.optional(z.coerce.number()),
+  unitId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   slugName: z.optional(z.union([z.null(), z.string()])),
   nameEnglish: z.optional(z.union([z.null(), z.string()])),
   nameJapanese: z.optional(z.union([z.null(), z.string()])),
   nameChinese: z.optional(z.union([z.null(), z.string()])),
-  seriesId: z.optional(z.union([z.null(), z.coerce.number()])),
+  seriesId: z.optional(
+    z.union([z.null(), z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   series: z.optional(zSeriesVm),
 });
 
@@ -1605,59 +4650,125 @@ export const zUpsertConfigCommand = z.object({
   value: z.string(),
 });
 
-export const zUpsertPlayableCharactersCommand = z.object({
-  unitId: z.coerce.number(),
-  unitIndex: z.optional(z.coerce.number()),
-  seriesId: z.optional(z.coerce.number()),
-  unk2: z.optional(z.coerce.number()),
+export const zUpsertPlayableCharacterCommand = z.object({
+  unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  unitIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  seriesId: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk2: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
   fString: z.optional(z.union([z.null(), z.string()])),
   fOutString: z.optional(z.union([z.null(), z.string()])),
   pString: z.optional(z.union([z.null(), z.string()])),
-  unitSelectOrderInSeries: z.optional(z.coerce.number()),
-  arcadeSmallSpriteIndex: z.optional(z.coerce.number()),
-  arcadeUnitNameSpriteIndex: z.optional(z.coerce.number()),
-  unk27: z.optional(z.coerce.number()),
-  unk112: z.optional(z.coerce.number()),
-  figurineSpriteIndex: z.optional(z.coerce.number()),
-  unk114: z.optional(z.coerce.number()),
-  unk124: z.optional(z.coerce.number()),
-  unk128: z.optional(z.coerce.number()),
+  unitSelectOrderInSeries: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSmallSpriteIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeUnitNameSpriteIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk27: z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+  unk112: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  figurineSpriteIndex: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk114: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk124: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  unk128: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   catalogStorePilotCostume2TString: z.optional(z.union([z.null(), z.string()])),
   catalogStorePilotCostume2String: z.optional(z.union([z.null(), z.string()])),
   catalogStorePilotCostume3TString: z.optional(z.union([z.null(), z.string()])),
   catalogStorePilotCostume3String: z.optional(z.union([z.null(), z.string()])),
-  unk156: z.optional(z.coerce.number()),
-  arcadeSelectionCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  arcadeSelectionCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  arcadeSelectionCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingLeftCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingLeftCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingLeftCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingRightCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingRightCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingRightCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  genericSelectionCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  genericSelectionCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  genericSelectionCostume3SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetUnitSpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetPilotCostume1SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetPilotCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetPilotCostume3SpriteAssetHash: z.optional(z.coerce.number()),
+  unk156: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSelectionCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSelectionCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  arcadeSelectionCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingLeftCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingLeftCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingLeftCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingRightCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingRightCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingRightCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  genericSelectionCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  genericSelectionCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  genericSelectionCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetUnitSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetPilotCostume1SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetPilotCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetPilotCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
   inGameSortieAndAwakeningPilotCostume1SpriteAssetHash: z.optional(
-    z.coerce.number(),
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   ),
   inGameSortieAndAwakeningPilotCostume2SpriteAssetHash: z.optional(
-    z.coerce.number(),
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   ),
   inGameSortieAndAwakeningPilotCostume3SpriteAssetHash: z.optional(
-    z.coerce.number(),
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   ),
-  spriteFramesAssetHash: z.optional(z.coerce.number()),
-  resultSmallUnitSpriteAssetHash: z.optional(z.coerce.number()),
-  figurineSpriteAssetHash: z.optional(z.coerce.number()),
-  loadingTargetUnitSmallSpriteAssetHash: z.optional(z.coerce.number()),
-  catalogStorePilotCostume2SpriteAssetHash: z.optional(z.coerce.number()),
-  catalogStorePilotCostume3SpriteAssetHash: z.optional(z.coerce.number()),
+  spriteFramesAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  resultSmallUnitSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  figurineSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  loadingTargetUnitSmallSpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  catalogStorePilotCostume2SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
+  catalogStorePilotCostume3SpriteAssetHash: z.optional(
+    z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  ),
 });
 
 export const zPostApiDebugData = z.object({
@@ -1671,11 +4782,33 @@ export const zGetApiUnitsData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
       ListAll: z.optional(z.boolean()).default(false),
       Search: z.optional(z.string()),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       Languages: z.optional(z.array(zLanguageSettings)),
       Includes: z.optional(z.array(zGetUnitSummaryQueryIncludes)),
     }),
@@ -1696,7 +4829,7 @@ export const zPostApiUnitsData = z.object({
 export const zGetApiUnitsByUnitIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -1709,7 +4842,7 @@ export const zGetApiUnitsByUnitIdResponse = zUnitSummaryVm;
 export const zPostApiUnitsByUnitIdData = z.object({
   body: zUpdateUnitCommand,
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -1722,7 +4855,7 @@ export const zPostApiUnitsByUnitIdResponse = z.void();
 export const zGetApiUnitsByUnitIdPlayableCharactersData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -1733,10 +4866,16 @@ export const zGetApiUnitsByUnitIdPlayableCharactersData = z.object({
 export const zGetApiUnitsByUnitIdPlayableCharactersResponse =
   zPlayableCharacterDto;
 
-export const zPostApiUnitsByUnitIdPlayableCharactersData = z.object({
-  body: zUpsertPlayableCharactersCommand,
+export const zPostApiUnitsBulkData = z.object({
+  body: zBulkCreateUnitCommand,
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+export const zDeleteApiUnitsByUnitIdPlayableCharacterData = z.object({
+  body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -1744,13 +4883,20 @@ export const zPostApiUnitsByUnitIdPlayableCharactersData = z.object({
 /**
  * No Content
  */
-export const zPostApiUnitsByUnitIdPlayableCharactersResponse = z.void();
+export const zDeleteApiUnitsByUnitIdPlayableCharacterResponse = z.void();
 
-export const zPostApiUnitsBulkData = z.object({
-  body: zBulkCreateUnitCommand,
-  path: z.optional(z.never()),
+export const zPostApiUnitsByUnitIdPlayableCharacterData = z.object({
+  body: zUpsertPlayableCharacterCommand,
+  path: z.object({
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+  }),
   query: z.optional(z.never()),
 });
+
+/**
+ * No Content
+ */
+export const zPostApiUnitsByUnitIdPlayableCharacterResponse = z.void();
 
 export const zPostApiUnitsPlayableCharactersImportData = z.object({
   body: z.object({
@@ -1777,11 +4923,33 @@ export const zGetApiPatchFilesData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
       Search: z.optional(z.string()),
       Versions: z.optional(z.array(zPatchFileVersion)),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
     }),
   ),
 });
@@ -1802,11 +4970,35 @@ export const zGetApiPatchFilesSummaryData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
       Versions: z.optional(z.array(zPatchFileVersion)),
-      UnitIds: z.optional(z.array(z.coerce.number())),
-      AssetFileHashes: z.optional(z.array(z.coerce.number())),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
+      AssetFileHashes: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       AssetFileTypes: z.optional(z.array(zAssetFileType)),
     }),
   ),
@@ -1950,10 +5142,32 @@ export const zGetApiStatsData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
       Ids: z.optional(z.array(z.uuid())),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
     }),
   ),
 });
@@ -2013,9 +5227,31 @@ export const zGetApiUnitStatsData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
     }),
   ),
 });
@@ -2028,7 +5264,7 @@ export const zGetApiUnitStatsResponse = zPaginatedListOfUnitStatDto;
 export const zGetApiUnitStatsByUnitIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2071,7 +5307,7 @@ export const zPostApiUnitStatsExportPathResponse = z.void();
 export const zGetApiUnitStatsAmmoSlotByUnitIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2119,8 +5355,28 @@ export const zGetApiSeriesData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
       Search: z.optional(z.array(z.string())),
       ListAll: z.optional(z.boolean()).default(false),
     }),
@@ -2143,9 +5399,31 @@ export const zGetApiSeriesUnitsData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       ListAll: z.optional(z.boolean()).default(false),
     }),
   ),
@@ -2178,7 +5456,7 @@ export const zPostApiSeriesExportResponse = zFileContentHttpResult;
 export const zGetApiScexDecompiledByUnitIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2292,11 +5570,37 @@ export const zGetApiProjectilesData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      Hashes: z.optional(z.array(z.coerce.number())),
-      UnitIds: z.optional(z.array(z.coerce.number())),
-      ModelHashes: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      Hashes: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
+      ModelHashes: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       Search: z.optional(z.string()),
     }),
   ),
@@ -2316,7 +5620,7 @@ export const zPostApiProjectilesData = z.object({
 export const zDeleteApiProjectilesByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2324,7 +5628,7 @@ export const zDeleteApiProjectilesByHashData = z.object({
 export const zGetApiProjectilesByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2337,7 +5641,7 @@ export const zGetApiProjectilesByHashResponse = zProjectileDto;
 export const zPostApiProjectilesByHashData = z.object({
   body: zUpdateProjectileByIdCommand,
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2347,9 +5651,31 @@ export const zGetApiUnitProjectilesData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       Search: z.optional(z.string()),
     }),
   ),
@@ -2363,7 +5689,7 @@ export const zGetApiUnitProjectilesResponse = zPaginatedListOfUnitProjectileDto;
 export const zGetApiUnitProjectilesByUnitIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2411,15 +5737,77 @@ export const zPostApiUnitProjectilesExportPathData = z.object({
  */
 export const zPostApiUnitProjectilesExportPathResponse = z.void();
 
+export const zPostApiNdp3Data = z.object({
+  body: z
+    .object({
+      ndp3File: zIFormFile,
+    })
+    .and(
+      z.object({
+        vbnFile: z.optional(zIFormFile),
+      }),
+    ),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zPostApiNdp3Response = zFileContentHttpResult;
+
+export const zPostApiNdp3JsonData = z.object({
+  body: z
+    .object({
+      ndp3File: zIFormFile,
+    })
+    .and(
+      z.object({
+        vbnFile: zIFormFile,
+      }),
+    ),
+  path: z.optional(z.never()),
+  query: z.optional(z.never()),
+});
+
+/**
+ * OK
+ */
+export const zPostApiNdp3JsonResponse = zFileContentHttpResult;
+
 export const zGetApiHitboxesData = z.object({
   body: z.optional(z.never()),
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      Hashes: z.optional(z.array(z.coerce.number())),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      Hashes: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       Search: z.optional(z.string()),
     }),
   ),
@@ -2439,7 +5827,7 @@ export const zPostApiHitboxesData = z.object({
 export const zDeleteApiHitboxesByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2452,7 +5840,7 @@ export const zDeleteApiHitboxesByHashResponse = z.void();
 export const zGetApiHitboxesByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2465,7 +5853,7 @@ export const zGetApiHitboxesByHashResponse = zHitboxDto;
 export const zPostApiHitboxesByHashData = z.object({
   body: zUpdateHitboxCommand,
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2480,10 +5868,34 @@ export const zGetApiHitboxGroupsData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      Hashes: z.optional(z.array(z.coerce.number())),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      Hashes: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
     }),
   ),
 });
@@ -2502,7 +5914,7 @@ export const zPostApiHitboxGroupsData = z.object({
 export const zGetApiHitboxGroupsHashByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2515,7 +5927,7 @@ export const zGetApiHitboxGroupsHashByHashResponse = zHitboxGroupDto;
 export const zGetApiHitboxGroupsUnitIdByUnitIdData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    unitId: z.coerce.number(),
+    unitId: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2528,7 +5940,7 @@ export const zGetApiHitboxGroupsUnitIdByUnitIdResponse = zHitboxGroupDto;
 export const zPostApiHitboxGroupsByHashData = z.object({
   body: zUpdateHitboxGroupCommand,
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2545,7 +5957,9 @@ export const zPostApiHitboxGroupsImportData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      unitId: z.optional(z.coerce.number()),
+      unitId: z.optional(
+        z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+      ),
     }),
   ),
 });
@@ -2717,9 +6131,31 @@ export const zGetApiAssetsData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       AssetFileTypes: z.optional(z.array(zAssetFileType)),
       ListAll: z.optional(z.boolean()).default(false),
     }),
@@ -2740,7 +6176,7 @@ export const zPostApiAssetsData = z.object({
 export const zDeleteApiAssetsByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2753,7 +6189,7 @@ export const zDeleteApiAssetsByHashResponse = z.void();
 export const zGetApiAssetsByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2766,7 +6202,7 @@ export const zGetApiAssetsByHashResponse = zAssetFileVm;
 export const zPostApiAssetsByHashData = z.object({
   body: zUpdateAssetFileByHashCommand,
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2789,10 +6225,34 @@ export const zGetApiAmmoData = z.object({
   path: z.optional(z.never()),
   query: z.optional(
     z.object({
-      Page: z.optional(z.coerce.number()).default(1),
-      PerPage: z.optional(z.coerce.number()).default(10),
-      Hash: z.optional(z.array(z.coerce.number())),
-      UnitIds: z.optional(z.array(z.coerce.number())),
+      Page: z
+        .optional(
+          z.union([
+            z.int().default(1),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(1),
+          ]),
+        )
+        .default(1),
+      PerPage: z
+        .optional(
+          z.union([
+            z.int().default(10),
+            z
+              .string()
+              .regex(/^-?(?:0|[1-9]\d*)$/)
+              .default(10),
+          ]),
+        )
+        .default(10),
+      Hash: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
+      UnitIds: z.optional(
+        z.array(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+      ),
       Search: z.optional(z.string()),
       ListAll: z.optional(z.boolean()).default(false),
     }),
@@ -2813,7 +6273,7 @@ export const zPostApiAmmoData = z.object({
 export const zDeleteApiAmmoByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2826,7 +6286,7 @@ export const zDeleteApiAmmoByHashResponse = z.void();
 export const zGetApiAmmoByHashData = z.object({
   body: z.optional(z.never()),
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });
@@ -2839,7 +6299,7 @@ export const zGetApiAmmoByHashResponse = zAmmoDto;
 export const zPostApiAmmoByHashData = z.object({
   body: zUpdateAmmoCommand,
   path: z.object({
-    hash: z.coerce.number(),
+    hash: z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
   }),
   query: z.optional(z.never()),
 });

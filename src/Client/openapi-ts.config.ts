@@ -7,7 +7,7 @@ export default {
     ...defaultPlugins,
     {
       name: "@hey-api/client-fetch",
-      runtimeConfigPath: "./src/api/client.ts",
+      runtimeConfigPath: "@/api/client.ts",
     },
     "@tanstack/react-query",
     "zod",

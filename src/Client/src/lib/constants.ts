@@ -96,5 +96,5 @@ export const UnitCustomizableInfoSections = {
 export const ToolsSections = {
   Fhm: "fhm",
   Psarc: "psarc",
-  Script: "script",
+  Model: "model",
 };
