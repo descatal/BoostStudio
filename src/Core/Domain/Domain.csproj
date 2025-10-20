@@ -11,9 +11,6 @@
     <PackageReference Include="Mediator.Abstractions" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\Exvs\Models\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="Kaitai\app.cs" />
     <Compile Remove="Kaitai\kscgenerate.cs" />
     <None Include="Kaitai\kscgenerate.cs" />

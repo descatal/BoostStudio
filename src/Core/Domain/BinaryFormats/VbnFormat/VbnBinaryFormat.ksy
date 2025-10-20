@@ -9,18 +9,18 @@ seq:
     type: bone_data(_index)
     repeat: expr
     repeat-expr: header.num_bones
-  - id: transformation_matrix
-    type: transformation_matrix_data
+  - id: local_transforms
+    type: local_transform_data
     repeat: expr
     repeat-expr: header.num_bones
   - id: padding
     size: -_io.pos % 8
-  - id: inverse_bone_transformation_matrix
-    type: transform_matrix_data
+  - id: inverse_bind_matrices
+    type: matrix_4x4
     repeat: expr
     repeat-expr: header.num_bones
-  - id: bone_transformation_matrix
-    type: transform_matrix_data
+  - id: bind_matrices
+    type: matrix_4x4
     repeat: expr
     repeat-expr: header.num_bones
 types:
@@ -64,45 +64,41 @@ types:
       - id: parent_bone_index
         type: s4
     instances:
-      transformation_matrix:
-        value: _parent.transformation_matrix[i]
-      inverse_bone_transformation_matrix:
-        value: _parent.inverse_bone_transformation_matrix[i]
-      bone_transformation_matrix:
-        value: _parent.bone_transformation_matrix[i]
+      local_transform:
+        value: _parent.local_transforms[i]
+      inverse_bind_matrix:
+        value: _parent.inverse_bind_matrices[i]
+      bind_matrix:
+        value: _parent.bind_matrices[i]
       parent_bone:
         value: _parent.bones[parent_bone_index]
-  transformation_matrix_data:
+  local_transform_data:
     seq:
-      - id: translation_x
-        type: f4
-      - id: translation_y
-        type: f4
-      - id: translation_z
-        type: f4
-      - id: rotation_x
-        type: f4
-      - id: rotation_y
-        type: f4
-      - id: rotation_z
-        type: f4
-      - id: scale_x
-        type: f4
-      - id: scale_y
-        type: f4
-      - id: scale_z
-        type: f4
-  transform_matrix_data:
+      - id: translation
+        type: vector_3
+      - id: rotation
+        type: vector_3
+      - id: scale
+        type: vector_3
+  matrix_4x4:
     seq:
       - id: row0
-        type: float_v4
+        type: vector_4
       - id: row1
-        type: float_v4
+        type: vector_4
       - id: row2
-        type: float_v4
+        type: vector_4
       - id: row3
-        type: float_v4
-  float_v4:
+        type: vector_4
+  vector_3:
+    seq:
+      - id: x
+        type: f4
+      - id: y
+        type: f4
+      - id: z
+        type: f4
+  vector_4:
     seq:
       - id: x
         type: f4

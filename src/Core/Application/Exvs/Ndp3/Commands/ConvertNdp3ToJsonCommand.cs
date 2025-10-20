@@ -4,6 +4,8 @@ using System.Text.Json.Serialization;
 using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Models;
+using BoostStudio.Application.Common.Utils;
+using BoostStudio.Application.Exvs.Ndp3.Commands.Models;
 using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
 namespace BoostStudio.Application.Exvs.Ndp3.Commands;
@@ -144,7 +146,6 @@ public class ConvertNdp3ToJsonCommandHandler(
                             })
                             .ToArray(),
                     };
-                    ;
                 })
             )
             .ToArray();
@@ -152,23 +153,15 @@ public class ConvertNdp3ToJsonCommandHandler(
         var bones = boneData
             .Select(data =>
             {
-                var transform = data.InverseBoneTransformationMatrix.ToMatrix();
+                var transform = data.InverseBindMatrix.ToMatrix();
                 return new BoneVm
                 {
                     Name = data.Name.Replace("\0", string.Empty).Trim(),
                     Transform = transform.Expand(),
                     ParentIndex = data.ParentBoneIndex == 268435455 ? null : data.ParentBoneIndex,
-                    InverseBindMatrix = data.InverseBoneTransformationMatrix.ToMatrix(),
-                    Translation = new Vector3(
-                        data.TransformationMatrix.TranslationX,
-                        data.TransformationMatrix.TranslationY,
-                        data.TransformationMatrix.TranslationZ
-                    ),
-                    Rotation = new Vector3(
-                        data.TransformationMatrix.RotationX,
-                        data.TransformationMatrix.RotationY,
-                        data.TransformationMatrix.RotationZ
-                    ),
+                    InverseBindMatrix = data.InverseBindMatrix.ToMatrix(),
+                    Translation = data.LocalTransform.Translation.ToVector(),
+                    Rotation = data.LocalTransform.Rotation.ToVector(),
                 };
             })
             .ToArray();

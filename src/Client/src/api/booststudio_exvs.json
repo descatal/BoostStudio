@@ -2383,12 +2383,9 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {
+              "application/octet-stream": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/BoneVm"
-                  }
+                  "$ref": "#/components/schemas/FileContentHttpResult"
                 }
               }
             }
@@ -4202,40 +4199,6 @@
               ],
               "format": "uint32"
             }
-          }
-        }
-      },
-      "BoneVm": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "transform": {
-            "type": "array",
-            "items": {
-              "type": "array",
-              "items": {
-                "pattern": "^-?(?:0|[1-9]\\d*)(?:\\.\\d+)?(?:[eE][+-]?\\d+)?$",
-                "type": [
-                  "number",
-                  "string"
-                ],
-                "format": "float"
-              }
-            }
-          },
-          "parent_index": {
-            "pattern": "^-?(?:0|[1-9]\\d*)$",
-            "type": [
-              "null",
-              "integer",
-              "string"
-            ],
-            "format": "int32"
-          },
-          "billboard_type": {
-            "type": "string"
           }
         }
       },

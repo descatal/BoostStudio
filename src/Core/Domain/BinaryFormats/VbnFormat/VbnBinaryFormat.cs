@@ -31,21 +31,21 @@ namespace BoostStudio.Formats
             {
                 _bones.Add(new BoneData(i, m_io, this, m_root));
             }
-            _transformationMatrix = new List<TransformationMatrixData>();
+            _localTransforms = new List<LocalTransformData>();
             for (var i = 0; i < Header.NumBones; i++)
             {
-                _transformationMatrix.Add(new TransformationMatrixData(m_io, this, m_root));
+                _localTransforms.Add(new LocalTransformData(m_io, this, m_root));
             }
             _padding = m_io.ReadBytes(KaitaiStream.Mod(-(M_Io.Pos), 8));
-            _inverseBoneTransformationMatrix = new List<TransformMatrixData>();
+            _inverseBindMatrices = new List<Matrix4x4>();
             for (var i = 0; i < Header.NumBones; i++)
             {
-                _inverseBoneTransformationMatrix.Add(new TransformMatrixData(m_io, this, m_root));
+                _inverseBindMatrices.Add(new Matrix4x4(m_io, this, m_root));
             }
-            _boneTransformationMatrix = new List<TransformMatrixData>();
+            _bindMatrices = new List<Matrix4x4>();
             for (var i = 0; i < Header.NumBones; i++)
             {
-                _boneTransformationMatrix.Add(new TransformMatrixData(m_io, this, m_root));
+                _bindMatrices.Add(new Matrix4x4(m_io, this, m_root));
             }
         }
         public partial class BoneData : KaitaiStruct
@@ -55,10 +55,10 @@ namespace BoostStudio.Formats
                 m_parent = p__parent;
                 m_root = p__root;
                 _i = p_i;
-                f_boneTransformationMatrix = write;
-                f_inverseBoneTransformationMatrix = write;
+                f_bindMatrix = write;
+                f_inverseBindMatrix = write;
+                f_localTransform = write;
                 f_parentBone = write;
-                f_transformationMatrix = write;
                 if (!write)
                     _read();
             }
@@ -68,40 +68,58 @@ namespace BoostStudio.Formats
                 _type = m_io.ReadU4be();
                 _parentBoneIndex = m_io.ReadS4be();
             }
-            private bool f_boneTransformationMatrix;
-            private TransformMatrixData _boneTransformationMatrix;
-            public TransformMatrixData BoneTransformationMatrix
+            private bool f_bindMatrix;
+            private Matrix4x4 _bindMatrix;
+            public Matrix4x4 BindMatrix
             {
                 get
                 {
-                    if (f_boneTransformationMatrix)
-                        return _boneTransformationMatrix;
-                    f_boneTransformationMatrix = true;
-                    _boneTransformationMatrix = (TransformMatrixData)(M_Parent.BoneTransformationMatrix[I]);
-                    return _boneTransformationMatrix;
+                    if (f_bindMatrix)
+                        return _bindMatrix;
+                    f_bindMatrix = true;
+                    _bindMatrix = (Matrix4x4)(M_Parent.BindMatrices[I]);
+                    return _bindMatrix;
                 }
 
                 set
                 {
-                    _boneTransformationMatrix = value;
+                    _bindMatrix = value;
                 }
             }
-            private bool f_inverseBoneTransformationMatrix;
-            private TransformMatrixData _inverseBoneTransformationMatrix;
-            public TransformMatrixData InverseBoneTransformationMatrix
+            private bool f_inverseBindMatrix;
+            private Matrix4x4 _inverseBindMatrix;
+            public Matrix4x4 InverseBindMatrix
             {
                 get
                 {
-                    if (f_inverseBoneTransformationMatrix)
-                        return _inverseBoneTransformationMatrix;
-                    f_inverseBoneTransformationMatrix = true;
-                    _inverseBoneTransformationMatrix = (TransformMatrixData)(M_Parent.InverseBoneTransformationMatrix[I]);
-                    return _inverseBoneTransformationMatrix;
+                    if (f_inverseBindMatrix)
+                        return _inverseBindMatrix;
+                    f_inverseBindMatrix = true;
+                    _inverseBindMatrix = (Matrix4x4)(M_Parent.InverseBindMatrices[I]);
+                    return _inverseBindMatrix;
                 }
 
                 set
                 {
-                    _inverseBoneTransformationMatrix = value;
+                    _inverseBindMatrix = value;
+                }
+            }
+            private bool f_localTransform;
+            private LocalTransformData _localTransform;
+            public LocalTransformData LocalTransform
+            {
+                get
+                {
+                    if (f_localTransform)
+                        return _localTransform;
+                    f_localTransform = true;
+                    _localTransform = (LocalTransformData)(M_Parent.LocalTransforms[I]);
+                    return _localTransform;
+                }
+
+                set
+                {
+                    _localTransform = value;
                 }
             }
             private bool f_parentBone;
@@ -120,24 +138,6 @@ namespace BoostStudio.Formats
                 set
                 {
                     _parentBone = value;
-                }
-            }
-            private bool f_transformationMatrix;
-            private TransformationMatrixData _transformationMatrix;
-            public TransformationMatrixData TransformationMatrix
-            {
-                get
-                {
-                    if (f_transformationMatrix)
-                        return _transformationMatrix;
-                    f_transformationMatrix = true;
-                    _transformationMatrix = (TransformationMatrixData)(M_Parent.TransformationMatrix[I]);
-                    return _transformationMatrix;
-                }
-
-                set
-                {
-                    _transformationMatrix = value;
                 }
             }
             private string _name;
@@ -192,88 +192,6 @@ namespace BoostStudio.Formats
                 }
             }
             public VbnBinaryFormat M_Parent
-            {
-                get { return m_parent; }
-
-                set
-                {
-                    m_parent = value;
-                }
-            }
-        }
-        public partial class FloatV4 : KaitaiStruct
-        {
-            public static FloatV4 FromFile(string fileName)
-            {
-                return new FloatV4(new KaitaiStream(fileName));
-            }
-
-            public FloatV4(KaitaiStream p__io, VbnBinaryFormat.TransformMatrixData p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
-            {
-                m_parent = p__parent;
-                m_root = p__root;
-                if (!write)
-                    _read();
-            }
-            private void _read()
-            {
-                _x = m_io.ReadF4be();
-                _y = m_io.ReadF4be();
-                _z = m_io.ReadF4be();
-                _w = m_io.ReadF4be();
-            }
-            private float _x;
-            private float _y;
-            private float _z;
-            private float _w;
-            private VbnBinaryFormat m_root;
-            private VbnBinaryFormat.TransformMatrixData m_parent;
-            public float X
-            {
-                get { return _x; }
-
-                set
-                {
-                    _x = value;
-                }
-            }
-            public float Y
-            {
-                get { return _y; }
-
-                set
-                {
-                    _y = value;
-                }
-            }
-            public float Z
-            {
-                get { return _z; }
-
-                set
-                {
-                    _z = value;
-                }
-            }
-            public float W
-            {
-                get { return _w; }
-
-                set
-                {
-                    _w = value;
-                }
-            }
-            public VbnBinaryFormat M_Root
-            {
-                get { return m_root; }
-
-                set
-                {
-                    m_root = value;
-                }
-            }
-            public VbnBinaryFormat.TransformMatrixData M_Parent
             {
                 get { return m_parent; }
 
@@ -427,14 +345,14 @@ namespace BoostStudio.Formats
                 }
             }
         }
-        public partial class TransformMatrixData : KaitaiStruct
+        public partial class LocalTransformData : KaitaiStruct
         {
-            public static TransformMatrixData FromFile(string fileName)
+            public static LocalTransformData FromFile(string fileName)
             {
-                return new TransformMatrixData(new KaitaiStream(fileName));
+                return new LocalTransformData(new KaitaiStream(fileName));
             }
 
-            public TransformMatrixData(KaitaiStream p__io, VbnBinaryFormat p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
+            public LocalTransformData(KaitaiStream p__io, VbnBinaryFormat p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -443,18 +361,89 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                _row0 = new FloatV4(m_io, this, m_root);
-                _row1 = new FloatV4(m_io, this, m_root);
-                _row2 = new FloatV4(m_io, this, m_root);
-                _row3 = new FloatV4(m_io, this, m_root);
+                _translation = new Vector3(m_io, this, m_root);
+                _rotation = new Vector3(m_io, this, m_root);
+                _scale = new Vector3(m_io, this, m_root);
             }
-            private FloatV4 _row0;
-            private FloatV4 _row1;
-            private FloatV4 _row2;
-            private FloatV4 _row3;
+            private Vector3 _translation;
+            private Vector3 _rotation;
+            private Vector3 _scale;
             private VbnBinaryFormat m_root;
             private VbnBinaryFormat m_parent;
-            public FloatV4 Row0
+            public Vector3 Translation
+            {
+                get { return _translation; }
+
+                set
+                {
+                    _translation = value;
+                }
+            }
+            public Vector3 Rotation
+            {
+                get { return _rotation; }
+
+                set
+                {
+                    _rotation = value;
+                }
+            }
+            public Vector3 Scale
+            {
+                get { return _scale; }
+
+                set
+                {
+                    _scale = value;
+                }
+            }
+            public VbnBinaryFormat M_Root
+            {
+                get { return m_root; }
+
+                set
+                {
+                    m_root = value;
+                }
+            }
+            public VbnBinaryFormat M_Parent
+            {
+                get { return m_parent; }
+
+                set
+                {
+                    m_parent = value;
+                }
+            }
+        }
+        public partial class Matrix4x4 : KaitaiStruct
+        {
+            public static Matrix4x4 FromFile(string fileName)
+            {
+                return new Matrix4x4(new KaitaiStream(fileName));
+            }
+
+            public Matrix4x4(KaitaiStream p__io, VbnBinaryFormat p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
+            {
+                m_parent = p__parent;
+                m_root = p__root;
+                if (!write)
+                    _read();
+            }
+            private void _read()
+            {
+                _row0 = new Vector4(m_io, this, m_root);
+                _row1 = new Vector4(m_io, this, m_root);
+                _row2 = new Vector4(m_io, this, m_root);
+                _row3 = new Vector4(m_io, this, m_root);
+            }
+            private Vector4 _row0;
+            private Vector4 _row1;
+            private Vector4 _row2;
+            private Vector4 _row3;
+            private VbnBinaryFormat m_root;
+            private VbnBinaryFormat m_parent;
+            public Vector4 Row0
             {
                 get { return _row0; }
 
@@ -463,7 +452,7 @@ namespace BoostStudio.Formats
                     _row0 = value;
                 }
             }
-            public FloatV4 Row1
+            public Vector4 Row1
             {
                 get { return _row1; }
 
@@ -472,7 +461,7 @@ namespace BoostStudio.Formats
                     _row1 = value;
                 }
             }
-            public FloatV4 Row2
+            public Vector4 Row2
             {
                 get { return _row2; }
 
@@ -481,7 +470,7 @@ namespace BoostStudio.Formats
                     _row2 = value;
                 }
             }
-            public FloatV4 Row3
+            public Vector4 Row3
             {
                 get { return _row3; }
 
@@ -509,14 +498,14 @@ namespace BoostStudio.Formats
                 }
             }
         }
-        public partial class TransformationMatrixData : KaitaiStruct
+        public partial class Vector3 : KaitaiStruct
         {
-            public static TransformationMatrixData FromFile(string fileName)
+            public static Vector3 FromFile(string fileName)
             {
-                return new TransformationMatrixData(new KaitaiStream(fileName));
+                return new Vector3(new KaitaiStream(fileName));
             }
 
-            public TransformationMatrixData(KaitaiStream p__io, VbnBinaryFormat p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
+            public Vector3(KaitaiStream p__io, VbnBinaryFormat.LocalTransformData p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
             {
                 m_parent = p__parent;
                 m_root = p__root;
@@ -525,106 +514,40 @@ namespace BoostStudio.Formats
             }
             private void _read()
             {
-                _translationX = m_io.ReadF4be();
-                _translationY = m_io.ReadF4be();
-                _translationZ = m_io.ReadF4be();
-                _rotationX = m_io.ReadF4be();
-                _rotationY = m_io.ReadF4be();
-                _rotationZ = m_io.ReadF4be();
-                _scaleX = m_io.ReadF4be();
-                _scaleY = m_io.ReadF4be();
-                _scaleZ = m_io.ReadF4be();
+                _x = m_io.ReadF4be();
+                _y = m_io.ReadF4be();
+                _z = m_io.ReadF4be();
             }
-            private float _translationX;
-            private float _translationY;
-            private float _translationZ;
-            private float _rotationX;
-            private float _rotationY;
-            private float _rotationZ;
-            private float _scaleX;
-            private float _scaleY;
-            private float _scaleZ;
+            private float _x;
+            private float _y;
+            private float _z;
             private VbnBinaryFormat m_root;
-            private VbnBinaryFormat m_parent;
-            public float TranslationX
+            private VbnBinaryFormat.LocalTransformData m_parent;
+            public float X
             {
-                get { return _translationX; }
+                get { return _x; }
 
                 set
                 {
-                    _translationX = value;
+                    _x = value;
                 }
             }
-            public float TranslationY
+            public float Y
             {
-                get { return _translationY; }
+                get { return _y; }
 
                 set
                 {
-                    _translationY = value;
+                    _y = value;
                 }
             }
-            public float TranslationZ
+            public float Z
             {
-                get { return _translationZ; }
+                get { return _z; }
 
                 set
                 {
-                    _translationZ = value;
-                }
-            }
-            public float RotationX
-            {
-                get { return _rotationX; }
-
-                set
-                {
-                    _rotationX = value;
-                }
-            }
-            public float RotationY
-            {
-                get { return _rotationY; }
-
-                set
-                {
-                    _rotationY = value;
-                }
-            }
-            public float RotationZ
-            {
-                get { return _rotationZ; }
-
-                set
-                {
-                    _rotationZ = value;
-                }
-            }
-            public float ScaleX
-            {
-                get { return _scaleX; }
-
-                set
-                {
-                    _scaleX = value;
-                }
-            }
-            public float ScaleY
-            {
-                get { return _scaleY; }
-
-                set
-                {
-                    _scaleY = value;
-                }
-            }
-            public float ScaleZ
-            {
-                get { return _scaleZ; }
-
-                set
-                {
-                    _scaleZ = value;
+                    _z = value;
                 }
             }
             public VbnBinaryFormat M_Root
@@ -636,7 +559,89 @@ namespace BoostStudio.Formats
                     m_root = value;
                 }
             }
-            public VbnBinaryFormat M_Parent
+            public VbnBinaryFormat.LocalTransformData M_Parent
+            {
+                get { return m_parent; }
+
+                set
+                {
+                    m_parent = value;
+                }
+            }
+        }
+        public partial class Vector4 : KaitaiStruct
+        {
+            public static Vector4 FromFile(string fileName)
+            {
+                return new Vector4(new KaitaiStream(fileName));
+            }
+
+            public Vector4(KaitaiStream p__io, VbnBinaryFormat.Matrix4x4 p__parent = null, VbnBinaryFormat p__root = null, bool write = false) : base(p__io)
+            {
+                m_parent = p__parent;
+                m_root = p__root;
+                if (!write)
+                    _read();
+            }
+            private void _read()
+            {
+                _x = m_io.ReadF4be();
+                _y = m_io.ReadF4be();
+                _z = m_io.ReadF4be();
+                _w = m_io.ReadF4be();
+            }
+            private float _x;
+            private float _y;
+            private float _z;
+            private float _w;
+            private VbnBinaryFormat m_root;
+            private VbnBinaryFormat.Matrix4x4 m_parent;
+            public float X
+            {
+                get { return _x; }
+
+                set
+                {
+                    _x = value;
+                }
+            }
+            public float Y
+            {
+                get { return _y; }
+
+                set
+                {
+                    _y = value;
+                }
+            }
+            public float Z
+            {
+                get { return _z; }
+
+                set
+                {
+                    _z = value;
+                }
+            }
+            public float W
+            {
+                get { return _w; }
+
+                set
+                {
+                    _w = value;
+                }
+            }
+            public VbnBinaryFormat M_Root
+            {
+                get { return m_root; }
+
+                set
+                {
+                    m_root = value;
+                }
+            }
+            public VbnBinaryFormat.Matrix4x4 M_Parent
             {
                 get { return m_parent; }
 
@@ -648,10 +653,10 @@ namespace BoostStudio.Formats
         }
         private HeaderData _header;
         private List<BoneData> _bones;
-        private List<TransformationMatrixData> _transformationMatrix;
+        private List<LocalTransformData> _localTransforms;
         private byte[] _padding;
-        private List<TransformMatrixData> _inverseBoneTransformationMatrix;
-        private List<TransformMatrixData> _boneTransformationMatrix;
+        private List<Matrix4x4> _inverseBindMatrices;
+        private List<Matrix4x4> _bindMatrices;
         private VbnBinaryFormat m_root;
         private KaitaiStruct m_parent;
         public HeaderData Header
@@ -672,13 +677,13 @@ namespace BoostStudio.Formats
                 _bones = value;
             }
         }
-        public List<TransformationMatrixData> TransformationMatrix
+        public List<LocalTransformData> LocalTransforms
         {
-            get { return _transformationMatrix; }
+            get { return _localTransforms; }
 
             set
             {
-                _transformationMatrix = value;
+                _localTransforms = value;
             }
         }
         public byte[] Padding
@@ -690,22 +695,22 @@ namespace BoostStudio.Formats
                 _padding = value;
             }
         }
-        public List<TransformMatrixData> InverseBoneTransformationMatrix
+        public List<Matrix4x4> InverseBindMatrices
         {
-            get { return _inverseBoneTransformationMatrix; }
+            get { return _inverseBindMatrices; }
 
             set
             {
-                _inverseBoneTransformationMatrix = value;
+                _inverseBindMatrices = value;
             }
         }
-        public List<TransformMatrixData> BoneTransformationMatrix
+        public List<Matrix4x4> BindMatrices
         {
-            get { return _boneTransformationMatrix; }
+            get { return _bindMatrices; }
 
             set
             {
-                _boneTransformationMatrix = value;
+                _bindMatrices = value;
             }
         }
         public VbnBinaryFormat M_Root
