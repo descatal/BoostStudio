@@ -55,7 +55,7 @@ const StatsGroupTable = ({ unitId }: StatsGroupTableProps) => {
 
   const { table } = useDataTable({
     data: (paginatedUnitStats?.items ?? []).sort(
-      (a, b) => (a.order ?? 0) - (b.order ?? 0),
+      (a, b) => Number(a.order ?? 0) - Number(b.order ?? 0),
     ),
     columns: statsGroupTableColumns,
     initialState: {
@@ -65,7 +65,7 @@ const StatsGroupTable = ({ unitId }: StatsGroupTableProps) => {
         pageSize: 5,
       },
     },
-    pageCount: paginatedUnitStats?.totalPages ?? 0,
+    pageCount: Number(paginatedUnitStats?.totalPages ?? 0),
     shallow: false,
   });
 

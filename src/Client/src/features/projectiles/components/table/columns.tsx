@@ -12,7 +12,7 @@ const customTableRows: ColumnDef<ProjectileDto>[] = [
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
-        initialValue={row.original.hash}
+        initialValue={Number(row.original.hash)}
         readonly={true}
         initialMode={"hex"}
       />
@@ -51,7 +51,7 @@ const customTableRows: ColumnDef<ProjectileDto>[] = [
           >
             <HashInput
               className={"border-none"}
-              initialValue={row.original.hitboxHash}
+              initialValue={Number(row.original.hitboxHash)}
               readonly={true}
               initialMode={"hex"}
             />
@@ -66,7 +66,7 @@ const customTableRows: ColumnDef<ProjectileDto>[] = [
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
-        initialValue={row.original.modelHash}
+        initialValue={Number(row.original.modelHash)}
         readonly={true}
         initialMode={"hex"}
       />

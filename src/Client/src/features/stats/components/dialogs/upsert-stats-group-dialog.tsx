@@ -71,7 +71,11 @@ const UpsertStatsGroupDialog = ({
       },
     }),
     select: (data) => {
-      return data.items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) ?? [];
+      return (
+        data.items.sort(
+          (a, b) => Number(a.order ?? 0) - Number(b.order ?? 0),
+        ) ?? []
+      );
     },
   });
 

@@ -4,24 +4,32 @@ import type {
   ArrayStyle,
   ObjectStyle,
   SerializerOptions,
-} from './pathSerializer.gen';
+} from "./pathSerializer.gen";
 
 export type QuerySerializer = (query: Record<string, unknown>) => string;
 
 export type BodySerializer = (body: any) => any;
 
-export interface QuerySerializerOptions {
+type QuerySerializerOptionsObject = {
   allowReserved?: boolean;
-  array?: SerializerOptions<ArrayStyle>;
-  object?: SerializerOptions<ObjectStyle>;
-}
+  array?: Partial<SerializerOptions<ArrayStyle>>;
+  object?: Partial<SerializerOptions<ObjectStyle>>;
+};
+
+export type QuerySerializerOptions = QuerySerializerOptionsObject & {
+  /**
+   * Per-parameter serialization overrides. When provided, these settings
+   * override the global array/object settings for specific parameter names.
+   */
+  parameters?: Record<string, QuerySerializerOptionsObject>;
+};
 
 const serializeFormDataPair = (
   data: FormData,
   key: string,
   value: unknown,
 ): void => {
-  if (typeof value === 'string' || value instanceof Blob) {
+  if (typeof value === "string" || value instanceof Blob) {
     data.append(key, value);
   } else if (value instanceof Date) {
     data.append(key, value.toISOString());
@@ -35,7 +43,7 @@ const serializeUrlSearchParamsPair = (
   key: string,
   value: unknown,
 ): void => {
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     data.append(key, value);
   } else {
     data.append(key, JSON.stringify(value));
@@ -66,7 +74,7 @@ export const formDataBodySerializer = {
 export const jsonBodySerializer = {
   bodySerializer: <T>(body: T): string =>
     JSON.stringify(body, (_key, value) =>
-      typeof value === 'bigint' ? value.toString() : value,
+      typeof value === "bigint" ? value.toString() : value,
     ),
 };
 

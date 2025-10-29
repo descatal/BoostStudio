@@ -62,7 +62,7 @@ const AmmoTable = ({ unitId }: AmmoTableProps) => {
         pageSize: 5,
       },
     },
-    pageCount: paginatedData?.totalPages ?? 0,
+    pageCount: Number(paginatedData?.totalPages ?? 0),
     shallow: false,
   });
 

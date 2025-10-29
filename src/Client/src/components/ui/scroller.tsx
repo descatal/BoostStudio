@@ -381,6 +381,7 @@ const ScrollButton = React.forwardRef<HTMLButtonElement, ScrollButtonProps>(
         ref={forwardedRef}
         className={cn(scrollButtonVariants({ direction, className }))}
       >
+        {/* @ts-ignore */}
         <Icon />
       </button>
     );

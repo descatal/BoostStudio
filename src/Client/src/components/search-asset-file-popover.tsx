@@ -41,7 +41,7 @@ export function SearchAssetFilePopover({
               readonly={true}
               className={`${selectedAssetFile ? "border-green-800" : "border-red-800"}`}
               initialMode={"hex"}
-              initialValue={selectedAssetFile?.hash}
+              initialValue={Number(selectedAssetFile?.hash)}
               placeholder={"e.g. 1A42E312"}
             />
           </div>

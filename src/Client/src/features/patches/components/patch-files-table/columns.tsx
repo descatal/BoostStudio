@@ -16,11 +16,11 @@ export const patchFilesListColumns: ColumnDef<PatchFileSummaryVm>[] = [
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
-        initialValue={
+        initialValue={Number(
           row.original.assetFile?.hash ??
-          row.original.assetFileHash ??
-          undefined
-        }
+            row.original.assetFileHash ??
+            undefined,
+        )}
         readonly={true}
         initialMode={"hex"}
       />

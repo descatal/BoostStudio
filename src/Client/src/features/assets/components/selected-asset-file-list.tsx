@@ -67,7 +67,7 @@ const SelectedAssetFileList = ({ value }: SelectedAssetFileListProps) => {
                     <HashInput
                       readonly={true}
                       initialMode={"hex"}
-                      initialValue={value[virtualRow.index].hash}
+                      initialValue={Number(value[virtualRow.index].hash)}
                       placeholder={"e.g. 1A42E312"}
                     />
                   </>

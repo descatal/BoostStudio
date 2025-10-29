@@ -11,7 +11,7 @@ const customTableRows: ColumnDef<AmmoDto>[] = [
     cell: ({ row }) => (
       <HashInput
         className={"border-none"}
-        initialValue={row.original.hash}
+        initialValue={Number(row.original.hash)}
         readonly={true}
         initialMode={"hex"}
       />

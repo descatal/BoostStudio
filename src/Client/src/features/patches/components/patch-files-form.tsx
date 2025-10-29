@@ -215,7 +215,7 @@ export function PatchFilesForm({
                                   <HashInput
                                     disabled={!hasAsset}
                                     initialMode={"hex"}
-                                    initialValue={field.value}
+                                    initialValue={Number(field.value)}
                                     placeholder="Enter Hash"
                                     {...field}
                                     value={field.value ?? undefined}
