@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Slot, Slottable } from "@radix-ui/react-slot";
+import { Slot as SlotPrimitive } from "radix-ui";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -86,7 +86,7 @@ const EnhancedButton = React.forwardRef<
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : "button";
+    const Comp = asChild ? SlotPrimitive.Slot : "button";
     return (
       <Comp
         className={cn(buttonVariants({ variant, effect, size, className }))}
@@ -106,7 +106,7 @@ const EnhancedButton = React.forwardRef<
               <Icon />
             </>
           ))}
-        <Slottable>{props.children}</Slottable>
+        <SlotPrimitive.Slottable>{props.children}</SlotPrimitive.Slottable>
         {Icon &&
           iconPlacement === "right" &&
           (effect === "expandIcon" ? (

@@ -4,9 +4,9 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
 
-import { Button } from "../custom/button";
 import { Layout } from "./layout.tsx";
 import Nav from "../nav";
+import { Button } from "@/components/ui/button.tsx";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean;

@@ -6,7 +6,6 @@ import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import useCheckActiveNav from "@/hooks/use-check-active-nav";
 
-import { Button, buttonVariants } from "./custom/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -26,6 +25,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { Button, buttonVariants } from "@/components/ui/button.tsx";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean;

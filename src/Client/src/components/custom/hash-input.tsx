@@ -10,8 +10,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { CopyButton } from "@/components/custom/copy-button";
 import { IconInput } from "@/components/custom/icon-input";
+import { CopyButton } from "@/components/ui/shadcn-io/copy-button";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

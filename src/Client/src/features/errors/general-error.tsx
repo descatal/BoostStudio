@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/custom/button";
+import { Button } from "@/components/ui/button.tsx";
 
 interface GeneralErrorProps extends React.HTMLAttributes<HTMLDivElement> {
   minimal?: boolean;
