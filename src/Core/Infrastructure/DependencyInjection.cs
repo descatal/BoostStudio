@@ -21,7 +21,7 @@ using BoostStudio.Infrastructure.Formats.AudioFormats.Wav;
 using BoostStudio.Infrastructure.Formats.FhmFormat;
 using BoostStudio.Infrastructure.Formats.HitboxFormat;
 using BoostStudio.Infrastructure.Formats.ListInfoFormat;
-using BoostStudio.Infrastructure.Formats.Ndp3Format;
+using BoostStudio.Infrastructure.Formats.NudFormat;
 using BoostStudio.Infrastructure.Formats.ProjectileFormat;
 using BoostStudio.Infrastructure.Formats.PsarcFormat;
 using BoostStudio.Infrastructure.Formats.StatsFormat;
@@ -120,7 +120,7 @@ public static class DependencyInjection
         services.AddTransient<IHitboxGroupBinarySerializer, HitboxGroupBinarySerializer>();
         services.AddTransient<IListInfoBinarySerializer, ListInfoBinarySerializer>();
         services.AddTransient<ITblBinarySerializer, TblBinarySerializer>();
-        services.AddTransient<INdp3BinarySerializer, Ndp3BinarySerializer>();
+        services.AddTransient<INudBinarySerializer, NudBinarySerializer>();
         services.AddTransient<IVbnBinarySerializer, VbnBinarySerializer>();
 
         services.AddTransient<IBnsf, Bnsf>();

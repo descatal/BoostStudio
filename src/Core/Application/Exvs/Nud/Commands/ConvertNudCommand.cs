@@ -4,7 +4,7 @@ using BoostStudio.Application.Common.Interfaces;
 using BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Common.Utils;
-using BoostStudio.Application.Exvs.Ndp3.Commands.Models;
+using BoostStudio.Application.Exvs.Nud.Commands.Models;
 using BoostStudio.Formats;
 using Riok.Mapperly.Abstractions;
 using SharpGLTF.Animations;
@@ -16,26 +16,26 @@ using SharpGLTF.Schema2;
 using SharpGLTF.Transforms;
 using FileInfo = BoostStudio.Application.Common.Models.FileInfo;
 
-namespace BoostStudio.Application.Exvs.Ndp3.Commands;
+namespace BoostStudio.Application.Exvs.Nud.Commands;
 
 // very good official writeup on gltf format:
 // https://github.khronos.org/glTF-Tutorials/gltfTutorial/gltfTutorial_020_Skins.html
-public record ConvertNdp3Command(Stream Ndp3File, Stream? VbnFile = null, string? FileName = null)
+public record ConvertNudCommand(Stream NudFile, Stream? VbnFile = null, string? FileName = null)
     : IRequest<FileInfo>;
 
-public class ConvertNdp3CommandHandler(
+public class ConvertNudCommandHandler(
     ICompressor compressor,
-    INdp3BinarySerializer ndp3BinarySerializer,
+    INudBinarySerializer nudBinarySerializer,
     IVbnBinarySerializer vbnBinarySerializer
-) : IRequestHandler<ConvertNdp3Command, FileInfo>
+) : IRequestHandler<ConvertNudCommand, FileInfo>
 {
     public async ValueTask<FileInfo> Handle(
-        ConvertNdp3Command request,
+        ConvertNudCommand request,
         CancellationToken cancellationToken
     )
     {
-        var serializedNdp3Format = await ndp3BinarySerializer.DeserializeAsync(
-            request.Ndp3File,
+        var serializedNudFormat = await nudBinarySerializer.DeserializeAsync(
+            request.NudFile,
             cancellationToken
         );
 
@@ -145,7 +145,7 @@ public class ConvertNdp3CommandHandler(
         }
 
         var bindings = joints.Select(data => (data.Node, data.BindMatrix)).ToArray();
-        foreach (var meshData in serializedNdp3Format.Meshes)
+        foreach (var meshData in serializedNudFormat.Body.Meshes)
         {
             for (int polygonIndex = 0; polygonIndex < meshData.Polygons.Count; polygonIndex++)
             {
@@ -168,20 +168,49 @@ public class ConvertNdp3CommandHandler(
 
                 // create GLTFSharp compatible vertex data structure
                 var vertices = polygonData
-                    .Vertices.Attributes.Select(vertexAttribute =>
+                    .Vertices.Select(vertexAttribute =>
                     {
+                        var normals =
+                            polygonData.Flags.GeometryType switch
+                            {
+                                NudBinaryFormat.VertexGeometryType.NormalsFloat
+                                or NudBinaryFormat.VertexGeometryType.NormalsTanBitanFloat => (
+                                    vertexAttribute.Geometry.Normal
+                                    as NudBinaryFormat.NudBody.Vector3
+                                )?.ToVector(),
+                                NudBinaryFormat.VertexGeometryType.NormalsHalfFloat
+                                or NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat => (
+                                    vertexAttribute.Geometry.Normal
+                                    as NudBinaryFormat.NudBody.Vector3HalfFloat
+                                )?.ToVector(),
+                                _ => null,
+                            } ?? new Vector3();
+
+                        var tangent =
+                            polygonData.Flags.GeometryType switch
+                            {
+                                NudBinaryFormat.VertexGeometryType.NormalsTanBitanFloat => (
+                                    vertexAttribute.Geometry.Tangent
+                                    as NudBinaryFormat.NudBody.Vector4
+                                )?.ToVector(),
+                                NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat => (
+                                    vertexAttribute.Geometry.Tangent
+                                    as NudBinaryFormat.NudBody.Vector4HalfFloat
+                                )?.ToVector(),
+                                _ => null,
+                            } ?? new Vector4();
+
                         // TODO: add color and UV
 
                         var vertexPosition = new VertexPositionNormalTangent(
-                            vertexAttribute.Pos.ToVector3(),
-                            vertexAttribute.Normal.ToVector3(),
-                            vertexAttribute.Tangent.ToVector()
+                            vertexAttribute.Geometry.Position.ToVector(),
+                            normals,
+                            tangent
                         );
 
                         var vertexBindings = vertexAttribute
-                            .BoneIndices.Zip(
-                                vertexAttribute.BoneWeights,
-                                (index, weight) => ((int)index, weight)
+                            .Bindings.Select(vertexBinding =>
+                                ((int)vertexBinding.BoneIndex, vertexBinding.BoneWeight)
                             )
                             .ToArray();
 
@@ -195,7 +224,7 @@ public class ConvertNdp3CommandHandler(
 
                 // the vertex are just points, to connect them we need to use the provided vertex indices and connect them
                 var index = 0;
-                var processedIndices = ModelUtils.ProcessVertexIndices(polygonData.Indices);
+                var processedIndices = ModelUtils.ProcessVertexIndices(polygonData.VertexIndices);
                 do
                 {
                     // we construct a triangle based on the processed indices, every three indices = 1 triangle

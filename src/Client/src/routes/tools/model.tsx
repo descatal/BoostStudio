@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label.tsx";
 import { Download, FileCode, Loader2, Upload, X } from "lucide-react";
 import { Card } from "@/components/ui/card.tsx";
-import { postApiNdp3Mutation } from "@/api/exvs/@tanstack/react-query.gen.ts";
+import { postApiNudMutation } from "@/api/exvs/@tanstack/react-query.gen.ts";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { GetProblemDetails } from "@/features/errors/toast-errors.tsx";
@@ -25,7 +25,7 @@ function RouteComponent() {
   const skeletonInputRef = useRef<HTMLInputElement>(null);
 
   const convertMutation = useMutation({
-    ...postApiNdp3Mutation(),
+    ...postApiNudMutation(),
     onMutate: () => {
       toast("Converting", {
         description:
@@ -65,7 +65,7 @@ function RouteComponent() {
         setModelFile(file);
         setError(null);
       } else {
-        setError("Please select a .ndp3 or .nud file");
+        setError("Please select a .nud or .ndp3 file");
       }
     }
   };
@@ -95,7 +95,7 @@ function RouteComponent() {
     try {
       convertMutation.mutate({
         body: {
-          ndp3File: modelFile,
+          nudFile: modelFile,
           vbnFile: skeletonFile ?? undefined,
         },
       });

@@ -14,7 +14,7 @@ seq:
     repeat: expr
     repeat-expr: header.num_bones
   - id: padding
-    size: -_io.pos % 8
+    size: '(_io.pos % 0x10) == 0 ? 0 : 0x10 - _io.pos % 0x10'
   - id: inverse_bind_matrices
     type: matrix_4x4
     repeat: expr

@@ -36,7 +36,7 @@ namespace BoostStudio.Formats
             {
                 _localTransforms.Add(new LocalTransformData(m_io, this, m_root));
             }
-            _padding = m_io.ReadBytes(KaitaiStream.Mod(-(M_Io.Pos), 8));
+            _padding = m_io.ReadBytes((KaitaiStream.Mod(M_Io.Pos, 16) == 0 ? 0 : 16 - KaitaiStream.Mod(M_Io.Pos, 16)));
             _inverseBindMatrices = new List<Matrix4x4>();
             for (var i = 0; i < Header.NumBones; i++)
             {

@@ -2632,45 +2632,25 @@ export type PostApiUnitProjectilesExportPathResponses = {
 
 export type PostApiUnitProjectilesExportPathResponse = PostApiUnitProjectilesExportPathResponses[keyof PostApiUnitProjectilesExportPathResponses];
 
-export type PostApiNdp3Data = {
+export type PostApiNudData = {
     body: {
-        ndp3File: IFormFile;
+        nudFile: IFormFile;
     } & {
         vbnFile?: IFormFile;
     };
     path?: never;
     query?: never;
-    url: '/api/ndp3';
+    url: '/api/nud';
 };
 
-export type PostApiNdp3Responses = {
+export type PostApiNudResponses = {
     /**
      * OK
      */
     200: FileContentHttpResult;
 };
 
-export type PostApiNdp3Response = PostApiNdp3Responses[keyof PostApiNdp3Responses];
-
-export type PostApiNdp3JsonData = {
-    body: {
-        ndp3File: IFormFile;
-    } & {
-        vbnFile: IFormFile;
-    };
-    path?: never;
-    query?: never;
-    url: '/api/ndp3/json';
-};
-
-export type PostApiNdp3JsonResponses = {
-    /**
-     * OK
-     */
-    200: FileContentHttpResult;
-};
-
-export type PostApiNdp3JsonResponse = PostApiNdp3JsonResponses[keyof PostApiNdp3JsonResponses];
+export type PostApiNudResponse = PostApiNudResponses[keyof PostApiNudResponses];
 
 export type GetApiHitboxesData = {
     body?: never;

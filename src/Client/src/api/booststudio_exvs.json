@@ -2290,77 +2290,25 @@
         }
       }
     },
-    "/api/ndp3": {
+    "/api/nud": {
       "post": {
         "tags": [
-          "Ndp3"
+          "Nud"
         ],
-        "operationId": "post-api-ndp3",
+        "operationId": "post-api-nud",
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
                 "required": [
-                  "ndp3File"
+                  "nudFile"
                 ],
                 "type": "object",
                 "allOf": [
                   {
                     "type": "object",
                     "properties": {
-                      "ndp3File": {
-                        "$ref": "#/components/schemas/IFormFile"
-                      }
-                    }
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "vbnFile": {
-                        "$ref": "#/components/schemas/IFormFile"
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileContentHttpResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/ndp3/json": {
-      "post": {
-        "tags": [
-          "Ndp3"
-        ],
-        "operationId": "post-api-ndp3-json",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "ndp3File",
-                  "vbnFile"
-                ],
-                "type": "object",
-                "allOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "ndp3File": {
+                      "nudFile": {
                         "$ref": "#/components/schemas/IFormFile"
                       }
                     }
@@ -14008,7 +13956,7 @@
       "name": "Projectiles"
     },
     {
-      "name": "Ndp3"
+      "name": "Nud"
     },
     {
       "name": "Hitboxes"

@@ -2,9 +2,9 @@ using BoostStudio.Formats;
 
 namespace BoostStudio.Application.Common.Interfaces.Formats.BinarySerializers;
 
-public interface INdp3BinarySerializer
+public interface INudBinarySerializer
 {
-    Task<Ndp3BinaryFormat> DeserializeAsync(
+    Task<NudBinaryFormat> DeserializeAsync(
         Stream data,
         CancellationToken cancellationToken = default
     );
