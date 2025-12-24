@@ -192,10 +192,10 @@ types:
             type:
               switch-on: flags.bone_type
               cases:
-                'vertex_bone_type::float': u4
-                'vertex_bone_type::half_float': u2
+                'vertex_bone_type::float': s4
+                'vertex_bone_type::half_float': s2
                 'vertex_bone_type::byte': b1
-                _: u4
+                _: s4
             repeat: expr
             repeat-expr: 4
           - id: bone_weights

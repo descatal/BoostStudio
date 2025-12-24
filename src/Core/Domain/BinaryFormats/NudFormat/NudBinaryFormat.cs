@@ -4,9 +4,8 @@
 //     This is a generated file! Please edit source .ksy file and use kaitai-struct-compiler to rebuild
 // </auto-generated>
 //----------------------
+using System.Text;
 using Kaitai;
-using System;
-using System.Collections.Generic;
 
 namespace BoostStudio.Formats
 {
@@ -133,7 +132,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public BoundingSphere(KaitaiStream p__io, NudBinaryFormat.NudBody p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public BoundingSphere(KaitaiStream p__io, NudBody p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -176,7 +175,7 @@ namespace BoostStudio.Formats
                 private float _centerZ;
                 private float _radius;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody m_parent;
+                private NudBody m_parent;
                 public float CenterX
                 {
                     get { return _centerX; }
@@ -222,7 +221,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody M_Parent
+                public NudBody M_Parent
                 {
                     get { return m_parent; }
 
@@ -336,7 +335,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public HeaderData(KaitaiStream p__io, NudBinaryFormat.NudBody p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public HeaderData(KaitaiStream p__io, NudBody p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -469,7 +468,7 @@ namespace BoostStudio.Formats
                 private ushort _boneIndexEnd;
                 private List<uint> _toc;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody m_parent;
+                private NudBody m_parent;
 
                 /// <summary>
                 /// Total length of the NUD, in bytes.
@@ -554,7 +553,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody M_Parent
+                public NudBody M_Parent
                 {
                     get { return m_parent; }
 
@@ -567,7 +566,7 @@ namespace BoostStudio.Formats
             public partial class MaterialData : KaitaiStruct
             {
                 private bool? m_isLe;
-                public MaterialData(int p_index, KaitaiStream p__io, NudBinaryFormat.NudBody.PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public MaterialData(int p_index, KaitaiStream p__io, PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -632,7 +631,7 @@ namespace BoostStudio.Formats
                 }
                 private int _index;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.PolygonData m_parent;
+                private PolygonData m_parent;
                 public int Index
                 {
                     get { return _index; }
@@ -651,7 +650,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.PolygonData M_Parent
+                public PolygonData M_Parent
                 {
                     get { return m_parent; }
 
@@ -669,7 +668,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public MaterialInstance(KaitaiStream p__io, NudBinaryFormat.NudBody.MaterialData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public MaterialInstance(KaitaiStream p__io, MaterialData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -747,7 +746,7 @@ namespace BoostStudio.Formats
                 private uint _zBufferOffset;
                 private List<TextureData> _textures;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.MaterialData m_parent;
+                private MaterialData m_parent;
                 public uint Flag
                 {
                     get { return _flag; }
@@ -874,7 +873,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.MaterialData M_Parent
+                public MaterialData M_Parent
                 {
                     get { return m_parent; }
 
@@ -892,7 +891,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public MeshData(KaitaiStream p__io, NudBinaryFormat.NudBody p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public MeshData(KaitaiStream p__io, NudBody p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -958,11 +957,11 @@ namespace BoostStudio.Formats
                         m_io.Seek(NameOffset + M_Parent.Header.Section4Pointer);
                         if (m_isLe == true)
                         {
-                            _name = System.Text.Encoding.GetEncoding("UTF-8").GetString(m_io.ReadBytesTerm(0, false, true, true));
+                            _name = Encoding.GetEncoding("UTF-8").GetString(m_io.ReadBytesTerm(0, false, true, true));
                         }
                         else
                         {
-                            _name = System.Text.Encoding.GetEncoding("UTF-8").GetString(m_io.ReadBytesTerm(0, false, true, true));
+                            _name = Encoding.GetEncoding("UTF-8").GetString(m_io.ReadBytesTerm(0, false, true, true));
                         }
                         m_io.Seek(_pos);
                         return _name;
@@ -981,7 +980,7 @@ namespace BoostStudio.Formats
                 private uint _positionB;
                 private List<PolygonData> _polygons;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody m_parent;
+                private NudBody m_parent;
                 public uint NameOffset
                 {
                     get { return _nameOffset; }
@@ -1054,7 +1053,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody M_Parent
+                public NudBody M_Parent
                 {
                     get { return m_parent; }
 
@@ -1072,7 +1071,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public PolygonData(KaitaiStream p__io, NudBinaryFormat.NudBody.MeshData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public PolygonData(KaitaiStream p__io, MeshData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -1177,7 +1176,7 @@ namespace BoostStudio.Formats
                         if (f_vertexColorUvRaw)
                             return _vertexColorUvRaw;
                         f_vertexColorUvRaw = true;
-                        if (Flags.BoneType != NudBinaryFormat.VertexBoneType.NoBone)
+                        if (Flags.BoneType != VertexBoneType.NoBone)
                         {
                             long _pos = m_io.Pos;
                             m_io.Seek(VertexColorUvOffset + M_Parent.M_Parent.Header.Section1Pointer);
@@ -1290,7 +1289,7 @@ namespace BoostStudio.Formats
                             return _verticesRaw;
                         f_verticesRaw = true;
                         long _pos = m_io.Pos;
-                        m_io.Seek(VertexGeometryOffset + (Flags.BoneType == NudBinaryFormat.VertexBoneType.NoBone ? M_Parent.M_Parent.Header.Section2Pointer : M_Parent.M_Parent.Header.Section3Pointer));
+                        m_io.Seek(VertexGeometryOffset + (Flags.BoneType == VertexBoneType.NoBone ? M_Parent.M_Parent.Header.Section2Pointer : M_Parent.M_Parent.Header.Section3Pointer));
                         if (m_isLe == true)
                         {
                             _verticesRaw = new List<KaitaiStruct>();
@@ -1298,7 +1297,7 @@ namespace BoostStudio.Formats
                             {
                                 switch (Flags.BoneType)
                                 {
-                                    case NudBinaryFormat.VertexBoneType.NoBone:
+                                    case VertexBoneType.NoBone:
                                         {
                                             _verticesRaw.Add(new VertexAttributesNoBone(Flags, m_io, this, m_root, m_isLe));
                                             break;
@@ -1318,7 +1317,7 @@ namespace BoostStudio.Formats
                             {
                                 switch (Flags.BoneType)
                                 {
-                                    case NudBinaryFormat.VertexBoneType.NoBone:
+                                    case VertexBoneType.NoBone:
                                         {
                                             _verticesRaw.Add(new VertexAttributesNoBone(Flags, m_io, this, m_root, m_isLe));
                                             break;
@@ -1351,7 +1350,7 @@ namespace BoostStudio.Formats
                 private byte _polygonFlag;
                 private byte[] _padding;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.MeshData m_parent;
+                private MeshData m_parent;
                 public uint VertexIndexOffset
                 {
                     get { return _vertexIndexOffset; }
@@ -1451,7 +1450,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.MeshData M_Parent
+                public MeshData M_Parent
                 {
                     get { return m_parent; }
 
@@ -1469,7 +1468,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public TextureData(KaitaiStream p__io, NudBinaryFormat.NudBody.MaterialInstance p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public TextureData(KaitaiStream p__io, MaterialInstance p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -1533,7 +1532,7 @@ namespace BoostStudio.Formats
                 private ushort _unk50;
                 private int _unk52;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.MaterialInstance m_parent;
+                private MaterialInstance m_parent;
                 public uint Hash
                 {
                     get { return _hash; }
@@ -1642,7 +1641,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.MaterialInstance M_Parent
+                public MaterialInstance M_Parent
                 {
                     get { return m_parent; }
 
@@ -1660,7 +1659,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public Vector2(KaitaiStream p__io, NudBinaryFormat.NudBody.VertexColorUv p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public Vector2(KaitaiStream p__io, VertexColorUv p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -1697,7 +1696,7 @@ namespace BoostStudio.Formats
                 private float _x;
                 private float _y;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.VertexColorUv m_parent;
+                private VertexColorUv m_parent;
                 public float X
                 {
                     get { return _x; }
@@ -1725,7 +1724,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.VertexColorUv M_Parent
+                public VertexColorUv M_Parent
                 {
                     get { return m_parent; }
 
@@ -1743,7 +1742,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public Vector2HalfFloat(KaitaiStream p__io, NudBinaryFormat.NudBody.VertexColorUv p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public Vector2HalfFloat(KaitaiStream p__io, VertexColorUv p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -1780,7 +1779,7 @@ namespace BoostStudio.Formats
                 private F2 _x;
                 private F2 _y;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.VertexColorUv m_parent;
+                private VertexColorUv m_parent;
                 public F2 X
                 {
                     get { return _x; }
@@ -1808,7 +1807,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.VertexColorUv M_Parent
+                public VertexColorUv M_Parent
                 {
                     get { return m_parent; }
 
@@ -1826,7 +1825,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public Vector3(KaitaiStream p__io, NudBinaryFormat.NudBody.VertexGeometry p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public Vector3(KaitaiStream p__io, VertexGeometry p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -1866,7 +1865,7 @@ namespace BoostStudio.Formats
                 private float _y;
                 private float _z;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.VertexGeometry m_parent;
+                private VertexGeometry m_parent;
                 public float X
                 {
                     get { return _x; }
@@ -1903,7 +1902,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.VertexGeometry M_Parent
+                public VertexGeometry M_Parent
                 {
                     get { return m_parent; }
 
@@ -1921,7 +1920,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public Vector3HalfFloat(KaitaiStream p__io, NudBinaryFormat.NudBody.VertexGeometry p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public Vector3HalfFloat(KaitaiStream p__io, VertexGeometry p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -1961,7 +1960,7 @@ namespace BoostStudio.Formats
                 private F2 _y;
                 private F2 _z;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.VertexGeometry m_parent;
+                private VertexGeometry m_parent;
                 public F2 X
                 {
                     get { return _x; }
@@ -1998,7 +1997,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.VertexGeometry M_Parent
+                public VertexGeometry M_Parent
                 {
                     get { return m_parent; }
 
@@ -2016,7 +2015,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public Vector4(KaitaiStream p__io, NudBinaryFormat.NudBody.VertexGeometry p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public Vector4(KaitaiStream p__io, VertexGeometry p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -2059,7 +2058,7 @@ namespace BoostStudio.Formats
                 private float _z;
                 private float _w;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.VertexGeometry m_parent;
+                private VertexGeometry m_parent;
                 public float X
                 {
                     get { return _x; }
@@ -2105,7 +2104,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.VertexGeometry M_Parent
+                public VertexGeometry M_Parent
                 {
                     get { return m_parent; }
 
@@ -2123,7 +2122,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public Vector4Byte(KaitaiStream p__io, NudBinaryFormat.NudBody.VertexColorUv p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public Vector4Byte(KaitaiStream p__io, VertexColorUv p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -2166,7 +2165,7 @@ namespace BoostStudio.Formats
                 private byte _z;
                 private byte _w;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.VertexColorUv m_parent;
+                private VertexColorUv m_parent;
                 public byte X
                 {
                     get { return _x; }
@@ -2212,7 +2211,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.VertexColorUv M_Parent
+                public VertexColorUv M_Parent
                 {
                     get { return m_parent; }
 
@@ -2332,7 +2331,7 @@ namespace BoostStudio.Formats
             public partial class VertexAttributes : KaitaiStruct
             {
                 private bool? m_isLe;
-                public VertexAttributes(int p_index, VertexFlag p_flags, KaitaiStream p__io, NudBinaryFormat.NudBody.PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public VertexAttributes(int p_index, VertexFlag p_flags, KaitaiStream p__io, PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -2376,7 +2375,7 @@ namespace BoostStudio.Formats
                         if (f_bindings)
                             return _bindings;
                         f_bindings = true;
-                        _bindings = (List<VertexBinding>)((Flags.BoneType == NudBinaryFormat.VertexBoneType.NoBone ? ((NudBinaryFormat.NudBody.VertexAttributesNoBone)(M_Parent.VerticesRaw[Index])).Bindings : ((NudBinaryFormat.NudBody.VertexAttributesWithBone)(M_Parent.VerticesRaw[Index])).Bindings));
+                        _bindings = (List<VertexBinding>)((Flags.BoneType == VertexBoneType.NoBone ? ((VertexAttributesNoBone)(M_Parent.VerticesRaw[Index])).Bindings : ((VertexAttributesWithBone)(M_Parent.VerticesRaw[Index])).Bindings));
                         return _bindings;
                     }
 
@@ -2394,7 +2393,7 @@ namespace BoostStudio.Formats
                         if (f_colorUv)
                             return _colorUv;
                         f_colorUv = true;
-                        _colorUv = (VertexColorUv)((Flags.BoneType == NudBinaryFormat.VertexBoneType.NoBone ? ((NudBinaryFormat.NudBody.VertexAttributesNoBone)(M_Parent.VerticesRaw[Index])).ColorUv : M_Parent.VertexColorUvRaw[Index]));
+                        _colorUv = (VertexColorUv)((Flags.BoneType == VertexBoneType.NoBone ? ((VertexAttributesNoBone)(M_Parent.VerticesRaw[Index])).ColorUv : M_Parent.VertexColorUvRaw[Index]));
                         return _colorUv;
                     }
 
@@ -2412,7 +2411,7 @@ namespace BoostStudio.Formats
                         if (f_geometry)
                             return _geometry;
                         f_geometry = true;
-                        _geometry = (VertexGeometry)((Flags.BoneType == NudBinaryFormat.VertexBoneType.NoBone ? ((NudBinaryFormat.NudBody.VertexAttributesNoBone)(M_Parent.VerticesRaw[Index])).Geometry : ((NudBinaryFormat.NudBody.VertexAttributesWithBone)(M_Parent.VerticesRaw[Index])).Geometry));
+                        _geometry = (VertexGeometry)((Flags.BoneType == VertexBoneType.NoBone ? ((VertexAttributesNoBone)(M_Parent.VerticesRaw[Index])).Geometry : ((VertexAttributesWithBone)(M_Parent.VerticesRaw[Index])).Geometry));
                         return _geometry;
                     }
 
@@ -2424,7 +2423,7 @@ namespace BoostStudio.Formats
                 private int _index;
                 private VertexFlag _flags;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.PolygonData m_parent;
+                private PolygonData m_parent;
                 public int Index
                 {
                     get { return _index; }
@@ -2452,7 +2451,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.PolygonData M_Parent
+                public PolygonData M_Parent
                 {
                     get { return m_parent; }
 
@@ -2465,7 +2464,7 @@ namespace BoostStudio.Formats
             public partial class VertexAttributesNoBone : KaitaiStruct
             {
                 private bool? m_isLe;
-                public VertexAttributesNoBone(VertexFlag p_flags, KaitaiStream p__io, NudBinaryFormat.NudBody.PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public VertexAttributesNoBone(VertexFlag p_flags, KaitaiStream p__io, PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -2538,7 +2537,7 @@ namespace BoostStudio.Formats
                 private VertexColorUv _colorUv;
                 private VertexFlag _flags;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.PolygonData m_parent;
+                private PolygonData m_parent;
                 public VertexGeometry Geometry
                 {
                     get { return _geometry; }
@@ -2575,7 +2574,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.PolygonData M_Parent
+                public PolygonData M_Parent
                 {
                     get { return m_parent; }
 
@@ -2588,7 +2587,7 @@ namespace BoostStudio.Formats
             public partial class VertexAttributesWithBone : KaitaiStruct
             {
                 private bool? m_isLe;
-                public VertexAttributesWithBone(VertexFlag p_flags, KaitaiStream p__io, NudBinaryFormat.NudBody.PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public VertexAttributesWithBone(VertexFlag p_flags, KaitaiStream p__io, PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -2622,24 +2621,24 @@ namespace BoostStudio.Formats
                     {
                         switch (Flags.BoneType)
                         {
-                            case NudBinaryFormat.VertexBoneType.Byte:
+                            case VertexBoneType.Byte:
                                 {
                                     _boneIndices.Add(m_io.ReadBitsIntBe(1) != 0);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.Float:
+                            case VertexBoneType.Float:
                                 {
-                                    _boneIndices.Add(m_io.ReadU4le());
+                                    _boneIndices.Add(m_io.ReadS4le());
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.HalfFloat:
+                            case VertexBoneType.HalfFloat:
                                 {
-                                    _boneIndices.Add(m_io.ReadU2le());
+                                    _boneIndices.Add(m_io.ReadS2le());
                                     break;
                                 }
                             default:
                                 {
-                                    _boneIndices.Add(m_io.ReadU4le());
+                                    _boneIndices.Add(m_io.ReadS4le());
                                     break;
                                 }
                         }
@@ -2649,17 +2648,17 @@ namespace BoostStudio.Formats
                     {
                         switch (Flags.BoneType)
                         {
-                            case NudBinaryFormat.VertexBoneType.Byte:
+                            case VertexBoneType.Byte:
                                 {
                                     _boneWeights.Add(m_io.ReadBitsIntBe(1) != 0);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.Float:
+                            case VertexBoneType.Float:
                                 {
                                     _boneWeights.Add(m_io.ReadF4le());
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.HalfFloat:
+                            case VertexBoneType.HalfFloat:
                                 {
                                     _boneWeights.Add(new F2(m_io, this, m_root, m_isLe));
                                     break;
@@ -2680,24 +2679,24 @@ namespace BoostStudio.Formats
                     {
                         switch (Flags.BoneType)
                         {
-                            case NudBinaryFormat.VertexBoneType.Byte:
+                            case VertexBoneType.Byte:
                                 {
                                     _boneIndices.Add(m_io.ReadBitsIntBe(1) != 0);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.Float:
+                            case VertexBoneType.Float:
                                 {
-                                    _boneIndices.Add(m_io.ReadU4be());
+                                    _boneIndices.Add(m_io.ReadS4be());
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.HalfFloat:
+                            case VertexBoneType.HalfFloat:
                                 {
-                                    _boneIndices.Add(m_io.ReadU2be());
+                                    _boneIndices.Add(m_io.ReadS2be());
                                     break;
                                 }
                             default:
                                 {
-                                    _boneIndices.Add(m_io.ReadU4be());
+                                    _boneIndices.Add(m_io.ReadS4be());
                                     break;
                                 }
                         }
@@ -2707,17 +2706,17 @@ namespace BoostStudio.Formats
                     {
                         switch (Flags.BoneType)
                         {
-                            case NudBinaryFormat.VertexBoneType.Byte:
+                            case VertexBoneType.Byte:
                                 {
                                     _boneWeights.Add(m_io.ReadBitsIntBe(1) != 0);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.Float:
+                            case VertexBoneType.Float:
                                 {
                                     _boneWeights.Add(m_io.ReadF4be());
                                     break;
                                 }
-                            case NudBinaryFormat.VertexBoneType.HalfFloat:
+                            case VertexBoneType.HalfFloat:
                                 {
                                     _boneWeights.Add(new F2(m_io, this, m_root, m_isLe));
                                     break;
@@ -2768,7 +2767,7 @@ namespace BoostStudio.Formats
                 private List<object> _boneWeights;
                 private VertexFlag _flags;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.PolygonData m_parent;
+                private PolygonData m_parent;
                 public VertexGeometry Geometry
                 {
                     get { return _geometry; }
@@ -2814,7 +2813,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.PolygonData M_Parent
+                public PolygonData M_Parent
                 {
                     get { return m_parent; }
 
@@ -2968,11 +2967,11 @@ namespace BoostStudio.Formats
                 }
                 private void _readLE()
                 {
-                    if (Flags.ColorType != NudBinaryFormat.VertexColorType.None)
+                    if (Flags.ColorType != VertexColorType.None)
                     {
                         switch (Flags.ColorType)
                         {
-                            case NudBinaryFormat.VertexColorType.HalfFloat:
+                            case VertexColorType.HalfFloat:
                                 {
                                     _color = new Vector4HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -2989,7 +2988,7 @@ namespace BoostStudio.Formats
                     {
                         switch (Flags.UvType)
                         {
-                            case NudBinaryFormat.VertexUvType.Float:
+                            case VertexUvType.Float:
                                 {
                                     _uv.Add(new Vector2(m_io, this, m_root, m_isLe));
                                     break;
@@ -3004,11 +3003,11 @@ namespace BoostStudio.Formats
                 }
                 private void _readBE()
                 {
-                    if (Flags.ColorType != NudBinaryFormat.VertexColorType.None)
+                    if (Flags.ColorType != VertexColorType.None)
                     {
                         switch (Flags.ColorType)
                         {
-                            case NudBinaryFormat.VertexColorType.HalfFloat:
+                            case VertexColorType.HalfFloat:
                                 {
                                     _color = new Vector4HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -3025,7 +3024,7 @@ namespace BoostStudio.Formats
                     {
                         switch (Flags.UvType)
                         {
-                            case NudBinaryFormat.VertexUvType.Float:
+                            case VertexUvType.Float:
                                 {
                                     _uv.Add(new Vector2(m_io, this, m_root, m_isLe));
                                     break;
@@ -3097,7 +3096,7 @@ namespace BoostStudio.Formats
                 }
 
                 private bool? m_isLe;
-                public VertexFlag(KaitaiStream p__io, NudBinaryFormat.NudBody.PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
+                public VertexFlag(KaitaiStream p__io, PolygonData p__parent = null, NudBinaryFormat p__root = null, bool? isLe = null, bool write = false) : base(p__io)
                 {
                     m_parent = p__parent;
                     m_root = p__root;
@@ -3149,7 +3148,7 @@ namespace BoostStudio.Formats
                         if (f_boneType)
                             return _boneType;
                         f_boneType = true;
-                        _boneType = (VertexBoneType)(((NudBinaryFormat.VertexBoneType)((uint)(VertexFlags & 240))));
+                        _boneType = (VertexBoneType)(((VertexBoneType)((uint)(VertexFlags & 240))));
                         return _boneType;
                     }
 
@@ -3167,7 +3166,7 @@ namespace BoostStudio.Formats
                         if (f_colorType)
                             return _colorType;
                         f_colorType = true;
-                        _colorType = (VertexColorType)(((NudBinaryFormat.VertexColorType)((uint)(UvFlags & 14))));
+                        _colorType = (VertexColorType)(((VertexColorType)((uint)(UvFlags & 14))));
                         return _colorType;
                     }
 
@@ -3189,7 +3188,7 @@ namespace BoostStudio.Formats
                         if (f_geometryType)
                             return _geometryType;
                         f_geometryType = true;
-                        _geometryType = (VertexGeometryType)(((NudBinaryFormat.VertexGeometryType)((uint)(VertexFlags & 15))));
+                        _geometryType = (VertexGeometryType)(((VertexGeometryType)((uint)(VertexFlags & 15))));
                         return _geometryType;
                     }
 
@@ -3225,7 +3224,7 @@ namespace BoostStudio.Formats
                         if (f_uvType)
                             return _uvType;
                         f_uvType = true;
-                        _uvType = (VertexUvType)(((NudBinaryFormat.VertexUvType)((uint)(UvFlags & 1))));
+                        _uvType = (VertexUvType)(((VertexUvType)((uint)(UvFlags & 1))));
                         return _uvType;
                     }
 
@@ -3237,7 +3236,7 @@ namespace BoostStudio.Formats
                 private byte _vertexFlags;
                 private byte _uvFlags;
                 private NudBinaryFormat m_root;
-                private NudBinaryFormat.NudBody.PolygonData m_parent;
+                private PolygonData m_parent;
                 public byte VertexFlags
                 {
                     get { return _vertexFlags; }
@@ -3265,7 +3264,7 @@ namespace BoostStudio.Formats
                         m_root = value;
                     }
                 }
-                public NudBinaryFormat.NudBody.PolygonData M_Parent
+                public PolygonData M_Parent
                 {
                     get { return m_parent; }
 
@@ -3306,20 +3305,20 @@ namespace BoostStudio.Formats
                 private void _readLE()
                 {
                     _position = new Vector3(m_io, this, m_root, m_isLe);
-                    if (((Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NormalsHalfFloat) && (Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat)))
+                    if (((Flags.GeometryType != VertexGeometryType.NormalsHalfFloat) && (Flags.GeometryType != VertexGeometryType.NormalsTanBitanHalfFloat)))
                     {
                         _unkPos = m_io.ReadF4le();
                     }
-                    if (Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NoNormals)
+                    if (Flags.GeometryType != VertexGeometryType.NoNormals)
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsHalfFloat:
+                            case VertexGeometryType.NormalsHalfFloat:
                                 {
                                     _normal = new Vector3HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _normal = new Vector3HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -3331,16 +3330,16 @@ namespace BoostStudio.Formats
                                 }
                         }
                     }
-                    if (Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NoNormals)
+                    if (Flags.GeometryType != VertexGeometryType.NoNormals)
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsHalfFloat:
+                            case VertexGeometryType.NormalsHalfFloat:
                                 {
                                     _unkNormal = new F2(m_io, this, m_root, m_isLe);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _unkNormal = new F2(m_io, this, m_root, m_isLe);
                                     break;
@@ -3352,11 +3351,11 @@ namespace BoostStudio.Formats
                                 }
                         }
                     }
-                    if (((Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat)))
+                    if (((Flags.GeometryType == VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == VertexGeometryType.NormalsTanBitanHalfFloat)))
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _bitangent = new Vector4HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -3368,11 +3367,11 @@ namespace BoostStudio.Formats
                                 }
                         }
                     }
-                    if (((Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat)))
+                    if (((Flags.GeometryType == VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == VertexGeometryType.NormalsTanBitanHalfFloat)))
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _tangent = new Vector4HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -3388,20 +3387,20 @@ namespace BoostStudio.Formats
                 private void _readBE()
                 {
                     _position = new Vector3(m_io, this, m_root, m_isLe);
-                    if (((Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NormalsHalfFloat) && (Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat)))
+                    if (((Flags.GeometryType != VertexGeometryType.NormalsHalfFloat) && (Flags.GeometryType != VertexGeometryType.NormalsTanBitanHalfFloat)))
                     {
                         _unkPos = m_io.ReadF4be();
                     }
-                    if (Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NoNormals)
+                    if (Flags.GeometryType != VertexGeometryType.NoNormals)
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsHalfFloat:
+                            case VertexGeometryType.NormalsHalfFloat:
                                 {
                                     _normal = new Vector3HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _normal = new Vector3HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -3413,16 +3412,16 @@ namespace BoostStudio.Formats
                                 }
                         }
                     }
-                    if (Flags.GeometryType != NudBinaryFormat.VertexGeometryType.NoNormals)
+                    if (Flags.GeometryType != VertexGeometryType.NoNormals)
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsHalfFloat:
+                            case VertexGeometryType.NormalsHalfFloat:
                                 {
                                     _unkNormal = new F2(m_io, this, m_root, m_isLe);
                                     break;
                                 }
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _unkNormal = new F2(m_io, this, m_root, m_isLe);
                                     break;
@@ -3434,11 +3433,11 @@ namespace BoostStudio.Formats
                                 }
                         }
                     }
-                    if (((Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat)))
+                    if (((Flags.GeometryType == VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == VertexGeometryType.NormalsTanBitanHalfFloat)))
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _bitangent = new Vector4HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
@@ -3450,11 +3449,11 @@ namespace BoostStudio.Formats
                                 }
                         }
                     }
-                    if (((Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat)))
+                    if (((Flags.GeometryType == VertexGeometryType.NormalsTanBitanFloat) || (Flags.GeometryType == VertexGeometryType.NormalsTanBitanHalfFloat)))
                     {
                         switch (Flags.GeometryType)
                         {
-                            case NudBinaryFormat.VertexGeometryType.NormalsTanBitanHalfFloat:
+                            case VertexGeometryType.NormalsTanBitanHalfFloat:
                                 {
                                     _tangent = new Vector4HalfFloat(m_io, this, m_root, m_isLe);
                                     break;
