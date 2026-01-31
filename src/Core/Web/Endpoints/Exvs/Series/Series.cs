@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Series;
-using BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
 using BoostStudio.Application.Exvs.Series.Commands;
 using BoostStudio.Application.Exvs.Series.Queries;
 using BoostStudio.Web.Constants;

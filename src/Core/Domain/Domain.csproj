@@ -7,7 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="KaitaiStruct.Runtime.CSharp" />
-    <!--    <PackageReference Include="MediatR"/>-->
     <PackageReference Include="Mediator.Abstractions" />
   </ItemGroup>
   <ItemGroup>

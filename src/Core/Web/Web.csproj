@@ -6,7 +6,7 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <Configurations>Debug;Release;Console</Configurations>
     <Platforms>AnyCPU</Platforms>
-    <SpaRoot>../../../Client/</SpaRoot>
+    <SpaRoot>../../Client/</SpaRoot>
     <SpaProxyLaunchCommand>pnpm dev</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>http://localhost:1420</SpaProxyServerUrl>
   </PropertyGroup>
@@ -14,13 +14,13 @@
     <OpenApiGenerateDocuments Condition="'$(GenerateOpenApi)' != 'true'"
       >true</OpenApiGenerateDocuments
     >
-    <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../../../Client/src/api</OpenApiDocumentsDirectory>
+    <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../../Client/src/api</OpenApiDocumentsDirectory>
     <OpenApiGenerateDocumentsOptions>--file-name booststudio --openapi-version OpenApi3_1</OpenApiGenerateDocumentsOptions>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Client\booststudio.client.esproj" />
-    <ProjectReference Include="..\..\Application\Application.csproj" />
-    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Client\booststudio.client.esproj" />
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />

@@ -2998,6 +2998,7 @@
             "name": "compressionFormat",
             "in": "query",
             "schema": {
+              "default": "Tar",
               "$ref": "#/components/schemas/CompressionFormats"
             }
           }
@@ -4017,10 +4018,7 @@
           "fileType",
           "units"
         ],
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "hash": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -4220,8 +4218,15 @@
         "enum": [
           "Zip",
           "Tar"
-        ],
-        "default": "Tar"
+        ]
+      },
+      "CompressionType": {
+        "enum": [
+          "None",
+          "Zlib",
+          "Lzma",
+          null
+        ]
       },
       "ConfigDto": {
         "required": [
@@ -4839,10 +4844,24 @@
             "$ref": "#/components/schemas/PatchFileVersion"
           },
           "pathInfo": {
-            "$ref": "#/components/schemas/PathInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PathInfoDto"
+              }
+            ]
           },
           "fileInfo": {
-            "$ref": "#/components/schemas/FileInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FileInfoDto"
+              }
+            ]
           },
           "assetFileHash": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -5442,7 +5461,14 @@
             "format": "uint8"
           },
           "playableSeries": {
-            "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+              }
+            ]
           },
           "slugName": {
             "type": "string"
@@ -6760,7 +6786,14 @@
             "format": "uint32"
           },
           "series": {
-            "$ref": "#/components/schemas/SeriesVm"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SeriesVm"
+              }
+            ]
           }
         }
       },
@@ -7063,10 +7096,7 @@
           "size3",
           "size4"
         ],
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "version": {
             "$ref": "#/components/schemas/PatchFileVersion"
@@ -7421,15 +7451,6 @@
           "Chinese"
         ]
       },
-      "NullableOfCompressionType": {
-        "enum": [
-          "None",
-          "Zlib",
-          "Lzma",
-          null
-        ],
-        "default": "Zlib"
-      },
       "PackFhmByAssetCommand": {
         "type": "object",
         "properties": {
@@ -7519,7 +7540,15 @@
             ]
           },
           "compressionType": {
-            "$ref": "#/components/schemas/NullableOfCompressionType"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "default": "Zlib",
+                "$ref": "#/components/schemas/CompressionType"
+              }
+            ]
           },
           "compressionLevel": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -8141,7 +8170,14 @@
             ]
           },
           "fileInfoMetadata": {
-            "$ref": "#/components/schemas/TblFileInfoMetadata"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/TblFileInfoMetadata"
+              }
+            ]
           }
         }
       },
@@ -8153,7 +8189,14 @@
         "type": "object",
         "properties": {
           "assetFile": {
-            "$ref": "#/components/schemas/AssetFileDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/AssetFileDto"
+              }
+            ]
           },
           "id": {
             "type": [
@@ -8165,10 +8208,24 @@
             "$ref": "#/components/schemas/PatchFileVersion"
           },
           "pathInfo": {
-            "$ref": "#/components/schemas/PathInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PathInfoDto"
+              }
+            ]
           },
           "fileInfo": {
-            "$ref": "#/components/schemas/FileInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FileInfoDto"
+              }
+            ]
           },
           "assetFileHash": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -8209,10 +8266,24 @@
             "$ref": "#/components/schemas/PatchFileVersion"
           },
           "pathInfo": {
-            "$ref": "#/components/schemas/PathInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PathInfoDto"
+              }
+            ]
           },
           "fileInfo": {
-            "$ref": "#/components/schemas/FileInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FileInfoDto"
+              }
+            ]
           },
           "assetFileHash": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -8229,10 +8300,7 @@
         "required": [
           "path"
         ],
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "path": {
             "type": "string"
@@ -8608,10 +8676,7 @@
         }
       },
       "PlayableSeriesDetailsDto": {
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "unk2": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -9354,7 +9419,14 @@
             "format": "uint8"
           },
           "playableSeries": {
-            "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PlayableSeriesDetailsDto"
+              }
+            ]
           },
           "slugName": {
             "type": "string"
@@ -9420,10 +9492,7 @@
         }
       },
       "SeriesVm": {
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "id": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -10715,10 +10784,7 @@
           "size4",
           "hashName"
         ],
-        "type": [
-          "null",
-          "object"
-        ],
+        "type": "object",
         "properties": {
           "cumulativeIndex": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -10913,7 +10979,14 @@
             "format": "uint32"
           },
           "series": {
-            "$ref": "#/components/schemas/SeriesVm"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SeriesVm"
+              }
+            ]
           }
         }
       },
@@ -11640,10 +11713,24 @@
             "$ref": "#/components/schemas/PatchFileVersion"
           },
           "pathInfo": {
-            "$ref": "#/components/schemas/PathInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/PathInfoDto"
+              }
+            ]
           },
           "fileInfo": {
-            "$ref": "#/components/schemas/FileInfoDto"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/FileInfoDto"
+              }
+            ]
           },
           "assetFileHash": {
             "pattern": "^-?(?:0|[1-9]\\d*)$",
@@ -13547,7 +13634,14 @@
             "format": "uint32"
           },
           "series": {
-            "$ref": "#/components/schemas/SeriesVm"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SeriesVm"
+              }
+            ]
           }
         }
       },

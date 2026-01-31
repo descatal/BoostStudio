@@ -1,9 +1,7 @@
 ﻿using BoostStudio.Application.Common.Models;
 using BoostStudio.Application.Contracts.Projectiles;
 using BoostStudio.Application.Exvs.Projectiles.Commands.Projectile;
-using BoostStudio.Application.Exvs.Projectiles.Commands.UnitProjectile;
 using BoostStudio.Application.Exvs.Projectiles.Queries.Projectile;
-using BoostStudio.Application.Exvs.Stats.Queries.Stat;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

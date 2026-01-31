@@ -1,11 +1,9 @@
 ﻿using System.Buffers.Binary;
-using System.Diagnostics;
 using System.Net.ServerSentEvents;
 using System.Runtime.CompilerServices;
 using BoostStudio.Application.Common.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Reloaded.Memory;
-using Reloaded.Memory.Interfaces;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Sse;
 

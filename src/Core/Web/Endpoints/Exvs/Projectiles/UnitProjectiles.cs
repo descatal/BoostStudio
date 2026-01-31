@@ -6,7 +6,6 @@ using BoostStudio.Application.Exvs.Projectiles.Queries.UnitProjectile;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ContentType = System.Net.Mime.MediaTypeNames;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Projectiles;
 

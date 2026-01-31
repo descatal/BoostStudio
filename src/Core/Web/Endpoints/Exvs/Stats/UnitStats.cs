@@ -8,7 +8,6 @@ using BoostStudio.Application.Exvs.Stats.Queries.UnitStat;
 using BoostStudio.Web.Constants;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using ContentType = System.Net.Mime.MediaTypeNames;
 
 namespace BoostStudio.Web.Endpoints.Exvs.Stats;
 

@@ -34,7 +34,7 @@
     <Project Path="src\Core\Application\Application.csproj" />
     <Project Path="src\Core\Domain\Domain.csproj" />
     <Project Path="src\Core\Infrastructure\Infrastructure.csproj" />
-    <Project Path="src\Core\Presentation\WebApi\Web.csproj" />
+    <Project Path="src\Core\Web\Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests\Application.FunctionalTests\Application.FunctionalTests.csproj">

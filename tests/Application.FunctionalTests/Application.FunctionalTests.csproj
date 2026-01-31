@@ -37,6 +37,6 @@
     <ProjectReference Include="..\..\src\Core\Application\Application.csproj" />
     <ProjectReference Include="..\..\src\Core\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\src\Core\Infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\Core\Presentation\WebApi\Web.csproj" />
+    <ProjectReference Include="..\..\src\Core\Web\Web.csproj" />
   </ItemGroup>
 </Project>

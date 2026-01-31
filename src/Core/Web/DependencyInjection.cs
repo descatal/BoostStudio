@@ -6,7 +6,6 @@ using BoostStudio.Web.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi;
-using Microsoft.OpenApi.Models;
 
 namespace BoostStudio.Web;
 
