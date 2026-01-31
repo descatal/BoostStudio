@@ -4,7 +4,7 @@ services:
     image: booststudio:latest
     build:
       context: .
-      dockerfile: src/Core/Presentation/WebApi/Dockerfile
+      dockerfile: src/Core/Web/Dockerfile
     container_name: "boost_studio"
     user: "root"
     ports:

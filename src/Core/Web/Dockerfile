@@ -16,14 +16,14 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Build.props", ""]
 COPY ["Directory.Packages.props", ""]
-COPY ["src/Core/Presentation/WebApi/Web.csproj", "src/Core/Presentation/WebApi/"]
+COPY ["src/Core/Web/Web.csproj", "src/Core/Web/"]
 COPY ["src/Core/Application/Application.csproj", "src/Core/Application/"]
 COPY ["src/Core/Domain/Domain.csproj", "src/Core/Domain/"]
 COPY ["src/Core/Infrastructure/Infrastructure.csproj", "src/Core/Infrastructure/"]
 COPY ["src/Client/booststudio.client.esproj", "src/Client/"]
-RUN dotnet restore "src/Core/Presentation/WebApi/Web.csproj"
+RUN dotnet restore "src/Core/Web/Web.csproj"
 COPY . .
-WORKDIR "/src/src/Core/Presentation/WebApi"
+WORKDIR "/src/src/Core/Web"
 RUN dotnet build "Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
