@@ -19,18 +19,22 @@
     <File Path=".github\workflows\build.yml" />
     <File Path=".github\workflows\cicd.yml" />
   </Folder>
+  <Folder Name="/Solution Items/scripts/" />
+  <Folder Name="/Solution Items/scripts/Kaitai/">
+    <File Path="scripts\Kaitai\kscgenerate.cs" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Client/">
-    <Project Path="src\Client\booststudio.client.esproj" Type="{54A90642-561A-4BB1-A94E-469ADEE60C69}">
+    <Project Path="src\Client\booststudio.client.esproj">
       <Configuration Solution="Console|Any CPU" Project="Debug|Any CPU" />
       <Configuration Solution="Release|Any CPU" Project="Debug|Any CPU" />
     </Project>
   </Folder>
   <Folder Name="/src/Core/">
-    <Project Path="src\Core\Application\Application.csproj" Type="Classic C#" />
-    <Project Path="src\Core\Domain\Domain.csproj" Type="Classic C#" />
-    <Project Path="src\Core\Infrastructure\Infrastructure.csproj" Type="Classic C#" />
-    <Project Path="src\Core\Presentation\WebApi\Web.csproj" Type="Classic C#" />
+    <Project Path="src\Core\Application\Application.csproj" />
+    <Project Path="src\Core\Domain\Domain.csproj" />
+    <Project Path="src\Core\Infrastructure\Infrastructure.csproj" />
+    <Project Path="src\Core\Presentation\WebApi\Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests\Application.FunctionalTests\Application.FunctionalTests.csproj">

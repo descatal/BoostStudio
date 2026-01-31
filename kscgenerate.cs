@@ -1,6 +1,6 @@
 #!dotnet run
 
-// this is a script file intended to be ran using dotnet run (new feature in dotnet 10 preview 4)
+// https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps
 #:property ManagePackageVersionsCentrally=false
 #:package Microsoft.CodeAnalysis.CSharp@4.8.0
 #:package Microsoft.CodeAnalysis.CSharp.Workspaces@4.8.0

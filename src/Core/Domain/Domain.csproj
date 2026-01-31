@@ -13,6 +13,5 @@
   <ItemGroup>
     <Compile Remove="Kaitai\app.cs" />
     <Compile Remove="Kaitai\kscgenerate.cs" />
-    <None Include="Kaitai\kscgenerate.cs" />
   </ItemGroup>
 </Project>
